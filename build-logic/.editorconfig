@@ -1,0 +1,3 @@
+[*.kt]
+# Allow longer max_line_length within build-logic/
+max_line_length = 200

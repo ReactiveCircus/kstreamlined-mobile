@@ -1,0 +1,28 @@
+complexity:
+  LongMethod:
+    active: false
+  LongParameterList:
+    active: false
+  TooManyFunctions:
+    thresholdInFiles: 20
+
+naming:
+  TopLevelPropertyNaming:
+    active: false
+  FunctionNaming:
+    ignoreAnnotated:
+      - Composable
+
+style:
+  MagicNumber:
+    ignorePropertyDeclaration: true
+  UnnecessaryAbstractClass:
+    active: false
+  MaxLineLength:
+    excludes: ['**/test/**', '**/*Test/**']
+
+formatting:
+  ImportOrdering:
+    active: false
+  MaximumLineLength:
+    excludes: ['**/test/**', '**/*Test/**']
