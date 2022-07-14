@@ -8,3 +8,9 @@ build/
 .externalNativeBuild
 .cxx
 local.properties
+
+# Common secrets
+google-services.json
+
+# Android secrets
+android/secrets/kstreamlined.jks

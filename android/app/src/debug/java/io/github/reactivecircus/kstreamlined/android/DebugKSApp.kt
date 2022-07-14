@@ -2,7 +2,7 @@ package io.github.reactivecircus.kstreamlined.android
 
 import leakcanary.AppWatcher
 
-class DebugKStreamlinedApp : KStreamlinedApp() {
+class DebugKSApp : KSApp() {
 
     override fun onCreate() {
         super.onCreate()

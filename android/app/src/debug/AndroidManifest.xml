@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <application
-        android:name=".DebugKStreamlinedApp"
+        android:name=".DebugKSApp"
         tools:replace="android:name" />
 
 </manifest>

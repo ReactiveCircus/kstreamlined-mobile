@@ -13,11 +13,18 @@ plugins {
     id("kstreamlined.android.application.compose")
     id("kstreamlined.kapt")
     id("com.google.dagger.hilt.android")
-    // TODO id("com.google.gms.google-services")
+    id("com.google.gms.google-services") apply false
     id("com.google.firebase.firebase-perf")
     id("com.google.firebase.crashlytics")
     id("com.google.firebase.appdistribution")
     id("com.github.triplet.play")
+}
+
+val googleServicesJsonExists = fileTree("src").matching {
+    include("**/google-services.json")
+}.isEmpty.not()
+if (googleServicesJsonExists) {
+    apply(plugin = "com.google.gms.google-services")
 }
 
 play {
@@ -173,13 +180,13 @@ androidComponents {
 
         when (it.flavorName) {
             ProductFlavors.PROD -> {
-                it.addBuildConfigField(key = "ENABLE_ANALYTICS", value = true)
-                it.addBuildConfigField(key = "ENABLE_CRASH_REPORTING", value = true)
+                it.addBuildConfigField(key = "ENABLE_ANALYTICS", value = googleServicesJsonExists)
+                it.addBuildConfigField(key = "ENABLE_CRASH_REPORTING", value = googleServicesJsonExists)
                 it.addBuildConfigField(key = "API_ENDPOINT", value = "\"https://kstreamlined/graphql\"")
             }
             ProductFlavors.DEV -> {
-                it.addBuildConfigField(key = "ENABLE_ANALYTICS", value = true)
-                it.addBuildConfigField(key = "ENABLE_CRASH_REPORTING", value = true)
+                it.addBuildConfigField(key = "ENABLE_ANALYTICS", value = googleServicesJsonExists)
+                it.addBuildConfigField(key = "ENABLE_CRASH_REPORTING", value = googleServicesJsonExists)
                 it.addBuildConfigField(key = "API_ENDPOINT", value = "\"https://kstreamlined/graphql\"")
             }
             ProductFlavors.MOCK -> {
@@ -201,6 +208,18 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.coreSplashscreen)
     implementation(libs.androidx.profileinstaller)
+
+    // TODO remove
+    // Compose
+    implementation(libs.androidx.compose.ui)
+    debugImplementation(libs.androidx.compose.ui.tooling)
+    implementation(libs.androidx.compose.ui.toolingPreview)
+    implementation(libs.androidx.compose.foundation)
+    implementation(libs.androidx.compose.material3)
+
+    // TODO remove
+    // Compose companion libraries
+    implementation(libs.accompanist.systemUiController)
 
     // Hilt
     implementation(libs.hilt.android)

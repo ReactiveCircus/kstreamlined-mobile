@@ -8,7 +8,7 @@ import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 
 @HiltAndroidApp
-open class KStreamlinedApp : Application(), ImageLoaderFactory {
+open class KSApp : Application(), ImageLoaderFactory {
 
     @Inject
     lateinit var imageLoader: ImageLoader
