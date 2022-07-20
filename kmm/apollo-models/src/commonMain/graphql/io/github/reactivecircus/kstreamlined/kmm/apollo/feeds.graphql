@@ -1,0 +1,24 @@
+query Feeds($filters: [FeedSource!]) {
+  feedEntries(filters: $filters) {
+    id
+    title
+    publishDate
+    contentUrl
+    ... on KotlinBlog {
+      featuredImageUrl
+      description
+    }
+    ... on KotlinYouTube {
+      thumbnailUrl
+      description
+    }
+    ... on TalkingKotlin {
+      podcastLogoUrl
+      description
+      tags
+    }
+    ... on KotlinWeekly {
+      newsletterLogoUrl
+    }
+  }
+}

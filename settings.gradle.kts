@@ -21,7 +21,7 @@ rootProject.name = "KStreamlined"
 val isXCFrameworkBuild = startParameter.taskNames.any { it.endsWith("XCFramework") }
 
 // KMM
-// TODO
+include(":kmm:apollo-models")
 
 if (!isXCFrameworkBuild) {
     // Android

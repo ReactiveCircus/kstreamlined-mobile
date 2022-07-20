@@ -10,9 +10,11 @@ detekt = "1.20.0"
 playPublisher = "3.7.0"
 fladle = "0.17.2"
 nativeCoroutines = "0.12.3-new-mm" # TODO 0.12.6
+desugarJdkLibs = "1.2.0"
 leakcanary = "2.9.1"
 hilt = "2.42"
 kotlinx-coroutines = "1.6.4"
+kotlinx-datetime = "0.4.0"
 firebase-analytics = "21.1.0"
 firebase-appDistributionPlugin = "3.0.2"
 firebase-remoteConfig = "21.1.1"
@@ -62,9 +64,11 @@ plugin-crashlytics = { module = "com.google.firebase:firebase-crashlytics-gradle
 plugin-firebasePerf = { module = "com.google.firebase:perf-plugin", version.ref = "firebase-perfPlugin"}
 plugin-appDistribution = { module = "com.google.firebase:firebase-appdistribution-gradle", version.ref = "firebase-appDistributionPlugin"}
 plugin-detekt = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt"}
+plugin-detektFormatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt"}
 plugin-playPublisher = { module = "com.github.triplet.gradle:play-publisher", version.ref = "playPublisher"}
 plugin-fladle = { module = "com.osacky.flank.gradle:fladle", version.ref = "fladle"}
 plugin-nativeCoroutines = { module = "com.rickclephas.kmp.nativecoroutines:com.rickclephas.kmp.nativecoroutines.gradle.plugin", version.ref = "nativeCoroutines"}
+desugarJdkLibs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugarJdkLibs" }
 leakcanary-android = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanary" }
 leakcanary-plumber = { module = "com.squareup.leakcanary:plumber-android", version.ref = "leakcanary" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
@@ -73,6 +77,7 @@ hilt-core = { module = "com.google.dagger:hilt-core", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx", version.ref = "firebase-analytics" }
 firebase-remoteConfig = { module = "com.google.firebase:firebase-config-ktx", version.ref = "firebase-remoteConfig" }
 firebase-perf = { module = "com.google.firebase:firebase-perf-ktx", version.ref = "firebase-perf" }

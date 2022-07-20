@@ -18,7 +18,7 @@ import org.jetbrains.kotlin.gradle.plugin.KotlinMultiplatformPluginWrapper
  * Apply baseline configurations for all Android projects (Application and Library).
  */
 @Suppress("UnstableApiUsage")
-internal fun TestedExtension.configureCommonAndroidOptions() {
+internal fun TestedExtension.configureCommonAndroidOptions(project: Project) {
     setCompileSdkVersion(androidSdk.compileSdk)
     buildToolsVersion = androidSdk.buildTools
 
@@ -35,6 +35,7 @@ internal fun TestedExtension.configureCommonAndroidOptions() {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+        isCoreLibraryDesugaringEnabled = true
     }
 
     packagingOptions {
@@ -46,6 +47,10 @@ internal fun TestedExtension.configureCommonAndroidOptions() {
                 )
             )
         }
+    }
+
+    with(project) {
+        dependencies.add("coreLibraryDesugaring", the<LibrariesForLibs>().desugarJdkLibs)
     }
 }
 

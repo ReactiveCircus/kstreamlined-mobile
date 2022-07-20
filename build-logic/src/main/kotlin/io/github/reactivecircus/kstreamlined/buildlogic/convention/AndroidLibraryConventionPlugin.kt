@@ -31,7 +31,7 @@ internal class AndroidLibraryConventionPlugin : Plugin<Project> {
         }
 
         extensions.configure<LibraryExtension> {
-            configureCommonAndroidOptions()
+            configureCommonAndroidOptions(target)
         }
 
         extensions.configure<LibraryAndroidComponentsExtension> {

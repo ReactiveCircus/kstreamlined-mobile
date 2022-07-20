@@ -58,8 +58,7 @@ internal fun Project.configureDetekt() {
     pluginManager.apply(DetektPlugin::class.java)
 
     // enable Ktlint formatting
-    val detektVersion = the<LibrariesForLibs>().versions.detekt.get()
-    dependencies.add("detektPlugins", "io.gitlab.arturbosch.detekt:detekt-formatting:$detektVersion")
+    dependencies.add("detektPlugins", the<LibrariesForLibs>().plugin.detektFormatting)
 
     plugins.withType<DetektPlugin> {
         extensions.configure<DetektExtension> {
