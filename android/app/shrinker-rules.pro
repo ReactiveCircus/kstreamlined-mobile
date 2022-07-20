@@ -21,16 +21,26 @@
   public static final android.os.Parcelable$Creator CREATOR;
 }
 
-# Kotlin serialization looks up the generated serializer classes through a function on companion
-# objects. The companions are looked up reflectively so we need to explicitly keep these functions.
--keepclasseswithmembers class **.*$Companion {
+# Keep `Companion` object fields of serializable classes.
+# This avoids serializer lookup through `getDeclaredClasses` as done for named companion objects.
+-if @kotlinx.serialization.Serializable class **
+-keepclassmembers class <1> {
+    static <1>$Companion Companion;
+}
+
+# Keep `serializer()` on companion objects (both default and named) of serializable classes.
+-if @kotlinx.serialization.Serializable class ** {
+    static **$* *;
+}
+-keepclassmembers class <2>$<3> {
     kotlinx.serialization.KSerializer serializer(...);
 }
-# If a companion has the serializer function, keep the companion field on the original type so that
-# the reflective lookup succeeds.
--if class **.*$Companion {
-  kotlinx.serialization.KSerializer serializer(...);
+
+# Keep `INSTANCE.serializer()` of serializable objects.
+-if @kotlinx.serialization.Serializable class ** {
+    public static ** INSTANCE;
 }
--keepclassmembers class <1>.<2> {
-  <1>.<2>$Companion Companion;
+-keepclassmembers class <1> {
+    public static <1> INSTANCE;
+    kotlinx.serialization.KSerializer serializer(...);
 }
