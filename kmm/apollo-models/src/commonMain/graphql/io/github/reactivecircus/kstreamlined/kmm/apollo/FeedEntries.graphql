@@ -1,4 +1,4 @@
-query Feeds($filters: [FeedSource!]) {
+query FeedEntriesQuery($filters: [FeedSourceKey!]) {
   feedEntries(filters: $filters) {
     id
     title

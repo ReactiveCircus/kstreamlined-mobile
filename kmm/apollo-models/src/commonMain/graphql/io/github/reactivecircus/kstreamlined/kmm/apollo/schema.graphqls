@@ -277,7 +277,24 @@ interface FeedEntry {
   contentUrl: String!
 }
 
-enum FeedSource {
+type FeedSource {
+  """
+  Unique identifier of the feed source.
+  """
+  key: FeedSourceKey!
+
+  """
+  Title of the feed source
+  """
+  title: String!
+
+  """
+  Short description of the feed source.
+  """
+  description: String!
+}
+
+enum FeedSourceKey {
   """
   News from the Kotlin Blog.
   """
@@ -394,7 +411,12 @@ type Query {
   """
   Returns list of entries from the selected sources in the provided filters.
   """
-  feedEntries(filters: [FeedSource!] = null): [FeedEntry!]!
+  feedEntries(filters: [FeedSourceKey!] = null): [FeedEntry!]!
+
+  """
+  Returns list of all available feed sources.
+  """
+  feedSources: [FeedSource]!
 
   _service: _Service
 }
