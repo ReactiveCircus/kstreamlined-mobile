@@ -26,6 +26,7 @@ include(":kmm:apollo-models")
 if (!isXCFrameworkBuild) {
     // Android
     includeProject(":app", "android/app")
+    includeProject(":ui-common", "android/ui/ui-common")
 }
 
 fun includeProject(name: String, filePath: String) {

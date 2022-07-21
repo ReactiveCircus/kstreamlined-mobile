@@ -199,6 +199,8 @@ androidComponents {
 }
 
 dependencies {
+    implementation(project(":ui-common"))
+
     // Firebase
     releaseImplementation(libs.firebase.perf)
     benchmarkImplementation(libs.firebase.perf)
@@ -209,25 +211,13 @@ dependencies {
     implementation(libs.androidx.coreSplashscreen)
     implementation(libs.androidx.profileinstaller)
 
-    // TODO remove
-    // Compose
-    implementation(libs.androidx.compose.ui)
-    debugImplementation(libs.androidx.compose.ui.tooling)
-    implementation(libs.androidx.compose.ui.toolingPreview)
-    implementation(libs.androidx.compose.foundation)
-    implementation(libs.androidx.compose.material3)
-
-    // TODO remove
+    // TODO move to design module
     // Compose companion libraries
     implementation(libs.accompanist.systemUiController)
 
     // Hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
-
-    // TODO remove
-    // Image loading
-    implementation(libs.coil)
 
     // LeakCanary
     debugImplementation(libs.leakcanary.android)
