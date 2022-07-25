@@ -448,11 +448,6 @@ type TalkingKotlin implements FeedEntry {
   podcastLogoUrl: String!
 
   """
-  Description of the episode.
-  """
-  description: String!
-
-  """
   Tags of the episode.
   """
   tags: [String!]!
