@@ -16,7 +16,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "KStreamlined"
+rootProject.name = "kstreamlined-mobile"
 
 val isXCFrameworkBuild = startParameter.taskNames.any { it.endsWith("XCFramework") }
 
