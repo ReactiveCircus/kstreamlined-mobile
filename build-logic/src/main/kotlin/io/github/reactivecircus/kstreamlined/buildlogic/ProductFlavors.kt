@@ -7,5 +7,6 @@ object FlavorDimensions {
 object ProductFlavors {
     const val MOCK = "mock"
     const val DEV = "dev"
+    const val DEMO = "demo"
     const val PROD = "prod"
 }

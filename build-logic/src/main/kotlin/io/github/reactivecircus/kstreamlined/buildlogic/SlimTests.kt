@@ -7,7 +7,7 @@ import org.gradle.kotlin.dsl.findByType
 
 /**
  * When the "slimTests" project property is provided, disable the unit test tasks
- * on `release` build type and `dev` and `prod` product flavors to avoid running the same tests repeatedly
+ * on `release`, 'benchmark' build types and `demo`, `mock`, and `prod` product flavors to avoid running the same tests repeatedly
  * in different build variants.
  *
  * Examples:
@@ -16,19 +16,28 @@ import org.gradle.kotlin.dsl.findByType
  */
 internal fun Project.configureSlimTests() {
     if (providers.gradleProperty(SLIM_TESTS_PROPERTY).isPresent) {
-        // disable unit test tasks on the release build type for Android Library projects
+        // disable unit test tasks on the release, benchmark build types for Android Library projects
         extensions.findByType<LibraryAndroidComponentsExtension>()?.run {
             beforeVariants(selector().withBuildType("release")) {
                 it.enableUnitTest = false
             }
+            beforeVariants(selector().withBuildType("benchmark")) {
+                it.enableUnitTest = false
+            }
         }
 
-        // disable unit test tasks on the release build type and all non-dev flavors for Android Application projects.
+        // disable unit test tasks on the release, benchmark build types and all non-dev flavors for Android Application projects.
         extensions.findByType<ApplicationAndroidComponentsExtension>()?.run {
             beforeVariants(selector().withBuildType("release")) {
                 it.enableUnitTest = false
             }
-            beforeVariants(selector().withFlavor(FlavorDimensions.ENVIRONMENT to ProductFlavors.DEV)) {
+            beforeVariants(selector().withBuildType("benchmark")) {
+                it.enableUnitTest = false
+            }
+            beforeVariants(selector().withFlavor(FlavorDimensions.ENVIRONMENT to ProductFlavors.DEMO)) {
+                it.enableUnitTest = false
+            }
+            beforeVariants(selector().withFlavor(FlavorDimensions.ENVIRONMENT to ProductFlavors.MOCK)) {
                 it.enableUnitTest = false
             }
             beforeVariants(selector().withFlavor(FlavorDimensions.ENVIRONMENT to ProductFlavors.PROD)) {

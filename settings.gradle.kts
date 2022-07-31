@@ -22,6 +22,10 @@ val isXCFrameworkBuild = startParameter.taskNames.any { it.endsWith("XCFramework
 
 // KMM
 include(":kmm:apollo-models")
+include(":kmm:data-common")
+include(":kmm:data-runtime-cloud")
+include(":kmm:data-runtime-edge")
+include(":kmm:data-testing")
 include(":kmm:core-utils")
 
 if (!isXCFrameworkBuild) {

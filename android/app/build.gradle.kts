@@ -5,8 +5,12 @@ import io.github.reactivecircus.kstreamlined.buildlogic.ProductFlavors
 import io.github.reactivecircus.kstreamlined.buildlogic.addBuildConfigField
 import io.github.reactivecircus.kstreamlined.buildlogic.addResValue
 import io.github.reactivecircus.kstreamlined.buildlogic.benchmarkImplementation
+import io.github.reactivecircus.kstreamlined.buildlogic.demoImplementation
+import io.github.reactivecircus.kstreamlined.buildlogic.devImplementation
 import io.github.reactivecircus.kstreamlined.buildlogic.envOrProp
 import io.github.reactivecircus.kstreamlined.buildlogic.isCiBuild
+import io.github.reactivecircus.kstreamlined.buildlogic.mockImplementation
+import io.github.reactivecircus.kstreamlined.buildlogic.prodImplementation
 
 plugins {
     id("kstreamlined.android.application")
@@ -117,17 +121,10 @@ android {
                 serviceCredentialsFile = rootProject.file("secrets/firebase-key.json").absolutePath
             }
         }
+        register(ProductFlavors.DEMO) {
+            applicationIdSuffix = ".${ProductFlavors.DEMO}"
+        }
         register(ProductFlavors.PROD) {}
-    }
-
-    sourceSets {
-        // common source set for dev and prod
-        named(ProductFlavors.DEV) {
-            java.srcDir("src/online/java")
-        }
-        named(ProductFlavors.PROD) {
-            java.srcDir("src/online/java")
-        }
     }
 
     playConfigs {
@@ -137,15 +134,15 @@ android {
     }
 }
 
-// disable google services plugin for mock flavor
+// disable google services plugin for demo and mock flavors
 tasks.whenTaskAdded {
-    if (name == "processMockDebugGoogleServices") {
+    if ("process(Demo|Mock)DebugGoogleServices".toRegex().matches(name)) {
         enabled = false
     }
 }
 
 androidComponents {
-    // disable mockRelease, devRelease, prodDebug, mockBenchmark, prodBenchmark build variants
+    // disable devRelease, demoRelease, mockRelease, prodDebug, demoBenchmark, mockBenchmark, prodBenchmark build variants
     beforeVariants {
         it.enable = it.flavorName == ProductFlavors.PROD && it.buildType == "release"
             || it.flavorName != ProductFlavors.PROD && it.buildType == "debug"
@@ -182,12 +179,16 @@ androidComponents {
             ProductFlavors.PROD -> {
                 it.addBuildConfigField(key = "ENABLE_ANALYTICS", value = googleServicesJsonExists)
                 it.addBuildConfigField(key = "ENABLE_CRASH_REPORTING", value = googleServicesJsonExists)
-                it.addBuildConfigField(key = "API_ENDPOINT", value = "\"https://kstreamlined/graphql\"")
+                it.addBuildConfigField(key = "API_ENDPOINT", value = "\"${envOrProp("KSTREAMLINED_API_ENDPOINT")}\"")
             }
             ProductFlavors.DEV -> {
                 it.addBuildConfigField(key = "ENABLE_ANALYTICS", value = googleServicesJsonExists)
                 it.addBuildConfigField(key = "ENABLE_CRASH_REPORTING", value = googleServicesJsonExists)
-                it.addBuildConfigField(key = "API_ENDPOINT", value = "\"https://kstreamlined/graphql\"")
+                it.addBuildConfigField(key = "API_ENDPOINT", value = "\"${envOrProp("KSTREAMLINED_API_ENDPOINT")}\"")
+            }
+            ProductFlavors.DEMO -> {
+                it.addBuildConfigField(key = "ENABLE_ANALYTICS", value = false)
+                it.addBuildConfigField(key = "ENABLE_CRASH_REPORTING", value = false)
             }
             ProductFlavors.MOCK -> {
                 it.addBuildConfigField(key = "ENABLE_ANALYTICS", value = false)
@@ -199,6 +200,11 @@ androidComponents {
 }
 
 dependencies {
+    mockImplementation(project(":kmm:data-testing"))
+    devImplementation(project(":kmm:data-runtime-cloud"))
+    demoImplementation(project(":kmm:data-runtime-edge"))
+    prodImplementation(project(":kmm:data-runtime-cloud"))
+
     implementation(project(":ui-common"))
 
     // Firebase

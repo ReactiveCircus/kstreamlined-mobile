@@ -22,6 +22,15 @@ fun DependencyHandler.devImplementation(dependencyNotation: Any): Dependency? =
     add("devImplementation", dependencyNotation)
 
 /**
+ * Adds a dependency to the 'demoImplementation' configuration.
+ *
+ * @param dependencyNotation notation for the dependency to be added.
+ * @return The dependency.
+ */
+fun DependencyHandler.demoImplementation(dependencyNotation: Any): Dependency? =
+    add("demoImplementation", dependencyNotation)
+
+/**
  * Adds a dependency to the 'prodImplementation' configuration.
  *
  * @param dependencyNotation notation for the dependency to be added.

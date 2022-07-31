@@ -7,6 +7,10 @@ apollo {
     packageNamesFromFilePaths()
     codegenModels.set("responseBased")
     flattenModels.set(true)
+    generateTestBuilders.set(true)
+    testDirConnection {
+        connectToKotlinSourceSet("commonMain")
+    }
 }
 
 kotlin {
