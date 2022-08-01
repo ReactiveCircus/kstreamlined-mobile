@@ -127,6 +127,16 @@ android {
         register(ProductFlavors.PROD) {}
     }
 
+    sourceSets {
+        // common source set for dev and prod
+        named(ProductFlavors.DEV) {
+            java.srcDir("src/devAndProd/java")
+        }
+        named(ProductFlavors.PROD) {
+            java.srcDir("src/devAndProd/java")
+        }
+    }
+
     playConfigs {
         register(ProductFlavors.PROD) {
             enabled.set(true)

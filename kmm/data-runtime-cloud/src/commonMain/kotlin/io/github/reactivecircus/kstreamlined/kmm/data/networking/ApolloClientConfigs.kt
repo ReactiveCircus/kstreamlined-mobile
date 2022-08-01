@@ -5,7 +5,7 @@ import com.apollographql.apollo3.cache.normalized.api.MemoryCacheFactory
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 
-class ApolloClientConfigs {
+object ApolloClientConfigs {
     val apolloStore = ApolloStore(
         normalizedCacheFactory = MemoryCacheFactory(
             maxSizeBytes = MaxSizeBytes,

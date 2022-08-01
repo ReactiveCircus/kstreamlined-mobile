@@ -8,8 +8,8 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(project(":kmm:data-common"))
-                implementation(libs.apollo.runtime)
-                implementation(libs.apollo.normalizedCache)
+                api(libs.apollo.runtime)
+                api(libs.apollo.normalizedCache)
                 implementation(libs.kotlinx.coroutines.core)
                 implementation(libs.kermit)
             }
