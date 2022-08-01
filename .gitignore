@@ -11,6 +11,7 @@ local.properties
 
 # Common secrets
 google-services.json
+secrets/firebase-key.json
 
 # Android secrets
 android/secrets/kstreamlined.jks
