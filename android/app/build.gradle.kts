@@ -11,6 +11,7 @@ import io.github.reactivecircus.kstreamlined.buildlogic.envOrProp
 import io.github.reactivecircus.kstreamlined.buildlogic.isCiBuild
 import io.github.reactivecircus.kstreamlined.buildlogic.mockImplementation
 import io.github.reactivecircus.kstreamlined.buildlogic.prodImplementation
+import java.time.Instant
 
 plugins {
     id("kstreamlined.android.application")
@@ -21,6 +22,7 @@ plugins {
     id("com.google.firebase.firebase-perf")
     id("com.google.firebase.crashlytics")
     id("com.google.firebase.appdistribution")
+    id("io.github.reactivecircus.app-versioning")
     id("com.github.triplet.play")
 }
 
@@ -29,6 +31,20 @@ val googleServicesJsonExists = fileTree("src").matching {
 }.isEmpty.not()
 if (googleServicesJsonExists) {
     apply(plugin = "com.google.gms.google-services")
+}
+
+val enableAppVersioning = providers
+    .environmentVariable("ENABLE_APP_VERSIONING")
+    .getOrElse("true").toBoolean()
+
+appVersioning {
+    enabled.set(enableAppVersioning)
+    overrideVersionCode { _, _, _ ->
+        Instant.now().epochSecond.toInt()
+    }
+    overrideVersionName { gitTag, _, _ ->
+        "${gitTag.rawTagName} (${gitTag.commitHash})"
+    }
 }
 
 play {

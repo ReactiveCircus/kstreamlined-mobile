@@ -73,6 +73,8 @@ jobs:
     name: Unit tests
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    env:
+      ENABLE_APP_VERSIONING: false
 
     steps:
       - uses: actions/checkout@v3
@@ -93,6 +95,8 @@ jobs:
     name: Static analysis
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    env:
+      ENABLE_APP_VERSIONING: false
 
     steps:
       - uses: actions/checkout@v3
@@ -117,6 +121,7 @@ jobs:
     timeout-minutes: 15
     env:
       ENCRYPTION_KEY: ${{ secrets.ENCRYPTION_KEY }}
+      ENABLE_APP_VERSIONING: false
 
     steps:
       - uses: actions/checkout@v3
@@ -159,6 +164,7 @@ jobs:
     timeout-minutes: 15
     env:
       ENCRYPTION_KEY: ${{ secrets.ENCRYPTION_KEY }}
+      ENABLE_APP_VERSIONING: false
 
     steps:
       - uses: actions/checkout@v3
