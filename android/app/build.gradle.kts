@@ -62,10 +62,6 @@ android {
     }
 
     defaultConfig {
-        // TODO setup app-versioning
-        versionCode = 1
-        versionName = "1.0.0"
-
         applicationId = "io.github.reactivecircus.kstreamlined"
         base.archivesName.set("kstreamlined")
 
