@@ -16,6 +16,7 @@ kotlin {
         }
         val commonTest by getting {
             dependencies {
+                implementation(project(":kmm:test-utils"))
                 implementation(libs.apollo.testingSupport)
             }
         }

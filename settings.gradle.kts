@@ -26,6 +26,7 @@ include(":kmm:data-runtime-cloud")
 include(":kmm:data-runtime-edge")
 include(":kmm:data-testing")
 include(":kmm:core-utils")
+include(":kmm:test-utils")
 
 if (!isXCFrameworkBuild) {
     // Android

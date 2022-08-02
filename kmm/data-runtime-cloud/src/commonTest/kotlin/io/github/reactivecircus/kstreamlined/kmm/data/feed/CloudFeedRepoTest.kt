@@ -11,11 +11,11 @@ import com.apollographql.apollo3.exception.CacheMissException
 import com.apollographql.apollo3.mockserver.MockResponse
 import com.apollographql.apollo3.mockserver.MockServer
 import com.apollographql.apollo3.testing.enqueue
-import com.apollographql.apollo3.testing.runTest
 import io.github.reactivecircus.kstreamlined.kmm.apollo.FeedEntriesQuery
 import io.github.reactivecircus.kstreamlined.kmm.apollo.FeedSourcesQuery
 import io.github.reactivecircus.kstreamlined.kmm.apollo.test.FeedEntriesQuery_TestBuilder.Data
 import io.github.reactivecircus.kstreamlined.kmm.apollo.test.FeedSourcesQuery_TestBuilder.Data
+import io.github.reactivecircus.kstreamlined.kmm.test.utils.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
