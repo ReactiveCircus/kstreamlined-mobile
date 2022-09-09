@@ -13,8 +13,9 @@ import com.apollographql.apollo3.mockserver.MockServer
 import com.apollographql.apollo3.testing.enqueue
 import io.github.reactivecircus.kstreamlined.kmm.apollo.FeedEntriesQuery
 import io.github.reactivecircus.kstreamlined.kmm.apollo.FeedSourcesQuery
-import io.github.reactivecircus.kstreamlined.kmm.apollo.test.FeedEntriesQuery_TestBuilder.Data
-import io.github.reactivecircus.kstreamlined.kmm.apollo.test.FeedSourcesQuery_TestBuilder.Data
+import io.github.reactivecircus.kstreamlined.kmm.apollo.type.buildFeedSource
+import io.github.reactivecircus.kstreamlined.kmm.apollo.type.buildKotlinBlog
+import io.github.reactivecircus.kstreamlined.kmm.apollo.type.buildKotlinYouTube
 import io.github.reactivecircus.kstreamlined.kmm.test.utils.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -30,10 +31,10 @@ class CloudFeedRepoTest {
 
     private val dummyFeedSources = FeedSourcesQuery.Data {
         feedSources = listOf(
-            feedSource {
+            buildFeedSource {
                 title = "Kotlin Blog"
             },
-            feedSource {
+            buildFeedSource {
                 title = "Kotlin YouTube"
             },
         )
@@ -41,10 +42,10 @@ class CloudFeedRepoTest {
 
     private val dummyFeedEntries = FeedEntriesQuery.Data {
         feedEntries = listOf(
-            kotlinBlogFeedEntry {
+            buildKotlinBlog {
                 title = "Kotlin blog entry"
             },
-            kotlinYouTubeFeedEntry {
+            buildKotlinYouTube {
                 title = "Kotlin YouTube entry"
             }
         )
