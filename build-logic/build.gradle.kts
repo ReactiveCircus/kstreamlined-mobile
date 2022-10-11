@@ -3,10 +3,10 @@ plugins {
 }
 
 kotlin {
-    target {
-        compilations.all {
-            kotlinOptions {
-                languageSettings.optIn("kotlin.RequiresOptIn")
+    sourceSets {
+        all {
+            languageSettings {
+                optIn("kotlin.RequiresOptIn")
             }
         }
     }
