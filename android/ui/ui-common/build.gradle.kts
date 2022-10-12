@@ -11,6 +11,13 @@ android {
     }
 }
 
+androidComponents {
+    beforeVariants {
+        it.enableUnitTest = false
+        it.enableAndroidTest = false
+    }
+}
+
 dependencies {
     // TODO add project dependencies
 

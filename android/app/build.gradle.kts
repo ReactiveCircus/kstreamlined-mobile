@@ -164,11 +164,13 @@ tasks.whenTaskAdded {
 }
 
 androidComponents {
-    // disable devRelease, demoRelease, mockRelease, prodDebug, demoBenchmark, mockBenchmark, prodBenchmark build variants
     beforeVariants {
+        // disable devRelease, demoRelease, mockRelease, prodDebug, demoBenchmark, mockBenchmark, prodBenchmark build variants
         it.enable = it.flavorName == ProductFlavors.PROD && it.buildType == "release"
             || it.flavorName != ProductFlavors.PROD && it.buildType == "debug"
             || it.flavorName == ProductFlavors.DEV && it.buildType == "benchmark"
+        it.enableUnitTest = false
+        it.enableAndroidTest = false
     }
 
     onVariants {
