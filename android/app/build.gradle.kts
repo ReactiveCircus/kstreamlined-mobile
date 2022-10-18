@@ -94,6 +94,7 @@ android {
             }
         }
         val release by getting {
+            matchingFallbacks.add("debug")
             if (rootProject.file("android/secrets/kstreamlined.jks").exists()) {
                 signingConfig = signingConfigs.getByName("release")
             }
@@ -107,7 +108,6 @@ android {
         }
         val benchmark by creating {
             initWith(release)
-            matchingFallbacks.add("release")
             proguardFiles("benchmark-rules.pro")
             signingConfig = signingConfigs.getByName("debug")
 

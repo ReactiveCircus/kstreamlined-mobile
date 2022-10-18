@@ -1,6 +1,7 @@
 package io.github.reactivecircus.kstreamlined.buildlogic
 
 import com.android.build.api.dsl.CommonExtension
+import com.android.build.api.variant.LibraryAndroidComponentsExtension
 import com.android.build.gradle.TestExtension
 import com.android.build.gradle.TestedExtension
 import org.gradle.accessors.dm.LibrariesForLibs
@@ -67,6 +68,16 @@ internal fun TestExtension.configureAndroidTestOptions() {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+    }
+}
+
+/**
+ * Configure the Application Library Component based on build variants.
+ */
+internal fun LibraryAndroidComponentsExtension.configureAndroidLibraryVariants() {
+    // disable release build variant for all Android library projects
+    beforeVariants(selector().withBuildType("release")) {
+        it.enable = false
     }
 }
 
