@@ -1,5 +1,4 @@
 import com.google.firebase.crashlytics.buildtools.gradle.CrashlyticsExtension
-import com.google.firebase.perf.plugin.FirebasePerfExtension
 import io.github.reactivecircus.kstreamlined.buildlogic.FlavorDimensions
 import io.github.reactivecircus.kstreamlined.buildlogic.ProductFlavors
 import io.github.reactivecircus.kstreamlined.buildlogic.addBuildConfigField
@@ -19,7 +18,7 @@ plugins {
     id("kstreamlined.kapt")
     id("com.google.dagger.hilt.android")
     id("com.google.gms.google-services") apply false
-    id("com.google.firebase.firebase-perf")
+    id("com.google.firebase.firebase-perf") apply false
     id("com.google.firebase.crashlytics")
     id("com.google.firebase.appdistribution")
     id("io.github.reactivecircus.app-versioning")
@@ -88,10 +87,11 @@ android {
         val debug by getting {
             signingConfig = signingConfigs.getByName("debug")
 
+            // TODO re-enable firebase-perf once it supports AGP 8
             // disable performance monitoring plugin for debug builds
-            (this as ExtensionAware).extensions.configure<FirebasePerfExtension> {
-                setInstrumentationEnabled(false)
-            }
+//            (this as ExtensionAware).extensions.configure<FirebasePerfExtension> {
+//                setInstrumentationEnabled(false)
+//            }
         }
         val release by getting {
             matchingFallbacks.add("debug")
