@@ -34,10 +34,6 @@ internal class AndroidApplicationConventionPlugin : Plugin<Project> {
 
             @Suppress("UnstableApiUsage")
             lint {
-                disable.add("ParcelCreator")
-                disable.add("GoogleAppIndexingWarning")
-                disable.add("DialogFragmentCallbacksDetector") // TODO remove once fixed: https://issuetracker.google.com/issues/187524311
-                disable.add("NotificationPermission") // TODO remove once LeakCanary supports Android 13: https://github.com/square/leakcanary/issues/2398
                 quiet = false
                 ignoreWarnings = false
                 htmlReport = true
