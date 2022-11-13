@@ -45,11 +45,11 @@ androidx-test-espresso = "3.5.0"
 androidx-test-uiautomator = "2.2.0"
 accompanist = "0.27.0"
 coil = "2.2.2"
-kermit = "1.1.3"
+kermit = "1.2.2"
 radiography = "2.4.1"
 turbine = "0.12.1"
 junit = "4.13.2"
-crashKios = "0.6.0"
+crashKios = "0.8.1"
 
 [libraries]
 plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin"}
