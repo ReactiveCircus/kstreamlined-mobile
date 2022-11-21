@@ -10,4 +10,6 @@ import com.apollographql.apollo3.cache.normalized.fetchPolicy
  */
 internal fun <D : Operation.Data> ApolloCall<D>.defaultFetchPolicy(refresh: Boolean) = if (refresh) {
     fetchPolicy(FetchPolicy.NetworkOnly)
-} else this
+} else {
+    this
+}

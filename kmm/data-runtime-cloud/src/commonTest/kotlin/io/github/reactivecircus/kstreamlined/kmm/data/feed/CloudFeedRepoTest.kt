@@ -144,7 +144,8 @@ class CloudFeedRepoTest {
                 FeedEntriesQuery.Data(feedEntries = dummyFeedEntries)
             )
             val actual = cloudFeedRepo.loadFeedEntries(
-                filters = null, refresh = true
+                filters = null,
+                refresh = true,
             )
             assertEquals(dummyFeedEntries, actual)
         }
@@ -159,7 +160,8 @@ class CloudFeedRepoTest {
             )
             val exception = assertFailsWith<ApolloHttpException> {
                 cloudFeedRepo.loadFeedEntries(
-                    filters = null, refresh = true
+                    filters = null,
+                    refresh = true,
                 )
             }
             assertEquals(404, exception.statusCode)
@@ -173,7 +175,8 @@ class CloudFeedRepoTest {
                 FeedEntriesQuery.Data(feedEntries = dummyFeedEntries)
             )
             val actual = cloudFeedRepo.loadFeedEntries(
-                filters = null, refresh = false
+                filters = null,
+                refresh = false,
             )
             assertEquals(dummyFeedEntries, actual)
         }
@@ -187,7 +190,8 @@ class CloudFeedRepoTest {
                 FeedEntriesQuery.Data(feedEntries = dummyFeedEntries)
             )
             cloudFeedRepo.loadFeedEntries(
-                filters = null, refresh = false
+                filters = null,
+                refresh = false,
             )
 
             // 2nd request to consume cache
@@ -197,7 +201,8 @@ class CloudFeedRepoTest {
                     .build()
             )
             val actual = cloudFeedRepo.loadFeedEntries(
-                filters = null, refresh = false
+                filters = null,
+                refresh = false,
             )
             assertEquals(dummyFeedEntries, actual)
         }
@@ -212,7 +217,8 @@ class CloudFeedRepoTest {
             )
             val exception = assertFailsWith<ApolloCompositeException> {
                 cloudFeedRepo.loadFeedEntries(
-                    filters = null, refresh = false
+                    filters = null,
+                    refresh = false,
                 )
             }
             assertTrue(exception.suppressedExceptions[0] is CacheMissException)

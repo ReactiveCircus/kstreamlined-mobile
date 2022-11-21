@@ -22,6 +22,8 @@ style:
     excludes: ['**/test/**', '**/*Test/**']
 
 formatting:
+  Filename:
+    active: false
   ImportOrdering:
     active: false
   MaximumLineLength:
