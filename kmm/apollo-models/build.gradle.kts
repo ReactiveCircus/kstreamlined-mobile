@@ -4,10 +4,12 @@ plugins {
 }
 
 apollo {
-    packageNamesFromFilePaths()
-    codegenModels.set("responseBased")
-    flattenModels.set(true)
-    generateDataBuilders.set(true)
+    service("service") {
+        packageNamesFromFilePaths()
+        codegenModels.set("responseBased")
+        flattenModels.set(true)
+        generateDataBuilders.set(true)
+    }
 }
 
 kotlin {
