@@ -13,7 +13,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
  */
 internal fun KotlinProjectExtension.configureKotlinJvm(target: Project) {
     jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(19))
+        languageVersion.set(JavaLanguageVersion.of(18))
         vendor.set(JvmVendorSpec.AZUL)
     }
     target.tasks.withType<KotlinJvmCompile> {
