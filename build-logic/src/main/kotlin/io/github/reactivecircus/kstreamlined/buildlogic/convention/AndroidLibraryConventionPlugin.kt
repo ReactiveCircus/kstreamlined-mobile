@@ -6,7 +6,7 @@ import io.github.reactivecircus.kstreamlined.buildlogic.applyLanguageSettings
 import io.github.reactivecircus.kstreamlined.buildlogic.configureAndroidLibraryVariants
 import io.github.reactivecircus.kstreamlined.buildlogic.configureCommonAndroidOptions
 import io.github.reactivecircus.kstreamlined.buildlogic.configureDetekt
-import io.github.reactivecircus.kstreamlined.buildlogic.configureKotlinJvmCompileOptions
+import io.github.reactivecircus.kstreamlined.buildlogic.configureKotlinJvm
 import io.github.reactivecircus.kstreamlined.buildlogic.configureSlimTests
 import io.github.reactivecircus.kstreamlined.buildlogic.configureTest
 import io.github.reactivecircus.kstreamlined.buildlogic.markNonCompatibleConfigurationCacheTasks
@@ -23,6 +23,7 @@ internal class AndroidLibraryConventionPlugin : Plugin<Project> {
         }
 
         extensions.configure<KotlinAndroidProjectExtension> {
+            configureKotlinJvm(target)
             sourceSets.all {
                 languageSettings {
                     applyLanguageSettings()
@@ -38,7 +39,6 @@ internal class AndroidLibraryConventionPlugin : Plugin<Project> {
             configureAndroidLibraryVariants()
         }
 
-        configureKotlinJvmCompileOptions()
         configureTest()
         configureDetekt()
         markNonCompatibleConfigurationCacheTasks()

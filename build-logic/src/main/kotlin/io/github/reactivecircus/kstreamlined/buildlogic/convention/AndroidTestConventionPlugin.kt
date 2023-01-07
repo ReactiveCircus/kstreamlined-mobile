@@ -4,7 +4,7 @@ import com.android.build.gradle.TestExtension
 import io.github.reactivecircus.kstreamlined.buildlogic.applyLanguageSettings
 import io.github.reactivecircus.kstreamlined.buildlogic.configureAndroidTestOptions
 import io.github.reactivecircus.kstreamlined.buildlogic.configureDetekt
-import io.github.reactivecircus.kstreamlined.buildlogic.configureKotlinJvmCompileOptions
+import io.github.reactivecircus.kstreamlined.buildlogic.configureKotlinJvm
 import io.github.reactivecircus.kstreamlined.buildlogic.markNonCompatibleConfigurationCacheTasks
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -19,6 +19,7 @@ internal class AndroidTestConventionPlugin : Plugin<Project> {
         }
 
         extensions.configure<KotlinAndroidProjectExtension> {
+            configureKotlinJvm(target)
             sourceSets.all {
                 languageSettings {
                     applyLanguageSettings()
@@ -30,7 +31,6 @@ internal class AndroidTestConventionPlugin : Plugin<Project> {
             configureAndroidTestOptions()
         }
 
-        configureKotlinJvmCompileOptions()
         configureDetekt()
         markNonCompatibleConfigurationCacheTasks()
     }

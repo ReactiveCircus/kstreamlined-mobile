@@ -5,7 +5,6 @@ import io.gitlab.arturbosch.detekt.Detekt
 import io.gitlab.arturbosch.detekt.DetektPlugin
 import io.gitlab.arturbosch.detekt.extensions.DetektExtension
 import org.gradle.accessors.dm.LibrariesForLibs
-import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.api.tasks.testing.Test
 import org.gradle.api.tasks.testing.logging.TestLogEvent
@@ -15,28 +14,8 @@ import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFrameworkTask
 import org.jetbrains.kotlin.gradle.targets.native.tasks.KotlinNativeTest
 import org.jetbrains.kotlin.gradle.tasks.FatFrameworkTask
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jetbrains.kotlin.gradle.tasks.KotlinNativeCompile
 import org.jetbrains.kotlin.gradle.tasks.KotlinNativeLink
-
-/**
- * Configure Kotlin JVM compile options.
- */
-internal fun Project.configureKotlinJvmCompileOptions() {
-    tasks.withType<KotlinCompile> {
-        kotlinOptions {
-            jvmTarget = JavaVersion.VERSION_11.toString()
-
-            @OptIn(ExperimentalStdlibApi::class)
-            freeCompilerArgs = freeCompilerArgs + additionalCompilerArgs + buildList {
-                if (providers.gradleProperty("enableComposeCompilerReports").orNull == "true") {
-                    addAll(composeCompilerMetricsArgs(buildDir))
-                    addAll(composeCompilerReportsArgs(buildDir))
-                }
-            }
-        }
-    }
-}
 
 /**
  * Configure JUnit test options if applicable.
@@ -68,6 +47,7 @@ internal fun Project.configureDetekt() {
             allRules = true
         }
         tasks.withType<Detekt>().configureEach {
+            jvmTarget = "11"
             reports {
                 html.outputLocation.set(file("build/reports/detekt/${project.name}.html"))
             }

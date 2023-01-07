@@ -42,7 +42,7 @@ jobs:
       - uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
-          java-version: '18'
+          java-version: '19'
 
       - name: Decrypt secrets
         run: |
@@ -85,7 +85,7 @@ jobs:
       - uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
-          java-version: '18'
+          java-version: '19'
 
       - uses: gradle/gradle-build-action@v2
 
@@ -107,7 +107,7 @@ jobs:
       - uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
-          java-version: '18'
+          java-version: '19'
 
       - uses: gradle/gradle-build-action@v2
 
@@ -132,7 +132,7 @@ jobs:
       - uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
-          java-version: '18'
+          java-version: '19'
 
       - name: Download build artifacts
         uses: actions/download-artifact@v3
@@ -175,7 +175,7 @@ jobs:
       - uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
-          java-version: '18'
+          java-version: '19'
 
       - name: Download build artifacts
         uses: actions/download-artifact@v3

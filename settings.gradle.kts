@@ -12,6 +12,7 @@ dependencyResolutionManagement {
     repositories {
         mavenCentral()
         google()
+        maven("https://androidx.dev/storage/compose-compiler/repository/")
     }
 }
 
