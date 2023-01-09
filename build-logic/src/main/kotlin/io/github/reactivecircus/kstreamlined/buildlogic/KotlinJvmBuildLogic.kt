@@ -16,7 +16,7 @@ internal fun KotlinProjectExtension.configureKotlinJvm(target: Project) {
         languageVersion.set(JavaLanguageVersion.of(18))
         vendor.set(JvmVendorSpec.AZUL)
     }
-    target.tasks.withType<KotlinJvmCompile> {
+    target.tasks.withType<KotlinJvmCompile>().configureEach {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
             freeCompilerArgs.set(

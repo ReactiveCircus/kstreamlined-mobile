@@ -21,7 +21,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinNativeLink
  * Configure JUnit test options if applicable.
  */
 internal fun Project.configureTest() {
-    tasks.withType<Test> {
+    tasks.withType<Test>().configureEach {
         maxParallelForks = (Runtime.getRuntime().availableProcessors() / 2).coerceAtLeast(1)
         testLogging {
             events(TestLogEvent.PASSED, TestLogEvent.SKIPPED, TestLogEvent.FAILED)
