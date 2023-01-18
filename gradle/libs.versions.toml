@@ -1,7 +1,7 @@
 [versions]
 kotlin = "1.8.0"
 ksp = "1.8.0-1.0.8"
-androidGradlePlugin = "8.0.0-beta01"
+androidGradlePlugin = "8.1.0-alpha01"
 appVersioning = "1.2.0"
 apollo = "3.7.4"
 googleServices = "4.3.14"
