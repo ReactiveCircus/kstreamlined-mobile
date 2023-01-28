@@ -83,9 +83,5 @@ gradlePlugin {
             id = "kstreamlined.kapt"
             implementationClass = "io.github.reactivecircus.kstreamlined.buildlogic.convention.KaptConventionPlugin"
         }
-        register("ksp") {
-            id = "kstreamlined.ksp"
-            implementationClass = "io.github.reactivecircus.kstreamlined.buildlogic.convention.KspConventionPlugin"
-        }
     }
 }
