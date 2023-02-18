@@ -52,9 +52,11 @@ jobs:
           openssl enc -d -aes-256-cbc -pbkdf2 -iter 10000 -salt -in android/secrets/android-google-services-prod.aes -out android/app/src/prod/google-services.json -k $ENCRYPTION_KEY
 
       - uses: gradle/gradle-build-action@v2
+        with:
+          gradle-home-cache-cleanup: true
 
       - name: Assemble dev debug APK and signed release App Bundle
-        run: ./gradlew app:assembleDevDebug app:bundleProdRelease
+        run: ./gradlew app:assembleDevDebug app:bundleProdRelease --no-configuration-cache
 
       - name: Cleanup secrets
         if: always()
@@ -88,6 +90,8 @@ jobs:
           java-version: '18'
 
       - uses: gradle/gradle-build-action@v2
+        with:
+          gradle-home-cache-cleanup: true
 
       - name: Run unit tests
         run: ./gradlew test jvmTest -PslimTests
@@ -110,6 +114,8 @@ jobs:
           java-version: '18'
 
       - uses: gradle/gradle-build-action@v2
+        with:
+          gradle-home-cache-cleanup: true
 
       - name: Run detekt, ktlint and Android Lint
         run: ./gradlew detekt lint
@@ -147,6 +153,8 @@ jobs:
           openssl enc -d -aes-256-cbc -pbkdf2 -iter 10000 -salt -in android/secrets/android-google-services-dev.aes -out android/app/src/dev/google-services.json -k $ENCRYPTION_KEY
 
       - uses: gradle/gradle-build-action@v2
+        with:
+          gradle-home-cache-cleanup: true
 
       - name: Publish dev build to Firebase App Distribution
         run: ./gradlew processDevDebugGoogleServices appDistributionUploadDevDebug
@@ -190,6 +198,8 @@ jobs:
           openssl enc -d -aes-256-cbc -pbkdf2 -iter 10000 -salt -in android/secrets/android-google-services-prod.aes -out android/app/src/prod/google-services.json -k $ENCRYPTION_KEY
 
       - uses: gradle/gradle-build-action@v2
+        with:
+          gradle-home-cache-cleanup: true
 
       - name: Publish release App Bundle to Play Store
         run: ./gradlew publishBundle --artifact-dir android/app/build/outputs/bundle/prodRelease
