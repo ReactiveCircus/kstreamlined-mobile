@@ -47,7 +47,7 @@ accompanist = "0.30.0"
 coil = "2.2.2"
 kermit = "1.2.2"
 radiography = "2.4.1"
-turbine = "0.12.1"
+turbine = "0.12.2"
 junit = "4.13.2"
 crashKios = "0.8.1"
 
