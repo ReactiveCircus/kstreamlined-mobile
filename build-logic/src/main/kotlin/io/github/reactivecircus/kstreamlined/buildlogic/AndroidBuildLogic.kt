@@ -85,7 +85,7 @@ internal fun LibraryAndroidComponentsExtension.configureAndroidLibraryVariants()
  * Enable Compose and configure Compose options
  */
 internal fun Project.configureCompose(
-    commonExtension: CommonExtension<*, *, *, *>,
+    commonExtension: CommonExtension<*, *, *, *, *>,
 ) {
     @Suppress("UnstableApiUsage")
     commonExtension.apply {
