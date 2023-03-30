@@ -1,5 +1,5 @@
 [versions]
-kotlin = "1.8.10"
+kotlin = "1.8.20"
 ksp = "1.8.10-1.0.9"
 androidGradlePlugin = "8.1.0-alpha09"
 appVersioning = "1.2.0"
