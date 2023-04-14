@@ -56,7 +56,7 @@ jobs:
           gradle-home-cache-cleanup: true
 
       - name: Assemble dev debug APK and signed release App Bundle
-        run: ./gradlew app:assembleDevDebug app:bundleProdRelease --no-configuration-cache
+        run: ./gradlew app:assembleDevDebug app:bundleProdRelease
 
       - name: Cleanup secrets
         if: always()
