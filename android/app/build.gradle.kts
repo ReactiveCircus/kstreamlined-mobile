@@ -157,7 +157,7 @@ android {
 }
 
 // disable google services plugin for demo and mock flavors
-tasks.whenTaskAdded {
+tasks.configureEach {
     if ("process(Demo|Mock)DebugGoogleServices".toRegex().matches(name)) {
         enabled = false
     }
