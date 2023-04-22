@@ -1,5 +1,11 @@
+import io.gitlab.arturbosch.detekt.Detekt
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.gradle.accessors.dm.LibrariesForLibs
+
 plugins {
     `kotlin-dsl`
+    alias(libs.plugins.detekt)
 }
 
 kotlin {
@@ -11,8 +17,37 @@ kotlin {
         }
     }
     jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
+        languageVersion.set(JavaLanguageVersion.of(20))
         vendor.set(JvmVendorSpec.AZUL)
+    }
+}
+
+tasks.withType<KotlinCompile>().configureEach {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_11)
+    }
+}
+
+tasks.withType<JavaCompile>().configureEach {
+    sourceCompatibility = JavaVersion.VERSION_11.toString()
+    targetCompatibility = JavaVersion.VERSION_11.toString()
+}
+
+detekt {
+    source = files("src/")
+    config = files("../detekt.yml")
+    buildUponDefaultConfig = true
+    allRules = true
+    parallel = true
+}
+
+tasks.withType<Detekt>().configureEach {
+    jvmTarget = JvmTarget.JVM_11.target
+    reports {
+        xml.required.set(false)
+        txt.required.set(false)
+        sarif.required.set(false)
+        md.required.set(false)
     }
 }
 
@@ -23,6 +58,9 @@ dependencies {
     val kotlinVersion: String = providers
         .gradleProperty("kotlinVersion")
         .getOrElse(libs.versions.kotlin.get())
+
+    // enable Ktlint formatting
+    add("detektPlugins", libs.plugin.detektFormatting)
 
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
     implementation(libs.plugin.ksp)

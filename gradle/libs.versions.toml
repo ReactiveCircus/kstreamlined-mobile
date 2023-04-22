@@ -127,3 +127,6 @@ radiography = { module = "com.squareup.radiography:radiography", version.ref = "
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 junit = { module = "junit:junit", version.ref = "junit" }
 crashKios = { module = "co.touchlab:crashkios", version.ref = "crashKios" }
+
+[plugins]
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }

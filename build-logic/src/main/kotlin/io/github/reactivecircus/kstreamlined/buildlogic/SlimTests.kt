@@ -1,3 +1,5 @@
+@file:Suppress("MaxLineLength")
+
 package io.github.reactivecircus.kstreamlined.buildlogic
 
 import com.android.build.api.variant.ApplicationAndroidComponentsExtension

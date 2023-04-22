@@ -11,6 +11,7 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.the
 import org.gradle.kotlin.dsl.withType
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFrameworkTask
 import org.jetbrains.kotlin.gradle.targets.native.tasks.KotlinNativeTest
 import org.jetbrains.kotlin.gradle.tasks.FatFrameworkTask
@@ -45,10 +46,15 @@ internal fun Project.configureDetekt() {
             config = files("${project.rootDir}/detekt.yml")
             buildUponDefaultConfig = true
             allRules = true
+            parallel = true
         }
         tasks.withType<Detekt>().configureEach {
+            jvmTarget = JvmTarget.JVM_11.target
             reports {
-                html.outputLocation.set(file("build/reports/detekt/${project.name}.html"))
+                xml.required.set(false)
+                txt.required.set(false)
+                sarif.required.set(false)
+                md.required.set(false)
             }
         }
     }

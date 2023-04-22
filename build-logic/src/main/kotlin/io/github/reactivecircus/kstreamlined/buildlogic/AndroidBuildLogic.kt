@@ -7,18 +7,20 @@ import com.android.build.gradle.TestedExtension
 import org.gradle.accessors.dm.LibrariesForLibs
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
+import org.gradle.api.plugins.ExtensionAware
 import org.gradle.kotlin.dsl.the
+import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
 
 /**
  * Apply baseline configurations for all Android projects (Application and Library).
  */
 internal fun TestedExtension.configureCommonAndroidOptions(project: Project) {
-    setCompileSdkVersion(androidSdk.compileSdk)
-    buildToolsVersion = androidSdk.buildTools
+    setCompileSdkVersion(AndroidSdk.compileSdk)
+    buildToolsVersion = AndroidSdk.buildTools
 
     defaultConfig {
-        minSdk = androidSdk.minSdk
-        targetSdk = androidSdk.targetSdk
+        minSdk = AndroidSdk.minSdk
+        targetSdk = AndroidSdk.targetSdk
 
         // only support English for now
         resourceConfigurations.add("en")
@@ -27,8 +29,8 @@ internal fun TestedExtension.configureCommonAndroidOptions(project: Project) {
     testOptions.animationsDisabled = true
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
         isCoreLibraryDesugaringEnabled = true
     }
 
@@ -46,18 +48,27 @@ internal fun TestedExtension.configureCommonAndroidOptions(project: Project) {
     with(project) {
         dependencies.add("coreLibraryDesugaring", the<LibrariesForLibs>().desugarJdkLibs)
     }
+
+    (this@configureCommonAndroidOptions as ExtensionAware).extensions.configure<KotlinJvmOptions>("kotlinOptions") {
+        if (project.providers.gradleProperty("enableComposeCompilerReports").orNull == "true") {
+            freeCompilerArgs += buildList {
+                addAll(composeCompilerMetricsArgs(project.buildDir))
+                addAll(composeCompilerReportsArgs(project.buildDir))
+            }
+        }
+    }
 }
 
 /**
  * Apply baseline configurations for all Android Test projects.
  */
 internal fun TestExtension.configureAndroidTestOptions() {
-    setCompileSdkVersion(androidSdk.compileSdk)
-    buildToolsVersion = androidSdk.buildTools
+    setCompileSdkVersion(AndroidSdk.compileSdk)
+    buildToolsVersion = AndroidSdk.buildTools
 
     defaultConfig {
-        minSdk = androidSdk.minSdk
-        targetSdk = androidSdk.targetSdk
+        minSdk = AndroidSdk.minSdk
+        targetSdk = AndroidSdk.targetSdk
 
         // only support English for now
         resourceConfigurations.add("en")

@@ -42,7 +42,7 @@ jobs:
       - uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
-          java-version: '18'
+          java-version: '20'
 
       - name: Decrypt secrets
         run: |
@@ -87,7 +87,7 @@ jobs:
       - uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
-          java-version: '18'
+          java-version: '20'
 
       - uses: gradle/gradle-build-action@v2
         with:
@@ -111,14 +111,16 @@ jobs:
       - uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
-          java-version: '18'
+          java-version: '20'
 
       - uses: gradle/gradle-build-action@v2
         with:
           gradle-home-cache-cleanup: true
 
       - name: Run detekt, ktlint and Android Lint
-        run: ./gradlew detekt lint
+        run: |
+          ./gradlew detekt lint
+          ./gradlew -p build-logic detekt
 
   deploy-dev-build:
     name: Upload dev build
@@ -138,7 +140,7 @@ jobs:
       - uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
-          java-version: '18'
+          java-version: '20'
 
       - name: Download build artifacts
         uses: actions/download-artifact@v3
@@ -183,7 +185,7 @@ jobs:
       - uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
-          java-version: '18'
+          java-version: '20'
 
       - name: Download build artifacts
         uses: actions/download-artifact@v3

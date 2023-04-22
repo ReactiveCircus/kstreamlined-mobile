@@ -7,6 +7,5 @@ internal fun LanguageSettingsBuilder.applyLanguageSettings(): LanguageSettingsBu
         languageVersion = "1.8"
         progressiveMode = true
         optIn("kotlin.RequiresOptIn")
-        optIn("kotlin.Experimental")
     }
 }

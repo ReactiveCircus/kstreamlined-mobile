@@ -1,3 +1,5 @@
+@file:Suppress("UNUSED_VARIABLE")
+
 package io.github.reactivecircus.kstreamlined.buildlogic
 
 import org.gradle.api.Project
@@ -17,6 +19,7 @@ internal fun KotlinMultiplatformExtension.configureKMMCommon(
 ) {
     if (enableJvmTarget) {
         jvm()
+        configureKotlinJvm(project)
     }
     iosArm64()
     if (project.isAppleSilicon) {
