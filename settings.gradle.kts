@@ -1,4 +1,5 @@
 pluginManagement {
+    includeBuild("build-logic")
     repositories {
         google {
             content {
@@ -28,7 +29,6 @@ pluginManagement {
 }
 
 dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
     repositories {
         google {
             content {
@@ -52,8 +52,6 @@ plugins {
 }
 
 rootProject.name = "kstreamlined-mobile"
-
-includeBuild("build-logic")
 
 // KMM
 include(":kmm:apollo-models")
