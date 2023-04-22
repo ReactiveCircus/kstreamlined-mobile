@@ -3,7 +3,6 @@ plugins {
     id("kstreamlined.android.library.compose")
 }
 
-@Suppress("UnstableApiUsage")
 android {
     namespace = "io.github.reactivecircus.kstreamlined.android.ui.common"
     buildFeatures {

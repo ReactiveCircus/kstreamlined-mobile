@@ -1,9 +1,35 @@
-@Suppress("UnstableApiUsage")
+pluginManagement {
+    repositories {
+        gradlePluginPortal {
+            content {
+                includeGroupByRegex("org.gradle.*")
+            }
+        }
+        mavenCentral()
+    }
+
+    val gradleToolchainsResolverVersion = file("../gradle/libs.versions.toml")
+        .readLines()
+        .first { it.contains("gradle-toolchainsResolverPlugin") }
+        .substringAfter("=")
+        .trim()
+        .removeSurrounding("\"")
+
+    plugins {
+        id("org.gradle.toolchains.foojay-resolver-convention") version gradleToolchainsResolverVersion
+    }
+}
+
 dependencyResolutionManagement {
     repositories {
+        google {
+            content {
+                includeGroupByRegex("androidx.*")
+                includeGroupByRegex("com.android.*")
+                includeGroupByRegex("com.google.*")
+            }
+        }
         mavenCentral()
-        google()
-        gradlePluginPortal()
     }
 
     versionCatalogs {
@@ -14,5 +40,5 @@ dependencyResolutionManagement {
 }
 
 plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version("0.4.0")
+    id("org.gradle.toolchains.foojay-resolver-convention")
 }

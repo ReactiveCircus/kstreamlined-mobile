@@ -12,7 +12,6 @@ import org.gradle.kotlin.dsl.the
 /**
  * Apply baseline configurations for all Android projects (Application and Library).
  */
-@Suppress("UnstableApiUsage")
 internal fun TestedExtension.configureCommonAndroidOptions(project: Project) {
     setCompileSdkVersion(androidSdk.compileSdk)
     buildToolsVersion = androidSdk.buildTools
@@ -52,7 +51,6 @@ internal fun TestedExtension.configureCommonAndroidOptions(project: Project) {
 /**
  * Apply baseline configurations for all Android Test projects.
  */
-@Suppress("UnstableApiUsage")
 internal fun TestExtension.configureAndroidTestOptions() {
     setCompileSdkVersion(androidSdk.compileSdk)
     buildToolsVersion = androidSdk.buildTools
@@ -87,7 +85,6 @@ internal fun LibraryAndroidComponentsExtension.configureAndroidLibraryVariants()
 internal fun Project.configureCompose(
     commonExtension: CommonExtension<*, *, *, *, *>,
 ) {
-    @Suppress("UnstableApiUsage")
     commonExtension.apply {
         buildFeatures.compose = true
         composeOptions.kotlinCompilerExtensionVersion = the<LibrariesForLibs>().versions.androidx.compose.compiler.get()

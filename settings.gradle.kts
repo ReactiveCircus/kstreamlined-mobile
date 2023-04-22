@@ -1,28 +1,59 @@
 pluginManagement {
     repositories {
+        google {
+            content {
+                includeGroupByRegex("androidx.*")
+                includeGroupByRegex("com.android.*")
+                includeGroupByRegex("com.google.*")
+            }
+        }
+        gradlePluginPortal {
+            content {
+                includeGroupByRegex("org.gradle.*")
+            }
+        }
         mavenCentral()
-        google()
-        gradlePluginPortal()
+    }
+
+    val gradleToolchainsResolverVersion = file("$rootDir/gradle/libs.versions.toml")
+        .readLines()
+        .first { it.contains("gradle-toolchainsResolverPlugin") }
+        .substringAfter("=")
+        .trim()
+        .removeSurrounding("\"")
+
+    plugins {
+        id("org.gradle.toolchains.foojay-resolver-convention") version gradleToolchainsResolverVersion
     }
 }
 
-@Suppress("UnstableApiUsage")
 dependencyResolutionManagement {
-    includeBuild("build-logic")
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
+        google {
+            content {
+                includeGroupByRegex("androidx.*")
+                includeGroupByRegex("com.android.*")
+                includeGroupByRegex("com.google.*")
+            }
+        }
         mavenCentral()
-        google()
-        maven("https://androidx.dev/storage/compose-compiler/repository/")
+        maven {
+            url = uri("https://androidx.dev/storage/compose-compiler/repository/")
+            content {
+                includeModule("androidx.compose.compiler", "compiler")
+            }
+        }
     }
 }
 
 plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version("0.4.0")
+    id("org.gradle.toolchains.foojay-resolver-convention")
 }
 
 rootProject.name = "kstreamlined-mobile"
 
-val isXCFrameworkBuild = startParameter.taskNames.any { it.endsWith("XCFramework") }
+includeBuild("build-logic")
 
 // KMM
 include(":kmm:apollo-models")
@@ -33,6 +64,7 @@ include(":kmm:data-testing")
 include(":kmm:core-utils")
 include(":kmm:test-utils")
 
+val isXCFrameworkBuild = startParameter.taskNames.any { it.endsWith("XCFramework") }
 if (!isXCFrameworkBuild) {
     // Android
     includeProject(":app", "android/app")

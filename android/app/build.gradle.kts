@@ -53,7 +53,6 @@ play {
     defaultToAppBundles.set(true)
 }
 
-@Suppress("UnstableApiUsage")
 android {
     namespace = "io.github.reactivecircus.kstreamlined.android"
     buildFeatures {

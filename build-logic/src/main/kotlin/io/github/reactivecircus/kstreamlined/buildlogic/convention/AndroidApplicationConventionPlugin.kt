@@ -33,7 +33,6 @@ internal class AndroidApplicationConventionPlugin : Plugin<Project> {
         extensions.configure<BaseAppModuleExtension> {
             configureCommonAndroidOptions(target)
 
-            @Suppress("UnstableApiUsage")
             lint {
                 quiet = false
                 ignoreWarnings = false
