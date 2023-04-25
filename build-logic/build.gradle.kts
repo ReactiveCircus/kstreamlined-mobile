@@ -1,7 +1,6 @@
 import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.gradle.accessors.dm.LibrariesForLibs
 
 plugins {
     `kotlin-dsl`
