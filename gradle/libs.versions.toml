@@ -1,6 +1,6 @@
 [versions]
 kotlin = "1.8.20"
-ksp = "1.8.20-1.0.11"
+ksp = "1.8.21-1.0.11"
 androidGradlePlugin = "8.2.0-alpha02"
 gradle-toolchainsResolverPlugin = "0.4.0"
 appVersioning = "1.3.1"
