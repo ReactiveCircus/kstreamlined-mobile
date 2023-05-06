@@ -1,7 +1,6 @@
 package io.github.reactivecircus.kstreamlined.kmm.test.utils
 
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlin.coroutines.EmptyCoroutineContext
 import kotlin.coroutines.CoroutineContext
 
@@ -9,7 +8,6 @@ import kotlin.coroutines.CoroutineContext
  * Test util that executes [block] with [kotlinx.coroutines.test.runTest] with optional [before] and [after] blocks.
  * Adapted from https://github.com/apollographql/apollo-kotlin/blob/main/apollo-testing-support/src/commonMain/kotlin/com/apollographql/apollo3/testing/internal/runTest.kt.
  */
-@OptIn(ExperimentalCoroutinesApi::class)
 fun runTest(
     context: CoroutineContext = EmptyCoroutineContext,
     before: suspend CoroutineScope.() -> Unit = {},

@@ -1,12 +1,10 @@
 package io.github.reactivecircus.kstreamlined.kmm.data.feed
 
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
-@ExperimentalCoroutinesApi
 class FakeFeedRepoTest {
 
     private val fakeFeedRepo = FakeFeedRepo()
