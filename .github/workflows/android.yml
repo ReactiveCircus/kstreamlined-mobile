@@ -117,10 +117,6 @@ jobs:
         with:
           gradle-home-cache-cleanup: true
 
-      # TODO remove
-      - name: Accept build-tools 34.0.0 license
-        run: echo "y" | /usr/local/lib/android/sdk/cmdline-tools/latest/bin/sdkmanager "build-tools;34.0.0-rc4"
-
       - name: Run detekt, ktlint and Android Lint
         run: |
           ./gradlew detekt lint
