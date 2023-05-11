@@ -97,6 +97,7 @@ android {
             if (rootProject.file("android/secrets/kstreamlined.jks").exists()) {
                 signingConfig = signingConfigs.getByName("release")
             }
+            isShrinkResources = true
             isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "shrinker-rules.pro")
 
