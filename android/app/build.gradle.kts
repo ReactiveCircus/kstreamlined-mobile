@@ -113,7 +113,7 @@ android {
 
             // do not upload mapping file for benchmark builds
             (this as ExtensionAware).extensions.configure<CrashlyticsExtension> {
-                mappingFileUploadEnabled = isCiBuild
+                mappingFileUploadEnabled = false
             }
         }
     }
