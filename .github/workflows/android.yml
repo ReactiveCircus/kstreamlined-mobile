@@ -55,10 +55,6 @@ jobs:
         with:
           gradle-home-cache-cleanup: true
 
-      # TODO remove
-      - name: Accept build-tools 34.0.0 license
-        run: echo "y" | /usr/local/lib/android/sdk/cmdline-tools/latest/bin/sdkmanager "build-tools;34.0.0-rc4"
-
       - name: Assemble dev debug APK and signed release App Bundle
         run: ./gradlew app:assembleDevDebug app:bundleProdRelease
 
@@ -120,10 +116,6 @@ jobs:
       - uses: gradle/gradle-build-action@v2
         with:
           gradle-home-cache-cleanup: true
-
-      # TODO remove
-      - name: Accept build-tools 34.0.0 license
-        run: echo "y" | /usr/local/lib/android/sdk/cmdline-tools/latest/bin/sdkmanager "build-tools;34.0.0-rc4"
 
       - name: Run detekt, ktlint and Android Lint
         run: |
