@@ -38,8 +38,8 @@ internal class AndroidApplicationConventionPlugin : Plugin<Project> {
                 ignoreWarnings = false
                 htmlReport = true
                 xmlReport = true
-                htmlOutput = File("${project.buildDir}/reports/lint/lint-reports.html")
-                xmlOutput = File("${project.buildDir}/reports/lint/lint-reports.xml")
+                htmlOutput = File("${project.layout.buildDirectory.get()}/reports/lint/lint-reports.html")
+                xmlOutput = File("${project.layout.buildDirectory.get()}/reports/lint/lint-reports.xml")
                 checkDependencies = true
                 ignoreTestSources = true
             }

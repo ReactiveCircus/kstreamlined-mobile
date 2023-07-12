@@ -9,7 +9,7 @@ internal class RootPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         // register task for cleaning the build directory in the root project
         target.tasks.register<Delete>("clean") {
-            delete(project.rootProject.buildDir)
+            delete(project.rootProject.layout.buildDirectory)
         }
     }
 }

@@ -52,8 +52,8 @@ internal fun TestedExtension.configureCommonAndroidOptions(project: Project) {
     (this@configureCommonAndroidOptions as ExtensionAware).extensions.configure<KotlinJvmOptions>("kotlinOptions") {
         if (project.providers.gradleProperty("enableComposeCompilerReports").orNull == "true") {
             freeCompilerArgs += buildList {
-                addAll(composeCompilerMetricsArgs(project.buildDir))
-                addAll(composeCompilerReportsArgs(project.buildDir))
+                addAll(composeCompilerMetricsArgs(project.layout.buildDirectory).get())
+                addAll(composeCompilerReportsArgs(project.layout.buildDirectory).get())
             }
         }
     }
