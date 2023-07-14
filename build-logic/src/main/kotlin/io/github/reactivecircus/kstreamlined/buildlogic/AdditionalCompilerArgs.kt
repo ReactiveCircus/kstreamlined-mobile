@@ -14,7 +14,6 @@ internal fun composeCompilerMetricsArgs(buildDir: DirectoryProperty) = buildDir.
     )
 }
 
-
 internal fun composeCompilerReportsArgs(buildDir: DirectoryProperty) = buildDir.dir("compose_metrics").map {
     listOf(
         "-P",
