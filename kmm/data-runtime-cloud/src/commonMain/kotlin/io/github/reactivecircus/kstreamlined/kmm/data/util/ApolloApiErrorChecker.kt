@@ -7,9 +7,7 @@ object ApolloApiErrorChecker : ApiErrorChecker {
     override fun isNetworkError(throwable: Throwable?): Boolean {
         return when (throwable) {
             is ApolloNetworkException -> true
-            is ApolloCompositeException -> {
-                throwable.suppressedExceptions.any { it is ApolloNetworkException }
-            }
+            is ApolloCompositeException -> throwable.suppressedExceptions.any { it is ApolloNetworkException }
             else -> false
         }
     }
