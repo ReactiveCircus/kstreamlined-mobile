@@ -5,10 +5,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalInspectionMode
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 // TODO define color scheme
 
@@ -40,15 +37,4 @@ fun KSTheme(
         colorScheme = colorScheme,
         content = content,
     )
-
-    if (!LocalInspectionMode.current) {
-        val useDarkIcons = !darkTheme
-        val systemUiController = rememberSystemUiController()
-        SideEffect {
-            systemUiController.apply {
-                setStatusBarColor(Color.Transparent, darkIcons = useDarkIcons)
-                setNavigationBarColor(colorScheme.background, darkIcons = useDarkIcons)
-            }
-        }
-    }
 }

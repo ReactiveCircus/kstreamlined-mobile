@@ -1,7 +1,8 @@
-<resources>
-    <!-- Base application theme. -->
-    <style name="KS" parent="android:Theme.Material.NoActionBar">
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:navigationBarColor">@android:color/transparent</item>
+<resources  xmlns:tools="http://schemas.android.com/tools">
+    <style name="Theme.KS.Splash" parent="Theme.SplashScreen">
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">false</item>>
+        <item name="windowSplashScreenBackground">#070426</item>
+        <item name="postSplashScreenTheme">@style/Theme.KS</item>
     </style>
 </resources>

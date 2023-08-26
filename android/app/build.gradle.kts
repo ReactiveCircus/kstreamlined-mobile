@@ -241,10 +241,6 @@ dependencies {
     implementation(libs.androidx.coreSplashscreen)
     implementation(libs.androidx.profileinstaller)
 
-    // TODO move to design module
-    // Compose companion libraries
-    implementation(libs.accompanist.systemUiController)
-
     // Hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
