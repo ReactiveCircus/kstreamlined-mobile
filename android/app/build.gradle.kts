@@ -16,7 +16,7 @@ import java.time.Instant
 plugins {
     id("kstreamlined.android.application")
     id("kstreamlined.android.application.compose")
-    id("kstreamlined.kapt")
+    id("kstreamlined.ksp")
     id("com.google.dagger.hilt.android")
     id("com.google.gms.google-services") apply false
     id("com.google.firebase.firebase-perf")
@@ -243,7 +243,7 @@ dependencies {
 
     // Hilt
     implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
 
     // LeakCanary
     debugImplementation(libs.leakcanary.android)
