@@ -33,7 +33,7 @@ jobs:
       KSTREAMLINED_STORE_PASSWORD: ${{ secrets.KSTREAMLINED_STORE_PASSWORD }}
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -80,7 +80,7 @@ jobs:
       ENABLE_APP_VERSIONING: false
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: gradle/wrapper-validation-action@v1
 
@@ -104,7 +104,7 @@ jobs:
       ENABLE_APP_VERSIONING: false
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: gradle/wrapper-validation-action@v1
 
@@ -133,7 +133,7 @@ jobs:
       ENABLE_APP_VERSIONING: false
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: gradle/wrapper-validation-action@v1
 
@@ -178,7 +178,7 @@ jobs:
       ENABLE_APP_VERSIONING: false
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: gradle/wrapper-validation-action@v1
 
