@@ -6,5 +6,6 @@ internal fun LanguageSettingsBuilder.applyLanguageSettings(): LanguageSettingsBu
     return apply {
         progressiveMode = true
         optIn("kotlin.RequiresOptIn")
+        optIn("kotlin.experimental.ExperimentalObjCName")
     }
 }
