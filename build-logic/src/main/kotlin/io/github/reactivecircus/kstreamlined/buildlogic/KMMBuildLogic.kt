@@ -1,11 +1,6 @@
-@file:Suppress("UNUSED_VARIABLE")
-
 package io.github.reactivecircus.kstreamlined.buildlogic
 
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.creating
-import org.gradle.kotlin.dsl.getValue
-import org.gradle.kotlin.dsl.getting
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.KotlinCommonCompile
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
@@ -28,23 +23,7 @@ internal fun KotlinMultiplatformExtension.configureKMMCommon(
         iosX64()
     }
 
-    with(sourceSets) {
-        val commonMain by getting
-        val iosArm64Main by getting
-        val iosMain by creating {
-            dependsOn(commonMain)
-            iosArm64Main.dependsOn(this)
-            if (project.isAppleSilicon) {
-                val iosSimulatorArm64Main by getting
-                iosSimulatorArm64Main.dependsOn(this)
-            } else {
-                val iosX64Main by getting
-                iosX64Main.dependsOn(this)
-            }
-        }
-    }
-
-    sourceSets.all {
+    sourceSets.configureEach {
         languageSettings {
             applyLanguageSettings()
         }
@@ -54,38 +33,18 @@ internal fun KotlinMultiplatformExtension.configureKMMCommon(
 /**
  * Apply test configs to KMM project.
  */
-internal fun KotlinMultiplatformExtension.configureKMMTest(
-    project: Project,
-    enableJvmTest: Boolean = true,
-    enableIosTest: Boolean = true,
-) {
+internal fun KotlinMultiplatformExtension.configureKMMTest() {
     with(sourceSets) {
-        val commonTest by getting {
+        commonTest {
             dependencies {
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
             }
         }
-        if (enableJvmTest) {
-            val jvmTest by getting {
-                dependencies {
-                    implementation(kotlin("test"))
-                    implementation(kotlin("test-junit"))
-                }
-            }
-        }
-        if (enableIosTest) {
-            val iosArm64Test by getting
-            val iosTest by creating {
-                dependsOn(commonTest)
-                iosArm64Test.dependsOn(this)
-                if (project.isAppleSilicon) {
-                    val iosSimulatorArm64Test by getting
-                    iosSimulatorArm64Test.dependsOn(this)
-                } else {
-                    val iosX64Test by getting
-                    iosX64Test.dependsOn(this)
-                }
+        jvmTest {
+            dependencies {
+                implementation(kotlin("test"))
+                implementation(kotlin("test-junit"))
             }
         }
     }

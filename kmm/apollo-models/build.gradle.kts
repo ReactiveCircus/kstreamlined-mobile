@@ -14,7 +14,7 @@ apollo {
 
 kotlin {
     sourceSets {
-        val commonMain by getting {
+        commonMain {
             dependencies {
                 api(libs.apollo.api)
             }

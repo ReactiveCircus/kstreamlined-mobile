@@ -1,3 +1,5 @@
+import com.android.build.api.variant.HasUnitTestBuilder
+
 plugins {
     id("kstreamlined.android.library")
     id("kstreamlined.android.library.compose")
@@ -12,7 +14,7 @@ android {
 
 androidComponents {
     beforeVariants {
-        it.enableUnitTest = false
+        (it as HasUnitTestBuilder).enableUnitTest = false
         it.enableAndroidTest = false
     }
 }

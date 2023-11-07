@@ -11,7 +11,7 @@ internal class KMMTestConventionPlugin : Plugin<Project> {
         pluginManager.apply("org.jetbrains.kotlin.multiplatform")
 
         extensions.configure<KotlinMultiplatformExtension> {
-            configureKMMTest(target)
+            configureKMMTest()
         }
     }
 }

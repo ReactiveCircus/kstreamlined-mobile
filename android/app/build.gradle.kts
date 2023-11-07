@@ -1,3 +1,4 @@
+import com.android.build.api.variant.HasUnitTestBuilder
 import com.google.firebase.crashlytics.buildtools.gradle.CrashlyticsExtension
 import com.google.firebase.perf.plugin.FirebasePerfExtension
 import io.github.reactivecircus.kstreamlined.buildlogic.FlavorDimensions
@@ -169,7 +170,7 @@ androidComponents {
         it.enable = it.flavorName == ProductFlavors.PROD && it.buildType == "release"
             || it.flavorName != ProductFlavors.PROD && it.buildType == "debug"
             || it.flavorName == ProductFlavors.DEV && it.buildType == "benchmark"
-        it.enableUnitTest = false
+        (it as HasUnitTestBuilder).enableUnitTest = false
         it.enableAndroidTest = false
     }
 

@@ -3,6 +3,7 @@
 package io.github.reactivecircus.kstreamlined.buildlogic
 
 import com.android.build.api.variant.ApplicationAndroidComponentsExtension
+import com.android.build.api.variant.HasUnitTestBuilder
 import com.android.build.api.variant.LibraryAndroidComponentsExtension
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.findByType
@@ -21,29 +22,29 @@ internal fun Project.configureSlimTests() {
         // disable unit test tasks on the release, benchmark build types for Android Library projects
         extensions.findByType<LibraryAndroidComponentsExtension>()?.run {
             beforeVariants(selector().withBuildType("release")) {
-                it.enableUnitTest = false
+                (it as HasUnitTestBuilder).enableUnitTest = false
             }
             beforeVariants(selector().withBuildType("benchmark")) {
-                it.enableUnitTest = false
+                (it as HasUnitTestBuilder).enableUnitTest = false
             }
         }
 
         // disable unit test tasks on the release, benchmark build types and all non-dev flavors for Android Application projects.
         extensions.findByType<ApplicationAndroidComponentsExtension>()?.run {
             beforeVariants(selector().withBuildType("release")) {
-                it.enableUnitTest = false
+                (it as HasUnitTestBuilder).enableUnitTest = false
             }
             beforeVariants(selector().withBuildType("benchmark")) {
-                it.enableUnitTest = false
+                (it as HasUnitTestBuilder).enableUnitTest = false
             }
             beforeVariants(selector().withFlavor(FlavorDimensions.ENVIRONMENT to ProductFlavors.DEMO)) {
-                it.enableUnitTest = false
+                (it as HasUnitTestBuilder).enableUnitTest = false
             }
             beforeVariants(selector().withFlavor(FlavorDimensions.ENVIRONMENT to ProductFlavors.MOCK)) {
-                it.enableUnitTest = false
+                (it as HasUnitTestBuilder).enableUnitTest = false
             }
             beforeVariants(selector().withFlavor(FlavorDimensions.ENVIRONMENT to ProductFlavors.PROD)) {
-                it.enableUnitTest = false
+                (it as HasUnitTestBuilder).enableUnitTest = false
             }
         }
     }

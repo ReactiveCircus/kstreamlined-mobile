@@ -5,7 +5,7 @@ plugins {
 
 kotlin {
     sourceSets {
-        val commonMain by getting {
+        commonMain {
             dependencies {
                 api(project(":kmm:data-common"))
                 api(libs.apollo.runtime)
@@ -14,7 +14,7 @@ kotlin {
                 implementation(libs.kermit)
             }
         }
-        val commonTest by getting {
+        commonTest {
             dependencies {
                 implementation(project(":kmm:test-utils"))
                 implementation(libs.apollo.testingSupport)

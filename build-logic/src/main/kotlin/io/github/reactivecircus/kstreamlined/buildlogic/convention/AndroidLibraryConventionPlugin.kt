@@ -24,7 +24,7 @@ internal class AndroidLibraryConventionPlugin : Plugin<Project> {
 
         extensions.configure<KotlinAndroidProjectExtension> {
             configureKotlinJvm(target)
-            sourceSets.all {
+            sourceSets.configureEach {
                 languageSettings {
                     applyLanguageSettings()
                 }
