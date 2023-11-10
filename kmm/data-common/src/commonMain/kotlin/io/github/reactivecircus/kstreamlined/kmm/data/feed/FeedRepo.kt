@@ -1,17 +1,16 @@
 package io.github.reactivecircus.kstreamlined.kmm.data.feed
 
-import io.github.reactivecircus.kstreamlined.kmm.apollo.FeedEntriesQuery
-import io.github.reactivecircus.kstreamlined.kmm.apollo.FeedSourcesQuery
-import io.github.reactivecircus.kstreamlined.kmm.apollo.type.FeedSourceKey
+import io.github.reactivecircus.kstreamlined.kmm.data.feed.model.FeedEntry
+import io.github.reactivecircus.kstreamlined.kmm.data.feed.model.FeedSource
 
 interface FeedRepo {
 
     suspend fun loadFeedSources(
         refresh: Boolean = false
-    ): List<FeedSourcesQuery.FeedSource>
+    ): List<FeedSource>
 
     suspend fun loadFeedEntries(
-        filters: List<FeedSourceKey>? = null,
+        filters: List<FeedSource.Key>? = null,
         refresh: Boolean = false,
-    ): List<FeedEntriesQuery.FeedEntry>
+    ): List<FeedEntry>
 }

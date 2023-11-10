@@ -1,29 +1,28 @@
 package io.github.reactivecircus.kstreamlined.kmm.data.feed
 
-import io.github.reactivecircus.kstreamlined.kmm.apollo.FeedEntriesQuery
-import io.github.reactivecircus.kstreamlined.kmm.apollo.FeedSourcesQuery
-import io.github.reactivecircus.kstreamlined.kmm.apollo.type.FeedSourceKey
+import io.github.reactivecircus.kstreamlined.kmm.data.feed.model.FeedEntry
+import io.github.reactivecircus.kstreamlined.kmm.data.feed.model.FeedSource
 
 class FakeFeedRepo : FeedRepo {
 
-    var nextFeedSourcesResponse: suspend () -> List<FeedSourcesQuery.FeedSource> = {
+    var nextFeedSourcesResponse: suspend () -> List<FeedSource> = {
         FakeFeedSources
     }
 
     var nextFeedEntriesResponse: suspend (
-        filters: List<FeedSourceKey>?
-    ) -> List<FeedEntriesQuery.FeedEntry> = {
+        filters: List<FeedSource.Key>?
+    ) -> List<FeedEntry> = {
         FakeFeedEntries
     }
 
-    override suspend fun loadFeedSources(refresh: Boolean): List<FeedSourcesQuery.FeedSource> {
+    override suspend fun loadFeedSources(refresh: Boolean): List<FeedSource> {
         return nextFeedSourcesResponse()
     }
 
     override suspend fun loadFeedEntries(
-        filters: List<FeedSourceKey>?,
+        filters: List<FeedSource.Key>?,
         refresh: Boolean,
-    ): List<FeedEntriesQuery.FeedEntry> {
+    ): List<FeedEntry> {
         return nextFeedEntriesResponse(filters)
     }
 }

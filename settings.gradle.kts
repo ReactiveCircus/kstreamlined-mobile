@@ -54,7 +54,6 @@ plugins {
 rootProject.name = "kstreamlined-mobile"
 
 // KMM
-include(":kmm:apollo-models")
 include(":kmm:data-common")
 include(":kmm:data-runtime-cloud")
 include(":kmm:data-runtime-edge")

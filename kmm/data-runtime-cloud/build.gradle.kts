@@ -1,6 +1,16 @@
 plugins {
     id("kstreamlined.kmm.jvm-and-ios")
     id("kstreamlined.kmm.test")
+    id("com.apollographql.apollo3")
+}
+
+apollo {
+    service("kstreamlined") {
+        packageName.set("io.github.reactivecircus.kstreamlined.graphql")
+        codegenModels.set("responseBased")
+        flattenModels.set(true)
+        generateDataBuilders.set(true)
+    }
 }
 
 kotlin {

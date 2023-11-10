@@ -11,11 +11,12 @@ import com.apollographql.apollo3.exception.CacheMissException
 import com.apollographql.apollo3.mockserver.MockResponse
 import com.apollographql.apollo3.mockserver.MockServer
 import com.apollographql.apollo3.testing.enqueue
-import io.github.reactivecircus.kstreamlined.kmm.apollo.FeedEntriesQuery
-import io.github.reactivecircus.kstreamlined.kmm.apollo.FeedSourcesQuery
-import io.github.reactivecircus.kstreamlined.kmm.apollo.type.buildFeedSource
-import io.github.reactivecircus.kstreamlined.kmm.apollo.type.buildKotlinBlog
-import io.github.reactivecircus.kstreamlined.kmm.apollo.type.buildKotlinYouTube
+import io.github.reactivecircus.kstreamlined.graphql.FeedEntriesQuery
+import io.github.reactivecircus.kstreamlined.graphql.FeedSourcesQuery
+import io.github.reactivecircus.kstreamlined.graphql.type.buildFeedSource
+import io.github.reactivecircus.kstreamlined.graphql.type.buildKotlinBlog
+import io.github.reactivecircus.kstreamlined.graphql.type.buildKotlinYouTube
+import io.github.reactivecircus.kstreamlined.kmm.data.feed.mapper.toModel
 import io.github.reactivecircus.kstreamlined.kmm.test.utils.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -73,7 +74,7 @@ class CloudFeedRepoTest {
                 FeedSourcesQuery.Data(feedSources = dummyFeedSources)
             )
             val actual = cloudFeedRepo.loadFeedSources(refresh = true)
-            assertEquals(dummyFeedSources, actual)
+            assertEquals(dummyFeedSources.map { it.toModel() }, actual)
         }
 
     @Test
@@ -98,7 +99,7 @@ class CloudFeedRepoTest {
                 FeedSourcesQuery.Data(feedSources = dummyFeedSources)
             )
             val actual = cloudFeedRepo.loadFeedSources(refresh = false)
-            assertEquals(dummyFeedSources, actual)
+            assertEquals(dummyFeedSources.map { it.toModel() }, actual)
         }
 
     @Test
@@ -118,7 +119,7 @@ class CloudFeedRepoTest {
                     .build()
             )
             val actual = cloudFeedRepo.loadFeedSources(refresh = false)
-            assertEquals(dummyFeedSources, actual)
+            assertEquals(dummyFeedSources.map { it.toModel() }, actual)
         }
 
     @Test
@@ -147,7 +148,7 @@ class CloudFeedRepoTest {
                 filters = null,
                 refresh = true,
             )
-            assertEquals(dummyFeedEntries, actual)
+            assertEquals(dummyFeedEntries.map { it.toModel() }, actual)
         }
 
     @Test
@@ -178,7 +179,7 @@ class CloudFeedRepoTest {
                 filters = null,
                 refresh = false,
             )
-            assertEquals(dummyFeedEntries, actual)
+            assertEquals(dummyFeedEntries.map { it.toModel() }, actual)
         }
 
     @Test
@@ -204,7 +205,7 @@ class CloudFeedRepoTest {
                 filters = null,
                 refresh = false,
             )
-            assertEquals(dummyFeedEntries, actual)
+            assertEquals(dummyFeedEntries.map { it.toModel() }, actual)
         }
 
     @Test
