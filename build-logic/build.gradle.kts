@@ -53,10 +53,6 @@ tasks.withType<Detekt>().configureEach {
     }
 }
 
-val kotlinVersion: Provider<String> = providers
-    .gradleProperty("kotlinVersion")
-    .orElse(libs.versions.kotlin)
-
 dependencies {
     // TODO: remove once https://github.com/gradle/gradle/issues/15383#issuecomment-779893192 is fixed
     implementation(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
@@ -64,11 +60,7 @@ dependencies {
     // enable Ktlint formatting
     add("detektPlugins", libs.plugin.detektFormatting)
 
-    implementation(libs.plugin.kotlin.flatMap { dependency ->
-        kotlinVersion.map { version ->
-            "${dependency.group}:${dependency.name}:$version"
-        }
-    })
+    implementation(libs.plugin.kotlin)
     implementation(libs.plugin.ksp)
     implementation(libs.plugin.detekt)
     implementation(libs.plugin.agp)
