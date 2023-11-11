@@ -53,13 +53,13 @@ plugins {
 
 rootProject.name = "kstreamlined-mobile"
 
-// KMM
-include(":kmm:data-common")
-include(":kmm:data-runtime-cloud")
-include(":kmm:data-runtime-edge")
-include(":kmm:data-testing")
-include(":kmm:core-utils")
-include(":kmm:test-utils")
+// KMP
+include(":kmp:data-common")
+include(":kmp:data-runtime-cloud")
+include(":kmp:data-runtime-edge")
+include(":kmp:data-testing")
+include(":kmp:core-utils")
+include(":kmp:test-utils")
 
 val isXCFrameworkBuild = startParameter.taskNames.any { it.endsWith("XCFramework") }
 if (!isXCFrameworkBuild) {

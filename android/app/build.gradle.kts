@@ -225,10 +225,10 @@ androidComponents {
 }
 
 dependencies {
-    mockImplementation(project(":kmm:data-testing"))
-    devImplementation(project(":kmm:data-runtime-cloud"))
-    demoImplementation(project(":kmm:data-runtime-edge"))
-    prodImplementation(project(":kmm:data-runtime-cloud"))
+    mockImplementation(project(":kmp:data-testing"))
+    devImplementation(project(":kmp:data-runtime-cloud"))
+    demoImplementation(project(":kmp:data-runtime-edge"))
+    prodImplementation(project(":kmp:data-runtime-cloud"))
 
     implementation(project(":ui-common"))
 

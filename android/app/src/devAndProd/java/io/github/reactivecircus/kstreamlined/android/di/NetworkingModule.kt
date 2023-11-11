@@ -9,7 +9,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import io.github.reactivecircus.kstreamlined.android.BuildConfig
-import io.github.reactivecircus.kstreamlined.kmm.data.networking.ApolloClientConfigs
+import io.github.reactivecircus.kstreamlined.kmp.data.networking.ApolloClientConfigs
 import javax.inject.Singleton
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration

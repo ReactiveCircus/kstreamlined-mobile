@@ -103,17 +103,17 @@ gradlePlugin {
             id = "kstreamlined.android.test"
             implementationClass = "io.github.reactivecircus.kstreamlined.buildlogic.convention.AndroidTestConventionPlugin"
         }
-        register("kmmJvmAndIos") {
-            id = "kstreamlined.kmm.jvm-and-ios"
-            implementationClass = "io.github.reactivecircus.kstreamlined.buildlogic.convention.KMMJvmAndIosConventionPlugin"
+        register("kmpCommon") {
+            id = "kstreamlined.kmp.common"
+            implementationClass = "io.github.reactivecircus.kstreamlined.buildlogic.convention.KMPCommonConventionPlugin"
         }
-        register("kmmIosOnly") {
-            id = "kstreamlined.kmm.ios-only"
-            implementationClass = "io.github.reactivecircus.kstreamlined.buildlogic.convention.KMMIosOnlyConventionPlugin"
+        register("kmpOosOnly") {
+            id = "kstreamlined.kmp.ios-only"
+            implementationClass = "io.github.reactivecircus.kstreamlined.buildlogic.convention.KMPIosOnlyConventionPlugin"
         }
-        register("kmmTest") {
-            id = "kstreamlined.kmm.test"
-            implementationClass = "io.github.reactivecircus.kstreamlined.buildlogic.convention.KMMTestConventionPlugin"
+        register("kmpTest") {
+            id = "kstreamlined.kmp.test"
+            implementationClass = "io.github.reactivecircus.kstreamlined.buildlogic.convention.KMPTestConventionPlugin"
         }
         register("ksp") {
             id = "kstreamlined.ksp"

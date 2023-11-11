@@ -20,7 +20,7 @@ androidComponents {
 }
 
 dependencies {
-    // TODO add project dependencies
+    api(project(":kmp:data-common"))
 
     // AndroidX
     api(libs.androidx.core)
