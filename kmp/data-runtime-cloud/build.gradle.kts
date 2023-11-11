@@ -1,3 +1,5 @@
+import io.github.reactivecircus.kstreamlined.buildlogic.envOrProp
+
 plugins {
     id("kstreamlined.kmp.common")
     id("kstreamlined.kmp.test")
@@ -7,9 +9,13 @@ plugins {
 apollo {
     service("kstreamlined") {
         packageName.set("io.github.reactivecircus.kstreamlined.graphql")
-        codegenModels.set("responseBased")
-        flattenModels.set(true)
+        codegenModels.set("experimental_operationBasedWithInterfaces")
+        generateMethods.set(listOf("equalsHashCode", "toString"))
+        generateInputBuilders.set(true)
         generateDataBuilders.set(true)
+        introspection {
+            endpointUrl.set(envOrProp("KSTREAMLINED_API_ENDPOINT"))
+        }
     }
 }
 

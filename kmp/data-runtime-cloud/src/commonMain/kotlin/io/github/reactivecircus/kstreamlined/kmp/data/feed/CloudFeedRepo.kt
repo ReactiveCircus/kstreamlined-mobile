@@ -18,7 +18,7 @@ class CloudFeedRepo(private val apolloClient: ApolloClient) : FeedRepo {
             apolloClient.query(FeedSourcesQuery())
                 .defaultFetchPolicy(refresh)
                 .execute()
-                .dataAssertNoErrors.feedSources
+                .dataOrThrow().feedSources
         }.onFailure {
             Logger.w("Query failed", it)
         }.getOrThrow().map { it.toModel() }
@@ -36,7 +36,7 @@ class CloudFeedRepo(private val apolloClient: ApolloClient) : FeedRepo {
             )
                 .defaultFetchPolicy(refresh)
                 .execute()
-                .dataAssertNoErrors.feedEntries
+                .dataOrThrow().feedEntries
         }.onFailure {
             Logger.w("Query failed", it)
         }.getOrThrow().map { it.toModel() }

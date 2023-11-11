@@ -3,7 +3,6 @@ package io.github.reactivecircus.kstreamlined.kmp.data.feed.mapper
 import io.github.reactivecircus.kstreamlined.graphql.FeedSourcesQuery
 import io.github.reactivecircus.kstreamlined.graphql.type.FeedSourceKey
 import io.github.reactivecircus.kstreamlined.kmp.data.feed.model.FeedSource
-import io.github.reactivecircus.kstreamlined.kmp.data.feed.model.FeedSource.Key
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
@@ -20,7 +19,7 @@ class FeedSourceMappersTest {
 
     @Test
     fun `FeedSourcesQuery_FeedSource maps to expected FeedSource`() {
-        FeedSource.Key.values().forEach { key ->
+        FeedSource.Key.entries.forEach { key ->
             val apolloKey = key.toApollo()
             val apolloFeedSource = FeedSourcesQuery.FeedSource(
                 key = apolloKey,

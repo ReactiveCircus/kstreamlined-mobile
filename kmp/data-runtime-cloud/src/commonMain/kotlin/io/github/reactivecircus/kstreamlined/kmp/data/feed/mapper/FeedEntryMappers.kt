@@ -19,8 +19,8 @@ internal fun FeedEntriesQuery.KotlinBlogFeedEntry.toModel(): FeedEntry.KotlinBlo
         title = this.title,
         publishTimestamp = this.publishTimestamp,
         contentUrl = this.contentUrl,
-        featuredImageUrl = this.featuredImageUrl,
-        description = this.description,
+        featuredImageUrl = this.onKotlinBlog.featuredImageUrl,
+        description = this.onKotlinBlog.description,
     )
 }
 
@@ -30,8 +30,8 @@ internal fun FeedEntriesQuery.KotlinYouTubeFeedEntry.toModel(): FeedEntry.Kotlin
         title = this.title,
         publishTimestamp = this.publishTimestamp,
         contentUrl = this.contentUrl,
-        thumbnailUrl = this.thumbnailUrl,
-        description = this.description,
+        thumbnailUrl = this.onKotlinYouTube.thumbnailUrl,
+        description = this.onKotlinYouTube.description,
     )
 }
 
@@ -41,8 +41,8 @@ internal fun FeedEntriesQuery.TalkingKotlinFeedEntry.toModel(): FeedEntry.Talkin
         title = this.title,
         publishTimestamp = this.publishTimestamp,
         contentUrl = this.contentUrl,
-        podcastLogoUrl = this.podcastLogoUrl,
-        tags = this.tags,
+        podcastLogoUrl = this.onTalkingKotlin.podcastLogoUrl,
+        tags = this.onTalkingKotlin.tags,
     )
 }
 
@@ -52,6 +52,6 @@ internal fun FeedEntriesQuery.KotlinWeeklyFeedEntry.toModel(): FeedEntry.KotlinW
         title = this.title,
         publishTimestamp = this.publishTimestamp,
         contentUrl = this.contentUrl,
-        newsletterLogoUrl = this.newsletterLogoUrl,
+        newsletterLogoUrl = this.onKotlinWeekly.newsletterLogoUrl,
     )
 }
