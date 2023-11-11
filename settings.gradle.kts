@@ -1,3 +1,5 @@
+import com.android.build.api.dsl.SettingsExtension
+
 pluginManagement {
     includeBuild("build-logic")
     repositories {
@@ -16,19 +18,21 @@ pluginManagement {
         mavenCentral()
     }
 
-    val gradleToolchainsResolverVersion = file("$rootDir/gradle/libs.versions.toml")
+    fun extractVersionFromCatalog(key: String) = file("$rootDir/gradle/libs.versions.toml")
         .readLines()
-        .first { it.contains("gradle-toolchainsResolverPlugin") }
+        .first { it.contains(key) }
         .substringAfter("=")
         .trim()
         .removeSurrounding("\"")
 
     plugins {
-        id("org.gradle.toolchains.foojay-resolver-convention") version gradleToolchainsResolverVersion
+        id("org.gradle.toolchains.foojay-resolver-convention") version extractVersionFromCatalog("gradle-toolchainsResolverPlugin")
+        id("com.android.settings") version extractVersionFromCatalog("androidGradlePlugin")
     }
 }
 
 dependencyResolutionManagement {
+    @Suppress("UnstableApiUsage")
     repositories {
         google {
             content {
@@ -49,6 +53,7 @@ dependencyResolutionManagement {
 
 plugins {
     id("org.gradle.toolchains.foojay-resolver-convention")
+    id("com.android.settings")
 }
 
 rootProject.name = "kstreamlined-mobile"
@@ -71,4 +76,24 @@ if (!isXCFrameworkBuild) {
 fun includeProject(name: String, filePath: String) {
     include(name)
     project(name).projectDir = File(filePath)
+}
+
+settings.extensions.configure<SettingsExtension> {
+    execution {
+        profiles {
+            create("local") {
+                r8 {
+                    r8.jvmOptions += "-Xms8g -Xmx8g -XX:+UseZGC -XX:+ZGenerational -XX:+HeapDumpOnOutOfMemoryError".split(" ")
+                    r8.runInSeparateProcess = true
+                }
+            }
+            create("ci") {
+                r8 {
+                    r8.jvmOptions += "-Xms8g -Xmx8g -XX:+UseParallelGC -XX:+HeapDumpOnOutOfMemoryError".split(" ")
+                    r8.runInSeparateProcess = true
+                }
+            }
+            defaultProfile = "local"
+        }
+    }
 }
