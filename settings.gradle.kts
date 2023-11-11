@@ -89,7 +89,7 @@ settings.extensions.configure<SettingsExtension> {
             }
             create("ci") {
                 r8 {
-                    r8.jvmOptions += "-Xms8g -Xmx8g -XX:+UseParallelGC -XX:+HeapDumpOnOutOfMemoryError".split(" ")
+                    r8.jvmOptions += "-Xms4g -Xmx4g -XX:+UseZGC -XX:+ZGenerational -XX:+HeapDumpOnOutOfMemoryError".split(" ")
                     r8.runInSeparateProcess = true
                 }
             }
