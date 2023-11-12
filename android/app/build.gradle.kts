@@ -225,12 +225,12 @@ androidComponents {
 }
 
 dependencies {
-    mockImplementation(project(":kmp:data-testing"))
-    devImplementation(project(":kmp:data-runtime-cloud"))
-    demoImplementation(project(":kmp:data-runtime-edge"))
-    prodImplementation(project(":kmp:data-runtime-cloud"))
+    mockImplementation(project(":kmp:datasource:testing"))
+    devImplementation(project(":kmp:datasource:runtime-cloud"))
+    demoImplementation(project(":kmp:datasource:runtime-edge"))
+    prodImplementation(project(":kmp:datasource:runtime-cloud"))
 
-    implementation(project(":ui-common"))
+    implementation(project(":feature:common"))
 
     // Firebase
     releaseImplementation(libs.firebase.perf)

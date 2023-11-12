@@ -59,10 +59,10 @@ plugins {
 rootProject.name = "kstreamlined-mobile"
 
 // KMP
-include(":kmp:data-common")
-include(":kmp:data-runtime-cloud")
-include(":kmp:data-runtime-edge")
-include(":kmp:data-testing")
+include(":kmp:datasource:common")
+include(":kmp:datasource:runtime-cloud")
+include(":kmp:datasource:runtime-edge")
+include(":kmp:datasource:testing")
 include(":kmp:core-utils")
 include(":kmp:test-utils")
 
@@ -70,7 +70,7 @@ val isXCFrameworkBuild = startParameter.taskNames.any { it.endsWith("XCFramework
 if (!isXCFrameworkBuild) {
     // Android
     includeProject(":app", "android/app")
-    includeProject(":ui-common", "android/ui/ui-common")
+    includeProject(":feature:common", "android/feature/common")
 }
 
 fun includeProject(name: String, filePath: String) {

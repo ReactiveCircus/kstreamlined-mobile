@@ -4,10 +4,10 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import io.github.reactivecircus.kstreamlined.kmp.data.feed.EdgeFeedRepo
-import io.github.reactivecircus.kstreamlined.kmp.data.feed.FeedRepo
-import io.github.reactivecircus.kstreamlined.kmp.data.util.ApiErrorChecker
-import io.github.reactivecircus.kstreamlined.kmp.data.util.KtorApiErrorChecker
+import io.github.reactivecircus.kstreamlined.kmp.datasource.EdgeFeedDataSource
+import io.github.reactivecircus.kstreamlined.kmp.datasource.FeedDataSource
+import io.github.reactivecircus.kstreamlined.kmp.datasource.util.ApiErrorChecker
+import io.github.reactivecircus.kstreamlined.kmp.datasource.util.KtorApiErrorChecker
 import javax.inject.Singleton
 
 @Module
@@ -16,8 +16,8 @@ object EdgeDataModule {
 
     @Provides
     @Singleton
-    fun feedRepo(): FeedRepo {
-        return EdgeFeedRepo()
+    fun feedDataSource(): FeedDataSource {
+        return EdgeFeedDataSource()
     }
 
     @Provides

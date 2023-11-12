@@ -4,10 +4,10 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import io.github.reactivecircus.kstreamlined.kmp.data.feed.FakeFeedRepo
-import io.github.reactivecircus.kstreamlined.kmp.data.feed.FeedRepo
-import io.github.reactivecircus.kstreamlined.kmp.data.util.ApiErrorChecker
-import io.github.reactivecircus.kstreamlined.kmp.data.util.NoOpApiErrorChecker
+import io.github.reactivecircus.kstreamlined.kmp.datasource.FakeFeedDataSource
+import io.github.reactivecircus.kstreamlined.kmp.datasource.FeedDataSource
+import io.github.reactivecircus.kstreamlined.kmp.datasource.util.ApiErrorChecker
+import io.github.reactivecircus.kstreamlined.kmp.datasource.util.NoOpApiErrorChecker
 import javax.inject.Singleton
 
 @Module
@@ -16,8 +16,8 @@ object MockDataModule {
 
     @Provides
     @Singleton
-    fun feedRepo(): FeedRepo {
-        return FakeFeedRepo()
+    fun feedDataSource(): FeedDataSource {
+        return FakeFeedDataSource()
     }
 
     @Provides

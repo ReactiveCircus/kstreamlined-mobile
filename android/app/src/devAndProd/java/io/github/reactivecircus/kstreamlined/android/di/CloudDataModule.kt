@@ -5,10 +5,10 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import io.github.reactivecircus.kstreamlined.kmp.data.feed.CloudFeedRepo
-import io.github.reactivecircus.kstreamlined.kmp.data.feed.FeedRepo
-import io.github.reactivecircus.kstreamlined.kmp.data.util.ApiErrorChecker
-import io.github.reactivecircus.kstreamlined.kmp.data.util.ApolloApiErrorChecker
+import io.github.reactivecircus.kstreamlined.kmp.datasource.CloudFeedDataSource
+import io.github.reactivecircus.kstreamlined.kmp.datasource.FeedDataSource
+import io.github.reactivecircus.kstreamlined.kmp.datasource.util.ApiErrorChecker
+import io.github.reactivecircus.kstreamlined.kmp.datasource.util.ApolloApiErrorChecker
 import javax.inject.Singleton
 
 @Module
@@ -17,8 +17,8 @@ object CloudDataModule {
 
     @Provides
     @Singleton
-    fun feedRepo(apolloClient: ApolloClient): FeedRepo {
-        return CloudFeedRepo(apolloClient)
+    fun feedDataSource(apolloClient: ApolloClient): FeedDataSource {
+        return CloudFeedDataSource(apolloClient)
     }
 
     @Provides
