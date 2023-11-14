@@ -47,6 +47,7 @@ androidx-test-uiautomator = "2.2.0"
 coil = "2.5.0"
 kermit = "2.0.2"
 radiography = "2.5"
+sqldelight = "2.0.0"
 turbine = "1.0.0"
 crashKios = "0.8.5"
 
@@ -67,6 +68,7 @@ plugin-detektFormatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatt
 plugin-playPublisher = { module = "com.github.triplet.gradle:play-publisher", version.ref = "playPublisher"}
 plugin-fladle = { module = "com.osacky.flank.gradle:fladle", version.ref = "fladle"}
 plugin-nativeCoroutines = { module = "com.rickclephas.kmp.nativecoroutines:com.rickclephas.kmp.nativecoroutines.gradle.plugin", version.ref = "nativeCoroutines"}
+plugin-sqldelight = { module = "app.cash.sqldelight:app.cash.sqldelight.gradle.plugin", version.ref = "sqldelight"}
 desugarJdkLibs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugarJdkLibs" }
 leakcanary-android = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanary" }
 leakcanary-plumber = { module = "com.squareup.leakcanary:plumber-android", version.ref = "leakcanary" }
@@ -115,6 +117,8 @@ apollo-normalizedCache = { module = "com.apollographql.apollo3:apollo-normalized
 apollo-testingSupport = { module = "com.apollographql.apollo3:apollo-testing-support", version.ref = "apollo" }
 kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
 radiography = { module = "com.squareup.radiography:radiography", version.ref = "radiography" }
+sqldelight-androidDriver = { module = "app.cash.sqldelight:android-driver", version.ref = "sqldelight" }
+sqldelight-nativeDriver = { module = "app.cash.sqldelight:native-driver", version.ref = "sqldelight" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 crashKios = { module = "co.touchlab:crashkios", version.ref = "crashKios" }
 

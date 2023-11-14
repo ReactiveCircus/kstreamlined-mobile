@@ -4,10 +4,10 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import io.github.reactivecircus.kstreamlined.kmp.datasource.EdgeFeedDataSource
-import io.github.reactivecircus.kstreamlined.kmp.datasource.FeedDataSource
-import io.github.reactivecircus.kstreamlined.kmp.datasource.util.ApiErrorChecker
-import io.github.reactivecircus.kstreamlined.kmp.datasource.util.KtorApiErrorChecker
+import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.EdgeFeedDataSource
+import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.FeedDataSource
+import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.util.ApiErrorChecker
+import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.util.KtorApiErrorChecker
 import javax.inject.Singleton
 
 @Module

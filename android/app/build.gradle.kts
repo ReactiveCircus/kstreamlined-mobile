@@ -225,10 +225,12 @@ androidComponents {
 }
 
 dependencies {
-    mockImplementation(project(":kmp:datasource:testing"))
-    devImplementation(project(":kmp:datasource:runtime-cloud"))
-    demoImplementation(project(":kmp:datasource:runtime-edge"))
-    prodImplementation(project(":kmp:datasource:runtime-cloud"))
+    mockImplementation(project(":kmp:feed-datasource:testing"))
+    devImplementation(project(":kmp:feed-datasource:cloud"))
+    demoImplementation(project(":kmp:feed-datasource:edge"))
+    prodImplementation(project(":kmp:feed-datasource:cloud"))
+    implementation(project(":kmp:persistence"))
+    implementation(project(":kmp:data"))
 
     implementation(project(":feature:common"))
 
@@ -245,6 +247,10 @@ dependencies {
     // Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
+
+    // SQLDelight
+    implementation(libs.sqldelight.androidDriver)
+
 
     // LeakCanary
     debugImplementation(libs.leakcanary.android)

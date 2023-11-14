@@ -1,0 +1,11 @@
+import kotlin.Boolean;
+
+CREATE TABLE feedItemEntity (
+    id TEXT NOT NULL PRIMARY KEY,
+    title TEXT NOT NULL,
+    publishTimestamp TEXT NOT NULL,
+    savedForLater INTEGER AS Boolean NOT NULL
+);
+
+findAllFeedItems:
+SELECT * FROM feedItemEntity;

@@ -75,6 +75,7 @@ dependencies {
     implementation(libs.plugin.playPublisher)
     implementation(libs.plugin.fladle)
     implementation(libs.plugin.nativeCoroutines)
+    implementation(libs.plugin.sqldelight)
 }
 
 gradlePlugin {
