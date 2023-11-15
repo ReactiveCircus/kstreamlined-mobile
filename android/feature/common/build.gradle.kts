@@ -20,15 +20,16 @@ androidComponents {
 }
 
 dependencies {
+    api(project(":designsystem"))
+
     // AndroidX
     api(libs.androidx.core)
 
     // Compose
-    api(libs.androidx.compose.ui)
+    api(libs.androidx.compose.material3)
+    api(libs.androidx.compose.foundation)
     debugApi(libs.androidx.compose.ui.tooling)
     api(libs.androidx.compose.ui.toolingPreview)
-    api(libs.androidx.compose.foundation)
-    api(libs.androidx.compose.material3)
     api(libs.androidx.lifecycle.runtime)
     api(libs.androidx.lifecycle.runtimeCompose)
     api(libs.androidx.navigation.compose)

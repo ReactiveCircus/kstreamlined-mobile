@@ -233,6 +233,7 @@ dependencies {
     implementation(project(":kmp:data"))
 
     implementation(project(":feature:common"))
+    implementation(project(":feature:home"))
 
     // Firebase
     releaseImplementation(libs.firebase.perf)

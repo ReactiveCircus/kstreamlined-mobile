@@ -73,6 +73,8 @@ if (!isXCFrameworkBuild) {
     // Android
     includeProject(":app", "android/app")
     includeProject(":feature:common", "android/feature/common")
+    includeProject(":feature:home", "android/feature/home")
+    includeProject(":designsystem", "android/designsystem")
 }
 
 fun includeProject(name: String, filePath: String) {

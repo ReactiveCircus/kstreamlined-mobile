@@ -83,7 +83,6 @@ firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx", ve
 firebase-remoteConfig = { module = "com.google.firebase:firebase-config-ktx", version.ref = "firebase-remoteConfig" }
 firebase-perf = { module = "com.google.firebase:firebase-perf-ktx", version.ref = "firebase-perf" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx", version.ref = "firebase-crashlytics" }
-androidx-compose-ui = { module = "androidx.compose.ui:ui", version.ref = "androidx-compose-ui" }
 androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "androidx-compose-ui" }
 androidx-compose-ui-toolingPreview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "androidx-compose-ui" }
 androidx-compose-ui-testJunit = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "androidx-compose-ui" }
