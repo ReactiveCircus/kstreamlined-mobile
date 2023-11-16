@@ -5,7 +5,7 @@ import io.github.reactivecircus.kstreamlined.graphql.type.FeedSourceKey
 import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.model.FeedOrigin
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
+import kotlin.test.assertNull
 
 class FeedOriginMappersTest {
 
@@ -38,15 +38,13 @@ class FeedOriginMappersTest {
     }
 
     @Test
-    fun `throws exception when mapping unknown FeedSourcesQuery_FeedSource to FeedOrigin`() {
+    fun `returns null when mapping unknown FeedSourcesQuery_FeedSource to FeedOrigin`() {
         val apolloFeedSource = FeedSourcesQuery.FeedSource(
             key = FeedSourceKey.UNKNOWN__,
-            title = "Kotlin Blog",
-            description = "The official Kotlin blog",
+            title = "Unknown feed source title",
+            description = "Unknown feed source description",
         )
 
-        assertFailsWith<IllegalStateException> {
-            apolloFeedSource.asExternalModel()
-        }
+        assertNull(apolloFeedSource.asExternalModel())
     }
 }

@@ -13,14 +13,14 @@ internal fun FeedOrigin.Key.asApolloModel(): FeedSourceKey {
     }
 }
 
-internal fun FeedSourcesQuery.FeedSource.asExternalModel(): FeedOrigin {
+internal fun FeedSourcesQuery.FeedSource.asExternalModel(): FeedOrigin? {
     return FeedOrigin(
         key = when (this.key) {
             FeedSourceKey.KOTLIN_BLOG -> FeedOrigin.Key.KotlinBlog
             FeedSourceKey.KOTLIN_YOUTUBE_CHANNEL -> FeedOrigin.Key.KotlinYouTubeChannel
             FeedSourceKey.TALKING_KOTLIN_PODCAST -> FeedOrigin.Key.TalkingKotlinPodcast
             FeedSourceKey.KOTLIN_WEEKLY -> FeedOrigin.Key.KotlinWeekly
-            else -> error("Unknown FeedSourceKey subtype")
+            FeedSourceKey.UNKNOWN__ -> return null
         },
         title = this.title,
         description = this.description,

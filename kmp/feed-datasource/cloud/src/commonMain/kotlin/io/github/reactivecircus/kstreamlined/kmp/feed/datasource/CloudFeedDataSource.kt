@@ -21,7 +21,7 @@ class CloudFeedDataSource(private val apolloClient: ApolloClient) : FeedDataSour
                 .dataOrThrow().feedSources
         }.onFailure {
             Logger.w("Query failed", it)
-        }.getOrThrow().map { it.asExternalModel() }
+        }.getOrThrow().mapNotNull { it.asExternalModel() }
     }
 
     override suspend fun loadFeedEntries(
