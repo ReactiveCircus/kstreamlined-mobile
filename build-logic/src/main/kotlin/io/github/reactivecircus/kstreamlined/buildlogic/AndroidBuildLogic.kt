@@ -84,8 +84,8 @@ internal fun TestExtension.configureAndroidTestOptions() {
  * Configure the Application Library Component based on build variants.
  */
 internal fun LibraryAndroidComponentsExtension.configureAndroidLibraryVariants() {
-    // disable release build variant for all Android library projects
-    beforeVariants(selector().withBuildType("release")) {
+    // disable debug build variant for all Android library projects
+    beforeVariants(selector().withBuildType("debug")) {
         it.enable = false
     }
 }

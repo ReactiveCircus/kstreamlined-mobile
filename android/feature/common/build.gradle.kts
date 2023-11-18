@@ -15,7 +15,8 @@ android {
 androidComponents {
     beforeVariants {
         (it as HasUnitTestBuilder).enableUnitTest = false
-        it.enableAndroidTest = false
+        @Suppress("UnstableApiUsage")
+        it.androidTest.enable = false
     }
 }
 

@@ -86,6 +86,7 @@ android {
 
     buildTypes {
         val debug by getting {
+            matchingFallbacks.add("release")
             signingConfig = signingConfigs.getByName("debug")
 
             // disable performance monitoring plugin for debug builds
@@ -94,7 +95,7 @@ android {
             }
         }
         val release by getting {
-            matchingFallbacks.add("debug")
+            matchingFallbacks.add("release")
             if (rootProject.file("android/secrets/kstreamlined.jks").exists()) {
                 signingConfig = signingConfigs.getByName("release")
             }
@@ -171,7 +172,8 @@ androidComponents {
             || it.flavorName != ProductFlavors.PROD && it.buildType == "debug"
             || it.flavorName == ProductFlavors.DEV && it.buildType == "benchmark"
         (it as HasUnitTestBuilder).enableUnitTest = false
-        it.enableAndroidTest = false
+        @Suppress("UnstableApiUsage")
+        it.androidTest.enable = false
     }
 
     onVariants {

@@ -13,7 +13,9 @@ import io.github.reactivecircus.kstreamlined.buildlogic.markNonCompatibleConfigu
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 internal class AndroidLibraryConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) = with(target) {
@@ -37,6 +39,13 @@ internal class AndroidLibraryConventionPlugin : Plugin<Project> {
 
         extensions.configure<LibraryAndroidComponentsExtension> {
             configureAndroidLibraryVariants()
+        }
+
+        // enable explicit API mode for non-test Kotlin compilations
+        tasks.withType<KotlinCompile>().configureEach {
+            if (!name.endsWith("TestKotlin")) {
+                kotlinOptions.freeCompilerArgs += listOf("-Xexplicit-api=strict")
+            }
         }
 
         configureTest()
