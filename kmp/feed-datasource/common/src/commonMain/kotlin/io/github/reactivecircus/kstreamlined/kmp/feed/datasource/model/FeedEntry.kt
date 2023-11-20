@@ -11,7 +11,7 @@ sealed interface FeedEntry {
         override val title: String,
         override val publishTimestamp: String,
         override val contentUrl: String,
-        val featuredImageUrl: String,
+        val featuredImageUrl: String?,
         val description: String,
     ) : FeedEntry
 

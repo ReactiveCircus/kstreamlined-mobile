@@ -13,7 +13,7 @@ sealed interface FeedItem {
         override val publishTimestamp: String,
         override val contentUrl: String,
         override val savedForLater: Boolean,
-        val featuredImageUrl: String,
+        val featuredImageUrl: String?,
         val description: String,
     ) : FeedItem
 

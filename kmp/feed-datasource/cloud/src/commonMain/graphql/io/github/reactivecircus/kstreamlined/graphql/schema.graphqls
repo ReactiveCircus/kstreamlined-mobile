@@ -340,7 +340,7 @@ type KotlinBlog implements FeedEntry {
   """
   Url of the feature image.
   """
-  featuredImageUrl: String!
+  featuredImageUrl: String
 
   """
   Description of the blog post.
