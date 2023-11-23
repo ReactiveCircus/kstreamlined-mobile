@@ -18,7 +18,7 @@ class FeedEntryMappersTest {
                 buildKotlinBlog {
                     id = "1"
                     title = "Kotlin Blog Post"
-                    publishTimestamp = "2022-01-01T00:00:00Z"
+                    publishTime = "2022-01-01T00:00:00Z"
                     contentUrl = "https://blog.kotlinlang.org/post"
                     featuredImageUrl = "https://blog.kotlinlang.org/image"
                     description = "A blog post about Kotlin"
@@ -29,7 +29,7 @@ class FeedEntryMappersTest {
         val expectedFeedEntry = FeedEntry.KotlinBlog(
             id = "1",
             title = "Kotlin Blog Post",
-            publishTimestamp = "2022-01-01T00:00:00Z",
+            publishTime = "2022-01-01T00:00:00Z",
             contentUrl = "https://blog.kotlinlang.org/post",
             featuredImageUrl = "https://blog.kotlinlang.org/image",
             description = "A blog post about Kotlin",
@@ -45,7 +45,7 @@ class FeedEntryMappersTest {
                 buildKotlinYouTube {
                     id = "2"
                     title = "Kotlin YouTube Video"
-                    publishTimestamp = "2022-01-02T00:00:00Z"
+                    publishTime = "2022-01-02T00:00:00Z"
                     contentUrl = "https://youtube.com/kotlinvideo"
                     thumbnailUrl = "https://youtube.com/kotlinvideo/thumbnail"
                     description = "A YouTube video about Kotlin"
@@ -56,7 +56,7 @@ class FeedEntryMappersTest {
         val expectedFeedEntry = FeedEntry.KotlinYouTube(
             id = "2",
             title = "Kotlin YouTube Video",
-            publishTimestamp = "2022-01-02T00:00:00Z",
+            publishTime = "2022-01-02T00:00:00Z",
             contentUrl = "https://youtube.com/kotlinvideo",
             thumbnailUrl = "https://youtube.com/kotlinvideo/thumbnail",
             description = "A YouTube video about Kotlin",
@@ -72,7 +72,7 @@ class FeedEntryMappersTest {
                 buildTalkingKotlin {
                     id = "3"
                     title = "Talking Kotlin Podcast"
-                    publishTimestamp = "2022-01-03T00:00:00Z"
+                    publishTime = "2022-01-03T00:00:00Z"
                     contentUrl = "https://talkingkotlin.com/podcast"
                     podcastLogoUrl = "https://talkingkotlin.com/podcast/logo"
                     tags = listOf("Kotlin", "Podcast")
@@ -83,7 +83,7 @@ class FeedEntryMappersTest {
         val expectedFeedEntry = FeedEntry.TalkingKotlin(
             id = "3",
             title = "Talking Kotlin Podcast",
-            publishTimestamp = "2022-01-03T00:00:00Z",
+            publishTime = "2022-01-03T00:00:00Z",
             contentUrl = "https://talkingkotlin.com/podcast",
             podcastLogoUrl = "https://talkingkotlin.com/podcast/logo",
             tags = listOf("Kotlin", "Podcast"),
@@ -99,9 +99,8 @@ class FeedEntryMappersTest {
                 buildKotlinWeekly {
                     id = "4"
                     title = "Kotlin Weekly Newsletter"
-                    publishTimestamp = "2022-01-04T00:00:00Z"
+                    publishTime = "2022-01-04T00:00:00Z"
                     contentUrl = "https://kotlinweekly.net/newsletter"
-                    newsletterLogoUrl = "https://kotlinweekly.net/newsletter/logo"
                 },
             )
         }.feedEntries.first()
@@ -109,9 +108,8 @@ class FeedEntryMappersTest {
         val expectedFeedEntry = FeedEntry.KotlinWeekly(
             id = "4",
             title = "Kotlin Weekly Newsletter",
-            publishTimestamp = "2022-01-04T00:00:00Z",
+            publishTime = "2022-01-04T00:00:00Z",
             contentUrl = "https://kotlinweekly.net/newsletter",
-            newsletterLogoUrl = "https://kotlinweekly.net/newsletter/logo",
         )
 
         assertEquals(expectedFeedEntry, apolloFeedEntry.asExternalModel())

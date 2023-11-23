@@ -8,7 +8,7 @@ import kotlin.coroutines.cancellation.CancellationException
  * [block] function execution and encapsulating it as a failure.
  */
 @Suppress("TooGenericExceptionCaught", "InstanceOfCheckForException")
-inline fun <T, R> T.runCatchingNonCancellationException(block: () -> R): Result<R> {
+public inline fun <T, R> T.runCatchingNonCancellationException(block: () -> R): Result<R> {
     return try {
         Result.success(block())
     } catch (e: Throwable) {

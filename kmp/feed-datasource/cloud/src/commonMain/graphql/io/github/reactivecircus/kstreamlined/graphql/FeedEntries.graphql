@@ -2,7 +2,7 @@ query FeedEntriesQuery($filters: [FeedSourceKey!]) {
   feedEntries(filters: $filters) {
     id
     title
-    publishTimestamp
+    publishTime
     contentUrl
     ... on KotlinBlog {
       featuredImageUrl
@@ -17,7 +17,7 @@ query FeedEntriesQuery($filters: [FeedSourceKey!]) {
       tags
     }
     ... on KotlinWeekly {
-      newsletterLogoUrl
+      contentUrl
     }
   }
 }

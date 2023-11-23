@@ -1,6 +1,6 @@
 package io.github.reactivecircus.kstreamlined.kmp.feed.datasource.util
 
-object KtorApiErrorChecker : ApiErrorChecker {
+public object KtorApiErrorChecker : ApiErrorChecker {
     override fun isNetworkError(throwable: Throwable?): Boolean {
         TODO()
     }

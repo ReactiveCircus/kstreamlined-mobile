@@ -4,6 +4,7 @@ import io.github.reactivecircus.kstreamlined.buildlogic.configureDetekt
 import io.github.reactivecircus.kstreamlined.buildlogic.configureKMPCommon
 import io.github.reactivecircus.kstreamlined.buildlogic.configureKotlinCommonCompileOptions
 import io.github.reactivecircus.kstreamlined.buildlogic.configureTest
+import io.github.reactivecircus.kstreamlined.buildlogic.enableExplicitApi
 import io.github.reactivecircus.kstreamlined.buildlogic.markNonCompatibleConfigurationCacheTasks
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -16,6 +17,7 @@ internal class KMPIosOnlyConventionPlugin : Plugin<Project> {
 
         extensions.configure<KotlinMultiplatformExtension> {
             configureKMPCommon(target, enableJvmTarget = false)
+            enableExplicitApi()
         }
 
         configureKotlinCommonCompileOptions()

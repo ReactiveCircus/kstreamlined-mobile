@@ -11,7 +11,7 @@ import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.model.FeedEntry
 import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.model.FeedOrigin
 import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.networking.defaultFetchPolicy
 
-class CloudFeedDataSource(private val apolloClient: ApolloClient) : FeedDataSource {
+public class CloudFeedDataSource(private val apolloClient: ApolloClient) : FeedDataSource {
 
     override suspend fun loadFeedOrigins(refresh: Boolean): List<FeedOrigin> {
         return runCatching {

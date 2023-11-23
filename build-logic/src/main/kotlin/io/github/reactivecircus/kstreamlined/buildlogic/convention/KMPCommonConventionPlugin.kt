@@ -1,6 +1,7 @@
 package io.github.reactivecircus.kstreamlined.buildlogic.convention
 
 import io.github.reactivecircus.kstreamlined.buildlogic.configureDetekt
+import io.github.reactivecircus.kstreamlined.buildlogic.enableExplicitApi
 import io.github.reactivecircus.kstreamlined.buildlogic.configureKMPCommon
 import io.github.reactivecircus.kstreamlined.buildlogic.configureKotlinCommonCompileOptions
 import io.github.reactivecircus.kstreamlined.buildlogic.configureTest
@@ -16,6 +17,7 @@ internal class KMPCommonConventionPlugin : Plugin<Project> {
 
         extensions.configure<KotlinMultiplatformExtension> {
             configureKMPCommon(target)
+            enableExplicitApi()
         }
 
         configureKotlinCommonCompileOptions()

@@ -3,13 +3,13 @@ package io.github.reactivecircus.kstreamlined.kmp.feed.datasource
 import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.model.FeedEntry
 import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.model.FeedOrigin
 
-class FakeFeedDataSource : FeedDataSource {
+public class FakeFeedDataSource : FeedDataSource {
 
-    var nextFeedSourcesResponse: suspend () -> List<FeedOrigin> = {
+    public var nextFeedSourcesResponse: suspend () -> List<FeedOrigin> = {
         FakeFeedOrigins
     }
 
-    var nextFeedEntriesResponse: suspend (
+    public var nextFeedEntriesResponse: suspend (
         filters: List<FeedOrigin.Key>?
     ) -> List<FeedEntry> = {
         FakeFeedEntries

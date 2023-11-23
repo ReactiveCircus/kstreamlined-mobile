@@ -4,6 +4,7 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.KotlinCommonCompile
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 /**
  * Apply common configs to KMP project.
@@ -33,7 +34,7 @@ internal fun KotlinMultiplatformExtension.configureKMPCommon(
 /**
  * Apply test configs to KMP project.
  */
-internal fun KotlinMultiplatformExtension.configureKMPCommon() {
+internal fun KotlinMultiplatformExtension.configureKMPTest() {
     with(sourceSets) {
         commonTest {
             dependencies {
@@ -57,6 +58,17 @@ internal fun Project.configureKotlinCommonCompileOptions() {
     tasks.withType<KotlinCommonCompile>().configureEach {
         kotlinOptions {
             freeCompilerArgs = freeCompilerArgs + additionalCompilerArgs
+        }
+    }
+}
+
+/**
+ * Enable explicit API mode for non-test Kotlin compilations
+ */
+internal fun Project.enableExplicitApi() {
+    tasks.withType<KotlinCompile>().configureEach {
+        if (!name.contains("TestKotlin")) {
+            kotlinOptions.freeCompilerArgs += "-Xexplicit-api=strict"
         }
     }
 }

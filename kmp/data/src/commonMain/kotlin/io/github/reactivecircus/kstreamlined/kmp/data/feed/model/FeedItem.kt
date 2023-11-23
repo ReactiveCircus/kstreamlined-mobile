@@ -1,48 +1,47 @@
 package io.github.reactivecircus.kstreamlined.kmp.data.feed.model
 
-sealed interface FeedItem {
-    val id: String
-    val title: String
-    val publishTimestamp: String
-    val contentUrl: String
-    val savedForLater: Boolean
+public sealed interface FeedItem {
+    public val id: String
+    public val title: String
+    public val publishTime: String
+    public val contentUrl: String
+    public val savedForLater: Boolean
 
-    data class KotlinBlog(
+    public data class KotlinBlog(
         override val id: String,
         override val title: String,
-        override val publishTimestamp: String,
+        override val publishTime: String,
         override val contentUrl: String,
         override val savedForLater: Boolean,
         val featuredImageUrl: String?,
         val description: String,
     ) : FeedItem
 
-    data class KotlinYouTube(
+    public data class KotlinYouTube(
         override val id: String,
         override val title: String,
-        override val publishTimestamp: String,
+        override val publishTime: String,
         override val contentUrl: String,
         override val savedForLater: Boolean,
         val thumbnailUrl: String,
         val description: String,
     ) : FeedItem
 
-    data class TalkingKotlin(
+    public data class TalkingKotlin(
         override val id: String,
         override val title: String,
-        override val publishTimestamp: String,
+        override val publishTime: String,
         override val contentUrl: String,
         override val savedForLater: Boolean,
         val podcastLogoUrl: String,
         val tags: List<String>,
     ) : FeedItem
 
-    data class KotlinWeekly(
+    public data class KotlinWeekly(
         override val id: String,
         override val title: String,
-        override val publishTimestamp: String,
+        override val publishTime: String,
         override val contentUrl: String,
         override val savedForLater: Boolean,
-        val newsletterLogoUrl: String,
     ) : FeedItem
 }

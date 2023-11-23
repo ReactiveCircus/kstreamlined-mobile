@@ -5,7 +5,7 @@ package io.github.reactivecircus.kstreamlined.kmp.feed.datasource
 import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.model.FeedEntry
 import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.model.FeedOrigin
 
-val FakeFeedOrigins = listOf(
+public val FakeFeedOrigins: List<FeedOrigin> = listOf(
     FeedOrigin(
         key = FeedOrigin.Key.KotlinBlog,
         title = "Kotlin Blog",
@@ -28,39 +28,40 @@ val FakeFeedOrigins = listOf(
     ),
 )
 
-val FakeFeedEntries = listOf(
+public val FakeFeedEntries: List<FeedEntry> = listOf(
     FeedEntry.KotlinBlog(
-        id = "https://blog.jetbrains.com/?post_type=kotlin&p=264203",
-        title = "A New Approach to Incremental Compilation in Kotlin",
-        publishTimestamp = "1657882573",
-        contentUrl = "https://blog.jetbrains.com/kotlin/2022/07/a-new-approach-to-incremental-compilation-in-kotlin/",
-        featuredImageUrl = "https://blog.jetbrains.com/wp-content/uploads/2022/07/A-New-Approach-to-Incremental-Compilation-in-Kotlin-EN-2_Twitter-Blog.png",
-        description = "In Kotlin 1.7.0, we’ve reworked incremental compilation for project changes in cross-module dependencies. The new approach lifts previous limitations on incremental compilation. It’s now supported when changes are made inside dependent non-Kotlin modules, and it is compatible with the Gradle build cache. Support for compilation avoidance has also been improved. All of these advancements decrease […]",
+        id = "https://blog.jetbrains.com/?post_type=kotlin&p=405553",
+        title = "Kotlin Multiplatform Development Roadmap for 2024",
+        publishTime = "2023-11-16T11:59:46Z",
+        contentUrl = "https://blog.jetbrains.com/kotlin/2023/11/kotlin-multiplatform-development-roadmap-for-2024/",
+        featuredImageUrl = "https://blog.jetbrains.com/wp-content/uploads/2023/11/kmp_roadmap_720.png",
+        description = "With the recently achieved stability of Kotlin Multiplatform, development teams worldwide can now seamlessly and confidently adopt it in production. However, this is just the beginning for KMP and its ecosystem. To equip you with the best cross-platform development experience, JetBrains aims to deliver a host of further improvements to the core Kotlin Multiplatform technology, […]",
     ),
     FeedEntry.KotlinYouTube(
-        id = "yt:video:ihMhu3hvCCE",
-        title = "Kotlin and Java Interoperability in Spring Projects",
-        publishTimestamp = "1657114786",
-        contentUrl = "https://www.youtube.com/watch?v=ihMhu3hvCCE",
-        thumbnailUrl = "https://i2.ytimg.com/vi/ihMhu3hvCCE/hqdefault.jpg",
-        description = "We have configured the Kotlin compiler in a Java/Spring project - now what? Let's talk about important details you need to know about calling Java from Kotlin code and vice versa. Links: Adding Kotlin to Spring/Maven project: https://youtu.be/4-qOxvjjF8g Calling Java from Kotlin: https://kotlinlang.org/docs/java-interop.html Calling Kotlin from Java: https://kotlinlang.org/docs/java-to-kotlin-interop.html Kotlin Spring compiler plugin: https://kotlinlang.org/docs/all-open-plugin.html#spring-support Just starting with Kotlin? Learn Kotlin by creating real-world applications with JetBrains Academy Build simple games, a chat bot, a coffee machine simulator, and other interactive projects step by step in a hands-on learning environment. Get started: https://hyperskill.org/join/fromyoutubetoJetSalesStat?redirect=true&next=/tracks/18 #springboot #springframework #kotlin #interoperability",
+        id = "yt:video:bz4cQeaXmsI",
+        title = "The State of Kotlin Multiplatform",
+        publishTime = "2023-11-21T18:47:47Z",
+        contentUrl = "https://www.youtube.com/watch?v=bz4cQeaXmsI",
+        thumbnailUrl = "https://i3.ytimg.com/vi/bz4cQeaXmsI/hqdefault.jpg",
+        description = "JetBrains Kotlin Multiplatform (KMP) is an open-source technology designed for flexible cross-platform development. It allows you to develop apps for Android, iOS, desktop, web, and server-side and efficiently reuse code across them, all while retaining the benefits of native programming. After 8 years of development, KMP has been refined into a production-ready technology and is going Stable, which means now is a great time to start using it in your project.",
     ),
     FeedEntry.TalkingKotlin(
-        id = "https://talkingkotlin.com/turbocharging-kotlin-arrow-analysis-optics-meta",
-        title = "Turbocharging Kotlin: Arrow Analysis, Optics & Meta",
-        publishTimestamp = "1656374400",
-        contentUrl = "https://talkingkotlin.com/turbocharging-kotlin-arrow-analysis-optics-meta/",
+        id = "https://talkingkotlin.com/making-multiplatform-better",
+        title = "Making Multiplatform Better",
+        publishTime = "Making Multiplatform Better",
+        contentUrl = "https://talkingkotlin.com/making-multiplatform-better/",
         podcastLogoUrl = "https://talkingkotlin.com/images/kotlin_talking_logo.png",
         tags = listOf(
-            "Arrow",
-            "Code Quality",
+            "Kotlin",
+            "KMP",
+            "Kotlin Multiplatform",
+            "Coroutines",
         ),
     ),
     FeedEntry.KotlinWeekly(
-        id = "21a2c7f9e24fae1631468c5507e4ff7c",
-        title = "Kotlin Weekly #312 has just been published!",
-        publishTimestamp = "1658675020",
-        contentUrl = "https://t.co/7JzvarYb05",
-        newsletterLogoUrl = "https://pbs.twimg.com/profile_images/883969154667204608/26qTz9AE_400x400.jpg",
+        id = "https://mailchi.mp/kotlinweekly/kotlin-weekly-381",
+        title = "Kotlin Weekly #381",
+        publishTime = "2023-11-19T09:13:00Z",
+        contentUrl = "https://mailchi.mp/kotlinweekly/kotlin-weekly-381",
     ),
 )

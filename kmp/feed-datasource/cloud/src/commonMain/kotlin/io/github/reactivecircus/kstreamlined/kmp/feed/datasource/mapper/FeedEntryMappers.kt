@@ -17,7 +17,7 @@ internal fun FeedEntriesQuery.KotlinBlogFeedEntry.asExternalModel(): FeedEntry.K
     return FeedEntry.KotlinBlog(
         id = this.id,
         title = this.title,
-        publishTimestamp = this.publishTimestamp,
+        publishTime = this.publishTime,
         contentUrl = this.contentUrl,
         featuredImageUrl = this.onKotlinBlog.featuredImageUrl,
         description = this.onKotlinBlog.description,
@@ -28,7 +28,7 @@ internal fun FeedEntriesQuery.KotlinYouTubeFeedEntry.asExternalModel(): FeedEntr
     return FeedEntry.KotlinYouTube(
         id = this.id,
         title = this.title,
-        publishTimestamp = this.publishTimestamp,
+        publishTime = this.publishTime,
         contentUrl = this.contentUrl,
         thumbnailUrl = this.onKotlinYouTube.thumbnailUrl,
         description = this.onKotlinYouTube.description,
@@ -39,7 +39,7 @@ internal fun FeedEntriesQuery.TalkingKotlinFeedEntry.asExternalModel(): FeedEntr
     return FeedEntry.TalkingKotlin(
         id = this.id,
         title = this.title,
-        publishTimestamp = this.publishTimestamp,
+        publishTime = this.publishTime,
         contentUrl = this.contentUrl,
         podcastLogoUrl = this.onTalkingKotlin.podcastLogoUrl,
         tags = this.onTalkingKotlin.tags,
@@ -50,8 +50,7 @@ internal fun FeedEntriesQuery.KotlinWeeklyFeedEntry.asExternalModel(): FeedEntry
     return FeedEntry.KotlinWeekly(
         id = this.id,
         title = this.title,
-        publishTimestamp = this.publishTimestamp,
+        publishTime = this.publishTime,
         contentUrl = this.contentUrl,
-        newsletterLogoUrl = this.onKotlinWeekly.newsletterLogoUrl,
     )
 }

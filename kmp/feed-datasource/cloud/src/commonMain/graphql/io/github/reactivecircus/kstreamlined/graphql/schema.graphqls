@@ -267,9 +267,9 @@ interface FeedEntry {
   title: String!
 
   """
-  Publish date of the feed entry as UTC timestamp.
+  Publish time of the feed entry in ISO 8601.
   """
-  publishTimestamp: String!
+  publishTime: String!
 
   """
   Url of the content.
@@ -328,9 +328,9 @@ type KotlinBlog implements FeedEntry {
   title: String!
 
   """
-  Publish date of the feed entry as UTC timestamp.
+  Publish time of the feed entry in ISO 8601.
   """
-  publishTimestamp: String!
+  publishTime: String!
 
   """
   Url of the content.
@@ -340,7 +340,7 @@ type KotlinBlog implements FeedEntry {
   """
   Url of the feature image.
   """
-  featuredImageUrl: String
+  featuredImageUrl: String!
 
   """
   Description of the blog post.
@@ -360,19 +360,14 @@ type KotlinWeekly implements FeedEntry {
   title: String!
 
   """
-  Publish date of the feed entry as UTC timestamp.
+  Publish time of the feed entry in ISO 8601.
   """
-  publishTimestamp: String!
+  publishTime: String!
 
   """
   Url of the content.
   """
   contentUrl: String!
-
-  """
-  Url of the newsletter logo.
-  """
-  newsletterLogoUrl: String!
 }
 
 type KotlinYouTube implements FeedEntry {
@@ -387,9 +382,9 @@ type KotlinYouTube implements FeedEntry {
   title: String!
 
   """
-  Publish date of the feed entry as UTC timestamp.
+  Publish time of the feed entry in ISO 8601.
   """
-  publishTimestamp: String!
+  publishTime: String!
 
   """
   Url of the content.
@@ -433,9 +428,9 @@ type TalkingKotlin implements FeedEntry {
   title: String!
 
   """
-  Publish date of the feed entry as UTC timestamp.
+  Publish time of the feed entry in ISO 8601.
   """
-  publishTimestamp: String!
+  publishTime: String!
 
   """
   Url of the content.

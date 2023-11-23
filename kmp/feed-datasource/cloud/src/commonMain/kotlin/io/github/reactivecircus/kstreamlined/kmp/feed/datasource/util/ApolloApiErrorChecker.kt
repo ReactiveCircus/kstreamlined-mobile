@@ -3,7 +3,7 @@ package io.github.reactivecircus.kstreamlined.kmp.feed.datasource.util
 import com.apollographql.apollo3.exception.ApolloNetworkException
 import com.apollographql.apollo3.exception.NoDataException
 
-object ApolloApiErrorChecker : ApiErrorChecker {
+public object ApolloApiErrorChecker : ApiErrorChecker {
     override fun isNetworkError(throwable: Throwable?): Boolean {
         return when (throwable) {
             // when using dataOrThrow() exceptions are wrapped in NoDataException
