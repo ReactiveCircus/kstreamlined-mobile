@@ -65,6 +65,7 @@ include(":kmp:feed-datasource:cloud")
 include(":kmp:feed-datasource:edge")
 include(":kmp:feed-datasource:testing")
 include(":kmp:persistence")
+include(":kmp:model")
 include(":kmp:core-utils")
 include(":kmp:test-utils")
 
@@ -74,6 +75,7 @@ if (!isXCFrameworkBuild) {
     includeProject(":app", "android/app")
     includeProject(":feature:common", "android/feature/common")
     includeProject(":feature:home", "android/feature/home")
+    includeProject(":common-ui:feed", "android/common-ui/feed")
     includeProject(":designsystem", "android/designsystem")
 }
 

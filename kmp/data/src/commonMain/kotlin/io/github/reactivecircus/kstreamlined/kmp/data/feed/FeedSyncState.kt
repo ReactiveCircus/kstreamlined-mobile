@@ -1,7 +1,7 @@
 package io.github.reactivecircus.kstreamlined.kmp.data.feed
 
-import io.github.reactivecircus.kstreamlined.kmp.data.feed.model.FeedItem
-import io.github.reactivecircus.kstreamlined.kmp.data.feed.model.FeedOrigin
+import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
+import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedOrigin
 
 public data class FeedSyncState(
     val feedOrigins: List<FeedOrigin>,

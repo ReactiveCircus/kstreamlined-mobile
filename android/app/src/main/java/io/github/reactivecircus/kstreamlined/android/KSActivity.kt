@@ -5,15 +5,14 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import dagger.hilt.android.AndroidEntryPoint
-import io.github.reactivecircus.kstreamlined.android.theme.KSTheme
+import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.KSTheme
+import io.github.reactivecircus.kstreamlined.android.feature.home.HomeScreen
 
 @AndroidEntryPoint
 class KSActivity : ComponentActivity() {
@@ -28,15 +27,12 @@ class KSActivity : ComponentActivity() {
         setContent {
             KSTheme {
                 val darkTheme = isSystemInDarkTheme()
-                val navigationBarColor = MaterialTheme.colorScheme.background.toArgb()
+                val navigationBarColor = KSTheme.colorScheme.background.toArgb()
                 LaunchedEffect(darkTheme) {
                     window.navigationBarColor = navigationBarColor
                 }
 
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                ) {
-                }
+                HomeScreen(modifier = Modifier.navigationBarsPadding())
             }
         }
     }
