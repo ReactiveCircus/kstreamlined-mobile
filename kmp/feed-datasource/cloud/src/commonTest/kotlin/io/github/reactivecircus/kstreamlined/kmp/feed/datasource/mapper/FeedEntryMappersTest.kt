@@ -6,6 +6,7 @@ import io.github.reactivecircus.kstreamlined.graphql.type.buildKotlinWeekly
 import io.github.reactivecircus.kstreamlined.graphql.type.buildKotlinYouTube
 import io.github.reactivecircus.kstreamlined.graphql.type.buildTalkingKotlin
 import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.model.FeedEntry
+import kotlinx.datetime.toInstant
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -18,7 +19,7 @@ class FeedEntryMappersTest {
                 buildKotlinBlog {
                     id = "1"
                     title = "Kotlin Blog Post"
-                    publishTime = "2022-01-01T00:00:00Z"
+                    publishTime = "2022-01-01T00:00:00Z".toInstant()
                     contentUrl = "https://blog.kotlinlang.org/post"
                     featuredImageUrl = "https://blog.kotlinlang.org/image"
                     description = "A blog post about Kotlin"
@@ -29,7 +30,7 @@ class FeedEntryMappersTest {
         val expectedFeedEntry = FeedEntry.KotlinBlog(
             id = "1",
             title = "Kotlin Blog Post",
-            publishTime = "2022-01-01T00:00:00Z",
+            publishTime = "2022-01-01T00:00:00Z".toInstant(),
             contentUrl = "https://blog.kotlinlang.org/post",
             featuredImageUrl = "https://blog.kotlinlang.org/image",
             description = "A blog post about Kotlin",
@@ -45,7 +46,7 @@ class FeedEntryMappersTest {
                 buildKotlinYouTube {
                     id = "2"
                     title = "Kotlin YouTube Video"
-                    publishTime = "2022-01-02T00:00:00Z"
+                    publishTime = "2022-01-02T00:00:00Z".toInstant()
                     contentUrl = "https://youtube.com/kotlinvideo"
                     thumbnailUrl = "https://youtube.com/kotlinvideo/thumbnail"
                     description = "A YouTube video about Kotlin"
@@ -56,7 +57,7 @@ class FeedEntryMappersTest {
         val expectedFeedEntry = FeedEntry.KotlinYouTube(
             id = "2",
             title = "Kotlin YouTube Video",
-            publishTime = "2022-01-02T00:00:00Z",
+            publishTime = "2022-01-02T00:00:00Z".toInstant(),
             contentUrl = "https://youtube.com/kotlinvideo",
             thumbnailUrl = "https://youtube.com/kotlinvideo/thumbnail",
             description = "A YouTube video about Kotlin",
@@ -72,7 +73,7 @@ class FeedEntryMappersTest {
                 buildTalkingKotlin {
                     id = "3"
                     title = "Talking Kotlin Podcast"
-                    publishTime = "2022-01-03T00:00:00Z"
+                    publishTime = "2022-01-03T00:00:00Z".toInstant()
                     contentUrl = "https://talkingkotlin.com/podcast"
                     podcastLogoUrl = "https://talkingkotlin.com/podcast/logo"
                     tags = listOf("Kotlin", "Podcast")
@@ -83,7 +84,7 @@ class FeedEntryMappersTest {
         val expectedFeedEntry = FeedEntry.TalkingKotlin(
             id = "3",
             title = "Talking Kotlin Podcast",
-            publishTime = "2022-01-03T00:00:00Z",
+            publishTime = "2022-01-03T00:00:00Z".toInstant(),
             contentUrl = "https://talkingkotlin.com/podcast",
             podcastLogoUrl = "https://talkingkotlin.com/podcast/logo",
             tags = listOf("Kotlin", "Podcast"),
@@ -99,7 +100,7 @@ class FeedEntryMappersTest {
                 buildKotlinWeekly {
                     id = "4"
                     title = "Kotlin Weekly Newsletter"
-                    publishTime = "2022-01-04T00:00:00Z"
+                    publishTime = "2022-01-04T00:00:00Z".toInstant()
                     contentUrl = "https://kotlinweekly.net/newsletter"
                 },
             )
@@ -108,7 +109,7 @@ class FeedEntryMappersTest {
         val expectedFeedEntry = FeedEntry.KotlinWeekly(
             id = "4",
             title = "Kotlin Weekly Newsletter",
-            publishTime = "2022-01-04T00:00:00Z",
+            publishTime = "2022-01-04T00:00:00Z".toInstant(),
             contentUrl = "https://kotlinweekly.net/newsletter",
         )
 

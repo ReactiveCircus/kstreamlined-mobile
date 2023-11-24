@@ -16,6 +16,11 @@ apollo {
         introspection {
             endpointUrl.set(envOrProp("KSTREAMLINED_API_ENDPOINT"))
         }
+        mapScalar(
+            graphQLName = "Instant",
+            targetName = "kotlinx.datetime.Instant",
+            expression = "com.apollographql.apollo3.adapter.KotlinxInstantAdapter",
+        )
     }
 }
 
@@ -26,7 +31,9 @@ kotlin {
                 api(project(":kmp:feed-datasource:common"))
                 api(libs.apollo.runtime)
                 api(libs.apollo.normalizedCache)
+                implementation(libs.apollo.adapters)
                 implementation(libs.kotlinx.coroutines.core)
+                implementation(libs.kotlinx.datetime)
                 implementation(libs.kermit)
             }
         }

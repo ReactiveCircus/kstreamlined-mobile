@@ -1,8 +1,8 @@
 package io.github.reactivecircus.kstreamlined.kmp.test.utils
 
 import kotlinx.coroutines.CoroutineScope
-import kotlin.coroutines.EmptyCoroutineContext
 import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.EmptyCoroutineContext
 
 /**
  * Test util that executes [block] with [kotlinx.coroutines.test.runTest] with optional [before] and [after] blocks.

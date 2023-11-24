@@ -6,25 +6,27 @@ complexity:
   TooManyFunctions:
     thresholdInFiles: 20
 
-naming:
-  TopLevelPropertyNaming:
+formatting:
+  Filename:
     active: false
+  MaximumLineLength:
+    active: false
+
+naming:
   FunctionNaming:
     ignoreAnnotated:
       - Composable
+  TopLevelPropertyNaming:
+    constantPattern: '[A-Z][A-Za-z0-9]*'
+    propertyPattern: '[A-Za-z][_A-Za-z0-9]*'
+    privatePropertyPattern: '_?[A-Za-z][_A-Za-z0-9]*'
 
 style:
   MagicNumber:
     ignorePropertyDeclaration: true
-  UnnecessaryAbstractClass:
-    active: false
   MaxLineLength:
     excludes: ['**/test/**', '**/*Test/**']
-
-formatting:
-  Filename:
-    active: false
-  ImportOrdering:
-    active: false
-  MaximumLineLength:
-    excludes: ['**/test/**', '**/*Test/**']
+  UnusedPrivateMember:
+    ignoreAnnotated:
+      - Preview
+      - ThemePreviews

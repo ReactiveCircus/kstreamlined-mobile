@@ -1,7 +1,6 @@
 package io.github.reactivecircus.kstreamlined.kmp.feed.datasource
 
 import com.apollographql.apollo3.ApolloClient
-import com.apollographql.apollo3.annotations.ApolloExperimental
 import com.apollographql.apollo3.cache.normalized.api.MemoryCacheFactory
 import com.apollographql.apollo3.cache.normalized.normalizedCache
 import com.apollographql.apollo3.exception.ApolloHttpException
@@ -17,12 +16,12 @@ import io.github.reactivecircus.kstreamlined.graphql.type.buildKotlinBlog
 import io.github.reactivecircus.kstreamlined.graphql.type.buildKotlinYouTube
 import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.mapper.asExternalModel
 import io.github.reactivecircus.kstreamlined.kmp.test.utils.runTest
+import kotlinx.datetime.toInstant
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
 
-@ApolloExperimental
 class CloudFeedDataSourceTest {
 
     private lateinit var mockServer: MockServer
@@ -44,9 +43,11 @@ class CloudFeedDataSourceTest {
         feedEntries = listOf(
             buildKotlinBlog {
                 title = "Kotlin blog entry"
+                publishTime = "2023-11-16T11:59:46Z".toInstant()
             },
             buildKotlinYouTube {
                 title = "Kotlin YouTube entry"
+                publishTime = "2023-11-21T18:47:47Z".toInstant()
             }
         )
     }.feedEntries

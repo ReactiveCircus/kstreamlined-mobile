@@ -66,7 +66,7 @@ internal fun Project.configureKotlinCommonCompileOptions() {
  * Enable explicit API mode for non-test Kotlin compilations
  */
 internal fun Project.enableExplicitApi() {
-    tasks.withType<KotlinCompile>().configureEach {
+    tasks.withType<KotlinCommonCompile>().configureEach {
         if (!name.contains("TestKotlin")) {
             kotlinOptions.freeCompilerArgs += "-Xexplicit-api=strict"
         }

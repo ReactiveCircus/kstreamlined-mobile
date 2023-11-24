@@ -12,10 +12,10 @@ class FakeFeedDataSourceTest {
     @Test
     fun `returns expected response when nextFeedSourcesResponse succeeds`() = runTest {
         fakeFeedDataSource.nextFeedSourcesResponse = {
-            FakeFeedOrigins
+            FakeFeedSources
         }
         assertEquals(
-            FakeFeedOrigins,
+            FakeFeedSources,
             fakeFeedDataSource.loadFeedOrigins(),
         )
     }

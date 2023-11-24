@@ -269,7 +269,7 @@ interface FeedEntry {
   """
   Publish time of the feed entry in ISO 8601.
   """
-  publishTime: String!
+  publishTime: Instant!
 
   """
   Url of the content.
@@ -316,6 +316,11 @@ enum FeedSourceKey {
   KOTLIN_WEEKLY
 }
 
+"""
+ISO 8601 instant.
+"""
+scalar Instant
+
 type KotlinBlog implements FeedEntry {
   """
   Unique id of the feed entry.
@@ -330,7 +335,7 @@ type KotlinBlog implements FeedEntry {
   """
   Publish time of the feed entry in ISO 8601.
   """
-  publishTime: String!
+  publishTime: Instant!
 
   """
   Url of the content.
@@ -362,7 +367,7 @@ type KotlinWeekly implements FeedEntry {
   """
   Publish time of the feed entry in ISO 8601.
   """
-  publishTime: String!
+  publishTime: Instant!
 
   """
   Url of the content.
@@ -384,7 +389,7 @@ type KotlinYouTube implements FeedEntry {
   """
   Publish time of the feed entry in ISO 8601.
   """
-  publishTime: String!
+  publishTime: Instant!
 
   """
   Url of the content.
@@ -430,7 +435,7 @@ type TalkingKotlin implements FeedEntry {
   """
   Publish time of the feed entry in ISO 8601.
   """
-  publishTime: String!
+  publishTime: Instant!
 
   """
   Url of the content.

@@ -228,8 +228,8 @@ androidComponents {
 
 dependencies {
     mockImplementation(project(":kmp:feed-datasource:testing"))
-    devImplementation(project(":kmp:feed-datasource:cloud"))
     demoImplementation(project(":kmp:feed-datasource:edge"))
+    devImplementation(project(":kmp:feed-datasource:cloud"))
     prodImplementation(project(":kmp:feed-datasource:cloud"))
     implementation(project(":kmp:persistence"))
     implementation(project(":kmp:data"))

@@ -8,12 +8,12 @@ import io.github.reactivecircus.kstreamlined.graphql.FeedSourcesQuery
 import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.mapper.asApolloModel
 import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.mapper.asExternalModel
 import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.model.FeedEntry
-import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.model.FeedOrigin
+import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.model.FeedSource
 import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.networking.defaultFetchPolicy
 
 public class CloudFeedDataSource(private val apolloClient: ApolloClient) : FeedDataSource {
 
-    override suspend fun loadFeedOrigins(refresh: Boolean): List<FeedOrigin> {
+    override suspend fun loadFeedOrigins(refresh: Boolean): List<FeedSource> {
         return runCatching {
             apolloClient.query(FeedSourcesQuery())
                 .defaultFetchPolicy(refresh)
@@ -25,7 +25,7 @@ public class CloudFeedDataSource(private val apolloClient: ApolloClient) : FeedD
     }
 
     override suspend fun loadFeedEntries(
-        filters: List<FeedOrigin.Key>?,
+        filters: List<FeedSource.Key>?,
         refresh: Boolean,
     ): List<FeedEntry> {
         return runCatching {

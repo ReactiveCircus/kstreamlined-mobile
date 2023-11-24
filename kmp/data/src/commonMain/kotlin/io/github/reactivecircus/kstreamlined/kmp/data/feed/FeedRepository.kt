@@ -2,7 +2,7 @@ package io.github.reactivecircus.kstreamlined.kmp.data.feed
 
 import co.touchlab.kermit.Logger
 import io.github.reactivecircus.kstreamlined.kmp.data.feed.model.FeedItem
-import io.github.reactivecircus.kstreamlined.kmp.data.feed.model.FeedOriginItem
+import io.github.reactivecircus.kstreamlined.kmp.data.feed.model.FeedOrigin
 import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.FeedDataSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
@@ -22,12 +22,12 @@ public class FeedRepository(
         }
     }
 
-    public suspend fun selectFeedSource(feedOrigin: FeedOriginItem) {
+    public suspend fun selectFeedSource(feedOrigin: FeedOrigin) {
         feedOrigin.selected
         TODO()
     }
 
-    public suspend fun unselectFeedSource(feedOrigin: FeedOriginItem) {
+    public suspend fun unselectFeedSource(feedOrigin: FeedOrigin) {
         feedOrigin.selected
         TODO()
     }
