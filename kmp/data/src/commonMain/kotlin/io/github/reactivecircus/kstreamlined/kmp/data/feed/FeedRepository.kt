@@ -1,9 +1,9 @@
 package io.github.reactivecircus.kstreamlined.kmp.data.feed
 
 import co.touchlab.kermit.Logger
-import io.github.reactivecircus.kstreamlined.kmp.data.feed.model.FeedItem
-import io.github.reactivecircus.kstreamlined.kmp.data.feed.model.FeedOrigin
 import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.FeedDataSource
+import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
+import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedOrigin
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 

@@ -9,6 +9,7 @@ kotlin {
             dependencies {
                 implementation(project(":kmp:feed-datasource:common"))
                 implementation(project(":kmp:persistence"))
+                api(project(":kmp:model"))
                 implementation(libs.kotlinx.coroutines.core)
                 implementation(libs.kermit)
             }

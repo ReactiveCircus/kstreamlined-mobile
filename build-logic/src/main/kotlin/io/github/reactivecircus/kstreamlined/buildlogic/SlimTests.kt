@@ -18,7 +18,7 @@ import org.gradle.kotlin.dsl.findByType
  * in Android App and Library projects, and all tests in JVM projects and Kotlin Multiplatform projects.
  */
 internal fun Project.configureSlimTests() {
-    if (providers.gradleProperty(SLIM_TESTS_PROPERTY).isPresent) {
+    if (providers.gradleProperty(SlimTestsProperty).isPresent) {
         // disable unit test tasks on the release, benchmark build types for Android Library projects
         extensions.findByType<LibraryAndroidComponentsExtension>()?.run {
             beforeVariants(selector().withBuildType("release")) {
@@ -50,4 +50,4 @@ internal fun Project.configureSlimTests() {
     }
 }
 
-private const val SLIM_TESTS_PROPERTY = "slimTests"
+private const val SlimTestsProperty = "slimTests"

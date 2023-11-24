@@ -1,4 +1,4 @@
-package io.github.reactivecircus.kstreamlined.kmp.data.feed.model
+package io.github.reactivecircus.kstreamlined.kmp.model.feed
 
 public data class FeedOrigin(
     val key: Key,
