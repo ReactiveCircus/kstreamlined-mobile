@@ -46,6 +46,13 @@
 }
 
 # This is generated automatically by the Android Gradle plugin.
+-dontwarn kotlinx.serialization.KSerializer
+-dontwarn kotlinx.serialization.Serializable
+-dontwarn kotlinx.serialization.descriptors.PrimitiveKind$STRING
+-dontwarn kotlinx.serialization.descriptors.PrimitiveKind
+-dontwarn kotlinx.serialization.descriptors.SerialDescriptor
+-dontwarn kotlinx.serialization.descriptors.SerialDescriptorsKt
+-dontwarn kotlinx.serialization.internal.AbstractPolymorphicSerializer
 -dontwarn org.bouncycastle.jsse.BCSSLParameters
 -dontwarn org.bouncycastle.jsse.BCSSLSocket
 -dontwarn org.bouncycastle.jsse.provider.BouncyCastleJsseProvider
