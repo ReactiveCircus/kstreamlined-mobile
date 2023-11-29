@@ -10,7 +10,7 @@ wire = "4.9.3"
 detekt = "1.23.4"
 playPublisher = "3.8.6"
 fladle = "0.17.4"
-nativeCoroutines = "1.0.0-ALPHA-22"
+nativeCoroutines = "1.0.0-ALPHA-21"
 desugarJdkLibs = "2.0.4"
 leakcanary = "2.12"
 hilt = "2.48.1"
@@ -109,6 +109,7 @@ androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", vers
 androidx-espresso-contrib = { module = "androidx.test.espresso:espresso-contrib", version.ref = "androidx-test-espresso" }
 androidx-espresso-intents = { module = "androidx.test.espresso:espresso-intents", version.ref = "androidx-test-espresso" }
 coil = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
+coil-svg = { module = "io.coil-kt:coil-svg", version.ref = "coil" }
 apollo-runtime = { module = "com.apollographql.apollo3:apollo-runtime", version.ref = "apollo" }
 apollo-normalizedCache = { module = "com.apollographql.apollo3:apollo-normalized-cache", version.ref = "apollo" }
 apollo-adapters = { module = "com.apollographql.apollo3:apollo-adapters", version.ref = "apollo" }

@@ -20,7 +20,6 @@ internal fun FeedEntriesQuery.KotlinBlogFeedEntry.asExternalModel(): FeedEntry.K
         publishTime = this.publishTime,
         contentUrl = this.contentUrl,
         featuredImageUrl = this.onKotlinBlog.featuredImageUrl,
-        description = this.onKotlinBlog.description,
     )
 }
 
@@ -42,7 +41,6 @@ internal fun FeedEntriesQuery.TalkingKotlinFeedEntry.asExternalModel(): FeedEntr
         publishTime = this.publishTime,
         contentUrl = this.contentUrl,
         podcastLogoUrl = this.onTalkingKotlin.podcastLogoUrl,
-        tags = this.onTalkingKotlin.tags,
     )
 }
 

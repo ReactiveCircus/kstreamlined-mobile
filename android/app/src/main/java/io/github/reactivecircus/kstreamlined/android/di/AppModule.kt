@@ -3,6 +3,7 @@ package io.github.reactivecircus.kstreamlined.android.di
 import android.content.Context
 import android.os.Build
 import coil.ImageLoader
+import coil.decode.SvgDecoder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,6 +19,9 @@ object AppModule {
     @Singleton
     fun imageLoader(@ApplicationContext context: Context): ImageLoader {
         return ImageLoader.Builder(context)
+            .components {
+                add(SvgDecoder.Factory())
+            }
             .crossfade(enable = true)
             // only enable hardware bitmaps on API 28+. See: https://github.com/coil-kt/coil/issues/159
             .allowHardware(enable = Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)

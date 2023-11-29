@@ -22,7 +22,6 @@ class FeedEntryMappersTest {
                     publishTime = "2022-01-01T00:00:00Z".toInstant()
                     contentUrl = "https://blog.kotlinlang.org/post"
                     featuredImageUrl = "https://blog.kotlinlang.org/image"
-                    description = "A blog post about Kotlin"
                 },
             )
         }.feedEntries.first()
@@ -33,7 +32,6 @@ class FeedEntryMappersTest {
             publishTime = "2022-01-01T00:00:00Z".toInstant(),
             contentUrl = "https://blog.kotlinlang.org/post",
             featuredImageUrl = "https://blog.kotlinlang.org/image",
-            description = "A blog post about Kotlin",
         )
 
         assertEquals(expectedFeedEntry, apolloFeedEntry.asExternalModel())
@@ -76,7 +74,6 @@ class FeedEntryMappersTest {
                     publishTime = "2022-01-03T00:00:00Z".toInstant()
                     contentUrl = "https://talkingkotlin.com/podcast"
                     podcastLogoUrl = "https://talkingkotlin.com/podcast/logo"
-                    tags = listOf("Kotlin", "Podcast")
                 },
             )
         }.feedEntries.first()
@@ -87,7 +84,6 @@ class FeedEntryMappersTest {
             publishTime = "2022-01-03T00:00:00Z".toInstant(),
             contentUrl = "https://talkingkotlin.com/podcast",
             podcastLogoUrl = "https://talkingkotlin.com/podcast/logo",
-            tags = listOf("Kotlin", "Podcast"),
         )
 
         assertEquals(expectedFeedEntry, apolloFeedEntry.asExternalModel())

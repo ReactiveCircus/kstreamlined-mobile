@@ -7,6 +7,7 @@ package io.github.reactivecircus.kstreamlined.android.designsystem.component
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -25,8 +26,11 @@ import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import io.github.reactivecircus.kstreamlined.android.designsystem.ThemePreviews
 import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.color.LocalContentColor
+import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.icon.BookmarkAdd
+import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.icon.KSIcons
 
 @Composable
 @NonRestartableComposable
@@ -149,3 +153,48 @@ private val DefaultContainerSize = 40.dp
 
 private val LargeIconSize = 32.dp
 private val LargeContainerSize = 48.dp
+
+@Composable
+@ThemePreviews
+private fun PreviewIconButton() {
+    KSTheme {
+        Surface {
+            IconButton(
+                KSIcons.BookmarkAdd,
+                contentDescription = null,
+                onClick = {},
+                modifier = Modifier.padding(8.dp),
+            )
+        }
+    }
+}
+
+@Composable
+@ThemePreviews
+private fun PreviewLargeIconButton() {
+    KSTheme {
+        Surface {
+            LargeIconButton(
+                KSIcons.Close,
+                contentDescription = null,
+                onClick = {},
+                modifier = Modifier.padding(8.dp),
+            )
+        }
+    }
+}
+
+@Composable
+@ThemePreviews
+private fun PreviewFilledIconButton() {
+    KSTheme {
+        Surface {
+            FilledIconButton(
+                KSIcons.Settings,
+                contentDescription = null,
+                onClick = {},
+                modifier = Modifier.padding(8.dp),
+            )
+        }
+    }
+}

@@ -36,7 +36,6 @@ public val FakeFeedEntries: List<FeedEntry> = listOf(
         publishTime = "2023-11-16T11:59:46Z".toInstant(),
         contentUrl = "https://blog.jetbrains.com/kotlin/2023/11/kotlin-multiplatform-development-roadmap-for-2024/",
         featuredImageUrl = "https://blog.jetbrains.com/wp-content/uploads/2023/11/kmp_roadmap_720.png",
-        description = "With the recently achieved stability of Kotlin Multiplatform, development teams worldwide can now seamlessly and confidently adopt it in production. However, this is just the beginning for KMP and its ecosystem. To equip you with the best cross-platform development experience, JetBrains aims to deliver a host of further improvements to the core Kotlin Multiplatform technology, […]",
     ),
     FeedEntry.KotlinYouTube(
         id = "yt:video:bz4cQeaXmsI",
@@ -52,12 +51,6 @@ public val FakeFeedEntries: List<FeedEntry> = listOf(
         publishTime = "2023-09-18T22:00:00Z".toInstant(),
         contentUrl = "https://talkingkotlin.com/making-multiplatform-better/",
         podcastLogoUrl = "https://talkingkotlin.com/images/kotlin_talking_logo.png",
-        tags = listOf(
-            "Kotlin",
-            "KMP",
-            "Kotlin Multiplatform",
-            "Coroutines",
-        ),
     ),
     FeedEntry.KotlinWeekly(
         id = "https://mailchi.mp/kotlinweekly/kotlin-weekly-381",
