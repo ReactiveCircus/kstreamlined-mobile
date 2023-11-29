@@ -5,9 +5,6 @@ plugins {
 
 android {
     namespace = "io.github.reactivecircus.kstreamlined.android.common.ui.feed"
-    buildFeatures {
-        androidResources = true
-    }
 }
 
 androidComponents {
@@ -24,4 +21,7 @@ dependencies {
     // Compose
     implementation(libs.androidx.compose.foundation)
     implementation(libs.androidx.compose.ui.tooling)
+
+    // Image loading
+    implementation(libs.coil)
 }

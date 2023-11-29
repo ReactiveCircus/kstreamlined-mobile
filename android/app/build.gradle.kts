@@ -19,7 +19,6 @@ plugins {
     id("kstreamlined.android.application.compose")
     id("kstreamlined.ksp")
     id("com.google.dagger.hilt.android")
-    id("com.google.gms.google-services") apply false
     id("com.google.firebase.firebase-perf")
     id("com.google.firebase.crashlytics")
     id("com.google.firebase.appdistribution")
@@ -251,9 +250,11 @@ dependencies {
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
 
+    // Image loading
+    implementation(libs.coil.svg)
+
     // SQLDelight
     implementation(libs.sqldelight.androidDriver)
-
 
     // LeakCanary
     debugImplementation(libs.leakcanary.android)

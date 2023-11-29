@@ -13,8 +13,7 @@ public sealed interface FeedEntry {
         override val title: String,
         override val publishTime: Instant,
         override val contentUrl: String,
-        val featuredImageUrl: String?,
-        val description: String,
+        val featuredImageUrl: String,
     ) : FeedEntry
 
     public data class KotlinYouTube(
@@ -32,7 +31,6 @@ public sealed interface FeedEntry {
         override val publishTime: Instant,
         override val contentUrl: String,
         val podcastLogoUrl: String,
-        val tags: List<String>,
     ) : FeedEntry
 
     public data class KotlinWeekly(
