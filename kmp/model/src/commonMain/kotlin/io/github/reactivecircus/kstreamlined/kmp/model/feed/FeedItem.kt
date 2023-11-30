@@ -35,7 +35,6 @@ public sealed interface FeedItem {
         override val contentUrl: String,
         override val savedForLater: Boolean,
         val podcastLogoUrl: String,
-        val tags: List<String>,
     ) : FeedItem
 
     public data class KotlinWeekly(
