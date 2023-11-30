@@ -98,13 +98,40 @@ public fun HomeScreen(
             item {
                 var item by remember {
                     mutableStateOf(
+                        FeedItem.KotlinYouTube(
+                            id = "yt:video:apiVJfLvUBE",
+                            title = "Coil Goes Multiplatform with Colin White | Talking Kotlin #127",
+                            publishTime = "2023-11-29T17:30:08Z".toInstant(),
+                            contentUrl = "https://www.youtube.com/watch?v=apiVJfLvUBE",
+                            savedForLater = false,
+                            thumbnailUrl = "https://i2.ytimg.com/vi/apiVJfLvUBE/hqdefault.jpg",
+                            description = "Welcome to another engaging episode of Talking Kotlin! In this edition, we dive into the dynamic world of Android development with Colin White, the creator of the widely acclaimed Coil library. Join us as we discuss the latest developments, insights, and the exciting roadmap for Coil. \uD83D\uDE80 Highlights from this Episode: Learn about Colin's journey in developing the Coil library. Discover the pivotal role Coil plays in simplifying image loading for Android developers. Get an exclusive sneak peek into the upcoming Coil 3.0, featuring multi-platform support and seamless integration with Jetpack Compose. \uD83D\uDD17 Helpful Links: Coil Library GitHub: https://coil-kt.github.io/coil/ Follow Colin White on Twitter: https://twitter.com/colinwhi \uD83C\uDF10 Connect with the Kotlin Community: https://kotlinlang.org/community/ Kotlin Foundation: https://kotlinfoundation.org/ \uD83D\uDC49 Don't miss out on the latest insights and updates from the Kotlin world! Subscribe, hit the bell icon, and join the conversation in the comments below. \uD83D\uDCC8 Help us reach 20,000 views by liking, sharing, and subscribing! Your support keeps the Kotlin conversation alive.",
+                        ).toDisplayable("Moments ago"),
+                    )
+                }
+                KotlinYouTubeCard(
+                    item = item,
+                    onItemClick = {},
+                    onSaveButtonClick = {
+                        item = item.copy(
+                            value = it.copy(
+                                savedForLater = !it.savedForLater
+                            )
+                        )
+                    },
+                )
+            }
+
+            item {
+                var item by remember {
+                    mutableStateOf(
                         FeedItem.KotlinWeekly(
                             id = "https://mailchi.mp/kotlinweekly/kotlin-weekly-382",
                             title = "Kotlin Weekly #382",
                             publishTime = "2023-11-26T11:14:09Z".toInstant(),
                             contentUrl = "https://mailchi.mp/kotlinweekly/kotlin-weekly-382",
                             savedForLater = false,
-                        ).toDisplayable(displayablePublishTime = "Moments ago")
+                        ).toDisplayable(displayablePublishTime = "5 hours ago")
                     )
                 }
                 KotlinWeeklyCard(
@@ -131,7 +158,7 @@ public fun HomeScreen(
                             savedForLater = false,
                             thumbnailUrl = "https://i3.ytimg.com/vi/zE2LIAUisRI/hqdefault.jpg",
                             description = "During this webinar, we will get you up to speed with the basics of Kotlin Multiplatform. The webinar will cover what's involved in configuring your development environment, creating a Multiplatform Mobile project, and progressing to a more elaborate project that shares the data and networking layers.",
-                        ).toDisplayable("2 hours ago"),
+                        ).toDisplayable("Yesterday"),
                     )
                 }
                 KotlinYouTubeCard(
@@ -158,7 +185,7 @@ public fun HomeScreen(
                             savedForLater = false,
                             thumbnailUrl = "https://i3.ytimg.com/vi/bz4cQeaXmsI/hqdefault.jpg",
                             description = "JetBrains Kotlin Multiplatform (KMP) is an open-source technology designed for flexible cross-platform development. It allows you to develop apps for Android, iOS, desktop, web, and server-side and efficiently reuse code across them, all while retaining the benefits of native programming. After 8 years of development, KMP has been refined into a production-ready technology and is going Stable, which means now is a great time to start using it in your project.",
-                        ).toDisplayable("Yesterday"),
+                        ).toDisplayable("3 days ago"),
                     )
                 }
                 KotlinYouTubeCard(
@@ -244,12 +271,6 @@ public fun HomeScreen(
                             contentUrl = "https://talkingkotlin.com/http4k-chronicles/",
                             savedForLater = false,
                             podcastLogoUrl = "https://talkingkotlin.com/images/kotlin_talking_logo.png",
-                            tags = listOf(
-                                "Kotlin",
-                                "KMP",
-                                "Kotlin Multiplatform",
-                                "http4k",
-                            ),
                         ).toDisplayable(displayablePublishTime = "14 Nov 2023")
                     )
                 }
@@ -441,12 +462,6 @@ public fun HomeScreen(
                             contentUrl = "https://talkingkotlin.com/Compose-Multiplatform-in-Production-at-Instabee/",
                             savedForLater = false,
                             podcastLogoUrl = "https://talkingkotlin.com/images/kotlin_talking_logo.png",
-                            tags = listOf(
-                                "Kotlin",
-                                "Compose",
-                                "Compose Multiplatform",
-                                "Kotlin Multiplatform",
-                            ),
                         ).toDisplayable(displayablePublishTime = "09 Aug 2023")
                     )
                 }
