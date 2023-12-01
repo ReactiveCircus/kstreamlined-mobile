@@ -1,0 +1,17 @@
+import kotlin.Boolean;
+
+CREATE TABLE feedOriginEntity (
+    key TEXT NOT NULL PRIMARY KEY,
+    title TEXT NOT NULL,
+    description TEXT NOT NULL,
+    selected INTEGER AS Boolean NOT NULL
+);
+
+CREATE INDEX index_feedOriginEntity_selected ON feedOriginEntity(selected);
+
+allFeedOrigins:
+SELECT * FROM feedOriginEntity;
+
+upsertFeedOrigin:
+INSERT OR REPLACE INTO feedOriginEntity
+VALUES (:key, :title, :description, :selected);

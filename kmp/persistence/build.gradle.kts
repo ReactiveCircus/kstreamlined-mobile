@@ -17,6 +17,7 @@ kotlin {
         commonMain {
             dependencies {
                 implementation(libs.androidx.dataStore)
+                api(libs.kotlinx.datetime)
             }
         }
     }
