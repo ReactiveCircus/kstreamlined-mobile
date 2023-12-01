@@ -13,8 +13,8 @@ import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import io.github.reactivecircus.kstreamlined.android.designsystem.ThemePreviews
 import io.github.reactivecircus.kstreamlined.android.designsystem.component.IconButton
 import io.github.reactivecircus.kstreamlined.android.designsystem.component.Surface
 import io.github.reactivecircus.kstreamlined.android.designsystem.component.Text
@@ -88,7 +88,7 @@ public fun KotlinWeeklyCard(
 }
 
 @Composable
-@ThemePreviews
+@PreviewLightDark
 private fun PreviewKotlinWeeklyCard_unsaved() {
     KSTheme {
         Surface {
@@ -109,7 +109,7 @@ private fun PreviewKotlinWeeklyCard_unsaved() {
 }
 
 @Composable
-@ThemePreviews
+@PreviewLightDark
 private fun PreviewKotlinWeeklyCard_saved() {
     KSTheme {
         Surface {

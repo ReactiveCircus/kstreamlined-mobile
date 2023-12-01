@@ -9,8 +9,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import io.github.reactivecircus.kstreamlined.android.designsystem.ThemePreviews
 import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.icon.KSIcons
 
@@ -44,7 +44,7 @@ public fun Chip(
 }
 
 @Composable
-@ThemePreviews
+@PreviewLightDark
 private fun PreviewChip() {
     KSTheme {
         Surface {
