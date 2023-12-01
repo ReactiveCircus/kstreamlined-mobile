@@ -7,6 +7,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import io.github.reactivecircus.kstreamlined.kmp.persistence.database.FeedItemEntity
+import io.github.reactivecircus.kstreamlined.kmp.persistence.database.InstantAdapter
 import io.github.reactivecircus.kstreamlined.kmp.persistence.database.KStreamlinedDatabase
 import javax.inject.Singleton
 
@@ -24,6 +26,9 @@ object PersistenceModule {
                 schema = KStreamlinedDatabase.Schema,
                 context = context,
                 name = "kstreamlined.db",
+            ),
+            feedItemEntityAdapter = FeedItemEntity.Adapter(
+                publishTimeAdapter = InstantAdapter
             )
         )
     }
