@@ -11,9 +11,9 @@ import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import io.github.reactivecircus.kstreamlined.android.designsystem.ThemePreviews
 import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.KSTheme
 import androidx.compose.material3.HorizontalDivider as MaterialHorizontalDivider
 import androidx.compose.material3.VerticalDivider as MaterialVerticalDivider
@@ -47,7 +47,7 @@ public fun VerticalDivider(
 }
 
 @Composable
-@ThemePreviews
+@PreviewLightDark
 private fun PreviewHorizontalDivider() {
     KSTheme {
         Surface {
@@ -67,7 +67,7 @@ private fun PreviewHorizontalDivider() {
 }
 
 @Composable
-@ThemePreviews
+@PreviewLightDark
 private fun PreviewVerticalDivider() {
     KSTheme {
         Surface {

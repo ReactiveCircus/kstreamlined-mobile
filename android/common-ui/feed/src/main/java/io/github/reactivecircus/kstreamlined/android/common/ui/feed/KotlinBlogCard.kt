@@ -13,9 +13,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import io.github.reactivecircus.kstreamlined.android.designsystem.ThemePreviews
 import io.github.reactivecircus.kstreamlined.android.designsystem.component.IconButton
 import io.github.reactivecircus.kstreamlined.android.designsystem.component.Surface
 import io.github.reactivecircus.kstreamlined.android.designsystem.component.Text
@@ -91,7 +91,7 @@ public fun KotlinBlogCard(
 private val ImageHeight = 200.dp
 
 @Composable
-@ThemePreviews
+@PreviewLightDark
 private fun PreviewKotlinBlogCard_unsaved() {
     KSTheme {
         Surface {
@@ -113,7 +113,7 @@ private fun PreviewKotlinBlogCard_unsaved() {
 }
 
 @Composable
-@ThemePreviews
+@PreviewLightDark
 private fun PreviewKotlinBlogCard_saved() {
     KSTheme {
         Surface {

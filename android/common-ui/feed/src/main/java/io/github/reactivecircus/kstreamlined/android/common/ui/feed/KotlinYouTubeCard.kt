@@ -21,9 +21,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import io.github.reactivecircus.kstreamlined.android.designsystem.ThemePreviews
 import io.github.reactivecircus.kstreamlined.android.designsystem.component.Icon
 import io.github.reactivecircus.kstreamlined.android.designsystem.component.IconButton
 import io.github.reactivecircus.kstreamlined.android.designsystem.component.Surface
@@ -139,7 +139,7 @@ private fun PlayIconOverlay(
 private val ImageHeight = 200.dp
 
 @Composable
-@ThemePreviews
+@PreviewLightDark
 private fun PreviewKotlinYouTubeCard_unsaved() {
     KSTheme {
         Surface {
@@ -162,7 +162,7 @@ private fun PreviewKotlinYouTubeCard_unsaved() {
 }
 
 @Composable
-@ThemePreviews
+@PreviewLightDark
 private fun PreviewKotlinYouTubeCard_saved() {
     KSTheme {
         Surface {

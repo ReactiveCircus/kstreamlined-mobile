@@ -21,10 +21,10 @@ import androidx.compose.ui.graphics.Shader
 import androidx.compose.ui.graphics.ShaderBrush
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import io.github.reactivecircus.kstreamlined.android.designsystem.ThemePreviews
 import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.icon.KSIcons
 
@@ -118,7 +118,7 @@ private fun GradientTitle(
 private const val GradientHorizontalScale = 1.3f
 
 @Composable
-@ThemePreviews
+@PreviewLightDark
 private fun PreviewTopNavBar() {
     KSTheme {
         Surface {
@@ -137,7 +137,7 @@ private fun PreviewTopNavBar() {
 }
 
 @Composable
-@ThemePreviews
+@PreviewLightDark
 private fun PreviewTopNavBar_withBottomRow() {
     KSTheme {
         Surface {
@@ -171,7 +171,7 @@ private fun PreviewTopNavBar_withBottomRow() {
 }
 
 @Composable
-@ThemePreviews
+@PreviewLightDark
 private fun PreviewTopNavBar_withNavigationIcon() {
     KSTheme {
         Surface {

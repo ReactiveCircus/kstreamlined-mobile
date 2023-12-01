@@ -24,9 +24,9 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import io.github.reactivecircus.kstreamlined.android.designsystem.ThemePreviews
 import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.color.LocalContentColor
 import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.icon.BookmarkAdd
@@ -155,7 +155,7 @@ private val LargeIconSize = 32.dp
 private val LargeContainerSize = 48.dp
 
 @Composable
-@ThemePreviews
+@PreviewLightDark
 private fun PreviewIconButton() {
     KSTheme {
         Surface {
@@ -170,7 +170,7 @@ private fun PreviewIconButton() {
 }
 
 @Composable
-@ThemePreviews
+@PreviewLightDark
 private fun PreviewLargeIconButton() {
     KSTheme {
         Surface {
@@ -185,7 +185,7 @@ private fun PreviewLargeIconButton() {
 }
 
 @Composable
-@ThemePreviews
+@PreviewLightDark
 private fun PreviewFilledIconButton() {
     KSTheme {
         Surface {
