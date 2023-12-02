@@ -27,3 +27,6 @@ SELECT * FROM feedItemEntity WHERE savedForLater = 1 ORDER BY publishTime DESC;
 upsertFeedItem:
 INSERT OR REPLACE INTO feedItemEntity
 VALUES (:id, :feedOriginKey, :title, :publishTime, :contentUrl, :imageUrl, :savedForLater);
+
+updateSavedForLaterById:
+UPDATE feedItemEntity SET savedForLater = :savedForLater WHERE id = :id;

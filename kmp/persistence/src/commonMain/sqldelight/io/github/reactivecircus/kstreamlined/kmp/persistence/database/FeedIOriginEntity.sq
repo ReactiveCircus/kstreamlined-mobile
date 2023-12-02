@@ -12,6 +12,9 @@ CREATE INDEX index_feedOriginEntity_selected ON feedOriginEntity(selected);
 allFeedOrigins:
 SELECT * FROM feedOriginEntity;
 
+selectedFeedOrigins:
+SELECT * FROM feedOriginEntity WHERE selected = 1;
+
 upsertFeedOrigin:
 INSERT OR REPLACE INTO feedOriginEntity
 VALUES (:key, :title, :description, :selected);
