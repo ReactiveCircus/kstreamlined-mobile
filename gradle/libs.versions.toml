@@ -47,7 +47,7 @@ androidx-test-uiautomator = "2.2.0"
 coil = "2.5.0"
 kermit = "2.0.2"
 radiography = "2.5"
-sqldelight = "2.0.0"
+sqldelight = "2.0.1"
 turbine = "1.0.0"
 crashKios = "0.8.5"
 
