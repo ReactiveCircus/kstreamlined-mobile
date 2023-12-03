@@ -56,7 +56,7 @@ internal fun KotlinMultiplatformExtension.configureKMPTest() {
 internal fun Project.configureKotlinCommonCompileOptions() {
     tasks.withType<KotlinCommonCompile>().configureEach {
         kotlinOptions {
-            freeCompilerArgs = freeCompilerArgs + additionalCompilerArgs
+            freeCompilerArgs = freeCompilerArgs + commonCompilerArgs
         }
     }
 }

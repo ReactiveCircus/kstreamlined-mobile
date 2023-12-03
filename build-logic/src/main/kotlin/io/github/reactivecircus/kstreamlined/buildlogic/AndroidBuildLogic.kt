@@ -54,6 +54,7 @@ internal fun TestedExtension.configureCommonAndroidOptions(project: Project) {
             freeCompilerArgs += buildList {
                 addAll(composeCompilerMetricsArgs(project.layout.buildDirectory).get())
                 addAll(composeCompilerReportsArgs(project.layout.buildDirectory).get())
+                addAll(composeCompilerStrongSkippingArgs)
             }
         }
     }

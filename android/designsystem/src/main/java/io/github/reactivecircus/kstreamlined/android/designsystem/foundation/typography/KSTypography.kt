@@ -1,6 +1,5 @@
 package io.github.reactivecircus.kstreamlined.android.designsystem.foundation.typography
 
-import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -9,7 +8,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import io.github.reactivecircus.kstreamlined.android.designsystem.R
 
-@Immutable
 public class KSTypography internal constructor(
     public val headlineLarge: TextStyle,
     public val headlineMedium: TextStyle,
