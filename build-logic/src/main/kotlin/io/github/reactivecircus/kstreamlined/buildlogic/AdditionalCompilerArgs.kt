@@ -2,8 +2,7 @@ package io.github.reactivecircus.kstreamlined.buildlogic
 
 import org.gradle.api.file.DirectoryProperty
 
-internal val additionalCompilerArgs = listOf(
-    "-XXLanguage:+InlineClasses",
+internal val commonCompilerArgs = listOf(
     "-Xjvm-default=all",
 )
 
@@ -20,3 +19,8 @@ internal fun composeCompilerReportsArgs(buildDir: DirectoryProperty) = buildDir.
         "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=$it"
     )
 }
+
+internal val composeCompilerStrongSkippingArgs = listOf(
+    "-P",
+    "plugin:androidx.compose.compiler.plugins.kotlin:experimentalStrongSkipping=true"
+)

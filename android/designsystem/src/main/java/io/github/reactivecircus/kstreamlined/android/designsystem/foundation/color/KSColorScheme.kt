@@ -1,12 +1,10 @@
 package io.github.reactivecircus.kstreamlined.android.designsystem.foundation.color
 
-import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 
-@Immutable
 public class KSColorScheme internal constructor(
     public val primary: Color,
     public val primaryDark: Color,
