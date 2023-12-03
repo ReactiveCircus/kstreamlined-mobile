@@ -1,4 +1,4 @@
-package io.github.reactivecircus.kstreamlined.kmp.data.utils
+package io.github.reactivecircus.kstreamlined.kmp.core.utils
 
 import kotlin.coroutines.cancellation.CancellationException
 
