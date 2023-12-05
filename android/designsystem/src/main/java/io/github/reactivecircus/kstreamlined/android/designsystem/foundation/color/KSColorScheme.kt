@@ -21,6 +21,8 @@ public class KSColorScheme internal constructor(
     public val onBackground: Color,
     public val onBackgroundVariant: Color,
     public val container: Color,
+    public val containerInverse: Color,
+    public val onContainerInverse: Color,
     public val outline: Color,
     public val gradient: List<Color>,
     public val isDark: Boolean,
@@ -42,6 +44,8 @@ internal val LightColorScheme = KSColorScheme(
     onBackground = Palette.MysteriousDepths10,
     onBackgroundVariant = Palette.MysteriousDepths30,
     container = Palette.CandyDreams20,
+    containerInverse = Palette.MysteriousDepths10,
+    onContainerInverse = Palette.Lavender20,
     outline = Palette.CandyDreams10,
     gradient = listOf(
         Palette.CandyGrapeFizz50,
@@ -67,6 +71,8 @@ internal val DarkColorScheme = KSColorScheme(
     onTertiary = Palette.MysteriousDepths10,
     onTertiaryVariant = Palette.MysteriousDepths30,
     container = Palette.MysteriousDepths20,
+    containerInverse = Palette.Lavender50,
+    onContainerInverse = Palette.MysteriousDepths40,
     outline = Palette.MysteriousDepths30,
     gradient = listOf(
         Palette.CandyGrapeFizz50,
@@ -92,10 +98,12 @@ private object Palette {
     val Lavender50 = Color(0xFF_E7DBFF)
     val Lavender40 = Color(0xFF_DBD0F2)
     val Lavender30 = Color(0xFF_C4BAD9)
+    val Lavender20 = Color(0xFF_ABA2BE)
 
     val CandyDreams20 = Color(0xFF_F1C2F9)
     val CandyDreams10 = Color(0xFF_EDB3F7)
 
+    val MysteriousDepths40 = Color(0xFF_5A5E77)
     val MysteriousDepths30 = Color(0xFF_2C2F4E)
     val MysteriousDepths20 = Color(0xFF_18193A)
     val MysteriousDepths10 = Color(0xFF_070426)
