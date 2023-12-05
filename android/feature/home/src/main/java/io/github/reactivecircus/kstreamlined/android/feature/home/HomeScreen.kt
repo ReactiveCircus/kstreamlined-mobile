@@ -150,18 +150,17 @@ public fun HomeScreen(
             item {
                 var item by remember {
                     mutableStateOf(
-                        FeedItem.KotlinYouTube(
-                            id = "yt:video:zE2LIAUisRI",
-                            title = "Getting Started With KMP: Build Apps for iOS and Android With Shared Logic and Native UIs",
+                        FeedItem.KotlinBlog(
+                            id = "https://blog.jetbrains.com/?post_type=kotlin&p=409489",
+                            title = "Tackle Advent of Code 2023 With Kotlin and Win Prizes!",
                             publishTime = "2023-11-23T17:00:38Z".toInstant(),
-                            contentUrl = "https://www.youtube.com/watch?v=zE2LIAUisRI",
+                            contentUrl = "https://blog.jetbrains.com/kotlin/2023/11/advent-of-code-2023-with-kotlin/",
                             savedForLater = false,
-                            thumbnailUrl = "https://i3.ytimg.com/vi/zE2LIAUisRI/hqdefault.jpg",
-                            description = "During this webinar, we will get you up to speed with the basics of Kotlin Multiplatform. The webinar will cover what's involved in configuring your development environment, creating a Multiplatform Mobile project, and progressing to a more elaborate project that shares the data and networking layers.",
+                            featuredImageUrl = "https://blog.jetbrains.com/wp-content/uploads/2023/11/DSGN-18072-Social-media-banners_Blog-Featured-image-1280x720-1.png",
                         ).toDisplayable("Yesterday"),
                     )
                 }
-                KotlinYouTubeCard(
+                KotlinBlogCard(
                     item = item,
                     onItemClick = {},
                     onSaveButtonClick = {
