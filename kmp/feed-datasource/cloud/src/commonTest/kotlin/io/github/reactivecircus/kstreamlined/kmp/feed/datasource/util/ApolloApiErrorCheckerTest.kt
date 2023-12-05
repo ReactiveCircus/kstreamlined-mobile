@@ -1,9 +1,9 @@
 package io.github.reactivecircus.kstreamlined.kmp.feed.datasource.util
 
-import com.apollographql.apollo3.exception.ApolloGraphQLException
 import com.apollographql.apollo3.exception.ApolloNetworkException
 import com.apollographql.apollo3.exception.ApolloParseException
 import com.apollographql.apollo3.exception.CacheMissException
+import com.apollographql.apollo3.exception.JsonEncodingException
 import com.apollographql.apollo3.exception.NoDataException
 import kotlin.test.Test
 import kotlin.test.assertFalse
@@ -76,7 +76,7 @@ class ApolloApiErrorCheckerTest {
             ApolloApiErrorChecker.isNetworkError(
                 ApolloParseException().apply {
                     addSuppressed(CacheMissException("key", null))
-                    addSuppressed(ApolloGraphQLException(emptyList()))
+                    addSuppressed(JsonEncodingException(""))
                 }
             )
         )
@@ -89,7 +89,7 @@ class ApolloApiErrorCheckerTest {
                 NoDataException(
                     cause = ApolloParseException().apply {
                         addSuppressed(CacheMissException("key", null))
-                        addSuppressed(ApolloGraphQLException(emptyList()))
+                        addSuppressed(JsonEncodingException(""))
                     }
                 )
             )
