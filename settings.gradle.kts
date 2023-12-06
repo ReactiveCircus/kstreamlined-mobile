@@ -68,6 +68,7 @@ include(":kmp:feed-datasource:testing")
 include(":kmp:model")
 include(":kmp:persistence")
 include(":kmp:presentation:home")
+include(":kmp:presentation:saved-for-later")
 include(":kmp:pretty-time")
 include(":kmp:test-utils")
 
@@ -77,6 +78,7 @@ if (!isXCFrameworkBuild) {
     includeProject(":app", "android/app")
     includeProject(":feature:common", "android/feature/common")
     includeProject(":feature:home", "android/feature/home")
+    includeProject(":feature:saved-for-later", "android/feature/saved-for-later")
     includeProject(":common-ui:feed", "android/common-ui/feed")
     includeProject(":designsystem", "android/designsystem")
 }

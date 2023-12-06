@@ -5,7 +5,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -32,6 +31,7 @@ import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.ico
 import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.icon.KSIcons
 import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.icon.Kotlin
 import io.github.reactivecircus.kstreamlined.android.feature.home.HomeScreen
+import io.github.reactivecircus.kstreamlined.android.feature.savedforlater.SavedForLaterScreen
 
 @AndroidEntryPoint
 class KSActivity : ComponentActivity() {
@@ -67,11 +67,7 @@ class KSActivity : ComponentActivity() {
                                 HomeScreen()
                             }
                             NavItemKey.Saved.ordinal -> {
-                                Box(
-                                    modifier = Modifier
-                                        .fillMaxSize()
-                                        .background(KSTheme.colorScheme.background)
-                                )
+                                SavedForLaterScreen()
                             }
                         }
                     }
