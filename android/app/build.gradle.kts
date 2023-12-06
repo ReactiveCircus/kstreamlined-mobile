@@ -235,6 +235,7 @@ dependencies {
 
     implementation(project(":feature:common"))
     implementation(project(":feature:home"))
+    implementation(project(":feature:saved-for-later"))
 
     // Firebase
     releaseImplementation(libs.firebase.perf)
