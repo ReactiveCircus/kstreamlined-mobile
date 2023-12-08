@@ -1,7 +1,6 @@
-package io.github.reactivecircus.kstreamlined.android.common.ui.feed
+package io.github.reactivecircus.kstreamlined.kmp.model.feed
 
 import androidx.compose.runtime.Immutable
-import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
 
 @Immutable
 public data class DisplayableFeedItem<T : FeedItem>(

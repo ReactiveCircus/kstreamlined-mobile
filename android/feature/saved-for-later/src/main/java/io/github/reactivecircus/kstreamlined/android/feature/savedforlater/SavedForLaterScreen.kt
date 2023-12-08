@@ -21,12 +21,12 @@ import io.github.reactivecircus.kstreamlined.android.common.ui.feed.KotlinBlogCa
 import io.github.reactivecircus.kstreamlined.android.common.ui.feed.KotlinWeeklyCard
 import io.github.reactivecircus.kstreamlined.android.common.ui.feed.KotlinYouTubeCard
 import io.github.reactivecircus.kstreamlined.android.common.ui.feed.TalkingKotlinCard
-import io.github.reactivecircus.kstreamlined.android.common.ui.feed.toDisplayable
 import io.github.reactivecircus.kstreamlined.android.designsystem.component.FilledIconButton
 import io.github.reactivecircus.kstreamlined.android.designsystem.component.TopNavBar
 import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.icon.KSIcons
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
+import io.github.reactivecircus.kstreamlined.kmp.model.feed.toDisplayable
 import kotlinx.datetime.toInstant
 
 @Composable

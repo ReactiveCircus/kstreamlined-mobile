@@ -45,6 +45,7 @@ androidx-test-ext-junit = "1.1.5"
 androidx-test-espresso = "3.5.1"
 androidx-test-uiautomator = "2.2.0"
 coil = "2.5.0"
+jetbrainsCompose = "1.5.11"
 kermit = "2.0.2"
 radiography = "2.5"
 sqldelight = "2.0.1"
@@ -110,6 +111,7 @@ androidx-espresso-contrib = { module = "androidx.test.espresso:espresso-contrib"
 androidx-espresso-intents = { module = "androidx.test.espresso:espresso-intents", version.ref = "androidx-test-espresso" }
 coil = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 coil-svg = { module = "io.coil-kt:coil-svg", version.ref = "coil" }
+jetbrainsComposeRuntime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "jetbrainsCompose" }
 apollo-runtime = { module = "com.apollographql.apollo3:apollo-runtime", version.ref = "apollo" }
 apollo-normalizedCache = { module = "com.apollographql.apollo3:apollo-normalized-cache", version.ref = "apollo" }
 apollo-adapters = { module = "com.apollographql.apollo3:apollo-adapters", version.ref = "apollo" }

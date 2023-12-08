@@ -27,7 +27,6 @@ import io.github.reactivecircus.kstreamlined.android.common.ui.feed.KotlinBlogCa
 import io.github.reactivecircus.kstreamlined.android.common.ui.feed.KotlinWeeklyCard
 import io.github.reactivecircus.kstreamlined.android.common.ui.feed.KotlinYouTubeCard
 import io.github.reactivecircus.kstreamlined.android.common.ui.feed.TalkingKotlinCard
-import io.github.reactivecircus.kstreamlined.android.common.ui.feed.toDisplayable
 import io.github.reactivecircus.kstreamlined.android.designsystem.component.FilledIconButton
 import io.github.reactivecircus.kstreamlined.android.designsystem.component.Surface
 import io.github.reactivecircus.kstreamlined.android.designsystem.component.Text
@@ -37,6 +36,7 @@ import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.ico
 import io.github.reactivecircus.kstreamlined.android.feature.home.component.FeedFilterChip
 import io.github.reactivecircus.kstreamlined.android.feature.home.component.SyncButton
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
+import io.github.reactivecircus.kstreamlined.kmp.model.feed.toDisplayable
 import kotlinx.coroutines.delay
 import kotlinx.datetime.toInstant
 
