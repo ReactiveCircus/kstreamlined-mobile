@@ -84,7 +84,7 @@ public fun HomeScreen(
 
         @Suppress("MaxLineLength")
         LazyColumn(
-            contentPadding = PaddingValues(24.dp),
+            contentPadding = ListContentPadding,
             verticalArrangement = Arrangement.spacedBy(20.dp),
         ) {
             item {
@@ -549,3 +549,10 @@ public fun HomeScreen(
         }
     }
 }
+
+private val ListContentPadding = PaddingValues(
+    top = 24.dp,
+    start = 24.dp,
+    end = 24.dp,
+    bottom = 120.dp,
+)
