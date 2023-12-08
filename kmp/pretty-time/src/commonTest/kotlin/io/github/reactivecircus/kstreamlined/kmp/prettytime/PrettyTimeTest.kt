@@ -13,15 +13,21 @@ import kotlin.time.Duration.Companion.seconds
 
 class PrettyTimeTest {
 
+    private val fixedClock = object : Clock {
+        override fun now(): Instant {
+            return "2023-12-03T03:10:54Z".toInstant()
+        }
+    }
+
     @Test
     fun weeksAgo() {
-        val now = Clock.System.now()
-        assertEquals("This week", now.minus(1.seconds).weeksAgo())
-        assertEquals("This week", now.minus(7.days - 1.seconds).weeksAgo())
-        assertEquals("Last week", now.minus(7.days).weeksAgo())
-        assertEquals("Last week", now.minus(14.days - 1.seconds).weeksAgo())
-        assertEquals("Earlier", now.minus(14.days).weeksAgo())
-        assertEquals("Earlier", now.minus(100.days).weeksAgo())
+        val now = fixedClock.now()
+        assertEquals("This week", now.minus(1.seconds).weeksAgo(fixedClock))
+        assertEquals("This week", now.minus(7.days - 1.seconds).weeksAgo(fixedClock))
+        assertEquals("Last week", now.minus(7.days).weeksAgo(fixedClock))
+        assertEquals("Last week", now.minus(14.days - 1.seconds).weeksAgo(fixedClock))
+        assertEquals("Earlier", now.minus(14.days).weeksAgo(fixedClock))
+        assertEquals("Earlier", now.minus(100.days).weeksAgo(fixedClock))
     }
 
     @Test

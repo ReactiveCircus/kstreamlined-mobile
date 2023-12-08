@@ -1,0 +1,193 @@
+package io.github.reactivecircus.kstreamlined.kmp.presentation.home
+
+import io.github.reactivecircus.kstreamlined.kmp.model.feed.DisplayableFeedItem
+import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
+import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toInstant
+import kotlin.test.Test
+import kotlin.test.assertEquals
+
+class HomeFeedItemMapperTest {
+
+    @Test
+    fun `transformed HomeFeedItems are grouped by weeks with expected displayable time`() {
+        val fixedClock = object : Clock {
+            override fun now(): Instant {
+                return "2023-12-03T03:10:54Z".toInstant()
+            }
+        }
+        val timeZone = TimeZone.UTC
+
+        val feedItems = listOf(
+            // this week
+            // moments ago
+            FeedItem.KotlinBlog(
+                id = "1",
+                title = "Kotlin Blog 1",
+                publishTime = "2023-12-03T03:10:00Z".toInstant(),
+                contentUrl = "content-url",
+                savedForLater = false,
+                featuredImageUrl = "feature-image-url",
+            ),
+            // 30 minutes ago
+            FeedItem.KotlinYouTube(
+                id = "2",
+                title = "Kotlin YouTube 1",
+                publishTime = "2023-12-03T02:40:54Z".toInstant(),
+                contentUrl = "content-url",
+                savedForLater = false,
+                thumbnailUrl = "thumbnail-url",
+                description = "description",
+            ),
+            // 5 hours ago
+            FeedItem.KotlinWeekly(
+                id = "3",
+                title = "Kotlin Weekly 1",
+                publishTime = "2023-12-02T22:10:54Z".toInstant(),
+                contentUrl = "content-url",
+                savedForLater = false,
+            ),
+            // yesterday
+            FeedItem.TalkingKotlin(
+                id = "4",
+                title = "Talking Kotlin 1",
+                publishTime = "2023-12-02T03:10:54Z".toInstant(),
+                contentUrl = "content-url",
+                savedForLater = false,
+                podcastLogoUrl = "podcast-logo-url",
+            ),
+            // 5 days ago
+            FeedItem.KotlinBlog(
+                id = "5",
+                title = "Kotlin Blog 2",
+                publishTime = "2023-11-28T03:10:54Z".toInstant(),
+                contentUrl = "content-url",
+                savedForLater = false,
+                featuredImageUrl = "feature-image-url",
+            ),
+            // last week
+            // 12 days ago
+            FeedItem.KotlinYouTube(
+                id = "6",
+                title = "Kotlin YouTube 2",
+                publishTime = "2023-11-21T03:10:54Z".toInstant(),
+                contentUrl = "content-url",
+                savedForLater = false,
+                thumbnailUrl = "thumbnail-url",
+                description = "description",
+            ),
+            // earlier
+            // 20 days ago
+            FeedItem.KotlinWeekly(
+                id = "7",
+                title = "Kotlin Weekly 2",
+                publishTime = "2023-11-13T03:10:54Z".toInstant(),
+                contentUrl = "content-url",
+                savedForLater = false,
+            ),
+        )
+
+        val expectedHomeFeedItems = listOf(
+            HomeFeedItem.SectionHeader("This week"),
+            HomeFeedItem.Item(
+                displayableFeedItem = DisplayableFeedItem(
+                    FeedItem.KotlinBlog(
+                        id = "1",
+                        title = "Kotlin Blog 1",
+                        publishTime = "2023-12-03T03:10:00Z".toInstant(),
+                        contentUrl = "content-url",
+                        savedForLater = false,
+                        featuredImageUrl = "feature-image-url",
+                    ),
+                    displayablePublishTime = "Moments ago",
+                )
+            ),
+            HomeFeedItem.Item(
+                displayableFeedItem = DisplayableFeedItem(
+                    FeedItem.KotlinYouTube(
+                        id = "2",
+                        title = "Kotlin YouTube 1",
+                        publishTime = "2023-12-03T02:40:54Z".toInstant(),
+                        contentUrl = "content-url",
+                        savedForLater = false,
+                        thumbnailUrl = "thumbnail-url",
+                        description = "description",
+                    ),
+                    displayablePublishTime = "30 minutes ago",
+                )
+            ),
+            HomeFeedItem.Item(
+                displayableFeedItem = DisplayableFeedItem(
+                    FeedItem.KotlinWeekly(
+                        id = "3",
+                        title = "Kotlin Weekly 1",
+                        publishTime = "2023-12-02T22:10:54Z".toInstant(),
+                        contentUrl = "content-url",
+                        savedForLater = false,
+                    ),
+                    displayablePublishTime = "5 hours ago",
+                )
+            ),
+            HomeFeedItem.Item(
+                displayableFeedItem = DisplayableFeedItem(
+                    FeedItem.TalkingKotlin(
+                        id = "4",
+                        title = "Talking Kotlin 1",
+                        publishTime = "2023-12-02T03:10:54Z".toInstant(),
+                        contentUrl = "content-url",
+                        savedForLater = false,
+                        podcastLogoUrl = "podcast-logo-url",
+                    ),
+                    displayablePublishTime = "Yesterday",
+                )
+            ),
+            HomeFeedItem.Item(
+                displayableFeedItem = DisplayableFeedItem(
+                    FeedItem.KotlinBlog(
+                        id = "5",
+                        title = "Kotlin Blog 2",
+                        publishTime = "2023-11-28T03:10:54Z".toInstant(),
+                        contentUrl = "content-url",
+                        savedForLater = false,
+                        featuredImageUrl = "feature-image-url",
+                    ),
+                    displayablePublishTime = "5 days ago",
+                )
+            ),
+            HomeFeedItem.SectionHeader("Last week"),
+            HomeFeedItem.Item(
+                displayableFeedItem = DisplayableFeedItem(
+                    FeedItem.KotlinYouTube(
+                        id = "6",
+                        title = "Kotlin YouTube 2",
+                        publishTime = "2023-11-21T03:10:54Z".toInstant(),
+                        contentUrl = "content-url",
+                        savedForLater = false,
+                        thumbnailUrl = "thumbnail-url",
+                        description = "description",
+                    ),
+                    displayablePublishTime = "21 Nov 2023",
+                )
+            ),
+            HomeFeedItem.SectionHeader("Earlier"),
+            HomeFeedItem.Item(
+                displayableFeedItem = DisplayableFeedItem(
+                    FeedItem.KotlinWeekly(
+                        id = "7",
+                        title = "Kotlin Weekly 2",
+                        publishTime = "2023-11-13T03:10:54Z".toInstant(),
+                        contentUrl = "content-url",
+                        savedForLater = false,
+                    ),
+                    displayablePublishTime = "13 Nov 2023",
+                )
+            ),
+        )
+
+        val actualHomeFeedItems = feedItems.toHomeFeedItems(fixedClock, timeZone)
+
+        assertEquals(expectedHomeFeedItems, actualHomeFeedItems)
+    }
+}

@@ -14,5 +14,4 @@ dependencies {
     implementation(project(":feature:common"))
     implementation(project(":common-ui:feed"))
     implementation(project(":kmp:presentation:saved-for-later"))
-    implementation(project(":kmp:data"))
 }

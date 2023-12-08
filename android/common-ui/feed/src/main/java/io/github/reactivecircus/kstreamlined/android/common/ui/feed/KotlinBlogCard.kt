@@ -23,7 +23,9 @@ import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.KST
 import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.icon.BookmarkAdd
 import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.icon.BookmarkFill
 import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.icon.KSIcons
+import io.github.reactivecircus.kstreamlined.kmp.model.feed.DisplayableFeedItem
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
+import io.github.reactivecircus.kstreamlined.kmp.model.feed.toDisplayable
 import kotlinx.datetime.toInstant
 
 @Composable

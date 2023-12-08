@@ -6,8 +6,10 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
 @Suppress("MagicNumber")
-public fun Instant.weeksAgo(): String {
-    val duration = Clock.System.now().minus(this)
+public fun Instant.weeksAgo(
+    clock: Clock = Clock.System
+): String {
+    val duration = clock.now().minus(this)
     val weekDifference = duration.inWholeDays / 7
     return when (weekDifference) {
         0L -> "This week"
@@ -19,7 +21,7 @@ public fun Instant.weeksAgo(): String {
 @Suppress("MagicNumber")
 public fun Instant.timeAgo(
     clock: Clock = Clock.System,
-    timeZone: TimeZone = TimeZone.currentSystemDefault()
+    timeZone: TimeZone = TimeZone.currentSystemDefault(),
 ): String {
     val now = clock.now()
     val duration = now.minus(this)
