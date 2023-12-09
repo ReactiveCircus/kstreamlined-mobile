@@ -1,13 +1,13 @@
 *.iml
 .gradle
-/local.properties
-/.idea/
+local.properties
+.idea/*
+!.idea/icon.png
 .DS_Store
 build/
-/captures
+captures
 .externalNativeBuild
 .cxx
-local.properties
 
 # Common secrets
 google-services.json
