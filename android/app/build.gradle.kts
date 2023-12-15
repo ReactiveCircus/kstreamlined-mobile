@@ -234,6 +234,7 @@ dependencies {
     implementation(project(":kmp:data"))
 
     implementation(project(":feature:common"))
+    implementation(project(":feature:content-viewer"))
     implementation(project(":feature:home"))
     implementation(project(":feature:saved-for-later"))
 

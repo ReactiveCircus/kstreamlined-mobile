@@ -58,7 +58,8 @@ import kotlin.random.Random
 
 @Composable
 public fun HomeScreen(
-    modifier: Modifier = Modifier
+    onViewContent: (id: String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     var syncing by remember { mutableStateOf(true) }
 
@@ -133,7 +134,10 @@ public fun HomeScreen(
                     }
 
                     is HomeUiState.Content -> {
-                        ContentUi(state.feedItems)
+                        ContentUi(
+                            items = state.feedItems,
+                            onItemClick = { onViewContent(it.contentUrl) },
+                        )
                     }
                 }
             }
@@ -144,6 +148,7 @@ public fun HomeScreen(
 @Composable
 private fun ContentUi(
     items: List<HomeFeedItem>,
+    onItemClick: (FeedItem) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(
@@ -181,7 +186,7 @@ private fun ContentUi(
                         is FeedItem.KotlinBlog -> {
                             KotlinBlogCard(
                                 item = item.toDisplayable(displayablePublishTime),
-                                onItemClick = {},
+                                onItemClick = onItemClick,
                                 onSaveButtonClick = {},
                             )
                         }
@@ -189,7 +194,7 @@ private fun ContentUi(
                         is FeedItem.KotlinWeekly -> {
                             KotlinWeeklyCard(
                                 item = item.toDisplayable(displayablePublishTime),
-                                onItemClick = {},
+                                onItemClick = onItemClick,
                                 onSaveButtonClick = {},
                             )
                         }
@@ -197,7 +202,7 @@ private fun ContentUi(
                         is FeedItem.KotlinYouTube -> {
                             KotlinYouTubeCard(
                                 item = item.toDisplayable(displayablePublishTime),
-                                onItemClick = {},
+                                onItemClick = onItemClick,
                                 onSaveButtonClick = {},
                             )
                         }
@@ -205,7 +210,7 @@ private fun ContentUi(
                         is FeedItem.TalkingKotlin -> {
                             TalkingKotlinCard(
                                 item = item.toDisplayable(displayablePublishTime),
-                                onItemClick = {},
+                                onItemClick = onItemClick,
                                 onSaveButtonClick = {},
                             )
                         }

@@ -5,6 +5,7 @@ import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.KeyboardArrowDown
 import androidx.compose.material.icons.rounded.PlayArrow
 import androidx.compose.material.icons.rounded.Settings
+import androidx.compose.material.icons.rounded.Share
 import androidx.compose.ui.graphics.vector.ImageVector
 
 public object KSIcons {
@@ -12,4 +13,5 @@ public object KSIcons {
     public val Settings: ImageVector = Icons.Rounded.Settings
     public val ArrowDown: ImageVector = Icons.Rounded.KeyboardArrowDown
     public val PlayArrow: ImageVector = Icons.Rounded.PlayArrow
+    public val Share: ImageVector = Icons.Rounded.Share
 }
