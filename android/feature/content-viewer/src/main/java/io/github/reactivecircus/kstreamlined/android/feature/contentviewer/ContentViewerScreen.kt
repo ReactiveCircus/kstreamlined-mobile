@@ -16,8 +16,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -102,9 +100,7 @@ private fun ContentUi(
         )
         WebView(
             state = state,
-            modifier = Modifier
-                .alpha(animatedAlpha)
-                .verticalScroll(rememberScrollState()),
+            modifier = Modifier.alpha(animatedAlpha),
             onCreated = {
                 @SuppressLint("SetJavaScriptEnabled")
                 it.settings.javaScriptEnabled = true
