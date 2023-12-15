@@ -39,7 +39,8 @@ import kotlinx.datetime.toInstant
 
 @Composable
 public fun SavedForLaterScreen(
-    modifier: Modifier = Modifier
+    onViewContent: (id: String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier
@@ -58,7 +59,9 @@ public fun SavedForLaterScreen(
             },
         )
         if (true) {
-            ContentUi()
+            ContentUi(
+                onItemClick = { onViewContent(it.contentUrl) },
+            )
         } else {
             EmptyUi()
         }
@@ -68,6 +71,7 @@ public fun SavedForLaterScreen(
 @Suppress("MaxLineLength")
 @Composable
 private fun ContentUi(
+    onItemClick: (FeedItem) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(
@@ -91,7 +95,7 @@ private fun ContentUi(
             }
             KotlinYouTubeCard(
                 item = item,
-                onItemClick = {},
+                onItemClick = onItemClick,
                 onSaveButtonClick = {
                     item = item.copy(
                         value = it.copy(
@@ -116,7 +120,7 @@ private fun ContentUi(
             }
             KotlinWeeklyCard(
                 item = item,
-                onItemClick = {},
+                onItemClick = onItemClick,
                 onSaveButtonClick = {
                     item = item.copy(
                         value = it.copy(
@@ -142,7 +146,7 @@ private fun ContentUi(
             }
             KotlinBlogCard(
                 item = item,
-                onItemClick = {},
+                onItemClick = onItemClick,
                 onSaveButtonClick = {
                     item = item.copy(
                         value = it.copy(
@@ -168,7 +172,7 @@ private fun ContentUi(
             }
             TalkingKotlinCard(
                 item = item,
-                onItemClick = {},
+                onItemClick = onItemClick,
                 onSaveButtonClick = {
                     item = item.copy(
                         value = it.copy(
@@ -194,7 +198,7 @@ private fun ContentUi(
             }
             KotlinBlogCard(
                 item = item,
-                onItemClick = {},
+                onItemClick = onItemClick,
                 onSaveButtonClick = {
                     item = item.copy(
                         value = it.copy(
@@ -220,7 +224,7 @@ private fun ContentUi(
             }
             KotlinBlogCard(
                 item = item,
-                onItemClick = {},
+                onItemClick = onItemClick,
                 onSaveButtonClick = {
                     item = item.copy(
                         value = it.copy(
