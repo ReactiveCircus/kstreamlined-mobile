@@ -166,6 +166,7 @@ private fun ContentUi(
                         publishTime = "2023-11-13T23:00:00Z".toInstant(),
                         contentUrl = "https://soundcloud.com/user-38099918/http4k-chronicles",
                         savedForLater = false,
+                        audioUrl = "https://feeds.soundcloud.com/stream/1664789634-user-38099918-http4k-chronicles.mp3",
                         thumbnailUrl = "https://i1.sndcdn.com/artworks-uP9Cxy5KSYNzGebf-3q1MsQ-t3000x3000.jpg",
                         summary = "Dive into the intricate world of microservices with the latest episode of Talking Kotlin, hosted by Sebastian and Hadi.",
                         duration = "56min.",

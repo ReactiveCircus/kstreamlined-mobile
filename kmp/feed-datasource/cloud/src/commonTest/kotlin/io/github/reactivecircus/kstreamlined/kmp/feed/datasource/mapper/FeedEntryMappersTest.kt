@@ -73,6 +73,7 @@ class FeedEntryMappersTest {
                     title = "Talking Kotlin Podcast"
                     publishTime = "2022-01-03T00:00:00Z".toInstant()
                     contentUrl = "https://talkingkotlin.com/podcast"
+                    audioUrl = "audio.mp3"
                     thumbnailUrl = "https://talkingkotlin.com/podcast/logo"
                     summary = "Talking kotlin podcast episode summary"
                     duration = "35min."
@@ -85,6 +86,7 @@ class FeedEntryMappersTest {
             title = "Talking Kotlin Podcast",
             publishTime = "2022-01-03T00:00:00Z".toInstant(),
             contentUrl = "https://talkingkotlin.com/podcast",
+            audioUrl = "audio.mp3",
             thumbnailUrl = "https://talkingkotlin.com/podcast/logo",
             summary = "Talking kotlin podcast episode summary",
             duration = "35min.",

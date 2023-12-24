@@ -50,6 +50,7 @@ public val FakeFeedEntries: List<FeedEntry> = listOf(
         title = "Making Multiplatform Better",
         publishTime = "2023-09-18T22:00:00Z".toInstant(),
         contentUrl = "https://soundcloud.com/user-38099918/making-multiplatform-better",
+        audioUrl = "https://feeds.soundcloud.com/stream/1620132927-user-38099918-making-multiplatform-better.mp3",
         thumbnailUrl = "https://i1.sndcdn.com/artworks-zzYOFetx0rxBg1eJ-8bJzmw-t3000x3000.jpg",
         summary = "In this episode, we talk to Kevin Galligan and JP Cathcart from Touchlab about the Kotlin Multiplatform ecosystem and the new Kotlin Multiplatform Mobile (KMM) plugin for Android Studio. We discuss the state of Kotlin Multiplatform, the challenges of building cross-platform libraries, and how KMM helps to address these challenges. We also touch on the new KMM plugin for Android Studio and how it helps to streamline the development of cross-platform apps.",
         duration = "45min.",
