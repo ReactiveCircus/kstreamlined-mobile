@@ -12,6 +12,7 @@ query FeedEntriesQuery($filters: [FeedSourceKey!]) {
       description
     }
     ... on TalkingKotlin {
+      audioUrl
       thumbnailUrl
       summary
       duration

@@ -40,6 +40,7 @@ internal fun FeedEntriesQuery.TalkingKotlinFeedEntry.asExternalModel(): FeedEntr
         title = this.title,
         publishTime = this.publishTime,
         contentUrl = this.contentUrl,
+        audioUrl = this.onTalkingKotlin.audioUrl,
         thumbnailUrl = this.onTalkingKotlin.thumbnailUrl,
         summary = this.onTalkingKotlin.summary,
         duration = this.onTalkingKotlin.duration,

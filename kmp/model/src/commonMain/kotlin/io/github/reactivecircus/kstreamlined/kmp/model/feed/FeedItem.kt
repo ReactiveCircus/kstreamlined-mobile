@@ -36,6 +36,7 @@ public sealed interface FeedItem {
         override val publishTime: Instant,
         override val contentUrl: String,
         override val savedForLater: Boolean,
+        val audioUrl: String,
         val thumbnailUrl: String,
         val summary: String,
         val duration: String,
