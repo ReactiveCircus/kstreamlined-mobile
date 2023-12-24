@@ -73,7 +73,9 @@ class FeedEntryMappersTest {
                     title = "Talking Kotlin Podcast"
                     publishTime = "2022-01-03T00:00:00Z".toInstant()
                     contentUrl = "https://talkingkotlin.com/podcast"
-                    podcastLogoUrl = "https://talkingkotlin.com/podcast/logo"
+                    thumbnailUrl = "https://talkingkotlin.com/podcast/logo"
+                    summary = "Talking kotlin podcast episode summary"
+                    duration = "35min."
                 },
             )
         }.feedEntries.first()
@@ -83,7 +85,9 @@ class FeedEntryMappersTest {
             title = "Talking Kotlin Podcast",
             publishTime = "2022-01-03T00:00:00Z".toInstant(),
             contentUrl = "https://talkingkotlin.com/podcast",
-            podcastLogoUrl = "https://talkingkotlin.com/podcast/logo",
+            thumbnailUrl = "https://talkingkotlin.com/podcast/logo",
+            summary = "Talking kotlin podcast episode summary",
+            duration = "35min.",
         )
 
         assertEquals(expectedFeedEntry, apolloFeedEntry.asExternalModel())

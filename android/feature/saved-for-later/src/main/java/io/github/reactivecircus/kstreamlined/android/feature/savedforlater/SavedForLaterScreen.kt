@@ -161,12 +161,14 @@ private fun ContentUi(
             var item by remember {
                 mutableStateOf(
                     FeedItem.TalkingKotlin(
-                        id = "https://talkingkotlin.com/http4k-chronicles",
+                        id = "tag:soundcloud,2010:tracks/1664789634",
                         title = "http4k Chronicles",
                         publishTime = "2023-11-13T23:00:00Z".toInstant(),
-                        contentUrl = "https://talkingkotlin.com/http4k-chronicles/",
-                        savedForLater = true,
-                        podcastLogoUrl = "https://talkingkotlin.com/images/kotlin_talking_logo.png",
+                        contentUrl = "https://soundcloud.com/user-38099918/http4k-chronicles",
+                        savedForLater = false,
+                        thumbnailUrl = "https://i1.sndcdn.com/artworks-uP9Cxy5KSYNzGebf-3q1MsQ-t3000x3000.jpg",
+                        summary = "Dive into the intricate world of microservices with the latest episode of Talking Kotlin, hosted by Sebastian and Hadi.",
+                        duration = "56min.",
                     ).toDisplayable(displayablePublishTime = "13 Nov 2023")
                 )
             }

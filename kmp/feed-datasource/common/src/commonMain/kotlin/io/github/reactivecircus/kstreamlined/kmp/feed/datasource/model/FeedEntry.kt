@@ -30,7 +30,9 @@ public sealed interface FeedEntry {
         override val title: String,
         override val publishTime: Instant,
         override val contentUrl: String,
-        val podcastLogoUrl: String,
+        val thumbnailUrl: String,
+        val summary: String,
+        val duration: String,
     ) : FeedEntry
 
     public data class KotlinWeekly(

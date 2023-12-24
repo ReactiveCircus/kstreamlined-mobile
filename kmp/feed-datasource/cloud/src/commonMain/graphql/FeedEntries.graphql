@@ -12,7 +12,9 @@ query FeedEntriesQuery($filters: [FeedSourceKey!]) {
       description
     }
     ... on TalkingKotlin {
-      podcastLogoUrl
+      thumbnailUrl
+      summary
+      duration
     }
     ... on KotlinWeekly {
       contentUrl

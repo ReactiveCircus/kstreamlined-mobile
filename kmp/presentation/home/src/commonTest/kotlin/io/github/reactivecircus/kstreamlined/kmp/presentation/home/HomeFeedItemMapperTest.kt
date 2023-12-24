@@ -56,7 +56,9 @@ class HomeFeedItemMapperTest {
                 publishTime = "2023-12-02T03:10:54Z".toInstant(),
                 contentUrl = "content-url",
                 savedForLater = false,
-                podcastLogoUrl = "podcast-logo-url",
+                thumbnailUrl = "podcast-logo-url",
+                summary = "summary",
+                duration = "35min.",
             ),
             // 5 days ago
             FeedItem.KotlinBlog(
@@ -138,7 +140,9 @@ class HomeFeedItemMapperTest {
                         publishTime = "2023-12-02T03:10:54Z".toInstant(),
                         contentUrl = "content-url",
                         savedForLater = false,
-                        podcastLogoUrl = "podcast-logo-url",
+                        thumbnailUrl = "podcast-logo-url",
+                        summary = "summary",
+                        duration = "35min.",
                     ),
                     displayablePublishTime = "Yesterday",
                 )
