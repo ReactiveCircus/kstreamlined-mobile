@@ -443,14 +443,19 @@ type TalkingKotlin implements FeedEntry {
   contentUrl: String!
 
   """
-  Url of the podcast logo.
+  Url of the podcast thumbnail.
   """
-  podcastLogoUrl: String!
+  thumbnailUrl: String!
 
   """
-  Tags of the episode.
+  Summary of the podcast.
   """
-  tags: [String!]!
+  summary: String!
+
+  """
+  Duration of the podcast.
+  """
+  duration: String!
 }
 
 scalar _FieldSet

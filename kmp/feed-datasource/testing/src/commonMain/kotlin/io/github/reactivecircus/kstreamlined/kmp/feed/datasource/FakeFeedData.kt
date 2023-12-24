@@ -46,11 +46,13 @@ public val FakeFeedEntries: List<FeedEntry> = listOf(
         description = "JetBrains Kotlin Multiplatform (KMP) is an open-source technology designed for flexible cross-platform development. It allows you to develop apps for Android, iOS, desktop, web, and server-side and efficiently reuse code across them, all while retaining the benefits of native programming. After 8 years of development, KMP has been refined into a production-ready technology and is going Stable, which means now is a great time to start using it in your project.",
     ),
     FeedEntry.TalkingKotlin(
-        id = "https://talkingkotlin.com/making-multiplatform-better",
+        id = "tag:soundcloud,2010:tracks/1620132927",
         title = "Making Multiplatform Better",
         publishTime = "2023-09-18T22:00:00Z".toInstant(),
-        contentUrl = "https://talkingkotlin.com/making-multiplatform-better/",
-        podcastLogoUrl = "https://talkingkotlin.com/images/kotlin_talking_logo.png",
+        contentUrl = "https://soundcloud.com/user-38099918/making-multiplatform-better",
+        thumbnailUrl = "https://i1.sndcdn.com/artworks-zzYOFetx0rxBg1eJ-8bJzmw-t3000x3000.jpg",
+        summary = "In this episode, we talk to Kevin Galligan and JP Cathcart from Touchlab about the Kotlin Multiplatform ecosystem and the new Kotlin Multiplatform Mobile (KMM) plugin for Android Studio. We discuss the state of Kotlin Multiplatform, the challenges of building cross-platform libraries, and how KMM helps to address these challenges. We also touch on the new KMM plugin for Android Studio and how it helps to streamline the development of cross-platform apps.",
+        duration = "45min.",
     ),
     FeedEntry.KotlinWeekly(
         id = "https://mailchi.mp/kotlinweekly/kotlin-weekly-381",
