@@ -5,10 +5,12 @@ import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.api.Optional
 import io.github.reactivecircus.kstreamlined.graphql.FeedEntriesQuery
 import io.github.reactivecircus.kstreamlined.graphql.FeedSourcesQuery
+import io.github.reactivecircus.kstreamlined.graphql.KotlinWeeklyIssueQuery
 import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.mapper.asApolloModel
 import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.mapper.asExternalModel
 import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.model.FeedEntry
 import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.model.FeedSource
+import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.model.KotlinWeeklyIssueEntry
 import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.networking.defaultFetchPolicy
 
 public class CloudFeedDataSource(private val apolloClient: ApolloClient) : FeedDataSource {
@@ -40,5 +42,19 @@ public class CloudFeedDataSource(private val apolloClient: ApolloClient) : FeedD
         }.onFailure {
             Logger.w("Query failed", it)
         }.getOrThrow().map { it.asExternalModel() }
+    }
+
+    override suspend fun loadKotlinWeeklyIssue(
+        url: String
+    ): List<KotlinWeeklyIssueEntry> {
+        return runCatching {
+            apolloClient.query(
+                KotlinWeeklyIssueQuery(url = url)
+            )
+                .execute()
+                .dataOrThrow().kotlinWeeklyIssueEntries
+        }.onFailure {
+            Logger.w("Query failed", it)
+        }.getOrThrow().mapNotNull { it.asExternalModel() }
     }
 }

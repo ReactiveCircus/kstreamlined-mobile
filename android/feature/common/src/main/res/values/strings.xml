@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="error_message">Something went wrong. Please try again later.</string>
+    <string name="empty_state_message">Nothing to see here.</string>
+</resources>

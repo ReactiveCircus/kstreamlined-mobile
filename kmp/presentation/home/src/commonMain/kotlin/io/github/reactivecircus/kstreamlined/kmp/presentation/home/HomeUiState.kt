@@ -6,10 +6,7 @@ import kotlinx.datetime.toInstant
 // TODO re-model to support pull to refresh and transient error
 public sealed interface HomeUiState {
     public data object InFlight : HomeUiState
-    public sealed interface Error : HomeUiState {
-        public data object Network : Error
-        public data object Server : Error
-    }
+    public data object Error : HomeUiState
     public data class Content(
         val feedItems: List<HomeFeedItem>,
     ) : HomeUiState

@@ -2,6 +2,7 @@ package io.github.reactivecircus.kstreamlined.kmp.feed.datasource
 
 import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.model.FeedEntry
 import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.model.FeedSource
+import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.model.KotlinWeeklyIssueEntry
 
 public class FakeFeedDataSource : FeedDataSource {
 
@@ -15,6 +16,12 @@ public class FakeFeedDataSource : FeedDataSource {
         FakeFeedEntries
     }
 
+    public var nextKotlinWeeklyIssueResponse: suspend (
+        url: String
+    ) -> List<KotlinWeeklyIssueEntry> = {
+        FakeKotlinWeeklyIssueEntries
+    }
+
     override suspend fun loadFeedOrigins(refresh: Boolean): List<FeedSource> {
         return nextFeedSourcesResponse()
     }
@@ -24,5 +31,9 @@ public class FakeFeedDataSource : FeedDataSource {
         refresh: Boolean,
     ): List<FeedEntry> {
         return nextFeedEntriesResponse(filters)
+    }
+
+    override suspend fun loadKotlinWeeklyIssue(url: String): List<KotlinWeeklyIssueEntry> {
+        return nextKotlinWeeklyIssueResponse(url)
     }
 }

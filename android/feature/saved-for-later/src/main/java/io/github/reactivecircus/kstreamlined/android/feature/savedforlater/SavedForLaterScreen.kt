@@ -36,10 +36,11 @@ import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.ico
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.toDisplayable
 import kotlinx.datetime.toInstant
+import io.github.reactivecircus.kstreamlined.android.feature.common.R as CommonR
 
 @Composable
 public fun SavedForLaterScreen(
-    onViewContent: (id: String) -> Unit,
+    onViewItem: (FeedItem) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -60,7 +61,7 @@ public fun SavedForLaterScreen(
         )
         if (true) {
             ContentUi(
-                onItemClick = { onViewContent(it.contentUrl) },
+                onItemClick = onViewItem,
             )
         } else {
             EmptyUi()
@@ -252,13 +253,13 @@ private fun EmptyUi(
         verticalArrangement = Arrangement.Center,
     ) {
         AsyncImage(
-            R.drawable.ic_kodee_lost,
+            CommonR.drawable.ic_kodee_lost,
             contentDescription = null,
             modifier = Modifier.size(160.dp),
         )
         Spacer(modifier = Modifier.height(36.dp))
         Text(
-            text = stringResource(id = R.string.empty_state_message),
+            text = stringResource(id = CommonR.string.empty_state_message),
             style = KSTheme.typography.bodyLarge,
             modifier = Modifier.padding(horizontal = 24.dp),
             textAlign = TextAlign.Center,

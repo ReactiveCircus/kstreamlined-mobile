@@ -29,12 +29,13 @@ import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.ico
 import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.icon.Kotlin
 import io.github.reactivecircus.kstreamlined.android.feature.home.HomeScreen
 import io.github.reactivecircus.kstreamlined.android.feature.savedforlater.SavedForLaterScreen
+import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
 import kotlin.math.absoluteValue
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MainScreen(
-    onViewContent: (id: String) -> Unit,
+    onViewItem: (FeedItem) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Box(modifier = modifier.fillMaxSize()) {
@@ -50,14 +51,14 @@ fun MainScreen(
             when (it) {
                 NavItemKey.Home.ordinal -> {
                     HomeScreen(
-                        onViewContent = onViewContent,
+                        onViewItem = onViewItem,
                         modifier = Modifier.pagerScaleTransition(it, pagerState)
                     )
                 }
 
                 NavItemKey.Saved.ordinal -> {
                     SavedForLaterScreen(
-                        onViewContent = onViewContent,
+                        onViewItem = onViewItem,
                         modifier = Modifier.pagerScaleTransition(it, pagerState)
                     )
                 }

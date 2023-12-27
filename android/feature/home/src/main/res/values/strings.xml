@@ -3,7 +3,4 @@
     <string name="title_home">KStreamlined</string>
     <string name="feeds_selected">%1$d Feeds selected</string>
     <string name="sync">Sync</string>
-
-    <string name="error_message_network">Looks like you\'re offline.</string>
-    <string name="error_message_server">Something went wrong. Please try again later.</string>
 </resources>
