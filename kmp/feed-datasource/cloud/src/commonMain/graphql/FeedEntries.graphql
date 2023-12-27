@@ -19,6 +19,7 @@ query FeedEntriesQuery($filters: [FeedSourceKey!]) {
     }
     ... on KotlinWeekly {
       contentUrl
+      issueNumber
     }
   }
 }

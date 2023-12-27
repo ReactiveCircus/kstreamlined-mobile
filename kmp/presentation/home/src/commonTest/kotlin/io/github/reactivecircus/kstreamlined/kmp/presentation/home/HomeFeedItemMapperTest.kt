@@ -44,10 +44,11 @@ class HomeFeedItemMapperTest {
             // 5 hours ago
             FeedItem.KotlinWeekly(
                 id = "3",
-                title = "Kotlin Weekly 1",
+                title = "Kotlin Weekly #1",
                 publishTime = "2023-12-02T22:10:54Z".toInstant(),
                 contentUrl = "content-url",
                 savedForLater = false,
+                issueNumber = 1,
             ),
             // yesterday
             FeedItem.TalkingKotlin(
@@ -85,10 +86,11 @@ class HomeFeedItemMapperTest {
             // 20 days ago
             FeedItem.KotlinWeekly(
                 id = "7",
-                title = "Kotlin Weekly 2",
+                title = "Kotlin Weekly #2",
                 publishTime = "2023-11-13T03:10:54Z".toInstant(),
                 contentUrl = "content-url",
                 savedForLater = false,
+                issueNumber = 2,
             ),
         )
 
@@ -125,10 +127,11 @@ class HomeFeedItemMapperTest {
                 displayableFeedItem = DisplayableFeedItem(
                     FeedItem.KotlinWeekly(
                         id = "3",
-                        title = "Kotlin Weekly 1",
+                        title = "Kotlin Weekly #1",
                         publishTime = "2023-12-02T22:10:54Z".toInstant(),
                         contentUrl = "content-url",
                         savedForLater = false,
+                        issueNumber = 1,
                     ),
                     displayablePublishTime = "5 hours ago",
                 )
@@ -182,10 +185,11 @@ class HomeFeedItemMapperTest {
                 displayableFeedItem = DisplayableFeedItem(
                     FeedItem.KotlinWeekly(
                         id = "7",
-                        title = "Kotlin Weekly 2",
+                        title = "Kotlin Weekly #2",
                         publishTime = "2023-11-13T03:10:54Z".toInstant(),
                         contentUrl = "content-url",
                         savedForLater = false,
+                        issueNumber = 2,
                     ),
                     displayablePublishTime = "13 Nov 2023",
                 )

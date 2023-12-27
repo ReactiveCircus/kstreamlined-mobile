@@ -43,6 +43,7 @@ public class FeedRepository(
             publishTime = "2023-11-05T08:13:58Z".toInstant(),
             contentUrl = id,
             savedForLater = false,
+            issueNumber = 386,
         )
     }
 

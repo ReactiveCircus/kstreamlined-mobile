@@ -74,7 +74,7 @@ class KSActivity : ComponentActivity() {
                                     navDestination = if (feedItem is FeedItem.KotlinWeekly) {
                                         NavDestination.KotlinWeeklyIssue(
                                             id = feedItem.id,
-                                            title = feedItem.title,
+                                            issueNumber = feedItem.issueNumber,
                                         )
                                     } else {
                                         NavDestination.ContentViewer(
@@ -98,8 +98,8 @@ class KSActivity : ComponentActivity() {
 
                         is NavDestination.KotlinWeeklyIssue -> {
                             KotlinWeeklyIssueScreen(
-                                title = it.title,
                                 id = it.id,
+                                issueNumber = it.issueNumber,
                                 onNavigateUp = {
                                     navDestination = NavDestination.Main
                                 },
@@ -132,7 +132,7 @@ private sealed interface NavDestination : Parcelable {
     @Parcelize
     data class KotlinWeeklyIssue(
         val id: String,
-        val title: String,
+        val issueNumber: Int,
     ) : NavDestination
 }
 
