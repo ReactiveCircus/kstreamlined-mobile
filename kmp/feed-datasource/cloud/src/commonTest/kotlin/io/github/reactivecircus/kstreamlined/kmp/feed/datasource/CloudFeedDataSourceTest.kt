@@ -11,8 +11,11 @@ import com.apollographql.apollo3.mockserver.enqueueString
 import com.apollographql.apollo3.testing.enqueueData
 import io.github.reactivecircus.kstreamlined.graphql.FeedEntriesQuery
 import io.github.reactivecircus.kstreamlined.graphql.FeedSourcesQuery
+import io.github.reactivecircus.kstreamlined.graphql.KotlinWeeklyIssueQuery
+import io.github.reactivecircus.kstreamlined.graphql.type.KotlinWeeklyIssueEntryType
 import io.github.reactivecircus.kstreamlined.graphql.type.buildFeedSource
 import io.github.reactivecircus.kstreamlined.graphql.type.buildKotlinBlog
+import io.github.reactivecircus.kstreamlined.graphql.type.buildKotlinWeeklyIssueEntry
 import io.github.reactivecircus.kstreamlined.graphql.type.buildKotlinYouTube
 import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.mapper.asExternalModel
 import io.github.reactivecircus.kstreamlined.kmp.test.utils.runTest
@@ -51,6 +54,19 @@ class CloudFeedDataSourceTest {
             }
         )
     }.feedEntries
+
+    private val dummyKotlinWeeklyEntries = KotlinWeeklyIssueQuery.Data {
+        kotlinWeeklyIssue = listOf(
+            buildKotlinWeeklyIssueEntry {
+                title = "Kotlin Weekly entry 1"
+                type = KotlinWeeklyIssueEntryType.ANNOUNCEMENTS
+            },
+            buildKotlinWeeklyIssueEntry {
+                title = "Kotlin Weekly entry 2"
+                type = KotlinWeeklyIssueEntryType.ARTICLES
+            }
+        )
+    }.kotlinWeeklyIssueEntries
 
     private suspend fun setUp() {
         mockServer = MockServer()
@@ -192,5 +208,27 @@ class CloudFeedDataSourceTest {
                 )
             }
             assertTrue(exception.cause is CacheMissException)
+        }
+
+    @Test
+    fun `loadKotlinWeeklyIssue returns result when network request was successful`() =
+        runTest(before = { setUp() }, after = { tearDown() }) {
+            mockServer.enqueueData(
+                KotlinWeeklyIssueQuery.Data(kotlinWeeklyIssueEntries = dummyKotlinWeeklyEntries)
+            )
+            val actual = cloudFeedDataSource.loadKotlinWeeklyIssue(url = "url")
+            assertEquals(dummyKotlinWeeklyEntries.map { it.asExternalModel() }, actual)
+        }
+
+    @Test
+    fun `loadKotlinWeeklyIssue throws exception when network request failed`() =
+        runTest(before = { setUp() }, after = { tearDown() }) {
+            mockServer.enqueueString(statusCode = 404)
+            val exception = assertFailsWith<NoDataException> {
+                cloudFeedDataSource.loadKotlinWeeklyIssue(url = "url")
+            }
+            val apolloHttpException = exception.cause?.suppressedExceptions
+                ?.first { it is ApolloHttpException } as ApolloHttpException
+            assertEquals(404, apolloHttpException.statusCode)
         }
 }

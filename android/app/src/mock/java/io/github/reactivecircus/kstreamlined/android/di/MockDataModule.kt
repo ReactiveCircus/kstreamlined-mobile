@@ -6,8 +6,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.FakeFeedDataSource
 import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.FeedDataSource
-import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.util.ApiErrorChecker
-import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.util.NoOpApiErrorChecker
 import javax.inject.Singleton
 
 @Module
@@ -18,11 +16,5 @@ object MockDataModule {
     @Singleton
     fun feedDataSource(): FeedDataSource {
         return FakeFeedDataSource()
-    }
-
-    @Provides
-    @Singleton
-    fun apiErrorChecker(): ApiErrorChecker {
-        return NoOpApiErrorChecker
     }
 }

@@ -18,6 +18,7 @@ plugins {
     id("kstreamlined.android.application")
     id("kstreamlined.android.application.compose")
     id("kstreamlined.ksp")
+    id("kotlin-parcelize")
     id("com.google.dagger.hilt.android")
     id("com.google.firebase.firebase-perf")
     id("com.google.firebase.crashlytics")
@@ -236,6 +237,7 @@ dependencies {
     implementation(project(":feature:common"))
     implementation(project(":feature:content-viewer"))
     implementation(project(":feature:home"))
+    implementation(project(":feature:kotlin-weekly-issue"))
     implementation(project(":feature:saved-for-later"))
 
     // Firebase

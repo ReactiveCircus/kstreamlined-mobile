@@ -46,4 +46,23 @@ class FakeFeedDataSourceTest {
             fakeFeedDataSource.loadFeedEntries()
         }
     }
+
+    @Test
+    fun `returns expected response when nextKotlinWeeklyIssueResponse succeeds`() = runTest {
+        fakeFeedDataSource.nextKotlinWeeklyIssueResponse = {
+            FakeKotlinWeeklyIssueEntries
+        }
+        assertEquals(
+            FakeKotlinWeeklyIssueEntries,
+            fakeFeedDataSource.loadKotlinWeeklyIssue("url"),
+        )
+    }
+
+    @Test
+    fun `throws exception when nextKotlinWeeklyIssueResponse fails`() = runTest {
+        fakeFeedDataSource.nextKotlinWeeklyIssueResponse = { throw IllegalStateException() }
+        assertFailsWith<IllegalStateException> {
+            fakeFeedDataSource.loadKotlinWeeklyIssue("url")
+        }
+    }
 }

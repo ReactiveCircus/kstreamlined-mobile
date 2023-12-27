@@ -37,13 +37,12 @@ import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.ico
 
 @Composable
 public fun ContentViewerScreen(
+    // TODO replace title and url with id and load FeedItem
+    title: String, // TODO load FeedItem by id
+    url: String, // TODO load FeedItem by id
     onNavigateUp: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    // TODO load FeedItem by id
-    val title = "Kotlin Multiplatform Development Roadmap for 2024"
-    val url = "https://blog.jetbrains.com/kotlin/2023/11/kotlin-multiplatform-development-roadmap-for-2024/"
-
     var saved by remember { mutableStateOf(false) }
     Column(
         modifier = modifier

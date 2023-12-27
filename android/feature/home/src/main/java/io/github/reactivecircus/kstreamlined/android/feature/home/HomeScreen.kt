@@ -55,10 +55,11 @@ import io.github.reactivecircus.kstreamlined.kmp.presentation.home.HomeFeedItem
 import io.github.reactivecircus.kstreamlined.kmp.presentation.home.HomeUiState
 import kotlinx.coroutines.delay
 import kotlin.random.Random
+import io.github.reactivecircus.kstreamlined.android.feature.common.R as CommonR
 
 @Composable
 public fun HomeScreen(
-    onViewContent: (id: String) -> Unit,
+    onViewItem: (FeedItem) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     var syncing by remember { mutableStateOf(true) }
@@ -76,11 +77,7 @@ public fun HomeScreen(
                 uiState = if (Random.nextBoolean()) {
                     HomeUiState.Content(FakeHomeFeedItems)
                 } else {
-                    if (Random.nextBoolean()) {
-                        HomeUiState.Error.Network
-                    } else {
-                        HomeUiState.Error.Server
-                    }
+                    HomeUiState.Error
                 }
             }
             syncing = false
@@ -130,13 +127,13 @@ public fun HomeScreen(
                     }
 
                     is HomeUiState.Error -> {
-                        ErrorUi(state, onRetry = { syncing = true })
+                        ErrorUi(onRetry = { syncing = true })
                     }
 
                     is HomeUiState.Content -> {
                         ContentUi(
                             items = state.feedItems,
-                            onItemClick = { onViewContent(it.contentUrl) },
+                            onItemClick = onViewItem,
                         )
                     }
                 }
@@ -247,7 +244,6 @@ private const val SkeletonItemCount = 10
 
 @Composable
 private fun ErrorUi(
-    uiState: HomeUiState.Error,
     onRetry: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -259,16 +255,13 @@ private fun ErrorUi(
         verticalArrangement = Arrangement.Center,
     ) {
         AsyncImage(
-            R.drawable.ic_kodee_broken_hearted,
+            CommonR.drawable.ic_kodee_broken_hearted,
             contentDescription = null,
             modifier = Modifier.size(160.dp),
         )
         Spacer(modifier = Modifier.height(36.dp))
         Text(
-            text = when (uiState) {
-                is HomeUiState.Error.Network -> stringResource(id = R.string.error_message_network)
-                is HomeUiState.Error.Server -> stringResource(id = R.string.error_message_server)
-            },
+            text = stringResource(id = CommonR.string.error_message),
             style = KSTheme.typography.bodyLarge,
             modifier = Modifier.padding(horizontal = 24.dp),
             textAlign = TextAlign.Center,

@@ -2,6 +2,7 @@ package io.github.reactivecircus.kstreamlined.android
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Parcelable
 import android.provider.Settings
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
@@ -25,6 +26,9 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import dagger.hilt.android.AndroidEntryPoint
 import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.feature.contentviewer.ContentViewerScreen
+import io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue.KotlinWeeklyIssueScreen
+import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
+import kotlinx.parcelize.Parcelize
 
 @AndroidEntryPoint
 class KSActivity : ComponentActivity() {
@@ -49,7 +53,11 @@ class KSActivity : ComponentActivity() {
                     window.navigationBarColor = navigationBarColor.toArgb()
                 }
 
-                var navDestination by rememberSaveable { mutableStateOf(NavDestination.Main) }
+                var navDestination: NavDestination by rememberSaveable {
+                    mutableStateOf(
+                        NavDestination.Main
+                    )
+                }
 
                 AnimatedContent(
                     navDestination,
@@ -60,16 +68,38 @@ class KSActivity : ComponentActivity() {
                     label = "NavTransition",
                 ) {
                     when (it) {
-                        NavDestination.Main -> {
+                        is NavDestination.Main -> {
                             MainScreen(
-                                onViewContent = {
-                                    navDestination = NavDestination.ContentViewer
+                                onViewItem = { feedItem ->
+                                    navDestination = if (feedItem is FeedItem.KotlinWeekly) {
+                                        NavDestination.KotlinWeeklyIssue(
+                                            id = feedItem.id,
+                                            title = feedItem.title,
+                                        )
+                                    } else {
+                                        NavDestination.ContentViewer(
+                                            title = feedItem.title,
+                                            url = feedItem.contentUrl,
+                                        )
+                                    }
                                 },
                             )
                         }
 
-                        NavDestination.ContentViewer -> {
+                        is NavDestination.ContentViewer -> {
                             ContentViewerScreen(
+                                title = it.title,
+                                url = it.url,
+                                onNavigateUp = {
+                                    navDestination = NavDestination.Main
+                                },
+                            )
+                        }
+
+                        is NavDestination.KotlinWeeklyIssue -> {
+                            KotlinWeeklyIssueScreen(
+                                title = it.title,
+                                id = it.id,
                                 onNavigateUp = {
                                     navDestination = NavDestination.Main
                                 },
@@ -88,9 +118,22 @@ class KSActivity : ComponentActivity() {
     }
 }
 
-enum class NavDestination {
-    Main,
-    ContentViewer,
+private sealed interface NavDestination : Parcelable {
+
+    @Parcelize
+    data object Main : NavDestination
+
+    @Parcelize
+    data class ContentViewer(
+        val title: String,
+        val url: String,
+    ) : NavDestination
+
+    @Parcelize
+    data class KotlinWeeklyIssue(
+        val id: String,
+        val title: String,
+    ) : NavDestination
 }
 
 enum class SystemNavigationMode {

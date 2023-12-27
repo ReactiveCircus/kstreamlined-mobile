@@ -375,6 +375,60 @@ type KotlinWeekly implements FeedEntry {
   contentUrl: String!
 }
 
+type KotlinWeeklyIssueEntry {
+  """
+  Title of the issue entry.
+  """
+  title: String!
+
+  """
+  Summary of the issue entry.
+  """
+  summary: String!
+
+  """
+  Url of the issue entry.
+  """
+  url: String!
+
+  """
+  Url of the issue entry source.
+  """
+  source: String!
+
+  """
+  Type of the issue entry.
+  """
+  type: KotlinWeeklyIssueEntryType!
+}
+
+enum KotlinWeeklyIssueEntryType {
+  """
+  Announcements.
+  """
+  ANNOUNCEMENTS
+
+  """
+  Articles.
+  """
+  ARTICLES
+
+  """
+  Android.
+  """
+  ANDROID
+
+  """
+  Videos.
+  """
+  VIDEOS
+
+  """
+  Libraries.
+  """
+  LIBRARIES
+}
+
 type KotlinYouTube implements FeedEntry {
   """
   Unique id of the feed entry.
@@ -417,6 +471,11 @@ type Query {
   Returns list of all available feed sources.
   """
   feedSources: [FeedSource!]!
+
+  """
+  Returns list of entries for a Kotlin Weekly issue.
+  """
+  kotlinWeeklyIssue(url: String!): [KotlinWeeklyIssueEntry!]!
 
   _service: _Service!
 }
