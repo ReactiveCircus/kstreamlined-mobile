@@ -4,6 +4,6 @@ query KotlinWeeklyIssue($url: String!) {
     summary
     url
     source
-    type
+    group
   }
 }

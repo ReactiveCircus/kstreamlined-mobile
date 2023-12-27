@@ -14,14 +14,14 @@ class KotlinWeeklyIssueItemMappersTest {
             summary = "Summary 1",
             url = "url 1",
             source = "Source 1",
-            type = KotlinWeeklyIssueEntry.Type.Announcement,
+            group = KotlinWeeklyIssueEntry.Group.Announcements,
         )
         val expected1 = KotlinWeeklyIssueItem(
             title = "Title 1",
             summary = "Summary 1",
             url = "url 1",
             source = "Source 1",
-            type = KotlinWeeklyIssueItem.Type.Announcement,
+            group = KotlinWeeklyIssueItem.Group.Announcements,
         )
         assertEquals(expected1, entry1.asExternalModel())
 
@@ -30,14 +30,14 @@ class KotlinWeeklyIssueItemMappersTest {
             summary = "Summary 2",
             url = "url 2",
             source = "Source 2",
-            type = KotlinWeeklyIssueEntry.Type.Article,
+            group = KotlinWeeklyIssueEntry.Group.Articles,
         )
         val expected2 = KotlinWeeklyIssueItem(
             title = "Title 2",
             summary = "Summary 2",
             url = "url 2",
             source = "Source 2",
-            type = KotlinWeeklyIssueItem.Type.Article,
+            group = KotlinWeeklyIssueItem.Group.Articles,
         )
         assertEquals(expected2, entry2.asExternalModel())
 
@@ -46,14 +46,14 @@ class KotlinWeeklyIssueItemMappersTest {
             summary = "Summary 3",
             url = "url 3",
             source = "Source 3",
-            type = KotlinWeeklyIssueEntry.Type.Android,
+            group = KotlinWeeklyIssueEntry.Group.Android,
         )
         val expected3 = KotlinWeeklyIssueItem(
             title = "Title 3",
             summary = "Summary 3",
             url = "url 3",
             source = "Source 3",
-            type = KotlinWeeklyIssueItem.Type.Android,
+            group = KotlinWeeklyIssueItem.Group.Android,
         )
         assertEquals(expected3, entry3.asExternalModel())
 
@@ -62,14 +62,14 @@ class KotlinWeeklyIssueItemMappersTest {
             summary = "Summary 4",
             url = "url 4",
             source = "Source 4",
-            type = KotlinWeeklyIssueEntry.Type.Video,
+            group = KotlinWeeklyIssueEntry.Group.Videos,
         )
         val expected4 = KotlinWeeklyIssueItem(
             title = "Title 4",
             summary = "Summary 4",
             url = "url 4",
             source = "Source 4",
-            type = KotlinWeeklyIssueItem.Type.Video,
+            group = KotlinWeeklyIssueItem.Group.Videos,
         )
         assertEquals(expected4, entry4.asExternalModel())
 
@@ -78,14 +78,14 @@ class KotlinWeeklyIssueItemMappersTest {
             summary = "Summary 5",
             url = "url 5",
             source = "Source 5",
-            type = KotlinWeeklyIssueEntry.Type.Library,
+            group = KotlinWeeklyIssueEntry.Group.Libraries,
         )
         val expected5 = KotlinWeeklyIssueItem(
             title = "Title 5",
             summary = "Summary 5",
             url = "url 5",
             source = "Source 5",
-            type = KotlinWeeklyIssueItem.Type.Library,
+            group = KotlinWeeklyIssueItem.Group.Libraries,
         )
         assertEquals(expected5, entry5.asExternalModel())
     }

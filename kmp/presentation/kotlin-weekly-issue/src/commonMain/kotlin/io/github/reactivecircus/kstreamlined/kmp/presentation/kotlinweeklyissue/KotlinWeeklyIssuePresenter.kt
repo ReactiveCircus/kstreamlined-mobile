@@ -22,7 +22,7 @@ public class KotlinWeeklyIssuePresenter(
         }.fold(
             onSuccess = { (feedItem, kotlinWeeklyIssue) ->
                 _uiState.value = KotlinWeeklyIssueUiState.Content(
-                    issueItems = kotlinWeeklyIssue,
+                    issueItems = kotlinWeeklyIssue.groupBy { it.group },
                     savedForLater = feedItem.savedForLater
                 )
             },

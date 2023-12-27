@@ -12,7 +12,7 @@ import com.apollographql.apollo3.testing.enqueueData
 import io.github.reactivecircus.kstreamlined.graphql.FeedEntriesQuery
 import io.github.reactivecircus.kstreamlined.graphql.FeedSourcesQuery
 import io.github.reactivecircus.kstreamlined.graphql.KotlinWeeklyIssueQuery
-import io.github.reactivecircus.kstreamlined.graphql.type.KotlinWeeklyIssueEntryType
+import io.github.reactivecircus.kstreamlined.graphql.type.KotlinWeeklyIssueEntryGroup
 import io.github.reactivecircus.kstreamlined.graphql.type.buildFeedSource
 import io.github.reactivecircus.kstreamlined.graphql.type.buildKotlinBlog
 import io.github.reactivecircus.kstreamlined.graphql.type.buildKotlinWeeklyIssueEntry
@@ -59,11 +59,11 @@ class CloudFeedDataSourceTest {
         kotlinWeeklyIssue = listOf(
             buildKotlinWeeklyIssueEntry {
                 title = "Kotlin Weekly entry 1"
-                type = KotlinWeeklyIssueEntryType.ANNOUNCEMENTS
+                group = KotlinWeeklyIssueEntryGroup.ANNOUNCEMENTS
             },
             buildKotlinWeeklyIssueEntry {
                 title = "Kotlin Weekly entry 2"
-                type = KotlinWeeklyIssueEntryType.ARTICLES
+                group = KotlinWeeklyIssueEntryGroup.ARTICLES
             }
         )
     }.kotlinWeeklyIssueEntries

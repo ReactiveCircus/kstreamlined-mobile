@@ -6,7 +6,7 @@ public sealed interface KotlinWeeklyIssueUiState {
     public data object InFlight : KotlinWeeklyIssueUiState
     public data object Error : KotlinWeeklyIssueUiState
     public data class Content(
-        val issueItems: List<KotlinWeeklyIssueItem>,
+        val issueItems: Map<KotlinWeeklyIssueItem.Group, List<KotlinWeeklyIssueItem>>,
         val savedForLater: Boolean,
     ) : KotlinWeeklyIssueUiState
 }
