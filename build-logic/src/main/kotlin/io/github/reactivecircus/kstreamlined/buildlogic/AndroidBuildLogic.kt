@@ -95,7 +95,7 @@ internal fun LibraryAndroidComponentsExtension.configureAndroidLibraryVariants()
  * Enable Compose and configure Compose options
  */
 internal fun Project.configureCompose(
-    commonExtension: CommonExtension<*, *, *, *, *>,
+    commonExtension: CommonExtension<*, *, *, *, *, *>,
 ) {
     commonExtension.apply {
         buildFeatures.compose = true
