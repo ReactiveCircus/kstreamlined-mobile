@@ -5,13 +5,13 @@ public data class KotlinWeeklyIssueEntry(
     val summary: String,
     val url: String,
     val source: String,
-    val type: Type,
+    val group: Group,
 ) {
-    public enum class Type {
-        Announcement,
-        Article,
+    public enum class Group {
+        Announcements,
+        Articles,
         Android,
-        Video,
-        Library,
+        Videos,
+        Libraries,
     }
 }

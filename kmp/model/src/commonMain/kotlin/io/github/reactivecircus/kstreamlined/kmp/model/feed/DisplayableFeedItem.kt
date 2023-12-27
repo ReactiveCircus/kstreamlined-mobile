@@ -1,8 +1,5 @@
 package io.github.reactivecircus.kstreamlined.kmp.model.feed
 
-import androidx.compose.runtime.Immutable
-
-@Immutable
 public data class DisplayableFeedItem<T : FeedItem>(
     val value: T,
     val displayablePublishTime: String,

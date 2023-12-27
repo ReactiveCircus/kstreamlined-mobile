@@ -1,9 +1,7 @@
 package io.github.reactivecircus.kstreamlined.kmp.model.feed
 
-import androidx.compose.runtime.Immutable
 import kotlinx.datetime.Instant
 
-@Immutable
 public sealed interface FeedItem {
     public val id: String
     public val title: String

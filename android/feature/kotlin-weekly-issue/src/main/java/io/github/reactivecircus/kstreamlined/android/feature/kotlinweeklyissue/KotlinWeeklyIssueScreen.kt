@@ -1,15 +1,17 @@
 package io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
@@ -30,8 +32,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
@@ -45,10 +47,12 @@ import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.KST
 import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.icon.BookmarkAdd
 import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.icon.BookmarkFill
 import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.icon.KSIcons
-import io.github.reactivecircus.kstreamlined.android.feature.common.R as CommonR
 import io.github.reactivecircus.kstreamlined.android.feature.common.openShareSheet
+import io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue.component.IssueGroupUi
+import io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue.component.IssueItemUi
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.KotlinWeeklyIssueItem
 import io.github.reactivecircus.kstreamlined.kmp.presentation.kotlinweeklyissue.KotlinWeeklyIssueUiState
+import io.github.reactivecircus.kstreamlined.android.feature.common.R as CommonR
 
 @Composable
 public fun KotlinWeeklyIssueScreen(
@@ -98,6 +102,7 @@ internal fun KotlinWeeklyIssueScreen(
     ) {
         TopNavBar(
             title = title,
+            modifier = Modifier.zIndex(1f),
             navigationIcon = {
                 LargeIconButton(
                     KSIcons.Close,
@@ -112,17 +117,19 @@ internal fun KotlinWeeklyIssueScreen(
                     contentDescription = null,
                     onClick = onShareButtonClick,
                 )
-                if (uiState is KotlinWeeklyIssueUiState.Content) {
-                    Spacer(modifier = Modifier.width(8.dp))
-                    FilledIconButton(
-                        if (uiState.savedForLater) {
-                            KSIcons.BookmarkFill
-                        } else {
-                            KSIcons.BookmarkAdd
-                        },
-                        contentDescription = null,
-                        onClick = onSaveButtonClick,
-                    )
+                AnimatedVisibility(visible = uiState is KotlinWeeklyIssueUiState.Content) {
+                    Row {
+                        Spacer(modifier = Modifier.width(8.dp))
+                        FilledIconButton(
+                            if ((uiState as? KotlinWeeklyIssueUiState.Content)?.savedForLater == true) {
+                                KSIcons.BookmarkFill
+                            } else {
+                                KSIcons.BookmarkAdd
+                            },
+                            contentDescription = null,
+                            onClick = onSaveButtonClick,
+                        )
+                    }
                 }
             },
         )
@@ -145,7 +152,7 @@ internal fun KotlinWeeklyIssueScreen(
 
                     is KotlinWeeklyIssueUiState.Content -> {
                         ContentUi(
-                            items = state.issueItems,
+                            groupedItems = state.issueItems,
                             onItemClick = { onOpenLink(it.url) },
                         )
                     }
@@ -155,55 +162,34 @@ internal fun KotlinWeeklyIssueScreen(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun ContentUi(
-    items: List<KotlinWeeklyIssueItem>,
+    groupedItems: Map<KotlinWeeklyIssueItem.Group, List<KotlinWeeklyIssueItem>>,
     onItemClick: (KotlinWeeklyIssueItem) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(
         modifier = modifier,
-        contentPadding = PaddingValues(24.dp),
-        verticalArrangement = Arrangement.spacedBy(20.dp),
     ) {
-        items(
-            items,
-            key = { item -> item.title + item.url + item.type },
-        ) { item ->
-            // TODO move
-            Surface(
-                onClick = { onItemClick(item) },
-                shape = RoundedCornerShape(16.dp),
-                color = KSTheme.colorScheme.container,
-            ) {
-                Column(
-                    modifier = Modifier.padding(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
-                ) {
-                    Text(
-                        text = item.title,
-                        style = KSTheme.typography.titleMedium,
-                        color = KSTheme.colorScheme.primary,
-                    )
-                    Text(
-                        text = item.summary,
-                        style = KSTheme.typography.bodyMedium,
-                        color = KSTheme.colorScheme.onBackgroundVariant,
-                        maxLines = 3,
-                        overflow = TextOverflow.Ellipsis,
-                    )
-                    Text(
-                        text = item.source,
-                        style = KSTheme.typography.labelLarge,
-                        color = KSTheme.colorScheme.primary,
-                    )
-                }
+        groupedItems.forEach { (group, items) ->
+            stickyHeader {
+                IssueGroupUi(group = group)
+            }
+
+            items(
+                items,
+                key = { item -> item.title + item.url + item.group },
+            ) { item ->
+                IssueItemUi(
+                    item = item,
+                    onItemClick = onItemClick,
+                )
             }
         }
     }
 }
 
-// TODO update skeleton layout
 @Composable
 private fun LoadingSkeletonUi(
     modifier: Modifier = Modifier,
@@ -226,7 +212,7 @@ private fun LoadingSkeletonUi(
     }
 }
 
-private const val SkeletonItemCount = 10
+private const val SkeletonItemCount = 5
 
 @Composable
 private fun ErrorUi(

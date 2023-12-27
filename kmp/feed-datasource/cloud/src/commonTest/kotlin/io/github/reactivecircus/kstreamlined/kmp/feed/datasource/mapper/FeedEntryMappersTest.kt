@@ -101,18 +101,20 @@ class FeedEntryMappersTest {
             feedEntries = listOf(
                 buildKotlinWeekly {
                     id = "4"
-                    title = "Kotlin Weekly Newsletter"
+                    title = "Kotlin Weekly #381"
                     publishTime = "2022-01-04T00:00:00Z".toInstant()
                     contentUrl = "https://kotlinweekly.net/newsletter"
+                    issueNumber = 381
                 },
             )
         }.feedEntries.first()
 
         val expectedFeedEntry = FeedEntry.KotlinWeekly(
             id = "4",
-            title = "Kotlin Weekly Newsletter",
+            title = "Kotlin Weekly #381",
             publishTime = "2022-01-04T00:00:00Z".toInstant(),
             contentUrl = "https://kotlinweekly.net/newsletter",
+            issueNumber = 381,
         )
 
         assertEquals(expectedFeedEntry, apolloFeedEntry.asExternalModel())

@@ -20,7 +20,8 @@ public class CloudFeedDataSource(private val apolloClient: ApolloClient) : FeedD
             apolloClient.query(FeedSourcesQuery())
                 .defaultFetchPolicy(refresh)
                 .execute()
-                .dataOrThrow().feedSources
+                .dataOrThrow()
+                .feedSources
         }.onFailure {
             Logger.w("Query failed", it)
         }.getOrThrow().mapNotNull { it.asExternalModel() }
@@ -38,7 +39,8 @@ public class CloudFeedDataSource(private val apolloClient: ApolloClient) : FeedD
             )
                 .defaultFetchPolicy(refresh)
                 .execute()
-                .dataOrThrow().feedEntries
+                .dataOrThrow()
+                .feedEntries
         }.onFailure {
             Logger.w("Query failed", it)
         }.getOrThrow().map { it.asExternalModel() }
@@ -52,7 +54,8 @@ public class CloudFeedDataSource(private val apolloClient: ApolloClient) : FeedD
                 KotlinWeeklyIssueQuery(url = url)
             )
                 .execute()
-                .dataOrThrow().kotlinWeeklyIssueEntries
+                .dataOrThrow()
+                .kotlinWeeklyIssueEntries
         }.onFailure {
             Logger.w("Query failed", it)
         }.getOrThrow().mapNotNull { it.asExternalModel() }
