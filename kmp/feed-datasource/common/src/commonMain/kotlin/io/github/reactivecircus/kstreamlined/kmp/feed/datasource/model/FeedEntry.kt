@@ -41,5 +41,6 @@ public sealed interface FeedEntry {
         override val title: String,
         override val publishTime: Instant,
         override val contentUrl: String,
+        val issueNumber: Int,
     ) : FeedEntry
 }

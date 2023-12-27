@@ -45,15 +45,15 @@ import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.KST
 import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.icon.BookmarkAdd
 import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.icon.BookmarkFill
 import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.icon.KSIcons
-import io.github.reactivecircus.kstreamlined.android.feature.common.R
+import io.github.reactivecircus.kstreamlined.android.feature.common.R as CommonR
 import io.github.reactivecircus.kstreamlined.android.feature.common.openShareSheet
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.KotlinWeeklyIssueItem
 import io.github.reactivecircus.kstreamlined.kmp.presentation.kotlinweeklyissue.KotlinWeeklyIssueUiState
 
 @Composable
 public fun KotlinWeeklyIssueScreen(
-    title: String, // TODO load FeedItem by id
     id: String,
+    issueNumber: Int,
     onNavigateUp: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -63,6 +63,7 @@ public fun KotlinWeeklyIssueScreen(
     }
     val uiState = viewModel.uiState.collectAsStateWithLifecycle().value
     val context = LocalContext.current
+    val title = stringResource(id = R.string.title_kotlin_weekly_issue, issueNumber)
     KotlinWeeklyIssueScreen(
         title = title,
         onNavigateUp = onNavigateUp,
@@ -96,8 +97,7 @@ internal fun KotlinWeeklyIssueScreen(
             .background(KSTheme.colorScheme.background),
     ) {
         TopNavBar(
-            // TODO use issueNumber from backend
-            title = "Issue #${title.substringAfter("#")}",
+            title = title,
             navigationIcon = {
                 LargeIconButton(
                     KSIcons.Close,
@@ -239,13 +239,13 @@ private fun ErrorUi(
         verticalArrangement = Arrangement.Center,
     ) {
         AsyncImage(
-            R.drawable.ic_kodee_broken_hearted,
+            CommonR.drawable.ic_kodee_broken_hearted,
             contentDescription = null,
             modifier = Modifier.size(160.dp),
         )
         Spacer(modifier = Modifier.height(36.dp))
         Text(
-            text = stringResource(id = R.string.error_message),
+            text = stringResource(id = CommonR.string.error_message),
             style = KSTheme.typography.bodyLarge,
             modifier = Modifier.padding(horizontal = 24.dp),
             textAlign = TextAlign.Center,

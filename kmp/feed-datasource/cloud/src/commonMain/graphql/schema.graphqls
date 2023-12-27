@@ -373,6 +373,11 @@ type KotlinWeekly implements FeedEntry {
   Url of the content.
   """
   contentUrl: String!
+
+  """
+  Issue number.
+  """
+  issueNumber: Int!
 }
 
 type KotlinWeeklyIssueEntry {

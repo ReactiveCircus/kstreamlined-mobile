@@ -53,5 +53,6 @@ internal fun FeedEntriesQuery.KotlinWeeklyFeedEntry.asExternalModel(): FeedEntry
         title = this.title,
         publishTime = this.publishTime,
         contentUrl = this.contentUrl,
+        issueNumber = this.onKotlinWeekly.issueNumber,
     )
 }

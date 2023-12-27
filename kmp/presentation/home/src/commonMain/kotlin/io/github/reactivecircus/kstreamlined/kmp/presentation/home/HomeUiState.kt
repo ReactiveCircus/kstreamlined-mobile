@@ -29,6 +29,7 @@ public val FakeHomeFeedItems: List<HomeFeedItem> = listOf(
         publishTime = "2023-11-26T11:14:09Z".toInstant(),
         contentUrl = "https://mailchi.mp/kotlinweekly/kotlin-weekly-382",
         savedForLater = false,
+        issueNumber = 382,
     ),
     FeedItem.KotlinBlog(
         id = "https://blog.jetbrains.com/?post_type=kotlin&p=409489",
@@ -53,6 +54,7 @@ public val FakeHomeFeedItems: List<HomeFeedItem> = listOf(
         publishTime = "2023-11-19T09:13:00Z".toInstant(),
         contentUrl = "https://mailchi.mp/kotlinweekly/kotlin-weekly-381",
         savedForLater = false,
+        issueNumber = 381,
     ),
     FeedItem.KotlinBlog(
         id = "https://blog.jetbrains.com/?post_type=kotlin&p=405553",
@@ -95,6 +97,7 @@ public val FakeHomeFeedItems: List<HomeFeedItem> = listOf(
         publishTime = "2023-11-05T08:13:58Z".toInstant(),
         contentUrl = "https://mailchi.mp/kotlinweekly/kotlin-weekly-379",
         savedForLater = false,
+        issueNumber = 379,
     ),
     FeedItem.KotlinBlog(
         id = "https://blog.jetbrains.com/?post_type=kotlin&p=401216",

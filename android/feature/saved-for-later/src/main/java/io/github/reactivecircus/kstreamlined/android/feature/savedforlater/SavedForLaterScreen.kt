@@ -116,6 +116,7 @@ private fun ContentUi(
                         publishTime = "2023-11-19T09:13:00Z".toInstant(),
                         contentUrl = "https://mailchi.mp/kotlinweekly/kotlin-weekly-381",
                         savedForLater = true,
+                        issueNumber = 381,
                     ).toDisplayable(displayablePublishTime = "19 Nov 2023")
                 )
             }
