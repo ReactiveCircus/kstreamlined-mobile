@@ -20,8 +20,8 @@ internal class KspConventionPlugin : Plugin<Project> {
         }
 
         // disable ksp tasks for unit tests
-        tasks.matching {
-            it.name.startsWith("ksp") && it.name.endsWith("UnitTestKotlin")
+        tasks.named {
+            it.startsWith("ksp") && it.endsWith("UnitTestKotlin")
         }.configureEach {
             enabled = false
         }
