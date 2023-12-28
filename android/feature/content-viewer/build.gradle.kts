@@ -13,4 +13,7 @@ android {
 dependencies {
     implementation(project(":feature:common"))
     implementation(project(":kmp:presentation:content-viewer"))
+
+    // AndroidX
+    implementation(libs.androidx.activity.compose)
 }

@@ -18,7 +18,7 @@ dependencies {
     implementation(project(":designsystem"))
     implementation(project(":kmp:model"))
 
-    // Compose
+    // AndroidX
     implementation(libs.androidx.compose.foundation)
     implementation(libs.androidx.compose.ui.tooling)
 
