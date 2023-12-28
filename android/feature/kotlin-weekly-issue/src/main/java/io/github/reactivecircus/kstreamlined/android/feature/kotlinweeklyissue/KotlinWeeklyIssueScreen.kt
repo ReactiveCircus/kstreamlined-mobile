@@ -47,6 +47,7 @@ import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.KST
 import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.icon.BookmarkAdd
 import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.icon.BookmarkFill
 import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.icon.KSIcons
+import io.github.reactivecircus.kstreamlined.android.feature.common.openCustomTab
 import io.github.reactivecircus.kstreamlined.android.feature.common.openShareSheet
 import io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue.component.IssueGroupUi
 import io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue.component.IssueItemUi
@@ -76,7 +77,7 @@ public fun KotlinWeeklyIssueScreen(
         },
         onSaveButtonClick = { /* TODO */ },
         onOpenLink = {
-            // TODO open in-app browser
+            context.openCustomTab(it)
         },
         onRetry = { viewModel.loadKotlinWeeklyIssue(id) },
         uiState = uiState,

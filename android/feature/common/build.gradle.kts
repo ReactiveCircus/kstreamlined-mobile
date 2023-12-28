@@ -25,16 +25,11 @@ dependencies {
 
     // AndroidX
     api(libs.androidx.core)
-
-    // Compose
     api(libs.androidx.compose.foundation)
     api(libs.androidx.compose.ui.tooling)
-    api(libs.androidx.lifecycle.runtime)
     api(libs.androidx.lifecycle.runtimeCompose)
-    api(libs.androidx.navigation.compose)
-
-    // Hilt AndroidX
-    api(libs.androidx.hilt.navigationCompose)
+    api(libs.androidx.lifecycle.viewmodelCompose)
+    implementation(libs.androidx.browser)
 
     // Image loading
     api(libs.coil)
