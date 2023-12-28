@@ -1,11 +1,9 @@
 package io.github.reactivecircus.kstreamlined.android.designsystem.component
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.NonRestartableComposable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
@@ -52,7 +50,6 @@ public fun Surface(
     contentColor: Color = KSTheme.colorScheme.onBackground,
     elevation: Dp = 0.dp,
     border: BorderStroke? = null,
-    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     content: @Composable () -> Unit
 ) {
     CompositionLocalProvider(LocalContentColor provides contentColor) {
@@ -66,7 +63,6 @@ public fun Surface(
             tonalElevation = elevation,
             shadowElevation = elevation,
             border = border,
-            interactionSource = interactionSource,
             content = content,
         )
     }

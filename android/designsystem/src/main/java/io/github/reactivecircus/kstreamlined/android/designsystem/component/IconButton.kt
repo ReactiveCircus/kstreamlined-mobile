@@ -83,7 +83,6 @@ private fun IconButtonImpl(
     containerSize: Dp,
     iconSize: Dp,
 ) {
-    val interactionSource = remember { MutableInteractionSource() }
     Box(
         modifier = modifier
             .minimumInteractiveComponentSize()
@@ -93,7 +92,7 @@ private fun IconButtonImpl(
                 onClick = onClick,
                 enabled = enabled,
                 role = Role.Button,
-                interactionSource = interactionSource,
+                interactionSource = remember { MutableInteractionSource() },
                 indication = rememberRipple(
                     bounded = false,
                     radius = containerSize / 2
@@ -120,7 +119,6 @@ public fun FilledIconButton(
     containerColor: Color = KSTheme.colorScheme.container,
     iconTint: Color = LocalContentColor.current,
 ) {
-    val interactionSource = remember { MutableInteractionSource() }
     Surface(
         onClick = onClick,
         modifier = modifier.semantics { role = Role.Button },
@@ -128,7 +126,6 @@ public fun FilledIconButton(
         shape = CircleShape,
         color = containerColor,
         contentColor = iconTint,
-        interactionSource = interactionSource,
     ) {
         Box(
             modifier = Modifier.size(DefaultContainerSize),
