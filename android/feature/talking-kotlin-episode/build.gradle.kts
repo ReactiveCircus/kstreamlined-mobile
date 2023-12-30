@@ -1,10 +1,11 @@
 plugins {
     id("kstreamlined.android.library")
     id("kstreamlined.android.library.compose")
+    id("kstreamlined.ksp")
 }
 
 android {
-    namespace = "io.github.reactivecircus.kstreamlined.android.feature.contentviewer"
+    namespace = "io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode"
     buildFeatures {
         androidResources = true
     }
@@ -13,8 +14,9 @@ android {
 dependencies {
     implementation(project(":feature:common"))
     implementation(project(":kmp:data"))
-    implementation(project(":kmp:presentation:content-viewer"))
+    implementation(project(":kmp:presentation:talking-kotlin-episode"))
 
-    // AndroidX
-    implementation(libs.androidx.activity.compose)
+    // Hilt
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
 }

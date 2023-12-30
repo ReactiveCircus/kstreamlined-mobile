@@ -10,7 +10,6 @@ kotlin {
                 implementation(project(":kmp:presentation:common"))
                 implementation(project(":kmp:data"))
                 implementation(project(":kmp:pretty-time"))
-                api(project(":kmp:model"))
             }
         }
     }

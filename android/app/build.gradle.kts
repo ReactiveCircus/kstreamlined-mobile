@@ -239,6 +239,7 @@ dependencies {
     implementation(project(":feature:home"))
     implementation(project(":feature:kotlin-weekly-issue"))
     implementation(project(":feature:saved-for-later"))
+    implementation(project(":feature:talking-kotlin-episode"))
 
     // Firebase
     releaseImplementation(libs.firebase.perf)

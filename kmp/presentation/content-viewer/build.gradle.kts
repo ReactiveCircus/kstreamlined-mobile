@@ -9,7 +9,6 @@ kotlin {
             dependencies {
                 implementation(project(":kmp:presentation:common"))
                 implementation(project(":kmp:data"))
-                api(project(":kmp:model"))
             }
         }
     }

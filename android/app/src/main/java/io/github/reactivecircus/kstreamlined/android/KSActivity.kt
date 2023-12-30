@@ -27,6 +27,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.feature.contentviewer.ContentViewerScreen
 import io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue.KotlinWeeklyIssueScreen
+import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.TalkingKotlinEpisodeScreen
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
 import kotlinx.parcelize.Parcelize
 
@@ -71,16 +72,24 @@ class KSActivity : ComponentActivity() {
                         is NavDestination.Main -> {
                             MainScreen(
                                 onViewItem = { feedItem ->
-                                    navDestination = if (feedItem is FeedItem.KotlinWeekly) {
-                                        NavDestination.KotlinWeeklyIssue(
-                                            id = feedItem.id,
-                                            issueNumber = feedItem.issueNumber,
-                                        )
-                                    } else {
-                                        NavDestination.ContentViewer(
-                                            title = feedItem.title,
-                                            url = feedItem.contentUrl,
-                                        )
+                                    navDestination = when (feedItem) {
+                                        is FeedItem.KotlinWeekly -> {
+                                            NavDestination.KotlinWeeklyIssue(
+                                                id = feedItem.id,
+                                                issueNumber = feedItem.issueNumber,
+                                            )
+                                        }
+                                        is FeedItem.TalkingKotlin -> {
+                                            NavDestination.TalkingKotlinEpisode(
+                                                id = feedItem.id,
+                                            )
+                                        }
+                                        else -> {
+                                            NavDestination.ContentViewer(
+                                                title = feedItem.title,
+                                                url = feedItem.contentUrl,
+                                            )
+                                        }
                                     }
                                 },
                             )
@@ -100,6 +109,15 @@ class KSActivity : ComponentActivity() {
                             KotlinWeeklyIssueScreen(
                                 id = it.id,
                                 issueNumber = it.issueNumber,
+                                onNavigateUp = {
+                                    navDestination = NavDestination.Main
+                                },
+                            )
+                        }
+
+                        is NavDestination.TalkingKotlinEpisode -> {
+                            TalkingKotlinEpisodeScreen(
+                                id = it.id,
                                 onNavigateUp = {
                                     navDestination = NavDestination.Main
                                 },
@@ -133,6 +151,11 @@ private sealed interface NavDestination : Parcelable {
     data class KotlinWeeklyIssue(
         val id: String,
         val issueNumber: Int,
+    ) : NavDestination
+
+    @Parcelize
+    data class TalkingKotlinEpisode(
+        val id: String
     ) : NavDestination
 }
 
