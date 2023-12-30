@@ -13,5 +13,6 @@ android {
 dependencies {
     implementation(project(":feature:common"))
     implementation(project(":common-ui:feed"))
+    implementation(project(":kmp:data"))
     implementation(project(":kmp:presentation:home"))
 }

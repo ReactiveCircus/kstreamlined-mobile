@@ -72,6 +72,7 @@ include(":kmp:presentation:content-viewer")
 include(":kmp:presentation:home")
 include(":kmp:presentation:kotlin-weekly-issue")
 include(":kmp:presentation:saved-for-later")
+include(":kmp:presentation:talking-kotlin-episode")
 include(":kmp:pretty-time")
 include(":kmp:test-utils")
 
@@ -84,6 +85,7 @@ if (!isXCFrameworkBuild) {
     includeProject(":feature:home", "android/feature/home")
     includeProject(":feature:kotlin-weekly-issue", "android/feature/kotlin-weekly-issue")
     includeProject(":feature:saved-for-later", "android/feature/saved-for-later")
+    includeProject(":feature:talking-kotlin-episode", "android/feature/talking-kotlin-episode")
     includeProject(":common-ui:feed", "android/common-ui/feed")
     includeProject(":designsystem", "android/designsystem")
 }
