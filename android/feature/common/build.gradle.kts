@@ -32,7 +32,7 @@ dependencies {
     implementation(libs.androidx.browser)
 
     // Image loading
-    api(libs.coil)
+    api(libs.coil.compose)
 
     // Logging
     api(libs.kermit)

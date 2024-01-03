@@ -1,14 +1,15 @@
 package io.github.reactivecircus.kstreamlined.android
 
 import android.app.Application
-import coil.ImageLoader
-import coil.ImageLoaderFactory
+import coil3.ImageLoader
+import coil3.PlatformContext
+import coil3.SingletonImageLoader
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 
 @HiltAndroidApp
-open class KSApp : Application(), ImageLoaderFactory {
+open class KSApp : Application(), SingletonImageLoader.Factory {
 
     @Inject
     lateinit var imageLoader: ImageLoader
@@ -29,5 +30,5 @@ open class KSApp : Application(), ImageLoaderFactory {
         // TODO
     }
 
-    override fun newImageLoader(): ImageLoader = imageLoader
+    override fun newImageLoader(context: PlatformContext): ImageLoader = imageLoader
 }

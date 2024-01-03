@@ -2,8 +2,12 @@ package io.github.reactivecircus.kstreamlined.android.di
 
 import android.content.Context
 import android.os.Build
-import coil.ImageLoader
-import coil.decode.SvgDecoder
+import coil3.ImageLoader
+import coil3.annotation.ExperimentalCoilApi
+import coil3.decode.SvgDecoder
+import coil3.fetch.NetworkFetcher
+import coil3.request.allowHardware
+import coil3.request.crossfade
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,6 +24,8 @@ object AppModule {
     fun imageLoader(@ApplicationContext context: Context): ImageLoader {
         return ImageLoader.Builder(context)
             .components {
+                @OptIn(ExperimentalCoilApi::class)
+                add(NetworkFetcher.Factory())
                 add(SvgDecoder.Factory())
             }
             .crossfade(enable = true)

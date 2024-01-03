@@ -3,7 +3,7 @@
 local.properties
 .idea/*
 !.idea/icon.png
-.kotlin
+.kotlin/
 .DS_Store
 build/
 captures

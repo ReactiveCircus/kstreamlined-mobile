@@ -23,5 +23,5 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling)
 
     // Image loading
-    implementation(libs.coil)
+    implementation(libs.coil.compose)
 }

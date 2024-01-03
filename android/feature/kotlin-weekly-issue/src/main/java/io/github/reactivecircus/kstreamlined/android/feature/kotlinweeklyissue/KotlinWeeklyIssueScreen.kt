@@ -36,7 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import coil.compose.AsyncImage
+import coil3.compose.AsyncImage
 import io.github.reactivecircus.kstreamlined.android.designsystem.component.Button
 import io.github.reactivecircus.kstreamlined.android.designsystem.component.FilledIconButton
 import io.github.reactivecircus.kstreamlined.android.designsystem.component.LargeIconButton

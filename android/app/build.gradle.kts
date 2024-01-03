@@ -257,6 +257,8 @@ dependencies {
 
     // Image loading
     implementation(libs.coil.svg)
+    implementation(libs.coil.network)
+    implementation(libs.ktor.client.okhttp)
 
     // SQLDelight
     implementation(libs.sqldelight.androidDriver)

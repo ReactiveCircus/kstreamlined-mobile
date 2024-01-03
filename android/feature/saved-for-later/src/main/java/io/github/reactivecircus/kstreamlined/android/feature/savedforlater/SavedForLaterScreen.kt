@@ -23,7 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
+import coil3.compose.AsyncImage
 import io.github.reactivecircus.kstreamlined.android.common.ui.feed.KotlinBlogCard
 import io.github.reactivecircus.kstreamlined.android.common.ui.feed.KotlinWeeklyCard
 import io.github.reactivecircus.kstreamlined.android.common.ui.feed.KotlinYouTubeCard
