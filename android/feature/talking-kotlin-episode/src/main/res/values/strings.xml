@@ -1,3 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="play">Play</string>
+    <string name="pause">Pause</string>
+    <string name="episode_website">Episode Website</string>
 </resources>

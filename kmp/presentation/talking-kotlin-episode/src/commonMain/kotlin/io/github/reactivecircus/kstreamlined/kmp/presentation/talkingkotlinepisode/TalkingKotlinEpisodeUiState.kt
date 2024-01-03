@@ -3,6 +3,7 @@ package io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepis
 public sealed interface TalkingKotlinEpisodeUiState {
     public data object Initializing : TalkingKotlinEpisodeUiState
     public data class Content(
-        val episode: TalkingKotlinEpisode
+        val episode: TalkingKotlinEpisode,
+        val isPlaying: Boolean,
     ) : TalkingKotlinEpisodeUiState
 }

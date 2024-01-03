@@ -20,4 +20,6 @@ internal class TalkingKotlinEpisodeViewModel @Inject constructor(
     fun loadTalkingKotlinEpisode(id: String) = viewModelScope.launch {
         presenter.loadTalkingKotlinEpisode(id)
     }
+
+    fun togglePlayPause() = presenter.togglePlayPause()
 }

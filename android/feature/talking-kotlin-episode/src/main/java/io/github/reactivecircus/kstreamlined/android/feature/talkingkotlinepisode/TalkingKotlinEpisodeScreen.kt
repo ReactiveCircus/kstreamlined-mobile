@@ -12,7 +12,7 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
@@ -25,14 +25,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.AsyncImage
-import io.github.reactivecircus.kstreamlined.android.designsystem.component.Button
 import io.github.reactivecircus.kstreamlined.android.designsystem.component.FilledIconButton
+import io.github.reactivecircus.kstreamlined.android.designsystem.component.HorizontalDivider
+import io.github.reactivecircus.kstreamlined.android.designsystem.component.Icon
 import io.github.reactivecircus.kstreamlined.android.designsystem.component.LargeIconButton
+import io.github.reactivecircus.kstreamlined.android.designsystem.component.Surface
 import io.github.reactivecircus.kstreamlined.android.designsystem.component.Text
 import io.github.reactivecircus.kstreamlined.android.designsystem.component.TopNavBar
 import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.KSTheme
@@ -41,6 +46,7 @@ import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.ico
 import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.icon.KSIcons
 import io.github.reactivecircus.kstreamlined.android.feature.common.openCustomTab
 import io.github.reactivecircus.kstreamlined.android.feature.common.openShareSheet
+import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.component.PlayPauseButton
 import io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepisode.TalkingKotlinEpisode
 import io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepisode.TalkingKotlinEpisodeUiState
 
@@ -59,10 +65,11 @@ public fun TalkingKotlinEpisodeScreen(
     TalkingKotlinEpisodeScreen(
         title = "",
         onNavigateUp = onNavigateUp,
+        onSaveButtonClick = { /* TODO */ },
         onShareButtonClick = { title, url ->
             context.openShareSheet(title, url)
         },
-        onSaveButtonClick = { /* TODO */ },
+        onPlayPauseButtonClick = { viewModel.togglePlayPause() },
         onOpenLink = {
             context.openCustomTab(it)
         },
@@ -77,6 +84,7 @@ internal fun TalkingKotlinEpisodeScreen(
     onNavigateUp: () -> Unit,
     onShareButtonClick: (title: String, url: String) -> Unit,
     onSaveButtonClick: () -> Unit,
+    onPlayPauseButtonClick: () -> Unit,
     onOpenLink: (url: String) -> Unit,
     uiState: TalkingKotlinEpisodeUiState,
     modifier: Modifier = Modifier,
@@ -135,6 +143,8 @@ internal fun TalkingKotlinEpisodeScreen(
                 is TalkingKotlinEpisodeUiState.Content -> {
                     ContentUi(
                         episode = uiState.episode,
+                        isPlaying = uiState.isPlaying,
+                        onPlayPauseButtonClick = onPlayPauseButtonClick,
                         onOpenLink = onOpenLink,
                     )
                 }
@@ -146,12 +156,15 @@ internal fun TalkingKotlinEpisodeScreen(
 @Composable
 private fun ContentUi(
     episode: TalkingKotlinEpisode,
+    isPlaying: Boolean,
+    onPlayPauseButtonClick: () -> Unit,
     onOpenLink: (url: String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(
         modifier = modifier,
-        contentPadding = PaddingValues(24.dp),
+        contentPadding = PaddingValues(vertical = 24.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         item {
@@ -172,31 +185,59 @@ private fun ContentUi(
         }
         item {
             Text(
-                text = episode.displayablePublishTime,
-                style = KSTheme.typography.bodyMedium,
+                text = "${episode.displayablePublishTime} • ${episode.duration}",
+                style = KSTheme.typography.labelMedium,
+                modifier = Modifier.padding(vertical = 8.dp),
+                color = KSTheme.colorScheme.onBackgroundVariant,
+                textAlign = TextAlign.Center,
             )
-            Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = episode.title,
                 style = KSTheme.typography.titleLarge,
+                modifier = Modifier.padding(horizontal = 24.dp),
+                textAlign = TextAlign.Center,
             )
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                text = episode.duration,
-                style = KSTheme.typography.labelLarge,
+            PlayPauseButton(
+                isPlaying = isPlaying,
+                onPlayPauseButtonClick = onPlayPauseButtonClick,
+                modifier = Modifier.padding(top = 8.dp),
             )
         }
         item {
             Text(
                 text = episode.summary,
                 style = KSTheme.typography.bodyMedium,
+                modifier = Modifier.padding(horizontal = 24.dp),
             )
         }
         item {
-            Button(
-                text = "Episode website",
-                onClick = { onOpenLink(episode.contentUrl) }
+            HorizontalDivider(
+                modifier = Modifier.padding(horizontal = 24.dp),
             )
+            Surface(
+                onClick = { onOpenLink(episode.contentUrl) },
+                modifier = Modifier.fillMaxWidth(),
+                contentColor = KSTheme.colorScheme.primary,
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(
+                            horizontal = 24.dp,
+                            vertical = 16.dp,
+                        ),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.episode_website),
+                        style = KSTheme.typography.labelLarge.copy(
+                            fontWeight = FontWeight.ExtraBold
+                        ),
+                    )
+                    Spacer(modifier = Modifier.weight(1f))
+                    Icon(KSIcons.ArrowRight, contentDescription = null)
+                }
+            }
         }
     }
 }

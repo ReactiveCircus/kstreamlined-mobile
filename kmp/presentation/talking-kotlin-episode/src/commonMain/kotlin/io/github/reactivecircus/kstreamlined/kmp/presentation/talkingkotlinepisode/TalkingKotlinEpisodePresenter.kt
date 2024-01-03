@@ -5,6 +5,7 @@ import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 
 public class TalkingKotlinEpisodePresenter(
     private val feedRepository: FeedRepository,
@@ -18,7 +19,18 @@ public class TalkingKotlinEpisodePresenter(
         val talkingKotlinItem = feedRepository.loadFeedItemById(id) as? FeedItem.TalkingKotlin
             ?: error("Feed item not found")
         _uiState.value = TalkingKotlinEpisodeUiState.Content(
-            talkingKotlinItem.asPresentationModel()
+            episode = talkingKotlinItem.asPresentationModel(),
+            isPlaying = false,
         )
+    }
+
+    public fun togglePlayPause() {
+        _uiState.update {
+            if (it is TalkingKotlinEpisodeUiState.Content) {
+                it.copy(isPlaying = !it.isPlaying)
+            } else {
+                it
+            }
+        }
     }
 }
