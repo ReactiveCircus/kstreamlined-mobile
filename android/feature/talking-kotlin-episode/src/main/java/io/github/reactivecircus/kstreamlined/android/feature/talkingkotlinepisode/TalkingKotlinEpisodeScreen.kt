@@ -2,24 +2,34 @@ package io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepiso
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil3.compose.AsyncImage
 import io.github.reactivecircus.kstreamlined.android.designsystem.component.Button
 import io.github.reactivecircus.kstreamlined.android.designsystem.component.FilledIconButton
 import io.github.reactivecircus.kstreamlined.android.designsystem.component.LargeIconButton
@@ -31,7 +41,7 @@ import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.ico
 import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.icon.KSIcons
 import io.github.reactivecircus.kstreamlined.android.feature.common.openCustomTab
 import io.github.reactivecircus.kstreamlined.android.feature.common.openShareSheet
-import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
+import io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepisode.TalkingKotlinEpisode
 import io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepisode.TalkingKotlinEpisodeUiState
 
 @Composable
@@ -79,6 +89,7 @@ internal fun TalkingKotlinEpisodeScreen(
         TopNavBar(
             title = title,
             modifier = Modifier.zIndex(1f),
+            contentPadding = WindowInsets.statusBars.asPaddingValues(),
             navigationIcon = {
                 LargeIconButton(
                     KSIcons.Close,
@@ -86,7 +97,6 @@ internal fun TalkingKotlinEpisodeScreen(
                     onClick = onNavigateUp,
                 )
             },
-            contentPadding = WindowInsets.statusBars.asPaddingValues(),
             actions = {
                 AnimatedVisibility(visible = uiState is TalkingKotlinEpisodeUiState.Content) {
                     Row {
@@ -135,26 +145,42 @@ internal fun TalkingKotlinEpisodeScreen(
 
 @Composable
 private fun ContentUi(
-    episode: FeedItem.TalkingKotlin,
+    episode: TalkingKotlinEpisode,
     onOpenLink: (url: String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(
         modifier = modifier,
+        contentPadding = PaddingValues(24.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         item {
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center,
+            ) {
+                AsyncImage(
+                    model = episode.thumbnailUrl,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(ImageSize)
+                        .clip(RoundedCornerShape(8.dp)),
+                    placeholder = ColorPainter(KSTheme.colorScheme.container),
+                    error = ColorPainter(KSTheme.colorScheme.container),
+                )
+            }
+        }
+        item {
+            Text(
+                text = episode.displayablePublishTime,
+                style = KSTheme.typography.bodyMedium,
+            )
+            Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = episode.title,
                 style = KSTheme.typography.titleLarge,
             )
-        }
-        item {
-            Text(
-                text = episode.publishTime.toString(),
-                style = KSTheme.typography.bodyMedium,
-            )
-        }
-        item {
+            Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = episode.duration,
                 style = KSTheme.typography.labelLarge,
@@ -174,6 +200,8 @@ private fun ContentUi(
         }
     }
 }
+
+private val ImageSize = 240.dp
 
 @Composable
 private fun LoadingUi(

@@ -9,6 +9,7 @@ kotlin {
             dependencies {
                 implementation(project(":kmp:presentation:common"))
                 implementation(project(":kmp:data"))
+                implementation(project(":kmp:pretty-time"))
                 implementation(project(":kmp:core-utils"))
             }
         }

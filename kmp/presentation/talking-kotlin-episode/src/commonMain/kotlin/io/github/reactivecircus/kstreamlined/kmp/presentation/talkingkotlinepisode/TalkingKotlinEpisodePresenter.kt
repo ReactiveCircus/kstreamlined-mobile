@@ -15,8 +15,10 @@ public class TalkingKotlinEpisodePresenter(
     public val uiState: StateFlow<TalkingKotlinEpisodeUiState> = _uiState.asStateFlow()
 
     public suspend fun loadTalkingKotlinEpisode(id: String) {
-        val talkingKotlin = feedRepository.loadFeedItemById(id) as? FeedItem.TalkingKotlin
+        val talkingKotlinItem = feedRepository.loadFeedItemById(id) as? FeedItem.TalkingKotlin
             ?: error("Feed item not found")
-        _uiState.value = TalkingKotlinEpisodeUiState.Content(talkingKotlin)
+        _uiState.value = TalkingKotlinEpisodeUiState.Content(
+            talkingKotlinItem.asPresentationModel()
+        )
     }
 }

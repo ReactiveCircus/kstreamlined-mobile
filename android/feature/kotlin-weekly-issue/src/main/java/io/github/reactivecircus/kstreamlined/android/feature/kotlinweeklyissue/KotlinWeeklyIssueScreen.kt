@@ -104,6 +104,7 @@ internal fun KotlinWeeklyIssueScreen(
         TopNavBar(
             title = title,
             modifier = Modifier.zIndex(1f),
+            contentPadding = WindowInsets.statusBars.asPaddingValues(),
             navigationIcon = {
                 LargeIconButton(
                     KSIcons.Close,
@@ -111,7 +112,6 @@ internal fun KotlinWeeklyIssueScreen(
                     onClick = onNavigateUp,
                 )
             },
-            contentPadding = WindowInsets.statusBars.asPaddingValues(),
             actions = {
                 FilledIconButton(
                     KSIcons.Share,

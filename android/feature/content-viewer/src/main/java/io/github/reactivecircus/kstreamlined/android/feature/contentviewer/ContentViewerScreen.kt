@@ -52,6 +52,7 @@ public fun ContentViewerScreen(
         val context = LocalContext.current
         TopNavBar(
             title = "",
+            contentPadding = WindowInsets.statusBars.asPaddingValues(),
             navigationIcon = {
                 LargeIconButton(
                     KSIcons.Close,
@@ -59,7 +60,6 @@ public fun ContentViewerScreen(
                     onClick = onNavigateUp,
                 )
             },
-            contentPadding = WindowInsets.statusBars.asPaddingValues(),
             actions = {
                 FilledIconButton(
                     KSIcons.Share,
