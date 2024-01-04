@@ -18,14 +18,17 @@ import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -204,8 +207,18 @@ private fun ContentUi(
             )
         }
         item {
-            Text(
-                text = episode.summary,
+            val linkStyle = SpanStyle(
+                color = KSTheme.colorScheme.primary,
+                fontWeight = FontWeight.Bold,
+            )
+            val annotatedString = remember(episode.summary) {
+                episode.summary.linkify(linkStyle)
+            }
+            ClickableText(
+                text = annotatedString,
+                onClick = { offset ->
+                    annotatedString.findUrl(offset)?.let(onOpenLink)
+                },
                 style = KSTheme.typography.bodyMedium,
                 modifier = Modifier.padding(horizontal = 24.dp),
             )
