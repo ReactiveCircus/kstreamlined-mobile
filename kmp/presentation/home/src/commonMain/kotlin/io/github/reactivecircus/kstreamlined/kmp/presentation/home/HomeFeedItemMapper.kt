@@ -17,7 +17,6 @@ internal fun List<FeedItem>.toHomeFeedItems(
     // assume items are already sorted by publish time in descending order
     forEach { feedItem ->
         val sectionHeader = feedItem.publishTime.weeksAgo(clock)
-        println("${feedItem.publishTime}: \"$sectionHeader\" for item: $feedItem")
         if (sectionHeader != currentSectionHeader) {
             homeFeedItems.add(HomeFeedItem.SectionHeader(sectionHeader))
             currentSectionHeader = sectionHeader
