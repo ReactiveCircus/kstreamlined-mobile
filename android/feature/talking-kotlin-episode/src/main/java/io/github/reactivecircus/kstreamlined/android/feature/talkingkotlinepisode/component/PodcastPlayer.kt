@@ -18,14 +18,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.geometry.CornerRadius
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Rect
-import androidx.compose.ui.geometry.RoundRect
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
@@ -48,47 +40,23 @@ internal fun PodcastPlayer(
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp),
 ) {
-    val brush = Brush.horizontalGradient(
-        colors = listOf(
-            KSTheme.colorScheme.tertiary,
-            KSTheme.colorScheme.tertiaryVariant,
-        ),
-    )
     Surface(
-        modifier = modifier
-            .drawBehind {
-                val cornerRadius = CornerRadius(8.dp.toPx(), 8.dp.toPx())
-                val path = Path().apply {
-                    addRoundRect(
-                        RoundRect(
-                            rect = Rect(
-                                offset = Offset(0f, 0f),
-                                size = size,
-                            ),
-                            topLeft = cornerRadius,
-                            topRight = cornerRadius,
-                        )
-                    )
-                }
-                drawPath(
-                    path = path,
-                    brush = brush,
-                )
-            }
-            .fillMaxWidth()
-            .padding(contentPadding),
-        color = Color.Transparent,
+        modifier = modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp),
+        color = KSTheme.colorScheme.tertiary,
         contentColor = KSTheme.colorScheme.onTertiary,
     ) {
         Row(
-            modifier = Modifier.padding(vertical = 16.dp),
+            modifier = Modifier
+                .padding(contentPadding)
+                .padding(vertical = 16.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             AsyncImage(
                 model = episode.thumbnailUrl,
                 contentDescription = null,
                 modifier = Modifier
-                    .padding(start = 8.dp)
+                    .padding(start = 12.dp)
                     .size(64.dp)
                     .clip(RoundedCornerShape(8.dp)),
             )
