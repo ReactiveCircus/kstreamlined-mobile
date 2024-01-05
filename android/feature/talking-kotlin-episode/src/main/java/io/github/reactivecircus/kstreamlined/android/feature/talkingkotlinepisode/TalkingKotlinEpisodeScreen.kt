@@ -1,6 +1,10 @@
 package io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -12,6 +16,7 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
@@ -50,6 +55,7 @@ import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.ico
 import io.github.reactivecircus.kstreamlined.android.feature.common.openCustomTab
 import io.github.reactivecircus.kstreamlined.android.feature.common.openShareSheet
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.component.PlayPauseButton
+import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.component.PodcastPlayer
 import io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepisode.TalkingKotlinEpisode
 import io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepisode.TalkingKotlinEpisodeUiState
 
@@ -164,94 +170,114 @@ private fun ContentUi(
     onOpenLink: (url: String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    LazyColumn(
-        modifier = modifier,
-        contentPadding = PaddingValues(vertical = 24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(16.dp),
+    Column(
+        modifier = modifier.fillMaxSize(),
     ) {
-        item {
-            Box(
-                modifier = Modifier.fillMaxWidth(),
-                contentAlignment = Alignment.Center,
-            ) {
-                AsyncImage(
-                    model = episode.thumbnailUrl,
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(ImageSize)
-                        .clip(RoundedCornerShape(8.dp)),
-                    placeholder = ColorPainter(KSTheme.colorScheme.container),
-                    error = ColorPainter(KSTheme.colorScheme.container),
+        LazyColumn(
+            modifier = Modifier.weight(1f),
+            contentPadding = PaddingValues(vertical = 24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+        ) {
+            item {
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    AsyncImage(
+                        model = episode.thumbnailUrl,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(ImageSize)
+                            .clip(RoundedCornerShape(8.dp)),
+                        placeholder = ColorPainter(KSTheme.colorScheme.container),
+                        error = ColorPainter(KSTheme.colorScheme.container),
+                    )
+                }
+            }
+            item {
+                Text(
+                    text = "${episode.displayablePublishTime} • ${episode.duration}",
+                    style = KSTheme.typography.labelMedium,
+                    modifier = Modifier.padding(vertical = 8.dp),
+                    color = KSTheme.colorScheme.onBackgroundVariant,
+                    textAlign = TextAlign.Center,
+                )
+                Text(
+                    text = episode.title,
+                    style = KSTheme.typography.titleLarge,
+                    modifier = Modifier.padding(horizontal = 24.dp),
+                    textAlign = TextAlign.Center,
+                )
+                AnimatedContent(
+                    targetState = isPlaying,
+                    modifier = Modifier.padding(top = 8.dp),
+                    transitionSpec = { fadeIn() togetherWith fadeOut() },
+                    contentAlignment = Alignment.Center,
+                    label = "isPlaying",
+                ) { playing ->
+                    PlayPauseButton(
+                        isPlaying = playing,
+                        onPlayPauseButtonClick = onPlayPauseButtonClick,
+                    )
+                }
+            }
+            item {
+                val linkStyle = SpanStyle(
+                    color = KSTheme.colorScheme.primary,
+                    fontWeight = FontWeight.Bold,
+                )
+                val annotatedString = remember(episode.summary) {
+                    episode.summary.linkify(linkStyle)
+                }
+                ClickableText(
+                    text = annotatedString,
+                    onClick = { offset ->
+                        annotatedString.findUrl(offset)?.let(onOpenLink)
+                    },
+                    style = KSTheme.typography.bodyMedium.copy(
+                        color = KSTheme.colorScheme.onBackground,
+                    ),
+                    modifier = Modifier.padding(horizontal = 24.dp),
                 )
             }
-        }
-        item {
-            Text(
-                text = "${episode.displayablePublishTime} • ${episode.duration}",
-                style = KSTheme.typography.labelMedium,
-                modifier = Modifier.padding(vertical = 8.dp),
-                color = KSTheme.colorScheme.onBackgroundVariant,
-                textAlign = TextAlign.Center,
-            )
-            Text(
-                text = episode.title,
-                style = KSTheme.typography.titleLarge,
-                modifier = Modifier.padding(horizontal = 24.dp),
-                textAlign = TextAlign.Center,
-            )
-            PlayPauseButton(
-                isPlaying = isPlaying,
-                onPlayPauseButtonClick = onPlayPauseButtonClick,
-                modifier = Modifier.padding(top = 8.dp),
-            )
-        }
-        item {
-            val linkStyle = SpanStyle(
-                color = KSTheme.colorScheme.primary,
-                fontWeight = FontWeight.Bold,
-            )
-            val annotatedString = remember(episode.summary) {
-                episode.summary.linkify(linkStyle)
-            }
-            ClickableText(
-                text = annotatedString,
-                onClick = { offset ->
-                    annotatedString.findUrl(offset)?.let(onOpenLink)
-                },
-                style = KSTheme.typography.bodyMedium,
-                modifier = Modifier.padding(horizontal = 24.dp),
-            )
-        }
-        item {
-            HorizontalDivider(
-                modifier = Modifier.padding(horizontal = 24.dp),
-            )
-            Surface(
-                onClick = { onOpenLink(episode.contentUrl) },
-                modifier = Modifier.fillMaxWidth(),
-                contentColor = KSTheme.colorScheme.primary,
-            ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(
-                            horizontal = 24.dp,
-                            vertical = 16.dp,
-                        ),
-                    verticalAlignment = Alignment.CenterVertically,
+            item {
+                HorizontalDivider(
+                    modifier = Modifier.padding(horizontal = 24.dp),
+                )
+                Surface(
+                    onClick = { onOpenLink(episode.contentUrl) },
+                    modifier = Modifier.fillMaxWidth(),
+                    contentColor = KSTheme.colorScheme.primary,
                 ) {
-                    Text(
-                        text = stringResource(id = R.string.episode_website),
-                        style = KSTheme.typography.labelLarge.copy(
-                            fontWeight = FontWeight.ExtraBold
-                        ),
-                    )
-                    Spacer(modifier = Modifier.weight(1f))
-                    Icon(KSIcons.ArrowRight, contentDescription = null)
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(
+                                horizontal = 24.dp,
+                                vertical = 16.dp,
+                            ),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.episode_website),
+                            style = KSTheme.typography.labelLarge.copy(
+                                fontWeight = FontWeight.ExtraBold
+                            ),
+                        )
+                        Spacer(modifier = Modifier.weight(1f))
+                        Icon(KSIcons.ArrowRight, contentDescription = null)
+                    }
                 }
             }
         }
+
+        PodcastPlayer(
+            episode = episode,
+            isPlaying = isPlaying,
+            onPlayPauseButtonClick = onPlayPauseButtonClick,
+            contentPadding = WindowInsets.navigationBars.asPaddingValues(),
+        )
     }
 }
 

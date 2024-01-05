@@ -1,7 +1,5 @@
 package io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.component
 
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -29,64 +27,40 @@ internal fun PlayPauseButton(
 ) {
     Chip(
         onClick = onPlayPauseButtonClick,
-        modifier = modifier.animateContentSize(),
+        modifier = modifier,
         contentColor = KSTheme.colorScheme.primary,
     ) {
-        AnimatedContent(
-            targetState = isPlaying,
-            contentAlignment = Alignment.Center,
-            label = "isPlaying",
-        ) { playing ->
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-            ) {
-                when (playing) {
-                    true -> {
-                        Icon(
-                            KSIcons.Pause,
-                            contentDescription = null,
-                        )
-                        Text(
-                            text = stringResource(
-                                id = R.string.pause
-                            ),
-                            style = KSTheme.typography.labelLarge.copy(
-                                fontWeight = FontWeight.ExtraBold
-                            ),
-                        )
-                    }
-
-                    false -> {
-                        Icon(
-                            KSIcons.PlayArrow,
-                            contentDescription = null,
-                        )
-                        Text(
-                            text = stringResource(
-                                id = R.string.play
-                            ),
-                            style = KSTheme.typography.labelLarge.copy(
-                                fontWeight = FontWeight.ExtraBold
-                            ),
-                        )
-                    }
-                }
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            if (isPlaying) {
+                Icon(
+                    KSIcons.Pause,
+                    contentDescription = null,
+                )
+                Text(
+                    text = stringResource(
+                        id = R.string.pause
+                    ),
+                    style = KSTheme.typography.labelLarge.copy(
+                        fontWeight = FontWeight.ExtraBold
+                    ),
+                )
+            } else {
+                Icon(
+                    KSIcons.PlayArrow,
+                    contentDescription = null,
+                )
+                Text(
+                    text = stringResource(
+                        id = R.string.play
+                    ),
+                    style = KSTheme.typography.labelLarge.copy(
+                        fontWeight = FontWeight.ExtraBold
+                    ),
+                )
             }
-        }
-    }
-}
-
-@Composable
-@PreviewLightDark
-private fun PreviewPlayPauseButton_playing() {
-    KSTheme {
-        Surface {
-            PlayPauseButton(
-                isPlaying = true,
-                onPlayPauseButtonClick = {},
-                modifier = Modifier.padding(8.dp),
-            )
         }
     }
 }
@@ -98,6 +72,20 @@ private fun PreviewPlayPauseButton_paused() {
         Surface {
             PlayPauseButton(
                 isPlaying = false,
+                onPlayPauseButtonClick = {},
+                modifier = Modifier.padding(8.dp),
+            )
+        }
+    }
+}
+
+@Composable
+@PreviewLightDark
+private fun PreviewPlayPauseButton_playing() {
+    KSTheme {
+        Surface {
+            PlayPauseButton(
+                isPlaying = true,
                 onPlayPauseButtonClick = {},
                 modifier = Modifier.padding(8.dp),
             )

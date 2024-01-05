@@ -57,7 +57,7 @@ public class FeedRepository(
                     contentUrl = "https://soundcloud.com/user-38099918/coil-goes-multiplatform-with-colin-white",
                     savedForLater = false,
                     audioUrl = "https://feeds.soundcloud.com/stream/1689535512-user-38099918-network-resilient-applications-with-store5-talking-kotlin-128.mp3",
-                    thumbnailUrl = "https://i1.sndcdn.com/artworks-f8n8RnHDXyOrojBY-615tKg-t3000x3000.jpg",
+                    thumbnailUrl = "https://talkingkotlin.com/images/kotlin_talking_logo.png",
                     summary = "Welcome to another engaging episode of Talking Kotlin! In this edition, we dive into the dynamic world of Android development with Colin White, the creator of the widely acclaimed Coil library. Join us as we discuss the latest developments, insights, and the exciting roadmap for Coil. \uD83D\uDE80 Highlights from this Episode: Learn about Colin's journey in developing the Coil library. Discover the pivotal role Coil plays in simplifying image loading for Android developers. Get an exclusive sneak peek into the upcoming Coil 3.0, featuring multi-platform support and seamless integration with Jetpack Compose. \uD83D\uDD17 Helpful Links: Coil Library GitHub: github.com/coilkt/coil Follow Colin White on Twitter: @colinwhi \uD83C\uDF10 Connect with the Kotlin Community: https://kotlinlang.org/community/ Kotlin Foundation: https://kotlinfoundation.org/",
                     duration = "42min.",
                 )

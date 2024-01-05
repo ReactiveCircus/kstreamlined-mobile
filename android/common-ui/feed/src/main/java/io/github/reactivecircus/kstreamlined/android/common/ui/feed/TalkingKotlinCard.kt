@@ -68,7 +68,6 @@ public fun TalkingKotlinCard(
                 )
             }
             .fillMaxWidth(),
-        shape = RoundedCornerShape(16.dp),
         color = Color.Transparent,
         contentColor = KSTheme.colorScheme.onTertiary,
     ) {
