@@ -21,7 +21,7 @@ androidComponents {
 }
 
 dependencies {
-    api(project(":designsystem"))
+    api(project(":foundation:designsystem"))
 
     // AndroidX
     api(libs.androidx.core)

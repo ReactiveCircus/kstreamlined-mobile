@@ -41,21 +41,23 @@ import androidx.compose.ui.zIndex
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.AsyncImage
-import io.github.reactivecircus.kstreamlined.android.designsystem.component.FilledIconButton
-import io.github.reactivecircus.kstreamlined.android.designsystem.component.HorizontalDivider
-import io.github.reactivecircus.kstreamlined.android.designsystem.component.Icon
-import io.github.reactivecircus.kstreamlined.android.designsystem.component.LargeIconButton
-import io.github.reactivecircus.kstreamlined.android.designsystem.component.Surface
-import io.github.reactivecircus.kstreamlined.android.designsystem.component.Text
-import io.github.reactivecircus.kstreamlined.android.designsystem.component.TopNavBar
-import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.KSTheme
-import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.icon.BookmarkAdd
-import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.icon.BookmarkFill
-import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.icon.KSIcons
 import io.github.reactivecircus.kstreamlined.android.feature.common.openCustomTab
 import io.github.reactivecircus.kstreamlined.android.feature.common.openShareSheet
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.component.PlayPauseButton
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.component.PodcastPlayer
+import io.github.reactivecircus.kstreamlined.android.foundation.composeutils.findUrl
+import io.github.reactivecircus.kstreamlined.android.foundation.composeutils.linkify
+import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.FilledIconButton
+import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.HorizontalDivider
+import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.Icon
+import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.LargeIconButton
+import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.Surface
+import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.Text
+import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.TopNavBar
+import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.KSTheme
+import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.icon.BookmarkAdd
+import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.icon.BookmarkFill
+import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.icon.KSIcons
 import io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepisode.TalkingKotlinEpisode
 import io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepisode.TalkingKotlinEpisodeUiState
 
@@ -236,7 +238,7 @@ private fun ContentUi(
                         annotatedString.findUrl(offset)?.let(onOpenLink)
                     },
                     style = KSTheme.typography.bodyMedium.copy(
-                        color = KSTheme.colorScheme.onBackground,
+                        color = KSTheme.colorScheme.onBackgroundVariant,
                     ),
                     modifier = Modifier.padding(horizontal = 24.dp),
                 )

@@ -86,8 +86,9 @@ if (!isXCFrameworkBuild) {
     includeProject(":feature:kotlin-weekly-issue", "android/feature/kotlin-weekly-issue")
     includeProject(":feature:saved-for-later", "android/feature/saved-for-later")
     includeProject(":feature:talking-kotlin-episode", "android/feature/talking-kotlin-episode")
-    includeProject(":common-ui:feed", "android/common-ui/feed")
-    includeProject(":designsystem", "android/designsystem")
+    includeProject(":foundation:common-ui:feed", "android/foundation/common-ui/feed")
+    includeProject(":foundation:designsystem", "android/foundation/designsystem")
+    includeProject(":foundation:compose-utils", "android/foundation/compose-utils")
 }
 
 fun includeProject(name: String, filePath: String) {

@@ -15,9 +15,9 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import io.github.reactivecircus.kstreamlined.android.designsystem.component.Surface
-import io.github.reactivecircus.kstreamlined.android.designsystem.component.Text
-import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.KSTheme
+import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.Surface
+import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.Text
+import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.KotlinWeeklyIssueItem
 
 @Composable

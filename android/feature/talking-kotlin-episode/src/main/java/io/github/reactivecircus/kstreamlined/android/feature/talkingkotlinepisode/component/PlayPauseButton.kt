@@ -10,14 +10,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import io.github.reactivecircus.kstreamlined.android.designsystem.component.Chip
-import io.github.reactivecircus.kstreamlined.android.designsystem.component.Icon
-import io.github.reactivecircus.kstreamlined.android.designsystem.component.Surface
-import io.github.reactivecircus.kstreamlined.android.designsystem.component.Text
-import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.KSTheme
-import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.icon.KSIcons
-import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.icon.Pause
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.R
+import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.Chip
+import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.Icon
+import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.Surface
+import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.Text
+import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.KSTheme
+import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.icon.KSIcons
+import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.icon.Pause
 
 @Composable
 internal fun PlayPauseButton(

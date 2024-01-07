@@ -4,6 +4,7 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -24,14 +25,16 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
-import io.github.reactivecircus.kstreamlined.android.designsystem.component.LargeIconButton
-import io.github.reactivecircus.kstreamlined.android.designsystem.component.Surface
-import io.github.reactivecircus.kstreamlined.android.designsystem.component.Text
-import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.KSTheme
-import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.icon.KSIcons
-import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.icon.Pause
+import io.github.reactivecircus.kstreamlined.android.foundation.composeutils.marqueeWithFadedEdges
+import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.LargeIconButton
+import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.Surface
+import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.Text
+import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.KSTheme
+import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.icon.KSIcons
+import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.icon.Pause
 import io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepisode.TalkingKotlinEpisode
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun PodcastPlayer(
     episode: TalkingKotlinEpisode,
@@ -73,6 +76,13 @@ internal fun PodcastPlayer(
                         fontWeight = FontWeight.ExtraBold,
                         letterSpacing = 0.sp,
                     ),
+                    modifier = Modifier
+                        .marqueeWithFadedEdges(
+                            edgeWidth = 12.dp,
+                            iterations = if (isPlaying) Int.MAX_VALUE else 0,
+                            delayMillis = 0,
+                            velocity = 40.dp,
+                        ),
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1,
                 )

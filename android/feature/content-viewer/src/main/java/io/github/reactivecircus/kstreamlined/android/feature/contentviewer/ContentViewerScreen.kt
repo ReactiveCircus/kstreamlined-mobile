@@ -26,14 +26,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import io.github.reactivecircus.kstreamlined.android.designsystem.component.FilledIconButton
-import io.github.reactivecircus.kstreamlined.android.designsystem.component.LargeIconButton
-import io.github.reactivecircus.kstreamlined.android.designsystem.component.LinearProgressIndicator
-import io.github.reactivecircus.kstreamlined.android.designsystem.component.TopNavBar
-import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.KSTheme
-import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.icon.BookmarkAdd
-import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.icon.BookmarkFill
-import io.github.reactivecircus.kstreamlined.android.designsystem.foundation.icon.KSIcons
+import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.FilledIconButton
+import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.LargeIconButton
+import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.LinearProgressIndicator
+import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.TopNavBar
+import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.KSTheme
+import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.icon.BookmarkAdd
+import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.icon.BookmarkFill
+import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.icon.KSIcons
 
 @Composable
 public fun ContentViewerScreen(

@@ -13,6 +13,7 @@ android {
 
 dependencies {
     implementation(project(":feature:common"))
+    implementation(project(":foundation:compose-utils"))
     implementation(project(":kmp:data"))
     implementation(project(":kmp:presentation:talking-kotlin-episode"))
 
