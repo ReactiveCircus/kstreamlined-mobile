@@ -7,9 +7,7 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                implementation(project(":kmp:networking:common"))
-                implementation(project(":kmp:persistence"))
-                api(project(":kmp:model"))
+                api(project(":kmp:networking:common"))
                 implementation(libs.kotlinx.coroutines.core)
                 implementation(libs.kermit)
             }

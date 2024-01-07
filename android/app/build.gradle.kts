@@ -227,10 +227,10 @@ androidComponents {
 }
 
 dependencies {
-    mockImplementation(project(":kmp:feed-datasource:testing"))
-    demoImplementation(project(":kmp:feed-datasource:edge"))
-    devImplementation(project(":kmp:feed-datasource:cloud"))
-    prodImplementation(project(":kmp:feed-datasource:cloud"))
+    mockImplementation(project(":kmp:networking:testing"))
+    demoImplementation(project(":kmp:networking:edge"))
+    devImplementation(project(":kmp:networking:cloud"))
+    prodImplementation(project(":kmp:networking:cloud"))
     implementation(project(":kmp:persistence"))
     implementation(project(":kmp:data"))
 

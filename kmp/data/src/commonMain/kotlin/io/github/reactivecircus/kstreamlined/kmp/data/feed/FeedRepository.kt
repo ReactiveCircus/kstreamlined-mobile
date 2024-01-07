@@ -2,22 +2,22 @@ package io.github.reactivecircus.kstreamlined.kmp.data.feed
 
 import co.touchlab.kermit.Logger
 import io.github.reactivecircus.kstreamlined.kmp.data.feed.mapper.asExternalModel
-import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.FeedDataSource
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedOrigin
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.KotlinWeeklyIssueItem
+import io.github.reactivecircus.kstreamlined.kmp.networking.FeedService
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.datetime.toInstant
 
 public class FeedRepository(
-    private val feedDataSource: FeedDataSource
+    private val feedService: FeedService
 ) {
 
     public val feedSyncState: Flow<FeedSyncState> = emptyFlow()
 
     public suspend fun syncNow() {
-        feedDataSource.loadFeedEntries(null, true).also {
+        feedService.fetchFeedEntries(null, true).also {
             Logger.i("<<Number of entries: ${it.size}>>")
             it.forEach { entry ->
                 Logger.i("${entry::class.simpleName}: ${entry.title}, ${entry.publishTime}}")
@@ -72,7 +72,7 @@ public class FeedRepository(
 
     public suspend fun loadKotlinWeeklyIssue(url: String): List<KotlinWeeklyIssueItem> {
         // TODO persist fetched entry to DB
-        return feedDataSource.loadKotlinWeeklyIssue(url).map {
+        return feedService.fetchKotlinWeeklyIssue(url).map {
             it.asExternalModel()
         }
     }

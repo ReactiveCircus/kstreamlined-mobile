@@ -59,14 +59,14 @@ plugins {
 rootProject.name = "kstreamlined-mobile"
 
 // KMP
-include(":kmp:core-utils")
 include(":kmp:data")
-include(":kmp:feed-datasource:common")
-include(":kmp:feed-datasource:cloud")
-include(":kmp:feed-datasource:edge")
-include(":kmp:feed-datasource:testing")
-include(":kmp:model")
+include(":kmp:networking:common")
+include(":kmp:networking:cloud")
+include(":kmp:networking:edge")
+include(":kmp:networking:testing")
 include(":kmp:persistence")
+include(":kmp:model")
+include(":kmp:core-utils")
 include(":kmp:presentation:common")
 include(":kmp:presentation:content-viewer")
 include(":kmp:presentation:home")

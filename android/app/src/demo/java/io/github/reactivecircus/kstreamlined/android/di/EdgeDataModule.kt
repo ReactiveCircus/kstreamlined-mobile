@@ -4,8 +4,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.EdgeFeedDataSource
-import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.FeedDataSource
+import io.github.reactivecircus.kstreamlined.kmp.networking.EdgeFeedService
+import io.github.reactivecircus.kstreamlined.kmp.networking.FeedService
 import javax.inject.Singleton
 
 @Module
@@ -14,7 +14,7 @@ object EdgeDataModule {
 
     @Provides
     @Singleton
-    fun feedDataSource(): FeedDataSource {
-        return EdgeFeedDataSource()
+    fun feedService(): FeedService {
+        return EdgeFeedService()
     }
 }

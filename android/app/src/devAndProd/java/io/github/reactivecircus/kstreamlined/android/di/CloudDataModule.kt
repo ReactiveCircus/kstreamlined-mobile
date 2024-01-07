@@ -5,8 +5,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.CloudFeedDataSource
-import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.FeedDataSource
+import io.github.reactivecircus.kstreamlined.kmp.networking.CloudFeedService
+import io.github.reactivecircus.kstreamlined.kmp.networking.FeedService
 import javax.inject.Singleton
 
 @Module
@@ -15,7 +15,7 @@ object CloudDataModule {
 
     @Provides
     @Singleton
-    fun feedDataSource(apolloClient: ApolloClient): FeedDataSource {
-        return CloudFeedDataSource(apolloClient)
+    fun feedService(apolloClient: ApolloClient): FeedService {
+        return CloudFeedService(apolloClient)
     }
 }
