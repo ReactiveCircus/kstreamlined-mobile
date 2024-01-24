@@ -7,9 +7,9 @@ import com.android.build.gradle.TestedExtension
 import org.gradle.accessors.dm.LibrariesForLibs
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
-import org.gradle.api.plugins.ExtensionAware
 import org.gradle.kotlin.dsl.the
-import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
+import org.gradle.kotlin.dsl.withType
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 /**
  * Apply baseline configurations for all Android projects (Application and Library).
@@ -49,12 +49,12 @@ internal fun TestedExtension.configureCommonAndroidOptions(project: Project) {
         dependencies.add("coreLibraryDesugaring", the<LibrariesForLibs>().desugarJdkLibs)
     }
 
-    (this@configureCommonAndroidOptions as ExtensionAware).extensions.configure<KotlinJvmOptions>("kotlinOptions") {
-        if (project.providers.gradleProperty("enableComposeCompilerReports").orNull == "true") {
-            freeCompilerArgs += buildList {
+    project.tasks.withType<KotlinCompile>().configureEach {
+        with(compilerOptions.freeCompilerArgs) {
+            addAll(composeCompilerStrongSkippingArgs)
+            if (project.providers.gradleProperty("enableComposeCompilerReports").orNull == "true") {
                 addAll(composeCompilerMetricsArgs(project.layout.buildDirectory).get())
                 addAll(composeCompilerReportsArgs(project.layout.buildDirectory).get())
-                addAll(composeCompilerStrongSkippingArgs)
             }
         }
     }

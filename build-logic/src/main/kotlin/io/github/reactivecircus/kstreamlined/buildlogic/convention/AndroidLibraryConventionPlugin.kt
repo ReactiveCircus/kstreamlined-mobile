@@ -44,7 +44,7 @@ internal class AndroidLibraryConventionPlugin : Plugin<Project> {
         // enable explicit API mode for non-test Kotlin compilations
         tasks.withType<KotlinCompile>().configureEach {
             if (!name.endsWith("TestKotlin")) {
-                kotlinOptions.freeCompilerArgs += listOf("-Xexplicit-api=strict")
+                compilerOptions.freeCompilerArgs.addAll(listOf("-Xexplicit-api=strict"))
             }
         }
 
