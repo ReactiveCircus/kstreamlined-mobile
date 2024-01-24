@@ -54,6 +54,7 @@ jobs:
       - uses: gradle/gradle-build-action@v2
         with:
           gradle-home-cache-cleanup: true
+          cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
 
       - name: Assemble dev debug APK and signed release App Bundle
         run: ./gradlew app:assembleDevDebug app:bundleProdRelease -Pandroid.experimental.settings.executionProfile=ci
@@ -92,6 +93,7 @@ jobs:
       - uses: gradle/gradle-build-action@v2
         with:
           gradle-home-cache-cleanup: true
+          cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
 
       - name: Run unit tests
         run: ./gradlew test jvmTest -PslimTests
@@ -116,6 +118,7 @@ jobs:
       - uses: gradle/gradle-build-action@v2
         with:
           gradle-home-cache-cleanup: true
+          cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
 
       - name: Run detekt, ktlint and Android Lint
         run: |
@@ -157,6 +160,7 @@ jobs:
       - uses: gradle/gradle-build-action@v2
         with:
           gradle-home-cache-cleanup: true
+          cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
 
       - name: Publish dev build to Firebase App Distribution
         run: ./gradlew processDevDebugGoogleServices appDistributionUploadDevDebug
@@ -202,6 +206,7 @@ jobs:
       - uses: gradle/gradle-build-action@v2
         with:
           gradle-home-cache-cleanup: true
+          cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
 
       - name: Publish release App Bundle to Play Store
         run: ./gradlew publishBundle --artifact-dir android/app/build/outputs/bundle/prodRelease
