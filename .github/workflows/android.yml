@@ -51,7 +51,7 @@ jobs:
           openssl enc -d -aes-256-cbc -pbkdf2 -iter 10000 -salt -in android/secrets/android-google-services-dev.aes -out android/app/src/dev/google-services.json -k $ENCRYPTION_KEY
           openssl enc -d -aes-256-cbc -pbkdf2 -iter 10000 -salt -in android/secrets/android-google-services-prod.aes -out android/app/src/prod/google-services.json -k $ENCRYPTION_KEY
 
-      - uses: gradle/gradle-build-action@v2
+      - uses: gradle/gradle-build-action@v3-beta
         with:
           gradle-home-cache-cleanup: true
           cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
@@ -90,7 +90,7 @@ jobs:
           distribution: 'zulu'
           java-version: '21'
 
-      - uses: gradle/gradle-build-action@v2
+      - uses: gradle/gradle-build-action@v3-beta
         with:
           gradle-home-cache-cleanup: true
           cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
@@ -115,7 +115,7 @@ jobs:
           distribution: 'zulu'
           java-version: '21'
 
-      - uses: gradle/gradle-build-action@v2
+      - uses: gradle/gradle-build-action@v3-beta
         with:
           gradle-home-cache-cleanup: true
           cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
@@ -157,7 +157,7 @@ jobs:
           openssl enc -d -aes-256-cbc -pbkdf2 -iter 10000 -salt -in secrets/firebase-key.aes -out secrets/firebase-key.json -k $ENCRYPTION_KEY
           openssl enc -d -aes-256-cbc -pbkdf2 -iter 10000 -salt -in android/secrets/android-google-services-dev.aes -out android/app/src/dev/google-services.json -k $ENCRYPTION_KEY
 
-      - uses: gradle/gradle-build-action@v2
+      - uses: gradle/gradle-build-action@v3-beta
         with:
           gradle-home-cache-cleanup: true
           cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
@@ -203,7 +203,7 @@ jobs:
           openssl enc -d -aes-256-cbc -pbkdf2 -iter 10000 -salt -in android/secrets/play-publishing.aes -out android/secrets/play-publishing.json -k $ENCRYPTION_KEY
           openssl enc -d -aes-256-cbc -pbkdf2 -iter 10000 -salt -in android/secrets/android-google-services-prod.aes -out android/app/src/prod/google-services.json -k $ENCRYPTION_KEY
 
-      - uses: gradle/gradle-build-action@v2
+      - uses: gradle/gradle-build-action@v3-beta
         with:
           gradle-home-cache-cleanup: true
           cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
