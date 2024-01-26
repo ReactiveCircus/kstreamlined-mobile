@@ -21,7 +21,7 @@ public fun Text(
     modifier: Modifier = Modifier,
     color: Color = Color.Unspecified,
     textDecoration: TextDecoration? = null,
-    textAlign: TextAlign? = null,
+    textAlign: TextAlign = TextAlign.Unspecified,
     overflow: TextOverflow = TextOverflow.Clip,
     softWrap: Boolean = true,
     maxLines: Int = Int.MAX_VALUE,
@@ -36,7 +36,7 @@ public fun Text(
     val mergedStyle = style.merge(
         TextStyle(
             color = textColor,
-            textAlign = textAlign ?: style.textAlign,
+            textAlign = textAlign,
             textDecoration = textDecoration,
         )
     )
@@ -59,7 +59,7 @@ public fun Text(
     modifier: Modifier = Modifier,
     color: Color = Color.Unspecified,
     textDecoration: TextDecoration? = null,
-    textAlign: TextAlign? = null,
+    textAlign: TextAlign = TextAlign.Unspecified,
     overflow: TextOverflow = TextOverflow.Clip,
     softWrap: Boolean = true,
     maxLines: Int = Int.MAX_VALUE,
@@ -75,7 +75,7 @@ public fun Text(
     val mergedStyle = style.merge(
         TextStyle(
             color = textColor,
-            textAlign = textAlign ?: style.textAlign,
+            textAlign = textAlign,
             textDecoration = textDecoration,
         )
     )
