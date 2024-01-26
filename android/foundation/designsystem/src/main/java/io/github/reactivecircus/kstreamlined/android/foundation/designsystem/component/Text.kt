@@ -3,10 +3,6 @@ package io.github.reactivecircus.kstreamlined.android.foundation.designsystem.co
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.ProvidableCompositionLocal
-import androidx.compose.runtime.compositionLocalOf
-import androidx.compose.runtime.structuralEqualityPolicy
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.takeOrElse
@@ -94,13 +90,4 @@ public fun Text(
         minLines = minLines,
         inlineContent = inlineContent,
     )
-}
-
-public val LocalTextStyle: ProvidableCompositionLocal<TextStyle> =
-    compositionLocalOf(structuralEqualityPolicy()) { TextStyle.Default }
-
-@Composable
-public fun ProvideTextStyle(value: TextStyle, content: @Composable () -> Unit) {
-    val mergedStyle = LocalTextStyle.current.merge(value)
-    CompositionLocalProvider(LocalTextStyle provides mergedStyle, content = content)
 }
