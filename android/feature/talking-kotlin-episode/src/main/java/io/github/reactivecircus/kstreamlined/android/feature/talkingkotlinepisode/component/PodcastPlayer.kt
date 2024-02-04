@@ -4,23 +4,21 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -39,7 +37,6 @@ import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.fou
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.icon.Pause
 import io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepisode.TalkingKotlinEpisode
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun PodcastPlayer(
     episode: TalkingKotlinEpisode,
@@ -97,40 +94,17 @@ internal fun PodcastPlayer(
                     style = KSTheme.typography.bodySmall,
                 )
 
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(4.dp)
-                        .clip(CircleShape)
-                ) {
-                    Surface(
-                        modifier = Modifier.fillMaxSize(),
-                        color = KSTheme.colorScheme.onBackgroundVariant,
-                    ) {}
-                    @Suppress("MagicNumber")
-                    Surface(
-                        modifier = Modifier
-                            .fillMaxWidth(0.3f)
-                            .fillMaxHeight(),
-                        color = KSTheme.colorScheme.onContainerInverse,
-                    ) {}
-                }
+                @Suppress("MagicNumber")
+                var progressMillis by remember { mutableLongStateOf(1200_000L) }
 
-                Row {
-                    Text(
-                        text = "24:03",
-                        style = KSTheme.typography.labelSmall,
-                        color = KSTheme.colorScheme.onTertiaryVariant,
-                    )
-
-                    Spacer(modifier = Modifier.weight(1f))
-
-                    Text(
-                        text = "-32:36",
-                        style = KSTheme.typography.labelSmall,
-                        color = KSTheme.colorScheme.onTertiaryVariant,
-                    )
-                }
+                SeekBar(
+                    progressMillis = progressMillis,
+                    durationMillis = 3000_000L,
+                    onProgressChangeFinished = {
+                        progressMillis = it
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                )
             }
 
             AnimatedContent(
