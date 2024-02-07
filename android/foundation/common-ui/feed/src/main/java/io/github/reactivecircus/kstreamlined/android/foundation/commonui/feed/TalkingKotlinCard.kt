@@ -1,6 +1,5 @@
 package io.github.reactivecircus.kstreamlined.android.foundation.commonui.feed
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -44,7 +43,6 @@ import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.toDisplayable
 import kotlinx.datetime.toInstant
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 public fun TalkingKotlinCard(
     item: DisplayableFeedItem<FeedItem.TalkingKotlin>,

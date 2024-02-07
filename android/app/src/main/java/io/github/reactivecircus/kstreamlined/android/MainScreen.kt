@@ -2,7 +2,6 @@ package io.github.reactivecircus.kstreamlined.android
 
 import androidx.compose.animation.core.EaseInOutQuart
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
@@ -32,7 +31,6 @@ import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.fou
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
 import kotlin.math.absoluteValue
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MainScreen(
     onViewItem: (FeedItem) -> Unit,
@@ -102,7 +100,6 @@ fun MainScreen(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 private fun Modifier.pagerScaleTransition(page: Int, pagerState: PagerState) = graphicsLayer {
     val pageOffset = (pagerState.currentPage - page) + pagerState.currentPageOffsetFraction
     lerp(

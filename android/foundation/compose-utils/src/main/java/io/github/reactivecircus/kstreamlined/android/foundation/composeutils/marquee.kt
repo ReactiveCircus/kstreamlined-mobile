@@ -4,7 +4,6 @@ import androidx.compose.foundation.DefaultMarqueeDelayMillis
 import androidx.compose.foundation.DefaultMarqueeIterations
 import androidx.compose.foundation.DefaultMarqueeSpacing
 import androidx.compose.foundation.DefaultMarqueeVelocity
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.MarqueeAnimationMode
 import androidx.compose.foundation.MarqueeSpacing
 import androidx.compose.foundation.basicMarquee
@@ -25,7 +24,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Stable
-@OptIn(ExperimentalFoundationApi::class)
 public fun Modifier.marqueeWithFadedEdges(
     fadedEdgeMode: FadedEdgeMode = FadedEdgeMode.Both,
     edgeWidth: Dp = DefaultEdgeWidth,
@@ -36,56 +34,52 @@ public fun Modifier.marqueeWithFadedEdges(
     initialDelayMillis: Int = if (animationMode == MarqueeAnimationMode.Immediately) delayMillis else 0,
     spacing: MarqueeSpacing = DefaultMarqueeSpacing,
     velocity: Dp = DefaultMarqueeVelocity
-): Modifier = this.then(
-    if (fadedEdgeMode != FadedEdgeMode.None) {
-        offset(x = -startEdgePadding)
-            .graphicsLayer { compositingStrategy = CompositingStrategy.Offscreen }
-    } else {
-        Modifier
-    }
-        .drawWithContent {
-            drawContent()
-            when (fadedEdgeMode) {
-                FadedEdgeMode.Both -> {
-                    drawFadedEdge(
-                        edgeWidth = edgeWidth,
-                        leftEdge = true,
-                    )
-                    drawFadedEdge(
-                        edgeWidth = edgeWidth,
-                        leftEdge = false,
-                    )
-                }
-
-                FadedEdgeMode.Start -> drawFadedEdge(
+): Modifier = if (fadedEdgeMode != FadedEdgeMode.None) {
+    offset(x = -startEdgePadding)
+        .graphicsLayer { compositingStrategy = CompositingStrategy.Offscreen }
+} else { this }
+    .drawWithContent {
+        drawContent()
+        when (fadedEdgeMode) {
+            FadedEdgeMode.Both -> {
+                drawFadedEdge(
                     edgeWidth = edgeWidth,
                     leftEdge = true,
                 )
-
-                FadedEdgeMode.End -> drawFadedEdge(
+                drawFadedEdge(
                     edgeWidth = edgeWidth,
                     leftEdge = false,
                 )
+            }
 
-                FadedEdgeMode.None -> Unit
-            }
+            FadedEdgeMode.Start -> drawFadedEdge(
+                edgeWidth = edgeWidth,
+                leftEdge = true,
+            )
+
+            FadedEdgeMode.End -> drawFadedEdge(
+                edgeWidth = edgeWidth,
+                leftEdge = false,
+            )
+
+            FadedEdgeMode.None -> Unit
         }
-        .basicMarquee(
-            iterations = iterations,
-            animationMode = animationMode,
-            delayMillis = delayMillis,
-            initialDelayMillis = initialDelayMillis,
-            spacing = spacing,
-            velocity = velocity
-        )
-        .then(
-            if (fadedEdgeMode != FadedEdgeMode.None) {
-                padding(start = startEdgePadding)
-            } else {
-                Modifier
-            }
-        )
-)
+    }
+    .basicMarquee(
+        iterations = iterations,
+        animationMode = animationMode,
+        delayMillis = delayMillis,
+        initialDelayMillis = initialDelayMillis,
+        spacing = spacing,
+        velocity = velocity
+    )
+    .then(
+        if (fadedEdgeMode != FadedEdgeMode.None) {
+            Modifier.padding(start = startEdgePadding)
+        } else {
+            Modifier
+        }
+    )
 
 @JvmInline
 public value class FadedEdgeMode private constructor(private val value: Int) {
