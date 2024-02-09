@@ -1,8 +1,8 @@
 package io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.component
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -110,27 +110,15 @@ internal fun PodcastPlayer(
             AnimatedContent(
                 targetState = isPlaying,
                 modifier = Modifier.padding(end = 8.dp),
-                transitionSpec = { fadeIn() togetherWith fadeOut() },
+                transitionSpec = { scaleIn() togetherWith scaleOut() },
                 contentAlignment = Alignment.Center,
                 label = "isPlaying",
             ) { playing ->
-                when (playing) {
-                    true -> {
-                        LargeIconButton(
-                            KSIcons.Pause,
-                            contentDescription = null,
-                            onClick = onPlayPauseButtonClick,
-                        )
-                    }
-
-                    false -> {
-                        LargeIconButton(
-                            KSIcons.PlayArrow,
-                            contentDescription = null,
-                            onClick = onPlayPauseButtonClick,
-                        )
-                    }
-                }
+                LargeIconButton(
+                    if (playing) KSIcons.Pause else KSIcons.PlayArrow,
+                    contentDescription = null,
+                    onClick = onPlayPauseButtonClick,
+                )
             }
         }
     }

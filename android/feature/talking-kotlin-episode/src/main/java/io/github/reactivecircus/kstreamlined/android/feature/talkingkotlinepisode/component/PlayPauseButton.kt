@@ -1,5 +1,11 @@
 package io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.component
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -34,27 +40,26 @@ internal fun PlayPauseButton(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            if (isPlaying) {
+            AnimatedContent(
+                targetState = isPlaying,
+                transitionSpec = { scaleIn() togetherWith scaleOut() },
+                contentAlignment = Alignment.Center,
+                label = "isPlaying",
+            ) { playing ->
                 Icon(
-                    KSIcons.Pause,
+                    if (playing) KSIcons.Pause else KSIcons.PlayArrow,
                     contentDescription = null,
                 )
+            }
+            AnimatedContent(
+                targetState = isPlaying,
+                transitionSpec = { fadeIn() togetherWith fadeOut() },
+                contentAlignment = Alignment.Center,
+                label = "isPlaying",
+            ) { playing ->
                 Text(
                     text = stringResource(
-                        id = R.string.pause
-                    ),
-                    style = KSTheme.typography.labelLarge.copy(
-                        fontWeight = FontWeight.ExtraBold
-                    ),
-                )
-            } else {
-                Icon(
-                    KSIcons.PlayArrow,
-                    contentDescription = null,
-                )
-                Text(
-                    text = stringResource(
-                        id = R.string.play
+                        id = if (playing) R.string.pause else R.string.play
                     ),
                     style = KSTheme.typography.labelLarge.copy(
                         fontWeight = FontWeight.ExtraBold

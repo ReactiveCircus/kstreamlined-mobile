@@ -1,10 +1,6 @@
 package io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode
 
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -198,29 +194,26 @@ private fun ContentUi(
                 }
             }
             item {
-                Text(
-                    text = "${episode.displayablePublishTime} • ${episode.duration}",
-                    style = KSTheme.typography.labelMedium,
-                    modifier = Modifier.padding(vertical = 8.dp),
-                    color = KSTheme.colorScheme.onBackgroundVariant,
-                    textAlign = TextAlign.Center,
-                )
-                Text(
-                    text = episode.title,
-                    style = KSTheme.typography.titleLarge,
-                    modifier = Modifier.padding(horizontal = 24.dp),
-                    textAlign = TextAlign.Center,
-                )
-                AnimatedContent(
-                    targetState = isPlaying,
-                    modifier = Modifier.padding(top = 8.dp),
-                    transitionSpec = { fadeIn() togetherWith fadeOut() },
-                    contentAlignment = Alignment.Center,
-                    label = "isPlaying",
-                ) { playing ->
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    Text(
+                        text = "${episode.displayablePublishTime} • ${episode.duration}",
+                        style = KSTheme.typography.labelMedium,
+                        modifier = Modifier.padding(vertical = 8.dp),
+                        color = KSTheme.colorScheme.onBackgroundVariant,
+                        textAlign = TextAlign.Center,
+                    )
+                    Text(
+                        text = episode.title,
+                        style = KSTheme.typography.titleLarge,
+                        modifier = Modifier.padding(horizontal = 24.dp),
+                        textAlign = TextAlign.Center,
+                    )
                     PlayPauseButton(
-                        isPlaying = playing,
+                        isPlaying = isPlaying,
                         onPlayPauseButtonClick = onPlayPauseButtonClick,
+                        modifier = Modifier.padding(top = 8.dp),
                     )
                 }
             }
