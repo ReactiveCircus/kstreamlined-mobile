@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.Surface
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.Text
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.KSTheme
+import java.util.Locale
 import kotlin.math.roundToInt
 
 @Composable
@@ -64,6 +65,8 @@ internal fun SeekBar(
     )
     val timeLabelsOffsetPx = with(LocalDensity.current) { timeLabelsOffset.toPx() }
 
+    var currentProgressMillis by remember { mutableLongStateOf(progressMillis) }
+
     var fullTrackWidth by remember { mutableIntStateOf(0) }
     var activeTrackWidthPx by remember { mutableFloatStateOf(0f) }
     LaunchedEffect(fullTrackWidth) {
@@ -87,17 +90,16 @@ internal fun SeekBar(
                 detectDragGestures(
                     onDragEnd = {
                         seeking = false
-                        activeTrackWidthPx = activeTrackWidthPx.coerceIn(0f, size.width.toFloat())
-                        onProgressChangeFinished(
-                            ((activeTrackWidthPx / size.width) * durationMillis).toLong()
-                        )
+                        onProgressChangeFinished(currentProgressMillis)
                     },
                     onDragCancel = {
                         seeking = false
-                        activeTrackWidthPx = activeTrackWidthPx.coerceIn(0f, size.width.toFloat())
                     },
                 ) { _, dragAmount ->
-                    activeTrackWidthPx += dragAmount.x
+                    activeTrackWidthPx =
+                        (activeTrackWidthPx + dragAmount.x).coerceIn(0f, size.width.toFloat())
+                    currentProgressMillis =
+                        ((activeTrackWidthPx / size.width) * durationMillis).toLong()
                 }
             },
     ) {
@@ -121,7 +123,7 @@ internal fun SeekBar(
                     )
                     drawRect(
                         color = animatedActiveColor,
-                        size = size.copy(width = activeTrackWidthPx.coerceIn(0f, size.width)),
+                        size = size.copy(width = activeTrackWidthPx),
                     )
                 }
             },
@@ -141,8 +143,9 @@ internal fun SeekBar(
                 IntOffset(0, timeLabelsOffsetPx.roundToInt())
             }
         ) {
+            val (playedProgress, remainingProgress) = formatPlaybackTime(currentProgressMillis, durationMillis)
             Text(
-                text = "24:03",
+                text = playedProgress,
                 style = KSTheme.typography.labelSmall,
                 color = KSTheme.colorScheme.onTertiaryVariant,
             )
@@ -150,12 +153,35 @@ internal fun SeekBar(
             Spacer(modifier = Modifier.weight(1f))
 
             Text(
-                text = "-32:36",
+                text = remainingProgress,
                 style = KSTheme.typography.labelSmall,
                 color = KSTheme.colorScheme.onTertiaryVariant,
             )
         }
     }
+}
+
+@Suppress("MagicNumber")
+private fun formatPlaybackTime(progressMillis: Long, durationMillis: Long): Pair<String, String> {
+    val progressSeconds = progressMillis / 1000
+    val progressString = String.format(
+        Locale.ENGLISH,
+        "%02d:%02d:%02d",
+        progressSeconds / 3600,
+        (progressSeconds % 3600) / 60,
+        progressSeconds % 60,
+    )
+
+    val remainingSeconds = durationMillis / 1000 - progressMillis / 1000
+    val remainingString = String.format(
+        Locale.ENGLISH,
+        "-%02d:%02d:%02d",
+        remainingSeconds / 3600,
+        (remainingSeconds % 3600) / 60,
+        remainingSeconds % 60,
+    )
+
+    return progressString to remainingString
 }
 
 private const val AnimationDurationMillis = 400
