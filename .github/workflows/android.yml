@@ -24,7 +24,7 @@ env:
 jobs:
   assemble:
     name: Assemble
-    runs-on: macos-14
+    runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
       ENCRYPTION_KEY: ${{ secrets.ENCRYPTION_KEY }}
@@ -75,7 +75,7 @@ jobs:
 
   unit-tests:
     name: Unit tests
-    runs-on: macos-14
+    runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
       ENABLE_APP_VERSIONING: false
@@ -100,7 +100,7 @@ jobs:
 
   static-analysis:
     name: Static analysis
-    runs-on: macos-14
+    runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
       ENABLE_APP_VERSIONING: false
@@ -129,7 +129,7 @@ jobs:
     name: Upload dev build
     needs: [ assemble, unit-tests, static-analysis ]
     if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/android')
-    runs-on: macos-14
+    runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
       ENCRYPTION_KEY: ${{ secrets.ENCRYPTION_KEY }}
@@ -175,7 +175,7 @@ jobs:
     name: Publish release build to Play Store (internal test track)
     needs: [ assemble, unit-tests, static-analysis ]
     if: startsWith(github.ref, 'refs/tags/android')
-    runs-on: macos-14
+    runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
       ENCRYPTION_KEY: ${{ secrets.ENCRYPTION_KEY }}
