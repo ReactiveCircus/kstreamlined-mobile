@@ -16,7 +16,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
@@ -69,8 +69,9 @@ internal fun SeekBar(
 
     var fullTrackWidth by remember { mutableIntStateOf(0) }
     var activeTrackWidthPx by remember { mutableFloatStateOf(0f) }
-    LaunchedEffect(fullTrackWidth) {
+    DisposableEffect(fullTrackWidth) {
         activeTrackWidthPx = (progressMillis.toFloat() / durationMillis.toFloat()) * fullTrackWidth
+        onDispose { }
     }
 
     Box(

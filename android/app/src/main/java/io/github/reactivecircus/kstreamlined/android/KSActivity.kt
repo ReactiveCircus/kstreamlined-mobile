@@ -12,7 +12,7 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -46,12 +46,13 @@ class KSActivity : ComponentActivity() {
                 val darkTheme = isSystemInDarkTheme()
                 val context = LocalContext.current
                 val backgroundColor = KSTheme.colorScheme.background
-                LaunchedEffect(darkTheme, context) {
+                DisposableEffect(darkTheme, context) {
                     val navigationBarColor = when (SystemNavigationMode.of(context)) {
                         SystemNavigationMode.Gesture -> Color.Transparent
                         else -> backgroundColor
                     }
                     window.navigationBarColor = navigationBarColor.toArgb()
+                    onDispose { }
                 }
 
                 var navDestination: NavDestination by rememberSaveable {

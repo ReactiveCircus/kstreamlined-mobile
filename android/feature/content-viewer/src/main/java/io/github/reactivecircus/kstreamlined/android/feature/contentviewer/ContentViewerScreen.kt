@@ -17,7 +17,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -108,10 +108,11 @@ private fun ContentUi(
         )
 
         var showProgressIndicator by remember { mutableStateOf(false) }
-        LaunchedEffect(state.loadingState) {
+        DisposableEffect(state.loadingState) {
             if (state.loadingState != LoadingState.Finished) {
                 showProgressIndicator = state.isLoading
             }
+            onDispose { }
         }
         AnimatedVisibility(
             visible = showProgressIndicator,
