@@ -44,7 +44,6 @@ internal fun KotlinMultiplatformExtension.configureKMPTest() {
         jvmTest {
             dependencies {
                 implementation(kotlin("test"))
-                implementation(kotlin("test-junit"))
             }
         }
     }

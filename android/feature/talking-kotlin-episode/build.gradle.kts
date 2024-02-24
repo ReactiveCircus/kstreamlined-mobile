@@ -23,4 +23,6 @@ dependencies {
 
     // ExoPlayer
     implementation(libs.androidx.media3.exoplayer)
+
+    testImplementation(kotlin("test"))
 }

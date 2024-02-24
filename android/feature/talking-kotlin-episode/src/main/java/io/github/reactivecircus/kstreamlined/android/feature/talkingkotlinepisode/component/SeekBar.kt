@@ -16,11 +16,10 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -40,9 +39,9 @@ import kotlin.math.roundToInt
 
 @Composable
 internal fun SeekBar(
-    progressMillis: Long,
-    durationMillis: Long,
-    onProgressChangeFinished: (Long) -> Unit,
+    progressMillis: Int,
+    durationMillis: Int,
+    onProgressChangeFinished: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     var seeking by remember { mutableStateOf(false) }
@@ -65,44 +64,53 @@ internal fun SeekBar(
     )
     val timeLabelsOffsetPx = with(LocalDensity.current) { timeLabelsOffset.toPx() }
 
-    var currentProgressMillis by remember { mutableLongStateOf(progressMillis) }
+    var currentProgressMillis by remember { mutableIntStateOf(progressMillis) }
 
-    var fullTrackWidth by remember { mutableIntStateOf(0) }
+    var fullTrackWidthPx by remember { mutableIntStateOf(0) }
     var activeTrackWidthPx by remember { mutableFloatStateOf(0f) }
-    DisposableEffect(fullTrackWidth) {
-        activeTrackWidthPx = (progressMillis.toFloat() / durationMillis.toFloat()) * fullTrackWidth
-        onDispose { }
+
+    LaunchedEffect(progressMillis, durationMillis, fullTrackWidthPx) {
+        if (!seeking && durationMillis > 0) {
+            currentProgressMillis = progressMillis
+            activeTrackWidthPx = progressMillis.toFloat() / durationMillis.toFloat() * fullTrackWidthPx
+        }
     }
 
     Box(
         modifier = modifier
             .height(24.dp)
-            .pointerInput(Unit) {
-                detectTapGestures(
-                    onPress = {
-                        seeking = true
-                    },
-                    onTap = {
-                        seeking = false
-                    }
-                )
-            }
-            .pointerInput(Unit) {
-                detectDragGestures(
-                    onDragEnd = {
-                        seeking = false
-                        onProgressChangeFinished(currentProgressMillis)
-                    },
-                    onDragCancel = {
-                        seeking = false
-                    },
-                ) { _, dragAmount ->
-                    activeTrackWidthPx =
-                        (activeTrackWidthPx + dragAmount.x).coerceIn(0f, size.width.toFloat())
-                    currentProgressMillis =
-                        ((activeTrackWidthPx / size.width) * durationMillis).toLong()
+            .then(
+                if (durationMillis > 0) {
+                    Modifier
+                        .pointerInput(Unit) {
+                            detectTapGestures(
+                                onPress = {
+                                    seeking = true
+                                },
+                                onTap = {
+                                    seeking = false
+                                }
+                            )
+                        }
+                        .pointerInput(Unit) {
+                            detectDragGestures(
+                                onDragEnd = {
+                                    seeking = false
+                                    onProgressChangeFinished(currentProgressMillis)
+                                },
+                                onDragCancel = {
+                                    seeking = false
+                                },
+                            ) { _, dragAmount ->
+                                activeTrackWidthPx = (activeTrackWidthPx + dragAmount.x)
+                                    .coerceIn(0f, size.width.toFloat())
+                                currentProgressMillis = (activeTrackWidthPx / size.width * durationMillis).toInt()
+                            }
+                        }
+                } else {
+                    Modifier
                 }
-            },
+            ),
     ) {
         Layout(
             {
@@ -133,7 +141,7 @@ internal fun SeekBar(
                 .clip(CircleShape)
         ) { measurables, constraints ->
             val trackPlaceable = measurables.first().measure(constraints)
-            fullTrackWidth = trackPlaceable.width
+            fullTrackWidthPx = trackPlaceable.width
             layout(trackPlaceable.width, trackPlaceable.height) {
                 trackPlaceable.placeRelative(0, 0)
             }
@@ -144,7 +152,7 @@ internal fun SeekBar(
                 IntOffset(0, timeLabelsOffsetPx.roundToInt())
             }
         ) {
-            val (playedProgress, remainingProgress) = formatPlaybackTime(currentProgressMillis, durationMillis)
+            val (playedProgress, remainingProgress) = playbackProgressLabels(currentProgressMillis, durationMillis)
             Text(
                 text = playedProgress,
                 style = KSTheme.typography.labelSmall,
@@ -163,14 +171,17 @@ internal fun SeekBar(
 }
 
 @Suppress("MagicNumber")
-private fun formatPlaybackTime(progressMillis: Long, durationMillis: Long): Pair<String, String> {
-    val progressSeconds = progressMillis / 1000
-    val progressString = String.format(
+internal fun playbackProgressLabels(progressMillis: Int, durationMillis: Int): Pair<String, String> {
+    if (progressMillis < 0 || durationMillis <= 0 || progressMillis > durationMillis) {
+        return "00:00:00" to "-00:00:00"
+    }
+    val playedSeconds = progressMillis / 1000
+    val playedString = String.format(
         Locale.ENGLISH,
         "%02d:%02d:%02d",
-        progressSeconds / 3600,
-        (progressSeconds % 3600) / 60,
-        progressSeconds % 60,
+        playedSeconds / 3600,
+        (playedSeconds % 3600) / 60,
+        playedSeconds % 60,
     )
 
     val remainingSeconds = durationMillis / 1000 - progressMillis / 1000
@@ -181,8 +192,7 @@ private fun formatPlaybackTime(progressMillis: Long, durationMillis: Long): Pair
         (remainingSeconds % 3600) / 60,
         remainingSeconds % 60,
     )
-
-    return progressString to remainingString
+    return playedString to remainingString
 }
 
 private const val AnimationDurationMillis = 400
@@ -194,13 +204,11 @@ private fun PreviewSeekBar() {
         Surface(
             color = KSTheme.colorScheme.tertiary
         ) {
-            @Suppress("MagicNumber")
-            var progressMillis by remember { mutableLongStateOf(1200_000L) }
             SeekBar(
                 modifier = Modifier.padding(8.dp),
-                progressMillis = progressMillis,
-                durationMillis = 3000_000L,
-                onProgressChangeFinished = { progressMillis = it },
+                progressMillis = 1200_000,
+                durationMillis = 3000_000,
+                onProgressChangeFinished = {},
             )
         }
     }

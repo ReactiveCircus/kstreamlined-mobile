@@ -27,6 +27,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -66,7 +67,7 @@ public fun KotlinWeeklyIssueScreen(
     LaunchedEffect(id) {
         viewModel.loadKotlinWeeklyIssue(id)
     }
-    val uiState = viewModel.uiState.collectAsStateWithLifecycle().value
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
     val title = stringResource(id = R.string.title_kotlin_weekly_issue, issueNumber)
     KotlinWeeklyIssueScreen(
