@@ -1,5 +1,6 @@
 package io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.component
 
+import androidx.annotation.OptIn
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
@@ -18,17 +19,30 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.media3.common.MediaItem
+import androidx.media3.common.Player
+import androidx.media3.common.util.UnstableApi
+import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.exoplayer.Renderer
+import androidx.media3.exoplayer.RenderersFactory
+import androidx.media3.exoplayer.audio.MediaCodecAudioRenderer
+import androidx.media3.exoplayer.mediacodec.MediaCodecSelector
+import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
+import androidx.media3.extractor.ExtractorsFactory
+import androidx.media3.extractor.mp3.Mp3Extractor
+import androidx.media3.extractor.mp4.Mp4Extractor
 import coil3.compose.AsyncImage
 import io.github.reactivecircus.kstreamlined.android.foundation.composeutils.marqueeWithFadedEdges
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.LargeIconButton
@@ -38,21 +52,11 @@ import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.fou
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.icon.KSIcons
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.icon.Pause
 import io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepisode.TalkingKotlinEpisode
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.emptyFlow
-import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
-import java.util.concurrent.atomic.AtomicBoolean
 
+@OptIn(UnstableApi::class)
 @Composable
 internal fun PodcastPlayer(
     episode: TalkingKotlinEpisode,
@@ -61,32 +65,83 @@ internal fun PodcastPlayer(
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp),
 ) {
-    @Suppress("MagicNumber")
-    val initialProgressMillis = 1200_000
+    var playerPositionMillis by remember { mutableIntStateOf(0) }
+    var playerDurationMillis by remember { mutableIntStateOf(0) }
 
-    val scope = rememberCoroutineScope()
-    val playbackController = remember { FakePlaybackController(scope) }
-    LaunchedEffect(Unit) {
-        playbackController.init(initialProgressMillis)
+    val context = LocalContext.current
+    val player = remember {
+        val audioOnlyRenderersFactory = RenderersFactory { handler, _, audioListener, _, _ ->
+            arrayOf<Renderer>(
+                MediaCodecAudioRenderer(context, MediaCodecSelector.DEFAULT, handler, audioListener)
+            )
+        }
+        val extractorFactory = ExtractorsFactory {
+            arrayOf(Mp3Extractor(), Mp4Extractor())
+        }
+        ExoPlayer.Builder(
+            context,
+            audioOnlyRenderersFactory,
+            DefaultMediaSourceFactory(context, extractorFactory)
+        ).build().apply {
+            setMediaItem(MediaItem.fromUri(episode.audioUrl))
+            prepare()
+            addListener(object : Player.Listener {
+                override fun onPlaybackStateChanged(playbackState: Int) {
+                    when (playbackState) {
+                        Player.STATE_READY -> {
+                            playerPositionMillis = currentPosition.toInt()
+                            playerDurationMillis = duration.toInt()
+                        }
+
+                        Player.STATE_ENDED -> {
+                            seekTo(0)
+                            playerPositionMillis = 0
+                            onPlayPauseButtonClick()
+                        }
+
+                        else -> Unit
+                    }
+                }
+            })
+        }
     }
+
+    DisposableEffect(Unit) {
+        @Suppress("MagicNumber")
+        player.seekTo(1200_000)
+        onDispose {
+            player.release()
+        }
+    }
+
     DisposableEffect(isPlaying) {
         if (isPlaying) {
-            playbackController.play()
+            player.play()
         } else {
-            playbackController.pause()
+            player.pause()
         }
         onDispose { }
     }
 
-    val playbackState by playbackController.playbackState.collectAsStateWithLifecycle()
+    LaunchedEffect(isPlaying) {
+        if (isPlaying) {
+            flow {
+                while (true) {
+                    delay(PlaybackSyncInterval)
+                    emit(Unit)
+                }
+            }.collectLatest {
+                playerPositionMillis = player.currentPosition.toInt()
+                playerDurationMillis = player.duration.toInt()
+            }
+        }
+    }
 
     PodcastPlayerUi(
-        playerProgressMillis = playbackState.progressMillis,
-        playerDurationMillis = playbackState.durationMillis,
-        onProgressChange = { progress ->
-            scope.launch {
-                playbackController.syncProgress(progress)
-            }
+        playerPositionMillis = playerPositionMillis,
+        playerDurationMillis = playerDurationMillis,
+        onPositionChange = { position ->
+            player.seekTo(position.toLong())
         },
         episode = episode,
         isPlaying = isPlaying,
@@ -96,77 +151,13 @@ internal fun PodcastPlayer(
     )
 }
 
-private data class PlaybackState(
-    val progressMillis: Int,
-    val durationMillis: Int,
-)
-
-@OptIn(ExperimentalCoroutinesApi::class)
-@Suppress("MagicNumber")
-private class FakePlaybackController(scope: CoroutineScope) {
-    private val _playbackState = MutableStateFlow(PlaybackState(0, 0))
-    val playbackState: StateFlow<PlaybackState> = _playbackState
-
-    private val _initialized = MutableStateFlow(false)
-    private val _isPlaying = MutableStateFlow(false)
-    private val _syncing = AtomicBoolean(false)
-
-    init {
-        scope.launch {
-            combine(_initialized, _isPlaying) { initialized, isPlaying ->
-                initialized to isPlaying
-            }.distinctUntilChanged().flatMapLatest { (initialized, isPlaying) ->
-                if (initialized && isPlaying) {
-                    flow {
-                        while (true) {
-                            delay(1000)
-                            emit(Unit)
-                        }
-                    }
-                } else {
-                    emptyFlow()
-                }
-            }.collectLatest {
-                if (!_syncing.get()) {
-                    _playbackState.update {
-                        it.copy(progressMillis = (it.progressMillis + 1000).coerceAtMost(it.durationMillis))
-                    }
-                }
-            }
-        }
-    }
-
-    suspend fun init(initialProgressMillis: Int) {
-        delay(500)
-        _playbackState.update {
-            PlaybackState(initialProgressMillis, 3000_000)
-        }
-        _initialized.value = true
-    }
-
-    suspend fun syncProgress(progressMillis: Int) {
-        _syncing.set(true)
-        delay(500)
-        _playbackState.update {
-            it.copy(progressMillis = progressMillis)
-        }
-        _syncing.set(false)
-    }
-
-    fun play() {
-        _isPlaying.value = true
-    }
-
-    fun pause() {
-        _isPlaying.value = false
-    }
-}
+private const val PlaybackSyncInterval = 1000L
 
 @Composable
 internal fun PodcastPlayerUi(
-    playerProgressMillis: Int,
+    playerPositionMillis: Int,
     playerDurationMillis: Int,
-    onProgressChange: (Int) -> Unit,
+    onPositionChange: (Int) -> Unit,
     episode: TalkingKotlinEpisode,
     isPlaying: Boolean,
     onPlayPauseButtonClick: () -> Unit,
@@ -223,9 +214,9 @@ internal fun PodcastPlayerUi(
                 )
 
                 SeekBar(
-                    progressMillis = playerProgressMillis,
+                    positionMillis = playerPositionMillis,
                     durationMillis = playerDurationMillis,
-                    onProgressChangeFinished = onProgressChange,
+                    onPositionChangeFinished = onPositionChange,
                     modifier = Modifier.fillMaxWidth(),
                 )
             }
@@ -253,9 +244,9 @@ private fun PreviewPodcastPlayerUi_paused() {
     KSTheme {
         Surface {
             PodcastPlayerUi(
-                playerProgressMillis = 1200_000,
+                playerPositionMillis = 1200_000,
                 playerDurationMillis = 3000_000,
-                onProgressChange = {},
+                onPositionChange = {},
                 episode = TalkingKotlinEpisode(
                     id = "1",
                     title = "Talking Kotlin Episode Title",
@@ -281,9 +272,9 @@ private fun PreviewPodcastPlayer_playing() {
     KSTheme {
         Surface {
             PodcastPlayerUi(
-                playerProgressMillis = 1200_000,
+                playerPositionMillis = 1200_000,
                 playerDurationMillis = 3000_000,
-                onProgressChange = {},
+                onPositionChange = {},
                 episode = TalkingKotlinEpisode(
                     id = "1",
                     title = "Talking Kotlin Episode Title",

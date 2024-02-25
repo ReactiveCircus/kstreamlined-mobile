@@ -39,9 +39,9 @@ import kotlin.math.roundToInt
 
 @Composable
 internal fun SeekBar(
-    progressMillis: Int,
+    positionMillis: Int,
     durationMillis: Int,
-    onProgressChangeFinished: (Int) -> Unit,
+    onPositionChangeFinished: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     var seeking by remember { mutableStateOf(false) }
@@ -64,15 +64,15 @@ internal fun SeekBar(
     )
     val timeLabelsOffsetPx = with(LocalDensity.current) { timeLabelsOffset.toPx() }
 
-    var currentProgressMillis by remember { mutableIntStateOf(progressMillis) }
+    var currentPositionMillis by remember { mutableIntStateOf(positionMillis) }
 
     var fullTrackWidthPx by remember { mutableIntStateOf(0) }
     var activeTrackWidthPx by remember { mutableFloatStateOf(0f) }
 
-    LaunchedEffect(progressMillis, durationMillis, fullTrackWidthPx) {
+    LaunchedEffect(positionMillis, durationMillis, fullTrackWidthPx) {
         if (!seeking && durationMillis > 0) {
-            currentProgressMillis = progressMillis
-            activeTrackWidthPx = progressMillis.toFloat() / durationMillis.toFloat() * fullTrackWidthPx
+            currentPositionMillis = positionMillis
+            activeTrackWidthPx = positionMillis.toFloat() / durationMillis.toFloat() * fullTrackWidthPx
         }
     }
 
@@ -96,7 +96,7 @@ internal fun SeekBar(
                             detectDragGestures(
                                 onDragEnd = {
                                     seeking = false
-                                    onProgressChangeFinished(currentProgressMillis)
+                                    onPositionChangeFinished(currentPositionMillis)
                                 },
                                 onDragCancel = {
                                     seeking = false
@@ -104,7 +104,7 @@ internal fun SeekBar(
                             ) { _, dragAmount ->
                                 activeTrackWidthPx = (activeTrackWidthPx + dragAmount.x)
                                     .coerceIn(0f, size.width.toFloat())
-                                currentProgressMillis = (activeTrackWidthPx / size.width * durationMillis).toInt()
+                                currentPositionMillis = (activeTrackWidthPx / size.width * durationMillis).toInt()
                             }
                         }
                 } else {
@@ -152,7 +152,7 @@ internal fun SeekBar(
                 IntOffset(0, timeLabelsOffsetPx.roundToInt())
             }
         ) {
-            val (playedProgress, remainingProgress) = playbackProgressLabels(currentProgressMillis, durationMillis)
+            val (playedProgress, remainingProgress) = playbackProgressLabels(currentPositionMillis, durationMillis)
             Text(
                 text = playedProgress,
                 style = KSTheme.typography.labelSmall,
@@ -171,11 +171,11 @@ internal fun SeekBar(
 }
 
 @Suppress("MagicNumber")
-internal fun playbackProgressLabels(progressMillis: Int, durationMillis: Int): Pair<String, String> {
-    if (progressMillis < 0 || durationMillis <= 0 || progressMillis > durationMillis) {
+internal fun playbackProgressLabels(positionMillis: Int, durationMillis: Int): Pair<String, String> {
+    if (positionMillis < 0 || durationMillis <= 0 || positionMillis > durationMillis) {
         return "00:00:00" to "-00:00:00"
     }
-    val playedSeconds = progressMillis / 1000
+    val playedSeconds = positionMillis / 1000
     val playedString = String.format(
         Locale.ENGLISH,
         "%02d:%02d:%02d",
@@ -184,7 +184,7 @@ internal fun playbackProgressLabels(progressMillis: Int, durationMillis: Int): P
         playedSeconds % 60,
     )
 
-    val remainingSeconds = durationMillis / 1000 - progressMillis / 1000
+    val remainingSeconds = durationMillis / 1000 - positionMillis / 1000
     val remainingString = String.format(
         Locale.ENGLISH,
         "-%02d:%02d:%02d",
@@ -206,9 +206,9 @@ private fun PreviewSeekBar() {
         ) {
             SeekBar(
                 modifier = Modifier.padding(8.dp),
-                progressMillis = 1200_000,
+                positionMillis = 1200_000,
                 durationMillis = 3000_000,
-                onProgressChangeFinished = {},
+                onPositionChangeFinished = {},
             )
         }
     }
