@@ -16,7 +16,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
@@ -66,14 +66,13 @@ internal fun SeekBar(
 
     var currentPositionMillis by remember { mutableIntStateOf(positionMillis) }
 
-    var fullTrackWidthPx by remember { mutableIntStateOf(0) }
     var activeTrackWidthPx by remember { mutableFloatStateOf(0f) }
 
-    LaunchedEffect(positionMillis, durationMillis, fullTrackWidthPx) {
+    DisposableEffect(positionMillis, durationMillis) {
         if (!seeking && durationMillis > 0) {
             currentPositionMillis = positionMillis
-            activeTrackWidthPx = positionMillis.toFloat() / durationMillis.toFloat() * fullTrackWidthPx
         }
+        onDispose { }
     }
 
     Box(
@@ -141,7 +140,9 @@ internal fun SeekBar(
                 .clip(CircleShape)
         ) { measurables, constraints ->
             val trackPlaceable = measurables.first().measure(constraints)
-            fullTrackWidthPx = trackPlaceable.width
+            if (!seeking) {
+                activeTrackWidthPx = currentPositionMillis / durationMillis.toFloat() * trackPlaceable.width
+            }
             layout(trackPlaceable.width, trackPlaceable.height) {
                 trackPlaceable.placeRelative(0, 0)
             }

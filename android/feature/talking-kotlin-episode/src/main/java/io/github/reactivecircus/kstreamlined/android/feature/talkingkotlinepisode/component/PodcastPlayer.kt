@@ -95,7 +95,7 @@ internal fun PodcastPlayer(
 
                         Player.STATE_ENDED -> {
                             seekTo(0)
-                            playerPositionMillis = 0
+                            playerPositionMillis = currentPosition.toInt()
                             onPlayPauseButtonClick()
                         }
 
