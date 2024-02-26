@@ -61,6 +61,7 @@ class HomeFeedItemMapperTest {
                 thumbnailUrl = "podcast-logo-url",
                 summary = "summary",
                 duration = "35min.",
+                startPositionMillis = 0,
             ),
             // 5 days ago
             FeedItem.KotlinBlog(
@@ -148,6 +149,7 @@ class HomeFeedItemMapperTest {
                         thumbnailUrl = "podcast-logo-url",
                         summary = "summary",
                         duration = "35min.",
+                        startPositionMillis = 0,
                     ),
                     displayablePublishTime = "Yesterday",
                 )

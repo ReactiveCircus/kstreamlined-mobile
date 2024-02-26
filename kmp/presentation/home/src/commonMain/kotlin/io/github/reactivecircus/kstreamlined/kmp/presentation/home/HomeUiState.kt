@@ -74,6 +74,7 @@ public val FakeHomeFeedItems: List<HomeFeedItem> = listOf(
         thumbnailUrl = "https://i1.sndcdn.com/artworks-uP9Cxy5KSYNzGebf-3q1MsQ-t3000x3000.jpg",
         summary = "Dive into the intricate world of microservices with the latest episode of Talking Kotlin, hosted by Sebastian and Hadi.",
         duration = "56min.",
+        startPositionMillis = 0,
     ),
     FeedItem.KotlinBlog(
         id = "https://blog.jetbrains.com/?post_type=blog&p=404245",
@@ -134,5 +135,6 @@ public val FakeHomeFeedItems: List<HomeFeedItem> = listOf(
         thumbnailUrl = "https://i1.sndcdn.com/avatars-000289370353-di6ese-original.jpg",
         summary = "In this episode, we are talking to engineers from @instaboxglobal who use Compose Multiplatform in Production.",
         duration = "55min.",
+        startPositionMillis = 0,
     ),
 ).toHomeFeedItems()

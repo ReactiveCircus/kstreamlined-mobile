@@ -21,7 +21,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -64,22 +64,23 @@ public fun TalkingKotlinEpisodeScreen(
     modifier: Modifier = Modifier,
 ) {
     val viewModel = viewModel<TalkingKotlinEpisodeViewModel>()
-    LaunchedEffect(id) {
+    DisposableEffect(Unit) {
         viewModel.loadTalkingKotlinEpisode(id)
+        onDispose {
+            viewModel.reset()
+        }
     }
     val uiState = viewModel.uiState.collectAsStateWithLifecycle().value
     val context = LocalContext.current
     TalkingKotlinEpisodeScreen(
-        title = "",
         onNavigateUp = onNavigateUp,
         onSaveButtonClick = { /* TODO */ },
         onShareButtonClick = { title, url ->
             context.openShareSheet(title, url)
         },
-        onPlayPauseButtonClick = { viewModel.togglePlayPause() },
-        onOpenLink = {
-            context.openCustomTab(it)
-        },
+        onPlayPauseButtonClick = viewModel::togglePlayPause,
+        onOpenLink = context::openCustomTab,
+        onSaveStartPosition = viewModel::saveStartPosition,
         uiState = uiState,
         modifier = modifier,
     )
@@ -87,12 +88,12 @@ public fun TalkingKotlinEpisodeScreen(
 
 @Composable
 internal fun TalkingKotlinEpisodeScreen(
-    title: String,
     onNavigateUp: () -> Unit,
     onShareButtonClick: (title: String, url: String) -> Unit,
     onSaveButtonClick: () -> Unit,
     onPlayPauseButtonClick: () -> Unit,
     onOpenLink: (url: String) -> Unit,
+    onSaveStartPosition: (startPositionMillis: Long) -> Unit,
     uiState: TalkingKotlinEpisodeUiState,
     modifier: Modifier = Modifier,
 ) {
@@ -102,7 +103,7 @@ internal fun TalkingKotlinEpisodeScreen(
             .background(KSTheme.colorScheme.background),
     ) {
         TopNavBar(
-            title = title,
+            title = "",
             modifier = Modifier.zIndex(1f),
             contentPadding = WindowInsets.statusBars.asPaddingValues(),
             navigationIcon = {
@@ -153,6 +154,7 @@ internal fun TalkingKotlinEpisodeScreen(
                         isPlaying = uiState.isPlaying,
                         onPlayPauseButtonClick = onPlayPauseButtonClick,
                         onOpenLink = onOpenLink,
+                        onSaveStartPosition = onSaveStartPosition,
                     )
                 }
             }
@@ -166,6 +168,7 @@ private fun ContentUi(
     isPlaying: Boolean,
     onPlayPauseButtonClick: () -> Unit,
     onOpenLink: (url: String) -> Unit,
+    onSaveStartPosition: (startPositionMillis: Long) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -271,6 +274,7 @@ private fun ContentUi(
             episode = episode,
             isPlaying = isPlaying,
             onPlayPauseButtonClick = onPlayPauseButtonClick,
+            onSaveStartPosition = onSaveStartPosition,
             contentPadding = WindowInsets.navigationBars.asPaddingValues(),
         )
     }

@@ -21,5 +21,11 @@ internal class TalkingKotlinEpisodeViewModel @Inject constructor(
         presenter.loadTalkingKotlinEpisode(id)
     }
 
+    fun saveStartPosition(startPositionMillis: Long) = viewModelScope.launch {
+        presenter.saveStartPosition(startPositionMillis)
+    }
+
     fun togglePlayPause() = presenter.togglePlayPause()
+
+    fun reset() = presenter.reset()
 }

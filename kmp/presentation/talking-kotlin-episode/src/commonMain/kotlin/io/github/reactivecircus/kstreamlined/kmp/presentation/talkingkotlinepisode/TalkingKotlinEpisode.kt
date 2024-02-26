@@ -10,4 +10,5 @@ public data class TalkingKotlinEpisode(
     val thumbnailUrl: String,
     val summary: String,
     val duration: String,
+    val startPositionMillis: Long,
 )

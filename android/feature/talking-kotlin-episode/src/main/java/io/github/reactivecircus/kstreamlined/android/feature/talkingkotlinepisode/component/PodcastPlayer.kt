@@ -62,6 +62,7 @@ internal fun PodcastPlayer(
     episode: TalkingKotlinEpisode,
     isPlaying: Boolean,
     onPlayPauseButtonClick: () -> Unit,
+    onSaveStartPosition: (Long) -> Unit,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp),
 ) {
@@ -107,9 +108,9 @@ internal fun PodcastPlayer(
     }
 
     DisposableEffect(Unit) {
-        @Suppress("MagicNumber")
-        player.seekTo(1200_000)
+        player.seekTo(episode.startPositionMillis)
         onDispose {
+            onSaveStartPosition(playerPositionMillis.toLong())
             player.release()
         }
     }
@@ -257,6 +258,7 @@ private fun PreviewPodcastPlayerUi_paused() {
                     thumbnailUrl = "podcast-logo-url",
                     summary = "summary",
                     duration = "35min.",
+                    startPositionMillis = 0,
                 ),
                 isPlaying = false,
                 onPlayPauseButtonClick = {},
@@ -285,6 +287,7 @@ private fun PreviewPodcastPlayer_playing() {
                     thumbnailUrl = "podcast-logo-url",
                     summary = "summary",
                     duration = "35min.",
+                    startPositionMillis = 0,
                 ),
                 isPlaying = true,
                 onPlayPauseButtonClick = {},

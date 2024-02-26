@@ -24,6 +24,11 @@ public class TalkingKotlinEpisodePresenter(
         )
     }
 
+    public suspend fun saveStartPosition(startPositionMillis: Long) {
+        val id = (uiState.value as TalkingKotlinEpisodeUiState.Content).episode.id
+        feedRepository.saveTalkingKotlinEpisodeStartPosition(id, startPositionMillis)
+    }
+
     public fun togglePlayPause() {
         _uiState.update {
             if (it is TalkingKotlinEpisodeUiState.Content) {
@@ -32,5 +37,10 @@ public class TalkingKotlinEpisodePresenter(
                 it
             }
         }
+    }
+
+    // TODO remove once ViewModel is scoped properly
+    public fun reset() {
+        _uiState.value = TalkingKotlinEpisodeUiState.Initializing
     }
 }

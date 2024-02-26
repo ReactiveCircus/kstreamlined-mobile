@@ -16,6 +16,7 @@ internal fun FeedItem.TalkingKotlin.asPresentationModel(
         audioUrl = audioUrl,
         thumbnailUrl = thumbnailUrl,
         summary = summary,
-        duration = duration
+        duration = duration,
+        startPositionMillis = startPositionMillis,
     )
 }

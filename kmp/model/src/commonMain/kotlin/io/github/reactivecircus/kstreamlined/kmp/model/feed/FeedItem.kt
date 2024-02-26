@@ -38,6 +38,7 @@ public sealed interface FeedItem {
         val thumbnailUrl: String,
         val summary: String,
         val duration: String,
+        val startPositionMillis: Long,
     ) : FeedItem
 
     public data class KotlinWeekly(

@@ -22,6 +22,7 @@ class TalkingKotlinEpisodeMapperTest {
             thumbnailUrl = "podcast-logo-url",
             summary = "summary",
             duration = "35min.",
+            startPositionMillis = 3000,
         )
 
         val expectedTalkingKotlinEpisode = TalkingKotlinEpisode(
@@ -34,6 +35,7 @@ class TalkingKotlinEpisodeMapperTest {
             thumbnailUrl = "podcast-logo-url",
             summary = "summary",
             duration = "35min.",
+            startPositionMillis = 3000,
         )
 
         assertEquals(expectedTalkingKotlinEpisode, feedItem.asPresentationModel(timeZone))

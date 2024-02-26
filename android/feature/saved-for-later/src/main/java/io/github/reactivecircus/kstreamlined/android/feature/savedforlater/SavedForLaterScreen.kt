@@ -172,6 +172,7 @@ private fun ContentUi(
                         thumbnailUrl = "https://i1.sndcdn.com/artworks-uP9Cxy5KSYNzGebf-3q1MsQ-t3000x3000.jpg",
                         summary = "Dive into the intricate world of microservices with the latest episode of Talking Kotlin, hosted by Sebastian and Hadi.",
                         duration = "56min.",
+                        startPositionMillis = 0,
                     ).toDisplayable(displayablePublishTime = "13 Nov 2023")
                 )
             }
