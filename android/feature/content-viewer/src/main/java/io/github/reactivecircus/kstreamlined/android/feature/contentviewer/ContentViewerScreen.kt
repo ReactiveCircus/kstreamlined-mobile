@@ -105,6 +105,7 @@ private fun ContentUi(
                 it.settings.javaScriptEnabled = true
                 it.settings.cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK
             },
+            client = remember { SchemeAwareWebViewClient() },
         )
 
         var showProgressIndicator by remember { mutableStateOf(false) }
