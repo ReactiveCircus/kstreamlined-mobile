@@ -2,8 +2,8 @@ package io.github.reactivecircus.kstreamlined.buildlogic
 
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.withType
-import org.jetbrains.kotlin.gradle.dsl.KotlinCommonCompile
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 /**
  * Apply common configs to KMP project.
@@ -50,23 +50,16 @@ internal fun KotlinMultiplatformExtension.configureKMPTest() {
 }
 
 /**
- * Configure Kotlin common compile options.
+ * Configure Kotlin compile options.
  */
-internal fun Project.configureKotlinCommonCompileOptions() {
-    tasks.withType<KotlinCommonCompile>().configureEach {
-        kotlinOptions {
-            freeCompilerArgs = freeCompilerArgs + commonCompilerArgs
-        }
-    }
-}
-
-/**
- * Enable explicit API mode for non-test Kotlin compilations
- */
-internal fun Project.enableExplicitApi() {
-    tasks.withType<KotlinCommonCompile>().configureEach {
-        if (!name.contains("TestKotlin")) {
-            kotlinOptions.freeCompilerArgs += "-Xexplicit-api=strict"
+internal fun Project.configureKotlinCompileOptions() {
+    tasks.withType<KotlinCompile>().configureEach {
+        with(compilerOptions.freeCompilerArgs) {
+            addAll(commonCompilerArgs)
+            // enable explicit API mode for non-test Kotlin compilations
+            if (!name.contains("TestKotlin")) {
+                add("-Xexplicit-api=strict")
+            }
         }
     }
 }
