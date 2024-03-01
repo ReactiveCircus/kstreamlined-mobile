@@ -1,7 +1,9 @@
 package io.github.reactivecircus.kstreamlined.buildlogic.convention
 
+import com.android.build.api.variant.ApplicationAndroidComponentsExtension
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import io.github.reactivecircus.kstreamlined.buildlogic.applyLanguageSettings
+import io.github.reactivecircus.kstreamlined.buildlogic.configureAndroidApplicationVariants
 import io.github.reactivecircus.kstreamlined.buildlogic.configureCommonAndroidOptions
 import io.github.reactivecircus.kstreamlined.buildlogic.configureDetekt
 import io.github.reactivecircus.kstreamlined.buildlogic.configureKotlinJvm
@@ -43,6 +45,10 @@ internal class AndroidApplicationConventionPlugin : Plugin<Project> {
                 checkDependencies = true
                 ignoreTestSources = true
             }
+        }
+
+        extensions.configure<ApplicationAndroidComponentsExtension> {
+            configureAndroidApplicationVariants()
         }
 
         configureTest()

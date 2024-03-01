@@ -1,3 +1,5 @@
+import com.android.build.api.variant.HasUnitTestBuilder
+
 plugins {
     id("kstreamlined.android.library")
     id("kstreamlined.android.library.compose")
@@ -8,6 +10,12 @@ android {
     namespace = "io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode"
     buildFeatures {
         androidResources = true
+    }
+}
+
+androidComponents {
+    beforeVariants {
+        (it as HasUnitTestBuilder).enableUnitTest = true
     }
 }
 

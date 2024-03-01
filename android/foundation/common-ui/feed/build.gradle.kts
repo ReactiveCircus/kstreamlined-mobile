@@ -7,13 +7,6 @@ android {
     namespace = "io.github.reactivecircus.kstreamlined.android.foundation.commonui.feed"
 }
 
-androidComponents {
-    beforeVariants {
-        @Suppress("UnstableApiUsage")
-        it.androidTest.enable = false
-    }
-}
-
 dependencies {
     implementation(project(":foundation:designsystem"))
     implementation(project(":foundation:compose-utils"))

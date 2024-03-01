@@ -1,6 +1,9 @@
 package io.github.reactivecircus.kstreamlined.buildlogic
 
 import com.android.build.api.dsl.CommonExtension
+import com.android.build.api.variant.ApplicationAndroidComponentsExtension
+import com.android.build.api.variant.HasDeviceTestsBuilder
+import com.android.build.api.variant.HasUnitTestBuilder
 import com.android.build.api.variant.LibraryAndroidComponentsExtension
 import com.android.build.gradle.TestExtension
 import com.android.build.gradle.TestedExtension
@@ -82,12 +85,37 @@ internal fun TestExtension.configureAndroidTestOptions() {
 }
 
 /**
- * Configure the Application Library Component based on build variants.
+ * Configure the Application Component based on build variants.
+ */
+internal fun ApplicationAndroidComponentsExtension.configureAndroidApplicationVariants() {
+    beforeVariants {
+        // disable unit tests by default
+        (it as HasUnitTestBuilder).enableUnitTest = false
+
+        // disable device tests by default
+        @Suppress("UnstableApiUsage")
+        (it as HasDeviceTestsBuilder).deviceTests.forEach { deviceTestBuilder ->
+            deviceTestBuilder.enable = false
+        }
+    }
+}
+
+/**
+ * Configure the Library Component based on build variants.
  */
 internal fun LibraryAndroidComponentsExtension.configureAndroidLibraryVariants() {
-    // disable debug build variant for all Android library projects
-    beforeVariants(selector().withBuildType("debug")) {
-        it.enable = false
+    beforeVariants {
+        // disable unit tests by default
+        (it as HasUnitTestBuilder).enableUnitTest = false
+
+        // disable device tests by default
+        @Suppress("UnstableApiUsage")
+        (it as HasDeviceTestsBuilder).deviceTests.forEach { deviceTestBuilder ->
+            deviceTestBuilder.enable = false
+        }
+
+        // only enable release build variant for the Android library project
+        it.enable = it.buildType == "release"
     }
 }
 

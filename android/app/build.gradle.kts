@@ -1,4 +1,3 @@
-import com.android.build.api.variant.HasUnitTestBuilder
 import com.google.firebase.crashlytics.buildtools.gradle.CrashlyticsExtension
 import com.google.firebase.perf.plugin.FirebasePerfExtension
 import io.github.reactivecircus.kstreamlined.buildlogic.FlavorDimensions
@@ -86,6 +85,7 @@ android {
 
     buildTypes {
         val debug by getting {
+            isDefault = true
             matchingFallbacks.add("release")
             signingConfig = signingConfigs.getByName("debug")
 
@@ -127,6 +127,7 @@ android {
             applicationIdSuffix = ".${ProductFlavors.MOCK}"
         }
         register(ProductFlavors.DEV) {
+            isDefault = true
             applicationIdSuffix = ".${ProductFlavors.DEV}"
 
             // distribute dev flavor for QA
@@ -171,9 +172,6 @@ androidComponents {
         it.enable = it.flavorName == ProductFlavors.PROD && it.buildType == "release"
             || it.flavorName != ProductFlavors.PROD && it.buildType == "debug"
             || it.flavorName == ProductFlavors.DEV && it.buildType == "benchmark"
-        (it as HasUnitTestBuilder).enableUnitTest = false
-        @Suppress("UnstableApiUsage")
-        it.androidTest.enable = false
     }
 
     onVariants {
