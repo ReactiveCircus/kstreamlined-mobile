@@ -45,6 +45,14 @@
     kotlinx.serialization.KSerializer serializer(...);
 }
 
+# Remove Compose tracing strings
+-assumenosideeffects public class androidx.compose.runtime.ComposerKt {
+   boolean isTraceInProgress();
+   void traceEventStart(int,int,int,java.lang.String);
+   void traceEventStart(int,java.lang.String);
+   void traceEventEnd();
+}
+
 # This is generated automatically by the Android Gradle plugin.
 -dontwarn kotlinx.serialization.KSerializer
 -dontwarn kotlinx.serialization.Serializable
