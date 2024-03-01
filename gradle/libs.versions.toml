@@ -1,7 +1,7 @@
 [versions]
 kotlin = "2.0.0-Beta4"
 ksp = "2.0.0-Beta4-1.0.18"
-androidGradlePlugin = "8.4.0-alpha11"
+androidGradlePlugin = "8.4.0-alpha12"
 gradle-toolchainsResolverPlugin = "0.8.0"
 appVersioning = "1.3.1"
 apollo = "4.0.0-beta.4"
