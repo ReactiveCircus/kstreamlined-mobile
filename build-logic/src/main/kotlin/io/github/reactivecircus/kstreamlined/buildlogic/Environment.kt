@@ -1,6 +1,7 @@
 package io.github.reactivecircus.kstreamlined.buildlogic
 
 import org.gradle.api.Project
+import org.gradle.api.provider.Provider
 
 val Project.isCiBuild: Boolean
     get() = providers.environmentVariable("CI").orNull == "true"
@@ -18,7 +19,8 @@ val Project.isRunningBenchmark: Boolean
 val Project.isAppleSilicon: Boolean
     get() = providers.systemProperty("os.arch").orNull == "aarch64"
 
-fun Project.envOrProp(name: String): String {
-    return providers.environmentVariable(name).orNull
-        ?: providers.gradleProperty(name).getOrElse("")
+fun Project.envOrProp(name: String): Provider<String> {
+    return providers.environmentVariable(name).orElse(
+        providers.gradleProperty(name).orElse("")
+    )
 }

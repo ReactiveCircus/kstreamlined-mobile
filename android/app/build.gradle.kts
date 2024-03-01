@@ -77,9 +77,9 @@ android {
         }
         register("release") {
             storeFile = rootProject.file("android/secrets/kstreamlined.jks")
-            storePassword = envOrProp("KSTREAMLINED_STORE_PASSWORD")
-            keyAlias = envOrProp("KSTREAMLINED_KEY_ALIAS")
-            keyPassword = envOrProp("KSTREAMLINED_KEY_PASSWORD")
+            storePassword = envOrProp("KSTREAMLINED_STORE_PASSWORD").get()
+            keyAlias = envOrProp("KSTREAMLINED_KEY_ALIAS").get()
+            keyPassword = envOrProp("KSTREAMLINED_KEY_PASSWORD").get()
         }
     }
 
@@ -204,12 +204,12 @@ androidComponents {
             ProductFlavors.PROD -> {
                 it.addBuildConfigField(key = "ENABLE_ANALYTICS", value = googleServicesJsonExists)
                 it.addBuildConfigField(key = "ENABLE_CRASH_REPORTING", value = googleServicesJsonExists)
-                it.addBuildConfigField(key = "API_ENDPOINT", value = "\"${envOrProp("KSTREAMLINED_API_ENDPOINT")}\"")
+                it.addBuildConfigField(key = "API_ENDPOINT", value = "\"${envOrProp("KSTREAMLINED_API_ENDPOINT").get()}\"")
             }
             ProductFlavors.DEV -> {
                 it.addBuildConfigField(key = "ENABLE_ANALYTICS", value = googleServicesJsonExists)
                 it.addBuildConfigField(key = "ENABLE_CRASH_REPORTING", value = googleServicesJsonExists)
-                it.addBuildConfigField(key = "API_ENDPOINT", value = "\"${envOrProp("KSTREAMLINED_API_ENDPOINT")}\"")
+                it.addBuildConfigField(key = "API_ENDPOINT", value = "\"${envOrProp("KSTREAMLINED_API_ENDPOINT").get()}\"")
             }
             ProductFlavors.DEMO -> {
                 it.addBuildConfigField(key = "ENABLE_ANALYTICS", value = false)
