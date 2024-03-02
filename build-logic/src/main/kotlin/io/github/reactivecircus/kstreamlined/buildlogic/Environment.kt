@@ -9,13 +9,6 @@ val Project.isCiBuild: Boolean
 val Project.isIdeBuild: Boolean
     get() = providers.systemProperty("idea.active").orNull == "true"
 
-val Project.isRunningBenchmark: Boolean
-    get() {
-        val benchmarkPackageName = "io.github.reactivecircus.kstreamlined.android.benchmark"
-        return providers.gradleProperty("android.testInstrumentationRunnerArguments.class")
-            .orNull?.startsWith(benchmarkPackageName) == true
-    }
-
 val Project.isAppleSilicon: Boolean
     get() = providers.systemProperty("os.arch").orNull == "aarch64"
 

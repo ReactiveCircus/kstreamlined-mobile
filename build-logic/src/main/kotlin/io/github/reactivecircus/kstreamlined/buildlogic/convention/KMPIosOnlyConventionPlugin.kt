@@ -4,7 +4,6 @@ import io.github.reactivecircus.kstreamlined.buildlogic.configureDetekt
 import io.github.reactivecircus.kstreamlined.buildlogic.configureKMPCommon
 import io.github.reactivecircus.kstreamlined.buildlogic.configureKotlinCompileOptions
 import io.github.reactivecircus.kstreamlined.buildlogic.configureTest
-import io.github.reactivecircus.kstreamlined.buildlogic.markNonCompatibleConfigurationCacheTasks
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
@@ -21,6 +20,5 @@ internal class KMPIosOnlyConventionPlugin : Plugin<Project> {
         configureKotlinCompileOptions()
         configureTest()
         configureDetekt()
-        markNonCompatibleConfigurationCacheTasks()
     }
 }

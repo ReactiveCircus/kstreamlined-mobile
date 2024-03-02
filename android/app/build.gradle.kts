@@ -26,6 +26,7 @@ plugins {
     id("com.github.triplet.play")
 }
 
+// only apply google-services plugin if google-services.json exists
 val googleServicesJsonExists = fileTree("src").matching {
     include("**/google-services.json")
 }.isEmpty.not()
@@ -33,12 +34,17 @@ if (googleServicesJsonExists) {
     apply(plugin = "com.google.gms.google-services")
 }
 
-val enableAppVersioning = providers
-    .environmentVariable("ENABLE_APP_VERSIONING")
-    .getOrElse("true").toBoolean()
+// disable google services plugin for demo and mock flavors
+tasks.configureEach {
+    if ("process(Demo|Mock)DebugGoogleServices".toRegex().matches(name)) {
+        enabled = false
+    }
+}
 
 appVersioning {
-    enabled.set(enableAppVersioning)
+    enabled.set(
+        providers.environmentVariable("ENABLE_APP_VERSIONING").orElse("true").map { it.toBoolean() }
+    )
     overrideVersionCode { _, _, _ ->
         Instant.now().epochSecond.toInt()
     }
@@ -156,13 +162,6 @@ android {
         register(ProductFlavors.PROD) {
             enabled.set(true)
         }
-    }
-}
-
-// disable google services plugin for demo and mock flavors
-tasks.configureEach {
-    if ("process(Demo|Mock)DebugGoogleServices".toRegex().matches(name)) {
-        enabled = false
     }
 }
 

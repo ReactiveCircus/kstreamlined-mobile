@@ -9,7 +9,6 @@ import io.github.reactivecircus.kstreamlined.buildlogic.configureDetekt
 import io.github.reactivecircus.kstreamlined.buildlogic.configureKotlinJvm
 import io.github.reactivecircus.kstreamlined.buildlogic.configureSlimTests
 import io.github.reactivecircus.kstreamlined.buildlogic.configureTest
-import io.github.reactivecircus.kstreamlined.buildlogic.markNonCompatibleConfigurationCacheTasks
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
@@ -49,8 +48,7 @@ internal class AndroidLibraryConventionPlugin : Plugin<Project> {
         }
 
         configureTest()
-        configureDetekt()
-        markNonCompatibleConfigurationCacheTasks()
         configureSlimTests()
+        configureDetekt()
     }
 }

@@ -6,7 +6,22 @@ import com.android.build.api.variant.ApplicationAndroidComponentsExtension
 import com.android.build.api.variant.HasUnitTestBuilder
 import com.android.build.api.variant.LibraryAndroidComponentsExtension
 import org.gradle.api.Project
+import org.gradle.api.tasks.testing.Test
+import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.gradle.kotlin.dsl.findByType
+import org.gradle.kotlin.dsl.withType
+
+/**
+ * Configure JUnit test options if applicable.
+ */
+internal fun Project.configureTest() {
+    tasks.withType<Test>().configureEach {
+        maxParallelForks = (Runtime.getRuntime().availableProcessors() / 2).coerceAtLeast(1)
+        testLogging {
+            events(TestLogEvent.PASSED, TestLogEvent.SKIPPED, TestLogEvent.FAILED)
+        }
+    }
+}
 
 /**
  * When the "slimTests" project property is provided, disable the unit test tasks

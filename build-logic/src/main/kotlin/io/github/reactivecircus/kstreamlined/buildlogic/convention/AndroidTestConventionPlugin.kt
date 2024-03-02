@@ -5,7 +5,6 @@ import io.github.reactivecircus.kstreamlined.buildlogic.applyLanguageSettings
 import io.github.reactivecircus.kstreamlined.buildlogic.configureAndroidTestOptions
 import io.github.reactivecircus.kstreamlined.buildlogic.configureDetekt
 import io.github.reactivecircus.kstreamlined.buildlogic.configureKotlinJvm
-import io.github.reactivecircus.kstreamlined.buildlogic.markNonCompatibleConfigurationCacheTasks
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
@@ -32,6 +31,5 @@ internal class AndroidTestConventionPlugin : Plugin<Project> {
         }
 
         configureDetekt()
-        markNonCompatibleConfigurationCacheTasks()
     }
 }
