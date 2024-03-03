@@ -1,6 +1,5 @@
 package io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -12,6 +11,7 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -56,6 +56,7 @@ import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.fou
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.icon.KSIcons
 import io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepisode.TalkingKotlinEpisode
 import io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepisode.TalkingKotlinEpisodeUiState
+import io.github.reactivecircus.kstreamlined.android.feature.common.R as commonR
 
 @Composable
 public fun TalkingKotlinEpisodeScreen(
@@ -74,10 +75,10 @@ public fun TalkingKotlinEpisodeScreen(
     val context = LocalContext.current
     TalkingKotlinEpisodeScreen(
         onNavigateUp = onNavigateUp,
-        onSaveButtonClick = { /* TODO */ },
         onShareButtonClick = { title, url ->
             context.openShareSheet(title, url)
         },
+        onSaveButtonClick = { viewModel.toggleSavedForLater() },
         onPlayPauseButtonClick = viewModel::togglePlayPause,
         onOpenLink = context::openCustomTab,
         onSaveStartPosition = viewModel::saveStartPosition,
@@ -114,38 +115,38 @@ internal fun TalkingKotlinEpisodeScreen(
                 )
             },
             actions = {
-                AnimatedVisibility(visible = uiState is TalkingKotlinEpisodeUiState.Content) {
-                    Row {
-                        val episode = (uiState as? TalkingKotlinEpisodeUiState.Content)?.episode
-                        FilledIconButton(
-                            KSIcons.Share,
-                            contentDescription = null,
-                            onClick = {
-                                onShareButtonClick(
-                                    episode?.title.orEmpty(),
-                                    episode?.contentUrl.orEmpty(),
-                                )
-                            },
+                val episode = (uiState as? TalkingKotlinEpisodeUiState.Content)?.episode
+                FilledIconButton(
+                    KSIcons.Share,
+                    contentDescription = null,
+                    onClick = {
+                        onShareButtonClick(
+                            episode?.title.orEmpty(),
+                            episode?.contentUrl.orEmpty(),
                         )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        FilledIconButton(
-                            if (episode?.savedForLater == true) {
-                                KSIcons.BookmarkFill
-                            } else {
-                                KSIcons.BookmarkAdd
-                            },
-                            contentDescription = null,
-                            onClick = onSaveButtonClick,
-                        )
-                    }
-                }
+                    },
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                FilledIconButton(
+                    if (episode?.savedForLater == true) {
+                        KSIcons.BookmarkFill
+                    } else {
+                        KSIcons.BookmarkAdd
+                    },
+                    contentDescription = null,
+                    onClick = onSaveButtonClick,
+                )
             },
         )
 
         Box {
             when (uiState) {
                 is TalkingKotlinEpisodeUiState.Initializing -> {
-                    LoadingUi()
+                    Box(modifier = modifier.fillMaxSize())
+                }
+
+                is TalkingKotlinEpisodeUiState.NotFound -> {
+                    ItemNotFoundUi()
                 }
 
                 is TalkingKotlinEpisodeUiState.Content -> {
@@ -283,8 +284,25 @@ private fun ContentUi(
 private val ImageSize = 240.dp
 
 @Composable
-private fun LoadingUi(
+private fun ItemNotFoundUi(
     modifier: Modifier = Modifier,
 ) {
-    Box(modifier = modifier.fillMaxSize())
+    Column(
+        modifier = modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+    ) {
+        AsyncImage(
+            commonR.drawable.ic_kodee_broken_hearted,
+            contentDescription = null,
+            modifier = Modifier.size(160.dp),
+        )
+        Spacer(modifier = Modifier.height(36.dp))
+        Text(
+            text = stringResource(id = commonR.string.content_not_found_message),
+            style = KSTheme.typography.bodyLarge,
+            modifier = Modifier.padding(horizontal = 24.dp),
+            textAlign = TextAlign.Center,
+        )
+    }
 }

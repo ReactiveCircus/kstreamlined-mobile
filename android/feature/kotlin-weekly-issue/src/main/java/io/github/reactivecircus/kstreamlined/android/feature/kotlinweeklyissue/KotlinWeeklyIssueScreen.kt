@@ -2,7 +2,6 @@ package io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.updateTransition
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
@@ -54,7 +53,7 @@ import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.fou
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.icon.KSIcons
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.KotlinWeeklyIssueItem
 import io.github.reactivecircus.kstreamlined.kmp.presentation.kotlinweeklyissue.KotlinWeeklyIssueUiState
-import io.github.reactivecircus.kstreamlined.android.feature.common.R as CommonR
+import io.github.reactivecircus.kstreamlined.android.feature.common.R as commonR
 
 @Composable
 public fun KotlinWeeklyIssueScreen(
@@ -73,10 +72,10 @@ public fun KotlinWeeklyIssueScreen(
     KotlinWeeklyIssueScreen(
         title = title,
         onNavigateUp = onNavigateUp,
-        onShareButtonClick = {
-            context.openShareSheet(title, id)
+        onShareButtonClick = { url ->
+            context.openShareSheet(title, url)
         },
-        onSaveButtonClick = { /* TODO */ },
+        onSaveButtonClick = { viewModel.toggleSavedForLater() },
         onOpenLink = {
             context.openCustomTab(it)
         },
@@ -90,7 +89,7 @@ public fun KotlinWeeklyIssueScreen(
 internal fun KotlinWeeklyIssueScreen(
     title: String,
     onNavigateUp: () -> Unit,
-    onShareButtonClick: () -> Unit,
+    onShareButtonClick: (String) -> Unit,
     onSaveButtonClick: () -> Unit,
     onOpenLink: (url: String) -> Unit,
     onRetry: () -> Unit,
@@ -114,16 +113,18 @@ internal fun KotlinWeeklyIssueScreen(
                 )
             },
             actions = {
-                FilledIconButton(
-                    KSIcons.Share,
-                    contentDescription = null,
-                    onClick = onShareButtonClick,
-                )
-                AnimatedVisibility(visible = uiState is KotlinWeeklyIssueUiState.Content) {
+                AnimatedVisibility(uiState is KotlinWeeklyIssueUiState.Content) {
                     Row {
+                        val contentUrl = (uiState as? KotlinWeeklyIssueUiState.Content)?.contentUrl.orEmpty()
+                        val saved = (uiState as? KotlinWeeklyIssueUiState.Content)?.savedForLater ?: false
+                        FilledIconButton(
+                            KSIcons.Share,
+                            contentDescription = null,
+                            onClick = { onShareButtonClick(contentUrl) },
+                        )
                         Spacer(modifier = Modifier.width(8.dp))
                         FilledIconButton(
-                            if ((uiState as? KotlinWeeklyIssueUiState.Content)?.savedForLater == true) {
+                            if (saved) {
                                 KSIcons.BookmarkFill
                             } else {
                                 KSIcons.BookmarkAdd
@@ -137,11 +138,12 @@ internal fun KotlinWeeklyIssueScreen(
         )
 
         Box {
-            val transition = updateTransition(targetState = uiState, label = "uiState")
-            transition.AnimatedContent(
+            AnimatedContent(
+                targetState = uiState,
                 transitionSpec = { fadeIn() togetherWith fadeOut() },
                 contentAlignment = Alignment.Center,
-                contentKey = { state -> state.contentKey }
+                contentKey = { state -> state.contentKey },
+                label = "uiState",
             ) { state ->
                 when (state) {
                     is KotlinWeeklyIssueUiState.InFlight -> {
@@ -227,13 +229,13 @@ private fun ErrorUi(
         verticalArrangement = Arrangement.Center,
     ) {
         AsyncImage(
-            CommonR.drawable.ic_kodee_broken_hearted,
+            commonR.drawable.ic_kodee_broken_hearted,
             contentDescription = null,
             modifier = Modifier.size(160.dp),
         )
         Spacer(modifier = Modifier.height(36.dp))
         Text(
-            text = stringResource(id = CommonR.string.error_message),
+            text = stringResource(id = commonR.string.error_message),
             style = KSTheme.typography.bodyLarge,
             modifier = Modifier.padding(horizontal = 24.dp),
             textAlign = TextAlign.Center,

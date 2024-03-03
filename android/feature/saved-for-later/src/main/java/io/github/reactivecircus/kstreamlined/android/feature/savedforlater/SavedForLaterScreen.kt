@@ -36,7 +36,7 @@ import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.fou
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.toDisplayable
 import kotlinx.datetime.toInstant
-import io.github.reactivecircus.kstreamlined.android.feature.common.R as CommonR
+import io.github.reactivecircus.kstreamlined.android.feature.common.R as commonR
 
 @Composable
 public fun SavedForLaterScreen(
@@ -255,13 +255,13 @@ private fun EmptyUi(
         verticalArrangement = Arrangement.Center,
     ) {
         AsyncImage(
-            CommonR.drawable.ic_kodee_lost,
+            commonR.drawable.ic_kodee_lost,
             contentDescription = null,
             modifier = Modifier.size(160.dp),
         )
         Spacer(modifier = Modifier.height(36.dp))
         Text(
-            text = stringResource(id = CommonR.string.empty_state_message),
+            text = stringResource(id = commonR.string.empty_state_message),
             style = KSTheme.typography.bodyLarge,
             modifier = Modifier.padding(horizontal = 24.dp),
             textAlign = TextAlign.Center,

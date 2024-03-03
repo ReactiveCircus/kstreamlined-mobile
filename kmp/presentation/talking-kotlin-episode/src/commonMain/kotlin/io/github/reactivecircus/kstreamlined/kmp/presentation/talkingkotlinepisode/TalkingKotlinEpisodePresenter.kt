@@ -5,6 +5,9 @@ import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 
 public class TalkingKotlinEpisodePresenter(
@@ -16,12 +19,29 @@ public class TalkingKotlinEpisodePresenter(
     public val uiState: StateFlow<TalkingKotlinEpisodeUiState> = _uiState.asStateFlow()
 
     public suspend fun loadTalkingKotlinEpisode(id: String) {
-        val talkingKotlinItem = feedRepository.loadFeedItemById(id) as? FeedItem.TalkingKotlin
-            ?: error("Feed item not found")
-        _uiState.value = TalkingKotlinEpisodeUiState.Content(
-            episode = talkingKotlinItem.asPresentationModel(),
-            isPlaying = false,
-        )
+        feedRepository.streamFeedItemById(id)
+            .onStart { _uiState.value = TalkingKotlinEpisodeUiState.Initializing }
+            .onEach { item ->
+                val talkingKotlinItem = item as? FeedItem.TalkingKotlin
+                if (talkingKotlinItem != null) {
+                    _uiState.value = TalkingKotlinEpisodeUiState.Content(
+                        episode = talkingKotlinItem.asPresentationModel(),
+                        isPlaying = false,
+                    )
+                } else {
+                    _uiState.value = TalkingKotlinEpisodeUiState.NotFound
+                }
+            }
+            .collect()
+    }
+
+    public suspend fun toggleSavedForLater() {
+        val episode = (uiState.value as? TalkingKotlinEpisodeUiState.Content)?.episode ?: return
+        if (!episode.savedForLater) {
+            feedRepository.addSavedFeedItem(episode.id)
+        } else {
+            feedRepository.removeSavedFeedItem(episode.id)
+        }
     }
 
     public suspend fun saveStartPosition(startPositionMillis: Long) {

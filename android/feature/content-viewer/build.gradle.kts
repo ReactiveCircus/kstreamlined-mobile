@@ -1,6 +1,7 @@
 plugins {
     id("kstreamlined.android.library")
     id("kstreamlined.android.library.compose")
+    id("kstreamlined.ksp")
 }
 
 android {
@@ -17,4 +18,8 @@ dependencies {
 
     // AndroidX
     implementation(libs.androidx.activity.compose)
+
+    // Hilt
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
 }

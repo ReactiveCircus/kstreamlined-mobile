@@ -87,8 +87,7 @@ class KSActivity : ComponentActivity() {
                                         }
                                         else -> {
                                             NavDestination.ContentViewer(
-                                                title = feedItem.title,
-                                                url = feedItem.contentUrl,
+                                                id = feedItem.id,
                                             )
                                         }
                                     }
@@ -98,8 +97,7 @@ class KSActivity : ComponentActivity() {
 
                         is NavDestination.ContentViewer -> {
                             ContentViewerScreen(
-                                title = it.title,
-                                url = it.url,
+                                id = it.id,
                                 onNavigateUp = {
                                     navDestination = NavDestination.Main
                                 },
@@ -144,8 +142,7 @@ private sealed interface NavDestination : Parcelable {
 
     @Parcelize
     data class ContentViewer(
-        val title: String,
-        val url: String,
+        val id: String
     ) : NavDestination
 
     @Parcelize

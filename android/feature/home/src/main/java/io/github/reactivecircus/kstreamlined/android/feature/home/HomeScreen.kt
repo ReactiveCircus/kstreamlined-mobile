@@ -1,7 +1,6 @@
 package io.github.reactivecircus.kstreamlined.android.feature.home
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.core.updateTransition
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
@@ -55,7 +54,7 @@ import io.github.reactivecircus.kstreamlined.kmp.presentation.home.HomeFeedItem
 import io.github.reactivecircus.kstreamlined.kmp.presentation.home.HomeUiState
 import kotlinx.coroutines.delay
 import kotlin.random.Random
-import io.github.reactivecircus.kstreamlined.android.feature.common.R as CommonR
+import io.github.reactivecircus.kstreamlined.android.feature.common.R as commonR
 
 @Composable
 public fun HomeScreen(
@@ -115,11 +114,12 @@ public fun HomeScreen(
         )
 
         Box {
-            val transition = updateTransition(targetState = uiState, label = "uiState")
-            transition.AnimatedContent(
+            AnimatedContent(
+                targetState = uiState,
                 transitionSpec = { fadeIn() togetherWith fadeOut() },
                 contentAlignment = Alignment.Center,
-                contentKey = { state -> state.contentKey }
+                contentKey = { state -> state.contentKey },
+                label = "uiState",
             ) { state ->
                 when (state) {
                     is HomeUiState.InFlight -> {
@@ -255,13 +255,13 @@ private fun ErrorUi(
         verticalArrangement = Arrangement.Center,
     ) {
         AsyncImage(
-            CommonR.drawable.ic_kodee_broken_hearted,
+            commonR.drawable.ic_kodee_broken_hearted,
             contentDescription = null,
             modifier = Modifier.size(160.dp),
         )
         Spacer(modifier = Modifier.height(36.dp))
         Text(
-            text = stringResource(id = CommonR.string.error_message),
+            text = stringResource(id = commonR.string.error_message),
             style = KSTheme.typography.bodyLarge,
             modifier = Modifier.padding(horizontal = 24.dp),
             textAlign = TextAlign.Center,

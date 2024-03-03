@@ -20,4 +20,8 @@ internal class KotlinWeeklyIssueViewModel @Inject constructor(
     fun loadKotlinWeeklyIssue(id: String) = viewModelScope.launch {
         presenter.loadKotlinWeeklyIssue(id)
     }
+
+    fun toggleSavedForLater() = viewModelScope.launch {
+        presenter.toggleSavedForLater()
+    }
 }

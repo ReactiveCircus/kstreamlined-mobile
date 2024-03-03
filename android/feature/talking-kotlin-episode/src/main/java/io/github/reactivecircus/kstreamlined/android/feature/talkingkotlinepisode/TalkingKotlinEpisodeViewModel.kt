@@ -21,6 +21,10 @@ internal class TalkingKotlinEpisodeViewModel @Inject constructor(
         presenter.loadTalkingKotlinEpisode(id)
     }
 
+    fun toggleSavedForLater() = viewModelScope.launch {
+        presenter.toggleSavedForLater()
+    }
+
     fun saveStartPosition(startPositionMillis: Long) = viewModelScope.launch {
         presenter.saveStartPosition(startPositionMillis)
     }
