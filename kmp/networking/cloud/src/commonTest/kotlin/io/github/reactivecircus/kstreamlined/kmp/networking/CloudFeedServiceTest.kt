@@ -18,8 +18,11 @@ import io.github.reactivecircus.kstreamlined.graphql.type.buildKotlinBlog
 import io.github.reactivecircus.kstreamlined.graphql.type.buildKotlinWeeklyIssueEntry
 import io.github.reactivecircus.kstreamlined.graphql.type.buildKotlinYouTube
 import io.github.reactivecircus.kstreamlined.kmp.networking.mapper.asExternalModel
-import io.github.reactivecircus.kstreamlined.kmp.test.utils.runTest
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.toInstant
+import kotlin.test.AfterTest
+import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
@@ -68,7 +71,8 @@ class CloudFeedServiceTest {
         )
     }.kotlinWeeklyIssueEntries
 
-    private suspend fun setUp() {
+    @BeforeTest
+    fun setUp() = runBlocking {
         mockServer = MockServer()
         cloudFeedService = CloudFeedService(
             apolloClient = ApolloClient.Builder()
@@ -78,13 +82,14 @@ class CloudFeedServiceTest {
         )
     }
 
-    private fun tearDown() {
+    @AfterTest
+    fun tearDown() {
         mockServer.close()
     }
 
     @Test
     fun `loadFeedSources returns result when refresh = true and network request was successful`() =
-        runTest(before = { setUp() }, after = { tearDown() }) {
+        runTest {
             mockServer.enqueueData(
                 FeedSourcesQuery.Data(feedSources = dummyFeedSources)
             )
@@ -94,7 +99,7 @@ class CloudFeedServiceTest {
 
     @Test
     fun `loadFeedSources throws exception when refresh = true and network request failed`() =
-        runTest(before = { setUp() }, after = { tearDown() }) {
+        runTest {
             mockServer.enqueueString(statusCode = 404)
             val exception = assertFailsWith<NoDataException> {
                 cloudFeedService.fetchFeedOrigins(refresh = true)
@@ -104,7 +109,7 @@ class CloudFeedServiceTest {
 
     @Test
     fun `loadFeedSources returns result when refresh = false and network request was successful`() =
-        runTest(before = { setUp() }, after = { tearDown() }) {
+        runTest {
             mockServer.enqueueData(
                 FeedSourcesQuery.Data(feedSources = dummyFeedSources)
             )
@@ -114,7 +119,7 @@ class CloudFeedServiceTest {
 
     @Test
     fun `loadFeedSources returns result when refresh = false and network request failed but cache is available`() =
-        runTest(before = { setUp() }, after = { tearDown() }) {
+        runTest {
             // 1st request to populate cache
             mockServer.enqueueData(
                 FeedSourcesQuery.Data(feedSources = dummyFeedSources)
@@ -129,7 +134,7 @@ class CloudFeedServiceTest {
 
     @Test
     fun `loadFeedSources throws exception when refresh = false and network request failed and cache is missing`() =
-        runTest(before = { setUp() }, after = { tearDown() }) {
+        runTest {
             mockServer.enqueueString(statusCode = 404)
             val exception = assertFailsWith<NoDataException> {
                 cloudFeedService.fetchFeedOrigins(refresh = false)
@@ -139,7 +144,7 @@ class CloudFeedServiceTest {
 
     @Test
     fun `loadFeedEntries returns result when refresh = true and network request was successful`() =
-        runTest(before = { setUp() }, after = { tearDown() }) {
+        runTest {
             mockServer.enqueueData(
                 FeedEntriesQuery.Data(feedEntries = dummyFeedEntries)
             )
@@ -152,7 +157,7 @@ class CloudFeedServiceTest {
 
     @Test
     fun `loadFeedEntries throws exception when refresh = true and network request failed`() =
-        runTest(before = { setUp() }, after = { tearDown() }) {
+        runTest {
             mockServer.enqueueString(statusCode = 404)
             val exception = assertFailsWith<NoDataException> {
                 cloudFeedService.fetchFeedEntries(
@@ -165,7 +170,7 @@ class CloudFeedServiceTest {
 
     @Test
     fun `loadFeedEntries returns result when refresh = false and network request was successful`() =
-        runTest(before = { setUp() }, after = { tearDown() }) {
+        runTest {
             mockServer.enqueueData(
                 FeedEntriesQuery.Data(feedEntries = dummyFeedEntries)
             )
@@ -178,7 +183,7 @@ class CloudFeedServiceTest {
 
     @Test
     fun `loadFeedEntries returns result when refresh = false and network request failed but cache is available`() =
-        runTest(before = { setUp() }, after = { tearDown() }) {
+        runTest {
             // 1st request to populate cache
             mockServer.enqueueData(
                 FeedEntriesQuery.Data(feedEntries = dummyFeedEntries)
@@ -199,7 +204,7 @@ class CloudFeedServiceTest {
 
     @Test
     fun `loadFeedEntries throws exception when refresh = false and network request failed and cache is missing`() =
-        runTest(before = { setUp() }, after = { tearDown() }) {
+        runTest {
             mockServer.enqueueString(statusCode = 404)
             val exception = assertFailsWith<NoDataException> {
                 cloudFeedService.fetchFeedEntries(
@@ -212,7 +217,7 @@ class CloudFeedServiceTest {
 
     @Test
     fun `loadKotlinWeeklyIssue returns result when network request was successful`() =
-        runTest(before = { setUp() }, after = { tearDown() }) {
+        runTest {
             mockServer.enqueueData(
                 KotlinWeeklyIssueQuery.Data(kotlinWeeklyIssueEntries = dummyKotlinWeeklyEntries)
             )
@@ -222,7 +227,7 @@ class CloudFeedServiceTest {
 
     @Test
     fun `loadKotlinWeeklyIssue throws exception when network request failed`() =
-        runTest(before = { setUp() }, after = { tearDown() }) {
+        runTest {
             mockServer.enqueueString(statusCode = 404)
             val exception = assertFailsWith<NoDataException> {
                 cloudFeedService.fetchKotlinWeeklyIssue(url = "url")

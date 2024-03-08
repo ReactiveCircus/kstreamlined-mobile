@@ -39,7 +39,7 @@ kotlin {
         }
         commonTest {
             dependencies {
-                implementation(project(":kmp:test-utils"))
+                implementation(libs.kotlinx.coroutines.test)
                 implementation(libs.apollo.testingSupport)
             }
         }

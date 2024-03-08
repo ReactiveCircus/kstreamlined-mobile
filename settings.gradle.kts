@@ -73,7 +73,6 @@ include(":kmp:presentation:kotlin-weekly-issue")
 include(":kmp:presentation:saved-for-later")
 include(":kmp:presentation:talking-kotlin-episode")
 include(":kmp:pretty-time")
-include(":kmp:test-utils")
 
 val isXCFrameworkBuild = startParameter.taskNames.any { it.endsWith("XCFramework") }
 if (!isXCFrameworkBuild) {
