@@ -7,9 +7,9 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import io.github.reactivecircus.kstreamlined.kmp.persistence.database.FeedItemEntity
-import io.github.reactivecircus.kstreamlined.kmp.persistence.database.InstantAdapter
-import io.github.reactivecircus.kstreamlined.kmp.persistence.database.KStreamlinedDatabase
+import io.github.reactivecircus.kstreamlined.kmp.database.FeedItemEntity
+import io.github.reactivecircus.kstreamlined.kmp.database.InstantAdapter
+import io.github.reactivecircus.kstreamlined.kmp.database.KStreamlinedDatabase
 import javax.inject.Singleton
 
 @Module

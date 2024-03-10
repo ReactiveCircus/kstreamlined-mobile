@@ -13,6 +13,6 @@ android {
 dependencies {
     implementation(project(":feature:common"))
     implementation(project(":foundation:common-ui:feed"))
-    implementation(project(":kmp:data"))
+    implementation(project(":kmp:feed-datasource"))
     implementation(project(":kmp:presentation:saved-for-later"))
 }

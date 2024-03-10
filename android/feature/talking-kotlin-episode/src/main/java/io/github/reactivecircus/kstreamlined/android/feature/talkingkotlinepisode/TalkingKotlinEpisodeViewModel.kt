@@ -3,7 +3,7 @@ package io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepiso
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.github.reactivecircus.kstreamlined.kmp.data.feed.FeedRepository
+import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.FeedDataSource
 import io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepisode.TalkingKotlinEpisodePresenter
 import io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepisode.TalkingKotlinEpisodeUiState
 import kotlinx.coroutines.flow.StateFlow
@@ -12,9 +12,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 internal class TalkingKotlinEpisodeViewModel @Inject constructor(
-    feedRepository: FeedRepository,
+    feedDataSource: FeedDataSource,
 ) : ViewModel() {
-    private val presenter = TalkingKotlinEpisodePresenter(feedRepository)
+    private val presenter = TalkingKotlinEpisodePresenter(feedDataSource)
     val uiState: StateFlow<TalkingKotlinEpisodeUiState> = presenter.uiState
 
     fun loadTalkingKotlinEpisode(id: String) = viewModelScope.launch {

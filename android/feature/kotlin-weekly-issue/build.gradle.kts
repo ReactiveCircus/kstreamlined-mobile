@@ -13,7 +13,7 @@ android {
 
 dependencies {
     implementation(project(":feature:common"))
-    implementation(project(":kmp:data"))
+    implementation(project(":kmp:feed-datasource"))
     implementation(project(":kmp:presentation:kotlin-weekly-issue"))
 
     // Hilt

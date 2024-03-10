@@ -8,7 +8,8 @@ kotlin {
         commonMain {
             dependencies {
                 implementation(project(":kmp:presentation:common"))
-                implementation(project(":kmp:data"))
+                implementation(project(":kmp:feed-datasource"))
+                implementation(project(":kmp:feed-sync"))
                 implementation(project(":kmp:pretty-time"))
             }
         }

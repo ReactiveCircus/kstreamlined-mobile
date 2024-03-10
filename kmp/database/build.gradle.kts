@@ -1,0 +1,24 @@
+plugins {
+    id("kstreamlined.kmp.common")
+    id("kstreamlined.kmp.test")
+    id("app.cash.sqldelight")
+}
+
+sqldelight {
+    databases {
+        create("KStreamlinedDatabase") {
+            packageName.set("io.github.reactivecircus.kstreamlined.kmp.database")
+        }
+    }
+}
+
+kotlin {
+    sourceSets {
+        commonMain {
+            dependencies {
+                api(libs.sqldelight.coroutinesExtensions)
+                api(libs.kotlinx.datetime)
+            }
+        }
+    }
+}

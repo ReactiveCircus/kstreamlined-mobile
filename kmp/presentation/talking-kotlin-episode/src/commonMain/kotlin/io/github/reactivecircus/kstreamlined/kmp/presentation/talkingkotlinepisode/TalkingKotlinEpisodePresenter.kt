@@ -1,6 +1,6 @@
 package io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepisode
 
-import io.github.reactivecircus.kstreamlined.kmp.data.feed.FeedRepository
+import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.FeedDataSource
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 
 public class TalkingKotlinEpisodePresenter(
-    private val feedRepository: FeedRepository,
+    private val feedDataSource: FeedDataSource,
 ) {
     private val _uiState = MutableStateFlow<TalkingKotlinEpisodeUiState>(
         TalkingKotlinEpisodeUiState.Initializing
@@ -19,7 +19,7 @@ public class TalkingKotlinEpisodePresenter(
     public val uiState: StateFlow<TalkingKotlinEpisodeUiState> = _uiState.asStateFlow()
 
     public suspend fun loadTalkingKotlinEpisode(id: String) {
-        feedRepository.streamFeedItemById(id)
+        feedDataSource.streamFeedItemById(id)
             .onStart { _uiState.value = TalkingKotlinEpisodeUiState.Initializing }
             .onEach { item ->
                 val talkingKotlinItem = item as? FeedItem.TalkingKotlin
@@ -38,15 +38,15 @@ public class TalkingKotlinEpisodePresenter(
     public suspend fun toggleSavedForLater() {
         val episode = (uiState.value as? TalkingKotlinEpisodeUiState.Content)?.episode ?: return
         if (!episode.savedForLater) {
-            feedRepository.addSavedFeedItem(episode.id)
+            feedDataSource.addSavedFeedItem(episode.id)
         } else {
-            feedRepository.removeSavedFeedItem(episode.id)
+            feedDataSource.removeSavedFeedItem(episode.id)
         }
     }
 
     public suspend fun saveStartPosition(startPositionMillis: Long) {
         val id = (uiState.value as TalkingKotlinEpisodeUiState.Content).episode.id
-        feedRepository.saveTalkingKotlinEpisodeStartPosition(id, startPositionMillis)
+        feedDataSource.saveTalkingKotlinEpisodeStartPosition(id, startPositionMillis)
     }
 
     public fun togglePlayPause() {

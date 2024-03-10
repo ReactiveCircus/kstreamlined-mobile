@@ -224,12 +224,13 @@ androidComponents {
 }
 
 dependencies {
+    implementation(project(":kmp:feed-datasource"))
+    implementation(project(":kmp:feed-sync"))
+    implementation(project(":kmp:database"))
     mockImplementation(project(":kmp:networking:testing"))
     demoImplementation(project(":kmp:networking:edge"))
     devImplementation(project(":kmp:networking:cloud"))
     prodImplementation(project(":kmp:networking:cloud"))
-    implementation(project(":kmp:persistence"))
-    implementation(project(":kmp:data"))
 
     implementation(project(":feature:common"))
     implementation(project(":feature:content-viewer"))
