@@ -16,6 +16,7 @@ kotlin {
         }
         commonTest {
             dependencies {
+                implementation(project(":kmp:networking:testing"))
                 implementation(libs.kotlinx.coroutines.test)
             }
         }

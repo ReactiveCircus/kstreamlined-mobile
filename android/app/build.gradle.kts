@@ -227,7 +227,7 @@ dependencies {
     implementation(project(":kmp:feed-datasource"))
     implementation(project(":kmp:feed-sync"))
     implementation(project(":kmp:database"))
-    mockImplementation(project(":kmp:networking:testing"))
+    mockImplementation(project(":kmp:networking:mock"))
     demoImplementation(project(":kmp:networking:edge"))
     devImplementation(project(":kmp:networking:cloud"))
     prodImplementation(project(":kmp:networking:cloud"))

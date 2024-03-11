@@ -4,8 +4,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import io.github.reactivecircus.kstreamlined.kmp.networking.FakeFeedService
 import io.github.reactivecircus.kstreamlined.kmp.networking.FeedService
+import io.github.reactivecircus.kstreamlined.kmp.networking.MockFeedService
 import javax.inject.Singleton
 
 @Module
@@ -15,6 +15,6 @@ object MockDataModule {
     @Provides
     @Singleton
     fun feedService(): FeedService {
-        return FakeFeedService()
+        return MockFeedService()
     }
 }
