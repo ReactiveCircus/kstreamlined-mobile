@@ -42,7 +42,6 @@ import androidx.media3.exoplayer.mediacodec.MediaCodecSelector
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.extractor.ExtractorsFactory
 import androidx.media3.extractor.mp3.Mp3Extractor
-import androidx.media3.extractor.mp4.Mp4Extractor
 import coil3.compose.AsyncImage
 import io.github.reactivecircus.kstreamlined.android.foundation.composeutils.marqueeWithFadedEdges
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.LargeIconButton
@@ -77,7 +76,7 @@ internal fun PodcastPlayer(
             )
         }
         val extractorFactory = ExtractorsFactory {
-            arrayOf(Mp3Extractor(), Mp4Extractor())
+            arrayOf(Mp3Extractor())
         }
         ExoPlayer.Builder(
             context,
