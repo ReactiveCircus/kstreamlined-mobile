@@ -19,14 +19,11 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
-import kotlinx.coroutines.flow.takeWhile
 import kotlinx.datetime.Clock
 
 public class FeedSyncEngineImpl(
@@ -43,16 +40,7 @@ public class FeedSyncEngineImpl(
 
     private val automaticSyncTrigger = db.feedOriginEntityQueries
         .allFeedOrigins().asFlow().mapToList(dbDispatcher)
-        // do not trigger until feed sources are loaded
-        .takeWhile { it.isNotEmpty() }
-        // skip initial emission to avoid performing both automatic sync and manual sync on app launch
-        .drop(1)
-        // map to sorted list of selected feed sources
-        .map { origins ->
-            origins.filter { it.selected }.sortedBy { it.key }
-        }
-        .distinctUntilChanged()
-        .map { SyncRequest(forceRefresh = false, skipFeedSources = true) }
+        .map { SyncRequest(forceRefresh = false, skipFeedSources = it.isNotEmpty()) }
 
     private val syncDecisionMaker = SyncDecisionMaker(
         syncConfig = SyncConfig.Default,
@@ -141,7 +129,12 @@ public class FeedSyncEngineImpl(
 
                 db.lastSyncMetadataQueries.updateLastSyncMetadata(
                     resource_type = SyncResourceType.FeedItems,
-                    sync_params = currentFeedOrigins.toSyncParams(),
+                    sync_params = currentFeedOrigins.ifEmpty {
+                        // For the initial sync feed sources aren't available at the start of the transaction,
+                        // but should be available at this point so we can load them again here.
+                        // This makes sure we never write to the last_sync_metadata table with an empty sync_params.
+                        db.feedOriginEntityQueries.allFeedOrigins().executeAsList()
+                    }.toSyncParams(),
                     last_sync_time = clock.now(),
                 )
             }
