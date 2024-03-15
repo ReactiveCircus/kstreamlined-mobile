@@ -3,30 +3,35 @@ import kotlinx.datetime.Instant;
 
 CREATE TABLE feedItemEntity (
     id TEXT NOT NULL PRIMARY KEY,
-    feedOriginKey TEXT NOT NULL,
+    feed_origin_key TEXT NOT NULL,
     title TEXT NOT NULL,
-    publishTime TEXT AS Instant NOT NULL,
-    contentUrl TEXT NOT NULL,
-    imageUrl TEXT,
-    savedForLater INTEGER AS Boolean NOT NULL,
-    FOREIGN KEY(feedOriginKey) REFERENCES feedOriginEntity(key) ON DELETE CASCADE
+    publish_time TEXT AS Instant NOT NULL,
+    content_url TEXT NOT NULL,
+    image_url TEXT,
+    description TEXT,
+    issue_number INTEGER,
+    podcast_audio_url TEXT,
+    podcast_duration TEXT,
+    podcast_start_position INTEGER,
+    saved_for_later INTEGER AS Boolean NOT NULL,
+    FOREIGN KEY(feed_origin_key) REFERENCES feedOriginEntity(key) ON DELETE CASCADE
 );
 
-CREATE INDEX index_feedItemEntity_feedOriginKey ON feedItemEntity(feedOriginKey);
-CREATE INDEX index_feedItemEntity_savedForLater ON feedItemEntity(savedForLater);
+CREATE INDEX index_feedItemEntity_feed_origin_key ON feedItemEntity(feed_origin_key);
+CREATE INDEX index_feedItemEntity_saved_for_later ON feedItemEntity(saved_for_later);
 
 feedItemsForSelectedOrigins:
 SELECT feedItemEntity.* FROM feedItemEntity
-JOIN feedOriginEntity ON feedItemEntity.feedOriginKey = feedOriginEntity.key
+JOIN feedOriginEntity ON feedItemEntity.feed_origin_key = feedOriginEntity.key
 WHERE feedOriginEntity.selected = 1
-ORDER BY feedItemEntity.publishTime DESC;
+ORDER BY feedItemEntity.publish_time DESC;
 
 savedFeedItems:
-SELECT * FROM feedItemEntity WHERE savedForLater = 1 ORDER BY publishTime DESC;
+SELECT * FROM feedItemEntity WHERE saved_for_later = 1 ORDER BY publish_time DESC;
 
 upsertFeedItem:
 INSERT OR REPLACE INTO feedItemEntity
-VALUES (:id, :feedOriginKey, :title, :publishTime, :contentUrl, :imageUrl, :savedForLater);
+VALUES (:id, :feed_origin_key, :title, :publish_time, :content_url, :image_url, :description, :issue_number, :podcast_audio_url, :podcast_duration, :podcast_start_position, :saved_for_later);
 
 updateSavedForLaterById:
-UPDATE feedItemEntity SET savedForLater = :savedForLater WHERE id = :id;
+UPDATE feedItemEntity SET saved_for_later = :savedForLater WHERE id = :id;

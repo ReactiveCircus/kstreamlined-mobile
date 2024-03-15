@@ -3,6 +3,8 @@ package io.github.reactivecircus.kstreamlined.buildlogic
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+import org.jetbrains.kotlin.gradle.plugin.mpp.NativeOutputKind
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 /**
@@ -44,6 +46,13 @@ internal fun KotlinMultiplatformExtension.configureKMPTest() {
         jvmTest {
             dependencies {
                 implementation(kotlin("test"))
+            }
+        }
+    }
+    targets.withType<KotlinNativeTarget>().configureEach {
+        binaries.configureEach {
+            if (outputKind == NativeOutputKind.TEST) {
+                linkerOpts("-lsqlite3")
             }
         }
     }

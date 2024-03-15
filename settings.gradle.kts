@@ -60,7 +60,9 @@ rootProject.name = "kstreamlined-mobile"
 
 // KMP
 include(":kmp:feed-datasource")
-include(":kmp:feed-sync")
+include(":kmp:feed-sync:common")
+include(":kmp:feed-sync:runtime")
+include(":kmp:feed-sync:testing")
 include(":kmp:networking:common")
 include(":kmp:networking:cloud")
 include(":kmp:networking:edge")

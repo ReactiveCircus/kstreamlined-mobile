@@ -10,6 +10,10 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Module
@@ -25,4 +29,15 @@ object AppModule {
             .allowHardware(enable = Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
             .build()
     }
+
+    @Provides
+    @Singleton
+    @AppCoroutineScope
+    fun appCoroutineScope(): CoroutineScope {
+        return CoroutineScope(SupervisorJob() + Dispatchers.Default)
+    }
 }
+
+@Retention(AnnotationRetention.RUNTIME)
+@Qualifier
+annotation class AppCoroutineScope

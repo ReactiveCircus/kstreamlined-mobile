@@ -20,7 +20,7 @@ internal actual fun createInMemoryDriver(): SqlDriver {
                     schema.migrate(it, oldVersion.toLong(), newVersion.toLong())
                 }
             },
-            inMemory = true
-        )
+            inMemory = true,
+        ),
     )
 }

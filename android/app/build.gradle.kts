@@ -225,7 +225,7 @@ androidComponents {
 
 dependencies {
     implementation(project(":kmp:feed-datasource"))
-    implementation(project(":kmp:feed-sync"))
+    implementation(project(":kmp:feed-sync:runtime"))
     implementation(project(":kmp:database"))
     mockImplementation(project(":kmp:networking:mock"))
     demoImplementation(project(":kmp:networking:edge"))

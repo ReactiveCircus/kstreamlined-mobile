@@ -1,0 +1,18 @@
+import io.github.reactivecircus.kstreamlined.kmp.database.SyncResourceType;
+import kotlinx.datetime.Instant;
+
+CREATE TABLE lastSyncMetadata (
+    resource_type TEXT AS SyncResourceType NOT NULL,
+    sync_params TEXT NOT NULL,
+    last_sync_time TEXT AS Instant NOT NULL,
+    PRIMARY KEY (resource_type, sync_params)
+);
+
+CREATE INDEX index_lastSyncMetadata_resource_type ON lastSyncMetadata (resource_type);
+
+lastSyncMetadata:
+SELECT * FROM lastSyncMetadata WHERE resource_type = :resource_type AND sync_params = :sync_params;
+
+updateLastSyncMetadata:
+INSERT OR REPLACE INTO lastSyncMetadata
+VALUES (:resource_type, :sync_params, :last_sync_time);

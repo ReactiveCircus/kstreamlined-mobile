@@ -1,6 +1,7 @@
 package io.github.reactivecircus.kstreamlined.android.di
 
 import android.content.Context
+import app.cash.sqldelight.EnumColumnAdapter
 import app.cash.sqldelight.driver.android.AndroidSqliteDriver
 import dagger.Module
 import dagger.Provides
@@ -10,6 +11,7 @@ import dagger.hilt.components.SingletonComponent
 import io.github.reactivecircus.kstreamlined.kmp.database.FeedItemEntity
 import io.github.reactivecircus.kstreamlined.kmp.database.InstantAdapter
 import io.github.reactivecircus.kstreamlined.kmp.database.KStreamlinedDatabase
+import io.github.reactivecircus.kstreamlined.kmp.database.LastSyncMetadata
 import javax.inject.Singleton
 
 @Module
@@ -28,7 +30,11 @@ object PersistenceModule {
                 name = "kstreamlined.db",
             ),
             feedItemEntityAdapter = FeedItemEntity.Adapter(
-                publishTimeAdapter = InstantAdapter
+                publish_timeAdapter = InstantAdapter,
+            ),
+            lastSyncMetadataAdapter = LastSyncMetadata.Adapter(
+                resource_typeAdapter = EnumColumnAdapter(),
+                last_sync_timeAdapter = InstantAdapter,
             )
         )
     }

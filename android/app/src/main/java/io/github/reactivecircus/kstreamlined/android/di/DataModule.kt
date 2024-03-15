@@ -6,9 +6,10 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import io.github.reactivecircus.kstreamlined.kmp.database.KStreamlinedDatabase
 import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.FeedDataSource
-import io.github.reactivecircus.kstreamlined.kmp.feed.sync.FeedSyncer
-import io.github.reactivecircus.kstreamlined.kmp.feed.sync.FeedSyncerImpl
+import io.github.reactivecircus.kstreamlined.kmp.feed.sync.FeedSyncEngine
+import io.github.reactivecircus.kstreamlined.kmp.feed.sync.FeedSyncEngineImpl
 import io.github.reactivecircus.kstreamlined.kmp.networking.FeedService
+import kotlinx.coroutines.CoroutineScope
 import javax.inject.Singleton
 
 @Module
@@ -26,10 +27,15 @@ object DataModule {
 
     @Provides
     @Singleton
-    fun feedSyncer(
+    fun feedSyncEngine(
         feedService: FeedService,
         database: KStreamlinedDatabase,
-    ): FeedSyncer {
-        return FeedSyncerImpl(feedService, database)
+        @AppCoroutineScope scope: CoroutineScope,
+    ): FeedSyncEngine {
+        return FeedSyncEngineImpl(
+            feedService = feedService,
+            db = database,
+            syncEngineScope = scope,
+        )
     }
 }

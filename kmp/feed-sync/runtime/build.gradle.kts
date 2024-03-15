@@ -7,9 +7,9 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
+                api(project(":kmp:feed-sync:common"))
                 implementation(project(":kmp:networking:common"))
                 implementation(project(":kmp:database"))
-                implementation(libs.kotlinx.coroutines.core)
                 implementation(libs.kermit)
             }
         }
