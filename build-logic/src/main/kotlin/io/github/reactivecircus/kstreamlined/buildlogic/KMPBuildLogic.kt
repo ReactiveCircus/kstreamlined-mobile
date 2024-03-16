@@ -64,7 +64,6 @@ internal fun KotlinMultiplatformExtension.configureKMPTest() {
 internal fun Project.configureKotlinCompileOptions() {
     tasks.withType<KotlinCompile>().configureEach {
         with(compilerOptions.freeCompilerArgs) {
-            addAll(commonCompilerArgs)
             // enable explicit API mode for non-test Kotlin compilations
             if (!name.contains("TestKotlin")) {
                 add("-Xexplicit-api=strict")

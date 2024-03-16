@@ -10,6 +10,7 @@ import com.android.build.gradle.TestedExtension
 import org.gradle.accessors.dm.LibrariesForLibs
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
+import org.gradle.api.file.DirectoryProperty
 import org.gradle.kotlin.dsl.the
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -130,3 +131,22 @@ internal fun Project.configureCompose(
         composeOptions.kotlinCompilerExtensionVersion = the<LibrariesForLibs>().versions.androidx.compose.compiler.get()
     }
 }
+
+private fun composeCompilerMetricsArgs(buildDir: DirectoryProperty) = buildDir.dir("compose_metrics").map {
+    listOf(
+        "-P",
+        "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=$it"
+    )
+}
+
+private fun composeCompilerReportsArgs(buildDir: DirectoryProperty) = buildDir.dir("compose_metrics").map {
+    listOf(
+        "-P",
+        "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=$it"
+    )
+}
+
+private val composeCompilerStrongSkippingArgs = listOf(
+    "-P",
+    "plugin:androidx.compose.compiler.plugins.kotlin:experimentalStrongSkipping=true"
+)

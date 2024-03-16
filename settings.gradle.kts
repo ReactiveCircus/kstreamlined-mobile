@@ -104,14 +104,14 @@ settings.extensions.configure<SettingsExtension> {
         profiles {
             create("local") {
                 r8 {
-                    r8.jvmOptions += "-Xms8g -Xmx8g -XX:+UseParallelGC -XX:+HeapDumpOnOutOfMemoryError".split(" ")
-                    r8.runInSeparateProcess = true
+                    jvmOptions += "-Xms8g -Xmx8g -XX:+UseParallelGC -XX:+HeapDumpOnOutOfMemoryError".split(" ")
+                    runInSeparateProcess = true
                 }
             }
             create("ci") {
                 r8 {
-                    r8.jvmOptions += "-Xms4g -Xmx4g -XX:+UseParallelGC -XX:+HeapDumpOnOutOfMemoryError".split(" ")
-                    r8.runInSeparateProcess = true
+                    jvmOptions += "-Xms4g -Xmx4g -XX:+UseParallelGC -XX:+HeapDumpOnOutOfMemoryError".split(" ")
+                    runInSeparateProcess = true
                 }
             }
             defaultProfile = "local"
