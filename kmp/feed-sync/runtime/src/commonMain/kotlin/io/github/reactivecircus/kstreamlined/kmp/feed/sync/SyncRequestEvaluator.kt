@@ -6,13 +6,13 @@ import io.github.reactivecircus.kstreamlined.kmp.database.SyncResourceType
 import io.github.reactivecircus.kstreamlined.kmp.feed.sync.mapper.toSyncParams
 import kotlinx.datetime.Clock
 
-internal class SyncDecisionMaker(
+internal class SyncRequestEvaluator(
     private val syncConfig: SyncConfig,
     private val feedOriginEntityQueries: FeedOriginEntityQueries,
     private val lastSyncMetadataQueries: LastSyncMetadataQueries,
     private val clock: Clock,
 ) {
-    fun decide(syncRequest: SyncRequest): SyncDecision {
+    fun evaluate(syncRequest: SyncRequest): SyncDecision {
         return SyncDecision(
             shouldSyncFeedSources = !syncRequest.skipFeedSources &&
                 (syncRequest.forceRefresh || shouldSyncFeedSources()),

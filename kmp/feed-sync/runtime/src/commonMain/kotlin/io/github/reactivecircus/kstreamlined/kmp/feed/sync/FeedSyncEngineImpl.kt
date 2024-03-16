@@ -42,7 +42,7 @@ public class FeedSyncEngineImpl(
         .allFeedOrigins().asFlow().mapToList(dbDispatcher)
         .map { SyncRequest(forceRefresh = false, skipFeedSources = it.isNotEmpty()) }
 
-    private val syncDecisionMaker = SyncDecisionMaker(
+    private val syncRequestEvaluator = SyncRequestEvaluator(
         syncConfig = SyncConfig.Default,
         feedOriginEntityQueries = db.feedOriginEntityQueries,
         lastSyncMetadataQueries = db.lastSyncMetadataQueries,
@@ -68,7 +68,7 @@ public class FeedSyncEngineImpl(
     }
 
     private suspend fun performSync(syncRequest: SyncRequest) = coroutineScope {
-        val (shouldSyncSources, shouldSyncItems) = syncDecisionMaker.decide(syncRequest)
+        val (shouldSyncSources, shouldSyncItems) = syncRequestEvaluator.evaluate(syncRequest)
 
         val feedSourcesDeferred = if (shouldSyncSources) {
             async { feedService.fetchFeedOrigins() }

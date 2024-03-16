@@ -8,7 +8,7 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 import kotlin.time.Duration.Companion.seconds
 
-class SyncDecisionMakerTest {
+class SyncRequestEvaluatorTest {
 
     private val db = createInMemoryDatabase()
 
@@ -16,7 +16,7 @@ class SyncDecisionMakerTest {
 
     private val fakeClock = FakeClock()
 
-    private val syncDecisionMaker = SyncDecisionMaker(
+    private val syncRequestEvaluator = SyncRequestEvaluator(
         syncConfig = syncConfig,
         feedOriginEntityQueries = db.feedOriginEntityQueries,
         lastSyncMetadataQueries = db.lastSyncMetadataQueries,
@@ -26,14 +26,14 @@ class SyncDecisionMakerTest {
     @Test
     fun `should not sync feed sources when skipFeedSources is true`() {
         val syncRequest = SyncRequest(forceRefresh = true, skipFeedSources = true)
-        val result = syncDecisionMaker.decide(syncRequest)
+        val result = syncRequestEvaluator.evaluate(syncRequest)
         assertFalse(result.shouldSyncFeedSources)
     }
 
     @Test
     fun `should sync feed sources and feed items when forceRefresh is true`() {
         val syncRequest = SyncRequest(forceRefresh = true)
-        val result = syncDecisionMaker.decide(syncRequest)
+        val result = syncRequestEvaluator.evaluate(syncRequest)
         assertTrue(result.shouldSyncFeedSources)
         assertTrue(result.shouldSyncFeedItems)
     }
@@ -41,7 +41,7 @@ class SyncDecisionMakerTest {
     @Test
     fun `should sync feed sources when no lastSyncMetadata exists`() {
         val syncRequest = SyncRequest(forceRefresh = false)
-        val result = syncDecisionMaker.decide(syncRequest)
+        val result = syncRequestEvaluator.evaluate(syncRequest)
         assertTrue(result.shouldSyncFeedSources)
     }
 
@@ -56,7 +56,7 @@ class SyncDecisionMakerTest {
         fakeClock.currentTime += syncConfig.feedSourcesCacheMaxAge
 
         val syncRequest = SyncRequest(forceRefresh = false)
-        val result = syncDecisionMaker.decide(syncRequest)
+        val result = syncRequestEvaluator.evaluate(syncRequest)
         assertFalse(result.shouldSyncFeedSources)
     }
 
@@ -71,14 +71,14 @@ class SyncDecisionMakerTest {
         fakeClock.currentTime += syncConfig.feedSourcesCacheMaxAge + 1.seconds
 
         val syncRequest = SyncRequest(forceRefresh = false)
-        val result = syncDecisionMaker.decide(syncRequest)
+        val result = syncRequestEvaluator.evaluate(syncRequest)
         assertTrue(result.shouldSyncFeedSources)
     }
 
     @Test
     fun `should sync feed items when no lastSyncMetadata exists`() {
         val syncRequest = SyncRequest(forceRefresh = false)
-        val result = syncDecisionMaker.decide(syncRequest)
+        val result = syncRequestEvaluator.evaluate(syncRequest)
         assertTrue(result.shouldSyncFeedItems)
     }
 
@@ -106,7 +106,7 @@ class SyncDecisionMakerTest {
         fakeClock.currentTime += syncConfig.feedItemsCacheMaxAge
 
         val syncRequest = SyncRequest(forceRefresh = false)
-        val result = syncDecisionMaker.decide(syncRequest)
+        val result = syncRequestEvaluator.evaluate(syncRequest)
         assertFalse(result.shouldSyncFeedItems)
     }
 
@@ -142,7 +142,7 @@ class SyncDecisionMakerTest {
         fakeClock.currentTime += syncConfig.feedItemsCacheMaxAge + 1.seconds
 
         val syncRequest = SyncRequest(forceRefresh = false)
-        val result = syncDecisionMaker.decide(syncRequest)
+        val result = syncRequestEvaluator.evaluate(syncRequest)
         assertTrue(result.shouldSyncFeedItems)
     }
 }
