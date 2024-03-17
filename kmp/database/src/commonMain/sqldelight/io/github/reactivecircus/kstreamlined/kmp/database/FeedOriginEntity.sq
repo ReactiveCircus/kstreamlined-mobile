@@ -15,3 +15,6 @@ SELECT * FROM feedOriginEntity;
 upsertFeedOrigin:
 INSERT OR REPLACE INTO feedOriginEntity
 VALUES (:key, :title, :description, :selected);
+
+updateSelection:
+UPDATE feedOriginEntity SET selected = :selected WHERE key = :key;

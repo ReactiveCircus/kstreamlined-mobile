@@ -7,10 +7,11 @@ import co.touchlab.sqliter.DatabaseConfiguration
 import io.github.reactivecircus.kstreamlined.kmp.database.KStreamlinedDatabase
 
 internal actual fun createInMemoryDriver(): SqlDriver {
+    index++
     val schema = KStreamlinedDatabase.Schema
     return NativeSqliteDriver(
         DatabaseConfiguration(
-            name = "kstreamlined-test.db",
+            name = "kstreamlined-test-$index.db",
             version = schema.version.toInt(),
             create = { connection ->
                 wrapConnection(connection) { schema.create(it) }
@@ -24,3 +25,5 @@ internal actual fun createInMemoryDriver(): SqlDriver {
         ),
     )
 }
+
+private var index = 0

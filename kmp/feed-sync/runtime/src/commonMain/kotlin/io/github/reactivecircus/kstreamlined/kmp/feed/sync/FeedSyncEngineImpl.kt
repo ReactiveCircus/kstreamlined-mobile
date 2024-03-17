@@ -18,13 +18,13 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.datetime.Clock
+import kotlin.coroutines.cancellation.CancellationException
 
 public class FeedSyncEngineImpl(
     private val feedService: FeedService,
@@ -33,7 +33,7 @@ public class FeedSyncEngineImpl(
     dbDispatcher: CoroutineDispatcher = Dispatchers.IO,
     private val clock: Clock = Clock.System,
 ) : FeedSyncEngine {
-    private val _syncState = MutableStateFlow<SyncState>(SyncState.Syncing)
+    private val _syncState = MutableStateFlow<SyncState>(SyncState.Initializing)
     override val syncState: StateFlow<SyncState> = _syncState
 
     private val manualSyncTrigger = Channel<SyncRequest>()
@@ -52,13 +52,18 @@ public class FeedSyncEngineImpl(
     init {
         merge(manualSyncTrigger.receiveAsFlow(), automaticSyncTrigger)
             .onEach { syncRequest ->
-                _syncState.value = SyncState.Syncing
-                performSync(syncRequest)
-                _syncState.value = SyncState.Idle
-            }
-            .catch {
-                Logger.w("Sync failed", it)
-                _syncState.value = SyncState.Error
+                runCatching {
+                    val decision = syncRequestEvaluator.evaluate(syncRequest)
+                    if (decision.shouldSyncFeedSources || decision.shouldSyncFeedItems) {
+                        _syncState.value = SyncState.Syncing
+                        performSync(decision)
+                    }
+                    _syncState.value = SyncState.Idle
+                }.onFailure {
+                    if (it is CancellationException) throw it
+                    Logger.w("Sync failed", it)
+                    _syncState.value = SyncState.Error
+                }
             }
             .launchIn(syncEngineScope)
     }
@@ -67,25 +72,24 @@ public class FeedSyncEngineImpl(
         manualSyncTrigger.send(SyncRequest(forceRefresh))
     }
 
-    private suspend fun performSync(syncRequest: SyncRequest) = coroutineScope {
-        val (shouldSyncSources, shouldSyncItems) = syncRequestEvaluator.evaluate(syncRequest)
+    private suspend fun performSync(syncDecision: SyncDecision) = coroutineScope {
+        val (shouldSyncSources, shouldSyncItems) = syncDecision
 
-        val feedSourcesDeferred = if (shouldSyncSources) {
+        val feedSourcesDeferred = takeIf { shouldSyncSources }?.let {
             async { feedService.fetchFeedOrigins() }
-        } else { null }
+        }
 
-        val feedEntriesDeferred = if (shouldSyncItems) {
+        val feedEntriesDeferred = takeIf { shouldSyncItems }?.let {
             async {
                 feedService.fetchFeedEntries(
                     filters = db.feedOriginEntityQueries.allFeedOrigins().executeAsList().asNetworkModels()
                 )
             }
-        } else { null }
+        }
 
         val feedSources = feedSourcesDeferred?.await()
         val feedEntries = feedEntriesDeferred?.await()
 
-        if (feedSources == null && feedEntries == null) return@coroutineScope
         db.transaction {
             val currentFeedOrigins = db.feedOriginEntityQueries.allFeedOrigins().executeAsList()
 

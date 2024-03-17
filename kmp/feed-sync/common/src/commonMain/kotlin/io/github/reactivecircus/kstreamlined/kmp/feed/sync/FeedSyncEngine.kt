@@ -8,7 +8,8 @@ public interface FeedSyncEngine {
 }
 
 public sealed interface SyncState {
-    public data object Idle : SyncState
+    public data object Initializing : SyncState
     public data object Syncing : SyncState
+    public data object Idle : SyncState
     public data object Error : SyncState
 }
