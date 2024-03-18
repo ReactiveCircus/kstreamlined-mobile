@@ -18,6 +18,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
@@ -30,7 +31,7 @@ public class FeedSyncEngineImpl(
     private val feedService: FeedService,
     private val db: KStreamlinedDatabase,
     syncEngineScope: CoroutineScope,
-    dbDispatcher: CoroutineDispatcher = Dispatchers.IO,
+    syncEngineDispatcher: CoroutineDispatcher = Dispatchers.IO,
     private val clock: Clock = Clock.System,
 ) : FeedSyncEngine {
     private val _syncState = MutableStateFlow<SyncState>(SyncState.Initializing)
@@ -39,7 +40,7 @@ public class FeedSyncEngineImpl(
     private val manualSyncTrigger = Channel<SyncRequest>()
 
     private val automaticSyncTrigger = db.feedOriginEntityQueries
-        .allFeedOrigins().asFlow().mapToList(dbDispatcher)
+        .allFeedOrigins().asFlow().mapToList(syncEngineDispatcher)
         .map { SyncRequest(forceRefresh = false, skipFeedSources = it.isNotEmpty()) }
 
     private val syncRequestEvaluator = SyncRequestEvaluator(
@@ -65,6 +66,7 @@ public class FeedSyncEngineImpl(
                     _syncState.value = SyncState.Error
                 }
             }
+            .flowOn(syncEngineDispatcher)
             .launchIn(syncEngineScope)
     }
 

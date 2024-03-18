@@ -1,7 +1,10 @@
 package io.github.reactivecircus.kstreamlined.kmp.networking
 
 import com.apollographql.apollo3.ApolloClient
+import com.apollographql.apollo3.cache.normalized.api.MemoryCacheFactory
+import com.apollographql.apollo3.cache.normalized.normalizedCache
 import com.apollographql.apollo3.exception.ApolloHttpException
+import com.apollographql.apollo3.exception.CacheMissException
 import com.apollographql.apollo3.exception.NoDataException
 import com.apollographql.apollo3.mockserver.MockServer
 import com.apollographql.apollo3.mockserver.enqueueError
@@ -23,6 +26,7 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
+import kotlin.test.assertTrue
 
 class CloudFeedServiceTest {
 
@@ -73,6 +77,7 @@ class CloudFeedServiceTest {
         cloudFeedService = CloudFeedService(
             apolloClient = ApolloClient.Builder()
                 .serverUrl(mockServer.url())
+                .normalizedCache(MemoryCacheFactory())
                 .build()
         )
     }
@@ -133,12 +138,27 @@ class CloudFeedServiceTest {
         }
 
     @Test
-    fun `loadKotlinWeeklyIssue throws exception when network request failed`() =
+    fun `loadKotlinWeeklyIssue throws exception when network request failed and cache is missing`() =
         runTest {
             mockServer.enqueueError(statusCode = 404)
             val exception = assertFailsWith<NoDataException> {
                 cloudFeedService.fetchKotlinWeeklyIssue(url = "url")
             }
-            assertEquals(404, (exception.cause as ApolloHttpException).statusCode)
+            assertTrue(exception.cause is CacheMissException)
+        }
+
+    @Test
+    fun `loadKotlinWeeklyIssue returns result when network request failed but cache is available`() =
+        runTest {
+            // 1st request to populate cache
+            mockServer.enqueueData(
+                KotlinWeeklyIssueQuery.Data(kotlinWeeklyIssueEntries = dummyKotlinWeeklyEntries)
+            )
+            cloudFeedService.fetchKotlinWeeklyIssue(url = "url")
+
+            // 2nd request to consume cache
+            mockServer.enqueueError(statusCode = 404)
+            val actual = cloudFeedService.fetchKotlinWeeklyIssue(url = "url")
+            assertEquals(dummyKotlinWeeklyEntries.map { it.asExternalModel() }, actual)
         }
 }

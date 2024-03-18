@@ -3,6 +3,8 @@ package io.github.reactivecircus.kstreamlined.kmp.networking
 import co.touchlab.kermit.Logger
 import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.api.Optional
+import com.apollographql.apollo3.cache.normalized.FetchPolicy
+import com.apollographql.apollo3.cache.normalized.fetchPolicy
 import io.github.reactivecircus.kstreamlined.graphql.FeedEntriesQuery
 import io.github.reactivecircus.kstreamlined.graphql.FeedSourcesQuery
 import io.github.reactivecircus.kstreamlined.graphql.KotlinWeeklyIssueQuery
@@ -17,6 +19,7 @@ public class CloudFeedService(private val apolloClient: ApolloClient) : FeedServ
     override suspend fun fetchFeedOrigins(): List<FeedSource> {
         return runCatching {
             apolloClient.query(FeedSourcesQuery())
+                .fetchPolicy(FetchPolicy.NetworkOnly)
                 .execute()
                 .dataOrThrow()
                 .feedSources
@@ -32,6 +35,7 @@ public class CloudFeedService(private val apolloClient: ApolloClient) : FeedServ
                     filters = Optional.presentIfNotNull(filters?.map { it.asApolloModel() })
                 )
             )
+                .fetchPolicy(FetchPolicy.NetworkOnly)
                 .execute()
                 .dataOrThrow()
                 .feedEntries
@@ -47,6 +51,7 @@ public class CloudFeedService(private val apolloClient: ApolloClient) : FeedServ
             apolloClient.query(
                 KotlinWeeklyIssueQuery(url = url)
             )
+                .fetchPolicy(FetchPolicy.CacheFirst)
                 .execute()
                 .dataOrThrow()
                 .kotlinWeeklyIssueEntries

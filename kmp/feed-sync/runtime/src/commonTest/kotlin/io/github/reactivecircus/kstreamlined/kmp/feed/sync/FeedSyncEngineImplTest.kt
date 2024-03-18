@@ -14,8 +14,8 @@ import io.github.reactivecircus.kstreamlined.kmp.networking.FakeFeedSources
 import io.github.reactivecircus.kstreamlined.kmp.networking.model.FeedEntry
 import io.github.reactivecircus.kstreamlined.kmp.networking.model.FeedSource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestScope
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.Instant
@@ -36,15 +36,15 @@ class FeedSyncEngineImplTest {
 
     private val syncConfig = SyncConfig.Default
 
-    private val testScope = TestScope()
+    private val testDispatcher = StandardTestDispatcher()
 
-    private val testDispatcher = UnconfinedTestDispatcher()
+    private val testScope = TestScope(testDispatcher)
 
     private val syncEngine = FeedSyncEngineImpl(
         feedService = feedService,
         db = db,
         syncEngineScope = testScope.backgroundScope,
-        dbDispatcher = testDispatcher,
+        syncEngineDispatcher = testDispatcher,
         clock = fakeClock,
     )
 
