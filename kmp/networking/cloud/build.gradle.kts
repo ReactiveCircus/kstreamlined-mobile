@@ -30,7 +30,6 @@ kotlin {
             dependencies {
                 api(project(":kmp:networking:common"))
                 api(libs.apollo.runtime)
-                api(libs.apollo.normalizedCache)
                 implementation(libs.apollo.adapters)
                 implementation(libs.kotlinx.coroutines.core)
                 implementation(libs.kotlinx.datetime)

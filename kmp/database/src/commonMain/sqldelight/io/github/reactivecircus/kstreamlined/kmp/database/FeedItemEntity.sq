@@ -26,6 +26,9 @@ JOIN feedOriginEntity ON feedItemEntity.feed_origin_key = feedOriginEntity.key
 WHERE feedOriginEntity.selected = 1
 ORDER BY feedItemEntity.publish_time DESC;
 
+feedItemById:
+SELECT * FROM feedItemEntity WHERE id = :id;
+
 savedFeedItems:
 SELECT * FROM feedItemEntity WHERE saved_for_later = 1 ORDER BY publish_time DESC;
 

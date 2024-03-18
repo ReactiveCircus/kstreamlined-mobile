@@ -1,10 +1,7 @@
 package io.github.reactivecircus.kstreamlined.kmp.networking
 
 import com.apollographql.apollo3.ApolloClient
-import com.apollographql.apollo3.cache.normalized.api.MemoryCacheFactory
-import com.apollographql.apollo3.cache.normalized.normalizedCache
 import com.apollographql.apollo3.exception.ApolloHttpException
-import com.apollographql.apollo3.exception.CacheMissException
 import com.apollographql.apollo3.exception.NoDataException
 import com.apollographql.apollo3.mockserver.MockServer
 import com.apollographql.apollo3.mockserver.enqueueError
@@ -26,7 +23,6 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
-import kotlin.test.assertTrue
 
 class CloudFeedServiceTest {
 
@@ -77,7 +73,6 @@ class CloudFeedServiceTest {
         cloudFeedService = CloudFeedService(
             apolloClient = ApolloClient.Builder()
                 .serverUrl(mockServer.url())
-                .normalizedCache(MemoryCacheFactory())
                 .build()
         )
     }
@@ -88,131 +83,43 @@ class CloudFeedServiceTest {
     }
 
     @Test
-    fun `loadFeedSources returns result when refresh = true and network request was successful`() =
+    fun `loadFeedSources returns result when network request was successful`() =
         runTest {
             mockServer.enqueueData(
                 FeedSourcesQuery.Data(feedSources = dummyFeedSources)
             )
-            val actual = cloudFeedService.fetchFeedOrigins(refresh = true)
+            val actual = cloudFeedService.fetchFeedOrigins()
             assertEquals(dummyFeedSources.map { it.asExternalModel() }, actual)
         }
 
     @Test
-    fun `loadFeedSources throws exception when refresh = true and network request failed`() =
+    fun `loadFeedSources throws exception when network request failed`() =
         runTest {
             mockServer.enqueueError(statusCode = 404)
             val exception = assertFailsWith<NoDataException> {
-                cloudFeedService.fetchFeedOrigins(refresh = true)
+                cloudFeedService.fetchFeedOrigins()
             }
             assertEquals(404, (exception.cause as ApolloHttpException).statusCode)
         }
 
     @Test
-    fun `loadFeedSources returns result when refresh = false and network request was successful`() =
-        runTest {
-            mockServer.enqueueData(
-                FeedSourcesQuery.Data(feedSources = dummyFeedSources)
-            )
-            val actual = cloudFeedService.fetchFeedOrigins(refresh = false)
-            assertEquals(dummyFeedSources.map { it.asExternalModel() }, actual)
-        }
-
-    @Test
-    fun `loadFeedSources returns result when refresh = false and network request failed but cache is available`() =
-        runTest {
-            // 1st request to populate cache
-            mockServer.enqueueData(
-                FeedSourcesQuery.Data(feedSources = dummyFeedSources)
-            )
-            cloudFeedService.fetchFeedOrigins(refresh = false)
-
-            // 2nd request to consume cache
-            mockServer.enqueueError(statusCode = 404)
-            val actual = cloudFeedService.fetchFeedOrigins(refresh = false)
-            assertEquals(dummyFeedSources.map { it.asExternalModel() }, actual)
-        }
-
-    @Test
-    fun `loadFeedSources throws exception when refresh = false and network request failed and cache is missing`() =
-        runTest {
-            mockServer.enqueueError(statusCode = 404)
-            val exception = assertFailsWith<NoDataException> {
-                cloudFeedService.fetchFeedOrigins(refresh = false)
-            }
-            assertTrue(exception.cause is CacheMissException)
-        }
-
-    @Test
-    fun `loadFeedEntries returns result when refresh = true and network request was successful`() =
+    fun `loadFeedEntries returns result when network request was successful`() =
         runTest {
             mockServer.enqueueData(
                 FeedEntriesQuery.Data(feedEntries = dummyFeedEntries)
             )
-            val actual = cloudFeedService.fetchFeedEntries(
-                filters = null,
-                refresh = true,
-            )
+            val actual = cloudFeedService.fetchFeedEntries(filters = null)
             assertEquals(dummyFeedEntries.map { it.asExternalModel() }, actual)
         }
 
     @Test
-    fun `loadFeedEntries throws exception when refresh = true and network request failed`() =
+    fun `loadFeedEntries throws exception when network request failed`() =
         runTest {
             mockServer.enqueueError(statusCode = 404)
             val exception = assertFailsWith<NoDataException> {
-                cloudFeedService.fetchFeedEntries(
-                    filters = null,
-                    refresh = true,
-                )
+                cloudFeedService.fetchFeedEntries(filters = null)
             }
             assertEquals(404, (exception.cause as ApolloHttpException).statusCode)
-        }
-
-    @Test
-    fun `loadFeedEntries returns result when refresh = false and network request was successful`() =
-        runTest {
-            mockServer.enqueueData(
-                FeedEntriesQuery.Data(feedEntries = dummyFeedEntries)
-            )
-            val actual = cloudFeedService.fetchFeedEntries(
-                filters = null,
-                refresh = false,
-            )
-            assertEquals(dummyFeedEntries.map { it.asExternalModel() }, actual)
-        }
-
-    @Test
-    fun `loadFeedEntries returns result when refresh = false and network request failed but cache is available`() =
-        runTest {
-            // 1st request to populate cache
-            mockServer.enqueueData(
-                FeedEntriesQuery.Data(feedEntries = dummyFeedEntries)
-            )
-            cloudFeedService.fetchFeedEntries(
-                filters = null,
-                refresh = false,
-            )
-
-            // 2nd request to consume cache
-            mockServer.enqueueError(statusCode = 404)
-            val actual = cloudFeedService.fetchFeedEntries(
-                filters = null,
-                refresh = false,
-            )
-            assertEquals(dummyFeedEntries.map { it.asExternalModel() }, actual)
-        }
-
-    @Test
-    fun `loadFeedEntries throws exception when refresh = false and network request failed and cache is missing`() =
-        runTest {
-            mockServer.enqueueError(statusCode = 404)
-            val exception = assertFailsWith<NoDataException> {
-                cloudFeedService.fetchFeedEntries(
-                    filters = null,
-                    refresh = false,
-                )
-            }
-            assertTrue(exception.cause is CacheMissException)
         }
 
     @Test
@@ -232,8 +139,6 @@ class CloudFeedServiceTest {
             val exception = assertFailsWith<NoDataException> {
                 cloudFeedService.fetchKotlinWeeklyIssue(url = "url")
             }
-            val apolloHttpException = exception.cause?.suppressedExceptions
-                ?.first { it is ApolloHttpException } as ApolloHttpException
-            assertEquals(404, apolloHttpException.statusCode)
+            assertEquals(404, (exception.cause as ApolloHttpException).statusCode)
         }
 }

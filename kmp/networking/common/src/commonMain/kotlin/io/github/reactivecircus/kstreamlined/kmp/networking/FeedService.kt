@@ -6,16 +6,9 @@ import io.github.reactivecircus.kstreamlined.kmp.networking.model.KotlinWeeklyIs
 
 public interface FeedService {
 
-    public suspend fun fetchFeedOrigins(
-        refresh: Boolean = false
-    ): List<FeedSource>
+    public suspend fun fetchFeedOrigins(): List<FeedSource>
 
-    public suspend fun fetchFeedEntries(
-        filters: List<FeedSource.Key>? = null,
-        refresh: Boolean = false,
-    ): List<FeedEntry>
+    public suspend fun fetchFeedEntries(filters: List<FeedSource.Key>? = null): List<FeedEntry>
 
-    public suspend fun fetchKotlinWeeklyIssue(
-        url: String
-    ): List<KotlinWeeklyIssueEntry>
+    public suspend fun fetchKotlinWeeklyIssue(url: String): List<KotlinWeeklyIssueEntry>
 }

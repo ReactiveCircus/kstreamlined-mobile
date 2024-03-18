@@ -6,14 +6,11 @@ import io.github.reactivecircus.kstreamlined.kmp.networking.model.KotlinWeeklyIs
 
 public class EdgeFeedService : FeedService {
 
-    override suspend fun fetchFeedOrigins(refresh: Boolean): List<FeedSource> {
+    override suspend fun fetchFeedOrigins(): List<FeedSource> {
         TODO()
     }
 
-    override suspend fun fetchFeedEntries(
-        filters: List<FeedSource.Key>?,
-        refresh: Boolean,
-    ): List<FeedEntry> {
+    override suspend fun fetchFeedEntries(filters: List<FeedSource.Key>?): List<FeedEntry> {
         TODO()
     }
 

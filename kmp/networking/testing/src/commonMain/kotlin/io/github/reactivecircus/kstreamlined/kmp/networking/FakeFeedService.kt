@@ -22,14 +22,11 @@ public class FakeFeedService : FeedService {
         FakeKotlinWeeklyIssueEntries
     }
 
-    override suspend fun fetchFeedOrigins(refresh: Boolean): List<FeedSource> {
+    override suspend fun fetchFeedOrigins(): List<FeedSource> {
         return nextFeedSourcesResponse()
     }
 
-    override suspend fun fetchFeedEntries(
-        filters: List<FeedSource.Key>?,
-        refresh: Boolean,
-    ): List<FeedEntry> {
+    override suspend fun fetchFeedEntries(filters: List<FeedSource.Key>?): List<FeedEntry> {
         return nextFeedEntriesResponse(filters)
     }
 

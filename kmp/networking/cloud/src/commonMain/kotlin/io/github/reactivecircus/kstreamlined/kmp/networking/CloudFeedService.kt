@@ -6,7 +6,6 @@ import com.apollographql.apollo3.api.Optional
 import io.github.reactivecircus.kstreamlined.graphql.FeedEntriesQuery
 import io.github.reactivecircus.kstreamlined.graphql.FeedSourcesQuery
 import io.github.reactivecircus.kstreamlined.graphql.KotlinWeeklyIssueQuery
-import io.github.reactivecircus.kstreamlined.kmp.networking.apollo.defaultFetchPolicy
 import io.github.reactivecircus.kstreamlined.kmp.networking.mapper.asApolloModel
 import io.github.reactivecircus.kstreamlined.kmp.networking.mapper.asExternalModel
 import io.github.reactivecircus.kstreamlined.kmp.networking.model.FeedEntry
@@ -15,10 +14,9 @@ import io.github.reactivecircus.kstreamlined.kmp.networking.model.KotlinWeeklyIs
 
 public class CloudFeedService(private val apolloClient: ApolloClient) : FeedService {
 
-    override suspend fun fetchFeedOrigins(refresh: Boolean): List<FeedSource> {
+    override suspend fun fetchFeedOrigins(): List<FeedSource> {
         return runCatching {
             apolloClient.query(FeedSourcesQuery())
-                .defaultFetchPolicy(refresh)
                 .execute()
                 .dataOrThrow()
                 .feedSources
@@ -27,17 +25,13 @@ public class CloudFeedService(private val apolloClient: ApolloClient) : FeedServ
         }.getOrThrow().mapNotNull { it.asExternalModel() }
     }
 
-    override suspend fun fetchFeedEntries(
-        filters: List<FeedSource.Key>?,
-        refresh: Boolean,
-    ): List<FeedEntry> {
+    override suspend fun fetchFeedEntries(filters: List<FeedSource.Key>?): List<FeedEntry> {
         return runCatching {
             apolloClient.query(
                 FeedEntriesQuery(
                     filters = Optional.presentIfNotNull(filters?.map { it.asApolloModel() })
                 )
             )
-                .defaultFetchPolicy(refresh)
                 .execute()
                 .dataOrThrow()
                 .feedEntries
