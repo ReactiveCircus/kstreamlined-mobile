@@ -36,5 +36,8 @@ upsertFeedItem:
 INSERT OR REPLACE INTO feedItemEntity
 VALUES (:id, :feed_origin_key, :title, :publish_time, :content_url, :image_url, :description, :issue_number, :podcast_audio_url, :podcast_duration, :podcast_start_position, :saved_for_later);
 
+updatePotcastStartPositionById:
+UPDATE feedItemEntity SET podcast_start_position = :podcast_start_position WHERE id = :id;
+
 updateSavedForLaterById:
-UPDATE feedItemEntity SET saved_for_later = :savedForLater WHERE id = :id;
+UPDATE feedItemEntity SET saved_for_later = :saved_for_later WHERE id = :id;

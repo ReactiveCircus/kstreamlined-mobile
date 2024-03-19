@@ -80,7 +80,7 @@ class FeedItemEntityMappersTest {
             title = "Title",
             publish_time = "2022-01-03T00:00:00Z".toInstant(),
             content_url = "url",
-            image_url = "imageUrl",
+            image_url = "image-url",
             description = "desc",
             issue_number = null,
             podcast_audio_url = "audio.mp3",

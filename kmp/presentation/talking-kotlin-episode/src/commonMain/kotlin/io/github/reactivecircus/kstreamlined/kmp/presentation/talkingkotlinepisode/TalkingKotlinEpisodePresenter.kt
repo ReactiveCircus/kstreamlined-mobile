@@ -45,8 +45,9 @@ public class TalkingKotlinEpisodePresenter(
     }
 
     public suspend fun saveStartPosition(startPositionMillis: Long) {
-        val id = (uiState.value as TalkingKotlinEpisodeUiState.Content).episode.id
-        feedDataSource.saveTalkingKotlinEpisodeStartPosition(id, startPositionMillis)
+        (uiState.value as? TalkingKotlinEpisodeUiState.Content)?.episode?.let { episode ->
+            feedDataSource.saveTalkingKotlinEpisodeStartPosition(episode.id, startPositionMillis)
+        }
     }
 
     public fun togglePlayPause() {
