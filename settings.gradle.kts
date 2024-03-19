@@ -12,6 +12,7 @@ pluginManagement {
         }
         gradlePluginPortal {
             content {
+                includeGroupByRegex("com.gradle.*")
                 includeGroupByRegex("org.gradle.*")
             }
         }
@@ -26,6 +27,7 @@ pluginManagement {
         .removeSurrounding("\"")
 
     plugins {
+        id("com.gradle.enterprise") version extractVersionFromCatalog("gradle-enterprise")
         id("org.gradle.toolchains.foojay-resolver-convention") version extractVersionFromCatalog("gradle-toolchainsResolverPlugin")
         id("com.android.settings") version extractVersionFromCatalog("androidGradlePlugin")
     }
@@ -52,6 +54,7 @@ dependencyResolutionManagement {
 }
 
 plugins {
+    id("com.gradle.enterprise")
     id("org.gradle.toolchains.foojay-resolver-convention")
     id("com.android.settings")
 }
@@ -97,6 +100,14 @@ if (!isXCFrameworkBuild) {
 fun includeProject(name: String, filePath: String) {
     include(name)
     project(name).projectDir = File(filePath)
+}
+
+gradleEnterprise {
+    buildScan {
+        termsOfServiceUrl = "https://gradle.com/terms-of-service"
+        termsOfServiceAgree = "yes"
+        publishAlwaysIf(providers.environmentVariable("CI").orNull == "true")
+    }
 }
 
 settings.extensions.configure<SettingsExtension> {
