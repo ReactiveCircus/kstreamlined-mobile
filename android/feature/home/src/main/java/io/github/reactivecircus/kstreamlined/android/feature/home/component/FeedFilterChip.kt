@@ -18,6 +18,7 @@ import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.fou
 
 @Composable
 internal fun FeedFilterChip(
+    showSkeleton: Boolean,
     selectedFeedCount: Int,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -25,7 +26,12 @@ internal fun FeedFilterChip(
     Chip(
         onClick = onClick,
         modifier = modifier,
-        contentColor = KSTheme.colorScheme.primary,
+        enabled = !showSkeleton,
+        contentColor = if (showSkeleton) {
+            KSTheme.colorScheme.container
+        } else {
+            KSTheme.colorScheme.primary
+        },
     ) {
         Text(
             text = stringResource(id = R.string.feeds_selected, selectedFeedCount).uppercase(),
@@ -44,7 +50,23 @@ private fun PreviewFeedFilterChip() {
     KSTheme {
         Surface {
             FeedFilterChip(
+                showSkeleton = false,
                 selectedFeedCount = 4,
+                onClick = {},
+                modifier = Modifier.padding(8.dp),
+            )
+        }
+    }
+}
+
+@Composable
+@PreviewLightDark
+private fun PreviewFeedFilterChip_skeleton() {
+    KSTheme {
+        Surface {
+            FeedFilterChip(
+                showSkeleton = true,
+                selectedFeedCount = 0,
                 onClick = {},
                 modifier = Modifier.padding(8.dp),
             )

@@ -89,18 +89,16 @@ internal fun HomeScreen(
                 )
             },
             bottomRow = {
-                // TODO move to separate file, add skeleton loading state
                 FeedFilterChip(
+                    showSkeleton = uiState !is HomeUiState.Content,
                     selectedFeedCount = if (uiState is HomeUiState.Content) uiState.selectedFeedCount else 0,
                     onClick = {},
                 )
-
                 Spacer(modifier = Modifier.width(8.dp))
-
                 SyncButton(
+                    showSkeleton = uiState !is HomeUiState.Content,
+                    syncing = (uiState is HomeUiState.Content && uiState.refreshing),
                     onClick = onRefresh,
-                    // TODO if HomeUiState.Loading, show skeleton loading state
-                    syncing = if (uiState is HomeUiState.Content) uiState.refreshing else false,
                 )
             }
         )

@@ -30,15 +30,20 @@ import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.fou
 
 @Composable
 internal fun SyncButton(
-    onClick: () -> Unit,
+    showSkeleton: Boolean,
     syncing: Boolean,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Chip(
         onClick = onClick,
         modifier = modifier,
-        enabled = !syncing,
-        contentColor = KSTheme.colorScheme.primary,
+        enabled = !showSkeleton && !syncing,
+        contentColor = if (showSkeleton) {
+            KSTheme.colorScheme.container
+        } else {
+            KSTheme.colorScheme.primary
+        },
     ) {
         var currentRotation by remember { mutableFloatStateOf(0f) }
         val rotation = remember(syncing) { Animatable(currentRotation) }
@@ -89,8 +94,24 @@ private fun PreviewSyncButton() {
     KSTheme {
         Surface {
             SyncButton(
-                onClick = {},
+                showSkeleton = false,
                 syncing = true,
+                onClick = {},
+                modifier = Modifier.padding(8.dp),
+            )
+        }
+    }
+}
+
+@Composable
+@PreviewLightDark
+private fun PreviewSyncButton_skeleton() {
+    KSTheme {
+        Surface {
+            SyncButton(
+                showSkeleton = true,
+                syncing = true,
+                onClick = {},
                 modifier = Modifier.padding(8.dp),
             )
         }
