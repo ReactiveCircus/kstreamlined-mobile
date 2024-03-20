@@ -60,6 +60,7 @@ public fun HomeScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     HomeScreen(
         onViewItem = onViewItem,
+        onSaveButtonClick = viewModel::toggleSavedForLater,
         onRefresh = viewModel::refresh,
         uiState = uiState,
         modifier = modifier,
@@ -69,6 +70,7 @@ public fun HomeScreen(
 @Composable
 internal fun HomeScreen(
     onViewItem: (FeedItem) -> Unit,
+    onSaveButtonClick: (FeedItem) -> Unit,
     onRefresh: () -> Unit,
     uiState: HomeUiState,
     modifier: Modifier = Modifier,
@@ -124,6 +126,7 @@ internal fun HomeScreen(
                         ContentUi(
                             items = state.feedItems,
                             onItemClick = onViewItem,
+                            onSaveButtonClick = onSaveButtonClick,
                         )
                     }
                 }
@@ -136,6 +139,7 @@ internal fun HomeScreen(
 private fun ContentUi(
     items: List<HomeFeedItem>,
     onItemClick: (FeedItem) -> Unit,
+    onSaveButtonClick: (FeedItem) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     // TODO add popup / tooltip for transient error
@@ -175,7 +179,7 @@ private fun ContentUi(
                             KotlinBlogCard(
                                 item = item.toDisplayable(displayablePublishTime),
                                 onItemClick = onItemClick,
-                                onSaveButtonClick = {},
+                                onSaveButtonClick = onSaveButtonClick,
                             )
                         }
 
@@ -183,7 +187,7 @@ private fun ContentUi(
                             KotlinWeeklyCard(
                                 item = item.toDisplayable(displayablePublishTime),
                                 onItemClick = onItemClick,
-                                onSaveButtonClick = {},
+                                onSaveButtonClick = onSaveButtonClick,
                             )
                         }
 
@@ -191,7 +195,7 @@ private fun ContentUi(
                             KotlinYouTubeCard(
                                 item = item.toDisplayable(displayablePublishTime),
                                 onItemClick = onItemClick,
-                                onSaveButtonClick = {},
+                                onSaveButtonClick = onSaveButtonClick,
                             )
                         }
 
@@ -199,7 +203,7 @@ private fun ContentUi(
                             TalkingKotlinCard(
                                 item = item.toDisplayable(displayablePublishTime),
                                 onItemClick = onItemClick,
-                                onSaveButtonClick = {},
+                                onSaveButtonClick = onSaveButtonClick,
                             )
                         }
                     }

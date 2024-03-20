@@ -97,7 +97,7 @@ public fun ContentViewerScreen(
                             KSIcons.BookmarkAdd
                         },
                         contentDescription = null,
-                        onClick = { viewModel.toggleSavedForLater() },
+                        onClick = viewModel::toggleSavedForLater,
                     )
                 }
             },

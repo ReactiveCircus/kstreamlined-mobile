@@ -3,6 +3,7 @@ package io.github.reactivecircus.kstreamlined.kmp.presentation.home
 import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.FeedDataSource
 import io.github.reactivecircus.kstreamlined.kmp.feed.sync.FeedSyncEngine
 import io.github.reactivecircus.kstreamlined.kmp.feed.sync.SyncState
+import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -13,7 +14,7 @@ import kotlinx.coroutines.flow.onEach
 
 public class HomePresenter(
     private val feedSyncEngine: FeedSyncEngine,
-    feedDataSource: FeedDataSource,
+    private val feedDataSource: FeedDataSource,
     scope: CoroutineScope,
 ) {
     private val _uiState = MutableStateFlow<HomeUiState>(HomeUiState.Loading)
@@ -71,5 +72,13 @@ public class HomePresenter(
 
     public suspend fun refresh() {
         feedSyncEngine.sync(forceRefresh = true)
+    }
+
+    public suspend fun toggleSavedForLater(feedItem: FeedItem) {
+        if (!feedItem.savedForLater) {
+            feedDataSource.addSavedFeedItem(feedItem.id)
+        } else {
+            feedDataSource.removeSavedFeedItem(feedItem.id)
+        }
     }
 }

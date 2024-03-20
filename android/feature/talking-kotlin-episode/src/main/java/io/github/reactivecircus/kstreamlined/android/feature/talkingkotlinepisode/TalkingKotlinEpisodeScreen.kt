@@ -79,7 +79,7 @@ public fun TalkingKotlinEpisodeScreen(
         onShareButtonClick = { title, url ->
             context.openShareSheet(title, url)
         },
-        onSaveButtonClick = { viewModel.toggleSavedForLater() },
+        onSaveButtonClick = viewModel::toggleSavedForLater,
         onPlayPauseButtonClick = viewModel::togglePlayPause,
         onOpenLink = context::openCustomTab,
         onSaveStartPosition = viewModel::saveStartPosition,

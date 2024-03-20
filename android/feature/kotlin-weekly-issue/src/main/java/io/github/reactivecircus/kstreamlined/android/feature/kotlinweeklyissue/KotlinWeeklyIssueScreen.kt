@@ -75,7 +75,7 @@ public fun KotlinWeeklyIssueScreen(
         onShareButtonClick = { url ->
             context.openShareSheet(title, url)
         },
-        onSaveButtonClick = { viewModel.toggleSavedForLater() },
+        onSaveButtonClick = viewModel::toggleSavedForLater,
         onOpenLink = {
             context.openCustomTab(it)
         },

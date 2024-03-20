@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.FeedDataSource
 import io.github.reactivecircus.kstreamlined.kmp.feed.sync.FeedSyncEngine
+import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.presentation.home.HomePresenter
 import io.github.reactivecircus.kstreamlined.kmp.presentation.home.HomeUiState
 import kotlinx.coroutines.flow.StateFlow
@@ -21,5 +22,9 @@ internal class HomeViewModel @Inject constructor(
 
     fun refresh() = viewModelScope.launch {
         presenter.refresh()
+    }
+
+    fun toggleSavedForLater(item: FeedItem) = viewModelScope.launch {
+        presenter.toggleSavedForLater(item)
     }
 }
