@@ -23,16 +23,14 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.AsyncImage
 import io.github.reactivecircus.kstreamlined.android.feature.home.component.FeedFilterChip
 import io.github.reactivecircus.kstreamlined.android.feature.home.component.SyncButton
@@ -49,11 +47,8 @@ import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.fou
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.icon.KSIcons
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.toDisplayable
-import io.github.reactivecircus.kstreamlined.kmp.presentation.home.FakeHomeFeedItems
 import io.github.reactivecircus.kstreamlined.kmp.presentation.home.HomeFeedItem
 import io.github.reactivecircus.kstreamlined.kmp.presentation.home.HomeUiState
-import kotlinx.coroutines.delay
-import kotlin.random.Random
 import io.github.reactivecircus.kstreamlined.android.feature.common.R as commonR
 
 @Composable
@@ -61,28 +56,23 @@ public fun HomeScreen(
     onViewItem: (FeedItem) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    var syncing by remember { mutableStateOf(true) }
+    val viewModel = viewModel<HomeViewModel>()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    HomeScreen(
+        onViewItem = onViewItem,
+        onRefresh = viewModel::refresh,
+        uiState = uiState,
+        modifier = modifier,
+    )
+}
 
-    var uiState: HomeUiState by remember { mutableStateOf(HomeUiState.InFlight) }
-
-    LaunchedEffect(syncing) {
-        if (syncing) {
-            if (Random.nextBoolean()) {
-                uiState = HomeUiState.Content(FakeHomeFeedItems)
-            } else {
-                uiState = HomeUiState.InFlight
-                @Suppress("MagicNumber")
-                delay(500)
-                uiState = if (Random.nextBoolean()) {
-                    HomeUiState.Content(FakeHomeFeedItems)
-                } else {
-                    HomeUiState.Error
-                }
-            }
-            syncing = false
-        }
-    }
-
+@Composable
+internal fun HomeScreen(
+    onViewItem: (FeedItem) -> Unit,
+    onRefresh: () -> Unit,
+    uiState: HomeUiState,
+    modifier: Modifier = Modifier,
+) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -99,16 +89,18 @@ public fun HomeScreen(
                 )
             },
             bottomRow = {
+                // TODO move to separate file, add skeleton loading state
                 FeedFilterChip(
-                    selectedFeedCount = 4,
+                    selectedFeedCount = if (uiState is HomeUiState.Content) uiState.selectedFeedCount else 0,
                     onClick = {},
                 )
 
                 Spacer(modifier = Modifier.width(8.dp))
 
                 SyncButton(
-                    onClick = { syncing = true },
-                    syncing = syncing,
+                    onClick = onRefresh,
+                    // TODO if HomeUiState.Loading, show skeleton loading state
+                    syncing = if (uiState is HomeUiState.Content) uiState.refreshing else false,
                 )
             }
         )
@@ -122,12 +114,12 @@ public fun HomeScreen(
                 label = "uiState",
             ) { state ->
                 when (state) {
-                    is HomeUiState.InFlight -> {
+                    is HomeUiState.Loading -> {
                         LoadingSkeletonUi()
                     }
 
                     is HomeUiState.Error -> {
-                        ErrorUi(onRetry = { syncing = true })
+                        ErrorUi(onRetry = onRefresh)
                     }
 
                     is HomeUiState.Content -> {
@@ -148,8 +140,9 @@ private fun ContentUi(
     onItemClick: (FeedItem) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    // TODO add popup / tooltip for transient error
     LazyColumn(
-        modifier = modifier,
+        modifier = modifier.fillMaxSize(),
         contentPadding = ListContentPadding,
         verticalArrangement = Arrangement.spacedBy(20.dp),
     ) {
@@ -283,7 +276,7 @@ private val ListContentPadding = PaddingValues(
 
 private val HomeUiState.contentKey: Int
     get() = when (this) {
-        is HomeUiState.InFlight -> 0
+        is HomeUiState.Loading -> 0
         is HomeUiState.Error -> 1
         is HomeUiState.Content -> 2
     }
