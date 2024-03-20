@@ -13,6 +13,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 
@@ -25,6 +26,7 @@ public class FeedDataSource(
     public fun streamFeedOrigins(): Flow<List<FeedOrigin>> {
         return db.feedOriginEntityQueries.allFeedOrigins()
             .asFlow().mapToList(dbDispatcher)
+            .distinctUntilChanged()
             .map { origins ->
                 origins.map { it.asExternalModel() }
             }
@@ -33,6 +35,7 @@ public class FeedDataSource(
     public fun streamFeedItemsForSelectedOrigins(): Flow<List<FeedItem>> {
         return db.feedItemEntityQueries.feedItemsForSelectedOrigins()
             .asFlow().mapToList(dbDispatcher)
+            .distinctUntilChanged()
             .map { items ->
                 items.map { it.asExternalModel() }
             }
@@ -41,6 +44,7 @@ public class FeedDataSource(
     public fun streamSavedFeedItems(): Flow<List<FeedItem>> {
         return db.feedItemEntityQueries.savedFeedItems()
             .asFlow().mapToList(dbDispatcher)
+            .distinctUntilChanged()
             .map { items ->
                 items.map { it.asExternalModel() }
             }
@@ -49,6 +53,7 @@ public class FeedDataSource(
     public fun streamFeedItemById(id: String): Flow<FeedItem?> {
         return db.feedItemEntityQueries.feedItemById(id)
             .asFlow().mapToOneOrNull(dbDispatcher)
+            .distinctUntilChanged()
             .map { it?.asExternalModel() }
     }
 

@@ -25,37 +25,42 @@ public class HomePresenter(
             feedDataSource.streamFeedOrigins(),
             feedDataSource.streamFeedItemsForSelectedOrigins(),
         ) { syncState, feedOrigins, feedItems ->
+            val hasContent = feedOrigins.isNotEmpty() && feedItems.isNotEmpty()
             when (syncState) {
                 is SyncState.Initializing, is SyncState.Syncing -> {
-                    if (feedOrigins.isEmpty() || feedItems.isEmpty()) {
-                        HomeUiState.Loading
-                    } else {
+                    if (hasContent) {
                         HomeUiState.Content(
                             selectedFeedCount = feedOrigins.count { it.selected },
                             feedItems = feedItems.toHomeFeedItems(),
                             refreshing = true,
                             hasTransientError = false,
                         )
+                    } else {
+                        HomeUiState.Loading
                     }
                 }
                 is SyncState.Idle -> {
-                    HomeUiState.Content(
-                        selectedFeedCount = feedOrigins.count { it.selected },
-                        feedItems = feedItems.toHomeFeedItems(),
-                        refreshing = false,
-                        hasTransientError = false,
-                    )
+                    if (hasContent) {
+                        HomeUiState.Content(
+                            selectedFeedCount = feedOrigins.count { it.selected },
+                            feedItems = feedItems.toHomeFeedItems(),
+                            refreshing = false,
+                            hasTransientError = false,
+                        )
+                    } else {
+                        HomeUiState.Loading
+                    }
                 }
                 is SyncState.Error -> {
-                    if (feedOrigins.isEmpty() || feedItems.isEmpty()) {
-                        HomeUiState.Error
-                    } else {
+                    if (hasContent) {
                         HomeUiState.Content(
                             selectedFeedCount = feedOrigins.count { it.selected },
                             feedItems = feedItems.toHomeFeedItems(),
                             refreshing = false,
                             hasTransientError = true,
                         )
+                    } else {
+                        HomeUiState.Error
                     }
                 }
             }

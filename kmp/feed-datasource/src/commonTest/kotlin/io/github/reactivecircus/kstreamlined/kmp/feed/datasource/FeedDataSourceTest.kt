@@ -235,7 +235,7 @@ class FeedDataSourceTest {
                     )
                 }
 
-                assertEquals(emptyList(), awaitItem())
+                expectNoEvents()
 
                 db.feedItemEntityQueries.updateSavedForLaterById(
                     saved_for_later = true,
