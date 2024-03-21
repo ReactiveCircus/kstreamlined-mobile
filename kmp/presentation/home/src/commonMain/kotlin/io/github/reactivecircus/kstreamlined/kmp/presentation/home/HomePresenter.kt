@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.update
 
 public class HomePresenter(
     private val feedSyncEngine: FeedSyncEngine,
@@ -79,6 +80,16 @@ public class HomePresenter(
             feedDataSource.addSavedFeedItem(feedItem.id)
         } else {
             feedDataSource.removeSavedFeedItem(feedItem.id)
+        }
+    }
+
+    public fun dismissTransientError() {
+        _uiState.update {
+            if (it is HomeUiState.Content) {
+                it.copy(hasTransientError = false)
+            } else {
+                it
+            }
         }
     }
 }

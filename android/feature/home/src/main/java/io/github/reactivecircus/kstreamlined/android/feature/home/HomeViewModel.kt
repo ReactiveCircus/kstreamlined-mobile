@@ -27,4 +27,8 @@ internal class HomeViewModel @Inject constructor(
     fun toggleSavedForLater(item: FeedItem) = viewModelScope.launch {
         presenter.toggleSavedForLater(item)
     }
+
+    fun dismissTransientError() = viewModelScope.launch {
+        presenter.dismissTransientError()
+    }
 }
