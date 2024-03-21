@@ -14,7 +14,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 @Suppress("MagicNumber")
 internal fun KotlinProjectExtension.configureKotlinJvm(target: Project) {
     jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(21))
+        languageVersion.set(JavaLanguageVersion.of(22))
         vendor.set(JvmVendorSpec.AZUL)
     }
     target.tasks.withType<KotlinJvmCompile>().configureEach {
