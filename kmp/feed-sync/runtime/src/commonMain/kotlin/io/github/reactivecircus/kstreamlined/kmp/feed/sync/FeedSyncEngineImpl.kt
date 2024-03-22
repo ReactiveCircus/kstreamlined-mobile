@@ -63,7 +63,7 @@ public class FeedSyncEngineImpl(
                 }.onFailure {
                     if (it is CancellationException) throw it
                     Logger.w("Sync failed", it)
-                    _syncState.value = SyncState.Error
+                    _syncState.value = SyncState.OutOfSync
                 }
             }
             .flowOn(syncEngineDispatcher)

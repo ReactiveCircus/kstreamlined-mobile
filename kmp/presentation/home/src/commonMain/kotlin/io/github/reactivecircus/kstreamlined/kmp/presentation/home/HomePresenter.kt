@@ -21,11 +21,17 @@ public class HomePresenter(
     private val _uiState = MutableStateFlow<HomeUiState>(HomeUiState.Loading)
     public val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
 
+    private enum class EmissionType {
+        SyncState,
+        Data,
+    }
+
     init {
+        val mostRecentlyEmitted: MutableStateFlow<EmissionType?> = MutableStateFlow(null)
         combine(
-            feedSyncEngine.syncState,
-            feedDataSource.streamFeedOrigins(),
-            feedDataSource.streamFeedItemsForSelectedOrigins(),
+            feedSyncEngine.syncState.onEach { mostRecentlyEmitted.value = EmissionType.SyncState },
+            feedDataSource.streamFeedOrigins().onEach { mostRecentlyEmitted.value = EmissionType.Data },
+            feedDataSource.streamFeedItemsForSelectedOrigins().onEach { mostRecentlyEmitted.value = EmissionType.Data },
         ) { syncState, feedOrigins, feedItems ->
             val hasContent = feedOrigins.isNotEmpty() && feedItems.isNotEmpty()
             when (syncState) {
@@ -53,13 +59,13 @@ public class HomePresenter(
                         HomeUiState.Loading
                     }
                 }
-                is SyncState.Error -> {
+                is SyncState.OutOfSync -> {
                     if (hasContent) {
                         HomeUiState.Content(
                             selectedFeedCount = feedOrigins.count { it.selected },
                             feedItems = feedItems.toHomeFeedItems(),
                             refreshing = false,
-                            hasTransientError = true,
+                            hasTransientError = hasTransientError(mostRecentlyEmitted.value),
                         )
                     } else {
                         HomeUiState.Error
@@ -69,6 +75,11 @@ public class HomePresenter(
         }.onEach {
             _uiState.value = it
         }.launchIn(scope)
+    }
+
+    private fun hasTransientError(mostRecentlyEmitted: EmissionType?): Boolean {
+        return mostRecentlyEmitted == EmissionType.SyncState ||
+            (_uiState.value as? HomeUiState.Content)?.hasTransientError == true
     }
 
     public suspend fun refresh() {

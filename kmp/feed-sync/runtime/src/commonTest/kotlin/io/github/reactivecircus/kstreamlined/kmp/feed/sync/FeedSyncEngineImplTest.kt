@@ -316,7 +316,7 @@ class FeedSyncEngineImplTest {
         syncEngine.syncState.test {
             assertEquals(SyncState.Initializing, awaitItem())
             assertEquals(SyncState.Syncing, awaitItem())
-            assertEquals(SyncState.Error, awaitItem())
+            assertEquals(SyncState.OutOfSync, awaitItem())
 
             assertFeedOriginsInDb(emptyList())
             assertFeedItemsInDb(emptyList())
@@ -331,7 +331,7 @@ class FeedSyncEngineImplTest {
             syncEngine.sync(forceRefresh = true)
 
             assertEquals(SyncState.Syncing, awaitItem())
-            assertEquals(SyncState.Error, awaitItem())
+            assertEquals(SyncState.OutOfSync, awaitItem())
 
             assertFeedOriginsInDb(emptyList())
             assertFeedItemsInDb(emptyList())
