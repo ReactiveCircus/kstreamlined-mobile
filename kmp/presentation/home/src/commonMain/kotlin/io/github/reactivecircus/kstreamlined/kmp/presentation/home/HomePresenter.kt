@@ -8,7 +8,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
@@ -21,18 +20,12 @@ public class HomePresenter(
     private val _uiState = MutableStateFlow<HomeUiState>(HomeUiState.Loading)
     public val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
 
-    private enum class EmissionType {
-        SyncState,
-        Data,
-    }
-
     init {
-        val mostRecentlyEmitted: MutableStateFlow<EmissionType?> = MutableStateFlow(null)
-        combine(
-            feedSyncEngine.syncState.onEach { mostRecentlyEmitted.value = EmissionType.SyncState },
-            feedDataSource.streamFeedOrigins().onEach { mostRecentlyEmitted.value = EmissionType.Data },
-            feedDataSource.streamFeedItemsForSelectedOrigins().onEach { mostRecentlyEmitted.value = EmissionType.Data },
-        ) { syncState, feedOrigins, feedItems ->
+        combineWithMetadata(
+            feedSyncEngine.syncState,
+            feedDataSource.streamFeedOrigins(),
+            feedDataSource.streamFeedItemsForSelectedOrigins(),
+        ) { syncState, feedOrigins, feedItems, (isFirstTransform, lastEmittedFlowIndex) ->
             val hasContent = feedOrigins.isNotEmpty() && feedItems.isNotEmpty()
             when (syncState) {
                 is SyncState.Initializing, is SyncState.Syncing -> {
@@ -61,11 +54,21 @@ public class HomePresenter(
                 }
                 is SyncState.OutOfSync -> {
                     if (hasContent) {
+                        /**
+                         * Show transient error if:
+                         * - this is the first transformation
+                         * - or a new emission of [SyncState.OutOfSync] has triggered the current state transformation
+                         * - or current state is [HomeUiState.Content] with `hasTransientError = true`
+                         */
+                        val hasTransientError = isFirstTransform ||
+                            lastEmittedFlowIndex == 0 ||
+                            (_uiState.value as? HomeUiState.Content)?.hasTransientError == true
+
                         HomeUiState.Content(
                             selectedFeedCount = feedOrigins.count { it.selected },
                             feedItems = feedItems.toHomeFeedItems(),
                             refreshing = false,
-                            hasTransientError = hasTransientError(mostRecentlyEmitted.value),
+                            hasTransientError = hasTransientError,
                         )
                     } else {
                         HomeUiState.Error
@@ -75,11 +78,6 @@ public class HomePresenter(
         }.onEach {
             _uiState.value = it
         }.launchIn(scope)
-    }
-
-    private fun hasTransientError(mostRecentlyEmitted: EmissionType?): Boolean {
-        return mostRecentlyEmitted == EmissionType.SyncState ||
-            (_uiState.value as? HomeUiState.Content)?.hasTransientError == true
     }
 
     public suspend fun refresh() {

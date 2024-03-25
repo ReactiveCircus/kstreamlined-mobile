@@ -16,6 +16,8 @@ kotlin {
         commonTest {
             dependencies {
                 implementation(project(":kmp:feed-sync:testing"))
+                implementation(project(":kmp:networking:testing"))
+                implementation(project(":kmp:database-testing"))
                 implementation(libs.kotlinx.coroutines.test)
                 implementation(libs.turbine)
             }

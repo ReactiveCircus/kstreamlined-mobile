@@ -3,9 +3,11 @@ package io.github.reactivecircus.kstreamlined.kmp.feed.sync
 import app.cash.turbine.test
 import io.github.reactivecircus.kstreamlined.kmp.database.FeedItemEntity
 import io.github.reactivecircus.kstreamlined.kmp.database.FeedOriginEntity
-import io.github.reactivecircus.kstreamlined.kmp.database.KStreamlinedDatabase
-import io.github.reactivecircus.kstreamlined.kmp.database.SyncResourceType
 import io.github.reactivecircus.kstreamlined.kmp.database.testing.createInMemoryDatabase
+import io.github.reactivecircus.kstreamlined.kmp.database.testing.insertFeedItems
+import io.github.reactivecircus.kstreamlined.kmp.database.testing.insertFeedItemsLastSyncMetadata
+import io.github.reactivecircus.kstreamlined.kmp.database.testing.insertFeedOrigins
+import io.github.reactivecircus.kstreamlined.kmp.database.testing.insertFeedOriginsLastSyncMetadata
 import io.github.reactivecircus.kstreamlined.kmp.feed.sync.mapper.toDbModel
 import io.github.reactivecircus.kstreamlined.kmp.feed.sync.mapper.toSyncParams
 import io.github.reactivecircus.kstreamlined.kmp.networking.FakeFeedEntries
@@ -18,7 +20,6 @@ import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.runTest
-import kotlinx.datetime.Instant
 import kotlinx.datetime.toInstant
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -336,59 +337,6 @@ class FeedSyncEngineImplTest {
             assertFeedOriginsInDb(emptyList())
             assertFeedItemsInDb(emptyList())
         }
-    }
-
-    private fun KStreamlinedDatabase.insertFeedOrigins(feedOrigins: List<FeedOriginEntity>) {
-        transaction {
-            feedOrigins.forEach {
-                feedOriginEntityQueries.upsertFeedOrigin(
-                    key = it.key,
-                    title = it.title,
-                    description = it.description,
-                    selected = it.selected,
-                )
-            }
-        }
-    }
-
-    private fun KStreamlinedDatabase.insertFeedItems(feedItems: List<FeedItemEntity>) {
-        transaction {
-            feedItems.forEach {
-                feedItemEntityQueries.upsertFeedItem(
-                    id = it.id,
-                    feed_origin_key = it.feed_origin_key,
-                    title = it.title,
-                    publish_time = it.publish_time,
-                    content_url = it.content_url,
-                    image_url = it.image_url,
-                    description = it.description,
-                    issue_number = it.issue_number,
-                    podcast_audio_url = it.podcast_audio_url,
-                    podcast_duration = it.podcast_duration,
-                    podcast_start_position = it.podcast_start_position,
-                    saved_for_later = it.saved_for_later,
-                )
-            }
-        }
-    }
-
-    private fun KStreamlinedDatabase.insertFeedOriginsLastSyncMetadata(lastSyncTime: Instant) {
-        lastSyncMetadataQueries.updateLastSyncMetadata(
-            resource_type = SyncResourceType.FeedOrigins,
-            sync_params = "",
-            last_sync_time = lastSyncTime,
-        )
-    }
-
-    private fun KStreamlinedDatabase.insertFeedItemsLastSyncMetadata(
-        syncParams: String,
-        lastSyncTime: Instant,
-    ) {
-        lastSyncMetadataQueries.updateLastSyncMetadata(
-            resource_type = SyncResourceType.FeedItems,
-            sync_params = syncParams,
-            last_sync_time = lastSyncTime,
-        )
     }
 
     private val newFeedEntry = FeedEntry.KotlinWeekly(

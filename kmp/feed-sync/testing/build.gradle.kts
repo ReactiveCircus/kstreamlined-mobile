@@ -8,6 +8,7 @@ kotlin {
         commonMain {
             dependencies {
                 api(project(":kmp:feed-sync:common"))
+                api(libs.turbine)
             }
         }
         commonTest {
