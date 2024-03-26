@@ -1,6 +1,7 @@
 plugins {
     id("kstreamlined.android.library")
     id("kstreamlined.android.library.compose")
+    id("kstreamlined.ksp")
 }
 
 android {
@@ -15,4 +16,8 @@ dependencies {
     implementation(project(":foundation:common-ui:feed"))
     implementation(project(":kmp:feed-datasource"))
     implementation(project(":kmp:presentation:saved-for-later"))
+
+    // Hilt
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
 }

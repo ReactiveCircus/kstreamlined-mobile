@@ -5,6 +5,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -143,6 +144,7 @@ internal fun HomeScreen(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun ContentUi(
     items: List<HomeFeedItem>,
@@ -181,6 +183,7 @@ private fun ContentUi(
                             text = it.title,
                             style = KSTheme.typography.titleMedium,
                             color = KSTheme.colorScheme.onBackgroundVariant,
+                            modifier = Modifier.animateItemPlacement(),
                         )
                     }
 
@@ -192,6 +195,7 @@ private fun ContentUi(
                                     item = item.toDisplayable(displayablePublishTime),
                                     onItemClick = onItemClick,
                                     onSaveButtonClick = onSaveButtonClick,
+                                    modifier = Modifier.animateItemPlacement(),
                                 )
                             }
 
@@ -200,6 +204,7 @@ private fun ContentUi(
                                     item = item.toDisplayable(displayablePublishTime),
                                     onItemClick = onItemClick,
                                     onSaveButtonClick = onSaveButtonClick,
+                                    modifier = Modifier.animateItemPlacement(),
                                 )
                             }
 
@@ -208,6 +213,7 @@ private fun ContentUi(
                                     item = item.toDisplayable(displayablePublishTime),
                                     onItemClick = onItemClick,
                                     onSaveButtonClick = onSaveButtonClick,
+                                    modifier = Modifier.animateItemPlacement(),
                                 )
                             }
 
@@ -216,6 +222,7 @@ private fun ContentUi(
                                     item = item.toDisplayable(displayablePublishTime),
                                     onItemClick = onItemClick,
                                     onSaveButtonClick = onSaveButtonClick,
+                                    modifier = Modifier.animateItemPlacement(),
                                 )
                             }
                         }

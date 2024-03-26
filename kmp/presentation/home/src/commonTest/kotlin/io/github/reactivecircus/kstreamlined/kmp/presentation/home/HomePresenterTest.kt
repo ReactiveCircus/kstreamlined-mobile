@@ -84,7 +84,7 @@ class HomePresenterTest {
     )
 
     @Test
-    fun `uiState emits Loading state when initialized`() = runTest {
+    fun `uiState emits Loading state when initialized`() = testScope.runTest {
         homePresenter.uiState.test {
             assertEquals(HomeUiState.Loading, awaitItem())
         }
