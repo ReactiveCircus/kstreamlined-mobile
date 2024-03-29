@@ -239,6 +239,8 @@ dependencies {
     implementation(project(":feature:saved-for-later"))
     implementation(project(":feature:talking-kotlin-episode"))
 
+    implementation(project(":foundation:scheduled-work"))
+
     // Firebase
     releaseImplementation(libs.firebase.perf)
     benchmarkImplementation(libs.firebase.perf)
@@ -249,6 +251,7 @@ dependencies {
     implementation(libs.androidx.coreSplashscreen)
     implementation(libs.androidx.profileinstaller)
     implementation(libs.androidx.compose.runtime.tracing)
+    implementation(libs.androidx.hilt.work)
 
     // Hilt
     implementation(libs.hilt.android)

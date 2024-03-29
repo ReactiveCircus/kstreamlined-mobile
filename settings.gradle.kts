@@ -95,6 +95,7 @@ if (!isXCFrameworkBuild) {
     includeProject(":foundation:common-ui:feed", "android/foundation/common-ui/feed")
     includeProject(":foundation:designsystem", "android/foundation/designsystem")
     includeProject(":foundation:compose-utils", "android/foundation/compose-utils")
+    includeProject(":foundation:scheduled-work", "android/foundation/scheduled-work")
 }
 
 fun includeProject(name: String, filePath: String) {
