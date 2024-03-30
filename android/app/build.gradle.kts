@@ -227,6 +227,7 @@ dependencies {
     implementation(project(":kmp:feed-datasource"))
     implementation(project(":kmp:feed-sync:runtime"))
     implementation(project(":kmp:database"))
+    implementation(project(":kmp:network-monitor:runtime"))
     mockImplementation(project(":kmp:remote:mock"))
     demoImplementation(project(":kmp:remote:edge"))
     devImplementation(project(":kmp:remote:cloud"))

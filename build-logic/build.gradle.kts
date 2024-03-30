@@ -105,7 +105,11 @@ gradlePlugin {
             id = "kstreamlined.kmp.common"
             implementationClass = "io.github.reactivecircus.kstreamlined.buildlogic.convention.KMPCommonConventionPlugin"
         }
-        register("kmpOosOnly") {
+        register("kmpAndroidAndIos") {
+            id = "kstreamlined.kmp.android-and-ios"
+            implementationClass = "io.github.reactivecircus.kstreamlined.buildlogic.convention.KMPAndroidAndIosConventionPlugin"
+        }
+        register("kmpIosOnly") {
             id = "kstreamlined.kmp.ios-only"
             implementationClass = "io.github.reactivecircus.kstreamlined.buildlogic.convention.KMPIosOnlyConventionPlugin"
         }

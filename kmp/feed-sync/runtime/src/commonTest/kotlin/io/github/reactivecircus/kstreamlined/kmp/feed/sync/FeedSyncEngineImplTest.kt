@@ -10,6 +10,8 @@ import io.github.reactivecircus.kstreamlined.kmp.database.testing.insertFeedOrig
 import io.github.reactivecircus.kstreamlined.kmp.database.testing.insertFeedOriginsLastSyncMetadata
 import io.github.reactivecircus.kstreamlined.kmp.feed.sync.mapper.toDbModel
 import io.github.reactivecircus.kstreamlined.kmp.feed.sync.mapper.toSyncParams
+import io.github.reactivecircus.kstreamlined.kmp.networkmonitor.FakeNetworkMonitor
+import io.github.reactivecircus.kstreamlined.kmp.networkmonitor.NetworkState
 import io.github.reactivecircus.kstreamlined.kmp.remote.FakeFeedEntries
 import io.github.reactivecircus.kstreamlined.kmp.remote.FakeFeedService
 import io.github.reactivecircus.kstreamlined.kmp.remote.FakeFeedSources
@@ -33,6 +35,8 @@ class FeedSyncEngineImplTest {
 
     private val db = createInMemoryDatabase()
 
+    private val networkMonitor = FakeNetworkMonitor()
+
     private val fakeClock = FakeClock()
 
     private val syncConfig = SyncConfig.Default
@@ -44,6 +48,7 @@ class FeedSyncEngineImplTest {
     private val syncEngine = FeedSyncEngineImpl(
         feedService = feedService,
         db = db,
+        networkMonitor = networkMonitor,
         syncEngineScope = testScope.backgroundScope,
         syncEngineDispatcher = testDispatcher,
         clock = fakeClock,
@@ -117,6 +122,10 @@ class FeedSyncEngineImplTest {
                 assertEquals(SyncState.Syncing, awaitItem())
                 assertEquals(SyncState.Idle, awaitItem())
 
+                advanceTimeBy(1.days)
+
+                expectNoEvents()
+
                 // feed sources should not have been updated
                 assertFeedOriginsInDb(initialFeedOrigins)
                 // feed items should have been updated with new item
@@ -134,6 +143,7 @@ class FeedSyncEngineImplTest {
             assertEquals(SyncState.Idle, awaitItem())
 
             // feed items cache has expired
+            advanceTimeBy(syncConfig.feedItemsCacheMaxAge + 1.seconds)
             fakeClock.currentTime += syncConfig.feedItemsCacheMaxAge + 1.seconds
 
             feedService.nextFeedEntriesResponse = {
@@ -156,6 +166,99 @@ class FeedSyncEngineImplTest {
                     it.feed_origin_key == FeedSource.Key.KotlinBlog.name
                 } + newFeedEntry.toDbModel(emptyList())
             )
+        }
+    }
+
+    @Test
+    fun `automatic sync not triggered when network monitor emits Disconnected state`() = testScope.runTest {
+        val initialFeedOrigins = FakeFeedSources.map {
+            it.toDbModel(emptyList()).copy(selected = true)
+        }
+        val initialFeedItems = FakeFeedEntries.map { it.toDbModel(emptyList()) }
+
+        syncEngine.syncState.test {
+            assertEquals(SyncState.Initializing, awaitItem())
+            assertEquals(SyncState.Syncing, awaitItem())
+            assertEquals(SyncState.Idle, awaitItem())
+
+            // feed items cache has expired
+            advanceTimeBy(syncConfig.feedItemsCacheMaxAge + 1.seconds)
+            fakeClock.currentTime += syncConfig.feedItemsCacheMaxAge + 1.seconds
+
+            // NetworkMonitor emits NetworkState.Disconnected
+            networkMonitor.emitNetworkState(NetworkState.Disconnected)
+
+            advanceTimeBy(1.days)
+
+            expectNoEvents()
+
+            // feed sources should not have been updated
+            assertFeedOriginsInDb(initialFeedOrigins)
+            // feed items should not have been updated
+            assertFeedItemsInDb(initialFeedItems)
+        }
+    }
+
+    @Test
+    fun `automatic sync not triggered when network monitor emits Connected state but SyncState is not OutOfSync`() = testScope.runTest {
+        val initialFeedOrigins = FakeFeedSources.map {
+            it.toDbModel(emptyList()).copy(selected = true)
+        }
+        val initialFeedItems = FakeFeedEntries.map { it.toDbModel(emptyList()) }
+
+        syncEngine.syncState.test {
+            assertEquals(SyncState.Initializing, awaitItem())
+            assertEquals(SyncState.Syncing, awaitItem())
+            assertEquals(SyncState.Idle, awaitItem())
+
+            // feed items cache has expired
+            advanceTimeBy(syncConfig.feedItemsCacheMaxAge + 1.seconds)
+            fakeClock.currentTime += syncConfig.feedItemsCacheMaxAge + 1.seconds
+
+            // NetworkMonitor emits NetworkState.Connected
+            networkMonitor.emitNetworkState(NetworkState.Connected)
+
+            advanceTimeBy(1.days)
+
+            expectNoEvents()
+
+            // feed sources should not have been updated
+            assertFeedOriginsInDb(initialFeedOrigins)
+            // feed items should not have been updated
+            assertFeedItemsInDb(initialFeedItems)
+        }
+    }
+
+    @Test
+    fun `automatic sync triggered when network monitor emits Connected state and SyncState is OutOfSync`() = testScope.runTest {
+        feedService.nextFeedSourcesResponse = {
+            error("Failed to fetch feed sources")
+        }
+        feedService.nextFeedEntriesResponse = {
+            error("Failed to fetch feed entries")
+        }
+
+        syncEngine.syncState.test {
+            assertEquals(SyncState.Initializing, awaitItem())
+            assertEquals(SyncState.Syncing, awaitItem())
+            assertEquals(SyncState.OutOfSync, awaitItem())
+
+            feedService.nextFeedSourcesResponse = {
+                FakeFeedSources
+            }
+
+            feedService.nextFeedEntriesResponse = {
+                FakeFeedEntries
+            }
+
+            // NetworkMonitor emits NetworkState.Connected
+            networkMonitor.emitNetworkState(NetworkState.Connected)
+
+            assertEquals(SyncState.Syncing, awaitItem())
+            assertEquals(SyncState.Idle, awaitItem())
+
+            assertFeedOriginsInDb(FakeFeedSources.map { it.toDbModel(emptyList()) })
+            assertFeedItemsInDb(FakeFeedEntries.map { it.toDbModel(emptyList()) })
         }
     }
 
@@ -191,10 +294,12 @@ class FeedSyncEngineImplTest {
                 assertEquals(SyncState.Idle, awaitItem())
 
                 // caches have expired
-                fakeClock.currentTime += maxOf(
+                val advanceBy = maxOf(
                     syncConfig.feedSourcesCacheMaxAge,
                     syncConfig.feedItemsCacheMaxAge,
                 ) + 1.seconds
+                advanceTimeBy(advanceBy)
+                fakeClock.currentTime += advanceBy
 
                 syncEngine.sync(forceRefresh = false)
 
@@ -240,14 +345,18 @@ class FeedSyncEngineImplTest {
                 assertEquals(SyncState.Idle, awaitItem())
 
                 // caches not expired
-                fakeClock.currentTime += minOf(
+                val advanceBy = minOf(
                     syncConfig.feedSourcesCacheMaxAge,
                     syncConfig.feedItemsCacheMaxAge,
                 ) - 1.seconds
+                advanceTimeBy(advanceBy)
+                fakeClock.currentTime += advanceBy
 
                 syncEngine.sync(forceRefresh = false)
 
                 advanceTimeBy(1.days)
+
+                expectNoEvents()
 
                 // feed sources should not have been updated
                 assertFeedOriginsInDb(initialFeedOrigins)
@@ -288,10 +397,12 @@ class FeedSyncEngineImplTest {
                 assertEquals(SyncState.Idle, awaitItem())
 
                 // caches not expired
-                fakeClock.currentTime += minOf(
+                val advanceBy = minOf(
                     syncConfig.feedSourcesCacheMaxAge,
                     syncConfig.feedItemsCacheMaxAge,
                 ) - 1.seconds
+                advanceTimeBy(advanceBy)
+                fakeClock.currentTime += advanceBy
 
                 syncEngine.sync(forceRefresh = true)
 

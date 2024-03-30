@@ -26,14 +26,14 @@ class SyncRequestEvaluatorTest {
     @Test
     fun `should not sync feed sources when skipFeedSources is true`() {
         val syncRequest = SyncRequest(forceRefresh = true, skipFeedSources = true)
-        val result = syncRequestEvaluator.evaluate(syncRequest)
+        val result = syncRequestEvaluator.evaluate(syncRequest = syncRequest, lastSyncFailed = false)
         assertFalse(result.shouldSyncFeedSources)
     }
 
     @Test
     fun `should sync feed sources and feed items when forceRefresh is true`() {
         val syncRequest = SyncRequest(forceRefresh = true)
-        val result = syncRequestEvaluator.evaluate(syncRequest)
+        val result = syncRequestEvaluator.evaluate(syncRequest = syncRequest, lastSyncFailed = false)
         assertTrue(result.shouldSyncFeedSources)
         assertTrue(result.shouldSyncFeedItems)
     }
@@ -41,7 +41,7 @@ class SyncRequestEvaluatorTest {
     @Test
     fun `should sync feed sources when no lastSyncMetadata exists`() {
         val syncRequest = SyncRequest(forceRefresh = false)
-        val result = syncRequestEvaluator.evaluate(syncRequest)
+        val result = syncRequestEvaluator.evaluate(syncRequest = syncRequest, lastSyncFailed = false)
         assertTrue(result.shouldSyncFeedSources)
     }
 
@@ -56,7 +56,7 @@ class SyncRequestEvaluatorTest {
         fakeClock.currentTime += syncConfig.feedSourcesCacheMaxAge
 
         val syncRequest = SyncRequest(forceRefresh = false)
-        val result = syncRequestEvaluator.evaluate(syncRequest)
+        val result = syncRequestEvaluator.evaluate(syncRequest = syncRequest, lastSyncFailed = false)
         assertFalse(result.shouldSyncFeedSources)
     }
 
@@ -71,14 +71,14 @@ class SyncRequestEvaluatorTest {
         fakeClock.currentTime += syncConfig.feedSourcesCacheMaxAge + 1.seconds
 
         val syncRequest = SyncRequest(forceRefresh = false)
-        val result = syncRequestEvaluator.evaluate(syncRequest)
+        val result = syncRequestEvaluator.evaluate(syncRequest = syncRequest, lastSyncFailed = false)
         assertTrue(result.shouldSyncFeedSources)
     }
 
     @Test
     fun `should sync feed items when no lastSyncMetadata exists`() {
         val syncRequest = SyncRequest(forceRefresh = false)
-        val result = syncRequestEvaluator.evaluate(syncRequest)
+        val result = syncRequestEvaluator.evaluate(syncRequest = syncRequest, lastSyncFailed = false)
         assertTrue(result.shouldSyncFeedItems)
     }
 
@@ -106,7 +106,7 @@ class SyncRequestEvaluatorTest {
         fakeClock.currentTime += syncConfig.feedItemsCacheMaxAge
 
         val syncRequest = SyncRequest(forceRefresh = false)
-        val result = syncRequestEvaluator.evaluate(syncRequest)
+        val result = syncRequestEvaluator.evaluate(syncRequest = syncRequest, lastSyncFailed = false)
         assertFalse(result.shouldSyncFeedItems)
     }
 
@@ -142,7 +142,40 @@ class SyncRequestEvaluatorTest {
         fakeClock.currentTime += syncConfig.feedItemsCacheMaxAge + 1.seconds
 
         val syncRequest = SyncRequest(forceRefresh = false)
-        val result = syncRequestEvaluator.evaluate(syncRequest)
+        val result = syncRequestEvaluator.evaluate(syncRequest = syncRequest, lastSyncFailed = false)
+        assertTrue(result.shouldSyncFeedItems)
+    }
+
+    @Test
+    fun `should sync feed sources and feed items when lastSyncFailed is true`() {
+        db.transaction {
+            FakeFeedSources.forEach {
+                db.feedOriginEntityQueries.upsertFeedOrigin(
+                    key = it.key.name,
+                    title = it.title,
+                    description = it.description,
+                    selected = true,
+                )
+            }
+
+            db.lastSyncMetadataQueries.updateLastSyncMetadata(
+                resource_type = SyncResourceType.FeedOrigins,
+                sync_params = "",
+                last_sync_time = fakeClock.now(),
+            )
+
+            db.lastSyncMetadataQueries.updateLastSyncMetadata(
+                resource_type = SyncResourceType.FeedItems,
+                sync_params = FakeFeedSources
+                    .sortedBy { it.key.name }
+                    .joinToString(",") { it.key.name },
+                last_sync_time = fakeClock.now(),
+            )
+        }
+
+        val syncRequest = SyncRequest(forceRefresh = false)
+        val result = syncRequestEvaluator.evaluate(syncRequest = syncRequest, lastSyncFailed = true)
+        assertTrue(result.shouldSyncFeedSources)
         assertTrue(result.shouldSyncFeedItems)
     }
 }

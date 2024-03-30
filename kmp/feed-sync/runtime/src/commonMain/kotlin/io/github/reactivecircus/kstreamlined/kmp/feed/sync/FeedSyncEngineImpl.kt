@@ -8,6 +8,8 @@ import io.github.reactivecircus.kstreamlined.kmp.database.SyncResourceType
 import io.github.reactivecircus.kstreamlined.kmp.feed.sync.mapper.asNetworkModels
 import io.github.reactivecircus.kstreamlined.kmp.feed.sync.mapper.toDbModel
 import io.github.reactivecircus.kstreamlined.kmp.feed.sync.mapper.toSyncParams
+import io.github.reactivecircus.kstreamlined.kmp.networkmonitor.NetworkMonitor
+import io.github.reactivecircus.kstreamlined.kmp.networkmonitor.NetworkState
 import io.github.reactivecircus.kstreamlined.kmp.remote.FeedService
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
@@ -18,6 +20,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
@@ -30,6 +33,7 @@ import kotlin.coroutines.cancellation.CancellationException
 public class FeedSyncEngineImpl(
     private val feedService: FeedService,
     private val db: KStreamlinedDatabase,
+    networkMonitor: NetworkMonitor,
     syncEngineScope: CoroutineScope,
     syncEngineDispatcher: CoroutineDispatcher = Dispatchers.IO,
     private val clock: Clock = Clock.System,
@@ -39,9 +43,17 @@ public class FeedSyncEngineImpl(
 
     private val manualSyncTrigger = Channel<SyncRequest>()
 
-    private val automaticSyncTrigger = db.feedOriginEntityQueries
+    private val dbChangeSyncTrigger = db.feedOriginEntityQueries
         .allFeedOrigins().asFlow().mapToList(syncEngineDispatcher)
         .map { SyncRequest(forceRefresh = false, skipFeedSources = it.isNotEmpty()) }
+
+    private val networkStateChangeSyncTrigger = networkMonitor.networkState
+        .filter {
+            it == NetworkState.Connected && _syncState.value is SyncState.OutOfSync
+        }
+        .map { SyncRequest(forceRefresh = false) }
+
+    private val automaticSyncTrigger = merge(dbChangeSyncTrigger, networkStateChangeSyncTrigger)
 
     private val syncRequestEvaluator = SyncRequestEvaluator(
         syncConfig = SyncConfig.Default,
@@ -54,7 +66,10 @@ public class FeedSyncEngineImpl(
         merge(manualSyncTrigger.receiveAsFlow(), automaticSyncTrigger)
             .onEach { syncRequest ->
                 runCatching {
-                    val decision = syncRequestEvaluator.evaluate(syncRequest)
+                    val decision = syncRequestEvaluator.evaluate(
+                        syncRequest = syncRequest,
+                        lastSyncFailed = _syncState.value is SyncState.OutOfSync,
+                    )
                     if (decision.shouldSyncFeedSources || decision.shouldSyncFeedItems) {
                         _syncState.value = SyncState.Syncing
                         performSync(decision)

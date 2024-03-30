@@ -13,16 +13,23 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 internal fun KotlinMultiplatformExtension.configureKMPCommon(
     project: Project,
     enableJvmTarget: Boolean = true,
+    enableAndroidTarget: Boolean = false,
 ) {
     if (enableJvmTarget) {
         jvm()
-        configureKotlinJvm(project)
+    }
+    if (enableAndroidTarget) {
+        androidTarget()
     }
     iosArm64()
     if (project.isAppleSilicon) {
         iosSimulatorArm64()
     } else {
         iosX64()
+    }
+
+    if (enableJvmTarget || enableAndroidTarget) {
+        configureKotlinJvm(project)
     }
 
     sourceSets.configureEach {

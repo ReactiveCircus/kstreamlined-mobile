@@ -12,11 +12,11 @@ internal class SyncRequestEvaluator(
     private val lastSyncMetadataQueries: LastSyncMetadataQueries,
     private val clock: Clock,
 ) {
-    fun evaluate(syncRequest: SyncRequest): SyncDecision {
+    fun evaluate(syncRequest: SyncRequest, lastSyncFailed: Boolean): SyncDecision {
         return SyncDecision(
-            shouldSyncFeedSources = !syncRequest.skipFeedSources &&
+            shouldSyncFeedSources = lastSyncFailed || !syncRequest.skipFeedSources &&
                 (syncRequest.forceRefresh || shouldSyncFeedSources()),
-            shouldSyncFeedItems = syncRequest.forceRefresh || shouldSyncFeedItems(),
+            shouldSyncFeedItems = lastSyncFailed || syncRequest.forceRefresh || shouldSyncFeedItems(),
         )
     }
 
