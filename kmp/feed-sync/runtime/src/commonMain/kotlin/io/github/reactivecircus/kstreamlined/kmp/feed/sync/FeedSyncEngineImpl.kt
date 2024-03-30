@@ -8,7 +8,7 @@ import io.github.reactivecircus.kstreamlined.kmp.database.SyncResourceType
 import io.github.reactivecircus.kstreamlined.kmp.feed.sync.mapper.asNetworkModels
 import io.github.reactivecircus.kstreamlined.kmp.feed.sync.mapper.toDbModel
 import io.github.reactivecircus.kstreamlined.kmp.feed.sync.mapper.toSyncParams
-import io.github.reactivecircus.kstreamlined.kmp.networking.FeedService
+import io.github.reactivecircus.kstreamlined.kmp.remote.FeedService
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

@@ -8,14 +8,14 @@ kotlin {
         commonMain {
             dependencies {
                 api(project(":kmp:feed-sync:common"))
-                implementation(project(":kmp:networking:common"))
+                implementation(project(":kmp:remote:common"))
                 implementation(project(":kmp:database"))
                 implementation(libs.kermit)
             }
         }
         commonTest {
             dependencies {
-                implementation(project(":kmp:networking:testing"))
+                implementation(project(":kmp:remote:testing"))
                 implementation(project(":kmp:database-testing"))
                 implementation(libs.kotlinx.coroutines.test)
                 implementation(libs.turbine)

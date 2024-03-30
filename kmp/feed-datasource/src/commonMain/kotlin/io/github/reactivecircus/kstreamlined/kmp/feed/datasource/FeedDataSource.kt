@@ -8,7 +8,7 @@ import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.mapper.asExtern
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedOrigin
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.KotlinWeeklyIssueItem
-import io.github.reactivecircus.kstreamlined.kmp.networking.FeedService
+import io.github.reactivecircus.kstreamlined.kmp.remote.FeedService
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO

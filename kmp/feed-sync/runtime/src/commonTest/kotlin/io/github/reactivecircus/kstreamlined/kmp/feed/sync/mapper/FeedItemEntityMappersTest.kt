@@ -1,8 +1,8 @@
 package io.github.reactivecircus.kstreamlined.kmp.feed.sync.mapper
 
 import io.github.reactivecircus.kstreamlined.kmp.database.FeedItemEntity
-import io.github.reactivecircus.kstreamlined.kmp.networking.model.FeedEntry
-import io.github.reactivecircus.kstreamlined.kmp.networking.model.FeedSource
+import io.github.reactivecircus.kstreamlined.kmp.remote.model.FeedEntry
+import io.github.reactivecircus.kstreamlined.kmp.remote.model.FeedSource
 import kotlinx.datetime.toInstant
 import kotlin.test.Test
 import kotlin.test.assertEquals

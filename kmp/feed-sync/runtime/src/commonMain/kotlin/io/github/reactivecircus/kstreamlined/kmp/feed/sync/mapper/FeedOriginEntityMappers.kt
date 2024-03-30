@@ -1,7 +1,7 @@
 package io.github.reactivecircus.kstreamlined.kmp.feed.sync.mapper
 
 import io.github.reactivecircus.kstreamlined.kmp.database.FeedOriginEntity
-import io.github.reactivecircus.kstreamlined.kmp.networking.model.FeedSource
+import io.github.reactivecircus.kstreamlined.kmp.remote.model.FeedSource
 
 internal fun List<FeedOriginEntity>.asNetworkModels(): List<FeedSource.Key>? {
     return filter { it.selected }

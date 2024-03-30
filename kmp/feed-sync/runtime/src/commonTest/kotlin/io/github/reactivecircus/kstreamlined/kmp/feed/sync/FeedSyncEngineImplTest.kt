@@ -10,11 +10,11 @@ import io.github.reactivecircus.kstreamlined.kmp.database.testing.insertFeedOrig
 import io.github.reactivecircus.kstreamlined.kmp.database.testing.insertFeedOriginsLastSyncMetadata
 import io.github.reactivecircus.kstreamlined.kmp.feed.sync.mapper.toDbModel
 import io.github.reactivecircus.kstreamlined.kmp.feed.sync.mapper.toSyncParams
-import io.github.reactivecircus.kstreamlined.kmp.networking.FakeFeedEntries
-import io.github.reactivecircus.kstreamlined.kmp.networking.FakeFeedService
-import io.github.reactivecircus.kstreamlined.kmp.networking.FakeFeedSources
-import io.github.reactivecircus.kstreamlined.kmp.networking.model.FeedEntry
-import io.github.reactivecircus.kstreamlined.kmp.networking.model.FeedSource
+import io.github.reactivecircus.kstreamlined.kmp.remote.FakeFeedEntries
+import io.github.reactivecircus.kstreamlined.kmp.remote.FakeFeedService
+import io.github.reactivecircus.kstreamlined.kmp.remote.FakeFeedSources
+import io.github.reactivecircus.kstreamlined.kmp.remote.model.FeedEntry
+import io.github.reactivecircus.kstreamlined.kmp.remote.model.FeedSource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestScope

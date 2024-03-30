@@ -7,7 +7,7 @@ import io.github.reactivecircus.kstreamlined.kmp.database.testing.insertFeedItem
 import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.FeedDataSource
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedOrigin
-import io.github.reactivecircus.kstreamlined.kmp.networking.FakeFeedService
+import io.github.reactivecircus.kstreamlined.kmp.remote.FakeFeedService
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest

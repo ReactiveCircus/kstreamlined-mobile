@@ -11,7 +11,7 @@ import io.github.reactivecircus.kstreamlined.kmp.feed.sync.FakeFeedSyncEngine
 import io.github.reactivecircus.kstreamlined.kmp.feed.sync.SyncState
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedOrigin
-import io.github.reactivecircus.kstreamlined.kmp.networking.FakeFeedService
+import io.github.reactivecircus.kstreamlined.kmp.remote.FakeFeedService
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestScope

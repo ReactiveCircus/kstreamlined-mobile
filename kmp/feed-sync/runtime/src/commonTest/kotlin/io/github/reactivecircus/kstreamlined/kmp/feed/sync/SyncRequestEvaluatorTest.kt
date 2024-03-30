@@ -2,7 +2,7 @@ package io.github.reactivecircus.kstreamlined.kmp.feed.sync
 
 import io.github.reactivecircus.kstreamlined.kmp.database.SyncResourceType
 import io.github.reactivecircus.kstreamlined.kmp.database.testing.createInMemoryDatabase
-import io.github.reactivecircus.kstreamlined.kmp.networking.FakeFeedSources
+import io.github.reactivecircus.kstreamlined.kmp.remote.FakeFeedSources
 import kotlin.test.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue

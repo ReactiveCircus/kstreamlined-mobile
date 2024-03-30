@@ -4,8 +4,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import io.github.reactivecircus.kstreamlined.kmp.networking.EdgeFeedService
-import io.github.reactivecircus.kstreamlined.kmp.networking.FeedService
+import io.github.reactivecircus.kstreamlined.kmp.remote.EdgeFeedService
+import io.github.reactivecircus.kstreamlined.kmp.remote.FeedService
 import javax.inject.Singleton
 
 @Module

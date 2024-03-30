@@ -8,7 +8,7 @@ import io.github.reactivecircus.kstreamlined.kmp.database.KStreamlinedDatabase
 import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.FeedDataSource
 import io.github.reactivecircus.kstreamlined.kmp.feed.sync.FeedSyncEngine
 import io.github.reactivecircus.kstreamlined.kmp.feed.sync.FeedSyncEngineImpl
-import io.github.reactivecircus.kstreamlined.kmp.networking.FeedService
+import io.github.reactivecircus.kstreamlined.kmp.remote.FeedService
 import kotlinx.coroutines.CoroutineScope
 import javax.inject.Singleton
 
