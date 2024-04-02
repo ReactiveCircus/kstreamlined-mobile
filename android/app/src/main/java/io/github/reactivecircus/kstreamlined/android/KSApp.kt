@@ -7,6 +7,7 @@ import coil3.ImageLoader
 import coil3.PlatformContext
 import coil3.SingletonImageLoader
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import dagger.Lazy
 import dagger.hilt.android.HiltAndroidApp
 import io.github.reactivecircus.kstreamlined.android.foundation.scheduledwork.WorkScheduler
 import io.github.reactivecircus.kstreamlined.kmp.feed.sync.FeedSyncEngine
@@ -16,7 +17,7 @@ import javax.inject.Inject
 open class KSApp : Application(), SingletonImageLoader.Factory, Configuration.Provider {
 
     @Inject
-    lateinit var imageLoader: ImageLoader
+    lateinit var imageLoader: Lazy<ImageLoader>
 
     @Inject
     lateinit var feedSyncEngine: FeedSyncEngine
@@ -41,7 +42,7 @@ open class KSApp : Application(), SingletonImageLoader.Factory, Configuration.Pr
         workScheduler.schedule()
     }
 
-    override fun newImageLoader(context: PlatformContext): ImageLoader = imageLoader
+    override fun newImageLoader(context: PlatformContext): ImageLoader = imageLoader.get()
 
     override val workManagerConfiguration: Configuration
         get() = Configuration.Builder()

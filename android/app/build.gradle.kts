@@ -258,6 +258,9 @@ dependencies {
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
 
+    // OkHttp
+    implementation(libs.okhttp)
+
     // Image loading
     implementation(libs.coil.svg)
     implementation(libs.coil.network)
