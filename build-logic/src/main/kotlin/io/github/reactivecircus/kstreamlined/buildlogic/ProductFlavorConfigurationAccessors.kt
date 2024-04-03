@@ -38,12 +38,3 @@ fun DependencyHandler.demoImplementation(dependencyNotation: Any): Dependency? =
  */
 fun DependencyHandler.prodImplementation(dependencyNotation: Any): Dependency? =
     add("prodImplementation", dependencyNotation)
-
-/**
- * Adds a dependency to the 'benchmarkImplementation' configuration.
- *
- * @param dependencyNotation notation for the dependency to be added.
- * @return The dependency.
- */
-fun DependencyHandler.benchmarkImplementation(dependencyNotation: Any): Dependency? =
-    add("benchmarkImplementation", dependencyNotation)

@@ -89,6 +89,7 @@ val isXCFrameworkBuild = startParameter.taskNames.any { it.endsWith("XCFramework
 if (!isXCFrameworkBuild) {
     // Android
     includeProject(":app", "android/app")
+    includeProject(":benchmark", "android/benchmark")
     includeProject(":feature:common", "android/feature/common")
     includeProject(":feature:content-viewer", "android/feature/content-viewer")
     includeProject(":feature:home", "android/feature/home")

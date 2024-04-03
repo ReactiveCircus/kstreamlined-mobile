@@ -1,12 +1,12 @@
 package io.github.reactivecircus.kstreamlined.buildlogic
 
 object FlavorDimensions {
-    const val ENVIRONMENT = "environment"
+    const val Environment = "environment"
 }
 
 object ProductFlavors {
-    const val MOCK = "mock"
-    const val DEV = "dev"
-    const val DEMO = "demo"
-    const val PROD = "prod"
+    const val Mock = "mock"
+    const val Dev = "dev"
+    const val Demo = "demo"
+    const val Prod = "prod"
 }
