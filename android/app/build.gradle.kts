@@ -4,7 +4,6 @@ import io.github.reactivecircus.kstreamlined.buildlogic.FlavorDimensions
 import io.github.reactivecircus.kstreamlined.buildlogic.ProductFlavors
 import io.github.reactivecircus.kstreamlined.buildlogic.addBuildConfigField
 import io.github.reactivecircus.kstreamlined.buildlogic.addResValue
-import io.github.reactivecircus.kstreamlined.buildlogic.benchmarkImplementation
 import io.github.reactivecircus.kstreamlined.buildlogic.demoImplementation
 import io.github.reactivecircus.kstreamlined.buildlogic.devImplementation
 import io.github.reactivecircus.kstreamlined.buildlogic.envOrProp
@@ -24,6 +23,7 @@ plugins {
     id("com.google.firebase.appdistribution")
     id("io.github.reactivecircus.app-versioning")
     id("com.github.triplet.play")
+    id("androidx.baselineprofile")
 }
 
 // only apply google-services plugin if google-services.json exists
@@ -57,6 +57,10 @@ play {
     enabled.set(false) // only enable publishing for prodRelease variant in `playConfigs` block
     serviceAccountCredentials.set(rootProject.file("android/secrets/play-publishing.json"))
     defaultToAppBundles.set(true)
+}
+
+baselineProfile {
+    mergeIntoMain = true
 }
 
 android {
@@ -114,27 +118,16 @@ android {
                 mappingFileUploadEnabled = isCiBuild
             }
         }
-        val benchmark by creating {
-            initWith(release)
-            proguardFiles("benchmark-rules.pro")
-            signingConfig = signingConfigs.getByName("debug")
-
-            // do not upload mapping file for benchmark builds
-            (this as ExtensionAware).extensions.configure<CrashlyticsExtension> {
-                mappingFileUploadEnabled = false
-            }
-        }
     }
 
-    flavorDimensions.add(FlavorDimensions.ENVIRONMENT)
-
+    flavorDimensions.add(FlavorDimensions.Environment)
     productFlavors {
-        register(ProductFlavors.MOCK) {
-            applicationIdSuffix = ".${ProductFlavors.MOCK}"
+        register(ProductFlavors.Mock) {
+            applicationIdSuffix = ".${ProductFlavors.Mock}"
         }
-        register(ProductFlavors.DEV) {
+        register(ProductFlavors.Dev) {
             isDefault = true
-            applicationIdSuffix = ".${ProductFlavors.DEV}"
+            applicationIdSuffix = ".${ProductFlavors.Dev}"
 
             // distribute dev flavor for QA
             firebaseAppDistribution {
@@ -142,24 +135,24 @@ android {
                 serviceCredentialsFile = rootProject.file("secrets/firebase-key.json").absolutePath
             }
         }
-        register(ProductFlavors.DEMO) {
-            applicationIdSuffix = ".${ProductFlavors.DEMO}"
+        register(ProductFlavors.Demo) {
+            applicationIdSuffix = ".${ProductFlavors.Demo}"
         }
-        register(ProductFlavors.PROD) {}
+        register(ProductFlavors.Prod) {}
     }
 
     sourceSets {
         // common source set for dev and prod
-        named(ProductFlavors.DEV) {
+        named(ProductFlavors.Dev) {
             java.srcDir("src/devAndProd/java")
         }
-        named(ProductFlavors.PROD) {
+        named(ProductFlavors.Prod) {
             java.srcDir("src/devAndProd/java")
         }
     }
 
     playConfigs {
-        register(ProductFlavors.PROD) {
+        register(ProductFlavors.Prod) {
             enabled.set(true)
         }
     }
@@ -167,10 +160,17 @@ android {
 
 androidComponents {
     beforeVariants {
-        // disable devRelease, demoRelease, mockRelease, prodDebug, demoBenchmark, mockBenchmark, prodBenchmark build variants
-        it.enable = it.flavorName == ProductFlavors.PROD && it.buildType == "release"
-            || it.flavorName != ProductFlavors.PROD && it.buildType == "debug"
-            || it.flavorName == ProductFlavors.DEV && it.buildType == "benchmark"
+        it.enable = it.name in listOf(
+            "devDebug",
+            "demoDebug",
+            "mockDebug",
+            "prodRelease",
+            "devNonMinifiedRelease",
+            "devBenchmarkRelease",
+            "demoBenchmarkRelease",
+            "mockBenchmarkRelease",
+            "prodBenchmarkRelease",
+        )
     }
 
     onVariants {
@@ -192,29 +192,24 @@ androidComponents {
         } else {
             // set app_name for release build
             it.addResValue(key = "app_name", type = "string", value = "KStreamlined")
-
-            // concatenate build type to app name for benchmark builds
-            if (it.buildType == "benchmark") {
-                it.addResValue(key = "app_name", type = "string", value = "KStreamlined-${it.buildType}")
-            }
         }
 
         when (it.flavorName) {
-            ProductFlavors.PROD -> {
+            ProductFlavors.Prod -> {
                 it.addBuildConfigField(key = "ENABLE_ANALYTICS", value = googleServicesJsonExists)
                 it.addBuildConfigField(key = "ENABLE_CRASH_REPORTING", value = googleServicesJsonExists)
                 it.addBuildConfigField(key = "API_ENDPOINT", value = "\"${envOrProp("KSTREAMLINED_API_ENDPOINT").get()}\"")
             }
-            ProductFlavors.DEV -> {
+            ProductFlavors.Dev -> {
                 it.addBuildConfigField(key = "ENABLE_ANALYTICS", value = googleServicesJsonExists)
                 it.addBuildConfigField(key = "ENABLE_CRASH_REPORTING", value = googleServicesJsonExists)
                 it.addBuildConfigField(key = "API_ENDPOINT", value = "\"${envOrProp("KSTREAMLINED_API_ENDPOINT").get()}\"")
             }
-            ProductFlavors.DEMO -> {
+            ProductFlavors.Demo -> {
                 it.addBuildConfigField(key = "ENABLE_ANALYTICS", value = false)
                 it.addBuildConfigField(key = "ENABLE_CRASH_REPORTING", value = false)
             }
-            ProductFlavors.MOCK -> {
+            ProductFlavors.Mock -> {
                 it.addBuildConfigField(key = "ENABLE_ANALYTICS", value = false)
                 it.addBuildConfigField(key = "ENABLE_CRASH_REPORTING", value = false)
             }
@@ -242,9 +237,10 @@ dependencies {
 
     implementation(project(":foundation:scheduled-work"))
 
+    baselineProfile(project(":benchmark"))
+
     // Firebase
     releaseImplementation(libs.firebase.perf)
-    benchmarkImplementation(libs.firebase.perf)
     implementation(libs.firebase.crashlytics)
 
     // AndroidX

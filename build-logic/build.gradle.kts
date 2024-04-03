@@ -73,6 +73,7 @@ dependencies {
     implementation(libs.plugin.fladle)
     implementation(libs.plugin.nativeCoroutines)
     implementation(libs.plugin.sqldelight)
+    implementation(libs.plugin.baselineprofile)
 }
 
 gradlePlugin {

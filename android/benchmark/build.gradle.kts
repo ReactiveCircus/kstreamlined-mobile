@@ -1,0 +1,53 @@
+@file:Suppress("UnstableApiUsage")
+
+import com.android.build.api.dsl.ManagedVirtualDevice
+
+plugins {
+    id("kstreamlined.android.test")
+    id("androidx.baselineprofile")
+}
+
+android {
+    namespace = "io.github.reactivecircus.benchmark"
+
+    defaultConfig {
+        minSdk = 28
+        testApplicationId = "io.github.reactivecircus.kstreamlined.android.benchmark"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    targetProjectPath = ":app"
+    experimentalProperties["android.experimental.self-instrumenting"] = true
+
+    testOptions.managedDevices.devices {
+        create<ManagedVirtualDevice>("pixel6Api34") {
+            device = "Pixel 6"
+            apiLevel = 34
+            systemImageSource = "aosp"
+        }
+    }
+}
+
+baselineProfile {
+    managedDevices += "pixel6Api34"
+    useConnectedDevices = false
+}
+
+androidComponents {
+    onVariants { variant ->
+        val artifactsLoader = variant.artifacts.getBuiltArtifactsLoader()
+        variant.instrumentationRunnerArguments.put(
+            "targetAppId",
+            variant.testedApks.map { artifactsLoader.load(it)!!.applicationId }
+        )
+    }
+}
+
+dependencies {
+    implementation(libs.androidx.test.junit)
+    implementation(libs.androidx.test.espresso.core)
+    implementation(libs.androidx.test.uiautomator)
+    implementation(libs.androidx.benchmark.macroJunit)
+    implementation(libs.androidx.tracing.perfetto)
+    implementation(libs.androidx.tracing.perfetto.binary)
+}

@@ -52,13 +52,13 @@ internal fun Project.configureSlimTests() {
             beforeVariants(selector().withBuildType("benchmark")) {
                 (it as HasUnitTestBuilder).enableUnitTest = false
             }
-            beforeVariants(selector().withFlavor(FlavorDimensions.ENVIRONMENT to ProductFlavors.DEMO)) {
+            beforeVariants(selector().withFlavor(FlavorDimensions.Environment to ProductFlavors.Demo)) {
                 (it as HasUnitTestBuilder).enableUnitTest = false
             }
-            beforeVariants(selector().withFlavor(FlavorDimensions.ENVIRONMENT to ProductFlavors.MOCK)) {
+            beforeVariants(selector().withFlavor(FlavorDimensions.Environment to ProductFlavors.Mock)) {
                 (it as HasUnitTestBuilder).enableUnitTest = false
             }
-            beforeVariants(selector().withFlavor(FlavorDimensions.ENVIRONMENT to ProductFlavors.PROD)) {
+            beforeVariants(selector().withFlavor(FlavorDimensions.Environment to ProductFlavors.Prod)) {
                 (it as HasUnitTestBuilder).enableUnitTest = false
             }
         }
