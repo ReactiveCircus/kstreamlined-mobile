@@ -43,7 +43,7 @@ fun MainScreen(
         HorizontalPager(
             state = pagerState,
             modifier = Modifier.fillMaxSize(),
-            outOfBoundsPageCount = NavItemKey.entries.size,
+            beyondViewportPageCount = NavItemKey.entries.size,
             userScrollEnabled = false,
         ) {
             when (it) {
