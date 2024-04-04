@@ -135,7 +135,7 @@ private fun ContentUi(
                         item = item.toDisplayable(displayablePublishTime),
                         onItemClick = onItemClick,
                         onSaveButtonClick = onSaveButtonClick,
-                        modifier = Modifier.animateItemPlacement(),
+                        modifier = Modifier.animateItem(),
                     )
                 }
 
@@ -144,7 +144,7 @@ private fun ContentUi(
                         item = item.toDisplayable(displayablePublishTime),
                         onItemClick = onItemClick,
                         onSaveButtonClick = onSaveButtonClick,
-                        modifier = Modifier.animateItemPlacement(),
+                        modifier = Modifier.animateItem(),
                     )
                 }
 
@@ -153,7 +153,7 @@ private fun ContentUi(
                         item = item.toDisplayable(displayablePublishTime),
                         onItemClick = onItemClick,
                         onSaveButtonClick = onSaveButtonClick,
-                        modifier = Modifier.animateItemPlacement(),
+                        modifier = Modifier.animateItem(),
                     )
                 }
 
@@ -162,7 +162,7 @@ private fun ContentUi(
                         item = item.toDisplayable(displayablePublishTime),
                         onItemClick = onItemClick,
                         onSaveButtonClick = onSaveButtonClick,
-                        modifier = Modifier.animateItemPlacement(),
+                        modifier = Modifier.animateItem(),
                     )
                 }
             }
