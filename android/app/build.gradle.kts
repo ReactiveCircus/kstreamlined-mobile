@@ -167,8 +167,6 @@ androidComponents {
             "prodRelease",
             "devNonMinifiedRelease",
             "devBenchmarkRelease",
-            "demoBenchmarkRelease",
-            "mockBenchmarkRelease",
             "prodBenchmarkRelease",
         )
     }
