@@ -1,6 +1,8 @@
 @file:Suppress("UnstableApiUsage")
 
 import com.android.build.api.dsl.ManagedVirtualDevice
+import io.github.reactivecircus.kstreamlined.buildlogic.FlavorDimensions
+import io.github.reactivecircus.kstreamlined.buildlogic.ProductFlavors
 
 plugins {
     id("kstreamlined.android.test")
@@ -14,6 +16,7 @@ android {
         minSdk = 28
         testApplicationId = "io.github.reactivecircus.kstreamlined.android.benchmark"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        missingDimensionStrategy(FlavorDimensions.Environment, ProductFlavors.Dev)
     }
 
     targetProjectPath = ":app"
