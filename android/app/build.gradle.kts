@@ -123,10 +123,12 @@ android {
     flavorDimensions.add(FlavorDimensions.Environment)
     productFlavors {
         register(ProductFlavors.Mock) {
+            dimension = FlavorDimensions.Environment
             applicationIdSuffix = ".${ProductFlavors.Mock}"
         }
         register(ProductFlavors.Dev) {
             isDefault = true
+            dimension = FlavorDimensions.Environment
             applicationIdSuffix = ".${ProductFlavors.Dev}"
 
             // distribute dev flavor for QA
@@ -136,9 +138,12 @@ android {
             }
         }
         register(ProductFlavors.Demo) {
+            dimension = FlavorDimensions.Environment
             applicationIdSuffix = ".${ProductFlavors.Demo}"
         }
-        register(ProductFlavors.Prod) {}
+        register(ProductFlavors.Prod) {
+            dimension = FlavorDimensions.Environment
+        }
     }
 
     sourceSets {

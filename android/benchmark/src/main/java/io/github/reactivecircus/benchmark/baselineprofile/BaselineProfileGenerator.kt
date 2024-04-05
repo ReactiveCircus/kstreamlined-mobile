@@ -19,7 +19,8 @@ class BaselineProfileGenerator {
     fun generate() {
         rule.collect(
             packageName = PackageName,
-            includeInStartupProfile = true
+            includeInStartupProfile = true,
+            strictStability = true,
         ) {
             pressHome()
             startActivityAndWait()
