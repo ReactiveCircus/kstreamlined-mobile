@@ -14,7 +14,6 @@ android {
 
     defaultConfig {
         minSdk = 28
-        testApplicationId = "io.github.reactivecircus.kstreamlined.android.benchmark"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         missingDimensionStrategy(FlavorDimensions.Environment, ProductFlavors.Dev)
     }
@@ -47,8 +46,9 @@ androidComponents {
 }
 
 dependencies {
+    implementation(libs.androidx.test.runner)
+    implementation(libs.androidx.test.rules)
     implementation(libs.androidx.test.junit)
-    implementation(libs.androidx.test.espresso.core)
     implementation(libs.androidx.test.uiautomator)
     implementation(libs.androidx.benchmark.macroJunit)
     implementation(libs.androidx.tracing.perfetto)
