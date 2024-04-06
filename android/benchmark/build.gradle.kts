@@ -13,9 +13,10 @@ android {
     namespace = "io.github.reactivecircus.benchmark"
 
     defaultConfig {
+        missingDimensionStrategy(FlavorDimensions.Environment, ProductFlavors.Dev)
         minSdk = 28
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        missingDimensionStrategy(FlavorDimensions.Environment, ProductFlavors.Dev)
+        testInstrumentationRunnerArguments["androidx.benchmark.perfettoSdkTracing.enable"] = "true"
     }
 
     targetProjectPath = ":app"
