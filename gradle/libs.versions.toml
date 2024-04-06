@@ -49,7 +49,7 @@ androidx-test-uiautomator = "2.3.0"
 okhttp = "5.0.0-alpha.12"
 coil = "3.0.0-alpha06"
 kermit = "2.0.3"
-sqldelight = "2.0.1"
+sqldelight = "2.0.2"
 turbine = "1.1.0"
 crashKios = "0.8.5"
 
