@@ -19,7 +19,8 @@ class BaselineProfileGenerator {
     fun generate() {
         rule.collect(
             packageName = PackageName,
-            includeInStartupProfile = false, // TODO enable once https://issuetracker.google.com/issues/332982932 is fixed
+            // TODO enable once https://issuetracker.google.com/issues/332982932 is fixed
+            includeInStartupProfile = false,
             strictStability = true,
         ) {
             pressHome()
