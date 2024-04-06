@@ -61,6 +61,7 @@ play {
 
 baselineProfile {
     mergeIntoMain = true
+    baselineProfileOutputDir = "baselineProfiles"
 }
 
 android {
