@@ -95,7 +95,7 @@ android {
     }
 
     buildTypes {
-        val debug by getting {
+        debug {
             isDefault = true
             matchingFallbacks.add("release")
             signingConfig = signingConfigs.getByName("debug")
@@ -105,7 +105,7 @@ android {
                 setInstrumentationEnabled(false)
             }
         }
-        val release by getting {
+        release {
             matchingFallbacks.add("release")
             if (rootProject.file("android/secrets/kstreamlined.jks").exists()) {
                 signingConfig = signingConfigs.getByName("release")
