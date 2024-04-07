@@ -9,8 +9,6 @@ import io.github.reactivecircus.benchmark.waitForHomeFeedContent
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import kotlin.system.measureTimeMillis
-import kotlin.time.measureTimedValue
 
 @RunWith(AndroidJUnit4::class)
 @LargeTest

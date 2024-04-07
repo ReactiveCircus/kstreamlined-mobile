@@ -1,3 +1,5 @@
+@file:Suppress("MagicNumber")
+
 package io.github.reactivecircus.benchmark
 
 import android.graphics.Point
