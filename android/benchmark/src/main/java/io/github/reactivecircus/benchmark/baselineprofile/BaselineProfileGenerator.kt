@@ -4,9 +4,13 @@ import androidx.benchmark.macro.junit4.BaselineProfileRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import io.github.reactivecircus.benchmark.PackageName
+import io.github.reactivecircus.benchmark.homeFeedListScrollDown
+import io.github.reactivecircus.benchmark.waitForHomeFeedContent
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import kotlin.system.measureTimeMillis
+import kotlin.time.measureTimedValue
 
 @RunWith(AndroidJUnit4::class)
 @LargeTest
@@ -25,8 +29,8 @@ class BaselineProfileGenerator {
         ) {
             pressHome()
             startActivityAndWait()
-            // TODO wait until home feed content is displayed
-            // TODO scroll
+            waitForHomeFeedContent()
+            homeFeedListScrollDown()
         }
     }
 }

@@ -1,11 +1,11 @@
 package io.github.reactivecircus.kstreamlined.android.feature.home
 
+import androidx.activity.compose.ReportDrawnWhen
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -29,6 +29,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -71,6 +72,7 @@ public fun HomeScreen(
         uiState = uiState,
         modifier = modifier,
     )
+    ReportDrawnWhen { uiState !is HomeUiState.Loading }
 }
 
 @Composable
@@ -144,7 +146,6 @@ internal fun HomeScreen(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun ContentUi(
     items: List<HomeFeedItem>,
@@ -159,6 +160,7 @@ private fun ContentUi(
         contentAlignment = Alignment.TopCenter,
     ) {
         LazyColumn(
+            modifier = Modifier.testTag("home:feedList"),
             contentPadding = ListContentPadding,
             verticalArrangement = Arrangement.spacedBy(20.dp),
         ) {

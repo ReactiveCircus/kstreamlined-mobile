@@ -18,6 +18,9 @@ dependencies {
     implementation(project(":kmp:feed-sync:common"))
     implementation(project(":kmp:presentation:home"))
 
+    // AndroidX
+    implementation(libs.androidx.activity.compose)
+
     // Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)

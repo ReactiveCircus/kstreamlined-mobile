@@ -8,6 +8,7 @@ import androidx.benchmark.macro.junit4.MacrobenchmarkRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import io.github.reactivecircus.benchmark.PackageName
+import io.github.reactivecircus.benchmark.waitForHomeFeedContent
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -39,7 +40,7 @@ class StartupBenchmark {
             },
             measureBlock = {
                 startActivityAndWait()
-                // TODO wait until home feed content is displayed
+                waitForHomeFeedContent()
             }
         )
     }
