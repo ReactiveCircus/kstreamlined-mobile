@@ -16,3 +16,5 @@ To run startup benchmark:
 2. Run `./gradlew :benchmark:connectedBenchmarkReleaseAndroidTest --no-configuration-cache`
 3. Results are available at `android/benchmark/build/outputs/androidTest-results/connected/benchmarkRelease/`
 4. Run `Import Tests from file` from Android Studio and select `android/benchmark/build/outputs/androidTest-results/connected/benchmarkRelease/test-result.pb`
+
+Benchmark data and perfetto traces are available at `android/benchmark/build/outputs/connected_android_test_additional_output/benchmarkRelease/connected/<device-name>`.
