@@ -2,10 +2,9 @@ package io.github.reactivecircus.kstreamlined.android.di
 
 import android.content.Context
 import android.os.Build
+import androidx.tracing.trace
 import coil3.ImageLoader
-import coil3.annotation.ExperimentalCoilApi
 import coil3.network.okhttp.OkHttpNetworkFetcherFactory
-import coil3.network.okhttp.asNetworkClient
 import coil3.request.allowHardware
 import coil3.request.crossfade
 import dagger.Lazy
@@ -18,7 +17,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import okhttp3.Call
-import okhttp3.OkHttpClient
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
@@ -28,16 +26,10 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun okHttpCallFactory(): Call.Factory = OkHttpClient.Builder().build()
-
-    @OptIn(ExperimentalCoilApi::class)
-    @Provides
-    @Singleton
     fun imageLoader(
         @ApplicationContext context: Context,
         okHttpCallFactory: Lazy<Call.Factory>,
-    ): ImageLoader {
-        okHttpCallFactory().asNetworkClient()
+    ): ImageLoader = trace("CoilImageLoader") {
         OkHttpNetworkFetcherFactory()
         return ImageLoader.Builder(context)
             .components {
