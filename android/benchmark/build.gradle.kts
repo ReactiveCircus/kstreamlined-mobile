@@ -16,7 +16,6 @@ android {
         missingDimensionStrategy(FlavorDimensions.Environment, ProductFlavors.Dev)
         minSdk = 28
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        testInstrumentationRunnerArguments["androidx.benchmark.perfettoSdkTracing.enable"] = "true"
     }
 
     targetProjectPath = ":app"

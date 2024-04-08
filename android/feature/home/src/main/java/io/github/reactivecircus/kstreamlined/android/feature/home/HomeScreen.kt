@@ -35,6 +35,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.tracing.trace
 import coil3.compose.AsyncImage
 import io.github.reactivecircus.kstreamlined.android.feature.home.component.FeedFilterChip
 import io.github.reactivecircus.kstreamlined.android.feature.home.component.SyncButton
@@ -154,7 +155,7 @@ private fun ContentUi(
     onSaveButtonClick: (FeedItem) -> Unit,
     onDismissTransientError: () -> Unit,
     modifier: Modifier = Modifier,
-) {
+) = trace("FeedList") {
     Box(
         modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.TopCenter,

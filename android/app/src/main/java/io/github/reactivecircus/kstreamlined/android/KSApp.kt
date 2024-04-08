@@ -10,7 +10,6 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.Lazy
 import dagger.hilt.android.HiltAndroidApp
 import io.github.reactivecircus.kstreamlined.android.foundation.scheduledwork.WorkScheduler
-import io.github.reactivecircus.kstreamlined.kmp.feed.sync.FeedSyncEngine
 import javax.inject.Inject
 
 @HiltAndroidApp
@@ -18,9 +17,6 @@ open class KSApp : Application(), SingletonImageLoader.Factory, Configuration.Pr
 
     @Inject
     lateinit var imageLoader: Lazy<ImageLoader>
-
-    @Inject
-    lateinit var feedSyncEngine: FeedSyncEngine
 
     @Inject
     lateinit var workerFactory: HiltWorkerFactory

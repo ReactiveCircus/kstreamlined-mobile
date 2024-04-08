@@ -2,6 +2,7 @@ package io.github.reactivecircus.kstreamlined.android.foundation.scheduledwork.s
 
 import android.content.Context
 import androidx.hilt.work.HiltWorker
+import androidx.tracing.traceAsync
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
@@ -15,8 +16,8 @@ internal class SyncWorker @AssistedInject constructor(
     private val feedSyncEngine: FeedSyncEngine,
 ) : CoroutineWorker(appContext, workerParams) {
 
-    override suspend fun doWork(): Result {
+    override suspend fun doWork(): Result = traceAsync("ScheduledSync", 0) {
         feedSyncEngine.sync()
-        return Result.success()
+        Result.success()
     }
 }

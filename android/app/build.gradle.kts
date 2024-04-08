@@ -253,6 +253,7 @@ dependencies {
     implementation(libs.androidx.profileinstaller)
     implementation(libs.androidx.compose.runtime.tracing)
     implementation(libs.androidx.hilt.work)
+    implementation(libs.androidx.tracing)
 
     // Hilt
     implementation(libs.hilt.android)

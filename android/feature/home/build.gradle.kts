@@ -20,6 +20,7 @@ dependencies {
 
     // AndroidX
     implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.tracing)
 
     // Hilt
     implementation(libs.hilt.android)
