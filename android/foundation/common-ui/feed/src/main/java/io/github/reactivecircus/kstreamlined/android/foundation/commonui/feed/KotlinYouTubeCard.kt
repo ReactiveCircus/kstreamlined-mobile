@@ -18,9 +18,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import androidx.tracing.trace
 import coil3.compose.AsyncImage
 import io.github.reactivecircus.kstreamlined.android.foundation.composeutils.marqueeWithFadedEdges
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.Icon
@@ -42,7 +44,7 @@ public fun KotlinYouTubeCard(
     onItemClick: (FeedItem.KotlinYouTube) -> Unit,
     onSaveButtonClick: (FeedItem.KotlinYouTube) -> Unit,
     modifier: Modifier = Modifier,
-) {
+): Unit = trace("FeedItem:KotlinYouTubeCard") {
     Surface(
         onClick = { onItemClick(item.value) },
         modifier = modifier.fillMaxWidth(),
@@ -108,7 +110,7 @@ public fun KotlinYouTubeCard(
                         },
                         contentDescription = null,
                         onClick = { onSaveButtonClick(item.value) },
-                        modifier = Modifier,
+                        modifier = Modifier.testTag("saveButton"),
                     )
                 }
             }

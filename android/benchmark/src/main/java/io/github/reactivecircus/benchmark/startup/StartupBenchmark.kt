@@ -8,7 +8,7 @@ import androidx.benchmark.macro.junit4.MacrobenchmarkRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import io.github.reactivecircus.benchmark.PackageName
-import io.github.reactivecircus.benchmark.waitForHomeFeedContent
+import io.github.reactivecircus.benchmark.home.waitForHomeFeedContent
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -22,26 +22,24 @@ class StartupBenchmark {
 
     @Test
     fun startupCompilationNone() =
-        benchmark(CompilationMode.None())
+        startup(CompilationMode.None())
 
     @Test
     fun startupCompilationBaselineProfiles() =
-        benchmark(CompilationMode.Partial(BaselineProfileMode.Require))
+        startup(CompilationMode.Partial(BaselineProfileMode.Require))
 
-    private fun benchmark(compilationMode: CompilationMode) {
-        rule.measureRepeated(
-            packageName = PackageName,
-            metrics = listOf(StartupTimingMetric()),
-            compilationMode = compilationMode,
-            startupMode = StartupMode.COLD,
-            iterations = 10,
-            setupBlock = {
-                pressHome()
-            },
-            measureBlock = {
-                startActivityAndWait()
-                waitForHomeFeedContent()
-            }
-        )
-    }
+    private fun startup(compilationMode: CompilationMode) = rule.measureRepeated(
+        packageName = PackageName,
+        metrics = listOf(StartupTimingMetric()),
+        compilationMode = compilationMode,
+        startupMode = StartupMode.COLD,
+        iterations = 10,
+        setupBlock = {
+            pressHome()
+        },
+        measureBlock = {
+            startActivityAndWait()
+            waitForHomeFeedContent()
+        }
+    )
 }

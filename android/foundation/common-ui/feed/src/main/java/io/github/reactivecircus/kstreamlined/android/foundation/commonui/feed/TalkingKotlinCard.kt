@@ -24,11 +24,13 @@ import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.tracing.trace
 import coil3.compose.AsyncImage
 import io.github.reactivecircus.kstreamlined.android.foundation.composeutils.marqueeWithFadedEdges
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.IconButton
@@ -49,7 +51,7 @@ public fun TalkingKotlinCard(
     onItemClick: (FeedItem.TalkingKotlin) -> Unit,
     onSaveButtonClick: (FeedItem.TalkingKotlin) -> Unit,
     modifier: Modifier = Modifier,
-) {
+): Unit = trace("FeedItem:TalkingKotlinCard") {
     val brush = Brush.horizontalGradient(
         colors = listOf(
             KSTheme.colorScheme.tertiary,
@@ -153,7 +155,7 @@ public fun TalkingKotlinCard(
                     },
                     contentDescription = null,
                     onClick = { onSaveButtonClick(item.value) },
-                    modifier = Modifier,
+                    modifier = Modifier.testTag("saveButton"),
                 )
             }
         }
