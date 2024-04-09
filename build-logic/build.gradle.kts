@@ -58,6 +58,7 @@ dependencies {
     add("detektPlugins", libs.plugin.detektFormatting)
 
     implementation(libs.plugin.kotlin)
+    implementation(libs.plugin.compose)
     implementation(libs.plugin.ksp)
     implementation(libs.plugin.detekt)
     implementation(libs.plugin.agp)
@@ -86,21 +87,17 @@ gradlePlugin {
             id = "kstreamlined.android.application"
             implementationClass = "io.github.reactivecircus.kstreamlined.buildlogic.convention.AndroidApplicationConventionPlugin"
         }
-        register("androidApplicationCompose") {
-            id = "kstreamlined.android.application.compose"
-            implementationClass = "io.github.reactivecircus.kstreamlined.buildlogic.convention.AndroidApplicationComposeConventionPlugin"
-        }
         register("androidLibrary") {
             id = "kstreamlined.android.library"
             implementationClass = "io.github.reactivecircus.kstreamlined.buildlogic.convention.AndroidLibraryConventionPlugin"
         }
-        register("androidLibraryCompose") {
-            id = "kstreamlined.android.library.compose"
-            implementationClass = "io.github.reactivecircus.kstreamlined.buildlogic.convention.AndroidLibraryComposeConventionPlugin"
-        }
         register("androidTest") {
             id = "kstreamlined.android.test"
             implementationClass = "io.github.reactivecircus.kstreamlined.buildlogic.convention.AndroidTestConventionPlugin"
+        }
+        register("compose") {
+            id = "kstreamlined.android.compose"
+            implementationClass = "io.github.reactivecircus.kstreamlined.buildlogic.convention.ComposeConventionPlugin"
         }
         register("kmpCommon") {
             id = "kstreamlined.kmp.common"
