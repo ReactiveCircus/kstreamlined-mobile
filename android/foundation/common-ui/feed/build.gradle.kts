@@ -15,6 +15,7 @@ dependencies {
     // AndroidX
     implementation(libs.androidx.compose.foundation)
     implementation(libs.androidx.compose.ui.tooling)
+    implementation(libs.androidx.tracing)
 
     // Image loading
     implementation(libs.coil.compose)

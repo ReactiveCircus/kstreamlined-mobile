@@ -12,9 +12,11 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import androidx.tracing.trace
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.IconButton
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.Surface
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.Text
@@ -33,7 +35,7 @@ public fun KotlinWeeklyCard(
     onItemClick: (FeedItem.KotlinWeekly) -> Unit,
     onSaveButtonClick: (FeedItem.KotlinWeekly) -> Unit,
     modifier: Modifier = Modifier,
-) {
+): Unit = trace("FeedItem:KotlinWeeklyCard") {
     val brush = Brush.horizontalGradient(
         colors = listOf(
             KSTheme.colorScheme.primaryDark,
@@ -83,7 +85,9 @@ public fun KotlinWeeklyCard(
                 },
                 contentDescription = null,
                 onClick = { onSaveButtonClick(item.value) },
-                modifier = Modifier.padding(end = 8.dp),
+                modifier = Modifier
+                    .padding(end = 8.dp)
+                    .testTag("saveButton"),
             )
         }
     }

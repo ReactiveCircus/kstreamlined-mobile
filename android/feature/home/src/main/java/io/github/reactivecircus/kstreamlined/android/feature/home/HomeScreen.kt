@@ -182,12 +182,14 @@ private fun ContentUi(
             ) {
                 when (it) {
                     is HomeFeedItem.SectionHeader -> {
-                        Text(
-                            text = it.title,
-                            style = KSTheme.typography.titleMedium,
-                            color = KSTheme.colorScheme.onBackgroundVariant,
-                            modifier = Modifier.animateItem(),
-                        )
+                        trace("SectionHeader") {
+                            Text(
+                                text = it.title,
+                                style = KSTheme.typography.titleMedium,
+                                color = KSTheme.colorScheme.onBackgroundVariant,
+                                modifier = Modifier.animateItem(),
+                            )
+                        }
                     }
 
                     is HomeFeedItem.Item -> {
