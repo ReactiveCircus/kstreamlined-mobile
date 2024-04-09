@@ -1,3 +1,5 @@
+@file:Suppress("MaxLineLength")
+
 package io.github.reactivecircus.kstreamlined.buildlogic
 
 import com.android.build.api.dsl.CommonExtension
@@ -9,7 +11,6 @@ import com.android.build.gradle.TestedExtension
 import org.gradle.accessors.dm.LibrariesForLibs
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
-import org.gradle.api.file.DirectoryProperty
 import org.gradle.kotlin.dsl.the
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -50,16 +51,6 @@ internal fun TestedExtension.configureCommonAndroidOptions(project: Project) {
 
     with(project) {
         dependencies.add("coreLibraryDesugaring", the<LibrariesForLibs>().desugarJdkLibs)
-    }
-
-    project.tasks.withType<KotlinCompile>().configureEach {
-        with(compilerOptions.freeCompilerArgs) {
-            addAll(composeCompilerStrongSkippingArgs)
-            if (project.providers.gradleProperty("enableComposeCompilerReports").orNull == "true") {
-                addAll(composeCompilerMetricsArgs(project.layout.buildDirectory).get())
-                addAll(composeCompilerReportsArgs(project.layout.buildDirectory).get())
-            }
-        }
     }
 }
 
@@ -123,23 +114,36 @@ internal fun Project.configureCompose(
         buildFeatures.compose = true
         composeOptions.kotlinCompilerExtensionVersion = the<LibrariesForLibs>().versions.androidx.compose.compiler.get()
     }
-}
 
-private fun composeCompilerMetricsArgs(buildDir: DirectoryProperty) = buildDir.dir("compose_metrics").map {
-    listOf(
-        "-P",
-        "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=$it"
-    )
-}
+    tasks.withType<KotlinCompile>().configureEach {
+        with(compilerOptions.freeCompilerArgs) {
+            // strong skipping mode
+            addAll(
+                "-P",
+                "plugin:androidx.compose.compiler.plugins.kotlin:experimentalStrongSkipping=true"
+            )
 
-private fun composeCompilerReportsArgs(buildDir: DirectoryProperty) = buildDir.dir("compose_metrics").map {
-    listOf(
-        "-P",
-        "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=$it"
-    )
-}
+            // stability configuration
+            val stabilityConfigFile = layout.projectDirectory.file("compose_stability_config.conf").asFile
+            if (stabilityConfigFile.exists()) {
+                addAll(
+                    "-P",
+                    "plugin:androidx.compose.compiler.plugins.kotlin:stabilityConfigurationPath=${stabilityConfigFile.absolutePath}"
+                )
+            }
 
-private val composeCompilerStrongSkippingArgs = listOf(
-    "-P",
-    "plugin:androidx.compose.compiler.plugins.kotlin:experimentalStrongSkipping=true"
-)
+            // compiler metrics and reports
+            if (providers.gradleProperty("composeCompilerReports").orNull == "true") {
+                val composeMetricsDir = layout.buildDirectory.dir("compose_metrics").get()
+                addAll(
+                    "-P",
+                    "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=$composeMetricsDir",
+                )
+                addAll(
+                    "-P",
+                    "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=$composeMetricsDir",
+                )
+            }
+        }
+    }
+}
