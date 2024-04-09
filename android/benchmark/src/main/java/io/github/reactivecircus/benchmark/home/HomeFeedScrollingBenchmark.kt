@@ -34,7 +34,7 @@ class HomeFeedScrollingBenchmark {
         packageName = PackageName,
         metrics = listOf(
             FrameTimingMetric(),
-            TraceSectionMetric("FeedItem:%Card", mode = TraceSectionMetric.Mode.Max),
+            TraceSectionMetric("FeedItem:%Card", mode = TraceSectionMetric.Mode.Sum),
         ),
         compilationMode = compilationMode,
         startupMode = StartupMode.WARM,
