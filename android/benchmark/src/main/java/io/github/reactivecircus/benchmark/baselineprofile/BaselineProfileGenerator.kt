@@ -22,6 +22,7 @@ class BaselineProfileGenerator {
         packageName = PackageName,
         // TODO enable once https://issuetracker.google.com/issues/332982932 is fixed
         includeInStartupProfile = false,
+        strictStability = true,
     ) {
         pressHome()
         startActivityAndWait()
