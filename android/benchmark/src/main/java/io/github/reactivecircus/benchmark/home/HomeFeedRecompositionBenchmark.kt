@@ -21,6 +21,7 @@ class HomeFeedRecompositionBenchmark {
     @get:Rule
     val rule = MacrobenchmarkRule()
 
+    @Suppress("MagicNumber")
     @OptIn(ExperimentalMetricApi::class)
     @Test
     fun homeFeedStateChange() = rule.measureRepeated(
