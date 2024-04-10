@@ -12,6 +12,8 @@ internal class ComposeConventionPlugin : Plugin<Project> {
         pluginManager.apply("org.jetbrains.kotlin.plugin.compose")
         configure<ComposeCompilerGradlePluginExtension> {
             suppressKotlinVersionCompatibilityCheck.set(the<LibrariesForLibs>().versions.kotlin.get())
+            enableIntrinsicRemember.set(true)
+            enableNonSkippingGroupOptimization.set(true)
             enableExperimentalStrongSkippingMode.set(true)
             val stabilityConfigFile = layout.projectDirectory.file("compose_stability_config.conf").asFile
             if (stabilityConfigFile.exists()) {
