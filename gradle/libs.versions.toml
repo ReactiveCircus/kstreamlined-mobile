@@ -1,6 +1,6 @@
 [versions]
 kotlin = "2.0.0-RC1"
-ksp = "2.0.0-Beta5-1.0.20"
+ksp = "2.0.0-RC1-1.0.20"
 androidGradlePlugin = "8.5.0-alpha04"
 gradle-enterprisePlugin = "3.16.2"
 gradle-toolchainsResolverPlugin = "0.8.0"
