@@ -44,12 +44,6 @@ dependencyResolutionManagement {
             }
         }
         mavenCentral()
-        maven {
-            url = uri("https://androidx.dev/storage/compose-compiler/repository/")
-            content {
-                includeModule("androidx.compose.compiler", "compiler")
-            }
-        }
     }
 }
 
