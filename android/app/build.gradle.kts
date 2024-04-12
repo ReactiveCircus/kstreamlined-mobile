@@ -118,7 +118,8 @@ android {
 
             // only upload mapping file on CI
             (this as ExtensionAware).extensions.configure<CrashlyticsExtension> {
-                mappingFileUploadEnabled = isCiBuild
+//                mappingFileUploadEnabled = isCiBuild
+                mappingFileUploadEnabled = false // TODO revert once https://issuetracker.google.com/issues/333915766 is fixed
             }
         }
     }
