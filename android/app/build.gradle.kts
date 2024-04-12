@@ -31,7 +31,7 @@ val googleServicesJsonExists = fileTree("src").matching {
     include("**/google-services.json")
 }.isEmpty.not()
 if (googleServicesJsonExists) {
-    apply(plugin = "com.google.gms.google-services")
+//    apply(plugin = "com.google.gms.google-services")
 }
 
 // disable google services plugin for demo and mock flavors
