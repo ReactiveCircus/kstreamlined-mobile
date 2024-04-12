@@ -30,7 +30,7 @@ plugins {
 //val googleServicesJsonExists = fileTree("src").matching {
 //    include("**/google-services.json")
 //}.isEmpty.not()
-// TODO revert once sync time error is fixed in AS
+// TODO revert once https://issuetracker.google.com/issues/333915766 is fixed
 val googleServicesJsonExists = false
 if (googleServicesJsonExists) {
     apply(plugin = "com.google.gms.google-services")
