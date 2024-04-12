@@ -11,27 +11,20 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import io.github.reactivecircus.kstreamlined.android.BuildConfig
+import io.github.reactivecircus.kstreamlined.kmp.remote.CloudFeedService
+import io.github.reactivecircus.kstreamlined.kmp.remote.FeedService
 import io.github.reactivecircus.kstreamlined.kmp.remote.apollo.ApolloClientConfigs
 import okhttp3.Call
-import okhttp3.OkHttpClient
 import javax.inject.Singleton
-import kotlin.time.DurationUnit
-import kotlin.time.toDuration
-import kotlin.time.toJavaDuration
 
 @Module
 @InstallIn(SingletonComponent::class)
-object NetworkingModule {
+object CloudRemoteModule {
 
     @Provides
     @Singleton
-    fun okHttpCallFactory(): Call.Factory = trace("KSOkHttpClient") {
-        val callTimeout = BuildConfig.NETWORK_TIMEOUT_SECONDS
-            .toDuration(DurationUnit.SECONDS)
-            .toJavaDuration()
-        OkHttpClient.Builder()
-            .callTimeout(callTimeout)
-            .build()
+    fun feedService(apolloClient: ApolloClient): FeedService {
+        return CloudFeedService(apolloClient)
     }
 
     @Provides
