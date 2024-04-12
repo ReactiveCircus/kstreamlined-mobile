@@ -27,11 +27,13 @@ plugins {
 }
 
 // only apply google-services plugin if google-services.json exists
-val googleServicesJsonExists = fileTree("src").matching {
-    include("**/google-services.json")
-}.isEmpty.not()
+//val googleServicesJsonExists = fileTree("src").matching {
+//    include("**/google-services.json")
+//}.isEmpty.not()
+// TODO revert once sync time error is fixed in AS
+val googleServicesJsonExists = false
 if (googleServicesJsonExists) {
-//    apply(plugin = "com.google.gms.google-services")
+    apply(plugin = "com.google.gms.google-services")
 }
 
 // disable google services plugin for demo and mock flavors
