@@ -27,11 +27,9 @@ plugins {
 }
 
 // only apply google-services plugin if google-services.json exists
-//val googleServicesJsonExists = fileTree("src").matching {
-//    include("**/google-services.json")
-//}.isEmpty.not()
-// TODO revert once https://issuetracker.google.com/issues/333915766 is fixed
-val googleServicesJsonExists = false
+val googleServicesJsonExists = fileTree("src").matching {
+    include("**/google-services.json")
+}.isEmpty.not()
 if (googleServicesJsonExists) {
     apply(plugin = "com.google.gms.google-services")
 }
@@ -118,8 +116,7 @@ android {
 
             // only upload mapping file on CI
             (this as ExtensionAware).extensions.configure<CrashlyticsExtension> {
-//                mappingFileUploadEnabled = isCiBuild
-                mappingFileUploadEnabled = false // TODO revert once https://issuetracker.google.com/issues/333915766 is fixed
+                mappingFileUploadEnabled = isCiBuild
             }
         }
     }
