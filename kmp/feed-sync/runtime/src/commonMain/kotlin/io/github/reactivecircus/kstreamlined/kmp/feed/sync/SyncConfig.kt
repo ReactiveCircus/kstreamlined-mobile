@@ -4,7 +4,7 @@ import kotlin.time.Duration
 import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.hours
 
-internal data class SyncConfig(
+internal class SyncConfig(
     val feedSourcesCacheMaxAge: Duration,
     val feedItemsCacheMaxAge: Duration,
 ) {
