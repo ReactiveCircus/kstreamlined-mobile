@@ -5,9 +5,9 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.FeedDataSource
 import io.github.reactivecircus.kstreamlined.kmp.presentation.savedforlater.SavedForLaterPresenter
+import io.github.reactivecircus.kstreamlined.kmp.presentation.savedforlater.SavedForLaterUiEvent
 import io.github.reactivecircus.kstreamlined.kmp.presentation.savedforlater.SavedForLaterUiState
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -16,8 +16,5 @@ internal class SavedForLaterViewModel @Inject constructor(
 ) : ViewModel() {
     private val presenter = SavedForLaterPresenter(feedDataSource, viewModelScope)
     val uiState: StateFlow<SavedForLaterUiState> = presenter.uiState
-
-    fun removeSavedItem(id: String) = viewModelScope.launch {
-        presenter.removeSavedItem(id)
-    }
+    val eventSink: (SavedForLaterUiEvent) -> Unit = presenter.eventSink
 }

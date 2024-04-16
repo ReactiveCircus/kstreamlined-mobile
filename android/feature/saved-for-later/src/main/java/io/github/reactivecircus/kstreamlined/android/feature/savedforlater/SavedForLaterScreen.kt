@@ -41,6 +41,7 @@ import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.fou
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.DisplayableFeedItem
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.toDisplayable
+import io.github.reactivecircus.kstreamlined.kmp.presentation.savedforlater.SavedForLaterUiEvent
 import io.github.reactivecircus.kstreamlined.kmp.presentation.savedforlater.SavedForLaterUiState
 import io.github.reactivecircus.kstreamlined.android.feature.common.R as commonR
 
@@ -51,12 +52,11 @@ public fun SavedForLaterScreen(
 ) {
     val viewModel = viewModel<SavedForLaterViewModel>()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val eventSink = viewModel.eventSink
     SavedForLaterScreen(
         onViewItem = onViewItem,
-        onSaveButtonClick = { feedItem ->
-            viewModel.removeSavedItem(feedItem.id)
-        },
         uiState = uiState,
+        eventSink,
         modifier = modifier,
     )
 }
@@ -64,8 +64,8 @@ public fun SavedForLaterScreen(
 @Composable
 internal fun SavedForLaterScreen(
     onViewItem: (FeedItem) -> Unit,
-    onSaveButtonClick: (FeedItem) -> Unit,
     uiState: SavedForLaterUiState,
+    eventSink: (SavedForLaterUiEvent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -97,7 +97,7 @@ internal fun SavedForLaterScreen(
                         ContentUi(
                             items = uiState.feedItems,
                             onItemClick = onViewItem,
-                            onSaveButtonClick = onSaveButtonClick,
+                            eventSink = eventSink,
                         )
                     } else {
                         EmptyUi()
@@ -113,7 +113,7 @@ internal fun SavedForLaterScreen(
 private fun ContentUi(
     items: List<DisplayableFeedItem<FeedItem>>,
     onItemClick: (FeedItem) -> Unit,
-    onSaveButtonClick: (FeedItem) -> Unit,
+    eventSink: (SavedForLaterUiEvent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(
@@ -132,7 +132,7 @@ private fun ContentUi(
                     KotlinBlogCard(
                         item = item.toDisplayable(displayablePublishTime),
                         onItemClick = onItemClick,
-                        onSaveButtonClick = onSaveButtonClick,
+                        onSaveButtonClick = { eventSink(SavedForLaterUiEvent.RemoveSavedItem(item.id)) },
                         modifier = Modifier.animateItem(),
                     )
                 }
@@ -141,7 +141,7 @@ private fun ContentUi(
                     KotlinWeeklyCard(
                         item = item.toDisplayable(displayablePublishTime),
                         onItemClick = onItemClick,
-                        onSaveButtonClick = onSaveButtonClick,
+                        onSaveButtonClick = { eventSink(SavedForLaterUiEvent.RemoveSavedItem(item.id)) },
                         modifier = Modifier.animateItem(),
                     )
                 }
@@ -150,7 +150,7 @@ private fun ContentUi(
                     KotlinYouTubeCard(
                         item = item.toDisplayable(displayablePublishTime),
                         onItemClick = onItemClick,
-                        onSaveButtonClick = onSaveButtonClick,
+                        onSaveButtonClick = { eventSink(SavedForLaterUiEvent.RemoveSavedItem(item.id)) },
                         modifier = Modifier.animateItem(),
                     )
                 }
@@ -159,7 +159,7 @@ private fun ContentUi(
                     TalkingKotlinCard(
                         item = item.toDisplayable(displayablePublishTime),
                         onItemClick = onItemClick,
-                        onSaveButtonClick = onSaveButtonClick,
+                        onSaveButtonClick = { eventSink(SavedForLaterUiEvent.RemoveSavedItem(item.id)) },
                         modifier = Modifier.animateItem(),
                     )
                 }

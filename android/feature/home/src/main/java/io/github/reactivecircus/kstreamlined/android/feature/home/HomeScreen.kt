@@ -54,6 +54,7 @@ import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.fou
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.toDisplayable
 import io.github.reactivecircus.kstreamlined.kmp.presentation.home.HomeFeedItem
+import io.github.reactivecircus.kstreamlined.kmp.presentation.home.HomeUiEvent
 import io.github.reactivecircus.kstreamlined.kmp.presentation.home.HomeUiState
 import kotlinx.coroutines.delay
 import io.github.reactivecircus.kstreamlined.android.feature.common.R as commonR
@@ -65,12 +66,11 @@ public fun HomeScreen(
 ) {
     val viewModel = viewModel<HomeViewModel>()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val eventSink = viewModel.eventSink
     HomeScreen(
         onViewItem = onViewItem,
-        onSaveButtonClick = viewModel::toggleSavedForLater,
-        onRefresh = viewModel::refresh,
-        onDismissTransientError = viewModel::dismissTransientError,
         uiState = uiState,
+        eventSink = eventSink,
         modifier = modifier,
     )
     ReportDrawnWhen { uiState !is HomeUiState.Loading }
@@ -79,10 +79,8 @@ public fun HomeScreen(
 @Composable
 internal fun HomeScreen(
     onViewItem: (FeedItem) -> Unit,
-    onSaveButtonClick: (FeedItem) -> Unit,
-    onRefresh: () -> Unit,
-    onDismissTransientError: () -> Unit,
     uiState: HomeUiState,
+    eventSink: (HomeUiEvent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -110,7 +108,7 @@ internal fun HomeScreen(
                 SyncButton(
                     showSkeleton = uiState !is HomeUiState.Content,
                     syncing = (uiState is HomeUiState.Content && uiState.refreshing),
-                    onClick = onRefresh,
+                    onClick = { eventSink(HomeUiEvent.Refresh) },
                 )
             }
         )
@@ -129,7 +127,7 @@ internal fun HomeScreen(
                     }
 
                     is HomeUiState.Error -> {
-                        ErrorUi(onRetry = onRefresh)
+                        ErrorUi(onRetry = { eventSink(HomeUiEvent.Refresh) })
                     }
 
                     is HomeUiState.Content -> {
@@ -137,8 +135,7 @@ internal fun HomeScreen(
                             items = state.feedItems,
                             showTransientError = state.hasTransientError,
                             onItemClick = onViewItem,
-                            onSaveButtonClick = onSaveButtonClick,
-                            onDismissTransientError = onDismissTransientError,
+                            eventSink = eventSink,
                         )
                     }
                 }
@@ -152,8 +149,7 @@ private fun ContentUi(
     items: List<HomeFeedItem>,
     showTransientError: Boolean,
     onItemClick: (FeedItem) -> Unit,
-    onSaveButtonClick: (FeedItem) -> Unit,
-    onDismissTransientError: () -> Unit,
+    eventSink: (HomeUiEvent) -> Unit,
     modifier: Modifier = Modifier,
 ) = trace("FeedList") {
     Box(
@@ -199,7 +195,7 @@ private fun ContentUi(
                                 KotlinBlogCard(
                                     item = item.toDisplayable(displayablePublishTime),
                                     onItemClick = onItemClick,
-                                    onSaveButtonClick = onSaveButtonClick,
+                                    onSaveButtonClick = { eventSink(HomeUiEvent.ToggleSavedForLater(item)) },
                                     modifier = Modifier.animateItem(),
                                 )
                             }
@@ -208,7 +204,7 @@ private fun ContentUi(
                                 KotlinWeeklyCard(
                                     item = item.toDisplayable(displayablePublishTime),
                                     onItemClick = onItemClick,
-                                    onSaveButtonClick = onSaveButtonClick,
+                                    onSaveButtonClick = { eventSink(HomeUiEvent.ToggleSavedForLater(item)) },
                                     modifier = Modifier.animateItem(),
                                 )
                             }
@@ -217,7 +213,7 @@ private fun ContentUi(
                                 KotlinYouTubeCard(
                                     item = item.toDisplayable(displayablePublishTime),
                                     onItemClick = onItemClick,
-                                    onSaveButtonClick = onSaveButtonClick,
+                                    onSaveButtonClick = { eventSink(HomeUiEvent.ToggleSavedForLater(item)) },
                                     modifier = Modifier.animateItem(),
                                 )
                             }
@@ -226,7 +222,7 @@ private fun ContentUi(
                                 TalkingKotlinCard(
                                     item = item.toDisplayable(displayablePublishTime),
                                     onItemClick = onItemClick,
-                                    onSaveButtonClick = onSaveButtonClick,
+                                    onSaveButtonClick = { eventSink(HomeUiEvent.ToggleSavedForLater(item)) },
                                     modifier = Modifier.animateItem(),
                                 )
                             }
@@ -240,12 +236,12 @@ private fun ContentUi(
             enter = fadeIn(),
             exit = fadeOut(),
         ) {
-            TransientErrorBanner(onDismiss = onDismissTransientError)
+            TransientErrorBanner(onDismiss = { eventSink(HomeUiEvent.DismissTransientError) })
         }
         LaunchedEffect(showTransientError) {
             if (showTransientError) {
                 delay(TransientErrorDurationMillis)
-                onDismissTransientError()
+                eventSink(HomeUiEvent.DismissTransientError)
             }
         }
     }

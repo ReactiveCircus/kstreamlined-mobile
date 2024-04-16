@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 
 public class SavedForLaterPresenter(
     private val feedDataSource: FeedDataSource,
@@ -14,6 +15,8 @@ public class SavedForLaterPresenter(
 ) {
     private val _uiState = MutableStateFlow<SavedForLaterUiState>(SavedForLaterUiState.Loading)
     public val uiState: StateFlow<SavedForLaterUiState> = _uiState.asStateFlow()
+
+    public val eventSink: (SavedForLaterUiEvent) -> Unit = { scope.launch { processUiEvent(it) } }
 
     init {
         feedDataSource.streamSavedFeedItems()
@@ -23,7 +26,11 @@ public class SavedForLaterPresenter(
             .launchIn(scope)
     }
 
-    public suspend fun removeSavedItem(id: String) {
-        feedDataSource.removeSavedFeedItem(id)
+    private suspend fun processUiEvent(event: SavedForLaterUiEvent) {
+        when (event) {
+            is SavedForLaterUiEvent.RemoveSavedItem -> {
+                feedDataSource.removeSavedFeedItem(event.id)
+            }
+        }
     }
 }

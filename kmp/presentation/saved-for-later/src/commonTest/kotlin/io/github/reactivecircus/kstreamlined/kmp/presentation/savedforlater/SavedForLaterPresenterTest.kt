@@ -99,7 +99,7 @@ class SavedForLaterPresenterTest {
                     awaitItem(),
                 )
 
-                savedForLaterPresenter.removeSavedItem(item.id)
+                savedForLaterPresenter.eventSink(SavedForLaterUiEvent.RemoveSavedItem(dummyFeedItem.id))
 
                 assertEquals(SavedForLaterUiState.Content(emptyList()), awaitItem())
             }

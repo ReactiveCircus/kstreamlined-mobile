@@ -3,7 +3,6 @@ package io.github.reactivecircus.kstreamlined.kmp.presentation.home
 import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.FeedDataSource
 import io.github.reactivecircus.kstreamlined.kmp.feed.sync.FeedSyncEngine
 import io.github.reactivecircus.kstreamlined.kmp.feed.sync.SyncState
-import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -11,6 +10,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 public class HomePresenter(
     private val feedSyncEngine: FeedSyncEngine,
@@ -19,6 +19,8 @@ public class HomePresenter(
 ) {
     private val _uiState = MutableStateFlow<HomeUiState>(HomeUiState.Loading)
     public val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
+
+    public val eventSink: (HomeUiEvent) -> Unit = { scope.launch { processUiEvent(it) } }
 
     init {
         combineWithMetadata(
@@ -40,6 +42,7 @@ public class HomePresenter(
                         HomeUiState.Loading
                     }
                 }
+
                 is SyncState.Idle -> {
                     if (hasContent) {
                         HomeUiState.Content(
@@ -52,6 +55,7 @@ public class HomePresenter(
                         HomeUiState.Loading
                     }
                 }
+
                 is SyncState.OutOfSync -> {
                     if (hasContent) {
                         /**
@@ -80,24 +84,28 @@ public class HomePresenter(
         }.launchIn(scope)
     }
 
-    public suspend fun refresh() {
-        feedSyncEngine.sync(forceRefresh = true)
-    }
+    private suspend fun processUiEvent(event: HomeUiEvent) {
+        when (event) {
+            is HomeUiEvent.ToggleSavedForLater -> {
+                if (!event.item.savedForLater) {
+                    feedDataSource.addSavedFeedItem(event.item.id)
+                } else {
+                    feedDataSource.removeSavedFeedItem(event.item.id)
+                }
+            }
 
-    public suspend fun toggleSavedForLater(feedItem: FeedItem) {
-        if (!feedItem.savedForLater) {
-            feedDataSource.addSavedFeedItem(feedItem.id)
-        } else {
-            feedDataSource.removeSavedFeedItem(feedItem.id)
-        }
-    }
+            HomeUiEvent.Refresh -> {
+                feedSyncEngine.sync(forceRefresh = true)
+            }
 
-    public fun dismissTransientError() {
-        _uiState.update {
-            if (it is HomeUiState.Content) {
-                it.copy(hasTransientError = false)
-            } else {
-                it
+            HomeUiEvent.DismissTransientError -> {
+                _uiState.update {
+                    if (it is HomeUiState.Content) {
+                        it.copy(hasTransientError = false)
+                    } else {
+                        it
+                    }
+                }
             }
         }
     }

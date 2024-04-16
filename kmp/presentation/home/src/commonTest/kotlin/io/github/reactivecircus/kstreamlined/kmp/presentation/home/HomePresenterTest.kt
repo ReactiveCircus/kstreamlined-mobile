@@ -236,7 +236,7 @@ class HomePresenterTest {
 
     @Test
     fun `sends sync request to sync engine when refresh is called`() = testScope.runTest {
-        homePresenter.refresh()
+        homePresenter.eventSink(HomeUiEvent.Refresh)
 
         assertEquals(
             FakeFeedSyncEngine.RecordedSync(forceRefresh = true),
@@ -274,7 +274,7 @@ class HomePresenterTest {
                     )
                 }
 
-                homePresenter.toggleSavedForLater(feedItem)
+                homePresenter.eventSink(HomeUiEvent.ToggleSavedForLater(feedItem))
 
                 assertContentState(
                     state = awaitItem(),
@@ -284,7 +284,9 @@ class HomePresenterTest {
                         .toHomeFeedItems(fixedClock, timeZone),
                 )
 
-                homePresenter.toggleSavedForLater(feedItem.copy(savedForLater = true))
+                homePresenter.eventSink(
+                    HomeUiEvent.ToggleSavedForLater(feedItem.copy(savedForLater = true))
+                )
 
                 assertContentState(
                     state = awaitItem(),
@@ -315,7 +317,7 @@ class HomePresenterTest {
                     hasTransientError = true,
                 )
 
-                homePresenter.dismissTransientError()
+                homePresenter.eventSink(HomeUiEvent.DismissTransientError)
 
                 assertContentState(
                     state = awaitItem(),
@@ -331,7 +333,7 @@ class HomePresenterTest {
             homePresenter.uiState.test {
                 assertEquals(HomeUiState.Loading, awaitItem())
 
-                homePresenter.dismissTransientError()
+                homePresenter.eventSink(HomeUiEvent.DismissTransientError)
 
                 advanceTimeBy(1.days)
 

@@ -56,6 +56,7 @@ import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.fou
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.icon.BookmarkFill
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.icon.KSIcons
 import io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepisode.TalkingKotlinEpisode
+import io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepisode.TalkingKotlinEpisodeUiEvent
 import io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepisode.TalkingKotlinEpisodeUiState
 import io.github.reactivecircus.kstreamlined.android.feature.common.R as commonR
 
@@ -66,24 +67,25 @@ public fun TalkingKotlinEpisodeScreen(
     modifier: Modifier = Modifier,
 ) {
     val viewModel = viewModel<TalkingKotlinEpisodeViewModel>()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val eventSink = viewModel.eventSink
+
     DisposableEffect(Unit) {
-        viewModel.loadTalkingKotlinEpisode(id)
+        eventSink(TalkingKotlinEpisodeUiEvent.LoadEpisode(id))
         onDispose {
-            viewModel.reset()
+            eventSink(TalkingKotlinEpisodeUiEvent.Reset)
         }
     }
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
     val context = LocalContext.current
     TalkingKotlinEpisodeScreen(
         onNavigateUp = onNavigateUp,
         onShareButtonClick = { title, url ->
             context.openShareSheet(title, url)
         },
-        onSaveButtonClick = viewModel::toggleSavedForLater,
-        onPlayPauseButtonClick = viewModel::togglePlayPause,
         onOpenLink = context::openCustomTab,
-        onSaveStartPosition = viewModel::saveStartPosition,
         uiState = uiState,
+        eventSink = eventSink,
         modifier = modifier,
     )
 }
@@ -92,11 +94,9 @@ public fun TalkingKotlinEpisodeScreen(
 internal fun TalkingKotlinEpisodeScreen(
     onNavigateUp: () -> Unit,
     onShareButtonClick: (title: String, url: String) -> Unit,
-    onSaveButtonClick: () -> Unit,
-    onPlayPauseButtonClick: () -> Unit,
     onOpenLink: (url: String) -> Unit,
-    onSaveStartPosition: (startPositionMillis: Long) -> Unit,
     uiState: TalkingKotlinEpisodeUiState,
+    eventSink: (TalkingKotlinEpisodeUiEvent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -135,7 +135,7 @@ internal fun TalkingKotlinEpisodeScreen(
                         KSIcons.BookmarkAdd
                     },
                     contentDescription = null,
-                    onClick = onSaveButtonClick,
+                    onClick = { eventSink(TalkingKotlinEpisodeUiEvent.ToggleSavedForLater) },
                 )
             },
         )
@@ -153,10 +153,9 @@ internal fun TalkingKotlinEpisodeScreen(
                 is TalkingKotlinEpisodeUiState.Content -> {
                     ContentUi(
                         episode = uiState.episode,
+                        eventSink = eventSink,
                         isPlaying = uiState.isPlaying,
-                        onPlayPauseButtonClick = onPlayPauseButtonClick,
                         onOpenLink = onOpenLink,
-                        onSaveStartPosition = onSaveStartPosition,
                     )
                 }
             }
@@ -167,10 +166,9 @@ internal fun TalkingKotlinEpisodeScreen(
 @Composable
 private fun ContentUi(
     episode: TalkingKotlinEpisode,
+    eventSink: (TalkingKotlinEpisodeUiEvent) -> Unit,
     isPlaying: Boolean,
-    onPlayPauseButtonClick: () -> Unit,
     onOpenLink: (url: String) -> Unit,
-    onSaveStartPosition: (startPositionMillis: Long) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -217,7 +215,7 @@ private fun ContentUi(
                     )
                     PlayPauseButton(
                         isPlaying = isPlaying,
-                        onPlayPauseButtonClick = onPlayPauseButtonClick,
+                        onPlayPauseButtonClick = { eventSink(TalkingKotlinEpisodeUiEvent.TogglePlayPause) },
                         modifier = Modifier.padding(top = 8.dp),
                     )
                 }
@@ -275,8 +273,10 @@ private fun ContentUi(
         PodcastPlayer(
             episode = episode,
             isPlaying = isPlaying,
-            onPlayPauseButtonClick = onPlayPauseButtonClick,
-            onSaveStartPosition = onSaveStartPosition,
+            onPlayPauseButtonClick = { eventSink(TalkingKotlinEpisodeUiEvent.TogglePlayPause) },
+            onSaveStartPosition = { startPositionMillis ->
+                eventSink(TalkingKotlinEpisodeUiEvent.SaveStartPosition(startPositionMillis))
+            },
             contentPadding = WindowInsets.navigationBars.asPaddingValues(),
         )
     }

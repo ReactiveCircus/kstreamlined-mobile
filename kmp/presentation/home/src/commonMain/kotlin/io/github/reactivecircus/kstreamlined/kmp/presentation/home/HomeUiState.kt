@@ -1,7 +1,10 @@
 package io.github.reactivecircus.kstreamlined.kmp.presentation.home
 
+import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
+
 public sealed interface HomeUiState {
     public data object Loading : HomeUiState
+
     public data class Content(
         val selectedFeedCount: Int,
         val feedItems: List<HomeFeedItem>,
@@ -10,4 +13,10 @@ public sealed interface HomeUiState {
     ) : HomeUiState
 
     public data object Error : HomeUiState
+}
+
+public sealed interface HomeUiEvent {
+    public data class ToggleSavedForLater(val item: FeedItem) : HomeUiEvent
+    public data object Refresh : HomeUiEvent
+    public data object DismissTransientError : HomeUiEvent
 }

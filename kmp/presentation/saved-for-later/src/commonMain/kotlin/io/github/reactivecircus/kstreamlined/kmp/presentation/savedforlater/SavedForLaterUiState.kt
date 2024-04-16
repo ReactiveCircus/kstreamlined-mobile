@@ -9,3 +9,7 @@ public sealed interface SavedForLaterUiState {
         val feedItems: List<DisplayableFeedItem<FeedItem>>,
     ) : SavedForLaterUiState
 }
+
+public sealed interface SavedForLaterUiEvent {
+    public data class RemoveSavedItem(val id: String) : SavedForLaterUiEvent
+}

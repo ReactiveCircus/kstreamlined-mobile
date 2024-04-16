@@ -12,3 +12,8 @@ public sealed interface KotlinWeeklyIssueUiState {
         val savedForLater: Boolean,
     ) : KotlinWeeklyIssueUiState
 }
+
+public sealed interface KotlinWeeklyIssueUiEvent {
+    public data class LoadIssue(val id: String) : KotlinWeeklyIssueUiEvent
+    public data object ToggleSavedForLater : KotlinWeeklyIssueUiEvent
+}

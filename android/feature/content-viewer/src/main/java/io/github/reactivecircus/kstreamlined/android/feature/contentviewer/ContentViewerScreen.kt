@@ -49,6 +49,7 @@ import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.fou
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.icon.BookmarkAdd
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.icon.BookmarkFill
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.icon.KSIcons
+import io.github.reactivecircus.kstreamlined.kmp.presentation.contentviewer.ContentViewerUiEvent
 import io.github.reactivecircus.kstreamlined.kmp.presentation.contentviewer.ContentViewerUiState
 import io.github.reactivecircus.kstreamlined.android.feature.common.R as commonR
 
@@ -59,10 +60,13 @@ public fun ContentViewerScreen(
     modifier: Modifier = Modifier,
 ) {
     val viewModel = viewModel<ContentViewerViewModel>()
-    LaunchedEffect(id) {
-        viewModel.loadContent(id)
-    }
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val eventSink = viewModel.eventSink
+
+    LaunchedEffect(id) {
+        eventSink(ContentViewerUiEvent.LoadContent(id))
+    }
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -97,7 +101,7 @@ public fun ContentViewerScreen(
                             KSIcons.BookmarkAdd
                         },
                         contentDescription = null,
-                        onClick = viewModel::toggleSavedForLater,
+                        onClick = { eventSink(ContentViewerUiEvent.ToggleSavedForLater) },
                     )
                 }
             },

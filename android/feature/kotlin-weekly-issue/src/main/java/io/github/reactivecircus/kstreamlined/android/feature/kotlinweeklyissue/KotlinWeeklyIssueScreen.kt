@@ -52,6 +52,7 @@ import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.fou
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.icon.BookmarkFill
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.icon.KSIcons
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.KotlinWeeklyIssueItem
+import io.github.reactivecircus.kstreamlined.kmp.presentation.kotlinweeklyissue.KotlinWeeklyIssueUiEvent
 import io.github.reactivecircus.kstreamlined.kmp.presentation.kotlinweeklyissue.KotlinWeeklyIssueUiState
 import io.github.reactivecircus.kstreamlined.android.feature.common.R as commonR
 
@@ -63,37 +64,40 @@ public fun KotlinWeeklyIssueScreen(
     modifier: Modifier = Modifier,
 ) {
     val viewModel = viewModel<KotlinWeeklyIssueViewModel>()
-    LaunchedEffect(id) {
-        viewModel.loadKotlinWeeklyIssue(id)
-    }
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val eventSink = viewModel.eventSink
+
+    LaunchedEffect(id) {
+        eventSink(KotlinWeeklyIssueUiEvent.LoadIssue(id))
+    }
+
     val context = LocalContext.current
     val title = stringResource(id = R.string.title_kotlin_weekly_issue, issueNumber)
     KotlinWeeklyIssueScreen(
+        id = id,
         title = title,
         onNavigateUp = onNavigateUp,
         onShareButtonClick = { url ->
             context.openShareSheet(title, url)
         },
-        onSaveButtonClick = viewModel::toggleSavedForLater,
         onOpenLink = {
             context.openCustomTab(it)
         },
-        onRetry = { viewModel.loadKotlinWeeklyIssue(id) },
         uiState = uiState,
+        eventSink = eventSink,
         modifier = modifier,
     )
 }
 
 @Composable
 internal fun KotlinWeeklyIssueScreen(
+    id: String,
     title: String,
     onNavigateUp: () -> Unit,
     onShareButtonClick: (String) -> Unit,
-    onSaveButtonClick: () -> Unit,
     onOpenLink: (url: String) -> Unit,
-    onRetry: () -> Unit,
     uiState: KotlinWeeklyIssueUiState,
+    eventSink: (KotlinWeeklyIssueUiEvent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -130,7 +134,7 @@ internal fun KotlinWeeklyIssueScreen(
                                 KSIcons.BookmarkAdd
                             },
                             contentDescription = null,
-                            onClick = onSaveButtonClick,
+                            onClick = { eventSink(KotlinWeeklyIssueUiEvent.ToggleSavedForLater) },
                         )
                     }
                 }
@@ -151,7 +155,7 @@ internal fun KotlinWeeklyIssueScreen(
                     }
 
                     is KotlinWeeklyIssueUiState.Error -> {
-                        ErrorUi(onRetry = onRetry)
+                        ErrorUi(onRetry = { eventSink(KotlinWeeklyIssueUiEvent.LoadIssue(id)) })
                     }
 
                     is KotlinWeeklyIssueUiState.Content -> {
