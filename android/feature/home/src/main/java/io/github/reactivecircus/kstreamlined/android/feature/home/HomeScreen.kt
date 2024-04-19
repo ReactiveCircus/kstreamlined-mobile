@@ -1,8 +1,13 @@
+@file:OptIn(ExperimentalSharedTransitionApi::class)
+
 package io.github.reactivecircus.kstreamlined.android.feature.home
 
 import androidx.activity.compose.ReportDrawnWhen
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
@@ -61,7 +66,8 @@ import kotlinx.coroutines.delay
 import io.github.reactivecircus.kstreamlined.android.feature.common.R as commonR
 
 @Composable
-public fun HomeScreen(
+public fun SharedTransitionScope.HomeScreen(
+    animatedVisibilityScope: AnimatedVisibilityScope,
     listState: LazyListState,
     onViewItem: (FeedItem) -> Unit,
     modifier: Modifier = Modifier,
@@ -70,6 +76,7 @@ public fun HomeScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val eventSink = viewModel.eventSink
     HomeScreen(
+        animatedVisibilityScope = animatedVisibilityScope,
         listState = listState,
         onViewItem = onViewItem,
         uiState = uiState,
@@ -80,7 +87,8 @@ public fun HomeScreen(
 }
 
 @Composable
-internal fun HomeScreen(
+internal fun SharedTransitionScope.HomeScreen(
+    animatedVisibilityScope: AnimatedVisibilityScope,
     listState: LazyListState,
     onViewItem: (FeedItem) -> Unit,
     uiState: HomeUiState,
@@ -136,6 +144,7 @@ internal fun HomeScreen(
 
                     is HomeUiState.Content -> {
                         ContentUi(
+                            animatedVisibilityScope = animatedVisibilityScope,
                             listState = listState,
                             items = state.feedItems,
                             showTransientError = state.hasTransientError,
@@ -150,7 +159,8 @@ internal fun HomeScreen(
 }
 
 @Composable
-private fun ContentUi(
+private fun SharedTransitionScope.ContentUi(
+    animatedVisibilityScope: AnimatedVisibilityScope,
     listState: LazyListState,
     items: List<HomeFeedItem>,
     showTransientError: Boolean,
@@ -203,7 +213,12 @@ private fun ContentUi(
                                     item = item.toDisplayable(displayablePublishTime),
                                     onItemClick = onItemClick,
                                     onSaveButtonClick = { eventSink(HomeUiEvent.ToggleSavedForLater(item)) },
-                                    modifier = Modifier.animateItem(),
+                                    modifier = Modifier
+                                        .animateItem()
+                                        .sharedBounds(
+                                            rememberSharedContentState(key = "SharedBounds/${item.id}"),
+                                            animatedVisibilityScope = animatedVisibilityScope,
+                                        ),
                                 )
                             }
 
@@ -212,7 +227,14 @@ private fun ContentUi(
                                     item = item.toDisplayable(displayablePublishTime),
                                     onItemClick = onItemClick,
                                     onSaveButtonClick = { eventSink(HomeUiEvent.ToggleSavedForLater(item)) },
-                                    modifier = Modifier.animateItem(),
+                                    modifier = Modifier
+                                        .animateItem()
+                                        .sharedBounds(
+                                            rememberSharedContentState(key = "SharedBounds/${item.id}"),
+                                            animatedVisibilityScope = animatedVisibilityScope,
+                                        ),
+                                    animatedVisibilityScope = animatedVisibilityScope,
+                                    titleSharedElementKey = "SharedElement/${item.id}/title",
                                 )
                             }
 
@@ -221,7 +243,12 @@ private fun ContentUi(
                                     item = item.toDisplayable(displayablePublishTime),
                                     onItemClick = onItemClick,
                                     onSaveButtonClick = { eventSink(HomeUiEvent.ToggleSavedForLater(item)) },
-                                    modifier = Modifier.animateItem(),
+                                    modifier = Modifier
+                                        .animateItem()
+                                        .sharedBounds(
+                                            rememberSharedContentState(key = "SharedBounds/${item.id}"),
+                                            animatedVisibilityScope = animatedVisibilityScope,
+                                        ),
                                 )
                             }
 
@@ -230,7 +257,12 @@ private fun ContentUi(
                                     item = item.toDisplayable(displayablePublishTime),
                                     onItemClick = onItemClick,
                                     onSaveButtonClick = { eventSink(HomeUiEvent.ToggleSavedForLater(item)) },
-                                    modifier = Modifier.animateItem(),
+                                    modifier = Modifier
+                                        .animateItem()
+                                        .sharedBounds(
+                                            rememberSharedContentState(key = "SharedBounds/${item.id}"),
+                                            animatedVisibilityScope = animatedVisibilityScope,
+                                        ),
                                 )
                             }
                         }

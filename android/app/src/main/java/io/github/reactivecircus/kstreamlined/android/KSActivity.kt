@@ -9,6 +9,8 @@ import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
@@ -35,7 +37,7 @@ import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.fou
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
 import kotlinx.parcelize.Parcelize
 
-@OptIn(ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalComposeUiApi::class, ExperimentalSharedTransitionApi::class)
 @AndroidEntryPoint
 class KSActivity : ComponentActivity() {
 
@@ -70,73 +72,79 @@ class KSActivity : ComponentActivity() {
                 val homeListState = rememberLazyListState()
                 val savedListState = rememberLazyListState()
 
-                AnimatedContent(
-                    navDestination,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(KSTheme.colorScheme.background)
-                        .semantics {
-                            testTagsAsResourceId = true
-                        },
-                    contentAlignment = Alignment.Center,
-                    label = "NavTransition",
-                ) {
-                    when (it) {
-                        is NavDestination.Main -> {
-                            MainScreen(
-                                homeListState = homeListState,
-                                savedListState = savedListState,
-                                selectedNavItem = selectedNavItem,
-                                onSelectedNavItemChanged = { item -> selectedNavItem = item },
-                                onViewItem = { feedItem ->
-                                    navDestination = when (feedItem) {
-                                        is FeedItem.KotlinWeekly -> {
-                                            NavDestination.KotlinWeeklyIssue(
-                                                id = feedItem.id,
-                                                issueNumber = feedItem.issueNumber,
-                                            )
+                SharedTransitionLayout {
+                    AnimatedContent(
+                        navDestination,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(KSTheme.colorScheme.background)
+                            .semantics {
+                                testTagsAsResourceId = true
+                            },
+                        contentAlignment = Alignment.Center,
+                        label = "NavTransition",
+                    ) {
+                        when (it) {
+                            is NavDestination.Main -> {
+                                MainScreen(
+                                    animatedVisibilityScope = this,
+                                    selectedNavItem = selectedNavItem,
+                                    onSelectedNavItemChanged = { item -> selectedNavItem = item },
+                                    homeListState = homeListState,
+                                    savedListState = savedListState,
+                                    onViewItem = { feedItem ->
+                                        navDestination = when (feedItem) {
+                                            is FeedItem.KotlinWeekly -> {
+                                                NavDestination.KotlinWeeklyIssue(
+                                                    id = feedItem.id,
+                                                    issueNumber = feedItem.issueNumber,
+                                                )
+                                            }
+                                            is FeedItem.TalkingKotlin -> {
+                                                NavDestination.TalkingKotlinEpisode(
+                                                    id = feedItem.id,
+                                                )
+                                            }
+                                            else -> {
+                                                NavDestination.ContentViewer(
+                                                    id = feedItem.id,
+                                                )
+                                            }
                                         }
-                                        is FeedItem.TalkingKotlin -> {
-                                            NavDestination.TalkingKotlinEpisode(
-                                                id = feedItem.id,
-                                            )
-                                        }
-                                        else -> {
-                                            NavDestination.ContentViewer(
-                                                id = feedItem.id,
-                                            )
-                                        }
-                                    }
-                                },
-                            )
-                        }
+                                    },
+                                )
+                            }
 
-                        is NavDestination.ContentViewer -> {
-                            ContentViewerScreen(
-                                id = it.id,
-                                onNavigateUp = {
-                                    navDestination = NavDestination.Main
-                                },
-                            )
-                        }
+                            is NavDestination.ContentViewer -> {
+                                ContentViewerScreen(
+                                    animatedVisibilityScope = this,
+                                    id = it.id,
+                                    onNavigateUp = {
+                                        navDestination = NavDestination.Main
+                                    },
+                                )
+                            }
 
-                        is NavDestination.KotlinWeeklyIssue -> {
-                            KotlinWeeklyIssueScreen(
-                                id = it.id,
-                                issueNumber = it.issueNumber,
-                                onNavigateUp = {
-                                    navDestination = NavDestination.Main
-                                },
-                            )
-                        }
+                            is NavDestination.KotlinWeeklyIssue -> {
+                                KotlinWeeklyIssueScreen(
+                                    animatedVisibilityScope = this,
+                                    id = it.id,
+                                    issueNumber = it.issueNumber,
+                                    onNavigateUp = {
+                                        navDestination = NavDestination.Main
+                                    },
+                                )
+                            }
 
-                        is NavDestination.TalkingKotlinEpisode -> {
-                            TalkingKotlinEpisodeScreen(
-                                id = it.id,
-                                onNavigateUp = {
-                                    navDestination = NavDestination.Main
-                                },
-                            )
+                            is NavDestination.TalkingKotlinEpisode -> {
+                                TalkingKotlinEpisodeScreen(
+                                    animatedVisibilityScope = this,
+                                    id = it.id,
+                                    onNavigateUp = {
+                                        navDestination = NavDestination.Main
+                                    },
+                                )
+                            }
                         }
                     }
                 }

@@ -1,7 +1,14 @@
+@file:OptIn(ExperimentalSharedTransitionApi::class)
+
 package io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
@@ -58,7 +65,8 @@ import io.github.reactivecircus.kstreamlined.kmp.presentation.kotlinweeklyissue.
 import io.github.reactivecircus.kstreamlined.android.feature.common.R as commonR
 
 @Composable
-public fun KotlinWeeklyIssueScreen(
+public fun SharedTransitionScope.KotlinWeeklyIssueScreen(
+    animatedVisibilityScope: AnimatedVisibilityScope,
     id: String,
     issueNumber: Int,
     onNavigateUp: () -> Unit,
@@ -75,6 +83,7 @@ public fun KotlinWeeklyIssueScreen(
     val context = LocalContext.current
     val title = stringResource(id = R.string.title_kotlin_weekly_issue, issueNumber)
     KotlinWeeklyIssueScreen(
+        animatedVisibilityScope = animatedVisibilityScope,
         id = id,
         title = title,
         onNavigateUp = onNavigateUp,
@@ -86,12 +95,18 @@ public fun KotlinWeeklyIssueScreen(
         },
         uiState = uiState,
         eventSink = eventSink,
-        modifier = modifier,
+        modifier = modifier.sharedBounds(
+            rememberSharedContentState(key = "SharedBounds/$id"),
+            animatedVisibilityScope = animatedVisibilityScope,
+            enter = EnterTransition.None,
+            exit = ExitTransition.None,
+        ),
     )
 }
 
 @Composable
-internal fun KotlinWeeklyIssueScreen(
+internal fun SharedTransitionScope.KotlinWeeklyIssueScreen(
+    animatedVisibilityScope: AnimatedVisibilityScope,
     id: String,
     title: String,
     onNavigateUp: () -> Unit,
@@ -107,6 +122,8 @@ internal fun KotlinWeeklyIssueScreen(
             .background(KSTheme.colorScheme.background),
     ) {
         TopNavBar(
+            animatedVisibilityScope = animatedVisibilityScope,
+            titleSharedElementKey = "SharedElement/$id/title",
             title = title,
             modifier = Modifier.zIndex(1f),
             contentPadding = WindowInsets.statusBars.asPaddingValues(),

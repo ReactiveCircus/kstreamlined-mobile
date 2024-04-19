@@ -1,6 +1,11 @@
+@file:OptIn(ExperimentalSharedTransitionApi::class)
+
 package io.github.reactivecircus.kstreamlined.android.feature.savedforlater
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
@@ -47,7 +52,8 @@ import io.github.reactivecircus.kstreamlined.kmp.presentation.savedforlater.Save
 import io.github.reactivecircus.kstreamlined.android.feature.common.R as commonR
 
 @Composable
-public fun SavedForLaterScreen(
+public fun SharedTransitionScope.SavedForLaterScreen(
+    animatedVisibilityScope: AnimatedVisibilityScope,
     listState: LazyListState,
     onViewItem: (FeedItem) -> Unit,
     modifier: Modifier = Modifier,
@@ -56,6 +62,7 @@ public fun SavedForLaterScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val eventSink = viewModel.eventSink
     SavedForLaterScreen(
+        animatedVisibilityScope = animatedVisibilityScope,
         listState = listState,
         onViewItem = onViewItem,
         uiState = uiState,
@@ -65,7 +72,8 @@ public fun SavedForLaterScreen(
 }
 
 @Composable
-internal fun SavedForLaterScreen(
+internal fun SharedTransitionScope.SavedForLaterScreen(
+    animatedVisibilityScope: AnimatedVisibilityScope,
     listState: LazyListState,
     onViewItem: (FeedItem) -> Unit,
     uiState: SavedForLaterUiState,
@@ -99,6 +107,7 @@ internal fun SavedForLaterScreen(
                 ) { isEmpty ->
                     if (!isEmpty) {
                         ContentUi(
+                            animatedVisibilityScope = animatedVisibilityScope,
                             listState = listState,
                             items = uiState.feedItems,
                             onItemClick = onViewItem,
@@ -115,7 +124,8 @@ internal fun SavedForLaterScreen(
 
 @Suppress("MaxLineLength")
 @Composable
-private fun ContentUi(
+private fun SharedTransitionScope.ContentUi(
+    animatedVisibilityScope: AnimatedVisibilityScope,
     listState: LazyListState,
     items: List<DisplayableFeedItem<FeedItem>>,
     onItemClick: (FeedItem) -> Unit,
@@ -140,7 +150,12 @@ private fun ContentUi(
                         item = item.toDisplayable(displayablePublishTime),
                         onItemClick = onItemClick,
                         onSaveButtonClick = { eventSink(SavedForLaterUiEvent.RemoveSavedItem(item.id)) },
-                        modifier = Modifier.animateItem(),
+                        modifier = Modifier
+                            .animateItem()
+                            .sharedBounds(
+                                rememberSharedContentState(key = "SharedBounds/${item.id}"),
+                                animatedVisibilityScope = animatedVisibilityScope,
+                            ),
                     )
                 }
 
@@ -149,7 +164,14 @@ private fun ContentUi(
                         item = item.toDisplayable(displayablePublishTime),
                         onItemClick = onItemClick,
                         onSaveButtonClick = { eventSink(SavedForLaterUiEvent.RemoveSavedItem(item.id)) },
-                        modifier = Modifier.animateItem(),
+                        modifier = Modifier
+                            .animateItem()
+                            .sharedBounds(
+                                rememberSharedContentState(key = "SharedBounds/${item.id}"),
+                                animatedVisibilityScope = animatedVisibilityScope,
+                            ),
+                        animatedVisibilityScope = animatedVisibilityScope,
+                        titleSharedElementKey = "SharedElement/${item.id}/title",
                     )
                 }
 
@@ -158,7 +180,12 @@ private fun ContentUi(
                         item = item.toDisplayable(displayablePublishTime),
                         onItemClick = onItemClick,
                         onSaveButtonClick = { eventSink(SavedForLaterUiEvent.RemoveSavedItem(item.id)) },
-                        modifier = Modifier.animateItem(),
+                        modifier = Modifier
+                            .animateItem()
+                            .sharedBounds(
+                                rememberSharedContentState(key = "SharedBounds/${item.id}"),
+                                animatedVisibilityScope = animatedVisibilityScope,
+                            ),
                     )
                 }
 
@@ -167,7 +194,16 @@ private fun ContentUi(
                         item = item.toDisplayable(displayablePublishTime),
                         onItemClick = onItemClick,
                         onSaveButtonClick = { eventSink(SavedForLaterUiEvent.RemoveSavedItem(item.id)) },
-                        modifier = Modifier.animateItem(),
+                        modifier = Modifier
+                            .animateItem()
+                            .sharedElement(
+                                rememberSharedContentState(key = "SharedElement/${item.id}/TalkingKotlinCard"),
+                                animatedVisibilityScope = animatedVisibilityScope,
+                            )
+                            .sharedBounds(
+                                rememberSharedContentState(key = "SharedBounds/${item.id}"),
+                                animatedVisibilityScope = animatedVisibilityScope,
+                            ),
                     )
                 }
             }

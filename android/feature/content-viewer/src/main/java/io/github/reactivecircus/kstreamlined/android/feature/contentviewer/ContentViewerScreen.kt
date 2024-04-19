@@ -1,9 +1,14 @@
+@file:OptIn(ExperimentalSharedTransitionApi::class)
+
 package io.github.reactivecircus.kstreamlined.android.feature.contentviewer
 
 import android.annotation.SuppressLint
 import android.webkit.WebSettings
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -55,7 +60,8 @@ import io.github.reactivecircus.kstreamlined.kmp.presentation.contentviewer.Cont
 import io.github.reactivecircus.kstreamlined.android.feature.common.R as commonR
 
 @Composable
-public fun ContentViewerScreen(
+public fun SharedTransitionScope.ContentViewerScreen(
+    animatedVisibilityScope: AnimatedVisibilityScope,
     id: String,
     onNavigateUp: () -> Unit,
     modifier: Modifier = Modifier,
@@ -71,7 +77,11 @@ public fun ContentViewerScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(KSTheme.colorScheme.background),
+            .background(KSTheme.colorScheme.background)
+            .sharedBounds(
+                rememberSharedContentState(key = "SharedBounds/$id"),
+                animatedVisibilityScope = animatedVisibilityScope,
+            ),
     ) {
         val context = LocalContext.current
         TopNavBar(

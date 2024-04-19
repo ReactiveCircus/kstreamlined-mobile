@@ -1,5 +1,10 @@
+@file:OptIn(ExperimentalSharedTransitionApi::class)
+
 package io.github.reactivecircus.kstreamlined.android
 
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.animation.core.EaseInOutQuart
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
@@ -29,7 +34,8 @@ import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
 import kotlin.math.absoluteValue
 
 @Composable
-fun MainScreen(
+fun SharedTransitionScope.MainScreen(
+    animatedVisibilityScope: AnimatedVisibilityScope,
     selectedNavItem: NavItemKey,
     onSelectedNavItemChanged: (NavItemKey) -> Unit,
     homeListState: LazyListState,
@@ -51,6 +57,7 @@ fun MainScreen(
             when (it) {
                 NavItemKey.Home.ordinal -> {
                     HomeScreen(
+                        animatedVisibilityScope = animatedVisibilityScope,
                         listState = homeListState,
                         onViewItem = onViewItem,
                         modifier = Modifier.pagerScaleTransition(it, pagerState)
@@ -59,6 +66,7 @@ fun MainScreen(
 
                 NavItemKey.Saved.ordinal -> {
                     SavedForLaterScreen(
+                        animatedVisibilityScope = animatedVisibilityScope,
                         listState = savedListState,
                         onViewItem = onViewItem,
                         modifier = Modifier.pagerScaleTransition(it, pagerState)
