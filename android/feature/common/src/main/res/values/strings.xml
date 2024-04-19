@@ -3,4 +3,5 @@
     <string name="content_not_found_message">Content not found.</string>
     <string name="error_message">Something went wrong. Please try again later.</string>
     <string name="empty_state_message">Nothing to see here.</string>
+    <string name="retry">Retry</string>
 </resources>

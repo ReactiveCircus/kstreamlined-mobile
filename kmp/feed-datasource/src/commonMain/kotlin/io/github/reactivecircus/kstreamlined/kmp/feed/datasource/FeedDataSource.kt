@@ -103,7 +103,7 @@ public class FeedDataSource(
         id: String,
         positionMillis: Long,
     ): Unit = withContext(dbDispatcher) {
-        db.feedItemEntityQueries.updatePotcastStartPositionById(
+        db.feedItemEntityQueries.updatePodcastStartPositionById(
             id = id,
             podcast_start_position = positionMillis,
         )

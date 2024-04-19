@@ -127,7 +127,7 @@ internal fun HomeScreen(
                     }
 
                     is HomeUiState.Error -> {
-                        ErrorUi(onRetry = { eventSink(HomeUiEvent.Refresh) })
+                        ErrorUi(eventSink = eventSink)
                     }
 
                     is HomeUiState.Content -> {
@@ -275,7 +275,7 @@ private const val SkeletonItemCount = 10
 
 @Composable
 private fun ErrorUi(
-    onRetry: () -> Unit,
+    eventSink: (HomeUiEvent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -299,8 +299,8 @@ private fun ErrorUi(
         )
         Spacer(modifier = Modifier.height(24.dp))
         Button(
-            text = "Retry",
-            onClick = onRetry,
+            text = stringResource(id = commonR.string.retry),
+            onClick = { eventSink(HomeUiEvent.Refresh) },
         )
     }
 }

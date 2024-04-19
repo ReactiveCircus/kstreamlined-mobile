@@ -246,7 +246,7 @@ private fun ErrorUi(
         )
         Spacer(modifier = Modifier.height(24.dp))
         Button(
-            text = "Retry",
+            text = stringResource(id = commonR.string.retry),
             onClick = onRetry,
         )
     }
