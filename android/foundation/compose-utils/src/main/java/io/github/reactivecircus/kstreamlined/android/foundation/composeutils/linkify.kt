@@ -4,6 +4,7 @@ import android.text.SpannableString
 import android.text.style.URLSpan
 import android.text.util.Linkify
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 
@@ -21,26 +22,13 @@ public fun String.linkify(
     for (span in spans) {
         val start = spannable.getSpanStart(span)
         val end = spannable.getSpanEnd(span)
-        addStyle(
-            start = start,
-            end = end,
-            style = linkStyle,
-        )
-        addStringAnnotation(
-            tag = UrlTag,
-            annotation = span.url,
+        addLink(
+            url = LinkAnnotation.Url(
+                url = span.url,
+                style = linkStyle,
+            ),
             start = start,
             end = end,
         )
     }
 }
-
-/**
- * Find the link at the given [offset] in the [AnnotatedString].
- */
-public fun AnnotatedString.findUrl(offset: Int): String? =
-    getStringAnnotations(UrlTag, offset, offset)
-        .firstOrNull()
-        ?.item
-
-private const val UrlTag = "URL"

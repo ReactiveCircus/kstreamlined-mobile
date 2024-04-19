@@ -19,7 +19,6 @@ import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.ClickableText
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
@@ -42,7 +41,6 @@ import io.github.reactivecircus.kstreamlined.android.feature.common.openCustomTa
 import io.github.reactivecircus.kstreamlined.android.feature.common.openShareSheet
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.component.PlayPauseButton
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.component.PodcastPlayer
-import io.github.reactivecircus.kstreamlined.android.foundation.composeutils.findUrl
 import io.github.reactivecircus.kstreamlined.android.foundation.composeutils.linkify
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.FilledIconButton
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.HorizontalDivider
@@ -228,11 +226,8 @@ private fun ContentUi(
                 val annotatedString = remember(episode.summary) {
                     episode.summary.linkify(linkStyle)
                 }
-                ClickableText(
+                Text(
                     text = annotatedString,
-                    onClick = { offset ->
-                        annotatedString.findUrl(offset)?.let(onOpenLink)
-                    },
                     style = KSTheme.typography.bodyMedium.copy(
                         color = KSTheme.colorScheme.onBackgroundVariant,
                     ),
