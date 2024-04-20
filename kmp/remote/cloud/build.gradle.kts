@@ -1,5 +1,3 @@
-import io.github.reactivecircus.kstreamlined.buildlogic.envOrProp
-
 plugins {
     id("kstreamlined.kmp.common")
     id("kstreamlined.kmp.test")

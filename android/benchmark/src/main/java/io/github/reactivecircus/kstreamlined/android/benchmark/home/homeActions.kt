@@ -1,12 +1,12 @@
 @file:Suppress("MagicNumber")
 
-package io.github.reactivecircus.benchmark.home
+package io.github.reactivecircus.kstreamlined.android.benchmark.home
 
 import androidx.benchmark.macro.MacrobenchmarkScope
 import androidx.test.uiautomator.By
-import io.github.reactivecircus.benchmark.flingDownUp
-import io.github.reactivecircus.benchmark.scrollDown
-import io.github.reactivecircus.benchmark.waitAndFindObject
+import io.github.reactivecircus.kstreamlined.android.benchmark.flingDownUp
+import io.github.reactivecircus.kstreamlined.android.benchmark.scrollDown
+import io.github.reactivecircus.kstreamlined.android.benchmark.waitAndFindObject
 
 fun MacrobenchmarkScope.waitForHomeFeedContent() {
     device.waitAndFindObject(By.res("home:feedList"), 5_000)

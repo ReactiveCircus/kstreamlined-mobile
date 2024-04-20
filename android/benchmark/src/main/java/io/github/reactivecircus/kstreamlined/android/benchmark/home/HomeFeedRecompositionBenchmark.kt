@@ -1,4 +1,4 @@
-package io.github.reactivecircus.benchmark.home
+package io.github.reactivecircus.kstreamlined.android.benchmark.home
 
 import androidx.benchmark.macro.BaselineProfileMode
 import androidx.benchmark.macro.CompilationMode
@@ -9,7 +9,7 @@ import androidx.benchmark.macro.TraceSectionMetric
 import androidx.benchmark.macro.junit4.MacrobenchmarkRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import io.github.reactivecircus.benchmark.PackageName
+import io.github.reactivecircus.kstreamlined.android.benchmark.PackageName
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith

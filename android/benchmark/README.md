@@ -21,19 +21,19 @@ Individual benchmarks can also be run from Android Studio or command line:
 #### Startup benchmark
 
 ```
-./gradlew :benchmark:connectedBenchmarkReleaseAndroidTest --no-configuration-cache -Pandroid.testInstrumentationRunnerArguments.class=io.github.reactivecircus.benchmark.startup.StartupBenchmark
+./gradlew :benchmark:connectedBenchmarkReleaseAndroidTest --no-configuration-cache -Pandroid.testInstrumentationRunnerArguments.class=io.github.reactivecircus.kstreamlined.android.benchmark.startup.StartupBenchmark
 ```
 
 #### Home feed scrolling benchmark
 
 ```
-./gradlew :benchmark:connectedBenchmarkReleaseAndroidTest --no-configuration-cache -Pandroid.testInstrumentationRunnerArguments.class=io.github.reactivecircus.benchmark.home.HomeFeedScrollingBenchmark
+./gradlew :benchmark:connectedBenchmarkReleaseAndroidTest --no-configuration-cache -Pandroid.testInstrumentationRunnerArguments.class=io.github.reactivecircus.kstreamlined.android.benchmark.home.HomeFeedScrollingBenchmark
 ```
 
 #### Home feed recomposition benchmark
 
 ```
-./gradlew :benchmark:connectedBenchmarkReleaseAndroidTest --no-configuration-cache -Pandroid.testInstrumentationRunnerArguments.class=io.github.reactivecircus.benchmark.home.HomeFeedRecompositionBenchmark
+./gradlew :benchmark:connectedBenchmarkReleaseAndroidTest --no-configuration-cache -Pandroid.testInstrumentationRunnerArguments.class=io.github.reactivecircus.kstreamlined.android.benchmark.home.HomeFeedRecompositionBenchmark
 ```
 
 ### Benchmark results
