@@ -10,7 +10,7 @@ plugins {
 }
 
 android {
-    namespace = "io.github.reactivecircus.benchmark"
+    namespace = "io.github.reactivecircus.kstreamlined.android.benchmark"
 
     defaultConfig {
         missingDimensionStrategy(FlavorDimensions.Environment, ProductFlavors.Dev)

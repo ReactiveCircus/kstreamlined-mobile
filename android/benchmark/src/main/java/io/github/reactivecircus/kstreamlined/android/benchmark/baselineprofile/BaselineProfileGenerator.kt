@@ -1,11 +1,11 @@
-package io.github.reactivecircus.benchmark.baselineprofile
+package io.github.reactivecircus.kstreamlined.android.benchmark.baselineprofile
 
 import androidx.benchmark.macro.junit4.BaselineProfileRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import io.github.reactivecircus.benchmark.PackageName
-import io.github.reactivecircus.benchmark.home.homeFeedListScrollDown
-import io.github.reactivecircus.benchmark.home.waitForHomeFeedContent
+import io.github.reactivecircus.kstreamlined.android.benchmark.PackageName
+import io.github.reactivecircus.kstreamlined.android.benchmark.home.homeFeedListScrollDown
+import io.github.reactivecircus.kstreamlined.android.benchmark.home.waitForHomeFeedContent
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -20,8 +20,7 @@ class BaselineProfileGenerator {
     @Test
     fun generate() = rule.collect(
         packageName = PackageName,
-        // TODO enable once https://issuetracker.google.com/issues/332982932 is fixed
-        includeInStartupProfile = false,
+        includeInStartupProfile = true,
         strictStability = true,
     ) {
         pressHome()

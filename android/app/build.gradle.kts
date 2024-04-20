@@ -2,14 +2,6 @@ import com.google.firebase.crashlytics.buildtools.gradle.CrashlyticsExtension
 import com.google.firebase.perf.plugin.FirebasePerfExtension
 import io.github.reactivecircus.kstreamlined.buildlogic.FlavorDimensions
 import io.github.reactivecircus.kstreamlined.buildlogic.ProductFlavors
-import io.github.reactivecircus.kstreamlined.buildlogic.addBuildConfigField
-import io.github.reactivecircus.kstreamlined.buildlogic.addResValue
-import io.github.reactivecircus.kstreamlined.buildlogic.demoImplementation
-import io.github.reactivecircus.kstreamlined.buildlogic.devImplementation
-import io.github.reactivecircus.kstreamlined.buildlogic.envOrProp
-import io.github.reactivecircus.kstreamlined.buildlogic.isCiBuild
-import io.github.reactivecircus.kstreamlined.buildlogic.mockImplementation
-import io.github.reactivecircus.kstreamlined.buildlogic.prodImplementation
 import java.time.Instant
 
 plugins {
@@ -61,7 +53,6 @@ play {
 
 baselineProfile {
     mergeIntoMain = true
-    baselineProfileOutputDir = "baselineProfiles"
 }
 
 android {
@@ -166,15 +157,7 @@ android {
 
 androidComponents {
     beforeVariants {
-        it.enable = it.name in listOf(
-            "devDebug",
-            "demoDebug",
-            "mockDebug",
-            "prodRelease",
-            "devNonMinifiedRelease",
-            "devBenchmarkRelease",
-            "prodBenchmarkRelease",
-        )
+        it.enable = shouldEnableVariant(it.name)
     }
 
     onVariants {
@@ -204,15 +187,18 @@ androidComponents {
                 it.addBuildConfigField(key = "ENABLE_CRASH_REPORTING", value = googleServicesJsonExists)
                 it.addBuildConfigField(key = "API_ENDPOINT", value = "\"${envOrProp("KSTREAMLINED_API_ENDPOINT").get()}\"")
             }
+
             ProductFlavors.Dev -> {
                 it.addBuildConfigField(key = "ENABLE_ANALYTICS", value = googleServicesJsonExists)
                 it.addBuildConfigField(key = "ENABLE_CRASH_REPORTING", value = googleServicesJsonExists)
                 it.addBuildConfigField(key = "API_ENDPOINT", value = "\"${envOrProp("KSTREAMLINED_API_ENDPOINT").get()}\"")
             }
+
             ProductFlavors.Demo -> {
                 it.addBuildConfigField(key = "ENABLE_ANALYTICS", value = false)
                 it.addBuildConfigField(key = "ENABLE_CRASH_REPORTING", value = false)
             }
+
             ProductFlavors.Mock -> {
                 it.addBuildConfigField(key = "ENABLE_ANALYTICS", value = false)
                 it.addBuildConfigField(key = "ENABLE_CRASH_REPORTING", value = false)

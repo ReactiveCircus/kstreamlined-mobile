@@ -1,4 +1,4 @@
-package io.github.reactivecircus.benchmark.startup
+package io.github.reactivecircus.kstreamlined.android.benchmark.startup
 
 import androidx.benchmark.macro.BaselineProfileMode
 import androidx.benchmark.macro.CompilationMode
@@ -7,8 +7,8 @@ import androidx.benchmark.macro.StartupTimingMetric
 import androidx.benchmark.macro.junit4.MacrobenchmarkRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import io.github.reactivecircus.benchmark.PackageName
-import io.github.reactivecircus.benchmark.home.waitForHomeFeedContent
+import io.github.reactivecircus.kstreamlined.android.benchmark.PackageName
+import io.github.reactivecircus.kstreamlined.android.benchmark.home.waitForHomeFeedContent
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith

@@ -1,6 +1,6 @@
 @file:Suppress("MagicNumber")
 
-package io.github.reactivecircus.benchmark
+package io.github.reactivecircus.kstreamlined.android.benchmark
 
 import android.graphics.Point
 import androidx.test.uiautomator.BySelector
