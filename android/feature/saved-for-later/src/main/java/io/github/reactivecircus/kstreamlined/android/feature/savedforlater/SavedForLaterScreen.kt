@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -47,6 +48,7 @@ import io.github.reactivecircus.kstreamlined.android.feature.common.R as commonR
 
 @Composable
 public fun SavedForLaterScreen(
+    listState: LazyListState,
     onViewItem: (FeedItem) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -54,6 +56,7 @@ public fun SavedForLaterScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val eventSink = viewModel.eventSink
     SavedForLaterScreen(
+        listState = listState,
         onViewItem = onViewItem,
         uiState = uiState,
         eventSink,
@@ -63,6 +66,7 @@ public fun SavedForLaterScreen(
 
 @Composable
 internal fun SavedForLaterScreen(
+    listState: LazyListState,
     onViewItem: (FeedItem) -> Unit,
     uiState: SavedForLaterUiState,
     eventSink: (SavedForLaterUiEvent) -> Unit,
@@ -95,6 +99,7 @@ internal fun SavedForLaterScreen(
                 ) { isEmpty ->
                     if (!isEmpty) {
                         ContentUi(
+                            listState = listState,
                             items = uiState.feedItems,
                             onItemClick = onViewItem,
                             eventSink = eventSink,
@@ -111,6 +116,7 @@ internal fun SavedForLaterScreen(
 @Suppress("MaxLineLength")
 @Composable
 private fun ContentUi(
+    listState: LazyListState,
     items: List<DisplayableFeedItem<FeedItem>>,
     onItemClick: (FeedItem) -> Unit,
     eventSink: (SavedForLaterUiEvent) -> Unit,
@@ -118,6 +124,7 @@ private fun ContentUi(
 ) {
     LazyColumn(
         modifier = modifier.fillMaxSize(),
+        state = listState,
         contentPadding = ListContentPadding,
         verticalArrangement = Arrangement.spacedBy(20.dp),
     ) {

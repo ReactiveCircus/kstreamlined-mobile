@@ -6,15 +6,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
@@ -33,13 +30,18 @@ import kotlin.math.absoluteValue
 
 @Composable
 fun MainScreen(
+    selectedNavItem: NavItemKey,
+    onSelectedNavItemChanged: (NavItemKey) -> Unit,
+    homeListState: LazyListState,
+    savedListState: LazyListState,
     onViewItem: (FeedItem) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Box(modifier = modifier.fillMaxSize()) {
-        var selectedNavItem by rememberSaveable { mutableStateOf(NavItemKey.Home) }
-
-        val pagerState = rememberPagerState(pageCount = { NavItemKey.entries.size })
+        val pagerState = rememberPagerState(
+            initialPage = selectedNavItem.ordinal,
+            pageCount = { NavItemKey.entries.size },
+        )
         HorizontalPager(
             state = pagerState,
             modifier = Modifier.fillMaxSize(),
@@ -49,6 +51,7 @@ fun MainScreen(
             when (it) {
                 NavItemKey.Home.ordinal -> {
                     HomeScreen(
+                        listState = homeListState,
                         onViewItem = onViewItem,
                         modifier = Modifier.pagerScaleTransition(it, pagerState)
                     )
@@ -56,6 +59,7 @@ fun MainScreen(
 
                 NavItemKey.Saved.ordinal -> {
                     SavedForLaterScreen(
+                        listState = savedListState,
                         onViewItem = onViewItem,
                         modifier = Modifier.pagerScaleTransition(it, pagerState)
                     )
@@ -84,7 +88,7 @@ fun MainScreen(
                 icon = KSIcons.Kotlin,
                 contentDescription = "Home",
                 onClick = {
-                    selectedNavItem = NavItemKey.Home
+                    onSelectedNavItemChanged(NavItemKey.Home)
                 },
             )
             NavigationIslandDivider()
@@ -93,7 +97,7 @@ fun MainScreen(
                 icon = KSIcons.Bookmarks,
                 contentDescription = "Saved",
                 onClick = {
-                    selectedNavItem = NavItemKey.Saved
+                    onSelectedNavItemChanged(NavItemKey.Saved)
                 },
             )
         }

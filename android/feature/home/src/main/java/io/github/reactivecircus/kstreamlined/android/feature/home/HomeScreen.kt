@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
@@ -61,6 +62,7 @@ import io.github.reactivecircus.kstreamlined.android.feature.common.R as commonR
 
 @Composable
 public fun HomeScreen(
+    listState: LazyListState,
     onViewItem: (FeedItem) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -68,6 +70,7 @@ public fun HomeScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val eventSink = viewModel.eventSink
     HomeScreen(
+        listState = listState,
         onViewItem = onViewItem,
         uiState = uiState,
         eventSink = eventSink,
@@ -78,6 +81,7 @@ public fun HomeScreen(
 
 @Composable
 internal fun HomeScreen(
+    listState: LazyListState,
     onViewItem: (FeedItem) -> Unit,
     uiState: HomeUiState,
     eventSink: (HomeUiEvent) -> Unit,
@@ -132,6 +136,7 @@ internal fun HomeScreen(
 
                     is HomeUiState.Content -> {
                         ContentUi(
+                            listState = listState,
                             items = state.feedItems,
                             showTransientError = state.hasTransientError,
                             onItemClick = onViewItem,
@@ -146,6 +151,7 @@ internal fun HomeScreen(
 
 @Composable
 private fun ContentUi(
+    listState: LazyListState,
     items: List<HomeFeedItem>,
     showTransientError: Boolean,
     onItemClick: (FeedItem) -> Unit,
@@ -158,6 +164,7 @@ private fun ContentUi(
     ) {
         LazyColumn(
             modifier = Modifier.testTag("home:feedList"),
+            state = listState,
             contentPadding = ListContentPadding,
             verticalArrangement = Arrangement.spacedBy(20.dp),
         ) {

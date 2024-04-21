@@ -12,6 +12,7 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -65,6 +66,10 @@ class KSActivity : ComponentActivity() {
                     )
                 }
 
+                var selectedNavItem by rememberSaveable { mutableStateOf(NavItemKey.Home) }
+                val homeListState = rememberLazyListState()
+                val savedListState = rememberLazyListState()
+
                 AnimatedContent(
                     navDestination,
                     modifier = Modifier
@@ -79,6 +84,10 @@ class KSActivity : ComponentActivity() {
                     when (it) {
                         is NavDestination.Main -> {
                             MainScreen(
+                                homeListState = homeListState,
+                                savedListState = savedListState,
+                                selectedNavItem = selectedNavItem,
+                                onSelectedNavItemChanged = { item -> selectedNavItem = item },
                                 onViewItem = { feedItem ->
                                     navDestination = when (feedItem) {
                                         is FeedItem.KotlinWeekly -> {
