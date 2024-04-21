@@ -2,7 +2,6 @@
 
 package io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionLayout
@@ -40,7 +39,7 @@ public fun SharedTransitionScope.TopNavBar(
     title: String,
     modifier: Modifier = Modifier,
     animatedVisibilityScope: AnimatedVisibilityScope? = null,
-    titleSharedElementKey: String? = null,
+    titleElementKey: String? = null,
     contentPadding: PaddingValues = PaddingValues(0.dp),
     elevation: Dp = 2.dp,
     navigationIcon: @Composable (() -> Unit)? = null,
@@ -73,7 +72,7 @@ public fun SharedTransitionScope.TopNavBar(
 
                     GradientTitle(
                         animatedVisibilityScope = animatedVisibilityScope,
-                        titleSharedElementKey = titleSharedElementKey,
+                        titleElementKey = titleElementKey,
                         text = title,
                         modifier = Modifier.weight(1f)
                     )
@@ -99,7 +98,7 @@ public fun SharedTransitionScope.TopNavBar(
 @Composable
 private fun SharedTransitionScope.GradientTitle(
     animatedVisibilityScope: AnimatedVisibilityScope?,
-    titleSharedElementKey: String?,
+    titleElementKey: String?,
     text: String,
     modifier: Modifier = Modifier,
 ) {
@@ -124,9 +123,9 @@ private fun SharedTransitionScope.GradientTitle(
             ),
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
-            modifier = if (animatedVisibilityScope != null && titleSharedElementKey != null) {
+            modifier = if (animatedVisibilityScope != null && titleElementKey != null) {
                 Modifier.sharedElement(
-                    rememberSharedContentState(key = titleSharedElementKey),
+                    rememberSharedContentState(key = titleElementKey),
                     animatedVisibilityScope = animatedVisibilityScope,
                 )
             } else {
@@ -144,19 +143,16 @@ private fun PreviewTopNavBar() {
     KSTheme {
         Surface {
             SharedTransitionLayout {
-                AnimatedVisibility(true) {
-                    TopNavBar(
-                        animatedVisibilityScope = this,
-                        title = "Title",
-                        actions = {
-                            FilledIconButton(
-                                KSIcons.Settings,
-                                contentDescription = null,
-                                onClick = {},
-                            )
-                        },
-                    )
-                }
+                TopNavBar(
+                    title = "Title",
+                    actions = {
+                        FilledIconButton(
+                            KSIcons.Settings,
+                            contentDescription = null,
+                            onClick = {},
+                        )
+                    },
+                )
             }
         }
     }
@@ -168,34 +164,31 @@ private fun PreviewTopNavBar_withBottomRow() {
     KSTheme {
         Surface {
             SharedTransitionLayout {
-                AnimatedVisibility(true) {
-                    TopNavBar(
-                        animatedVisibilityScope = this,
-                        title = "Title",
-                        actions = {
-                            FilledIconButton(
-                                KSIcons.Settings,
-                                contentDescription = null,
-                                onClick = {},
-                            )
-                        },
-                        bottomRow = {
-                            Chip(
-                                onClick = {},
-                                contentColor = KSTheme.colorScheme.primary,
-                            ) {
-                                Text(
-                                    text = "Button".uppercase(),
-                                    style = KSTheme.typography.labelMedium.copy(
-                                        fontWeight = FontWeight.ExtraBold,
-                                        letterSpacing = 0.sp,
-                                    )
+                TopNavBar(
+                    title = "Title",
+                    actions = {
+                        FilledIconButton(
+                            KSIcons.Settings,
+                            contentDescription = null,
+                            onClick = {},
+                        )
+                    },
+                    bottomRow = {
+                        Chip(
+                            onClick = {},
+                            contentColor = KSTheme.colorScheme.primary,
+                        ) {
+                            Text(
+                                text = "Button".uppercase(),
+                                style = KSTheme.typography.labelMedium.copy(
+                                    fontWeight = FontWeight.ExtraBold,
+                                    letterSpacing = 0.sp,
                                 )
-                                Icon(KSIcons.ArrowDown, contentDescription = null)
-                            }
+                            )
+                            Icon(KSIcons.ArrowDown, contentDescription = null)
                         }
-                    )
-                }
+                    }
+                )
             }
         }
     }
@@ -207,19 +200,16 @@ private fun PreviewTopNavBar_withNavigationIcon() {
     KSTheme {
         Surface {
             SharedTransitionLayout {
-                AnimatedVisibility(true) {
-                    TopNavBar(
-                        animatedVisibilityScope = this,
-                        title = "Title",
-                        navigationIcon = {
-                            LargeIconButton(
-                                KSIcons.Close,
-                                contentDescription = null,
-                                onClick = {},
-                            )
-                        },
-                    )
-                }
+                TopNavBar(
+                    title = "Title",
+                    navigationIcon = {
+                        LargeIconButton(
+                            KSIcons.Close,
+                            contentDescription = null,
+                            onClick = {},
+                        )
+                    },
+                )
             }
         }
     }

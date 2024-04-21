@@ -2,7 +2,6 @@
 
 package io.github.reactivecircus.kstreamlined.android.foundation.commonui.feed
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionLayout
@@ -43,7 +42,7 @@ public fun SharedTransitionScope.KotlinWeeklyCard(
     onSaveButtonClick: (FeedItem.KotlinWeekly) -> Unit,
     modifier: Modifier = Modifier,
     animatedVisibilityScope: AnimatedVisibilityScope? = null,
-    titleSharedElementKey: String? = null,
+    titleElementKey: String? = null,
 ): Unit = trace("FeedItem:KotlinWeeklyCard") {
     val brush = Brush.horizontalGradient(
         colors = listOf(
@@ -80,9 +79,9 @@ public fun SharedTransitionScope.KotlinWeeklyCard(
                     style = KSTheme.typography.titleLarge,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    modifier = if (animatedVisibilityScope != null && titleSharedElementKey != null) {
+                    modifier = if (animatedVisibilityScope != null && titleElementKey != null) {
                         Modifier.sharedElement(
-                            rememberSharedContentState(key = titleSharedElementKey),
+                            rememberSharedContentState(key = titleElementKey),
                             animatedVisibilityScope = animatedVisibilityScope,
                         )
                     } else {
@@ -117,22 +116,19 @@ private fun PreviewKotlinWeeklyCard_unsaved() {
     KSTheme {
         Surface {
             SharedTransitionLayout {
-                AnimatedVisibility(true) {
-                    KotlinWeeklyCard(
-                        animatedVisibilityScope = this,
-                        item = FeedItem.KotlinWeekly(
-                            id = "1",
-                            title = "Kotlin Weekly #381",
-                            publishTime = "2023-11-19T09:13:00Z".toInstant(),
-                            contentUrl = "contentUrl",
-                            savedForLater = false,
-                            issueNumber = 381,
-                        ).toDisplayable(displayablePublishTime = "3 hours ago"),
-                        onItemClick = {},
-                        onSaveButtonClick = {},
-                        modifier = Modifier.padding(24.dp),
-                    )
-                }
+                KotlinWeeklyCard(
+                    item = FeedItem.KotlinWeekly(
+                        id = "1",
+                        title = "Kotlin Weekly #381",
+                        publishTime = "2023-11-19T09:13:00Z".toInstant(),
+                        contentUrl = "contentUrl",
+                        savedForLater = false,
+                        issueNumber = 381,
+                    ).toDisplayable(displayablePublishTime = "3 hours ago"),
+                    onItemClick = {},
+                    onSaveButtonClick = {},
+                    modifier = Modifier.padding(24.dp),
+                )
             }
         }
     }
@@ -144,22 +140,19 @@ private fun PreviewKotlinWeeklyCard_saved() {
     KSTheme {
         Surface {
             SharedTransitionLayout {
-                AnimatedVisibility(true) {
-                    KotlinWeeklyCard(
-                        animatedVisibilityScope = this,
-                        item = FeedItem.KotlinWeekly(
-                            id = "1",
-                            title = "Kotlin Weekly #381",
-                            publishTime = "2023-11-19T09:13:00Z".toInstant(),
-                            contentUrl = "contentUrl",
-                            savedForLater = true,
-                            issueNumber = 381,
-                        ).toDisplayable(displayablePublishTime = "3 hours ago"),
-                        onItemClick = {},
-                        onSaveButtonClick = {},
-                        modifier = Modifier.padding(24.dp),
-                    )
-                }
+                KotlinWeeklyCard(
+                    item = FeedItem.KotlinWeekly(
+                        id = "1",
+                        title = "Kotlin Weekly #381",
+                        publishTime = "2023-11-19T09:13:00Z".toInstant(),
+                        contentUrl = "contentUrl",
+                        savedForLater = true,
+                        issueNumber = 381,
+                    ).toDisplayable(displayablePublishTime = "3 hours ago"),
+                    onItemClick = {},
+                    onSaveButtonClick = {},
+                    modifier = Modifier.padding(24.dp),
+                )
             }
         }
     }

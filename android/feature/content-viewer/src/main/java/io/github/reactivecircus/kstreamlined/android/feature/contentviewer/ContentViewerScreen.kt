@@ -62,6 +62,8 @@ import io.github.reactivecircus.kstreamlined.android.feature.common.R as commonR
 @Composable
 public fun SharedTransitionScope.ContentViewerScreen(
     animatedVisibilityScope: AnimatedVisibilityScope,
+    boundsKey: String,
+    saveButtonElementKey: String,
     id: String,
     onNavigateUp: () -> Unit,
     modifier: Modifier = Modifier,
@@ -79,7 +81,7 @@ public fun SharedTransitionScope.ContentViewerScreen(
             .fillMaxSize()
             .background(KSTheme.colorScheme.background)
             .sharedBounds(
-                rememberSharedContentState(key = "SharedBounds/$id"),
+                rememberSharedContentState(key = boundsKey),
                 animatedVisibilityScope = animatedVisibilityScope,
             ),
     ) {
@@ -113,6 +115,10 @@ public fun SharedTransitionScope.ContentViewerScreen(
                         },
                         contentDescription = null,
                         onClick = { eventSink(ContentViewerUiEvent.ToggleSavedForLater) },
+                        modifier = Modifier.sharedElement(
+                            rememberSharedContentState(key = saveButtonElementKey),
+                            animatedVisibilityScope = animatedVisibilityScope,
+                        ),
                     )
                 }
             },

@@ -153,9 +153,11 @@ private fun SharedTransitionScope.ContentUi(
                         modifier = Modifier
                             .animateItem()
                             .sharedBounds(
-                                rememberSharedContentState(key = "SharedBounds/${item.id}"),
+                                rememberSharedContentState(key = "Bounds/Saved/${item.id}"),
                                 animatedVisibilityScope = animatedVisibilityScope,
                             ),
+                        animatedVisibilityScope = animatedVisibilityScope,
+                        saveButtonElementKey = "Element/Saved/${item.id}/saveButton",
                     )
                 }
 
@@ -167,11 +169,11 @@ private fun SharedTransitionScope.ContentUi(
                         modifier = Modifier
                             .animateItem()
                             .sharedBounds(
-                                rememberSharedContentState(key = "SharedBounds/${item.id}"),
+                                rememberSharedContentState(key = "Bounds/Saved/${item.id}"),
                                 animatedVisibilityScope = animatedVisibilityScope,
                             ),
                         animatedVisibilityScope = animatedVisibilityScope,
-                        titleSharedElementKey = "SharedElement/${item.id}/title",
+                        titleElementKey = "Element/Saved/${item.id}/title",
                     )
                 }
 
@@ -183,9 +185,11 @@ private fun SharedTransitionScope.ContentUi(
                         modifier = Modifier
                             .animateItem()
                             .sharedBounds(
-                                rememberSharedContentState(key = "SharedBounds/${item.id}"),
+                                rememberSharedContentState(key = "Bounds/Saved/${item.id}"),
                                 animatedVisibilityScope = animatedVisibilityScope,
                             ),
+                        animatedVisibilityScope = animatedVisibilityScope,
+                        saveButtonElementKey = "Element/Saved/${item.id}/saveButton",
                     )
                 }
 
@@ -197,11 +201,11 @@ private fun SharedTransitionScope.ContentUi(
                         modifier = Modifier
                             .animateItem()
                             .sharedElement(
-                                rememberSharedContentState(key = "SharedElement/${item.id}/TalkingKotlinCard"),
+                                rememberSharedContentState(key = "Element/Saved/${item.id}/player"),
                                 animatedVisibilityScope = animatedVisibilityScope,
                             )
                             .sharedBounds(
-                                rememberSharedContentState(key = "SharedBounds/${item.id}"),
+                                rememberSharedContentState(key = "Bounds/Saved/${item.id}"),
                                 animatedVisibilityScope = animatedVisibilityScope,
                             ),
                     )

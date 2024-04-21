@@ -5,8 +5,6 @@ package io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.AnimatedVisibilityScope
-import androidx.compose.animation.EnterTransition
-import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.animation.fadeIn
@@ -67,6 +65,8 @@ import io.github.reactivecircus.kstreamlined.android.feature.common.R as commonR
 @Composable
 public fun SharedTransitionScope.KotlinWeeklyIssueScreen(
     animatedVisibilityScope: AnimatedVisibilityScope,
+    boundsKey: String,
+    titleElementKey: String,
     id: String,
     issueNumber: Int,
     onNavigateUp: () -> Unit,
@@ -84,6 +84,7 @@ public fun SharedTransitionScope.KotlinWeeklyIssueScreen(
     val title = stringResource(id = R.string.title_kotlin_weekly_issue, issueNumber)
     KotlinWeeklyIssueScreen(
         animatedVisibilityScope = animatedVisibilityScope,
+        titleElementKey = titleElementKey,
         id = id,
         title = title,
         onNavigateUp = onNavigateUp,
@@ -96,16 +97,15 @@ public fun SharedTransitionScope.KotlinWeeklyIssueScreen(
         uiState = uiState,
         eventSink = eventSink,
         modifier = modifier.sharedBounds(
-            rememberSharedContentState(key = "SharedBounds/$id"),
+            rememberSharedContentState(key = boundsKey),
             animatedVisibilityScope = animatedVisibilityScope,
-            enter = EnterTransition.None,
-            exit = ExitTransition.None,
         ),
     )
 }
 
 @Composable
 internal fun SharedTransitionScope.KotlinWeeklyIssueScreen(
+    titleElementKey: String,
     animatedVisibilityScope: AnimatedVisibilityScope,
     id: String,
     title: String,
@@ -123,7 +123,7 @@ internal fun SharedTransitionScope.KotlinWeeklyIssueScreen(
     ) {
         TopNavBar(
             animatedVisibilityScope = animatedVisibilityScope,
-            titleSharedElementKey = "SharedElement/$id/title",
+            titleElementKey = titleElementKey,
             title = title,
             modifier = Modifier.zIndex(1f),
             contentPadding = WindowInsets.statusBars.asPaddingValues(),

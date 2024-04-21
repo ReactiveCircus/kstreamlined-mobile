@@ -92,22 +92,28 @@ class KSActivity : ComponentActivity() {
                                     onSelectedNavItemChanged = { item -> selectedNavItem = item },
                                     homeListState = homeListState,
                                     savedListState = savedListState,
-                                    onViewItem = { feedItem ->
-                                        navDestination = when (feedItem) {
+                                    onViewItem = { item, source ->
+                                        navDestination = when (item) {
                                             is FeedItem.KotlinWeekly -> {
                                                 NavDestination.KotlinWeeklyIssue(
-                                                    id = feedItem.id,
-                                                    issueNumber = feedItem.issueNumber,
+                                                    boundKey = "Bounds/$source/${item.id}",
+                                                    titleElementKey = "Element/$source/${item.id}/title",
+                                                    id = item.id,
+                                                    issueNumber = item.issueNumber,
                                                 )
                                             }
                                             is FeedItem.TalkingKotlin -> {
                                                 NavDestination.TalkingKotlinEpisode(
-                                                    id = feedItem.id,
+                                                    boundsKey = "Bounds/$source/${item.id}",
+                                                    playerElementKey = "Element/$source/${item.id}/player",
+                                                    id = item.id,
                                                 )
                                             }
                                             else -> {
                                                 NavDestination.ContentViewer(
-                                                    id = feedItem.id,
+                                                    boundsKey = "Bounds/$source/${item.id}",
+                                                    saveButtonElementKey = "Element/$source/${item.id}/saveButton",
+                                                    id = item.id,
                                                 )
                                             }
                                         }
@@ -118,6 +124,8 @@ class KSActivity : ComponentActivity() {
                             is NavDestination.ContentViewer -> {
                                 ContentViewerScreen(
                                     animatedVisibilityScope = this,
+                                    boundsKey = it.boundsKey,
+                                    saveButtonElementKey = it.saveButtonElementKey,
                                     id = it.id,
                                     onNavigateUp = {
                                         navDestination = NavDestination.Main
@@ -128,6 +136,8 @@ class KSActivity : ComponentActivity() {
                             is NavDestination.KotlinWeeklyIssue -> {
                                 KotlinWeeklyIssueScreen(
                                     animatedVisibilityScope = this,
+                                    boundsKey = it.boundKey,
+                                    titleElementKey = it.titleElementKey,
                                     id = it.id,
                                     issueNumber = it.issueNumber,
                                     onNavigateUp = {
@@ -139,6 +149,8 @@ class KSActivity : ComponentActivity() {
                             is NavDestination.TalkingKotlinEpisode -> {
                                 TalkingKotlinEpisodeScreen(
                                     animatedVisibilityScope = this,
+                                    boundsKey = it.boundsKey,
+                                    playerElementKey = it.playerElementKey,
                                     id = it.id,
                                     onNavigateUp = {
                                         navDestination = NavDestination.Main
@@ -166,18 +178,24 @@ private sealed interface NavDestination : Parcelable {
 
     @Parcelize
     data class ContentViewer(
-        val id: String
+        val boundsKey: String,
+        val saveButtonElementKey: String,
+        val id: String,
     ) : NavDestination
 
     @Parcelize
     data class KotlinWeeklyIssue(
+        val boundKey: String,
+        val titleElementKey: String,
         val id: String,
         val issueNumber: Int,
     ) : NavDestination
 
     @Parcelize
     data class TalkingKotlinEpisode(
-        val id: String
+        val boundsKey: String,
+        val playerElementKey: String,
+        val id: String,
     ) : NavDestination
 }
 
