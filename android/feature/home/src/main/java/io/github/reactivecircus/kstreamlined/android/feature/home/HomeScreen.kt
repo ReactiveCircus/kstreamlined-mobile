@@ -32,7 +32,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -172,6 +174,10 @@ private fun SharedTransitionScope.ContentUi(
         modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.TopCenter,
     ) {
+        val firstVisibleItemKey by remember {
+            derivedStateOf { listState.layoutInfo.visibleItemsInfo.firstOrNull()?.key }
+        }
+
         LazyColumn(
             modifier = Modifier.testTag("home:feedList"),
             state = listState,
@@ -212,15 +218,23 @@ private fun SharedTransitionScope.ContentUi(
                                 KotlinBlogCard(
                                     item = item.toDisplayable(displayablePublishTime),
                                     onItemClick = onItemClick,
-                                    onSaveButtonClick = { eventSink(HomeUiEvent.ToggleSavedForLater(item)) },
+                                    onSaveButtonClick = {
+                                        eventSink(
+                                            HomeUiEvent.ToggleSavedForLater(
+                                                item
+                                            )
+                                        )
+                                    },
                                     modifier = Modifier
                                         .animateItem()
                                         .sharedBounds(
                                             rememberSharedContentState(key = "Bounds/Home/${item.id}"),
                                             animatedVisibilityScope = animatedVisibilityScope,
+                                            renderInOverlayDuringTransition = firstVisibleItemKey != item.id,
                                         ),
                                     animatedVisibilityScope = animatedVisibilityScope,
                                     saveButtonElementKey = "Element/Home/${item.id}/saveButton",
+                                    renderInOverlayDuringTransition = firstVisibleItemKey != item.id,
                                 )
                             }
 
@@ -228,15 +242,23 @@ private fun SharedTransitionScope.ContentUi(
                                 KotlinWeeklyCard(
                                     item = item.toDisplayable(displayablePublishTime),
                                     onItemClick = onItemClick,
-                                    onSaveButtonClick = { eventSink(HomeUiEvent.ToggleSavedForLater(item)) },
+                                    onSaveButtonClick = {
+                                        eventSink(
+                                            HomeUiEvent.ToggleSavedForLater(
+                                                item
+                                            )
+                                        )
+                                    },
                                     modifier = Modifier
                                         .animateItem()
                                         .sharedBounds(
                                             rememberSharedContentState(key = "Bounds/Home/${item.id}"),
                                             animatedVisibilityScope = animatedVisibilityScope,
+                                            renderInOverlayDuringTransition = firstVisibleItemKey != item.id,
                                         ),
                                     animatedVisibilityScope = animatedVisibilityScope,
                                     titleElementKey = "Element/Home/${item.id}/title",
+                                    renderInOverlayDuringTransition = firstVisibleItemKey != item.id,
                                 )
                             }
 
@@ -244,15 +266,23 @@ private fun SharedTransitionScope.ContentUi(
                                 KotlinYouTubeCard(
                                     item = item.toDisplayable(displayablePublishTime),
                                     onItemClick = onItemClick,
-                                    onSaveButtonClick = { eventSink(HomeUiEvent.ToggleSavedForLater(item)) },
+                                    onSaveButtonClick = {
+                                        eventSink(
+                                            HomeUiEvent.ToggleSavedForLater(
+                                                item
+                                            )
+                                        )
+                                    },
                                     modifier = Modifier
                                         .animateItem()
                                         .sharedBounds(
                                             rememberSharedContentState(key = "Bounds/Home/${item.id}"),
                                             animatedVisibilityScope = animatedVisibilityScope,
+                                            renderInOverlayDuringTransition = firstVisibleItemKey != item.id,
                                         ),
                                     animatedVisibilityScope = animatedVisibilityScope,
                                     saveButtonElementKey = "Element/Home/${item.id}/saveButton",
+                                    renderInOverlayDuringTransition = firstVisibleItemKey != item.id,
                                 )
                             }
 
@@ -260,17 +290,23 @@ private fun SharedTransitionScope.ContentUi(
                                 TalkingKotlinCard(
                                     item = item.toDisplayable(displayablePublishTime),
                                     onItemClick = onItemClick,
-                                    onSaveButtonClick = { eventSink(HomeUiEvent.ToggleSavedForLater(item)) },
+                                    onSaveButtonClick = {
+                                        eventSink(
+                                            HomeUiEvent.ToggleSavedForLater(
+                                                item
+                                            )
+                                        )
+                                    },
                                     modifier = Modifier
                                         .animateItem()
-                                        .sharedElement(
-                                            rememberSharedContentState(key = "Element/Home/${item.id}/player"),
-                                            animatedVisibilityScope = animatedVisibilityScope,
-                                        )
                                         .sharedBounds(
                                             rememberSharedContentState(key = "Bounds/Home/${item.id}"),
                                             animatedVisibilityScope = animatedVisibilityScope,
+                                            renderInOverlayDuringTransition = firstVisibleItemKey != item.id,
                                         ),
+                                    animatedVisibilityScope = animatedVisibilityScope,
+                                    cardElementKey = "Element/Home/${item.id}/player",
+                                    renderInOverlayDuringTransition = firstVisibleItemKey != item.id,
                                 )
                             }
                         }

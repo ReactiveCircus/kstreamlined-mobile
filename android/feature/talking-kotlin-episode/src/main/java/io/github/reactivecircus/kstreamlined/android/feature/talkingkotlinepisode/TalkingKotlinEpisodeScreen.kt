@@ -5,10 +5,6 @@ package io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepiso
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionScope
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -102,8 +98,6 @@ public fun SharedTransitionScope.TalkingKotlinEpisodeScreen(
         modifier = modifier.sharedBounds(
             rememberSharedContentState(key = boundsKey),
             animatedVisibilityScope = animatedVisibilityScope,
-            enter = fadeIn() + scaleIn(),
-            exit = fadeOut() + scaleOut(),
         ),
     )
 }

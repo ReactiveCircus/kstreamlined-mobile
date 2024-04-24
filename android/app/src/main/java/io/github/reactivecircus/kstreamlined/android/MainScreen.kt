@@ -6,7 +6,11 @@ import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.animation.core.EaseInOutQuart
+import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
@@ -85,29 +89,40 @@ fun SharedTransitionScope.MainScreen(
             )
         }
 
-        NavigationIsland(
-            modifier = Modifier
-                .navigationBarsPadding()
-                .padding(8.dp)
-                .align(Alignment.BottomCenter),
-        ) {
-            NavigationIslandItem(
-                selected = selectedNavItem == NavItemKey.Home,
-                icon = KSIcons.Kotlin,
-                contentDescription = "Home",
-                onClick = {
-                    onSelectedNavItemChanged(NavItemKey.Home)
-                },
-            )
-            NavigationIslandDivider()
-            NavigationIslandItem(
-                selected = selectedNavItem == NavItemKey.Saved,
-                icon = KSIcons.Bookmarks,
-                contentDescription = "Saved",
-                onClick = {
-                    onSelectedNavItemChanged(NavItemKey.Saved)
-                },
-            )
+        with(animatedVisibilityScope) {
+            NavigationIsland(
+                modifier = Modifier
+                    .navigationBarsPadding()
+                    .padding(8.dp)
+                    .align(Alignment.BottomCenter)
+                    .renderInSharedTransitionScopeOverlay(
+                        zIndexInOverlay = 1f
+                    )
+                    .animateEnterExit(
+                        enter = fadeIn() + slideInVertically(
+                            tween(delayMillis = 200, easing = LinearOutSlowInEasing)
+                        ) { it * 2 },
+                        exit = fadeOut(),
+                    ),
+            ) {
+                NavigationIslandItem(
+                    selected = selectedNavItem == NavItemKey.Home,
+                    icon = KSIcons.Kotlin,
+                    contentDescription = "Home",
+                    onClick = {
+                        onSelectedNavItemChanged(NavItemKey.Home)
+                    },
+                )
+                NavigationIslandDivider()
+                NavigationIslandItem(
+                    selected = selectedNavItem == NavItemKey.Saved,
+                    icon = KSIcons.Bookmarks,
+                    contentDescription = "Saved",
+                    onClick = {
+                        onSelectedNavItemChanged(NavItemKey.Saved)
+                    },
+                )
+            }
         }
     }
 }

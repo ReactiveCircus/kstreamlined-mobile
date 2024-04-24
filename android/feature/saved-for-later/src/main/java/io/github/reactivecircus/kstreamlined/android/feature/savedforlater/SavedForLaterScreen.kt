@@ -26,7 +26,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -132,6 +134,10 @@ private fun SharedTransitionScope.ContentUi(
     eventSink: (SavedForLaterUiEvent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val firstVisibleItemKey by remember {
+        derivedStateOf { listState.layoutInfo.visibleItemsInfo.firstOrNull()?.key }
+    }
+
     LazyColumn(
         modifier = modifier.fillMaxSize(),
         state = listState,
@@ -155,9 +161,11 @@ private fun SharedTransitionScope.ContentUi(
                             .sharedBounds(
                                 rememberSharedContentState(key = "Bounds/Saved/${item.id}"),
                                 animatedVisibilityScope = animatedVisibilityScope,
+                                renderInOverlayDuringTransition = firstVisibleItemKey != item.id,
                             ),
                         animatedVisibilityScope = animatedVisibilityScope,
                         saveButtonElementKey = "Element/Saved/${item.id}/saveButton",
+                        renderInOverlayDuringTransition = firstVisibleItemKey != item.id,
                     )
                 }
 
@@ -171,9 +179,11 @@ private fun SharedTransitionScope.ContentUi(
                             .sharedBounds(
                                 rememberSharedContentState(key = "Bounds/Saved/${item.id}"),
                                 animatedVisibilityScope = animatedVisibilityScope,
+                                renderInOverlayDuringTransition = firstVisibleItemKey != item.id,
                             ),
                         animatedVisibilityScope = animatedVisibilityScope,
                         titleElementKey = "Element/Saved/${item.id}/title",
+                        renderInOverlayDuringTransition = firstVisibleItemKey != item.id,
                     )
                 }
 
@@ -187,9 +197,11 @@ private fun SharedTransitionScope.ContentUi(
                             .sharedBounds(
                                 rememberSharedContentState(key = "Bounds/Saved/${item.id}"),
                                 animatedVisibilityScope = animatedVisibilityScope,
+                                renderInOverlayDuringTransition = firstVisibleItemKey != item.id,
                             ),
                         animatedVisibilityScope = animatedVisibilityScope,
                         saveButtonElementKey = "Element/Saved/${item.id}/saveButton",
+                        renderInOverlayDuringTransition = firstVisibleItemKey != item.id,
                     )
                 }
 
@@ -200,14 +212,14 @@ private fun SharedTransitionScope.ContentUi(
                         onSaveButtonClick = { eventSink(SavedForLaterUiEvent.RemoveSavedItem(item.id)) },
                         modifier = Modifier
                             .animateItem()
-                            .sharedElement(
-                                rememberSharedContentState(key = "Element/Saved/${item.id}/player"),
-                                animatedVisibilityScope = animatedVisibilityScope,
-                            )
                             .sharedBounds(
                                 rememberSharedContentState(key = "Bounds/Saved/${item.id}"),
                                 animatedVisibilityScope = animatedVisibilityScope,
+                                renderInOverlayDuringTransition = firstVisibleItemKey != item.id,
                             ),
+                        animatedVisibilityScope = animatedVisibilityScope,
+                        cardElementKey = "Element/Saved/${item.id}/player",
+                        renderInOverlayDuringTransition = firstVisibleItemKey != item.id,
                     )
                 }
             }

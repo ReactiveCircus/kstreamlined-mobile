@@ -43,6 +43,7 @@ public fun SharedTransitionScope.KotlinWeeklyCard(
     modifier: Modifier = Modifier,
     animatedVisibilityScope: AnimatedVisibilityScope? = null,
     titleElementKey: String? = null,
+    renderInOverlayDuringTransition: Boolean = true,
 ): Unit = trace("FeedItem:KotlinWeeklyCard") {
     val brush = Brush.horizontalGradient(
         colors = listOf(
@@ -83,6 +84,7 @@ public fun SharedTransitionScope.KotlinWeeklyCard(
                         Modifier.sharedElement(
                             rememberSharedContentState(key = titleElementKey),
                             animatedVisibilityScope = animatedVisibilityScope,
+                            renderInOverlayDuringTransition = renderInOverlayDuringTransition,
                         )
                     } else {
                         Modifier
