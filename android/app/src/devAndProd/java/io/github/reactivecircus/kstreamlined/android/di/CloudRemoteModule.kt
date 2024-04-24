@@ -33,7 +33,7 @@ object CloudRemoteModule {
         okHttpCallFactory: Lazy<Call.Factory>,
     ): ApolloClient = trace("ApolloClient") {
         return ApolloClient.Builder()
-            .okHttpCallFactory(okHttpCallFactory.get())
+            .okHttpCallFactory { okHttpCallFactory.get() }
             .serverUrl(BuildConfig.API_ENDPOINT)
             .addHttpInterceptor(
                 ApolloClientAwarenessInterceptor(
