@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.tracing.trace
 import coil3.compose.AsyncImage
 import io.github.reactivecircus.kstreamlined.android.feature.common.openCustomTab
 import io.github.reactivecircus.kstreamlined.android.feature.common.openShareSheet
@@ -63,7 +64,7 @@ public fun TalkingKotlinEpisodeScreen(
     id: String,
     onNavigateUp: () -> Unit,
     modifier: Modifier = Modifier,
-) {
+): Unit = trace("Screen:TalkingKotlinEpisode") {
     val viewModel = viewModel<TalkingKotlinEpisodeViewModel>()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val eventSink = viewModel.eventSink

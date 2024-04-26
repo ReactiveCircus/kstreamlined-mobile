@@ -47,7 +47,9 @@ public fun KotlinYouTubeCard(
 ): Unit = trace("FeedItem:KotlinYouTubeCard") {
     Surface(
         onClick = { onItemClick(item.value) },
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .testTag("kotlinYouTubeCard"),
         shape = RoundedCornerShape(16.dp),
         color = KSTheme.colorScheme.secondary,
         contentColor = KSTheme.colorScheme.onSecondary,

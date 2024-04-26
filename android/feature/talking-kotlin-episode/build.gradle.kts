@@ -25,12 +25,13 @@ dependencies {
     implementation(project(":kmp:feed-datasource"))
     implementation(project(":kmp:presentation:talking-kotlin-episode"))
 
+    // AndroidX
+    implementation(libs.androidx.media3.exoplayer)
+    implementation(libs.androidx.tracing)
+
     // Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
-
-    // ExoPlayer
-    implementation(libs.androidx.media3.exoplayer)
 
     testImplementation(kotlin("test"))
 }
