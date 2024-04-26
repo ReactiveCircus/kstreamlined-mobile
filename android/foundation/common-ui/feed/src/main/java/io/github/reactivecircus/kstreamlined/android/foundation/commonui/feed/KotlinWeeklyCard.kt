@@ -51,7 +51,8 @@ public fun KotlinWeeklyCard(
                     cornerRadius = CornerRadius(16.dp.toPx(), 16.dp.toPx()),
                 )
             }
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .testTag("kotlinWeeklyCard"),
         color = Color.Transparent,
         contentColor = KSTheme.colorScheme.onPrimary,
     ) {

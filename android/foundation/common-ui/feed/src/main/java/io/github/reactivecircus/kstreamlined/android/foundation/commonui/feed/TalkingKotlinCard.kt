@@ -67,7 +67,8 @@ public fun TalkingKotlinCard(
                     cornerRadius = CornerRadius(16.dp.toPx(), 16.dp.toPx()),
                 )
             }
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .testTag("talkingKotlinCard"),
         color = Color.Transparent,
         contentColor = KSTheme.colorScheme.onTertiary,
     ) {

@@ -39,7 +39,9 @@ public fun KotlinBlogCard(
 ): Unit = trace("FeedItem:KotlinBlogCard") {
     Surface(
         onClick = { onItemClick(item.value) },
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .testTag("kotlinBlogCard"),
         shape = RoundedCornerShape(16.dp),
         color = KSTheme.colorScheme.container,
         contentColor = KSTheme.colorScheme.onBackground,
