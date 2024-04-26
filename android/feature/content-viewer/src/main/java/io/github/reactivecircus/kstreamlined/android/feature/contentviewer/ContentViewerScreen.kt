@@ -63,6 +63,7 @@ import io.github.reactivecircus.kstreamlined.android.feature.common.R as commonR
 public fun SharedTransitionScope.ContentViewerScreen(
     animatedVisibilityScope: AnimatedVisibilityScope,
     boundsKey: String,
+    topBarBoundsKey: String,
     saveButtonElementKey: String,
     id: String,
     onNavigateUp: () -> Unit,
@@ -87,6 +88,8 @@ public fun SharedTransitionScope.ContentViewerScreen(
     ) {
         val context = LocalContext.current
         TopNavBar(
+            animatedVisibilityScope = animatedVisibilityScope,
+            boundsKey = topBarBoundsKey,
             title = "",
             contentPadding = WindowInsets.statusBars.asPaddingValues(),
             navigationIcon = {
@@ -118,6 +121,7 @@ public fun SharedTransitionScope.ContentViewerScreen(
                         modifier = Modifier.sharedElement(
                             rememberSharedContentState(key = saveButtonElementKey),
                             animatedVisibilityScope = animatedVisibilityScope,
+                            zIndexInOverlay = 1f,
                         ),
                     )
                 }

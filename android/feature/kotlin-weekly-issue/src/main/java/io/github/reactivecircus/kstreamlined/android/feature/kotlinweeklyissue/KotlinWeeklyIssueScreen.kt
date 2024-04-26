@@ -66,6 +66,7 @@ import io.github.reactivecircus.kstreamlined.android.feature.common.R as commonR
 public fun SharedTransitionScope.KotlinWeeklyIssueScreen(
     animatedVisibilityScope: AnimatedVisibilityScope,
     boundsKey: String,
+    topBarBoundsKey: String,
     titleElementKey: String,
     id: String,
     issueNumber: Int,
@@ -84,6 +85,7 @@ public fun SharedTransitionScope.KotlinWeeklyIssueScreen(
     val title = stringResource(id = R.string.title_kotlin_weekly_issue, issueNumber)
     KotlinWeeklyIssueScreen(
         animatedVisibilityScope = animatedVisibilityScope,
+        topBarBoundsKey = topBarBoundsKey,
         titleElementKey = titleElementKey,
         id = id,
         title = title,
@@ -105,6 +107,7 @@ public fun SharedTransitionScope.KotlinWeeklyIssueScreen(
 
 @Composable
 internal fun SharedTransitionScope.KotlinWeeklyIssueScreen(
+    topBarBoundsKey: String,
     titleElementKey: String,
     animatedVisibilityScope: AnimatedVisibilityScope,
     id: String,
@@ -123,6 +126,7 @@ internal fun SharedTransitionScope.KotlinWeeklyIssueScreen(
     ) {
         TopNavBar(
             animatedVisibilityScope = animatedVisibilityScope,
+            boundsKey = topBarBoundsKey,
             titleElementKey = titleElementKey,
             title = title,
             modifier = Modifier.zIndex(1f),

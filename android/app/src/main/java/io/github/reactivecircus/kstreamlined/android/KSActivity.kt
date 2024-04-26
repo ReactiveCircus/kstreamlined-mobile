@@ -97,7 +97,8 @@ class KSActivity : ComponentActivity() {
                                             is FeedItem.KotlinWeekly -> {
                                                 NavDestination.KotlinWeeklyIssue(
                                                     boundKey = "Bounds/$source/${item.id}",
-                                                    titleElementKey = "Element/$source/${item.id}/title",
+                                                    topBarBoundsKey = "Bounds/$source/TopBar",
+                                                    titleElementKey = "Element/$source/TopBar/Title",
                                                     id = item.id,
                                                     issueNumber = item.issueNumber,
                                                 )
@@ -105,6 +106,7 @@ class KSActivity : ComponentActivity() {
                                             is FeedItem.TalkingKotlin -> {
                                                 NavDestination.TalkingKotlinEpisode(
                                                     boundsKey = "Bounds/$source/${item.id}",
+                                                    topBarBoundsKey = "Bounds/$source/TopBar",
                                                     playerElementKey = "Element/$source/${item.id}/player",
                                                     id = item.id,
                                                 )
@@ -112,6 +114,7 @@ class KSActivity : ComponentActivity() {
                                             else -> {
                                                 NavDestination.ContentViewer(
                                                     boundsKey = "Bounds/$source/${item.id}",
+                                                    topBarBoundsKey = "Bounds/$source/TopBar",
                                                     saveButtonElementKey = "Element/$source/${item.id}/saveButton",
                                                     id = item.id,
                                                 )
@@ -125,6 +128,7 @@ class KSActivity : ComponentActivity() {
                                 ContentViewerScreen(
                                     animatedVisibilityScope = this,
                                     boundsKey = it.boundsKey,
+                                    topBarBoundsKey = it.topBarBoundsKey,
                                     saveButtonElementKey = it.saveButtonElementKey,
                                     id = it.id,
                                     onNavigateUp = {
@@ -137,6 +141,7 @@ class KSActivity : ComponentActivity() {
                                 KotlinWeeklyIssueScreen(
                                     animatedVisibilityScope = this,
                                     boundsKey = it.boundKey,
+                                    topBarBoundsKey = it.topBarBoundsKey,
                                     titleElementKey = it.titleElementKey,
                                     id = it.id,
                                     issueNumber = it.issueNumber,
@@ -150,6 +155,7 @@ class KSActivity : ComponentActivity() {
                                 TalkingKotlinEpisodeScreen(
                                     animatedVisibilityScope = this,
                                     boundsKey = it.boundsKey,
+                                    topBarBoundsKey = it.topBarBoundsKey,
                                     playerElementKey = it.playerElementKey,
                                     id = it.id,
                                     onNavigateUp = {
@@ -179,6 +185,7 @@ private sealed interface NavDestination : Parcelable {
     @Parcelize
     data class ContentViewer(
         val boundsKey: String,
+        val topBarBoundsKey: String,
         val saveButtonElementKey: String,
         val id: String,
     ) : NavDestination
@@ -186,6 +193,7 @@ private sealed interface NavDestination : Parcelable {
     @Parcelize
     data class KotlinWeeklyIssue(
         val boundKey: String,
+        val topBarBoundsKey: String,
         val titleElementKey: String,
         val id: String,
         val issueNumber: Int,
@@ -194,6 +202,7 @@ private sealed interface NavDestination : Parcelable {
     @Parcelize
     data class TalkingKotlinEpisode(
         val boundsKey: String,
+        val topBarBoundsKey: String,
         val playerElementKey: String,
         val id: String,
     ) : NavDestination

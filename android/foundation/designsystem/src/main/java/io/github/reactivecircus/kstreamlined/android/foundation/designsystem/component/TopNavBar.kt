@@ -39,6 +39,7 @@ public fun SharedTransitionScope.TopNavBar(
     title: String,
     modifier: Modifier = Modifier,
     animatedVisibilityScope: AnimatedVisibilityScope? = null,
+    boundsKey: String? = null,
     titleElementKey: String? = null,
     contentPadding: PaddingValues = PaddingValues(0.dp),
     elevation: Dp = 2.dp,
@@ -47,7 +48,18 @@ public fun SharedTransitionScope.TopNavBar(
     bottomRow: @Composable (RowScope.() -> Unit)? = null,
 ) {
     Surface(
-        modifier = modifier,
+        modifier = modifier
+            .then(
+                if (boundsKey != null && animatedVisibilityScope != null) {
+                    Modifier.sharedBounds(
+                        rememberSharedContentState(key = boundsKey),
+                        animatedVisibilityScope = animatedVisibilityScope,
+                        zIndexInOverlay = 1f,
+                    )
+                } else {
+                    Modifier
+                }
+            ),
         elevation = elevation,
         color = KSTheme.colorScheme.background,
         contentColor = KSTheme.colorScheme.primary,
@@ -123,11 +135,14 @@ private fun SharedTransitionScope.GradientTitle(
             ),
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
-            modifier = if (animatedVisibilityScope != null && titleElementKey != null) {
-                Modifier.sharedElement(
-                    rememberSharedContentState(key = titleElementKey),
-                    animatedVisibilityScope = animatedVisibilityScope,
-                )
+            modifier = if (titleElementKey != null && animatedVisibilityScope != null) {
+                Modifier
+                    .sharedElement(
+                        rememberSharedContentState(key = titleElementKey),
+                        animatedVisibilityScope = animatedVisibilityScope,
+                        zIndexInOverlay = 1f,
+                    )
+                    .skipToLookaheadSize()
             } else {
                 Modifier
             }

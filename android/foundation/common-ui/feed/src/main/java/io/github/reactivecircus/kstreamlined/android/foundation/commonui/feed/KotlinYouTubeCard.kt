@@ -52,7 +52,6 @@ public fun SharedTransitionScope.KotlinYouTubeCard(
     modifier: Modifier = Modifier,
     animatedVisibilityScope: AnimatedVisibilityScope? = null,
     saveButtonElementKey: String? = null,
-    renderInOverlayDuringTransition: Boolean = true,
 ): Unit = trace("FeedItem:KotlinYouTubeCard") {
     Surface(
         onClick = { onItemClick(item.value) },
@@ -128,7 +127,7 @@ public fun SharedTransitionScope.KotlinYouTubeCard(
                                     Modifier.sharedElement(
                                         rememberSharedContentState(key = saveButtonElementKey),
                                         animatedVisibilityScope = animatedVisibilityScope,
-                                        renderInOverlayDuringTransition = renderInOverlayDuringTransition,
+                                        zIndexInOverlay = 1f,
                                     )
                                 } else {
                                     Modifier

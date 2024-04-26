@@ -67,6 +67,7 @@ import io.github.reactivecircus.kstreamlined.android.feature.common.R as commonR
 @Composable
 public fun SharedTransitionScope.TalkingKotlinEpisodeScreen(
     animatedVisibilityScope: AnimatedVisibilityScope,
+    topBarBoundsKey: String,
     boundsKey: String,
     playerElementKey: String,
     id: String,
@@ -87,6 +88,7 @@ public fun SharedTransitionScope.TalkingKotlinEpisodeScreen(
     val context = LocalContext.current
     TalkingKotlinEpisodeScreen(
         animatedVisibilityScope = animatedVisibilityScope,
+        topBarBoundsKey = topBarBoundsKey,
         playerElementKey = playerElementKey,
         onNavigateUp = onNavigateUp,
         onShareButtonClick = { title, url ->
@@ -105,6 +107,7 @@ public fun SharedTransitionScope.TalkingKotlinEpisodeScreen(
 @Composable
 internal fun SharedTransitionScope.TalkingKotlinEpisodeScreen(
     animatedVisibilityScope: AnimatedVisibilityScope,
+    topBarBoundsKey: String,
     playerElementKey: String,
     onNavigateUp: () -> Unit,
     onShareButtonClick: (title: String, url: String) -> Unit,
@@ -119,6 +122,8 @@ internal fun SharedTransitionScope.TalkingKotlinEpisodeScreen(
             .background(KSTheme.colorScheme.background),
     ) {
         TopNavBar(
+            animatedVisibilityScope = animatedVisibilityScope,
+            boundsKey = topBarBoundsKey,
             title = "",
             modifier = Modifier.zIndex(1f),
             contentPadding = WindowInsets.statusBars.asPaddingValues(),

@@ -59,7 +59,6 @@ public fun SharedTransitionScope.TalkingKotlinCard(
     modifier: Modifier = Modifier,
     animatedVisibilityScope: AnimatedVisibilityScope? = null,
     cardElementKey: String? = null,
-    renderInOverlayDuringTransition: Boolean = true,
 ): Unit = trace("FeedItem:TalkingKotlinCard") {
     val brush = Brush.horizontalGradient(
         colors = listOf(
@@ -70,6 +69,16 @@ public fun SharedTransitionScope.TalkingKotlinCard(
     Surface(
         onClick = { onItemClick(item.value) },
         modifier = modifier
+            .then(
+                if (animatedVisibilityScope != null && cardElementKey != null) {
+                    Modifier.sharedElement(
+                        rememberSharedContentState(key = cardElementKey),
+                        animatedVisibilityScope = animatedVisibilityScope,
+                    )
+                } else {
+                    Modifier
+                }
+            )
             .drawBehind {
                 drawRoundRect(
                     brush = brush,
@@ -77,17 +86,6 @@ public fun SharedTransitionScope.TalkingKotlinCard(
                 )
             }
             .fillMaxWidth()
-            .then(
-                if (animatedVisibilityScope != null && cardElementKey != null) {
-                    Modifier.sharedElement(
-                        rememberSharedContentState(key = cardElementKey),
-                        animatedVisibilityScope = animatedVisibilityScope,
-                        renderInOverlayDuringTransition = renderInOverlayDuringTransition,
-                    )
-                } else {
-                    Modifier
-                }
-            )
             .testTag("talkingKotlinCard"),
         color = Color.Transparent,
         contentColor = KSTheme.colorScheme.onTertiary,
