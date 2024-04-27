@@ -51,9 +51,9 @@ import io.github.reactivecircus.kstreamlined.kmp.presentation.savedforlater.Save
 import io.github.reactivecircus.kstreamlined.kmp.presentation.savedforlater.SavedForLaterUiState
 import io.github.reactivecircus.kstreamlined.android.feature.common.R as commonR
 
+context(SharedTransitionScope, AnimatedVisibilityScope)
 @Composable
-public fun SharedTransitionScope.SavedForLaterScreen(
-    animatedVisibilityScope: AnimatedVisibilityScope,
+public fun SavedForLaterScreen(
     listState: LazyListState,
     onViewItem: (FeedItem) -> Unit,
     modifier: Modifier = Modifier,
@@ -62,7 +62,6 @@ public fun SharedTransitionScope.SavedForLaterScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val eventSink = viewModel.eventSink
     SavedForLaterScreen(
-        animatedVisibilityScope = animatedVisibilityScope,
         listState = listState,
         onViewItem = onViewItem,
         uiState = uiState,
@@ -71,9 +70,9 @@ public fun SharedTransitionScope.SavedForLaterScreen(
     )
 }
 
+context(SharedTransitionScope, AnimatedVisibilityScope)
 @Composable
-internal fun SharedTransitionScope.SavedForLaterScreen(
-    animatedVisibilityScope: AnimatedVisibilityScope,
+internal fun SavedForLaterScreen(
     listState: LazyListState,
     onViewItem: (FeedItem) -> Unit,
     uiState: SavedForLaterUiState,
@@ -86,7 +85,6 @@ internal fun SharedTransitionScope.SavedForLaterScreen(
             .background(KSTheme.colorScheme.background),
     ) {
         TopNavBar(
-            animatedVisibilityScope = animatedVisibilityScope,
             boundsKey = "Bounds/Saved/TopBar",
             titleElementKey = "Element/Saved/TopBar/Title",
             title = stringResource(id = R.string.title_saved_for_later),
@@ -109,13 +107,14 @@ internal fun SharedTransitionScope.SavedForLaterScreen(
                     label = "isEmpty",
                 ) { isEmpty ->
                     if (!isEmpty) {
-                        ContentUi(
-                            animatedVisibilityScope = animatedVisibilityScope,
-                            listState = listState,
-                            items = uiState.feedItems,
-                            onItemClick = onViewItem,
-                            eventSink = eventSink,
-                        )
+                        with(this@AnimatedVisibilityScope) {
+                            ContentUi(
+                                listState = listState,
+                                items = uiState.feedItems,
+                                onItemClick = onViewItem,
+                                eventSink = eventSink,
+                            )
+                        }
                     } else {
                         EmptyUi()
                     }
@@ -125,10 +124,10 @@ internal fun SharedTransitionScope.SavedForLaterScreen(
     }
 }
 
+context(SharedTransitionScope, AnimatedVisibilityScope)
 @Suppress("MaxLineLength")
 @Composable
-private fun SharedTransitionScope.ContentUi(
-    animatedVisibilityScope: AnimatedVisibilityScope,
+private fun ContentUi(
     listState: LazyListState,
     items: List<DisplayableFeedItem<FeedItem>>,
     onItemClick: (FeedItem) -> Unit,
@@ -157,9 +156,9 @@ private fun SharedTransitionScope.ContentUi(
                             .animateItem()
                             .sharedBounds(
                                 rememberSharedContentState(key = "Bounds/Saved/${item.id}"),
-                                animatedVisibilityScope = animatedVisibilityScope,
+                                animatedVisibilityScope = this@AnimatedVisibilityScope,
                             ),
-                        animatedVisibilityScope = animatedVisibilityScope,
+                        animatedVisibilityScope = this@AnimatedVisibilityScope,
                         saveButtonElementKey = "Element/Saved/${item.id}/saveButton",
                     )
                 }
@@ -173,7 +172,7 @@ private fun SharedTransitionScope.ContentUi(
                             .animateItem()
                             .sharedBounds(
                                 rememberSharedContentState(key = "Bounds/Saved/${item.id}"),
-                                animatedVisibilityScope = animatedVisibilityScope,
+                                animatedVisibilityScope = this@AnimatedVisibilityScope,
                             ),
                     )
                 }
@@ -187,9 +186,9 @@ private fun SharedTransitionScope.ContentUi(
                             .animateItem()
                             .sharedBounds(
                                 rememberSharedContentState(key = "Bounds/Saved/${item.id}"),
-                                animatedVisibilityScope = animatedVisibilityScope,
+                                animatedVisibilityScope = this@AnimatedVisibilityScope,
                             ),
-                        animatedVisibilityScope = animatedVisibilityScope,
+                        animatedVisibilityScope = this@AnimatedVisibilityScope,
                         saveButtonElementKey = "Element/Saved/${item.id}/saveButton",
                     )
                 }
@@ -203,9 +202,9 @@ private fun SharedTransitionScope.ContentUi(
                             .animateItem()
                             .sharedBounds(
                                 rememberSharedContentState(key = "Bounds/Saved/${item.id}"),
-                                animatedVisibilityScope = animatedVisibilityScope,
+                                animatedVisibilityScope = this@AnimatedVisibilityScope,
                             ),
-                        animatedVisibilityScope = animatedVisibilityScope,
+                        animatedVisibilityScope = this@AnimatedVisibilityScope,
                         cardElementKey = "Element/Saved/${item.id}/player",
                     )
                 }

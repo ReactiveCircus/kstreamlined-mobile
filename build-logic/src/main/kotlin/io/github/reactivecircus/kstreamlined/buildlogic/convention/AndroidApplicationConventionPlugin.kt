@@ -2,11 +2,10 @@ package io.github.reactivecircus.kstreamlined.buildlogic.convention
 
 import com.android.build.api.variant.ApplicationAndroidComponentsExtension
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
-import io.github.reactivecircus.kstreamlined.buildlogic.applyLanguageSettings
 import io.github.reactivecircus.kstreamlined.buildlogic.configureAndroidApplicationVariants
 import io.github.reactivecircus.kstreamlined.buildlogic.configureCommonAndroidOptions
 import io.github.reactivecircus.kstreamlined.buildlogic.configureDetekt
-import io.github.reactivecircus.kstreamlined.buildlogic.configureKotlinJvm
+import io.github.reactivecircus.kstreamlined.buildlogic.configureKotlin
 import io.github.reactivecircus.kstreamlined.buildlogic.configureSlimTests
 import io.github.reactivecircus.kstreamlined.buildlogic.configureTest
 import org.gradle.api.Plugin
@@ -23,12 +22,7 @@ internal class AndroidApplicationConventionPlugin : Plugin<Project> {
         }
 
         extensions.configure<KotlinAndroidProjectExtension> {
-            configureKotlinJvm(target)
-            sourceSets.configureEach {
-                languageSettings {
-                    applyLanguageSettings()
-                }
-            }
+            configureKotlin(target, enableExplicitApi = false)
         }
 
         extensions.configure<BaseAppModuleExtension> {

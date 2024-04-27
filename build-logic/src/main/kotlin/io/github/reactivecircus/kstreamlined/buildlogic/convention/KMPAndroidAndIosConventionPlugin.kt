@@ -6,7 +6,7 @@ import io.github.reactivecircus.kstreamlined.buildlogic.configureAndroidLibraryV
 import io.github.reactivecircus.kstreamlined.buildlogic.configureCommonAndroidOptions
 import io.github.reactivecircus.kstreamlined.buildlogic.configureDetekt
 import io.github.reactivecircus.kstreamlined.buildlogic.configureKMPCommon
-import io.github.reactivecircus.kstreamlined.buildlogic.configureKotlinCompileOptions
+import io.github.reactivecircus.kstreamlined.buildlogic.configureKotlin
 import io.github.reactivecircus.kstreamlined.buildlogic.configureTest
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -22,6 +22,7 @@ internal class KMPAndroidAndIosConventionPlugin : Plugin<Project> {
 
         extensions.configure<KotlinMultiplatformExtension> {
             configureKMPCommon(target, enableJvmTarget = false, enableAndroidTarget = true)
+            configureKotlin(target)
         }
 
         extensions.configure<LibraryExtension> {
@@ -32,7 +33,6 @@ internal class KMPAndroidAndIosConventionPlugin : Plugin<Project> {
             configureAndroidLibraryVariants()
         }
 
-        configureKotlinCompileOptions()
         configureTest()
         configureDetekt()
     }

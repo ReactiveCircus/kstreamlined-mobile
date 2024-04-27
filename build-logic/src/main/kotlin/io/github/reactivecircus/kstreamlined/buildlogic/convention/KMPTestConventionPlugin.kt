@@ -1,6 +1,7 @@
 package io.github.reactivecircus.kstreamlined.buildlogic.convention
 
 import io.github.reactivecircus.kstreamlined.buildlogic.configureKMPTest
+import io.github.reactivecircus.kstreamlined.buildlogic.configureKotlin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
@@ -12,6 +13,7 @@ internal class KMPTestConventionPlugin : Plugin<Project> {
 
         extensions.configure<KotlinMultiplatformExtension> {
             configureKMPTest()
+            configureKotlin(target)
         }
     }
 }

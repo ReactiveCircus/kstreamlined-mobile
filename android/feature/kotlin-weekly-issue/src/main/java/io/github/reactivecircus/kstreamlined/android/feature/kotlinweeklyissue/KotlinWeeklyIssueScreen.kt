@@ -62,9 +62,9 @@ import io.github.reactivecircus.kstreamlined.kmp.presentation.kotlinweeklyissue.
 import io.github.reactivecircus.kstreamlined.kmp.presentation.kotlinweeklyissue.KotlinWeeklyIssueUiState
 import io.github.reactivecircus.kstreamlined.android.feature.common.R as commonR
 
+context(SharedTransitionScope, AnimatedVisibilityScope)
 @Composable
-public fun SharedTransitionScope.KotlinWeeklyIssueScreen(
-    animatedVisibilityScope: AnimatedVisibilityScope,
+public fun KotlinWeeklyIssueScreen(
     boundsKey: String,
     topBarBoundsKey: String,
     titleElementKey: String,
@@ -84,7 +84,6 @@ public fun SharedTransitionScope.KotlinWeeklyIssueScreen(
     val context = LocalContext.current
     val title = stringResource(id = R.string.title_kotlin_weekly_issue, issueNumber)
     KotlinWeeklyIssueScreen(
-        animatedVisibilityScope = animatedVisibilityScope,
         topBarBoundsKey = topBarBoundsKey,
         titleElementKey = titleElementKey,
         id = id,
@@ -100,16 +99,16 @@ public fun SharedTransitionScope.KotlinWeeklyIssueScreen(
         eventSink = eventSink,
         modifier = modifier.sharedBounds(
             rememberSharedContentState(key = boundsKey),
-            animatedVisibilityScope = animatedVisibilityScope,
+            animatedVisibilityScope = this@AnimatedVisibilityScope,
         ),
     )
 }
 
+context(SharedTransitionScope, AnimatedVisibilityScope)
 @Composable
-internal fun SharedTransitionScope.KotlinWeeklyIssueScreen(
+internal fun KotlinWeeklyIssueScreen(
     topBarBoundsKey: String,
     titleElementKey: String,
-    animatedVisibilityScope: AnimatedVisibilityScope,
     id: String,
     title: String,
     onNavigateUp: () -> Unit,
@@ -125,7 +124,7 @@ internal fun SharedTransitionScope.KotlinWeeklyIssueScreen(
             .background(KSTheme.colorScheme.background),
     ) {
         TopNavBar(
-            animatedVisibilityScope = animatedVisibilityScope,
+            animatedVisibilityScope = this@AnimatedVisibilityScope,
             boundsKey = topBarBoundsKey,
             titleElementKey = titleElementKey,
             title = title,

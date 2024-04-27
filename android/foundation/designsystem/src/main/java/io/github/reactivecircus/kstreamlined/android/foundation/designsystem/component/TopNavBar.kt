@@ -34,8 +34,9 @@ import androidx.compose.ui.unit.sp
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.icon.KSIcons
 
+context(SharedTransitionScope)
 @Composable
-public fun SharedTransitionScope.TopNavBar(
+public fun TopNavBar(
     title: String,
     modifier: Modifier = Modifier,
     animatedVisibilityScope: AnimatedVisibilityScope? = null,
@@ -107,8 +108,9 @@ public fun SharedTransitionScope.TopNavBar(
     }
 }
 
+context(SharedTransitionScope)
 @Composable
-private fun SharedTransitionScope.GradientTitle(
+private fun GradientTitle(
     animatedVisibilityScope: AnimatedVisibilityScope?,
     titleElementKey: String?,
     text: String,

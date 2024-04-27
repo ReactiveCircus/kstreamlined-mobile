@@ -59,9 +59,9 @@ import io.github.reactivecircus.kstreamlined.kmp.presentation.contentviewer.Cont
 import io.github.reactivecircus.kstreamlined.kmp.presentation.contentviewer.ContentViewerUiState
 import io.github.reactivecircus.kstreamlined.android.feature.common.R as commonR
 
+context(SharedTransitionScope, AnimatedVisibilityScope)
 @Composable
-public fun SharedTransitionScope.ContentViewerScreen(
-    animatedVisibilityScope: AnimatedVisibilityScope,
+public fun ContentViewerScreen(
     boundsKey: String,
     topBarBoundsKey: String,
     saveButtonElementKey: String,
@@ -83,12 +83,12 @@ public fun SharedTransitionScope.ContentViewerScreen(
             .background(KSTheme.colorScheme.background)
             .sharedBounds(
                 rememberSharedContentState(key = boundsKey),
-                animatedVisibilityScope = animatedVisibilityScope,
+                animatedVisibilityScope = this@AnimatedVisibilityScope,
             ),
     ) {
         val context = LocalContext.current
         TopNavBar(
-            animatedVisibilityScope = animatedVisibilityScope,
+            animatedVisibilityScope = this@AnimatedVisibilityScope,
             boundsKey = topBarBoundsKey,
             title = "",
             contentPadding = WindowInsets.statusBars.asPaddingValues(),
@@ -120,7 +120,7 @@ public fun SharedTransitionScope.ContentViewerScreen(
                         onClick = { eventSink(ContentViewerUiEvent.ToggleSavedForLater) },
                         modifier = Modifier.sharedElement(
                             rememberSharedContentState(key = saveButtonElementKey),
-                            animatedVisibilityScope = animatedVisibilityScope,
+                            animatedVisibilityScope = this@AnimatedVisibilityScope,
                             zIndexInOverlay = 1f,
                         ),
                     )

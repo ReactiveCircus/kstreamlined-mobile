@@ -65,9 +65,9 @@ import io.github.reactivecircus.kstreamlined.kmp.presentation.home.HomeUiState
 import kotlinx.coroutines.delay
 import io.github.reactivecircus.kstreamlined.android.feature.common.R as commonR
 
+context(SharedTransitionScope, AnimatedVisibilityScope)
 @Composable
-public fun SharedTransitionScope.HomeScreen(
-    animatedVisibilityScope: AnimatedVisibilityScope,
+public fun HomeScreen(
     listState: LazyListState,
     onViewItem: (FeedItem) -> Unit,
     modifier: Modifier = Modifier,
@@ -76,7 +76,6 @@ public fun SharedTransitionScope.HomeScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val eventSink = viewModel.eventSink
     HomeScreen(
-        animatedVisibilityScope = animatedVisibilityScope,
         listState = listState,
         onViewItem = onViewItem,
         uiState = uiState,
@@ -86,9 +85,9 @@ public fun SharedTransitionScope.HomeScreen(
     ReportDrawnWhen { uiState !is HomeUiState.Loading }
 }
 
+context(SharedTransitionScope, AnimatedVisibilityScope)
 @Composable
-internal fun SharedTransitionScope.HomeScreen(
-    animatedVisibilityScope: AnimatedVisibilityScope,
+internal fun HomeScreen(
     listState: LazyListState,
     onViewItem: (FeedItem) -> Unit,
     uiState: HomeUiState,
@@ -101,7 +100,7 @@ internal fun SharedTransitionScope.HomeScreen(
             .background(KSTheme.colorScheme.background),
     ) {
         TopNavBar(
-            animatedVisibilityScope = animatedVisibilityScope,
+            animatedVisibilityScope = this@AnimatedVisibilityScope,
             boundsKey = "Bounds/Home/TopBar",
             titleElementKey = "Element/Home/TopBar/Title",
             title = stringResource(id = R.string.title_home),
@@ -146,14 +145,15 @@ internal fun SharedTransitionScope.HomeScreen(
                     }
 
                     is HomeUiState.Content -> {
-                        ContentUi(
-                            animatedVisibilityScope = animatedVisibilityScope,
-                            listState = listState,
-                            items = state.feedItems,
-                            showTransientError = state.hasTransientError,
-                            onItemClick = onViewItem,
-                            eventSink = eventSink,
-                        )
+                        with(this@AnimatedVisibilityScope) {
+                            ContentUi(
+                                listState = listState,
+                                items = state.feedItems,
+                                showTransientError = state.hasTransientError,
+                                onItemClick = onViewItem,
+                                eventSink = eventSink,
+                            )
+                        }
                     }
                 }
             }
@@ -161,9 +161,9 @@ internal fun SharedTransitionScope.HomeScreen(
     }
 }
 
+context(SharedTransitionScope, AnimatedVisibilityScope)
 @Composable
-private fun SharedTransitionScope.ContentUi(
-    animatedVisibilityScope: AnimatedVisibilityScope,
+private fun ContentUi(
     listState: LazyListState,
     items: List<HomeFeedItem>,
     showTransientError: Boolean,
@@ -222,9 +222,9 @@ private fun SharedTransitionScope.ContentUi(
                                         .animateItem()
                                         .sharedBounds(
                                             rememberSharedContentState(key = "Bounds/Home/${item.id}"),
-                                            animatedVisibilityScope = animatedVisibilityScope,
+                                            animatedVisibilityScope = this@AnimatedVisibilityScope,
                                         ),
-                                    animatedVisibilityScope = animatedVisibilityScope,
+                                    animatedVisibilityScope = this@AnimatedVisibilityScope,
                                     saveButtonElementKey = "Element/Home/${item.id}/saveButton",
                                 )
                             }
@@ -240,7 +240,7 @@ private fun SharedTransitionScope.ContentUi(
                                         .animateItem()
                                         .sharedBounds(
                                             rememberSharedContentState(key = "Bounds/Home/${item.id}"),
-                                            animatedVisibilityScope = animatedVisibilityScope,
+                                            animatedVisibilityScope = this@AnimatedVisibilityScope,
                                         ),
                                 )
                             }
@@ -256,9 +256,9 @@ private fun SharedTransitionScope.ContentUi(
                                         .animateItem()
                                         .sharedBounds(
                                             rememberSharedContentState(key = "Bounds/Home/${item.id}"),
-                                            animatedVisibilityScope = animatedVisibilityScope,
+                                            animatedVisibilityScope = this@AnimatedVisibilityScope,
                                         ),
-                                    animatedVisibilityScope = animatedVisibilityScope,
+                                    animatedVisibilityScope = this@AnimatedVisibilityScope,
                                     saveButtonElementKey = "Element/Home/${item.id}/saveButton",
                                 )
                             }
@@ -274,9 +274,9 @@ private fun SharedTransitionScope.ContentUi(
                                         .animateItem()
                                         .sharedBounds(
                                             rememberSharedContentState(key = "Bounds/Home/${item.id}"),
-                                            animatedVisibilityScope = animatedVisibilityScope,
+                                            animatedVisibilityScope = this@AnimatedVisibilityScope,
                                         ),
-                                    animatedVisibilityScope = animatedVisibilityScope,
+                                    animatedVisibilityScope = this@AnimatedVisibilityScope,
                                     cardElementKey = "Element/Home/${item.id}/player",
                                 )
                             }

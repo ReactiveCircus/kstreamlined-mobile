@@ -2,19 +2,16 @@ package io.github.reactivecircus.kstreamlined.buildlogic.convention
 
 import com.android.build.api.variant.LibraryAndroidComponentsExtension
 import com.android.build.gradle.LibraryExtension
-import io.github.reactivecircus.kstreamlined.buildlogic.applyLanguageSettings
 import io.github.reactivecircus.kstreamlined.buildlogic.configureAndroidLibraryVariants
 import io.github.reactivecircus.kstreamlined.buildlogic.configureCommonAndroidOptions
 import io.github.reactivecircus.kstreamlined.buildlogic.configureDetekt
-import io.github.reactivecircus.kstreamlined.buildlogic.configureKotlinJvm
+import io.github.reactivecircus.kstreamlined.buildlogic.configureKotlin
 import io.github.reactivecircus.kstreamlined.buildlogic.configureSlimTests
 import io.github.reactivecircus.kstreamlined.buildlogic.configureTest
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
-import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 internal class AndroidLibraryConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) = with(target) {
@@ -24,12 +21,7 @@ internal class AndroidLibraryConventionPlugin : Plugin<Project> {
         }
 
         extensions.configure<KotlinAndroidProjectExtension> {
-            configureKotlinJvm(target)
-            sourceSets.configureEach {
-                languageSettings {
-                    applyLanguageSettings()
-                }
-            }
+            configureKotlin(target)
         }
 
         extensions.configure<LibraryExtension> {
@@ -38,13 +30,6 @@ internal class AndroidLibraryConventionPlugin : Plugin<Project> {
 
         extensions.configure<LibraryAndroidComponentsExtension> {
             configureAndroidLibraryVariants()
-        }
-
-        // enable explicit API mode for non-test Kotlin compilations
-        tasks.withType<KotlinCompile>().configureEach {
-            if (!name.endsWith("TestKotlin")) {
-                compilerOptions.freeCompilerArgs.addAll(listOf("-Xexplicit-api=strict"))
-            }
         }
 
         configureTest()

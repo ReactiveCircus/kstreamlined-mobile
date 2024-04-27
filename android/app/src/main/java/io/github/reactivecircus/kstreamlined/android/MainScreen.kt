@@ -37,9 +37,9 @@ import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.fou
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
 import kotlin.math.absoluteValue
 
+context(SharedTransitionScope, AnimatedVisibilityScope)
 @Composable
-fun SharedTransitionScope.MainScreen(
-    animatedVisibilityScope: AnimatedVisibilityScope,
+fun MainScreen(
     selectedNavItem: NavItemKey,
     onSelectedNavItemChanged: (NavItemKey) -> Unit,
     homeListState: LazyListState,
@@ -61,7 +61,6 @@ fun SharedTransitionScope.MainScreen(
             when (it) {
                 NavItemKey.Home.ordinal -> {
                     HomeScreen(
-                        animatedVisibilityScope = animatedVisibilityScope,
                         listState = homeListState,
                         onViewItem = { item -> onViewItem(item, NavItemKey.Home) },
                         modifier = Modifier.pagerScaleTransition(it, pagerState)
@@ -70,7 +69,6 @@ fun SharedTransitionScope.MainScreen(
 
                 NavItemKey.Saved.ordinal -> {
                     SavedForLaterScreen(
-                        animatedVisibilityScope = animatedVisibilityScope,
                         listState = savedListState,
                         onViewItem = { item -> onViewItem(item, NavItemKey.Saved) },
                         modifier = Modifier.pagerScaleTransition(it, pagerState)
@@ -89,40 +87,38 @@ fun SharedTransitionScope.MainScreen(
             )
         }
 
-        with(animatedVisibilityScope) {
-            NavigationIsland(
-                modifier = Modifier
-                    .navigationBarsPadding()
-                    .padding(8.dp)
-                    .align(Alignment.BottomCenter)
-                    .renderInSharedTransitionScopeOverlay(
-                        zIndexInOverlay = 1f
-                    )
-                    .animateEnterExit(
-                        enter = fadeIn() + slideInVertically(
-                            tween(delayMillis = 200, easing = LinearOutSlowInEasing)
-                        ) { it * 2 },
-                        exit = fadeOut(),
-                    ),
-            ) {
-                NavigationIslandItem(
-                    selected = selectedNavItem == NavItemKey.Home,
-                    icon = KSIcons.Kotlin,
-                    contentDescription = "Home",
-                    onClick = {
-                        onSelectedNavItemChanged(NavItemKey.Home)
-                    },
+        NavigationIsland(
+            modifier = Modifier
+                .navigationBarsPadding()
+                .padding(8.dp)
+                .align(Alignment.BottomCenter)
+                .renderInSharedTransitionScopeOverlay(
+                    zIndexInOverlay = 1f
                 )
-                NavigationIslandDivider()
-                NavigationIslandItem(
-                    selected = selectedNavItem == NavItemKey.Saved,
-                    icon = KSIcons.Bookmarks,
-                    contentDescription = "Saved",
-                    onClick = {
-                        onSelectedNavItemChanged(NavItemKey.Saved)
-                    },
-                )
-            }
+                .animateEnterExit(
+                    enter = fadeIn() + slideInVertically(
+                        tween(delayMillis = 200, easing = LinearOutSlowInEasing)
+                    ) { it * 2 },
+                    exit = fadeOut(),
+                ),
+        ) {
+            NavigationIslandItem(
+                selected = selectedNavItem == NavItemKey.Home,
+                icon = KSIcons.Kotlin,
+                contentDescription = "Home",
+                onClick = {
+                    onSelectedNavItemChanged(NavItemKey.Home)
+                },
+            )
+            NavigationIslandDivider()
+            NavigationIslandItem(
+                selected = selectedNavItem == NavItemKey.Saved,
+                icon = KSIcons.Bookmarks,
+                contentDescription = "Saved",
+                onClick = {
+                    onSelectedNavItemChanged(NavItemKey.Saved)
+                },
+            )
         }
     }
 }
