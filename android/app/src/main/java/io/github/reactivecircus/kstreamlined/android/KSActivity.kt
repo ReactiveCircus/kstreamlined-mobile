@@ -9,6 +9,8 @@ import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
@@ -35,7 +37,7 @@ import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.fou
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
 import kotlinx.parcelize.Parcelize
 
-@OptIn(ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalComposeUiApi::class, ExperimentalSharedTransitionApi::class)
 @AndroidEntryPoint
 class KSActivity : ComponentActivity() {
 
@@ -70,73 +72,93 @@ class KSActivity : ComponentActivity() {
                 val homeListState = rememberLazyListState()
                 val savedListState = rememberLazyListState()
 
-                AnimatedContent(
-                    navDestination,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(KSTheme.colorScheme.background)
-                        .semantics {
-                            testTagsAsResourceId = true
-                        },
-                    contentAlignment = Alignment.Center,
-                    label = "NavTransition",
-                ) {
-                    when (it) {
-                        is NavDestination.Main -> {
-                            MainScreen(
-                                homeListState = homeListState,
-                                savedListState = savedListState,
-                                selectedNavItem = selectedNavItem,
-                                onSelectedNavItemChanged = { item -> selectedNavItem = item },
-                                onViewItem = { feedItem ->
-                                    navDestination = when (feedItem) {
-                                        is FeedItem.KotlinWeekly -> {
-                                            NavDestination.KotlinWeeklyIssue(
-                                                id = feedItem.id,
-                                                issueNumber = feedItem.issueNumber,
-                                            )
+                SharedTransitionLayout {
+                    AnimatedContent(
+                        navDestination,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(KSTheme.colorScheme.background)
+                            .semantics {
+                                testTagsAsResourceId = true
+                            },
+                        contentAlignment = Alignment.Center,
+                        label = "NavTransition",
+                    ) {
+                        when (it) {
+                            is NavDestination.Main -> {
+                                MainScreen(
+                                    selectedNavItem = selectedNavItem,
+                                    onSelectedNavItemChanged = { item -> selectedNavItem = item },
+                                    homeListState = homeListState,
+                                    savedListState = savedListState,
+                                    onViewItem = { item, source ->
+                                        navDestination = when (item) {
+                                            is FeedItem.KotlinWeekly -> {
+                                                NavDestination.KotlinWeeklyIssue(
+                                                    boundKey = "Bounds/$source/${item.id}",
+                                                    topBarBoundsKey = "Bounds/$source/TopBar",
+                                                    titleElementKey = "Element/$source/TopBar/Title",
+                                                    id = item.id,
+                                                    issueNumber = item.issueNumber,
+                                                )
+                                            }
+                                            is FeedItem.TalkingKotlin -> {
+                                                NavDestination.TalkingKotlinEpisode(
+                                                    boundsKey = "Bounds/$source/${item.id}",
+                                                    topBarBoundsKey = "Bounds/$source/TopBar",
+                                                    playerElementKey = "Element/$source/${item.id}/player",
+                                                    id = item.id,
+                                                )
+                                            }
+                                            else -> {
+                                                NavDestination.ContentViewer(
+                                                    boundsKey = "Bounds/$source/${item.id}",
+                                                    topBarBoundsKey = "Bounds/$source/TopBar",
+                                                    saveButtonElementKey = "Element/$source/${item.id}/saveButton",
+                                                    id = item.id,
+                                                )
+                                            }
                                         }
-                                        is FeedItem.TalkingKotlin -> {
-                                            NavDestination.TalkingKotlinEpisode(
-                                                id = feedItem.id,
-                                            )
-                                        }
-                                        else -> {
-                                            NavDestination.ContentViewer(
-                                                id = feedItem.id,
-                                            )
-                                        }
-                                    }
-                                },
-                            )
-                        }
+                                    },
+                                )
+                            }
 
-                        is NavDestination.ContentViewer -> {
-                            ContentViewerScreen(
-                                id = it.id,
-                                onNavigateUp = {
-                                    navDestination = NavDestination.Main
-                                },
-                            )
-                        }
+                            is NavDestination.ContentViewer -> {
+                                ContentViewerScreen(
+                                    boundsKey = it.boundsKey,
+                                    topBarBoundsKey = it.topBarBoundsKey,
+                                    saveButtonElementKey = it.saveButtonElementKey,
+                                    id = it.id,
+                                    onNavigateUp = {
+                                        navDestination = NavDestination.Main
+                                    },
+                                )
+                            }
 
-                        is NavDestination.KotlinWeeklyIssue -> {
-                            KotlinWeeklyIssueScreen(
-                                id = it.id,
-                                issueNumber = it.issueNumber,
-                                onNavigateUp = {
-                                    navDestination = NavDestination.Main
-                                },
-                            )
-                        }
+                            is NavDestination.KotlinWeeklyIssue -> {
+                                KotlinWeeklyIssueScreen(
+                                    boundsKey = it.boundKey,
+                                    topBarBoundsKey = it.topBarBoundsKey,
+                                    titleElementKey = it.titleElementKey,
+                                    id = it.id,
+                                    issueNumber = it.issueNumber,
+                                    onNavigateUp = {
+                                        navDestination = NavDestination.Main
+                                    },
+                                )
+                            }
 
-                        is NavDestination.TalkingKotlinEpisode -> {
-                            TalkingKotlinEpisodeScreen(
-                                id = it.id,
-                                onNavigateUp = {
-                                    navDestination = NavDestination.Main
-                                },
-                            )
+                            is NavDestination.TalkingKotlinEpisode -> {
+                                TalkingKotlinEpisodeScreen(
+                                    boundsKey = it.boundsKey,
+                                    topBarBoundsKey = it.topBarBoundsKey,
+                                    playerElementKey = it.playerElementKey,
+                                    id = it.id,
+                                    onNavigateUp = {
+                                        navDestination = NavDestination.Main
+                                    },
+                                )
+                            }
                         }
                     }
                 }
@@ -158,18 +180,27 @@ private sealed interface NavDestination : Parcelable {
 
     @Parcelize
     data class ContentViewer(
-        val id: String
+        val boundsKey: String,
+        val topBarBoundsKey: String,
+        val saveButtonElementKey: String,
+        val id: String,
     ) : NavDestination
 
     @Parcelize
     data class KotlinWeeklyIssue(
+        val boundKey: String,
+        val topBarBoundsKey: String,
+        val titleElementKey: String,
         val id: String,
         val issueNumber: Int,
     ) : NavDestination
 
     @Parcelize
     data class TalkingKotlinEpisode(
-        val id: String
+        val boundsKey: String,
+        val topBarBoundsKey: String,
+        val playerElementKey: String,
+        val id: String,
     ) : NavDestination
 }
 

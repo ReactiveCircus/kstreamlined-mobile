@@ -2,7 +2,7 @@ package io.github.reactivecircus.kstreamlined.buildlogic.convention
 
 import io.github.reactivecircus.kstreamlined.buildlogic.configureDetekt
 import io.github.reactivecircus.kstreamlined.buildlogic.configureKMPCommon
-import io.github.reactivecircus.kstreamlined.buildlogic.configureKotlinCompileOptions
+import io.github.reactivecircus.kstreamlined.buildlogic.configureKotlin
 import io.github.reactivecircus.kstreamlined.buildlogic.configureTest
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -15,9 +15,9 @@ internal class KMPCommonConventionPlugin : Plugin<Project> {
 
         extensions.configure<KotlinMultiplatformExtension> {
             configureKMPCommon(target)
+            configureKotlin(target)
         }
 
-        configureKotlinCompileOptions()
         configureTest()
         configureDetekt()
     }

@@ -1,5 +1,11 @@
+@file:OptIn(ExperimentalSharedTransitionApi::class)
+
 package io.github.reactivecircus.kstreamlined.android.foundation.commonui.feed
 
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionLayout
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -38,12 +44,15 @@ import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.toDisplayable
 import kotlinx.datetime.toInstant
 
+context(SharedTransitionScope)
 @Composable
 public fun KotlinYouTubeCard(
     item: DisplayableFeedItem<FeedItem.KotlinYouTube>,
     onItemClick: (FeedItem.KotlinYouTube) -> Unit,
     onSaveButtonClick: (FeedItem.KotlinYouTube) -> Unit,
     modifier: Modifier = Modifier,
+    animatedVisibilityScope: AnimatedVisibilityScope? = null,
+    saveButtonElementKey: String? = null,
 ): Unit = trace("FeedItem:KotlinYouTubeCard") {
     Surface(
         onClick = { onItemClick(item.value) },
@@ -112,7 +121,19 @@ public fun KotlinYouTubeCard(
                         },
                         contentDescription = null,
                         onClick = { onSaveButtonClick(item.value) },
-                        modifier = Modifier.testTag("saveButton"),
+                        modifier = Modifier
+                            .testTag("saveButton")
+                            .then(
+                                if (animatedVisibilityScope != null && saveButtonElementKey != null) {
+                                    Modifier.sharedElement(
+                                        rememberSharedContentState(key = saveButtonElementKey),
+                                        animatedVisibilityScope = animatedVisibilityScope,
+                                        zIndexInOverlay = 1f,
+                                    )
+                                } else {
+                                    Modifier
+                                },
+                            ),
                     )
                 }
             }
@@ -147,20 +168,22 @@ private val ImageHeight = 200.dp
 private fun PreviewKotlinYouTubeCard_unsaved() {
     KSTheme {
         Surface {
-            KotlinYouTubeCard(
-                item = FeedItem.KotlinYouTube(
-                    id = "1",
-                    title = "The State of Kotlin Multiplatform",
-                    publishTime = "2023-11-21T18:47:47Z".toInstant(),
-                    contentUrl = "contentUrl",
-                    savedForLater = false,
-                    thumbnailUrl = "",
-                    description = "JetBrains Kotlin Multiplatform (KMP) is an open-source technology",
-                ).toDisplayable("3 days ago"),
-                onItemClick = {},
-                onSaveButtonClick = {},
-                modifier = Modifier.padding(24.dp),
-            )
+            SharedTransitionLayout {
+                KotlinYouTubeCard(
+                    item = FeedItem.KotlinYouTube(
+                        id = "1",
+                        title = "The State of Kotlin Multiplatform",
+                        publishTime = "2023-11-21T18:47:47Z".toInstant(),
+                        contentUrl = "contentUrl",
+                        savedForLater = false,
+                        thumbnailUrl = "",
+                        description = "JetBrains Kotlin Multiplatform (KMP) is an open-source technology",
+                    ).toDisplayable("3 days ago"),
+                    onItemClick = {},
+                    onSaveButtonClick = {},
+                    modifier = Modifier.padding(24.dp),
+                )
+            }
         }
     }
 }
@@ -170,20 +193,22 @@ private fun PreviewKotlinYouTubeCard_unsaved() {
 private fun PreviewKotlinYouTubeCard_saved() {
     KSTheme {
         Surface {
-            KotlinYouTubeCard(
-                item = FeedItem.KotlinYouTube(
-                    id = "1",
-                    title = "The State of Kotlin Multiplatform",
-                    publishTime = "2023-11-21T18:47:47Z".toInstant(),
-                    contentUrl = "contentUrl",
-                    savedForLater = true,
-                    thumbnailUrl = "",
-                    description = "JetBrains Kotlin Multiplatform (KMP) is an open-source technology",
-                ).toDisplayable("3 days ago"),
-                onItemClick = {},
-                onSaveButtonClick = {},
-                modifier = Modifier.padding(24.dp),
-            )
+            SharedTransitionLayout {
+                KotlinYouTubeCard(
+                    item = FeedItem.KotlinYouTube(
+                        id = "1",
+                        title = "The State of Kotlin Multiplatform",
+                        publishTime = "2023-11-21T18:47:47Z".toInstant(),
+                        contentUrl = "contentUrl",
+                        savedForLater = true,
+                        thumbnailUrl = "",
+                        description = "JetBrains Kotlin Multiplatform (KMP) is an open-source technology",
+                    ).toDisplayable("3 days ago"),
+                    onItemClick = {},
+                    onSaveButtonClick = {},
+                    modifier = Modifier.padding(24.dp),
+                )
+            }
         }
     }
 }

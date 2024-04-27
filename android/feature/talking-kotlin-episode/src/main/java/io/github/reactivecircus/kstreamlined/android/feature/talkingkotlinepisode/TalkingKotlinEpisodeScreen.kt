@@ -1,5 +1,10 @@
+@file:OptIn(ExperimentalSharedTransitionApi::class)
+
 package io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode
 
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -59,8 +64,12 @@ import io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepiso
 import io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepisode.TalkingKotlinEpisodeUiState
 import io.github.reactivecircus.kstreamlined.android.feature.common.R as commonR
 
+context(SharedTransitionScope, AnimatedVisibilityScope)
 @Composable
 public fun TalkingKotlinEpisodeScreen(
+    topBarBoundsKey: String,
+    boundsKey: String,
+    playerElementKey: String,
     id: String,
     onNavigateUp: () -> Unit,
     modifier: Modifier = Modifier,
@@ -78,6 +87,8 @@ public fun TalkingKotlinEpisodeScreen(
 
     val context = LocalContext.current
     TalkingKotlinEpisodeScreen(
+        topBarBoundsKey = topBarBoundsKey,
+        playerElementKey = playerElementKey,
         onNavigateUp = onNavigateUp,
         onShareButtonClick = { title, url ->
             context.openShareSheet(title, url)
@@ -85,12 +96,18 @@ public fun TalkingKotlinEpisodeScreen(
         onOpenLink = context::openCustomTab,
         uiState = uiState,
         eventSink = eventSink,
-        modifier = modifier,
+        modifier = modifier.sharedBounds(
+            rememberSharedContentState(key = boundsKey),
+            animatedVisibilityScope = this@AnimatedVisibilityScope,
+        ),
     )
 }
 
+context(SharedTransitionScope, AnimatedVisibilityScope)
 @Composable
 internal fun TalkingKotlinEpisodeScreen(
+    topBarBoundsKey: String,
+    playerElementKey: String,
     onNavigateUp: () -> Unit,
     onShareButtonClick: (title: String, url: String) -> Unit,
     onOpenLink: (url: String) -> Unit,
@@ -104,6 +121,8 @@ internal fun TalkingKotlinEpisodeScreen(
             .background(KSTheme.colorScheme.background),
     ) {
         TopNavBar(
+            animatedVisibilityScope = this@AnimatedVisibilityScope,
+            boundsKey = topBarBoundsKey,
             title = "",
             modifier = Modifier.zIndex(1f),
             contentPadding = WindowInsets.statusBars.asPaddingValues(),
@@ -151,6 +170,7 @@ internal fun TalkingKotlinEpisodeScreen(
 
                 is TalkingKotlinEpisodeUiState.Content -> {
                     ContentUi(
+                        playerElementKey = playerElementKey,
                         episode = uiState.episode,
                         eventSink = eventSink,
                         isPlaying = uiState.isPlaying,
@@ -162,8 +182,10 @@ internal fun TalkingKotlinEpisodeScreen(
     }
 }
 
+context(SharedTransitionScope, AnimatedVisibilityScope)
 @Composable
 private fun ContentUi(
+    playerElementKey: String,
     episode: TalkingKotlinEpisode,
     eventSink: (TalkingKotlinEpisodeUiEvent) -> Unit,
     isPlaying: Boolean,
@@ -274,6 +296,10 @@ private fun ContentUi(
                 eventSink(TalkingKotlinEpisodeUiEvent.SaveStartPosition(startPositionMillis))
             },
             contentPadding = WindowInsets.navigationBars.asPaddingValues(),
+            modifier = Modifier.sharedElement(
+                rememberSharedContentState(key = playerElementKey),
+                animatedVisibilityScope = this@AnimatedVisibilityScope,
+            )
         )
     }
 }

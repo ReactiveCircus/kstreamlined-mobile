@@ -1,9 +1,14 @@
+@file:OptIn(ExperimentalSharedTransitionApi::class)
+
 package io.github.reactivecircus.kstreamlined.android.feature.contentviewer
 
 import android.annotation.SuppressLint
 import android.webkit.WebSettings
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -54,8 +59,12 @@ import io.github.reactivecircus.kstreamlined.kmp.presentation.contentviewer.Cont
 import io.github.reactivecircus.kstreamlined.kmp.presentation.contentviewer.ContentViewerUiState
 import io.github.reactivecircus.kstreamlined.android.feature.common.R as commonR
 
+context(SharedTransitionScope, AnimatedVisibilityScope)
 @Composable
 public fun ContentViewerScreen(
+    boundsKey: String,
+    topBarBoundsKey: String,
+    saveButtonElementKey: String,
     id: String,
     onNavigateUp: () -> Unit,
     modifier: Modifier = Modifier,
@@ -71,10 +80,16 @@ public fun ContentViewerScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(KSTheme.colorScheme.background),
+            .background(KSTheme.colorScheme.background)
+            .sharedBounds(
+                rememberSharedContentState(key = boundsKey),
+                animatedVisibilityScope = this@AnimatedVisibilityScope,
+            ),
     ) {
         val context = LocalContext.current
         TopNavBar(
+            animatedVisibilityScope = this@AnimatedVisibilityScope,
+            boundsKey = topBarBoundsKey,
             title = "",
             contentPadding = WindowInsets.statusBars.asPaddingValues(),
             navigationIcon = {
@@ -103,6 +118,11 @@ public fun ContentViewerScreen(
                         },
                         contentDescription = null,
                         onClick = { eventSink(ContentViewerUiEvent.ToggleSavedForLater) },
+                        modifier = Modifier.sharedElement(
+                            rememberSharedContentState(key = saveButtonElementKey),
+                            animatedVisibilityScope = this@AnimatedVisibilityScope,
+                            zIndexInOverlay = 1f,
+                        ),
                     )
                 }
             },

@@ -1,10 +1,9 @@
 package io.github.reactivecircus.kstreamlined.buildlogic.convention
 
 import com.android.build.gradle.TestExtension
-import io.github.reactivecircus.kstreamlined.buildlogic.applyLanguageSettings
 import io.github.reactivecircus.kstreamlined.buildlogic.configureAndroidTestOptions
 import io.github.reactivecircus.kstreamlined.buildlogic.configureDetekt
-import io.github.reactivecircus.kstreamlined.buildlogic.configureKotlinJvm
+import io.github.reactivecircus.kstreamlined.buildlogic.configureKotlin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
@@ -18,12 +17,7 @@ internal class AndroidTestConventionPlugin : Plugin<Project> {
         }
 
         extensions.configure<KotlinAndroidProjectExtension> {
-            configureKotlinJvm(target)
-            sourceSets.configureEach {
-                languageSettings {
-                    applyLanguageSettings()
-                }
-            }
+            configureKotlin(target, enableExplicitApi = false)
         }
 
         extensions.configure<TestExtension> {

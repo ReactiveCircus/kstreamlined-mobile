@@ -11,7 +11,7 @@ import io.github.reactivecircus.kstreamlined.android.benchmark.waitAndFindObject
 import java.util.Locale
 
 fun MacrobenchmarkScope.waitForHomeFeedContent() {
-    device.waitAndFindObject(By.res("home:feedList"), 5_000)
+    device.waitAndFindObject(By.res("home:feedList"), 10_000)
 }
 
 fun MacrobenchmarkScope.homeFeedListScrollDown() {

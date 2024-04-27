@@ -1,5 +1,11 @@
+@file:OptIn(ExperimentalSharedTransitionApi::class)
+
 package io.github.reactivecircus.kstreamlined.android.foundation.commonui.feed
 
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionLayout
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -30,12 +36,15 @@ import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.toDisplayable
 import kotlinx.datetime.toInstant
 
+context(SharedTransitionScope)
 @Composable
 public fun KotlinBlogCard(
     item: DisplayableFeedItem<FeedItem.KotlinBlog>,
     onItemClick: (FeedItem.KotlinBlog) -> Unit,
     onSaveButtonClick: (FeedItem.KotlinBlog) -> Unit,
     modifier: Modifier = Modifier,
+    animatedVisibilityScope: AnimatedVisibilityScope? = null,
+    saveButtonElementKey: String? = null,
 ): Unit = trace("FeedItem:KotlinBlogCard") {
     Surface(
         onClick = { onItemClick(item.value) },
@@ -86,7 +95,19 @@ public fun KotlinBlogCard(
                         },
                         contentDescription = null,
                         onClick = { onSaveButtonClick(item.value) },
-                        modifier = Modifier.testTag("saveButton"),
+                        modifier = Modifier
+                            .testTag("saveButton")
+                            .then(
+                                if (animatedVisibilityScope != null && saveButtonElementKey != null) {
+                                    Modifier.sharedElement(
+                                        rememberSharedContentState(key = saveButtonElementKey),
+                                        animatedVisibilityScope = animatedVisibilityScope,
+                                        zIndexInOverlay = 1f,
+                                    )
+                                } else {
+                                    Modifier
+                                },
+                            ),
                     )
                 }
             }
@@ -101,19 +122,21 @@ private val ImageHeight = 200.dp
 private fun PreviewKotlinBlogCard_unsaved() {
     KSTheme {
         Surface {
-            KotlinBlogCard(
-                item = FeedItem.KotlinBlog(
-                    id = "1",
-                    title = "Kotlin Multiplatform Development Roadmap for 2024",
-                    publishTime = "2023-11-16T11:59:46Z".toInstant(),
-                    contentUrl = "contentUrl",
-                    savedForLater = false,
-                    featuredImageUrl = "",
-                ).toDisplayable("Moments ago"),
-                onItemClick = {},
-                onSaveButtonClick = {},
-                modifier = Modifier.padding(24.dp),
-            )
+            SharedTransitionLayout {
+                KotlinBlogCard(
+                    item = FeedItem.KotlinBlog(
+                        id = "1",
+                        title = "Kotlin Multiplatform Development Roadmap for 2024",
+                        publishTime = "2023-11-16T11:59:46Z".toInstant(),
+                        contentUrl = "contentUrl",
+                        savedForLater = false,
+                        featuredImageUrl = "",
+                    ).toDisplayable("Moments ago"),
+                    onItemClick = {},
+                    onSaveButtonClick = {},
+                    modifier = Modifier.padding(24.dp),
+                )
+            }
         }
     }
 }
@@ -123,19 +146,21 @@ private fun PreviewKotlinBlogCard_unsaved() {
 private fun PreviewKotlinBlogCard_saved() {
     KSTheme {
         Surface {
-            KotlinBlogCard(
-                item = FeedItem.KotlinBlog(
-                    id = "1",
-                    title = "Kotlin Multiplatform Development Roadmap for 2024",
-                    publishTime = "2023-11-16T11:59:46Z".toInstant(),
-                    contentUrl = "contentUrl",
-                    savedForLater = true,
-                    featuredImageUrl = "",
-                ).toDisplayable("Moments ago"),
-                onItemClick = {},
-                onSaveButtonClick = {},
-                modifier = Modifier.padding(24.dp),
-            )
+            SharedTransitionLayout {
+                KotlinBlogCard(
+                    item = FeedItem.KotlinBlog(
+                        id = "1",
+                        title = "Kotlin Multiplatform Development Roadmap for 2024",
+                        publishTime = "2023-11-16T11:59:46Z".toInstant(),
+                        contentUrl = "contentUrl",
+                        savedForLater = true,
+                        featuredImageUrl = "",
+                    ).toDisplayable("Moments ago"),
+                    onItemClick = {},
+                    onSaveButtonClick = {},
+                    modifier = Modifier.padding(24.dp),
+                )
+            }
         }
     }
 }

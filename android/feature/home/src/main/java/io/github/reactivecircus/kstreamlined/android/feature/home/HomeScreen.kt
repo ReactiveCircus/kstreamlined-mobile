@@ -1,8 +1,13 @@
+@file:OptIn(ExperimentalSharedTransitionApi::class)
+
 package io.github.reactivecircus.kstreamlined.android.feature.home
 
 import androidx.activity.compose.ReportDrawnWhen
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
@@ -60,6 +65,7 @@ import io.github.reactivecircus.kstreamlined.kmp.presentation.home.HomeUiState
 import kotlinx.coroutines.delay
 import io.github.reactivecircus.kstreamlined.android.feature.common.R as commonR
 
+context(SharedTransitionScope, AnimatedVisibilityScope)
 @Composable
 public fun HomeScreen(
     listState: LazyListState,
@@ -79,6 +85,7 @@ public fun HomeScreen(
     ReportDrawnWhen { uiState !is HomeUiState.Loading }
 }
 
+context(SharedTransitionScope, AnimatedVisibilityScope)
 @Composable
 internal fun HomeScreen(
     listState: LazyListState,
@@ -93,6 +100,9 @@ internal fun HomeScreen(
             .background(KSTheme.colorScheme.background),
     ) {
         TopNavBar(
+            animatedVisibilityScope = this@AnimatedVisibilityScope,
+            boundsKey = "Bounds/Home/TopBar",
+            titleElementKey = "Element/Home/TopBar/Title",
             title = stringResource(id = R.string.title_home),
             contentPadding = WindowInsets.statusBars.asPaddingValues(),
             actions = {
@@ -135,13 +145,15 @@ internal fun HomeScreen(
                     }
 
                     is HomeUiState.Content -> {
-                        ContentUi(
-                            listState = listState,
-                            items = state.feedItems,
-                            showTransientError = state.hasTransientError,
-                            onItemClick = onViewItem,
-                            eventSink = eventSink,
-                        )
+                        with(this@AnimatedVisibilityScope) {
+                            ContentUi(
+                                listState = listState,
+                                items = state.feedItems,
+                                showTransientError = state.hasTransientError,
+                                onItemClick = onViewItem,
+                                eventSink = eventSink,
+                            )
+                        }
                     }
                 }
             }
@@ -149,6 +161,7 @@ internal fun HomeScreen(
     }
 }
 
+context(SharedTransitionScope, AnimatedVisibilityScope)
 @Composable
 private fun ContentUi(
     listState: LazyListState,
@@ -202,8 +215,17 @@ private fun ContentUi(
                                 KotlinBlogCard(
                                     item = item.toDisplayable(displayablePublishTime),
                                     onItemClick = onItemClick,
-                                    onSaveButtonClick = { eventSink(HomeUiEvent.ToggleSavedForLater(item)) },
-                                    modifier = Modifier.animateItem(),
+                                    onSaveButtonClick = {
+                                        eventSink(HomeUiEvent.ToggleSavedForLater(item))
+                                    },
+                                    modifier = Modifier
+                                        .animateItem()
+                                        .sharedBounds(
+                                            rememberSharedContentState(key = "Bounds/Home/${item.id}"),
+                                            animatedVisibilityScope = this@AnimatedVisibilityScope,
+                                        ),
+                                    animatedVisibilityScope = this@AnimatedVisibilityScope,
+                                    saveButtonElementKey = "Element/Home/${item.id}/saveButton",
                                 )
                             }
 
@@ -211,8 +233,15 @@ private fun ContentUi(
                                 KotlinWeeklyCard(
                                     item = item.toDisplayable(displayablePublishTime),
                                     onItemClick = onItemClick,
-                                    onSaveButtonClick = { eventSink(HomeUiEvent.ToggleSavedForLater(item)) },
-                                    modifier = Modifier.animateItem(),
+                                    onSaveButtonClick = {
+                                        eventSink(HomeUiEvent.ToggleSavedForLater(item))
+                                    },
+                                    modifier = Modifier
+                                        .animateItem()
+                                        .sharedBounds(
+                                            rememberSharedContentState(key = "Bounds/Home/${item.id}"),
+                                            animatedVisibilityScope = this@AnimatedVisibilityScope,
+                                        ),
                                 )
                             }
 
@@ -220,8 +249,17 @@ private fun ContentUi(
                                 KotlinYouTubeCard(
                                     item = item.toDisplayable(displayablePublishTime),
                                     onItemClick = onItemClick,
-                                    onSaveButtonClick = { eventSink(HomeUiEvent.ToggleSavedForLater(item)) },
-                                    modifier = Modifier.animateItem(),
+                                    onSaveButtonClick = {
+                                        eventSink(HomeUiEvent.ToggleSavedForLater(item))
+                                    },
+                                    modifier = Modifier
+                                        .animateItem()
+                                        .sharedBounds(
+                                            rememberSharedContentState(key = "Bounds/Home/${item.id}"),
+                                            animatedVisibilityScope = this@AnimatedVisibilityScope,
+                                        ),
+                                    animatedVisibilityScope = this@AnimatedVisibilityScope,
+                                    saveButtonElementKey = "Element/Home/${item.id}/saveButton",
                                 )
                             }
 
@@ -229,8 +267,17 @@ private fun ContentUi(
                                 TalkingKotlinCard(
                                     item = item.toDisplayable(displayablePublishTime),
                                     onItemClick = onItemClick,
-                                    onSaveButtonClick = { eventSink(HomeUiEvent.ToggleSavedForLater(item)) },
-                                    modifier = Modifier.animateItem(),
+                                    onSaveButtonClick = {
+                                        eventSink(HomeUiEvent.ToggleSavedForLater(item))
+                                    },
+                                    modifier = Modifier
+                                        .animateItem()
+                                        .sharedBounds(
+                                            rememberSharedContentState(key = "Bounds/Home/${item.id}"),
+                                            animatedVisibilityScope = this@AnimatedVisibilityScope,
+                                        ),
+                                    animatedVisibilityScope = this@AnimatedVisibilityScope,
+                                    cardElementKey = "Element/Home/${item.id}/player",
                                 )
                             }
                         }

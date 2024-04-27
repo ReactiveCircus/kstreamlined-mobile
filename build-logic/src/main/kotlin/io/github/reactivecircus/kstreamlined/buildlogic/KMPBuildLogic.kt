@@ -6,7 +6,6 @@ import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import org.jetbrains.kotlin.gradle.plugin.mpp.NativeOutputKind
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 /**
  * Apply common configs to KMP project.
@@ -27,16 +26,6 @@ internal fun KotlinMultiplatformExtension.configureKMPCommon(
         iosSimulatorArm64()
     } else {
         iosX64()
-    }
-
-    if (enableJvmTarget || enableAndroidTarget) {
-        configureKotlinJvm(project)
-    }
-
-    sourceSets.configureEach {
-        languageSettings {
-            applyLanguageSettings()
-        }
     }
 }
 
@@ -61,20 +50,6 @@ internal fun KotlinMultiplatformExtension.configureKMPTest() {
         binaries.configureEach {
             if (outputKind == NativeOutputKind.TEST) {
                 linkerOpts("-lsqlite3")
-            }
-        }
-    }
-}
-
-/**
- * Configure Kotlin compile options.
- */
-internal fun Project.configureKotlinCompileOptions() {
-    tasks.withType<KotlinCompile>().configureEach {
-        with(compilerOptions.freeCompilerArgs) {
-            // enable explicit API mode for non-test Kotlin compilations
-            if (!name.contains("TestKotlin")) {
-                add("-Xexplicit-api=strict")
             }
         }
     }

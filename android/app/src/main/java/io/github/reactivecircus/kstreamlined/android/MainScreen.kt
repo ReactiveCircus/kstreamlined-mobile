@@ -1,7 +1,16 @@
+@file:OptIn(ExperimentalSharedTransitionApi::class)
+
 package io.github.reactivecircus.kstreamlined.android
 
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.animation.core.EaseInOutQuart
+import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
@@ -28,13 +37,14 @@ import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.fou
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
 import kotlin.math.absoluteValue
 
+context(SharedTransitionScope, AnimatedVisibilityScope)
 @Composable
 fun MainScreen(
     selectedNavItem: NavItemKey,
     onSelectedNavItemChanged: (NavItemKey) -> Unit,
     homeListState: LazyListState,
     savedListState: LazyListState,
-    onViewItem: (FeedItem) -> Unit,
+    onViewItem: (item: FeedItem, source: NavItemKey) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Box(modifier = modifier.fillMaxSize()) {
@@ -52,7 +62,7 @@ fun MainScreen(
                 NavItemKey.Home.ordinal -> {
                     HomeScreen(
                         listState = homeListState,
-                        onViewItem = onViewItem,
+                        onViewItem = { item -> onViewItem(item, NavItemKey.Home) },
                         modifier = Modifier.pagerScaleTransition(it, pagerState)
                     )
                 }
@@ -60,7 +70,7 @@ fun MainScreen(
                 NavItemKey.Saved.ordinal -> {
                     SavedForLaterScreen(
                         listState = savedListState,
-                        onViewItem = onViewItem,
+                        onViewItem = { item -> onViewItem(item, NavItemKey.Saved) },
                         modifier = Modifier.pagerScaleTransition(it, pagerState)
                     )
                 }
@@ -81,7 +91,16 @@ fun MainScreen(
             modifier = Modifier
                 .navigationBarsPadding()
                 .padding(8.dp)
-                .align(Alignment.BottomCenter),
+                .align(Alignment.BottomCenter)
+                .renderInSharedTransitionScopeOverlay(
+                    zIndexInOverlay = 1f
+                )
+                .animateEnterExit(
+                    enter = fadeIn() + slideInVertically(
+                        tween(delayMillis = 200, easing = LinearOutSlowInEasing)
+                    ) { it * 2 },
+                    exit = fadeOut(),
+                ),
         ) {
             NavigationIslandItem(
                 selected = selectedNavItem == NavItemKey.Home,
