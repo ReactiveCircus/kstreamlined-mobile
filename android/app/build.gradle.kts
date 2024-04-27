@@ -2,7 +2,6 @@ import com.google.firebase.crashlytics.buildtools.gradle.CrashlyticsExtension
 import com.google.firebase.perf.plugin.FirebasePerfExtension
 import io.github.reactivecircus.kstreamlined.buildlogic.FlavorDimensions
 import io.github.reactivecircus.kstreamlined.buildlogic.ProductFlavors
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.time.Instant
 
 plugins {
