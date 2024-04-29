@@ -12,6 +12,7 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 internal class KMPCommonConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) = with(target) {
         pluginManager.apply("org.jetbrains.kotlin.multiplatform")
+        pluginManager.apply("com.android.lint")
 
         extensions.configure<KotlinMultiplatformExtension> {
             configureKMPCommon(target)
