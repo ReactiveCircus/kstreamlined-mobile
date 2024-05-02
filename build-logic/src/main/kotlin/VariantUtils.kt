@@ -19,7 +19,6 @@ fun Project.shouldEnableVariant(variantName: String): Boolean {
         "demoDebug",
         "mockDebug",
         "prodRelease",
-        "prodBenchmarkRelease", // TODO remove once https://issuetracker.google.com/issues/332772491 is fixed
     ) ||
         // nonMinified variant for baseline profile generation
         isGeneratingBaselineProfile && variantName == "devNonMinifiedRelease" ||

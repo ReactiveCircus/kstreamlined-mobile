@@ -53,6 +53,10 @@ play {
 
 baselineProfile {
     mergeIntoMain = true
+    warnings {
+        maxAgpVersion = false
+        disabledVariants = false
+    }
 }
 
 android {

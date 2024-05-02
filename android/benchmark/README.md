@@ -4,7 +4,7 @@
 
 To generate new baseline and startup profiles:
 
-Run `./gradlew :app:generateBaselineProfile --no-configuration-cache`.
+Run `./gradlew :app:generateBaselineProfile`.
 
 Generated profiles are located at `android/app/src/main/generated/baselineProfiles/`.
 
@@ -13,7 +13,7 @@ Generated profiles are located at `android/app/src/main/generated/baselineProfil
 To run all benchmarks:
 
 ```
-./gradlew :benchmark:connectedBenchmarkReleaseAndroidTest --no-configuration-cache
+./gradlew :benchmark:connectedBenchmarkReleaseAndroidTest
 ```
 
 Individual benchmarks can also be run from Android Studio or command line:
@@ -21,25 +21,25 @@ Individual benchmarks can also be run from Android Studio or command line:
 #### Startup benchmark
 
 ```
-./gradlew :benchmark:connectedBenchmarkReleaseAndroidTest --no-configuration-cache -Pandroid.testInstrumentationRunnerArguments.class=io.github.reactivecircus.kstreamlined.android.benchmark.startup.StartupBenchmark
+./gradlew :benchmark:connectedBenchmarkReleaseAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=io.github.reactivecircus.kstreamlined.android.benchmark.startup.StartupBenchmark
 ```
 
 #### Home feed scrolling benchmark
 
 ```
-./gradlew :benchmark:connectedBenchmarkReleaseAndroidTest --no-configuration-cache -Pandroid.testInstrumentationRunnerArguments.class=io.github.reactivecircus.kstreamlined.android.benchmark.home.HomeFeedScrollingBenchmark
+./gradlew :benchmark:connectedBenchmarkReleaseAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=io.github.reactivecircus.kstreamlined.android.benchmark.home.HomeFeedScrollingBenchmark
 ```
 
 #### Home feed recomposition benchmark
 
 ```
-./gradlew :benchmark:connectedBenchmarkReleaseAndroidTest --no-configuration-cache -Pandroid.testInstrumentationRunnerArguments.class=io.github.reactivecircus.kstreamlined.android.benchmark.home.HomeFeedRecompositionBenchmark
+./gradlew :benchmark:connectedBenchmarkReleaseAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=io.github.reactivecircus.kstreamlined.android.benchmark.home.HomeFeedRecompositionBenchmark
 ```
 
 #### Screen transition benchmark
 
 ```
-./gradlew :benchmark:connectedBenchmarkReleaseAndroidTest --no-configuration-cache -Pandroid.testInstrumentationRunnerArguments.class=io.github.reactivecircus.kstreamlined.android.benchmark.screentransition.ScreenTransitionBenchmark
+./gradlew :benchmark:connectedBenchmarkReleaseAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=io.github.reactivecircus.kstreamlined.android.benchmark.screentransition.ScreenTransitionBenchmark
 ```
 
 ### Benchmark results
