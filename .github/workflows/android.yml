@@ -17,7 +17,6 @@ on:
       - 'ios/**'
 
 env:
-  CI: true
   GRADLE_OPTS: -Dorg.gradle.jvmargs="-Xms4g -Xmx4g -XX:+UseParallelGC -XX:+HeapDumpOnOutOfMemoryError"
   TERM: dumb
 
