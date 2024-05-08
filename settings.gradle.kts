@@ -27,7 +27,7 @@ pluginManagement {
         .removeSurrounding("\"")
 
     plugins {
-        id("com.gradle.enterprise") version extractVersionFromCatalog("gradle-enterprise")
+        id("com.gradle.develocity") version extractVersionFromCatalog("gradle-develocityPlugin")
         id("org.gradle.toolchains.foojay-resolver-convention") version extractVersionFromCatalog("gradle-toolchainsResolverPlugin")
         id("com.android.settings") version extractVersionFromCatalog("androidGradlePlugin")
     }
@@ -48,7 +48,7 @@ dependencyResolutionManagement {
 }
 
 plugins {
-    id("com.gradle.enterprise")
+    id("com.gradle.develocity")
     id("org.gradle.toolchains.foojay-resolver-convention")
     id("com.android.settings")
 }
@@ -101,11 +101,13 @@ fun includeProject(name: String, filePath: String) {
     project(name).projectDir = File(filePath)
 }
 
-gradleEnterprise {
+develocity {
     buildScan {
-        termsOfServiceUrl = "https://gradle.com/terms-of-service"
-        termsOfServiceAgree = "yes"
-        publishAlwaysIf(providers.environmentVariable("CI").orNull == "true")
+        termsOfUseUrl = "https://gradle.com/help/legal-terms-of-use"
+        termsOfUseAgree = "yes"
+        publishing.onlyIf {
+            System.getenv("CI") == "true"
+        }
     }
 }
 
