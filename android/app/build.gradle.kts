@@ -92,7 +92,7 @@ android {
             signingConfig = signingConfigs.getByName("debug")
 
             // disable performance monitoring plugin for debug builds
-            (this as ExtensionAware).extensions.configure<FirebasePerfExtension> {
+            configure<FirebasePerfExtension> {
                 setInstrumentationEnabled(false)
             }
         }
@@ -106,7 +106,7 @@ android {
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "shrinker-rules.pro")
 
             // only upload mapping file on CI
-            (this as ExtensionAware).extensions.configure<CrashlyticsExtension> {
+            extensions.configure<CrashlyticsExtension> {
                 mappingFileUploadEnabled = isCiBuild
             }
         }
