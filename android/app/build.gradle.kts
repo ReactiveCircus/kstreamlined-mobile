@@ -1,5 +1,6 @@
 import com.google.firebase.crashlytics.buildtools.gradle.CrashlyticsExtension
 import com.google.firebase.perf.plugin.FirebasePerfExtension
+import com.google.gms.googleservices.GoogleServicesPlugin
 import io.github.reactivecircus.kstreamlined.buildlogic.FlavorDimensions
 import io.github.reactivecircus.kstreamlined.buildlogic.ProductFlavors
 import java.time.Instant
@@ -10,6 +11,7 @@ plugins {
     id("kstreamlined.ksp")
     id("kotlin-parcelize")
     id("com.google.dagger.hilt.android")
+    id("com.google.gms.google-services")
     id("com.google.firebase.firebase-perf")
     id("com.google.firebase.crashlytics")
     id("com.google.firebase.appdistribution")
@@ -18,19 +20,12 @@ plugins {
     id("androidx.baselineprofile")
 }
 
-// only apply google-services plugin if google-services.json exists
 val googleServicesJsonExists = fileTree("src").matching {
     include("**/google-services.json")
 }.isEmpty.not()
-if (googleServicesJsonExists) {
-    apply(plugin = "com.google.gms.google-services")
-}
 
-// disable google services plugin for demo and mock flavors
-tasks.configureEach {
-    if ("process(Demo|Mock)DebugGoogleServices".toRegex().matches(name)) {
-        enabled = false
-    }
+googleServices {
+    missingGoogleServicesStrategy = GoogleServicesPlugin.MissingGoogleServicesStrategy.IGNORE
 }
 
 appVersioning {
