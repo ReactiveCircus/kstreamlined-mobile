@@ -20,7 +20,6 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toInstant
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
@@ -41,7 +40,7 @@ class HomePresenterTest {
 
     private val fixedClock = object : Clock {
         override fun now(): Instant {
-            return "2023-12-03T03:10:54Z".toInstant()
+            return Instant.parse("2023-12-03T03:10:54Z")
         }
     }
 
@@ -61,7 +60,7 @@ class HomePresenterTest {
             id = "1",
             feed_origin_key = FeedOrigin.Key.KotlinBlog.name,
             title = "Kotlin Blog Post",
-            publish_time = "2022-01-01T00:00:00Z".toInstant(),
+            publish_time = Instant.parse("2022-01-01T00:00:00Z"),
             content_url = "content-url-1",
             image_url = "image-url-1",
             description = null,

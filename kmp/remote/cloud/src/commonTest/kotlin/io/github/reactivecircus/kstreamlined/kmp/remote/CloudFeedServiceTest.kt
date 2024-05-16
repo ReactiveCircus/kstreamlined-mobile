@@ -20,7 +20,7 @@ import io.github.reactivecircus.kstreamlined.graphql.type.buildKotlinYouTube
 import io.github.reactivecircus.kstreamlined.kmp.remote.mapper.asExternalModel
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
-import kotlinx.datetime.toInstant
+import kotlinx.datetime.Instant
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -49,11 +49,11 @@ class CloudFeedServiceTest {
         feedEntries = listOf(
             buildKotlinBlog {
                 title = "Kotlin blog entry"
-                publishTime = "2023-11-16T11:59:46Z".toInstant()
+                publishTime = Instant.parse("2023-11-16T11:59:46Z")
             },
             buildKotlinYouTube {
                 title = "Kotlin YouTube entry"
-                publishTime = "2023-11-21T18:47:47Z".toInstant()
+                publishTime = Instant.parse("2023-11-21T18:47:47Z")
             }
         )
     }.feedEntries

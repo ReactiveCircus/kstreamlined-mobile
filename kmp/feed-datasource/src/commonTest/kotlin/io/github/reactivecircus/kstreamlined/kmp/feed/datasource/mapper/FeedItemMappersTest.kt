@@ -3,7 +3,7 @@ package io.github.reactivecircus.kstreamlined.kmp.feed.datasource.mapper
 import io.github.reactivecircus.kstreamlined.kmp.database.FeedItemEntity
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedOrigin
-import kotlinx.datetime.toInstant
+import kotlinx.datetime.Instant
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
@@ -16,7 +16,7 @@ class FeedItemMappersTest {
             id = "1",
             feed_origin_key = FeedOrigin.Key.KotlinBlog.name,
             title = "Kotlin Blog Post",
-            publish_time = "2022-01-01T00:00:00Z".toInstant(),
+            publish_time = Instant.parse("2022-01-01T00:00:00Z"),
             content_url = "https://blog.kotlinlang.org/post",
             image_url = "https://blog.kotlinlang.org/image",
             description = null,
@@ -29,7 +29,7 @@ class FeedItemMappersTest {
         val expected = FeedItem.KotlinBlog(
             id = "1",
             title = "Kotlin Blog Post",
-            publishTime = "2022-01-01T00:00:00Z".toInstant(),
+            publishTime = Instant.parse("2022-01-01T00:00:00Z"),
             contentUrl = "https://blog.kotlinlang.org/post",
             savedForLater = false,
             featuredImageUrl = "https://blog.kotlinlang.org/image",
@@ -43,7 +43,7 @@ class FeedItemMappersTest {
             id = "1",
             feed_origin_key = FeedOrigin.Key.KotlinYouTubeChannel.name,
             title = "Kotlin YouTube Video",
-            publish_time = "2022-01-02T00:00:00Z".toInstant(),
+            publish_time = Instant.parse("2022-01-02T00:00:00Z"),
             content_url = "https://youtube.com/kotlinvideo",
             image_url = "https://youtube.com/kotlinvideo/thumbnail",
             description = "A YouTube video about Kotlin",
@@ -56,7 +56,7 @@ class FeedItemMappersTest {
         val expected = FeedItem.KotlinYouTube(
             id = "1",
             title = "Kotlin YouTube Video",
-            publishTime = "2022-01-02T00:00:00Z".toInstant(),
+            publishTime = Instant.parse("2022-01-02T00:00:00Z"),
             contentUrl = "https://youtube.com/kotlinvideo",
             savedForLater = false,
             thumbnailUrl = "https://youtube.com/kotlinvideo/thumbnail",
@@ -71,7 +71,7 @@ class FeedItemMappersTest {
             id = "1",
             feed_origin_key = FeedOrigin.Key.TalkingKotlinPodcast.name,
             title = "Talking Kotlin Episode",
-            publish_time = "2022-01-03T00:00:00Z".toInstant(),
+            publish_time = Instant.parse("2022-01-03T00:00:00Z"),
             content_url = "content-url",
             image_url = "image-url",
             description = "Desc",
@@ -84,7 +84,7 @@ class FeedItemMappersTest {
         val expected = FeedItem.TalkingKotlin(
             id = "1",
             title = "Talking Kotlin Episode",
-            publishTime = "2022-01-03T00:00:00Z".toInstant(),
+            publishTime = Instant.parse("2022-01-03T00:00:00Z"),
             contentUrl = "content-url",
             savedForLater = false,
             audioUrl = "audio.mp3",
@@ -102,7 +102,7 @@ class FeedItemMappersTest {
             id = "1",
             feed_origin_key = FeedOrigin.Key.TalkingKotlinPodcast.name,
             title = "Talking Kotlin Episode",
-            publish_time = "2022-01-03T00:00:00Z".toInstant(),
+            publish_time = Instant.parse("2022-01-03T00:00:00Z"),
             content_url = "content-url",
             image_url = "image-url",
             description = "Desc",
@@ -115,7 +115,7 @@ class FeedItemMappersTest {
         val expected = FeedItem.TalkingKotlin(
             id = "1",
             title = "Talking Kotlin Episode",
-            publishTime = "2022-01-03T00:00:00Z".toInstant(),
+            publishTime = Instant.parse("2022-01-03T00:00:00Z"),
             contentUrl = "content-url",
             savedForLater = false,
             audioUrl = "audio.mp3",
@@ -133,7 +133,7 @@ class FeedItemMappersTest {
             id = "1",
             feed_origin_key = FeedOrigin.Key.KotlinWeekly.name,
             title = "Kotlin Weekly Issue",
-            publish_time = "2022-01-04T00:00:00Z".toInstant(),
+            publish_time = Instant.parse("2022-01-04T00:00:00Z"),
             content_url = "content-url",
             image_url = "image-url",
             description = null,
@@ -146,7 +146,7 @@ class FeedItemMappersTest {
         val expected = FeedItem.KotlinWeekly(
             id = "1",
             title = "Kotlin Weekly Issue",
-            publishTime = "2022-01-04T00:00:00Z".toInstant(),
+            publishTime = Instant.parse("2022-01-04T00:00:00Z"),
             contentUrl = "content-url",
             savedForLater = false,
             issueNumber = 100,
@@ -160,7 +160,7 @@ class FeedItemMappersTest {
             id = "1",
             feed_origin_key = "UnknownKey",
             title = "Unknown",
-            publish_time = "2022-01-01T00:00:00Z".toInstant(),
+            publish_time = Instant.parse("2022-01-01T00:00:00Z"),
             content_url = "content-url",
             image_url = "image-url",
             description = "Desc",

@@ -11,8 +11,8 @@ import io.github.reactivecircus.kstreamlined.kmp.remote.FakeFeedService
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
+import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toInstant
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -32,7 +32,7 @@ class SavedForLaterPresenterTest {
         id = "1",
         feed_origin_key = FeedOrigin.Key.KotlinBlog.name,
         title = "Kotlin Blog Post",
-        publish_time = "2022-01-01T00:00:00Z".toInstant(),
+        publish_time = Instant.parse("2022-01-01T00:00:00Z"),
         content_url = "content-url-1",
         image_url = "image-url-1",
         description = null,

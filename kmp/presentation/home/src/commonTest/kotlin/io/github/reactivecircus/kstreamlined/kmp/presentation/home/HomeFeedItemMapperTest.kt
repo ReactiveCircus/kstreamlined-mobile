@@ -5,7 +5,6 @@ import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toInstant
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -15,7 +14,7 @@ class HomeFeedItemMapperTest {
     fun `transformed HomeFeedItems are grouped by weeks with expected displayable time`() {
         val fixedClock = object : Clock {
             override fun now(): Instant {
-                return "2023-12-03T03:10:54Z".toInstant()
+                return Instant.parse("2023-12-03T03:10:54Z")
             }
         }
         val timeZone = TimeZone.UTC
@@ -26,7 +25,7 @@ class HomeFeedItemMapperTest {
             FeedItem.KotlinBlog(
                 id = "1",
                 title = "Kotlin Blog 1",
-                publishTime = "2023-12-03T03:10:00Z".toInstant(),
+                publishTime = Instant.parse("2023-12-03T03:10:00Z"),
                 contentUrl = "content-url",
                 savedForLater = false,
                 featuredImageUrl = "feature-image-url",
@@ -35,7 +34,7 @@ class HomeFeedItemMapperTest {
             FeedItem.KotlinYouTube(
                 id = "2",
                 title = "Kotlin YouTube 1",
-                publishTime = "2023-12-03T02:40:54Z".toInstant(),
+                publishTime = Instant.parse("2023-12-03T02:40:54Z"),
                 contentUrl = "content-url",
                 savedForLater = false,
                 thumbnailUrl = "thumbnail-url",
@@ -45,7 +44,7 @@ class HomeFeedItemMapperTest {
             FeedItem.KotlinWeekly(
                 id = "3",
                 title = "Kotlin Weekly #1",
-                publishTime = "2023-12-02T22:10:54Z".toInstant(),
+                publishTime = Instant.parse("2023-12-02T22:10:54Z"),
                 contentUrl = "content-url",
                 savedForLater = false,
                 issueNumber = 1,
@@ -54,7 +53,7 @@ class HomeFeedItemMapperTest {
             FeedItem.TalkingKotlin(
                 id = "4",
                 title = "Talking Kotlin 1",
-                publishTime = "2023-12-02T03:10:54Z".toInstant(),
+                publishTime = Instant.parse("2023-12-02T03:10:54Z"),
                 contentUrl = "content-url",
                 savedForLater = false,
                 audioUrl = "audio-url",
@@ -67,7 +66,7 @@ class HomeFeedItemMapperTest {
             FeedItem.KotlinBlog(
                 id = "5",
                 title = "Kotlin Blog 2",
-                publishTime = "2023-11-28T03:10:54Z".toInstant(),
+                publishTime = Instant.parse("2023-11-28T03:10:54Z"),
                 contentUrl = "content-url",
                 savedForLater = false,
                 featuredImageUrl = "feature-image-url",
@@ -77,7 +76,7 @@ class HomeFeedItemMapperTest {
             FeedItem.KotlinYouTube(
                 id = "6",
                 title = "Kotlin YouTube 2",
-                publishTime = "2023-11-21T03:10:54Z".toInstant(),
+                publishTime = Instant.parse("2023-11-21T03:10:54Z"),
                 contentUrl = "content-url",
                 savedForLater = false,
                 thumbnailUrl = "thumbnail-url",
@@ -88,7 +87,7 @@ class HomeFeedItemMapperTest {
             FeedItem.KotlinWeekly(
                 id = "7",
                 title = "Kotlin Weekly #2",
-                publishTime = "2023-11-13T03:10:54Z".toInstant(),
+                publishTime = Instant.parse("2023-11-13T03:10:54Z"),
                 contentUrl = "content-url",
                 savedForLater = false,
                 issueNumber = 2,
@@ -102,7 +101,7 @@ class HomeFeedItemMapperTest {
                     FeedItem.KotlinBlog(
                         id = "1",
                         title = "Kotlin Blog 1",
-                        publishTime = "2023-12-03T03:10:00Z".toInstant(),
+                        publishTime = Instant.parse("2023-12-03T03:10:00Z"),
                         contentUrl = "content-url",
                         savedForLater = false,
                         featuredImageUrl = "feature-image-url",
@@ -115,7 +114,7 @@ class HomeFeedItemMapperTest {
                     FeedItem.KotlinYouTube(
                         id = "2",
                         title = "Kotlin YouTube 1",
-                        publishTime = "2023-12-03T02:40:54Z".toInstant(),
+                        publishTime = Instant.parse("2023-12-03T02:40:54Z"),
                         contentUrl = "content-url",
                         savedForLater = false,
                         thumbnailUrl = "thumbnail-url",
@@ -129,7 +128,7 @@ class HomeFeedItemMapperTest {
                     FeedItem.KotlinWeekly(
                         id = "3",
                         title = "Kotlin Weekly #1",
-                        publishTime = "2023-12-02T22:10:54Z".toInstant(),
+                        publishTime = Instant.parse("2023-12-02T22:10:54Z"),
                         contentUrl = "content-url",
                         savedForLater = false,
                         issueNumber = 1,
@@ -142,7 +141,7 @@ class HomeFeedItemMapperTest {
                     FeedItem.TalkingKotlin(
                         id = "4",
                         title = "Talking Kotlin 1",
-                        publishTime = "2023-12-02T03:10:54Z".toInstant(),
+                        publishTime = Instant.parse("2023-12-02T03:10:54Z"),
                         contentUrl = "content-url",
                         savedForLater = false,
                         audioUrl = "audio-url",
@@ -159,7 +158,7 @@ class HomeFeedItemMapperTest {
                     FeedItem.KotlinBlog(
                         id = "5",
                         title = "Kotlin Blog 2",
-                        publishTime = "2023-11-28T03:10:54Z".toInstant(),
+                        publishTime = Instant.parse("2023-11-28T03:10:54Z"),
                         contentUrl = "content-url",
                         savedForLater = false,
                         featuredImageUrl = "feature-image-url",
@@ -173,7 +172,7 @@ class HomeFeedItemMapperTest {
                     FeedItem.KotlinYouTube(
                         id = "6",
                         title = "Kotlin YouTube 2",
-                        publishTime = "2023-11-21T03:10:54Z".toInstant(),
+                        publishTime = Instant.parse("2023-11-21T03:10:54Z"),
                         contentUrl = "content-url",
                         savedForLater = false,
                         thumbnailUrl = "thumbnail-url",
@@ -188,7 +187,7 @@ class HomeFeedItemMapperTest {
                     FeedItem.KotlinWeekly(
                         id = "7",
                         title = "Kotlin Weekly #2",
-                        publishTime = "2023-11-13T03:10:54Z".toInstant(),
+                        publishTime = Instant.parse("2023-11-13T03:10:54Z"),
                         contentUrl = "content-url",
                         savedForLater = false,
                         issueNumber = 2,

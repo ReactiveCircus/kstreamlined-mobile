@@ -10,7 +10,7 @@ import io.github.reactivecircus.kstreamlined.kmp.remote.FakeFeedService
 import io.github.reactivecircus.kstreamlined.kmp.remote.FakeKotlinWeeklyIssueEntries
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
-import kotlinx.datetime.toInstant
+import kotlinx.datetime.Instant
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
@@ -115,7 +115,7 @@ class FeedDataSourceTest {
                         id = "1",
                         feed_origin_key = FeedOrigin.Key.KotlinBlog.name,
                         title = "Kotlin Blog Post",
-                        publish_time = "2022-01-01T00:00:00Z".toInstant(),
+                        publish_time = Instant.parse("2022-01-01T00:00:00Z"),
                         content_url = "content-url-1",
                         image_url = "image-url-1",
                         description = null,
@@ -129,7 +129,7 @@ class FeedDataSourceTest {
                         id = "2",
                         feed_origin_key = FeedOrigin.Key.KotlinYouTubeChannel.name,
                         title = "Kotlin YouTube Video",
-                        publish_time = "2022-01-02T00:00:00Z".toInstant(),
+                        publish_time = Instant.parse("2022-01-02T00:00:00Z"),
                         content_url = "content-url-2",
                         image_url = "image-url-2",
                         description = "Desc",
@@ -146,7 +146,7 @@ class FeedDataSourceTest {
                         FeedItem.KotlinYouTube(
                             id = "2",
                             title = "Kotlin YouTube Video",
-                            publishTime = "2022-01-02T00:00:00Z".toInstant(),
+                            publishTime = Instant.parse("2022-01-02T00:00:00Z"),
                             contentUrl = "content-url-2",
                             savedForLater = false,
                             thumbnailUrl = "image-url-2",
@@ -155,7 +155,7 @@ class FeedDataSourceTest {
                         FeedItem.KotlinBlog(
                             id = "1",
                             title = "Kotlin Blog Post",
-                            publishTime = "2022-01-01T00:00:00Z".toInstant(),
+                            publishTime = Instant.parse("2022-01-01T00:00:00Z"),
                             contentUrl = "content-url-1",
                             savedForLater = false,
                             featuredImageUrl = "image-url-1",
@@ -174,7 +174,7 @@ class FeedDataSourceTest {
                         FeedItem.KotlinYouTube(
                             id = "2",
                             title = "Kotlin YouTube Video",
-                            publishTime = "2022-01-02T00:00:00Z".toInstant(),
+                            publishTime = Instant.parse("2022-01-02T00:00:00Z"),
                             contentUrl = "content-url-2",
                             savedForLater = false,
                             thumbnailUrl = "image-url-2",
@@ -209,7 +209,7 @@ class FeedDataSourceTest {
                         id = "1",
                         feed_origin_key = FeedOrigin.Key.KotlinBlog.name,
                         title = "Kotlin Blog Post",
-                        publish_time = "2022-01-01T00:00:00Z".toInstant(),
+                        publish_time = Instant.parse("2022-01-01T00:00:00Z"),
                         content_url = "content-url-1",
                         image_url = "image-url-1",
                         description = null,
@@ -223,7 +223,7 @@ class FeedDataSourceTest {
                         id = "2",
                         feed_origin_key = FeedOrigin.Key.KotlinYouTubeChannel.name,
                         title = "Kotlin YouTube Video",
-                        publish_time = "2022-01-02T00:00:00Z".toInstant(),
+                        publish_time = Instant.parse("2022-01-02T00:00:00Z"),
                         content_url = "content-url-2",
                         image_url = "image-url-2",
                         description = "Desc",
@@ -247,7 +247,7 @@ class FeedDataSourceTest {
                         FeedItem.KotlinBlog(
                             id = "1",
                             title = "Kotlin Blog Post",
-                            publishTime = "2022-01-01T00:00:00Z".toInstant(),
+                            publishTime = Instant.parse("2022-01-01T00:00:00Z"),
                             contentUrl = "content-url-1",
                             savedForLater = true,
                             featuredImageUrl = "image-url-1",
@@ -267,7 +267,7 @@ class FeedDataSourceTest {
                 id = "id",
                 feed_origin_key = FeedOrigin.Key.KotlinBlog.name,
                 title = "Kotlin Blog Post",
-                publish_time = "2022-01-01T00:00:00Z".toInstant(),
+                publish_time = Instant.parse("2022-01-01T00:00:00Z"),
                 content_url = "content-url-1",
                 image_url = "image-url-1",
                 description = null,
@@ -282,7 +282,7 @@ class FeedDataSourceTest {
                 FeedItem.KotlinBlog(
                     id = "id",
                     title = "Kotlin Blog Post",
-                    publishTime = "2022-01-01T00:00:00Z".toInstant(),
+                    publishTime = Instant.parse("2022-01-01T00:00:00Z"),
                     contentUrl = "content-url-1",
                     savedForLater = false,
                     featuredImageUrl = "image-url-1",
@@ -294,7 +294,7 @@ class FeedDataSourceTest {
                 id = "id",
                 feed_origin_key = FeedOrigin.Key.KotlinBlog.name,
                 title = "Kotlin Blog Post 2",
-                publish_time = "2022-01-01T00:00:00Z".toInstant(),
+                publish_time = Instant.parse("2022-01-01T00:00:00Z"),
                 content_url = "content-url-2",
                 image_url = "image-url-2",
                 description = null,
@@ -309,7 +309,7 @@ class FeedDataSourceTest {
                 FeedItem.KotlinBlog(
                     id = "id",
                     title = "Kotlin Blog Post 2",
-                    publishTime = "2022-01-01T00:00:00Z".toInstant(),
+                    publishTime = Instant.parse("2022-01-01T00:00:00Z"),
                     contentUrl = "content-url-2",
                     savedForLater = true,
                     featuredImageUrl = "image-url-2",
@@ -457,7 +457,7 @@ class FeedDataSourceTest {
             id = "1",
             feed_origin_key = FeedOrigin.Key.KotlinBlog.name,
             title = "Kotlin Blog Post",
-            publish_time = "2022-01-01T00:00:00Z".toInstant(),
+            publish_time = Instant.parse("2022-01-01T00:00:00Z"),
             content_url = "https://blog.kotlinlang.org/post",
             image_url = "https://blog.kotlinlang.org/image",
             description = null,
@@ -482,7 +482,7 @@ class FeedDataSourceTest {
             id = "1",
             feed_origin_key = FeedOrigin.Key.KotlinBlog.name,
             title = "Kotlin Blog Post",
-            publish_time = "2022-01-01T00:00:00Z".toInstant(),
+            publish_time = Instant.parse("2022-01-01T00:00:00Z"),
             content_url = "https://blog.kotlinlang.org/post",
             image_url = "https://blog.kotlinlang.org/image",
             description = null,
@@ -508,7 +508,7 @@ class FeedDataSourceTest {
                 id = "1",
                 feed_origin_key = FeedOrigin.Key.TalkingKotlinPodcast.name,
                 title = "Talking Kotlin Episode",
-                publish_time = "2022-01-03T00:00:00Z".toInstant(),
+                publish_time = Instant.parse("2022-01-03T00:00:00Z"),
                 content_url = "content-url",
                 image_url = "image-url",
                 description = "Desc",

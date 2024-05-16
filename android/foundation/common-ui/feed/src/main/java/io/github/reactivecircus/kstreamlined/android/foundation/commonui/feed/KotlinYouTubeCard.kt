@@ -42,7 +42,7 @@ import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.fou
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.DisplayableFeedItem
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.toDisplayable
-import kotlinx.datetime.toInstant
+import kotlinx.datetime.Instant
 
 context(SharedTransitionScope)
 @Composable
@@ -173,7 +173,7 @@ private fun PreviewKotlinYouTubeCard_unsaved() {
                     item = FeedItem.KotlinYouTube(
                         id = "1",
                         title = "The State of Kotlin Multiplatform",
-                        publishTime = "2023-11-21T18:47:47Z".toInstant(),
+                        publishTime = Instant.parse("2023-11-21T18:47:47Z"),
                         contentUrl = "contentUrl",
                         savedForLater = false,
                         thumbnailUrl = "",
@@ -198,7 +198,7 @@ private fun PreviewKotlinYouTubeCard_saved() {
                     item = FeedItem.KotlinYouTube(
                         id = "1",
                         title = "The State of Kotlin Multiplatform",
-                        publishTime = "2023-11-21T18:47:47Z".toInstant(),
+                        publishTime = Instant.parse("2023-11-21T18:47:47Z"),
                         contentUrl = "contentUrl",
                         savedForLater = true,
                         thumbnailUrl = "",

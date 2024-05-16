@@ -22,7 +22,7 @@ import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.runTest
-import kotlinx.datetime.toInstant
+import kotlinx.datetime.Instant
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.time.Duration.Companion.days
@@ -453,7 +453,7 @@ class FeedSyncEngineImplTest {
     private val newFeedEntry = FeedEntry.KotlinWeekly(
         id = "https://mailchi.mp/kotlinweekly/kotlin-weekly-400",
         title = "Kotlin Weekly #400",
-        publishTime = "2024-01-01T09:13:00Z".toInstant(),
+        publishTime = Instant.parse("2024-01-01T09:13:00Z"),
         contentUrl = "https://mailchi.mp/kotlinweekly/kotlin-weekly-400",
         issueNumber = 400,
     )

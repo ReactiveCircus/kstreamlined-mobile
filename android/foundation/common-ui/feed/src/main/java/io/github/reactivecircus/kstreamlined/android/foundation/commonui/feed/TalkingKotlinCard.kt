@@ -49,7 +49,7 @@ import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.fou
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.DisplayableFeedItem
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.toDisplayable
-import kotlinx.datetime.toInstant
+import kotlinx.datetime.Instant
 
 context(SharedTransitionScope)
 @Composable
@@ -194,7 +194,7 @@ private fun PreviewTalkingKotlinCard_unsaved() {
                     item = FeedItem.TalkingKotlin(
                         id = "1",
                         title = "Making Multiplatform Better",
-                        publishTime = "2023-09-18T22:00:00Z".toInstant(),
+                        publishTime = Instant.parse("2023-09-18T22:00:00Z"),
                         contentUrl = "contentUrl",
                         savedForLater = false,
                         audioUrl = "",
@@ -222,7 +222,7 @@ private fun PreviewTalkingKotlinCard_saved() {
                     item = FeedItem.TalkingKotlin(
                         id = "1",
                         title = "Making Multiplatform Better",
-                        publishTime = "2023-09-18T22:00:00Z".toInstant(),
+                        publishTime = Instant.parse("2023-09-18T22:00:00Z"),
                         contentUrl = "contentUrl",
                         savedForLater = true,
                         audioUrl = "",

@@ -1,8 +1,8 @@
 package io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepisode
 
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
+import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toInstant
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -15,7 +15,7 @@ class TalkingKotlinEpisodeMapperTest {
         val feedItem = FeedItem.TalkingKotlin(
             id = "1",
             title = "Talking Kotlin 1",
-            publishTime = "2023-12-03T03:10:54Z".toInstant(),
+            publishTime = Instant.parse("2023-12-03T03:10:54Z"),
             contentUrl = "content-url",
             savedForLater = false,
             audioUrl = "audio-url",

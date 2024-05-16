@@ -3,7 +3,6 @@ package io.github.reactivecircus.kstreamlined.kmp.prettytime
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toInstant
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.time.Duration.Companion.days
@@ -15,7 +14,7 @@ class PrettyTimeTest {
 
     private val fixedClock = object : Clock {
         override fun now(): Instant {
-            return "2023-12-03T03:10:54Z".toInstant()
+            return Instant.parse("2023-12-03T03:10:54Z")
         }
     }
 
@@ -34,7 +33,7 @@ class PrettyTimeTest {
     fun timeAgp() {
         val fixedClock = object : Clock {
             override fun now(): Instant {
-                return "2023-12-03T03:10:54Z".toInstant()
+                return Instant.parse("2023-12-03T03:10:54Z")
             }
         }
         val now = fixedClock.now()
@@ -56,8 +55,8 @@ class PrettyTimeTest {
     @Test
     fun toFormattedTime() {
         val timeZone = TimeZone.UTC
-        assertEquals("03 Dec 2023", "2023-12-03T03:10:54Z".toInstant().toFormattedTime(timeZone))
-        assertEquals("23 Oct 2023", "2023-10-23T12:00:54Z".toInstant().toFormattedTime(timeZone))
-        assertEquals("21 Nov 2022", "2022-11-21T23:00:00Z".toInstant().toFormattedTime(timeZone))
+        assertEquals("03 Dec 2023", Instant.parse("2023-12-03T03:10:54Z").toFormattedTime(timeZone))
+        assertEquals("23 Oct 2023", Instant.parse("2023-10-23T12:00:54Z").toFormattedTime(timeZone))
+        assertEquals("21 Nov 2022", Instant.parse("2022-11-21T23:00:00Z").toFormattedTime(timeZone))
     }
 }

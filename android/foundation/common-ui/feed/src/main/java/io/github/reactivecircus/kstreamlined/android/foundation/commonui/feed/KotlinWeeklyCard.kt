@@ -1,8 +1,5 @@
-@file:OptIn(ExperimentalSharedTransitionApi::class)
-
 package io.github.reactivecircus.kstreamlined.android.foundation.commonui.feed
 
-import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -30,7 +27,7 @@ import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.fou
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.DisplayableFeedItem
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.toDisplayable
-import kotlinx.datetime.toInstant
+import kotlinx.datetime.Instant
 
 @Composable
 public fun KotlinWeeklyCard(
@@ -106,7 +103,7 @@ private fun PreviewKotlinWeeklyCard_unsaved() {
                 item = FeedItem.KotlinWeekly(
                     id = "1",
                     title = "Kotlin Weekly #381",
-                    publishTime = "2023-11-19T09:13:00Z".toInstant(),
+                    publishTime = Instant.parse("2023-11-19T09:13:00Z"),
                     contentUrl = "contentUrl",
                     savedForLater = false,
                     issueNumber = 381,
@@ -128,7 +125,7 @@ private fun PreviewKotlinWeeklyCard_saved() {
                 item = FeedItem.KotlinWeekly(
                     id = "1",
                     title = "Kotlin Weekly #381",
-                    publishTime = "2023-11-19T09:13:00Z".toInstant(),
+                    publishTime = Instant.parse("2023-11-19T09:13:00Z"),
                     contentUrl = "contentUrl",
                     savedForLater = true,
                     issueNumber = 381,

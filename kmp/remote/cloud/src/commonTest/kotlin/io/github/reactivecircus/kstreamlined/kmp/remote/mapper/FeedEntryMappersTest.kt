@@ -6,7 +6,7 @@ import io.github.reactivecircus.kstreamlined.graphql.type.buildKotlinWeekly
 import io.github.reactivecircus.kstreamlined.graphql.type.buildKotlinYouTube
 import io.github.reactivecircus.kstreamlined.graphql.type.buildTalkingKotlin
 import io.github.reactivecircus.kstreamlined.kmp.remote.model.FeedEntry
-import kotlinx.datetime.toInstant
+import kotlinx.datetime.Instant
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -19,7 +19,7 @@ class FeedEntryMappersTest {
                 buildKotlinBlog {
                     id = "1"
                     title = "Kotlin Blog Post"
-                    publishTime = "2022-01-01T00:00:00Z".toInstant()
+                    publishTime = Instant.parse("2022-01-01T00:00:00Z")
                     contentUrl = "https://blog.kotlinlang.org/post"
                     featuredImageUrl = "https://blog.kotlinlang.org/image"
                 },
@@ -29,7 +29,7 @@ class FeedEntryMappersTest {
         val expectedFeedEntry = FeedEntry.KotlinBlog(
             id = "1",
             title = "Kotlin Blog Post",
-            publishTime = "2022-01-01T00:00:00Z".toInstant(),
+            publishTime = Instant.parse("2022-01-01T00:00:00Z"),
             contentUrl = "https://blog.kotlinlang.org/post",
             featuredImageUrl = "https://blog.kotlinlang.org/image",
         )
@@ -44,7 +44,7 @@ class FeedEntryMappersTest {
                 buildKotlinYouTube {
                     id = "2"
                     title = "Kotlin YouTube Video"
-                    publishTime = "2022-01-02T00:00:00Z".toInstant()
+                    publishTime = Instant.parse("2022-01-02T00:00:00Z")
                     contentUrl = "https://youtube.com/kotlinvideo"
                     thumbnailUrl = "https://youtube.com/kotlinvideo/thumbnail"
                     description = "A YouTube video about Kotlin"
@@ -55,7 +55,7 @@ class FeedEntryMappersTest {
         val expectedFeedEntry = FeedEntry.KotlinYouTube(
             id = "2",
             title = "Kotlin YouTube Video",
-            publishTime = "2022-01-02T00:00:00Z".toInstant(),
+            publishTime = Instant.parse("2022-01-02T00:00:00Z"),
             contentUrl = "https://youtube.com/kotlinvideo",
             thumbnailUrl = "https://youtube.com/kotlinvideo/thumbnail",
             description = "A YouTube video about Kotlin",
@@ -71,7 +71,7 @@ class FeedEntryMappersTest {
                 buildTalkingKotlin {
                     id = "3"
                     title = "Talking Kotlin Podcast"
-                    publishTime = "2022-01-03T00:00:00Z".toInstant()
+                    publishTime = Instant.parse("2022-01-03T00:00:00Z")
                     contentUrl = "https://talkingkotlin.com/podcast"
                     audioUrl = "audio.mp3"
                     thumbnailUrl = "https://talkingkotlin.com/podcast/logo"
@@ -84,7 +84,7 @@ class FeedEntryMappersTest {
         val expectedFeedEntry = FeedEntry.TalkingKotlin(
             id = "3",
             title = "Talking Kotlin Podcast",
-            publishTime = "2022-01-03T00:00:00Z".toInstant(),
+            publishTime = Instant.parse("2022-01-03T00:00:00Z"),
             contentUrl = "https://talkingkotlin.com/podcast",
             audioUrl = "audio.mp3",
             thumbnailUrl = "https://talkingkotlin.com/podcast/logo",
@@ -102,7 +102,7 @@ class FeedEntryMappersTest {
                 buildKotlinWeekly {
                     id = "4"
                     title = "Kotlin Weekly #381"
-                    publishTime = "2022-01-04T00:00:00Z".toInstant()
+                    publishTime = Instant.parse("2022-01-04T00:00:00Z")
                     contentUrl = "https://kotlinweekly.net/newsletter"
                     issueNumber = 381
                 },
@@ -112,7 +112,7 @@ class FeedEntryMappersTest {
         val expectedFeedEntry = FeedEntry.KotlinWeekly(
             id = "4",
             title = "Kotlin Weekly #381",
-            publishTime = "2022-01-04T00:00:00Z".toInstant(),
+            publishTime = Instant.parse("2022-01-04T00:00:00Z"),
             contentUrl = "https://kotlinweekly.net/newsletter",
             issueNumber = 381,
         )

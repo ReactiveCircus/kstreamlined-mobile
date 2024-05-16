@@ -34,7 +34,7 @@ import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.fou
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.DisplayableFeedItem
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.toDisplayable
-import kotlinx.datetime.toInstant
+import kotlinx.datetime.Instant
 
 context(SharedTransitionScope)
 @Composable
@@ -127,7 +127,7 @@ private fun PreviewKotlinBlogCard_unsaved() {
                     item = FeedItem.KotlinBlog(
                         id = "1",
                         title = "Kotlin Multiplatform Development Roadmap for 2024",
-                        publishTime = "2023-11-16T11:59:46Z".toInstant(),
+                        publishTime = Instant.parse("2023-11-16T11:59:46Z"),
                         contentUrl = "contentUrl",
                         savedForLater = false,
                         featuredImageUrl = "",
@@ -151,7 +151,7 @@ private fun PreviewKotlinBlogCard_saved() {
                     item = FeedItem.KotlinBlog(
                         id = "1",
                         title = "Kotlin Multiplatform Development Roadmap for 2024",
-                        publishTime = "2023-11-16T11:59:46Z".toInstant(),
+                        publishTime = Instant.parse("2023-11-16T11:59:46Z"),
                         contentUrl = "contentUrl",
                         savedForLater = true,
                         featuredImageUrl = "",
