@@ -85,6 +85,7 @@ internal fun SavedForLaterScreen(
             .background(KSTheme.colorScheme.background),
     ) {
         TopNavBar(
+            animatedVisibilityScope = this@AnimatedVisibilityScope,
             boundsKey = "Bounds/Saved/TopBar",
             titleElementKey = "Element/Saved/TopBar/Title",
             title = stringResource(id = R.string.title_saved_for_later),
