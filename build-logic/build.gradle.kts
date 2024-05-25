@@ -59,6 +59,7 @@ dependencies {
 
     implementation(libs.plugin.kotlin)
     implementation(libs.plugin.compose)
+    implementation(libs.plugin.powerAssert)
     implementation(libs.plugin.ksp)
     implementation(libs.plugin.detekt)
     implementation(libs.plugin.agp)

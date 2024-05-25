@@ -1,6 +1,6 @@
 package io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.component
 
-import org.junit.Test
+import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class PlaybackProgressLabelsTest {

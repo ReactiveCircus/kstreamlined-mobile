@@ -55,6 +55,7 @@ crashKios = "0.8.5"
 [libraries]
 plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin"}
 plugin-compose = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin"}
+plugin-powerAssert = { module = "org.jetbrains.kotlin:kotlin-power-assert", version.ref = "kotlin"}
 plugin-ksp = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version.ref = "ksp"}
 plugin-agp = { module = "com.android.tools.build:gradle", version.ref = "androidGradlePlugin"}
 plugin-appVersioning = { module = "io.github.reactivecircus.appversioning:app-versioning-gradle-plugin", version.ref = "appVersioning"}
