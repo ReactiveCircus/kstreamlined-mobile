@@ -116,13 +116,13 @@ settings.extensions.configure<SettingsExtension> {
         profiles {
             create("local") {
                 r8 {
-                    jvmOptions += "-Xms8g -Xmx8g -XX:MetaspaceSize=1g -XX:SoftRefLRUPolicyMSPerMB=1 -XX:+UseG1GC -XX:+HeapDumpOnOutOfMemoryError -XX:+UnlockExperimentalVMOptions".split(" ")
+                    jvmOptions += "-Xms8g -Xmx8g -XX:MetaspaceSize=1g -XX:SoftRefLRUPolicyMSPerMB=1 -XX:+UseParallelGC -XX:+HeapDumpOnOutOfMemoryError -XX:+UnlockExperimentalVMOptions".split(" ")
                     runInSeparateProcess = true
                 }
             }
             create("ci") {
                 r8 {
-                    jvmOptions += "-Xms4g -Xmx4g -XX:MetaspaceSize=1g -XX:SoftRefLRUPolicyMSPerMB=1 -XX:+UseG1GC -XX:+HeapDumpOnOutOfMemoryError -XX:+UnlockExperimentalVMOptions".split(" ")
+                    jvmOptions += "-Xms4g -Xmx4g -XX:MetaspaceSize=1g -XX:SoftRefLRUPolicyMSPerMB=1 -XX:+UseParallelGC -XX:+HeapDumpOnOutOfMemoryError -XX:+UnlockExperimentalVMOptions".split(" ")
                     runInSeparateProcess = true
                 }
             }
