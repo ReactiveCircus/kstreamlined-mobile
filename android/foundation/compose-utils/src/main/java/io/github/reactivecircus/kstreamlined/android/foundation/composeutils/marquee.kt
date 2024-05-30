@@ -1,10 +1,7 @@
 package io.github.reactivecircus.kstreamlined.android.foundation.composeutils
 
-import androidx.compose.foundation.DefaultMarqueeDelayMillis
-import androidx.compose.foundation.DefaultMarqueeIterations
-import androidx.compose.foundation.DefaultMarqueeSpacing
-import androidx.compose.foundation.DefaultMarqueeVelocity
 import androidx.compose.foundation.MarqueeAnimationMode
+import androidx.compose.foundation.MarqueeDefaults
 import androidx.compose.foundation.MarqueeSpacing
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.offset
@@ -28,12 +25,12 @@ public fun Modifier.marqueeWithFadedEdges(
     fadedEdgeMode: FadedEdgeMode = FadedEdgeMode.Both,
     edgeWidth: Dp = DefaultEdgeWidth,
     startEdgePadding: Dp = edgeWidth,
-    iterations: Int = DefaultMarqueeIterations,
+    iterations: Int = MarqueeDefaults.Iterations,
     animationMode: MarqueeAnimationMode = MarqueeAnimationMode.Immediately,
-    delayMillis: Int = DefaultMarqueeDelayMillis,
-    initialDelayMillis: Int = if (animationMode == MarqueeAnimationMode.Immediately) delayMillis else 0,
-    spacing: MarqueeSpacing = DefaultMarqueeSpacing,
-    velocity: Dp = DefaultMarqueeVelocity
+    repeatDelayMillis: Int = MarqueeDefaults.RepeatDelayMillis,
+    initialDelayMillis: Int = if (animationMode == MarqueeAnimationMode.Immediately) repeatDelayMillis else 0,
+    spacing: MarqueeSpacing = MarqueeDefaults.Spacing,
+    velocity: Dp = MarqueeDefaults.Velocity,
 ): Modifier = if (fadedEdgeMode != FadedEdgeMode.None) {
     offset(x = -startEdgePadding)
         .graphicsLayer { compositingStrategy = CompositingStrategy.Offscreen }
@@ -68,7 +65,7 @@ public fun Modifier.marqueeWithFadedEdges(
     .basicMarquee(
         iterations = iterations,
         animationMode = animationMode,
-        delayMillis = delayMillis,
+        repeatDelayMillis = repeatDelayMillis,
         initialDelayMillis = initialDelayMillis,
         spacing = spacing,
         velocity = velocity
