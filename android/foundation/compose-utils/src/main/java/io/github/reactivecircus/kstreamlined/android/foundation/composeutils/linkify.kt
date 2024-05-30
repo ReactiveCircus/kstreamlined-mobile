@@ -6,6 +6,7 @@ import android.text.util.Linkify
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextLinkStyles
 import androidx.compose.ui.text.buildAnnotatedString
 
 /**
@@ -25,7 +26,7 @@ public fun String.linkify(
         addLink(
             url = LinkAnnotation.Url(
                 url = span.url,
-                style = linkStyle,
+                styles = TextLinkStyles(style = linkStyle),
             ),
             start = start,
             end = end,

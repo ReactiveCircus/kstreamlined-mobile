@@ -201,7 +201,7 @@ internal fun PodcastPlayerUi(
                         .marqueeWithFadedEdges(
                             edgeWidth = 12.dp,
                             iterations = if (isPlaying) Int.MAX_VALUE else 0,
-                            delayMillis = 0,
+                            repeatDelayMillis = 0,
                             velocity = 40.dp,
                         ),
                     overflow = TextOverflow.Ellipsis,
