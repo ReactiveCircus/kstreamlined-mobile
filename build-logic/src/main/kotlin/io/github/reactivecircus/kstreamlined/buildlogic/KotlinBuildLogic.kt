@@ -25,7 +25,6 @@ internal fun KotlinProjectExtension.configureKotlin(
             jvmTarget.set(JvmTarget.JVM_17)
             freeCompilerArgs.addAll(
                 "-Xjvm-default=all",
-                "-Xcontext-receivers",
             )
         }
     }
