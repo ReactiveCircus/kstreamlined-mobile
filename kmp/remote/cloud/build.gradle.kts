@@ -11,6 +11,7 @@ apollo {
         generateMethods.set(listOf("equalsHashCode", "toString"))
         generateInputBuilders.set(true)
         generateDataBuilders.set(true)
+        generateAsInternal.set(true)
         introspection {
             endpointUrl.set(envOrProp("KSTREAMLINED_API_ENDPOINT"))
         }
