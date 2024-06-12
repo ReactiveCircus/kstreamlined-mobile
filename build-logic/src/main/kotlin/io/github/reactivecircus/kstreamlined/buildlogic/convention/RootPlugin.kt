@@ -7,6 +7,8 @@ import org.gradle.kotlin.dsl.register
 
 internal class RootPlugin : Plugin<Project> {
     override fun apply(target: Project) {
+        target.pluginManager.apply("com.squareup.invert")
+
         // register task for cleaning the build directory in the root project
         target.tasks.register<Delete>("clean") {
             delete(project.rootProject.layout.buildDirectory)

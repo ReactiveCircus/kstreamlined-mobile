@@ -67,6 +67,7 @@ dependencies {
     implementation(libs.plugin.hilt)
     implementation(libs.plugin.apollo)
     implementation(libs.plugin.wire)
+    implementation(libs.plugin.invert)
     implementation(libs.plugin.googleServices)
     implementation(libs.plugin.firebasePerf)
     implementation(libs.plugin.crashlytics)

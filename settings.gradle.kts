@@ -16,6 +16,12 @@ pluginManagement {
                 includeGroupByRegex("org.gradle.*")
             }
         }
+        // TODO remove once released
+        maven("https://s01.oss.sonatype.org/content/repositories/snapshots") {
+            content {
+                includeGroup("com.squareup.invert")
+            }
+        }
         mavenCentral()
     }
 
