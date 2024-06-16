@@ -4,7 +4,6 @@ import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.FeedDataSource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
@@ -14,10 +13,8 @@ public class ContentViewerPresenter(
     private val feedDataSource: FeedDataSource,
     scope: CoroutineScope,
 ) {
-    private val _uiState = MutableStateFlow<ContentViewerUiState>(
-        ContentViewerUiState.Initializing
-    )
-    public val uiState: StateFlow<ContentViewerUiState> = _uiState.asStateFlow()
+    public val uiState: StateFlow<ContentViewerUiState>
+        field = MutableStateFlow<ContentViewerUiState>(ContentViewerUiState.Initializing)
 
     public val eventSink: (ContentViewerUiEvent) -> Unit = { scope.launch { processUiEvent(it) } }
 
@@ -25,12 +22,12 @@ public class ContentViewerPresenter(
         when (event) {
             is ContentViewerUiEvent.LoadContent -> {
                 feedDataSource.streamFeedItemById(event.id)
-                    .onStart { _uiState.value = ContentViewerUiState.Initializing }
+                    .onStart { uiState.value = ContentViewerUiState.Initializing }
                     .onEach { item ->
                         if (item != null) {
-                            _uiState.value = ContentViewerUiState.Content(item)
+                            uiState.value = ContentViewerUiState.Content(item)
                         } else {
-                            _uiState.value = ContentViewerUiState.NotFound
+                            uiState.value = ContentViewerUiState.NotFound
                         }
                     }
                     .collect()

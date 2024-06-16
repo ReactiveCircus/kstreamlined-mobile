@@ -5,7 +5,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.mapLatest
@@ -17,10 +16,8 @@ public class KotlinWeeklyIssuePresenter(
     private val feedDataSource: FeedDataSource,
     scope: CoroutineScope,
 ) {
-    private val _uiState = MutableStateFlow<KotlinWeeklyIssueUiState>(
-        KotlinWeeklyIssueUiState.InFlight
-    )
-    public val uiState: StateFlow<KotlinWeeklyIssueUiState> = _uiState.asStateFlow()
+    public val uiState: StateFlow<KotlinWeeklyIssueUiState>
+        field = MutableStateFlow<KotlinWeeklyIssueUiState>(KotlinWeeklyIssueUiState.InFlight)
 
     public val eventSink: (KotlinWeeklyIssueUiEvent) -> Unit = { scope.launch { processUiEvent(it) } }
 
@@ -29,13 +26,13 @@ public class KotlinWeeklyIssuePresenter(
         when (event) {
             is KotlinWeeklyIssueUiEvent.LoadIssue -> {
                 feedDataSource.streamFeedItemById(event.id)
-                    .onStart { _uiState.value = KotlinWeeklyIssueUiState.InFlight }
+                    .onStart { uiState.value = KotlinWeeklyIssueUiState.InFlight }
                     .mapLatest { item ->
                         item ?: error("Feed item not found")
                         item to feedDataSource.loadKotlinWeeklyIssue(item.contentUrl)
                     }
                     .onEach { (item, issue) ->
-                        _uiState.value = KotlinWeeklyIssueUiState.Content(
+                        uiState.value = KotlinWeeklyIssueUiState.Content(
                             id = item.id,
                             contentUrl = item.contentUrl,
                             issueItems = issue.groupBy { it.group },
@@ -43,7 +40,7 @@ public class KotlinWeeklyIssuePresenter(
                         )
                     }
                     .catch {
-                        _uiState.value = KotlinWeeklyIssueUiState.Error
+                        uiState.value = KotlinWeeklyIssueUiState.Error
                     }.collect()
             }
             is KotlinWeeklyIssueUiEvent.ToggleSavedForLater -> {

@@ -5,7 +5,6 @@ import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
@@ -16,10 +15,8 @@ public class TalkingKotlinEpisodePresenter(
     private val feedDataSource: FeedDataSource,
     scope: CoroutineScope,
 ) {
-    private val _uiState = MutableStateFlow<TalkingKotlinEpisodeUiState>(
-        TalkingKotlinEpisodeUiState.Initializing
-    )
-    public val uiState: StateFlow<TalkingKotlinEpisodeUiState> = _uiState.asStateFlow()
+    public val uiState: StateFlow<TalkingKotlinEpisodeUiState>
+        field = MutableStateFlow<TalkingKotlinEpisodeUiState>(TalkingKotlinEpisodeUiState.Initializing)
 
     public val eventSink: (TalkingKotlinEpisodeUiEvent) -> Unit = { scope.launch { processUiEvent(it) } }
 
@@ -27,16 +24,16 @@ public class TalkingKotlinEpisodePresenter(
         when (event) {
             is TalkingKotlinEpisodeUiEvent.LoadEpisode -> {
                 feedDataSource.streamFeedItemById(event.id)
-                    .onStart { _uiState.value = TalkingKotlinEpisodeUiState.Initializing }
+                    .onStart { uiState.value = TalkingKotlinEpisodeUiState.Initializing }
                     .onEach { item ->
                         val talkingKotlinItem = item as? FeedItem.TalkingKotlin
                         if (talkingKotlinItem != null) {
-                            _uiState.value = TalkingKotlinEpisodeUiState.Content(
+                            uiState.value = TalkingKotlinEpisodeUiState.Content(
                                 episode = talkingKotlinItem.asPresentationModel(),
                                 isPlaying = false,
                             )
                         } else {
-                            _uiState.value = TalkingKotlinEpisodeUiState.NotFound
+                            uiState.value = TalkingKotlinEpisodeUiState.NotFound
                         }
                     }
                     .collect()
@@ -58,7 +55,7 @@ public class TalkingKotlinEpisodePresenter(
             }
 
             is TalkingKotlinEpisodeUiEvent.TogglePlayPause -> {
-                _uiState.update {
+                uiState.update {
                     if (it is TalkingKotlinEpisodeUiState.Content) {
                         it.copy(isPlaying = !it.isPlaying)
                     } else {
@@ -69,7 +66,7 @@ public class TalkingKotlinEpisodePresenter(
 
             // TODO remove once ViewModel is scoped properly
             is TalkingKotlinEpisodeUiEvent.Reset -> {
-                _uiState.value = TalkingKotlinEpisodeUiState.Initializing
+                uiState.value = TalkingKotlinEpisodeUiState.Initializing
             }
         }
     }

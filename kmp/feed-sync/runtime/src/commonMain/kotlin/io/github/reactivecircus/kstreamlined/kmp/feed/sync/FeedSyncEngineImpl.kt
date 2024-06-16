@@ -38,8 +38,8 @@ public class FeedSyncEngineImpl(
     syncEngineDispatcher: CoroutineDispatcher = Dispatchers.IO,
     private val clock: Clock = Clock.System,
 ) : FeedSyncEngine {
-    private val _syncState = MutableStateFlow<SyncState>(SyncState.Initializing)
-    override val syncState: StateFlow<SyncState> = _syncState
+    override val syncState: StateFlow<SyncState>
+        field = MutableStateFlow<SyncState>(SyncState.Initializing)
 
     private val manualSyncTrigger = Channel<SyncRequest>()
 
@@ -49,7 +49,7 @@ public class FeedSyncEngineImpl(
 
     private val networkStateChangeSyncTrigger = networkMonitor.networkState
         .filter {
-            it == NetworkState.Connected && _syncState.value is SyncState.OutOfSync
+            it == NetworkState.Connected && syncState.value is SyncState.OutOfSync
         }
         .map { SyncRequest(forceRefresh = false) }
 
@@ -68,17 +68,17 @@ public class FeedSyncEngineImpl(
                 runCatching {
                     val decision = syncRequestEvaluator.evaluate(
                         syncRequest = syncRequest,
-                        lastSyncFailed = _syncState.value is SyncState.OutOfSync,
+                        lastSyncFailed = syncState.value is SyncState.OutOfSync,
                     )
                     if (decision.shouldSyncFeedSources || decision.shouldSyncFeedItems) {
-                        _syncState.value = SyncState.Syncing
+                        syncState.value = SyncState.Syncing
                         performSync(decision)
                     }
-                    _syncState.value = SyncState.Idle
+                    syncState.value = SyncState.Idle
                 }.onFailure {
                     if (it is CancellationException) throw it
                     Logger.w("Sync failed", it)
-                    _syncState.value = SyncState.OutOfSync
+                    syncState.value = SyncState.OutOfSync
                 }
             }
             .flowOn(syncEngineDispatcher)

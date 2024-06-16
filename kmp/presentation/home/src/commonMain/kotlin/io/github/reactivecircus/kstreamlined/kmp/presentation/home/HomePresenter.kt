@@ -6,7 +6,6 @@ import io.github.reactivecircus.kstreamlined.kmp.feed.sync.SyncState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
@@ -17,8 +16,8 @@ public class HomePresenter(
     private val feedDataSource: FeedDataSource,
     scope: CoroutineScope,
 ) {
-    private val _uiState = MutableStateFlow<HomeUiState>(HomeUiState.Loading)
-    public val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
+    public val uiState: StateFlow<HomeUiState>
+        field = MutableStateFlow<HomeUiState>(HomeUiState.Loading)
 
     public val eventSink: (HomeUiEvent) -> Unit = { scope.launch { processUiEvent(it) } }
 
@@ -66,7 +65,7 @@ public class HomePresenter(
                          */
                         val hasTransientError = isFirstTransform ||
                             lastEmittedFlowIndex == 0 ||
-                            (_uiState.value as? HomeUiState.Content)?.hasTransientError == true
+                            (uiState.value as? HomeUiState.Content)?.hasTransientError == true
 
                         HomeUiState.Content(
                             selectedFeedCount = feedOrigins.count { it.selected },
@@ -80,7 +79,7 @@ public class HomePresenter(
                 }
             }
         }.onEach {
-            _uiState.value = it
+            uiState.value = it
         }.launchIn(scope)
     }
 
@@ -99,7 +98,7 @@ public class HomePresenter(
             }
 
             HomeUiEvent.DismissTransientError -> {
-                _uiState.update {
+                uiState.update {
                     if (it is HomeUiState.Content) {
                         it.copy(hasTransientError = false)
                     } else {

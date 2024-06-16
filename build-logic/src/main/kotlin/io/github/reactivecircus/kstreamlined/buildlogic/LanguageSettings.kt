@@ -8,5 +8,6 @@ internal fun LanguageSettingsBuilder.applyLanguageSettings(): LanguageSettingsBu
         optIn("kotlin.RequiresOptIn")
         optIn("kotlin.experimental.ExperimentalObjCName")
         enableLanguageFeature("ContextReceivers")
+        enableLanguageFeature("ExplicitBackingFields")
     }
 }
