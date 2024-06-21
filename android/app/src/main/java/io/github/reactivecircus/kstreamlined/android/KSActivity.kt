@@ -58,6 +58,7 @@ class KSActivity : ComponentActivity() {
                         SystemNavigationMode.Gesture -> Color.Transparent
                         else -> backgroundColor
                     }
+                    @Suppress("DEPRECATION")
                     window.navigationBarColor = navigationBarColor.toArgb()
                     onDispose { }
                 }
