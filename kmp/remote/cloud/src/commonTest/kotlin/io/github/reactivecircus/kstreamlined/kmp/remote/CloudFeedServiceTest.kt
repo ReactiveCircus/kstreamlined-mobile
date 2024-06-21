@@ -1,6 +1,7 @@
 package io.github.reactivecircus.kstreamlined.kmp.remote
 
 import com.apollographql.apollo3.ApolloClient
+import com.apollographql.apollo3.api.toResponseJson
 import com.apollographql.apollo3.cache.normalized.api.MemoryCacheFactory
 import com.apollographql.apollo3.cache.normalized.normalizedCache
 import com.apollographql.apollo3.exception.ApolloHttpException
@@ -8,7 +9,7 @@ import com.apollographql.apollo3.exception.CacheMissException
 import com.apollographql.apollo3.exception.NoDataException
 import com.apollographql.apollo3.mockserver.MockServer
 import com.apollographql.apollo3.mockserver.enqueueError
-import com.apollographql.apollo3.testing.enqueueData
+import com.apollographql.apollo3.mockserver.enqueueString
 import io.github.reactivecircus.kstreamlined.graphql.FeedEntriesQuery
 import io.github.reactivecircus.kstreamlined.graphql.FeedSourcesQuery
 import io.github.reactivecircus.kstreamlined.graphql.KotlinWeeklyIssueQuery
@@ -90,8 +91,8 @@ class CloudFeedServiceTest {
     @Test
     fun `loadFeedSources returns result when network request was successful`() =
         runTest {
-            mockServer.enqueueData(
-                FeedSourcesQuery.Data(feedSources = dummyFeedSources)
+            mockServer.enqueueString(
+                FeedSourcesQuery.Data(feedSources = dummyFeedSources).toResponseJson()
             )
             val actual = cloudFeedService.fetchFeedOrigins()
             assertEquals(dummyFeedSources.map { it.asExternalModel() }, actual)
@@ -110,8 +111,8 @@ class CloudFeedServiceTest {
     @Test
     fun `loadFeedEntries returns result when network request was successful`() =
         runTest {
-            mockServer.enqueueData(
-                FeedEntriesQuery.Data(feedEntries = dummyFeedEntries)
+            mockServer.enqueueString(
+                FeedEntriesQuery.Data(feedEntries = dummyFeedEntries).toResponseJson()
             )
             val actual = cloudFeedService.fetchFeedEntries(filters = null)
             assertEquals(dummyFeedEntries.map { it.asExternalModel() }, actual)
@@ -130,8 +131,9 @@ class CloudFeedServiceTest {
     @Test
     fun `loadKotlinWeeklyIssue returns result when network request was successful`() =
         runTest {
-            mockServer.enqueueData(
+            mockServer.enqueueString(
                 KotlinWeeklyIssueQuery.Data(kotlinWeeklyIssueEntries = dummyKotlinWeeklyEntries)
+                    .toResponseJson()
             )
             val actual = cloudFeedService.fetchKotlinWeeklyIssue(url = "url")
             assertEquals(dummyKotlinWeeklyEntries.map { it.asExternalModel() }, actual)
@@ -151,8 +153,9 @@ class CloudFeedServiceTest {
     fun `loadKotlinWeeklyIssue returns result when network request failed but cache is available`() =
         runTest {
             // 1st request to populate cache
-            mockServer.enqueueData(
+            mockServer.enqueueString(
                 KotlinWeeklyIssueQuery.Data(kotlinWeeklyIssueEntries = dummyKotlinWeeklyEntries)
+                    .toResponseJson()
             )
             cloudFeedService.fetchKotlinWeeklyIssue(url = "url")
 
