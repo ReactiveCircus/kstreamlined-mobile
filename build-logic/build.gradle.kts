@@ -97,10 +97,6 @@ gradlePlugin {
             id = "kstreamlined.android.test"
             implementationClass = "io.github.reactivecircus.kstreamlined.buildlogic.convention.AndroidTestConventionPlugin"
         }
-        register("compose") {
-            id = "kstreamlined.android.compose"
-            implementationClass = "io.github.reactivecircus.kstreamlined.buildlogic.convention.ComposeConventionPlugin"
-        }
         register("kmpCommon") {
             id = "kstreamlined.kmp.common"
             implementationClass = "io.github.reactivecircus.kstreamlined.buildlogic.convention.KMPCommonConventionPlugin"
@@ -116,6 +112,10 @@ gradlePlugin {
         register("kmpTest") {
             id = "kstreamlined.kmp.test"
             implementationClass = "io.github.reactivecircus.kstreamlined.buildlogic.convention.KMPTestConventionPlugin"
+        }
+        register("compose") {
+            id = "kstreamlined.compose"
+            implementationClass = "io.github.reactivecircus.kstreamlined.buildlogic.convention.ComposeConventionPlugin"
         }
         register("ksp") {
             id = "kstreamlined.ksp"

@@ -1,6 +1,6 @@
 plugins {
     id("kstreamlined.android.library")
-    id("kstreamlined.android.compose")
+    id("kstreamlined.compose")
 }
 
 android {

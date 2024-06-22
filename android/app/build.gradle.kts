@@ -7,7 +7,7 @@ import java.time.Instant
 
 plugins {
     id("kstreamlined.android.application")
-    id("kstreamlined.android.compose")
+    id("kstreamlined.compose")
     id("kstreamlined.ksp")
     id("kotlin-parcelize")
     id("com.google.dagger.hilt.android")
