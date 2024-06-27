@@ -97,8 +97,10 @@ android {
         }
         release {
             matchingFallbacks.add("release")
-            if (rootProject.file("android/secrets/kstreamlined.jks").exists()) {
-                signingConfig = signingConfigs.getByName("release")
+            signingConfig = if (rootProject.file("android/secrets/kstreamlined.jks").exists()) {
+                signingConfigs.getByName("release")
+            } else {
+                signingConfigs.getByName("debug")
             }
             isShrinkResources = true
             isMinifyEnabled = true
