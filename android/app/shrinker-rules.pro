@@ -53,6 +53,14 @@
    void traceEventEnd();
 }
 
+# TODO remove once fix in Firebase is released
+# Explicitly keep default constructor in subtypes of ComponentRegistrar
+-keep class * implements com.google.firebase.components.ComponentRegistrar { void <init>(); }
+
+# TODO remove once fix in work manager (transitively room) is released
+# Explicitly keep default constructor in subtypes of RoomDatabase
+-keep class * extends androidx.room.RoomDatabase { void <init>(); }
+
 # This is generated automatically by the Android Gradle plugin.
 -dontwarn kotlinx.serialization.KSerializer
 -dontwarn kotlinx.serialization.Serializable
