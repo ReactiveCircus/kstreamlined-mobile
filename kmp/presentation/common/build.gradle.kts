@@ -8,7 +8,6 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                // Coroutines
                 api(libs.kotlinx.coroutines.core)
                 api(libs.molecule.runtime)
             }
