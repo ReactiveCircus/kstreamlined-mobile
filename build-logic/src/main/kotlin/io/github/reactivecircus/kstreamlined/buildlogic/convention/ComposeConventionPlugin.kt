@@ -1,7 +1,5 @@
 package io.github.reactivecircus.kstreamlined.buildlogic.convention
 
-import com.android.build.api.dsl.LibraryExtension
-import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
@@ -22,18 +20,6 @@ internal class ComposeConventionPlugin : Plugin<Project> {
                 reportsDestination.set(layout.buildDirectory.dir("compose_metrics"))
             }
             targetKotlinPlatforms.set(setOf(KotlinPlatformType.androidJvm))
-        }
-
-        // TODO remove once https://issuetracker.google.com/issues/344057003 is fixed
-        plugins.withId("com.android.application") {
-            configure<BaseAppModuleExtension> {
-                buildFeatures.compose = true
-            }
-        }
-        plugins.withId("com.android.library") {
-            configure<LibraryExtension> {
-                buildFeatures.compose = true
-            }
         }
     }
 }
