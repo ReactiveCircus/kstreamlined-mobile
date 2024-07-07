@@ -1,109 +1,115 @@
 package io.github.reactivecircus.kstreamlined.kmp.presentation.home
 
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import app.cash.molecule.RecompositionMode
 import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.FeedDataSource
 import io.github.reactivecircus.kstreamlined.kmp.feed.sync.FeedSyncEngine
 import io.github.reactivecircus.kstreamlined.kmp.feed.sync.SyncState
+import io.github.reactivecircus.kstreamlined.kmp.presentation.common.Presenter
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 
 public class HomePresenter(
     private val feedSyncEngine: FeedSyncEngine,
     private val feedDataSource: FeedDataSource,
     scope: CoroutineScope,
-) {
-    public val uiState: StateFlow<HomeUiState>
-        field = MutableStateFlow<HomeUiState>(HomeUiState.Loading)
-
-    public val eventSink: (HomeUiEvent) -> Unit = { scope.launch { processUiEvent(it) } }
-
-    init {
-        combineWithMetadata(
-            feedSyncEngine.syncState,
-            feedDataSource.streamFeedOrigins(),
-            feedDataSource.streamFeedItemsForSelectedOrigins(),
-        ) { syncState, feedOrigins, feedItems, (isFirstTransform, lastEmittedFlowIndex) ->
-            val hasContent = feedOrigins.isNotEmpty() && feedItems.isNotEmpty()
-            when (syncState) {
-                is SyncState.Initializing, is SyncState.Syncing -> {
-                    if (hasContent) {
-                        HomeUiState.Content(
-                            selectedFeedCount = feedOrigins.count { it.selected },
-                            feedItems = feedItems.toHomeFeedItems(),
-                            refreshing = true,
-                            hasTransientError = false,
-                        )
+    recompositionMode: RecompositionMode,
+) : Presenter<HomeUiEvent, HomeUiState>(scope, recompositionMode) {
+    @Composable
+    override fun present(): HomeUiState {
+        var uiState by remember { mutableStateOf<HomeUiState>(HomeUiState.Loading) }
+        LaunchedEffect(Unit) {
+            uiStateFlow(currentState = { uiState })
+                .onEach { uiState = it }
+                .collect()
+        }
+        CollectEvent { event ->
+            when (event) {
+                is HomeUiEvent.ToggleSavedForLater -> {
+                    if (!event.item.savedForLater) {
+                        feedDataSource.addSavedFeedItem(event.item.id)
                     } else {
-                        HomeUiState.Loading
+                        feedDataSource.removeSavedFeedItem(event.item.id)
                     }
                 }
 
-                is SyncState.Idle -> {
-                    if (hasContent) {
-                        HomeUiState.Content(
-                            selectedFeedCount = feedOrigins.count { it.selected },
-                            feedItems = feedItems.toHomeFeedItems(),
-                            refreshing = false,
-                            hasTransientError = false,
-                        )
-                    } else {
-                        HomeUiState.Loading
-                    }
+                HomeUiEvent.Refresh -> {
+                    feedSyncEngine.sync(forceRefresh = true)
                 }
 
-                is SyncState.OutOfSync -> {
-                    if (hasContent) {
-                        /**
-                         * Show transient error if:
-                         * - this is the first transformation
-                         * - or a new emission of [SyncState.OutOfSync] has triggered the current state transformation
-                         * - or current state is [HomeUiState.Content] with `hasTransientError = true`
-                         */
-                        val hasTransientError = isFirstTransform ||
-                            lastEmittedFlowIndex == 0 ||
-                            (uiState.value as? HomeUiState.Content)?.hasTransientError == true
-
-                        HomeUiState.Content(
-                            selectedFeedCount = feedOrigins.count { it.selected },
-                            feedItems = feedItems.toHomeFeedItems(),
-                            refreshing = false,
-                            hasTransientError = hasTransientError,
-                        )
-                    } else {
-                        HomeUiState.Error
+                HomeUiEvent.DismissTransientError -> {
+                    val currentUiState = uiState
+                    if (currentUiState is HomeUiState.Content) {
+                        uiState = currentUiState.copy(hasTransientError = false)
                     }
                 }
             }
-        }.onEach {
-            uiState.value = it
-        }.launchIn(scope)
+        }
+        return uiState
     }
 
-    private suspend fun processUiEvent(event: HomeUiEvent) {
-        when (event) {
-            is HomeUiEvent.ToggleSavedForLater -> {
-                if (!event.item.savedForLater) {
-                    feedDataSource.addSavedFeedItem(event.item.id)
+    private fun uiStateFlow(
+        currentState: () -> HomeUiState,
+    ): Flow<HomeUiState> = combineWithMetadata(
+        feedSyncEngine.syncState,
+        feedDataSource.streamFeedOrigins(),
+        feedDataSource.streamFeedItemsForSelectedOrigins(),
+    ) { syncState, feedOrigins, feedItems, (isFirstTransform, lastEmittedFlowIndex) ->
+        val hasContent = feedOrigins.isNotEmpty() && feedItems.isNotEmpty()
+        when (syncState) {
+            is SyncState.Initializing, is SyncState.Syncing -> {
+                if (hasContent) {
+                    HomeUiState.Content(
+                        selectedFeedCount = feedOrigins.count { it.selected },
+                        feedItems = feedItems.toHomeFeedItems(),
+                        refreshing = true,
+                        hasTransientError = false,
+                    )
                 } else {
-                    feedDataSource.removeSavedFeedItem(event.item.id)
+                    HomeUiState.Loading
                 }
             }
 
-            HomeUiEvent.Refresh -> {
-                feedSyncEngine.sync(forceRefresh = true)
+            is SyncState.Idle -> {
+                if (hasContent) {
+                    HomeUiState.Content(
+                        selectedFeedCount = feedOrigins.count { it.selected },
+                        feedItems = feedItems.toHomeFeedItems(),
+                        refreshing = false,
+                        hasTransientError = false,
+                    )
+                } else {
+                    HomeUiState.Loading
+                }
             }
 
-            HomeUiEvent.DismissTransientError -> {
-                uiState.update {
-                    if (it is HomeUiState.Content) {
-                        it.copy(hasTransientError = false)
-                    } else {
-                        it
-                    }
+            is SyncState.OutOfSync -> {
+                if (hasContent) {
+                    /**
+                     * Show transient error if:
+                     * - this is the first transformation
+                     * - or a new emission of [SyncState.OutOfSync] has triggered the current state transformation
+                     * - or current state is [HomeUiState.Content] with `hasTransientError = true`
+                     */
+                    val hasTransientError = isFirstTransform ||
+                        lastEmittedFlowIndex == 0 ||
+                        (currentState() as? HomeUiState.Content)?.hasTransientError == true
+
+                    HomeUiState.Content(
+                        selectedFeedCount = feedOrigins.count { it.selected },
+                        feedItems = feedItems.toHomeFeedItems(),
+                        refreshing = false,
+                        hasTransientError = hasTransientError,
+                    )
+                } else {
+                    HomeUiState.Error
                 }
             }
         }
