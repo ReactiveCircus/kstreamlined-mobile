@@ -1,4 +1,4 @@
-package io.github.reactivecircus.kstreamlined.kmp.presentation.savedforlater
+package io.github.reactivecircus.kstreamlined.kmp.presentation.contentviewer
 
 import app.cash.molecule.RecompositionMode
 import app.cash.turbine.test
@@ -13,11 +13,10 @@ import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.Instant
-import kotlinx.datetime.TimeZone
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class SavedForLaterPresenterTest {
+class ContentViewerPresenterTest {
 
     private val feedService = FakeFeedService()
 
@@ -27,35 +26,34 @@ class SavedForLaterPresenterTest {
 
     private val testScope = TestScope(testDispatcher)
 
-    private val timeZone = TimeZone.UTC
-
     private val dummyFeedItem = FeedItemEntity(
         id = "1",
-        feed_origin_key = FeedOrigin.Key.KotlinBlog.name,
-        title = "Kotlin Blog Post",
-        publish_time = Instant.parse("2022-01-01T00:00:00Z"),
-        content_url = "content-url-1",
-        image_url = "image-url-1",
-        description = null,
+        feed_origin_key = FeedOrigin.Key.KotlinYouTubeChannel.name,
+        title = "Kotlin YouTube Video",
+        publish_time = Instant.parse("2022-01-02T00:00:00Z"),
+        content_url = "content-url-2",
+        image_url = "image-url-2",
+        description = "Desc",
         issue_number = null,
         podcast_audio_url = null,
         podcast_duration = null,
         podcast_start_position = null,
-        saved_for_later = true,
+        saved_for_later = false,
     )
 
     private val item = dummyFeedItem.let {
-        FeedItem.KotlinBlog(
+        FeedItem.KotlinYouTube(
             id = it.id,
             title = it.title,
             publishTime = it.publish_time,
             contentUrl = it.content_url,
             savedForLater = it.saved_for_later,
-            featuredImageUrl = it.image_url.orEmpty(),
+            thumbnailUrl = it.image_url.orEmpty(),
+            description = it.description.orEmpty(),
         )
     }
 
-    private val presenter = SavedForLaterPresenter(
+    private val presenter = ContentViewerPresenter(
         feedDataSource = FeedDataSource(
             feedService = feedService,
             db = db,
@@ -66,48 +64,60 @@ class SavedForLaterPresenterTest {
     )
 
     @Test
-    fun `presenter emits Content state with saved feed items when datasource emits new items`() =
+    fun `presenter emits Content state when LoadContent event is dispatched and item exists`() =
         testScope.runTest {
             presenter.states.test {
-                assertEquals(SavedForLaterUiState.Loading, awaitItem())
-
-                assertEquals(SavedForLaterUiState.Content(emptyList()), awaitItem())
-
                 db.transaction {
                     db.insertFeedItems(listOf(dummyFeedItem))
                 }
 
-                assertEquals(
-                    SavedForLaterUiState.Content(
-                        listOf(item).toSavedForLaterFeedItems(timeZone)
-                    ),
-                    awaitItem(),
-                )
+                assertEquals(ContentViewerUiState.Initializing, awaitItem())
+
+                presenter.eventSink(ContentViewerUiEvent.LoadContent(dummyFeedItem.id))
+
+                assertEquals(ContentViewerUiState.Content(item), awaitItem())
             }
         }
 
     @Test
-    fun `presenter emits Content state with removed item when RemoveSavedItem event is dispatched`() =
+    fun `presenter emits NotFound state when LoadContent event is dispatched and item does not exist`() =
         testScope.runTest {
             presenter.states.test {
-                assertEquals(SavedForLaterUiState.Loading, awaitItem())
+                assertEquals(ContentViewerUiState.Initializing, awaitItem())
 
-                assertEquals(SavedForLaterUiState.Content(emptyList()), awaitItem())
+                presenter.eventSink(ContentViewerUiEvent.LoadContent("id"))
 
+                assertEquals(ContentViewerUiState.NotFound, awaitItem())
+            }
+        }
+
+    @Test
+    fun `presenter emits Content state with updated savedForLater value when ToggleSavedForLater event is dispatched`() =
+        testScope.runTest {
+            presenter.states.test {
                 db.transaction {
                     db.insertFeedItems(listOf(dummyFeedItem))
                 }
 
+                assertEquals(ContentViewerUiState.Initializing, awaitItem())
+
+                presenter.eventSink(ContentViewerUiEvent.LoadContent(dummyFeedItem.id))
+
+                assertEquals(ContentViewerUiState.Content(item), awaitItem())
+
+                presenter.eventSink(ContentViewerUiEvent.ToggleSavedForLater)
+
                 assertEquals(
-                    SavedForLaterUiState.Content(
-                        listOf(item).toSavedForLaterFeedItems(timeZone)
-                    ),
-                    awaitItem(),
+                    ContentViewerUiState.Content(item.copy(savedForLater = true)),
+                    awaitItem()
                 )
 
-                presenter.eventSink(SavedForLaterUiEvent.RemoveSavedItem(dummyFeedItem.id))
+                presenter.eventSink(ContentViewerUiEvent.ToggleSavedForLater)
 
-                assertEquals(SavedForLaterUiState.Content(emptyList()), awaitItem())
+                assertEquals(
+                    ContentViewerUiState.Content(item.copy(savedForLater = false)),
+                    awaitItem()
+                )
             }
         }
 }

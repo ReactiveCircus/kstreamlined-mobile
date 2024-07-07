@@ -29,7 +29,6 @@ import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -73,8 +72,9 @@ public fun ContentViewerScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val eventSink = viewModel.eventSink
 
-    LaunchedEffect(id) {
+    DisposableEffect(id) {
         eventSink(ContentViewerUiEvent.LoadContent(id))
+        onDispose { }
     }
 
     Column(

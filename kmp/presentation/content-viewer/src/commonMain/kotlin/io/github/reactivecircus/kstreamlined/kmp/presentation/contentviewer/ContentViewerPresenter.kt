@@ -1,46 +1,59 @@
 package io.github.reactivecircus.kstreamlined.kmp.presentation.contentviewer
 
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import app.cash.molecule.RecompositionMode
 import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.FeedDataSource
+import io.github.reactivecircus.kstreamlined.kmp.presentation.common.Presenter
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
-import kotlinx.coroutines.launch
 
 public class ContentViewerPresenter(
     private val feedDataSource: FeedDataSource,
     scope: CoroutineScope,
-) {
-    public val uiState: StateFlow<ContentViewerUiState>
-        field = MutableStateFlow<ContentViewerUiState>(ContentViewerUiState.Initializing)
-
-    public val eventSink: (ContentViewerUiEvent) -> Unit = { scope.launch { processUiEvent(it) } }
-
-    private suspend fun processUiEvent(event: ContentViewerUiEvent) {
-        when (event) {
-            is ContentViewerUiEvent.LoadContent -> {
-                feedDataSource.streamFeedItemById(event.id)
-                    .onStart { uiState.value = ContentViewerUiState.Initializing }
+    recompositionMode: RecompositionMode,
+) : Presenter<ContentViewerUiEvent, ContentViewerUiState>(scope, recompositionMode) {
+    @Composable
+    override fun present(): ContentViewerUiState {
+        var uiState by remember { mutableStateOf<ContentViewerUiState>(ContentViewerUiState.Initializing) }
+        var itemId by remember { mutableStateOf<String?>(null) }
+        LaunchedEffect(itemId) {
+            itemId?.let { id ->
+                feedDataSource.streamFeedItemById(id)
+                    .onStart { uiState = ContentViewerUiState.Initializing }
                     .onEach { item ->
-                        if (item != null) {
-                            uiState.value = ContentViewerUiState.Content(item)
+                        uiState = if (item != null) {
+                            ContentViewerUiState.Content(item)
                         } else {
-                            uiState.value = ContentViewerUiState.NotFound
+                            ContentViewerUiState.NotFound
                         }
                     }
                     .collect()
             }
+        }
+        CollectEvent { event ->
+            when (event) {
+                is ContentViewerUiEvent.LoadContent -> {
+                    itemId = event.id
+                }
 
-            is ContentViewerUiEvent.ToggleSavedForLater -> {
-                val item = (uiState.value as? ContentViewerUiState.Content)?.item ?: return
-                if (!item.savedForLater) {
-                    feedDataSource.addSavedFeedItem(item.id)
-                } else {
-                    feedDataSource.removeSavedFeedItem(item.id)
+                is ContentViewerUiEvent.ToggleSavedForLater -> {
+                    val item = (uiState as? ContentViewerUiState.Content)?.item
+                        ?: return@CollectEvent
+                    if (!item.savedForLater) {
+                        feedDataSource.addSavedFeedItem(item.id)
+                    } else {
+                        feedDataSource.removeSavedFeedItem(item.id)
+                    }
                 }
             }
         }
+        return uiState
     }
 }
