@@ -1,5 +1,6 @@
 package io.github.reactivecircus.kstreamlined.kmp.presentation.home
 
+import app.cash.molecule.RecompositionMode
 import app.cash.turbine.test
 import io.github.reactivecircus.kstreamlined.kmp.database.FeedItemEntity
 import io.github.reactivecircus.kstreamlined.kmp.database.FeedOriginEntity
@@ -72,7 +73,7 @@ class HomePresenterTest {
         )
     )
 
-    private val homePresenter = HomePresenter(
+    private val presenter = HomePresenter(
         feedSyncEngine = feedSyncEngine,
         feedDataSource = FeedDataSource(
             feedService = feedService,
@@ -80,19 +81,20 @@ class HomePresenterTest {
             dbDispatcher = testDispatcher,
         ),
         scope = testScope.backgroundScope,
+        recompositionMode = RecompositionMode.Immediate,
     )
 
     @Test
-    fun `uiState emits Loading state when initialized`() = testScope.runTest {
-        homePresenter.uiState.test {
+    fun `presenter emits Loading state when initialized`() = testScope.runTest {
+        presenter.states.test {
             assertEquals(HomeUiState.Loading, awaitItem())
         }
     }
 
     @Test
-    fun `uiState emits Content state with refreshing = false and hasTransientError = false when feedOrigins and feedItems are not empty and syncState is Idle`() =
+    fun `presenter emits Content state with refreshing = false and hasTransientError = false when feedOrigins and feedItems are not empty and syncState is Idle`() =
         testScope.runTest {
-            homePresenter.uiState.test {
+            presenter.states.test {
                 assertEquals(HomeUiState.Loading, awaitItem())
 
                 feedSyncEngine.emitSyncState(SyncState.Idle)
@@ -111,9 +113,9 @@ class HomePresenterTest {
         }
 
     @Test
-    fun `uiState emits Content state with refreshing = true and hasTransientError = false when feedOrigins and feedItems are not empty and syncState is Syncing`() =
+    fun `presenter emits Content state with refreshing = true and hasTransientError = false when feedOrigins and feedItems are not empty and syncState is Syncing`() =
         testScope.runTest {
-            homePresenter.uiState.test {
+            presenter.states.test {
                 assertEquals(HomeUiState.Loading, awaitItem())
 
                 feedSyncEngine.emitSyncState(SyncState.Idle)
@@ -140,9 +142,9 @@ class HomePresenterTest {
         }
 
     @Test
-    fun `uiState emits Content state with refreshing = false and hasTransientError = true when feedOrigins and feedItems are not empty and syncState is OutOfSync`() =
+    fun `presenter emits Content state with refreshing = false and hasTransientError = true when feedOrigins and feedItems are not empty and syncState is OutOfSync`() =
         testScope.runTest {
-            homePresenter.uiState.test {
+            presenter.states.test {
                 assertEquals(HomeUiState.Loading, awaitItem())
 
                 feedSyncEngine.emitSyncState(SyncState.OutOfSync)
@@ -161,9 +163,9 @@ class HomePresenterTest {
         }
 
     @Test
-    fun `uiState emits Content state with hasTransientError = true when current state is Content state with refreshing = true and OutOfSync syncState is emitted`() =
+    fun `presenter emits Content state with hasTransientError = true when current state is Content state with refreshing = true and OutOfSync syncState is emitted`() =
         testScope.runTest {
-            homePresenter.uiState.test {
+            presenter.states.test {
                 assertEquals(HomeUiState.Loading, awaitItem())
 
                 feedSyncEngine.emitSyncState(SyncState.Syncing)
@@ -190,9 +192,9 @@ class HomePresenterTest {
         }
 
     @Test
-    fun `uiState emits Error state when feedOrigins and feedItems are empty and syncState is OutOfSync`() =
+    fun `presenter emits Error state when feedOrigins and feedItems are empty and syncState is OutOfSync`() =
         testScope.runTest {
-            homePresenter.uiState.test {
+            presenter.states.test {
                 assertEquals(HomeUiState.Loading, awaitItem())
 
                 feedSyncEngine.emitSyncState(SyncState.OutOfSync)
@@ -202,9 +204,9 @@ class HomePresenterTest {
         }
 
     @Test
-    fun `uiState emits Loading state when feedOrigins and feedItems are empty and syncState is Loading`() =
+    fun `presenter emits Loading state when feedOrigins and feedItems are empty and syncState is Loading`() =
         testScope.runTest {
-            homePresenter.uiState.test {
+            presenter.states.test {
                 assertEquals(HomeUiState.Loading, awaitItem())
 
                 feedSyncEngine.emitSyncState(SyncState.OutOfSync)
@@ -218,9 +220,9 @@ class HomePresenterTest {
         }
 
     @Test
-    fun `uiState emits Loading state when feedOrigins and feedItems are empty and syncState is Idle`() =
+    fun `presenter emits Loading state when feedOrigins and feedItems are empty and syncState is Idle`() =
         testScope.runTest {
-            homePresenter.uiState.test {
+            presenter.states.test {
                 assertEquals(HomeUiState.Loading, awaitItem())
 
                 feedSyncEngine.emitSyncState(SyncState.OutOfSync)
@@ -234,19 +236,23 @@ class HomePresenterTest {
         }
 
     @Test
-    fun `sends sync request to sync engine when refresh is called`() = testScope.runTest {
-        homePresenter.eventSink(HomeUiEvent.Refresh)
+    fun `sends sync request to sync engine when Refresh event is dispatched`() = testScope.runTest {
+        presenter.states.test {
+            cancelAndIgnoreRemainingEvents()
 
-        assertEquals(
-            FakeFeedSyncEngine.RecordedSync(forceRefresh = true),
-            feedSyncEngine.recordedSyncs.awaitItem(),
-        )
+            presenter.eventSink(HomeUiEvent.Refresh)
+
+            assertEquals(
+                FakeFeedSyncEngine.RecordedSync(forceRefresh = true),
+                feedSyncEngine.recordedSyncs.awaitItem(),
+            )
+        }
     }
 
     @Test
-    fun `uiState emits Content state with updated items when toggleSavedForLatter is called`() =
+    fun `presenter emits Content state with updated items when ToggleSavedForLater event is dispatched`() =
         testScope.runTest {
-            homePresenter.uiState.test {
+            presenter.states.test {
                 assertEquals(HomeUiState.Loading, awaitItem())
 
                 feedSyncEngine.emitSyncState(SyncState.OutOfSync)
@@ -273,7 +279,7 @@ class HomePresenterTest {
                     )
                 }
 
-                homePresenter.eventSink(HomeUiEvent.ToggleSavedForLater(feedItem))
+                presenter.eventSink(HomeUiEvent.ToggleSavedForLater(feedItem))
 
                 assertContentState(
                     state = awaitItem(),
@@ -283,7 +289,7 @@ class HomePresenterTest {
                         .toHomeFeedItems(fixedClock, timeZone),
                 )
 
-                homePresenter.eventSink(
+                presenter.eventSink(
                     HomeUiEvent.ToggleSavedForLater(feedItem.copy(savedForLater = true))
                 )
 
@@ -298,9 +304,9 @@ class HomePresenterTest {
         }
 
     @Test
-    fun `uiState emits Content state with refreshing = false when dismissTransientError is called and current state is Content state`() =
+    fun `presenter emits Content state with refreshing = false when DismissTransientError event is dispatched and current state is Content state`() =
         testScope.runTest {
-            homePresenter.uiState.test {
+            presenter.states.test {
                 assertEquals(HomeUiState.Loading, awaitItem())
 
                 feedSyncEngine.emitSyncState(SyncState.OutOfSync)
@@ -316,7 +322,7 @@ class HomePresenterTest {
                     hasTransientError = true,
                 )
 
-                homePresenter.eventSink(HomeUiEvent.DismissTransientError)
+                presenter.eventSink(HomeUiEvent.DismissTransientError)
 
                 assertContentState(
                     state = awaitItem(),
@@ -327,12 +333,12 @@ class HomePresenterTest {
         }
 
     @Test
-    fun `uiState does not emit new state when dismissTransientError is called and current state is not Content state`() =
+    fun `presenter does not emit new state when DismissTransientError event is dispatched and current state is not Content state`() =
         testScope.runTest {
-            homePresenter.uiState.test {
+            presenter.states.test {
                 assertEquals(HomeUiState.Loading, awaitItem())
 
-                homePresenter.eventSink(HomeUiEvent.DismissTransientError)
+                presenter.eventSink(HomeUiEvent.DismissTransientError)
 
                 advanceTimeBy(1.days)
 

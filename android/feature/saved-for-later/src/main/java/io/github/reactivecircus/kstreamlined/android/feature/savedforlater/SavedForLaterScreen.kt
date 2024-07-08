@@ -65,7 +65,7 @@ public fun SavedForLaterScreen(
         listState = listState,
         onViewItem = onViewItem,
         uiState = uiState,
-        eventSink,
+        eventSink = eventSink,
         modifier = modifier,
     )
 }

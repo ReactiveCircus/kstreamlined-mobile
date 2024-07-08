@@ -1,13 +1,14 @@
 plugins {
     id("kstreamlined.kmp.common")
     id("kstreamlined.kmp.test")
+    id("kstreamlined.compose")
 }
 
 kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                implementation(project(":kmp:presentation:common"))
+                api(project(":kmp:presentation:common"))
                 implementation(project(":kmp:feed-datasource"))
                 implementation(project(":kmp:feed-sync:common"))
                 implementation(project(":kmp:pretty-time"))

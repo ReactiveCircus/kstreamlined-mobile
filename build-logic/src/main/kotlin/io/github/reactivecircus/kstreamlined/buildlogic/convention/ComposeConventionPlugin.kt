@@ -19,7 +19,11 @@ internal class ComposeConventionPlugin : Plugin<Project> {
                 metricsDestination.set(layout.buildDirectory.dir("compose_metrics"))
                 reportsDestination.set(layout.buildDirectory.dir("compose_metrics"))
             }
-            targetKotlinPlatforms.set(setOf(KotlinPlatformType.androidJvm))
+            targetKotlinPlatforms.set(
+                KotlinPlatformType.values().filterNot {
+                    it == KotlinPlatformType.js || it == KotlinPlatformType.wasm
+                }
+            )
         }
     }
 }

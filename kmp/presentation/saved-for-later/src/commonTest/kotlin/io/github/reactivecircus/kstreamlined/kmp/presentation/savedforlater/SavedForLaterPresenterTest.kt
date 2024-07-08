@@ -1,5 +1,6 @@
 package io.github.reactivecircus.kstreamlined.kmp.presentation.savedforlater
 
+import app.cash.molecule.RecompositionMode
 import app.cash.turbine.test
 import io.github.reactivecircus.kstreamlined.kmp.database.FeedItemEntity
 import io.github.reactivecircus.kstreamlined.kmp.database.testing.createInMemoryDatabase
@@ -54,19 +55,22 @@ class SavedForLaterPresenterTest {
         )
     }
 
-    private val savedForLaterPresenter = SavedForLaterPresenter(
+    private val presenter = SavedForLaterPresenter(
         feedDataSource = FeedDataSource(
             feedService = feedService,
             db = db,
             dbDispatcher = testDispatcher,
         ),
         scope = testScope.backgroundScope,
+        recompositionMode = RecompositionMode.Immediate,
     )
 
     @Test
-    fun `uiState emits Content state with saved feed items when datasource emits new items`() =
+    fun `presenter emits Content state with saved feed items when datasource emits new items`() =
         testScope.runTest {
-            savedForLaterPresenter.uiState.test {
+            presenter.states.test {
+                assertEquals(SavedForLaterUiState.Loading, awaitItem())
+
                 assertEquals(SavedForLaterUiState.Content(emptyList()), awaitItem())
 
                 db.transaction {
@@ -83,9 +87,11 @@ class SavedForLaterPresenterTest {
         }
 
     @Test
-    fun `uiState emits Content state with removed item when removeSavedItem is called`() =
+    fun `presenter emits Content state with removed item when RemoveSavedItem event is dispatched`() =
         testScope.runTest {
-            savedForLaterPresenter.uiState.test {
+            presenter.states.test {
+                assertEquals(SavedForLaterUiState.Loading, awaitItem())
+
                 assertEquals(SavedForLaterUiState.Content(emptyList()), awaitItem())
 
                 db.transaction {
@@ -99,7 +105,7 @@ class SavedForLaterPresenterTest {
                     awaitItem(),
                 )
 
-                savedForLaterPresenter.eventSink(SavedForLaterUiEvent.RemoveSavedItem(dummyFeedItem.id))
+                presenter.eventSink(SavedForLaterUiEvent.RemoveSavedItem(dummyFeedItem.id))
 
                 assertEquals(SavedForLaterUiState.Content(emptyList()), awaitItem())
             }

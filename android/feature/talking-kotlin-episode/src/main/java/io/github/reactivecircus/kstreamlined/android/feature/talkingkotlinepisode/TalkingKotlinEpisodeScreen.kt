@@ -78,7 +78,7 @@ public fun TalkingKotlinEpisodeScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val eventSink = viewModel.eventSink
 
-    DisposableEffect(Unit) {
+    DisposableEffect(id) {
         eventSink(TalkingKotlinEpisodeUiEvent.LoadEpisode(id))
         onDispose {
             eventSink(TalkingKotlinEpisodeUiEvent.Reset)
