@@ -1,7 +1,7 @@
 package io.github.reactivecircus.kstreamlined.kmp.remote.apollo
 
-import com.apollographql.apollo3.cache.normalized.ApolloStore
-import com.apollographql.apollo3.cache.normalized.api.MemoryCacheFactory
+import com.apollographql.apollo.cache.normalized.ApolloStore
+import com.apollographql.apollo.cache.normalized.api.MemoryCacheFactory
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 
