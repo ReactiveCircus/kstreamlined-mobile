@@ -1,15 +1,15 @@
 package io.github.reactivecircus.kstreamlined.kmp.remote
 
-import com.apollographql.apollo3.ApolloClient
-import com.apollographql.apollo3.api.toResponseJson
-import com.apollographql.apollo3.cache.normalized.api.MemoryCacheFactory
-import com.apollographql.apollo3.cache.normalized.normalizedCache
-import com.apollographql.apollo3.exception.ApolloHttpException
-import com.apollographql.apollo3.exception.CacheMissException
-import com.apollographql.apollo3.exception.NoDataException
-import com.apollographql.apollo3.mockserver.MockServer
-import com.apollographql.apollo3.mockserver.enqueueError
-import com.apollographql.apollo3.mockserver.enqueueString
+import com.apollographql.apollo.ApolloClient
+import com.apollographql.apollo.api.toResponseJson
+import com.apollographql.apollo.cache.normalized.api.MemoryCacheFactory
+import com.apollographql.apollo.cache.normalized.normalizedCache
+import com.apollographql.apollo.exception.ApolloHttpException
+import com.apollographql.apollo.exception.CacheMissException
+import com.apollographql.apollo.exception.NoDataException
+import com.apollographql.mockserver.MockServer
+import com.apollographql.mockserver.enqueueError
+import com.apollographql.mockserver.enqueueString
 import io.github.reactivecircus.kstreamlined.graphql.FeedEntriesQuery
 import io.github.reactivecircus.kstreamlined.graphql.FeedSourcesQuery
 import io.github.reactivecircus.kstreamlined.graphql.KotlinWeeklyIssueQuery

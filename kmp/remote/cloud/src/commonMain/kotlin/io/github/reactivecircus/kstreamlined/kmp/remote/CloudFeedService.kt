@@ -1,10 +1,10 @@
 package io.github.reactivecircus.kstreamlined.kmp.remote
 
 import co.touchlab.kermit.Logger
-import com.apollographql.apollo3.ApolloClient
-import com.apollographql.apollo3.api.Optional
-import com.apollographql.apollo3.cache.normalized.FetchPolicy
-import com.apollographql.apollo3.cache.normalized.fetchPolicy
+import com.apollographql.apollo.ApolloClient
+import com.apollographql.apollo.api.Optional
+import com.apollographql.apollo.cache.normalized.FetchPolicy
+import com.apollographql.apollo.cache.normalized.fetchPolicy
 import io.github.reactivecircus.kstreamlined.graphql.FeedEntriesQuery
 import io.github.reactivecircus.kstreamlined.graphql.FeedSourcesQuery
 import io.github.reactivecircus.kstreamlined.graphql.KotlinWeeklyIssueQuery

@@ -1,10 +1,10 @@
 package io.github.reactivecircus.kstreamlined.android.di
 
 import androidx.tracing.trace
-import com.apollographql.apollo3.ApolloClient
-import com.apollographql.apollo3.cache.normalized.store
-import com.apollographql.apollo3.network.http.ApolloClientAwarenessInterceptor
-import com.apollographql.apollo3.network.okHttpCallFactory
+import com.apollographql.apollo.ApolloClient
+import com.apollographql.apollo.cache.normalized.store
+import com.apollographql.apollo.network.http.ApolloClientAwarenessInterceptor
+import com.apollographql.apollo.network.okHttpCallFactory
 import dagger.Lazy
 import dagger.Module
 import dagger.Provides

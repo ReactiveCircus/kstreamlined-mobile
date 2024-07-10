@@ -1,7 +1,7 @@
 plugins {
     id("kstreamlined.kmp.common")
     id("kstreamlined.kmp.test")
-    id("com.apollographql.apollo3")
+    id("com.apollographql.apollo")
 }
 
 apollo {
@@ -18,7 +18,7 @@ apollo {
         mapScalar(
             graphQLName = "Instant",
             targetName = "kotlinx.datetime.Instant",
-            expression = "com.apollographql.apollo3.adapter.KotlinxInstantAdapter",
+            expression = "com.apollographql.adapter.datetime.KotlinxInstantAdapter",
         )
     }
 }
@@ -30,7 +30,7 @@ kotlin {
                 api(project(":kmp:remote:common"))
                 api(libs.apollo.runtime)
                 api(libs.apollo.normalizedCache)
-                implementation(libs.apollo.adapters)
+                implementation(libs.apollo.adapters.datetime)
                 implementation(libs.kotlinx.coroutines.core)
                 implementation(libs.kotlinx.datetime)
                 implementation(libs.kermit)
@@ -39,7 +39,7 @@ kotlin {
         commonTest {
             dependencies {
                 implementation(libs.kotlinx.coroutines.test)
-                implementation(libs.apollo.testingSupport)
+                implementation(libs.apollo.mockserver)
             }
         }
     }
