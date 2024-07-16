@@ -10,7 +10,6 @@ internal class ComposeConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) = with(target) {
         pluginManager.apply("org.jetbrains.kotlin.plugin.compose")
         configure<ComposeCompilerGradlePluginExtension> {
-            enableStrongSkippingMode.set(true)
             val stabilityConfigFile = layout.projectDirectory.file("compose_stability_config.conf").asFile
             if (stabilityConfigFile.exists()) {
                 stabilityConfigurationFile.set(stabilityConfigFile)
