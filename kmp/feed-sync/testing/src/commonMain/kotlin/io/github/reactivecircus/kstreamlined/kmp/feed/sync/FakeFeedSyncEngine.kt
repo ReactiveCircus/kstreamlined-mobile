@@ -13,7 +13,7 @@ public class FakeFeedSyncEngine : FeedSyncEngine {
     }
 
     override val syncState: StateFlow<SyncState>
-        field = MutableStateFlow<SyncState>(SyncState.Initializing)
+        field = MutableStateFlow<SyncState>(SyncState.Idle)
 
     override suspend fun sync(forceRefresh: Boolean) {
         recordedSyncs.add(RecordedSync(forceRefresh))

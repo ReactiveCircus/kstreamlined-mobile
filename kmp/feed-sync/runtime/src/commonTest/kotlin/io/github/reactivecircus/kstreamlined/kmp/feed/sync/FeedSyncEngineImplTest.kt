@@ -57,7 +57,7 @@ class FeedSyncEngineImplTest {
     @Test
     fun `initial automatic sync performed when DB is empty`() = testScope.runTest {
         syncEngine.syncState.test {
-            assertEquals(SyncState.Initializing, awaitItem())
+            assertEquals(SyncState.Idle, awaitItem())
             assertEquals(SyncState.Syncing, awaitItem())
             assertEquals(SyncState.Idle, awaitItem())
 
@@ -84,7 +84,6 @@ class FeedSyncEngineImplTest {
         }
 
         syncEngine.syncState.test {
-            assertEquals(SyncState.Initializing, awaitItem())
             assertEquals(SyncState.Idle, awaitItem())
         }
     }
@@ -118,7 +117,7 @@ class FeedSyncEngineImplTest {
             fakeClock.currentTime += syncConfig.feedSourcesCacheMaxAge + 1.seconds
 
             syncEngine.syncState.test {
-                assertEquals(SyncState.Initializing, awaitItem())
+                assertEquals(SyncState.Idle, awaitItem())
                 assertEquals(SyncState.Syncing, awaitItem())
                 assertEquals(SyncState.Idle, awaitItem())
 
@@ -138,7 +137,7 @@ class FeedSyncEngineImplTest {
         val initialFeedItems = FakeFeedEntries.map { it.toDbModel(emptyList()) }
 
         syncEngine.syncState.test {
-            assertEquals(SyncState.Initializing, awaitItem())
+            assertEquals(SyncState.Idle, awaitItem())
             assertEquals(SyncState.Syncing, awaitItem())
             assertEquals(SyncState.Idle, awaitItem())
 
@@ -177,7 +176,7 @@ class FeedSyncEngineImplTest {
         val initialFeedItems = FakeFeedEntries.map { it.toDbModel(emptyList()) }
 
         syncEngine.syncState.test {
-            assertEquals(SyncState.Initializing, awaitItem())
+            assertEquals(SyncState.Idle, awaitItem())
             assertEquals(SyncState.Syncing, awaitItem())
             assertEquals(SyncState.Idle, awaitItem())
 
@@ -207,7 +206,7 @@ class FeedSyncEngineImplTest {
         val initialFeedItems = FakeFeedEntries.map { it.toDbModel(emptyList()) }
 
         syncEngine.syncState.test {
-            assertEquals(SyncState.Initializing, awaitItem())
+            assertEquals(SyncState.Idle, awaitItem())
             assertEquals(SyncState.Syncing, awaitItem())
             assertEquals(SyncState.Idle, awaitItem())
 
@@ -239,7 +238,7 @@ class FeedSyncEngineImplTest {
         }
 
         syncEngine.syncState.test {
-            assertEquals(SyncState.Initializing, awaitItem())
+            assertEquals(SyncState.Idle, awaitItem())
             assertEquals(SyncState.Syncing, awaitItem())
             assertEquals(SyncState.OutOfSync, awaitItem())
 
@@ -290,7 +289,6 @@ class FeedSyncEngineImplTest {
             }
 
             syncEngine.syncState.test {
-                assertEquals(SyncState.Initializing, awaitItem())
                 assertEquals(SyncState.Idle, awaitItem())
 
                 // caches have expired
@@ -341,7 +339,6 @@ class FeedSyncEngineImplTest {
             }
 
             syncEngine.syncState.test {
-                assertEquals(SyncState.Initializing, awaitItem())
                 assertEquals(SyncState.Idle, awaitItem())
 
                 // caches not expired
@@ -393,7 +390,6 @@ class FeedSyncEngineImplTest {
             }
 
             syncEngine.syncState.test {
-                assertEquals(SyncState.Initializing, awaitItem())
                 assertEquals(SyncState.Idle, awaitItem())
 
                 // caches not expired
@@ -426,7 +422,7 @@ class FeedSyncEngineImplTest {
         }
 
         syncEngine.syncState.test {
-            assertEquals(SyncState.Initializing, awaitItem())
+            assertEquals(SyncState.Idle, awaitItem())
             assertEquals(SyncState.Syncing, awaitItem())
             assertEquals(SyncState.OutOfSync, awaitItem())
 

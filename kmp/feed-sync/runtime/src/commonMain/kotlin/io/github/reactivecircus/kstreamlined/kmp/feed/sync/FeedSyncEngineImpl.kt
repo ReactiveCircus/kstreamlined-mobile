@@ -39,7 +39,7 @@ public class FeedSyncEngineImpl(
     private val clock: Clock = Clock.System,
 ) : FeedSyncEngine {
     override val syncState: StateFlow<SyncState>
-        field = MutableStateFlow<SyncState>(SyncState.Initializing)
+        field = MutableStateFlow<SyncState>(SyncState.Idle)
 
     private val manualSyncTrigger = Channel<SyncRequest>()
 

@@ -64,7 +64,7 @@ public class HomePresenter(
     ) { syncState, feedOrigins, feedItems, (isFirstTransform, lastEmittedFlowIndex) ->
         val hasContent = feedOrigins.isNotEmpty() && feedItems.isNotEmpty()
         when (syncState) {
-            is SyncState.Initializing, is SyncState.Syncing -> {
+            is SyncState.Syncing -> {
                 if (hasContent) {
                     HomeUiState.Content(
                         selectedFeedCount = feedOrigins.count { it.selected },

@@ -12,7 +12,7 @@ class FakeFeedSyncEngineTest {
     @Test
     fun `syncState emits when new value is set by emitSyncState`() = runTest {
         fakeFeedSyncEngine.syncState.test {
-            assertEquals(SyncState.Initializing, awaitItem())
+            assertEquals(SyncState.Idle, awaitItem())
 
             fakeFeedSyncEngine.emitSyncState(SyncState.Syncing)
 
