@@ -74,7 +74,7 @@ dependencies {
     implementation(libs.plugin.appDistribution)
     implementation(libs.plugin.playPublisher)
     implementation(libs.plugin.fladle)
-    implementation(libs.plugin.nativeCoroutines)
+    implementation(libs.plugin.skie)
     implementation(libs.plugin.sqldelight)
     implementation(libs.plugin.baselineprofile)
 }

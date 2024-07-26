@@ -14,7 +14,7 @@ invert = "0.0.1-dev"
 detekt = "1.23.6"
 playPublisher = "3.10.1"
 fladle = "0.17.5"
-nativeCoroutines = "1.0.0-ALPHA-32"
+skie = "0.8.3"
 desugarJdkLibs = "2.0.4"
 leakcanary = "2.14"
 hilt = "2.51.1"
@@ -75,7 +75,7 @@ plugin-detekt = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", v
 plugin-detektFormatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt"}
 plugin-playPublisher = { module = "com.github.triplet.gradle:play-publisher", version.ref = "playPublisher"}
 plugin-fladle = { module = "com.osacky.flank.gradle:fladle", version.ref = "fladle"}
-plugin-nativeCoroutines = { module = "com.rickclephas.kmp.nativecoroutines:com.rickclephas.kmp.nativecoroutines.gradle.plugin", version.ref = "nativeCoroutines"}
+plugin-skie = { module = "co.touchlab.skie:co.touchlab.skie.gradle.plugin", version.ref = "skie"}
 plugin-sqldelight = { module = "app.cash.sqldelight:app.cash.sqldelight.gradle.plugin", version.ref = "sqldelight"}
 plugin-baselineprofile = { module = "androidx.baselineprofile:androidx.baselineprofile.gradle.plugin", version.ref = "androidx-benchmark"}
 desugarJdkLibs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugarJdkLibs" }
