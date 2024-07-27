@@ -1,7 +1,7 @@
 package io.github.reactivecircus.kstreamlined.buildlogic.convention
 
 import com.android.build.gradle.TestExtension
-import io.github.reactivecircus.kstreamlined.buildlogic.configureAndroidTestOptions
+import io.github.reactivecircus.kstreamlined.buildlogic.configureAndroidTestExtension
 import io.github.reactivecircus.kstreamlined.buildlogic.configureDetekt
 import io.github.reactivecircus.kstreamlined.buildlogic.configureKotlin
 import org.gradle.api.Plugin
@@ -21,7 +21,7 @@ internal class AndroidTestConventionPlugin : Plugin<Project> {
         }
 
         extensions.configure<TestExtension> {
-            configureAndroidTestOptions()
+            configureAndroidTestExtension()
         }
 
         configureDetekt()

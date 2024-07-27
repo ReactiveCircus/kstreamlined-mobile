@@ -3,7 +3,7 @@ package io.github.reactivecircus.kstreamlined.buildlogic.convention
 import com.android.build.api.variant.LibraryAndroidComponentsExtension
 import com.android.build.gradle.LibraryExtension
 import io.github.reactivecircus.kstreamlined.buildlogic.configureAndroidLibraryVariants
-import io.github.reactivecircus.kstreamlined.buildlogic.configureCommonAndroidOptions
+import io.github.reactivecircus.kstreamlined.buildlogic.configureCommonAndroidExtension
 import io.github.reactivecircus.kstreamlined.buildlogic.configureDetekt
 import io.github.reactivecircus.kstreamlined.buildlogic.configureKMPCommon
 import io.github.reactivecircus.kstreamlined.buildlogic.configureKotlin
@@ -26,7 +26,7 @@ internal class KMPAndroidAndIosConventionPlugin : Plugin<Project> {
         }
 
         extensions.configure<LibraryExtension> {
-            configureCommonAndroidOptions(target)
+            configureCommonAndroidExtension(target)
         }
 
         extensions.configure<LibraryAndroidComponentsExtension> {

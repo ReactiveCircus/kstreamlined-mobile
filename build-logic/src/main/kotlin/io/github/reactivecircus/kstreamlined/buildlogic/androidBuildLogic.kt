@@ -13,9 +13,9 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.the
 
 /**
- * Apply baseline configurations for all Android projects (Application and Library).
+ * Apply baseline configurations on an Application or Library project.
  */
-internal fun TestedExtension.configureCommonAndroidOptions(project: Project) {
+internal fun TestedExtension.configureCommonAndroidExtension(project: Project) {
     setCompileSdkVersion(AndroidSdk.compileSdk)
     buildToolsVersion = AndroidSdk.buildTools
 
@@ -52,9 +52,9 @@ internal fun TestedExtension.configureCommonAndroidOptions(project: Project) {
 }
 
 /**
- * Apply baseline configurations for all Android Test projects.
+ * Apply baseline configurations on an Android Test project.
  */
-internal fun TestExtension.configureAndroidTestOptions() {
+internal fun TestExtension.configureAndroidTestExtension() {
     setCompileSdkVersion(AndroidSdk.compileSdk)
     buildToolsVersion = AndroidSdk.buildTools
 
