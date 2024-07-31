@@ -25,6 +25,7 @@ internal fun KotlinProjectExtension.configureKotlin(
             jvmTarget.set(JvmTarget.JVM_17)
             freeCompilerArgs.addAll(
                 "-Xjvm-default=all",
+                "-Xconsistent-data-class-copy-visibility",
             )
         }
     }
