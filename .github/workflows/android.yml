@@ -36,8 +36,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: gradle/actions/wrapper-validation@v3
-
       - uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
@@ -50,9 +48,8 @@ jobs:
           openssl enc -d -aes-256-cbc -pbkdf2 -iter 10000 -salt -in android/secrets/android-google-services-dev.aes -out android/app/src/dev/google-services.json -k $ENCRYPTION_KEY
           openssl enc -d -aes-256-cbc -pbkdf2 -iter 10000 -salt -in android/secrets/android-google-services-prod.aes -out android/app/src/prod/google-services.json -k $ENCRYPTION_KEY
 
-      - uses: gradle/actions/setup-gradle@v3
+      - uses: gradle/actions/setup-gradle@v4
         with:
-          gradle-home-cache-cleanup: true
           cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
 
       - name: Assemble dev debug APK and signed release App Bundle
@@ -82,16 +79,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: gradle/actions/wrapper-validation@v3
-
       - uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: '22'
 
-      - uses: gradle/actions/setup-gradle@v3
+      - uses: gradle/actions/setup-gradle@v4
         with:
-          gradle-home-cache-cleanup: true
           cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
 
       - name: Run unit tests
@@ -105,16 +99,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: gradle/actions/wrapper-validation@v3
-
       - uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: '22'
 
-      - uses: gradle/actions/setup-gradle@v3
+      - uses: gradle/actions/setup-gradle@v4
         with:
-          gradle-home-cache-cleanup: true
           cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
 
       - name: Run detekt, ktlint and Android Lint
@@ -135,8 +126,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: gradle/actions/wrapper-validation@v3
-
       - uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
@@ -154,9 +143,8 @@ jobs:
           openssl enc -d -aes-256-cbc -pbkdf2 -iter 10000 -salt -in secrets/firebase-key.aes -out secrets/firebase-key.json -k $ENCRYPTION_KEY
           openssl enc -d -aes-256-cbc -pbkdf2 -iter 10000 -salt -in android/secrets/android-google-services-dev.aes -out android/app/src/dev/google-services.json -k $ENCRYPTION_KEY
 
-      - uses: gradle/actions/setup-gradle@v3
+      - uses: gradle/actions/setup-gradle@v4
         with:
-          gradle-home-cache-cleanup: true
           cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
 
       - name: Publish dev build to Firebase App Distribution
@@ -181,8 +169,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: gradle/actions/wrapper-validation@v3
-
       - uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
@@ -200,9 +186,8 @@ jobs:
           openssl enc -d -aes-256-cbc -pbkdf2 -iter 10000 -salt -in android/secrets/play-publishing.aes -out android/secrets/play-publishing.json -k $ENCRYPTION_KEY
           openssl enc -d -aes-256-cbc -pbkdf2 -iter 10000 -salt -in android/secrets/android-google-services-prod.aes -out android/app/src/prod/google-services.json -k $ENCRYPTION_KEY
 
-      - uses: gradle/actions/setup-gradle@v3
+      - uses: gradle/actions/setup-gradle@v4
         with:
-          gradle-home-cache-cleanup: true
           cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
 
       - name: Publish release App Bundle to Play Store
