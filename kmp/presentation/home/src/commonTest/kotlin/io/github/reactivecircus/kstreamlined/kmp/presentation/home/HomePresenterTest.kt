@@ -304,7 +304,7 @@ class HomePresenterTest {
         }
 
     @Test
-    fun `presenter emits Content state with refreshing = false when DismissTransientError event is dispatched and current state is Content state`() =
+    fun `presenter emits Content state with hasTransientError = false when DismissTransientError event is dispatched and current state is Content state`() =
         testScope.runTest {
             presenter.states.test {
                 assertEquals(HomeUiState.Loading, awaitItem())
