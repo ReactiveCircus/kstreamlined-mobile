@@ -1,7 +1,11 @@
-query FeedSourcesQuery {
+query FeedSources {
   feedSources {
-    key
-    title
-    description
+    ...FeedSourceItem
   }
+}
+
+fragment FeedSourceItem on FeedSource {
+  key
+  title
+  description
 }

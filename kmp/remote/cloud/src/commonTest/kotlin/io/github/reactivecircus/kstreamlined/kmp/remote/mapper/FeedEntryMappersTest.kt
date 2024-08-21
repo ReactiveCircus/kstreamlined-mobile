@@ -13,7 +13,7 @@ import kotlin.test.assertEquals
 class FeedEntryMappersTest {
 
     @Test
-    fun `FeedEntriesQuery_KotlinBlogFeedEntry maps to expected FeedEntry`() {
+    fun `KotlinBlogFeedEntryItem maps to expected FeedEntry`() {
         val apolloFeedEntry = FeedEntriesQuery.Data {
             feedEntries = listOf(
                 buildKotlinBlog {
@@ -34,11 +34,11 @@ class FeedEntryMappersTest {
             featuredImageUrl = "https://blog.kotlinlang.org/image",
         )
 
-        assertEquals(expectedFeedEntry, apolloFeedEntry.asExternalModel())
+        assertEquals(expectedFeedEntry, apolloFeedEntry.feedEntryItem.asExternalModel())
     }
 
     @Test
-    fun `FeedEntriesQuery_KotlinYouTubeFeedEntry maps to expected FeedEntry`() {
+    fun `KotlinYouTubeFeedEntryItem maps to expected FeedEntry`() {
         val apolloFeedEntry = FeedEntriesQuery.Data {
             feedEntries = listOf(
                 buildKotlinYouTube {
@@ -61,11 +61,11 @@ class FeedEntryMappersTest {
             description = "A YouTube video about Kotlin",
         )
 
-        assertEquals(expectedFeedEntry, apolloFeedEntry.asExternalModel())
+        assertEquals(expectedFeedEntry, apolloFeedEntry.feedEntryItem.asExternalModel())
     }
 
     @Test
-    fun `FeedEntriesQuery_TalkingKotlinFeedEntry maps to expected FeedEntry`() {
+    fun `TalkingKotlinFeedEntryItem maps to expected FeedEntry`() {
         val apolloFeedEntry = FeedEntriesQuery.Data {
             feedEntries = listOf(
                 buildTalkingKotlin {
@@ -92,11 +92,11 @@ class FeedEntryMappersTest {
             duration = "35min.",
         )
 
-        assertEquals(expectedFeedEntry, apolloFeedEntry.asExternalModel())
+        assertEquals(expectedFeedEntry, apolloFeedEntry.feedEntryItem.asExternalModel())
     }
 
     @Test
-    fun `FeedEntriesQuery_KotlinWeeklyFeedEntry maps to expected FeedEntry`() {
+    fun `KotlinWeeklyFeedEntryItem maps to expected FeedEntry`() {
         val apolloFeedEntry = FeedEntriesQuery.Data {
             feedEntries = listOf(
                 buildKotlinWeekly {
@@ -117,6 +117,6 @@ class FeedEntryMappersTest {
             issueNumber = 381,
         )
 
-        assertEquals(expectedFeedEntry, apolloFeedEntry.asExternalModel())
+        assertEquals(expectedFeedEntry, apolloFeedEntry.feedEntryItem.asExternalModel())
     }
 }

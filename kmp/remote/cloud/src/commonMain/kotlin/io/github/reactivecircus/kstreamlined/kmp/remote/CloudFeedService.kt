@@ -6,6 +6,7 @@ import com.apollographql.apollo.api.Optional
 import com.apollographql.apollo.cache.normalized.FetchPolicy
 import com.apollographql.apollo.cache.normalized.fetchPolicy
 import io.github.reactivecircus.kstreamlined.graphql.FeedEntriesQuery
+import io.github.reactivecircus.kstreamlined.graphql.FeedEntriesWithSourcesQuery
 import io.github.reactivecircus.kstreamlined.graphql.FeedSourcesQuery
 import io.github.reactivecircus.kstreamlined.graphql.KotlinWeeklyIssueQuery
 import io.github.reactivecircus.kstreamlined.kmp.remote.mapper.asApolloModel
@@ -25,7 +26,7 @@ public class CloudFeedService(private val apolloClient: ApolloClient) : FeedServ
                 .feedSources
         }.onFailure {
             Logger.w("Query failed", it)
-        }.getOrThrow().mapNotNull { it.asExternalModel() }
+        }.getOrThrow().mapNotNull { it.feedSourceItem.asExternalModel() }
     }
 
     override suspend fun fetchFeedEntries(filters: List<FeedSource.Key>?): List<FeedEntry> {
@@ -41,7 +42,30 @@ public class CloudFeedService(private val apolloClient: ApolloClient) : FeedServ
                 .feedEntries
         }.onFailure {
             Logger.w("Query failed", it)
-        }.getOrThrow().map { it.asExternalModel() }
+        }.getOrThrow().map { it.feedEntryItem.asExternalModel() }
+    }
+
+    override suspend fun fetchFeedEntriesAndOrigins(
+        filters: List<FeedSource.Key>?
+    ): Pair<List<FeedEntry>, List<FeedSource>> {
+        return runCatching {
+            apolloClient.query(
+                FeedEntriesWithSourcesQuery(
+                    filters = Optional.presentIfNotNull(filters?.map { it.asApolloModel() })
+                )
+            )
+                .fetchPolicy(FetchPolicy.NetworkOnly)
+                .execute()
+                .dataOrThrow()
+        }.onFailure {
+            Logger.w("Query failed", it)
+        }.getOrThrow().let { result ->
+            result.feedEntries.map {
+                it.feedEntryItem.asExternalModel()
+            } to result.feedSources.mapNotNull {
+                it.feedSourceItem.asExternalModel()
+            }
+        }
     }
 
     override suspend fun fetchKotlinWeeklyIssue(

@@ -1,19 +1,23 @@
 package io.github.reactivecircus.kstreamlined.kmp.remote.mapper
 
-import io.github.reactivecircus.kstreamlined.graphql.FeedEntriesQuery
+import io.github.reactivecircus.kstreamlined.graphql.fragment.FeedEntryItem
+import io.github.reactivecircus.kstreamlined.graphql.fragment.KotlinBlogFeedEntryItem
+import io.github.reactivecircus.kstreamlined.graphql.fragment.KotlinWeeklyFeedEntryItem
+import io.github.reactivecircus.kstreamlined.graphql.fragment.KotlinYouTubeFeedEntryItem
+import io.github.reactivecircus.kstreamlined.graphql.fragment.TalkingKotlinFeedEntryItem
 import io.github.reactivecircus.kstreamlined.kmp.remote.model.FeedEntry
 
-internal fun FeedEntriesQuery.FeedEntry.asExternalModel(): FeedEntry {
+internal fun FeedEntryItem.asExternalModel(): FeedEntry {
     return when (this) {
-        is FeedEntriesQuery.KotlinBlogFeedEntry -> this.asExternalModel()
-        is FeedEntriesQuery.KotlinYouTubeFeedEntry -> this.asExternalModel()
-        is FeedEntriesQuery.TalkingKotlinFeedEntry -> this.asExternalModel()
-        is FeedEntriesQuery.KotlinWeeklyFeedEntry -> this.asExternalModel()
+        is KotlinBlogFeedEntryItem -> this.asExternalModel()
+        is KotlinYouTubeFeedEntryItem -> this.asExternalModel()
+        is TalkingKotlinFeedEntryItem -> this.asExternalModel()
+        is KotlinWeeklyFeedEntryItem -> this.asExternalModel()
         else -> error("Unknown FeedEntry subtype")
     }
 }
 
-internal fun FeedEntriesQuery.KotlinBlogFeedEntry.asExternalModel(): FeedEntry.KotlinBlog {
+internal fun KotlinBlogFeedEntryItem.asExternalModel(): FeedEntry.KotlinBlog {
     return FeedEntry.KotlinBlog(
         id = this.id,
         title = this.title,
@@ -23,7 +27,7 @@ internal fun FeedEntriesQuery.KotlinBlogFeedEntry.asExternalModel(): FeedEntry.K
     )
 }
 
-internal fun FeedEntriesQuery.KotlinYouTubeFeedEntry.asExternalModel(): FeedEntry.KotlinYouTube {
+internal fun KotlinYouTubeFeedEntryItem.asExternalModel(): FeedEntry.KotlinYouTube {
     return FeedEntry.KotlinYouTube(
         id = this.id,
         title = this.title,
@@ -34,7 +38,7 @@ internal fun FeedEntriesQuery.KotlinYouTubeFeedEntry.asExternalModel(): FeedEntr
     )
 }
 
-internal fun FeedEntriesQuery.TalkingKotlinFeedEntry.asExternalModel(): FeedEntry.TalkingKotlin {
+internal fun TalkingKotlinFeedEntryItem.asExternalModel(): FeedEntry.TalkingKotlin {
     return FeedEntry.TalkingKotlin(
         id = this.id,
         title = this.title,
@@ -47,7 +51,7 @@ internal fun FeedEntriesQuery.TalkingKotlinFeedEntry.asExternalModel(): FeedEntr
     )
 }
 
-internal fun FeedEntriesQuery.KotlinWeeklyFeedEntry.asExternalModel(): FeedEntry.KotlinWeekly {
+internal fun KotlinWeeklyFeedEntryItem.asExternalModel(): FeedEntry.KotlinWeekly {
     return FeedEntry.KotlinWeekly(
         id = this.id,
         title = this.title,

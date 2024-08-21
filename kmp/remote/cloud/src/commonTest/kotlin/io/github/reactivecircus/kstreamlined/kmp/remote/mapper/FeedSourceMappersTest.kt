@@ -1,6 +1,6 @@
 package io.github.reactivecircus.kstreamlined.kmp.remote.mapper
 
-import io.github.reactivecircus.kstreamlined.graphql.FeedSourcesQuery
+import io.github.reactivecircus.kstreamlined.graphql.fragment.FeedSourceItem
 import io.github.reactivecircus.kstreamlined.graphql.type.FeedSourceKey
 import io.github.reactivecircus.kstreamlined.kmp.remote.model.FeedSource
 import kotlin.test.Test
@@ -18,10 +18,10 @@ class FeedSourceMappersTest {
     }
 
     @Test
-    fun `FeedSourcesQuery_FeedSource maps to expected FeedSource`() {
+    fun `FeedSourceItem maps to expected FeedSource`() {
         FeedSource.Key.entries.forEach { key ->
             val apolloKey = key.asApolloModel()
-            val apolloFeedSource = FeedSourcesQuery.FeedSource(
+            val apolloFeedSource = FeedSourceItem(
                 key = apolloKey,
                 title = "Title for $key",
                 description = "Description for $key",
@@ -38,8 +38,8 @@ class FeedSourceMappersTest {
     }
 
     @Test
-    fun `returns null when mapping unknown FeedSourcesQuery_FeedSource to FeedSource`() {
-        val apolloFeedSource = FeedSourcesQuery.FeedSource(
+    fun `returns null when mapping unknown FeedSourceItem to FeedSource`() {
+        val apolloFeedSource = FeedSourceItem(
             key = FeedSourceKey.UNKNOWN__,
             title = "Unknown feed source title",
             description = "Unknown feed source description",

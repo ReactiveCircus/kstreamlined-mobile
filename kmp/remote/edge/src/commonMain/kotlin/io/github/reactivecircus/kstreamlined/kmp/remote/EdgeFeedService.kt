@@ -14,6 +14,12 @@ public class EdgeFeedService : FeedService {
         TODO()
     }
 
+    override suspend fun fetchFeedEntriesAndOrigins(
+        filters: List<FeedSource.Key>?
+    ): Pair<List<FeedEntry>, List<FeedSource>> {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun fetchKotlinWeeklyIssue(url: String): List<KotlinWeeklyIssueEntry> {
         TODO()
     }

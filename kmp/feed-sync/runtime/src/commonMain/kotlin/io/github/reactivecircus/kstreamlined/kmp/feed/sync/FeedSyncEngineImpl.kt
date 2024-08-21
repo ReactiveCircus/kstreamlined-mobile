@@ -11,11 +11,12 @@ import io.github.reactivecircus.kstreamlined.kmp.feed.sync.mapper.toSyncParams
 import io.github.reactivecircus.kstreamlined.kmp.networkmonitor.NetworkMonitor
 import io.github.reactivecircus.kstreamlined.kmp.networkmonitor.NetworkState
 import io.github.reactivecircus.kstreamlined.kmp.remote.FeedService
+import io.github.reactivecircus.kstreamlined.kmp.remote.model.FeedEntry
+import io.github.reactivecircus.kstreamlined.kmp.remote.model.FeedSource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
-import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -92,20 +93,23 @@ public class FeedSyncEngineImpl(
     private suspend fun performSync(syncDecision: SyncDecision) = coroutineScope {
         val (shouldSyncSources, shouldSyncItems) = syncDecision
 
-        val feedSourcesDeferred = takeIf { shouldSyncSources }?.let {
-            async { feedService.fetchFeedOrigins() }
-        }
+        val feedSources: List<FeedSource>?
+        val feedEntries: List<FeedEntry>?
 
-        val feedEntriesDeferred = takeIf { shouldSyncItems }?.let {
-            async {
-                feedService.fetchFeedEntries(
-                    filters = db.feedOriginEntityQueries.allFeedOrigins().executeAsList().asNetworkModels()
-                )
-            }
+        if (shouldSyncSources && shouldSyncItems) {
+            // fetch both feed sources and feed items in a single request
+            val (entries, sources) = feedService.fetchFeedEntriesAndOrigins()
+            feedEntries = entries
+            feedSources = sources
+        } else if (shouldSyncSources) {
+            feedSources = feedService.fetchFeedOrigins()
+            feedEntries = null
+        } else {
+            feedSources = null
+            feedEntries = feedService.fetchFeedEntries(
+                filters = db.feedOriginEntityQueries.allFeedOrigins().executeAsList().asNetworkModels()
+            )
         }
-
-        val feedSources = feedSourcesDeferred?.await()
-        val feedEntries = feedEntriesDeferred?.await()
 
         db.transaction {
             val currentFeedOrigins = db.feedOriginEntityQueries.allFeedOrigins().executeAsList()
@@ -129,7 +133,8 @@ public class FeedSyncEngineImpl(
             }
 
             feedEntries?.let { entries ->
-                val currentFeedItems = db.feedItemEntityQueries.feedItemsForSelectedOrigins().executeAsList()
+                val currentFeedItems =
+                    db.feedItemEntityQueries.feedItemsForSelectedOrigins().executeAsList()
                 entries.forEach { entry ->
                     val entity = entry.toDbModel(currentFeedItems)
                     db.feedItemEntityQueries.upsertFeedItem(

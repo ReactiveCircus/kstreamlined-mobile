@@ -10,5 +10,9 @@ public interface FeedService {
 
     public suspend fun fetchFeedEntries(filters: List<FeedSource.Key>? = null): List<FeedEntry>
 
+    public suspend fun fetchFeedEntriesAndOrigins(
+        filters: List<FeedSource.Key>? = null
+    ): Pair<List<FeedEntry>, List<FeedSource>>
+
     public suspend fun fetchKotlinWeeklyIssue(url: String): List<KotlinWeeklyIssueEntry>
 }

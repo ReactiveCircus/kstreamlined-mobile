@@ -230,11 +230,8 @@ class FeedSyncEngineImplTest {
 
     @Test
     fun `automatic sync triggered when network monitor emits Connected state and SyncState is OutOfSync`() = testScope.runTest {
-        feedService.nextFeedSourcesResponse = {
+        feedService.nextFeedEntriesAndOriginsResponse = {
             error("Failed to fetch feed sources")
-        }
-        feedService.nextFeedEntriesResponse = {
-            error("Failed to fetch feed entries")
         }
 
         syncEngine.syncState.test {
@@ -242,12 +239,8 @@ class FeedSyncEngineImplTest {
             assertEquals(SyncState.Syncing, awaitItem())
             assertEquals(SyncState.OutOfSync, awaitItem())
 
-            feedService.nextFeedSourcesResponse = {
-                FakeFeedSources
-            }
-
-            feedService.nextFeedEntriesResponse = {
-                FakeFeedEntries
+            feedService.nextFeedEntriesAndOriginsResponse = {
+                FakeFeedEntries to FakeFeedSources
             }
 
             // NetworkMonitor emits NetworkState.Connected
@@ -281,11 +274,8 @@ class FeedSyncEngineImplTest {
             }
 
             val newFeedSources = FakeFeedSources.map { it.copy(title = "Updated ${it.title}") }
-            feedService.nextFeedSourcesResponse = {
-                newFeedSources
-            }
-            feedService.nextFeedEntriesResponse = {
-                FakeFeedEntries + newFeedEntry
+            feedService.nextFeedEntriesAndOriginsResponse = {
+                FakeFeedEntries + newFeedEntry to newFeedSources
             }
 
             syncEngine.syncState.test {
@@ -382,11 +372,8 @@ class FeedSyncEngineImplTest {
             }
 
             val newFeedSources = FakeFeedSources.map { it.copy(title = "Updated ${it.title}") }
-            feedService.nextFeedSourcesResponse = {
-                newFeedSources
-            }
-            feedService.nextFeedEntriesResponse = {
-                FakeFeedEntries + newFeedEntry
+            feedService.nextFeedEntriesAndOriginsResponse = {
+                FakeFeedEntries + newFeedEntry to newFeedSources
             }
 
             syncEngine.syncState.test {
@@ -413,12 +400,19 @@ class FeedSyncEngineImplTest {
         }
 
     @Test
-    fun `do not write to DB when either sync request fails`() = testScope.runTest {
-        feedService.nextFeedSourcesResponse = {
-            FakeFeedSources
-        }
+    fun `syncState emits OutOfSync when syncing feed items fails`() = testScope.runTest {
         feedService.nextFeedEntriesResponse = {
             error("Failed to fetch feed entries")
+        }
+
+        val initialFeedOrigins = FakeFeedSources.map {
+            it.toDbModel(emptyList()).copy(selected = true)
+        }
+        with(db) {
+            insertFeedOrigins(initialFeedOrigins)
+            insertFeedOriginsLastSyncMetadata(
+                lastSyncTime = fakeClock.now(),
+            )
         }
 
         syncEngine.syncState.test {
@@ -426,18 +420,28 @@ class FeedSyncEngineImplTest {
             assertEquals(SyncState.Syncing, awaitItem())
             assertEquals(SyncState.OutOfSync, awaitItem())
 
-            assertFeedOriginsInDb(emptyList())
+            assertFeedOriginsInDb(initialFeedOrigins)
             assertFeedItemsInDb(emptyList())
+        }
+    }
 
-            feedService.nextFeedSourcesResponse = {
-                error("Failed to fetch feed sources")
-            }
-            feedService.nextFeedEntriesResponse = {
-                FakeFeedEntries
-            }
+    @Test
+    fun `syncState emits OutOfSync when syncing feed sources fails`() = testScope.runTest {
+        feedService.nextFeedSourcesResponse = {
+            error("Failed to fetch feed sources")
+        }
 
-            syncEngine.sync(forceRefresh = true)
+        val initialFeedItems = FakeFeedEntries.map { it.toDbModel(emptyList()) }
+        with(db) {
+            insertFeedItems(initialFeedItems)
+            insertFeedItemsLastSyncMetadata(
+                syncParams = "",
+                lastSyncTime = fakeClock.now(),
+            )
+        }
 
+        syncEngine.syncState.test {
+            assertEquals(SyncState.Idle, awaitItem())
             assertEquals(SyncState.Syncing, awaitItem())
             assertEquals(SyncState.OutOfSync, awaitItem())
 

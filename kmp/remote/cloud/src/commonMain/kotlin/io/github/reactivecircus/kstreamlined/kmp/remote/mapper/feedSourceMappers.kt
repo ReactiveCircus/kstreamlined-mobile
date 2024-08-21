@@ -1,6 +1,6 @@
 package io.github.reactivecircus.kstreamlined.kmp.remote.mapper
 
-import io.github.reactivecircus.kstreamlined.graphql.FeedSourcesQuery
+import io.github.reactivecircus.kstreamlined.graphql.fragment.FeedSourceItem
 import io.github.reactivecircus.kstreamlined.graphql.type.FeedSourceKey
 import io.github.reactivecircus.kstreamlined.kmp.remote.model.FeedSource
 
@@ -13,7 +13,7 @@ internal fun FeedSource.Key.asApolloModel(): FeedSourceKey {
     }
 }
 
-internal fun FeedSourcesQuery.FeedSource.asExternalModel(): FeedSource? {
+internal fun FeedSourceItem.asExternalModel(): FeedSource? {
     return FeedSource(
         key = when (this.key) {
             FeedSourceKey.KOTLIN_BLOG -> FeedSource.Key.KotlinBlog

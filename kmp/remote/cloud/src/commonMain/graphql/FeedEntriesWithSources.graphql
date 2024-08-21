@@ -1,0 +1,8 @@
+query FeedEntriesWithSources($filters: [FeedSourceKey!]) {
+  feedEntries(filters: $filters) {
+    ...FeedEntryItem
+  }
+  feedSources {
+    ...FeedSourceItem
+  }
+}

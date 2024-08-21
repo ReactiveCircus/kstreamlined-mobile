@@ -14,6 +14,12 @@ public class MockFeedService : FeedService {
         return MockFeedEntries
     }
 
+    override suspend fun fetchFeedEntriesAndOrigins(
+        filters: List<FeedSource.Key>?
+    ): Pair<List<FeedEntry>, List<FeedSource>> {
+        return MockFeedEntries to MockFeedSources
+    }
+
     override suspend fun fetchKotlinWeeklyIssue(url: String): List<KotlinWeeklyIssueEntry> {
         return MockKotlinWeeklyIssueEntries
     }

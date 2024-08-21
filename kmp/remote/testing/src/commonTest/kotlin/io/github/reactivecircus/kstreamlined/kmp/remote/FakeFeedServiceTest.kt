@@ -10,7 +10,7 @@ class FakeFeedServiceTest {
     private val fakeFeedService = FakeFeedService()
 
     @Test
-    fun `returns expected response when nextFeedSourcesResponse succeeds`() = runTest {
+    fun `returns expected response when fetchFeedOrigins succeeds`() = runTest {
         fakeFeedService.nextFeedSourcesResponse = {
             FakeFeedSources
         }
@@ -21,7 +21,7 @@ class FakeFeedServiceTest {
     }
 
     @Test
-    fun `throws exception when nextFeedSourcesResponse fails`() = runTest {
+    fun `throws exception when fetchFeedOrigins fails`() = runTest {
         fakeFeedService.nextFeedSourcesResponse = { throw IllegalStateException() }
         assertFailsWith<IllegalStateException> {
             fakeFeedService.fetchFeedOrigins()
@@ -29,7 +29,7 @@ class FakeFeedServiceTest {
     }
 
     @Test
-    fun `returns expected response when nextFeedEntriesResponse succeeds`() = runTest {
+    fun `returns expected response when fetchFeedEntries succeeds`() = runTest {
         fakeFeedService.nextFeedEntriesResponse = {
             FakeFeedEntries
         }
@@ -40,7 +40,7 @@ class FakeFeedServiceTest {
     }
 
     @Test
-    fun `throws exception when nextFeedEntriesResponse fails`() = runTest {
+    fun `throws exception when fetchFeedEntries fails`() = runTest {
         fakeFeedService.nextFeedEntriesResponse = { throw IllegalStateException() }
         assertFailsWith<IllegalStateException> {
             fakeFeedService.fetchFeedEntries()
@@ -48,7 +48,26 @@ class FakeFeedServiceTest {
     }
 
     @Test
-    fun `returns expected response when nextKotlinWeeklyIssueResponse succeeds`() = runTest {
+    fun `returns expected response when fetchFeedEntriesAndOrigins succeeds`() = runTest {
+        fakeFeedService.nextFeedEntriesAndOriginsResponse = {
+            FakeFeedEntries to FakeFeedSources
+        }
+        assertEquals(
+            FakeFeedEntries to FakeFeedSources,
+            fakeFeedService.fetchFeedEntriesAndOrigins(),
+        )
+    }
+
+    @Test
+    fun `throws exception when fetchFeedEntriesAndOrigins fails`() = runTest {
+        fakeFeedService.nextFeedEntriesAndOriginsResponse = { throw IllegalStateException() }
+        assertFailsWith<IllegalStateException> {
+            fakeFeedService.fetchFeedEntriesAndOrigins()
+        }
+    }
+
+    @Test
+    fun `returns expected response when fetchKotlinWeeklyIssue succeeds`() = runTest {
         fakeFeedService.nextKotlinWeeklyIssueResponse = {
             FakeKotlinWeeklyIssueEntries
         }
@@ -59,7 +78,7 @@ class FakeFeedServiceTest {
     }
 
     @Test
-    fun `throws exception when nextKotlinWeeklyIssueResponse fails`() = runTest {
+    fun `throws exception when fetchKotlinWeeklyIssue fails`() = runTest {
         fakeFeedService.nextKotlinWeeklyIssueResponse = { throw IllegalStateException() }
         assertFailsWith<IllegalStateException> {
             fakeFeedService.fetchKotlinWeeklyIssue("url")

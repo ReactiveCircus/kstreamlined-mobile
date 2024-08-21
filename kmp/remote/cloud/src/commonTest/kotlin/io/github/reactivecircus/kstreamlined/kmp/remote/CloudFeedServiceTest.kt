@@ -11,6 +11,7 @@ import com.apollographql.mockserver.MockServer
 import com.apollographql.mockserver.enqueueError
 import com.apollographql.mockserver.enqueueString
 import io.github.reactivecircus.kstreamlined.graphql.FeedEntriesQuery
+import io.github.reactivecircus.kstreamlined.graphql.FeedEntriesWithSourcesQuery
 import io.github.reactivecircus.kstreamlined.graphql.FeedSourcesQuery
 import io.github.reactivecircus.kstreamlined.graphql.KotlinWeeklyIssueQuery
 import io.github.reactivecircus.kstreamlined.graphql.type.KotlinWeeklyIssueEntryGroup
@@ -89,58 +90,79 @@ class CloudFeedServiceTest {
     }
 
     @Test
-    fun `loadFeedSources returns result when network request was successful`() =
-        runTest {
-            mockServer.enqueueString(
-                FeedSourcesQuery.Data(feedSources = dummyFeedSources).toResponseJson()
-            )
-            val actual = cloudFeedService.fetchFeedOrigins()
-            assertEquals(dummyFeedSources.map { it.asExternalModel() }, actual)
-        }
+    fun `fetchFeedOrigins returns result when network request was successful`() = runTest {
+        mockServer.enqueueString(
+            FeedSourcesQuery.Data(feedSources = dummyFeedSources).toResponseJson()
+        )
+        val actual = cloudFeedService.fetchFeedOrigins()
+        assertEquals(dummyFeedSources.map { it.feedSourceItem.asExternalModel() }, actual)
+    }
 
     @Test
-    fun `loadFeedSources throws exception when network request failed`() =
-        runTest {
-            mockServer.enqueueError(statusCode = 404)
-            val exception = assertFailsWith<NoDataException> {
-                cloudFeedService.fetchFeedOrigins()
-            }
-            assertEquals(404, (exception.cause as ApolloHttpException).statusCode)
+    fun `fetchFeedOrigins throws exception when network request failed`() = runTest {
+        mockServer.enqueueError(statusCode = 404)
+        val exception = assertFailsWith<NoDataException> {
+            cloudFeedService.fetchFeedOrigins()
         }
+        assertEquals(404, (exception.cause as ApolloHttpException).statusCode)
+    }
 
     @Test
-    fun `loadFeedEntries returns result when network request was successful`() =
-        runTest {
-            mockServer.enqueueString(
-                FeedEntriesQuery.Data(feedEntries = dummyFeedEntries).toResponseJson()
-            )
-            val actual = cloudFeedService.fetchFeedEntries(filters = null)
-            assertEquals(dummyFeedEntries.map { it.asExternalModel() }, actual)
-        }
+    fun `fetchFeedEntries returns result when network request was successful`() = runTest {
+        mockServer.enqueueString(
+            FeedEntriesQuery.Data(feedEntries = dummyFeedEntries).toResponseJson()
+        )
+        val actual = cloudFeedService.fetchFeedEntries(filters = null)
+        assertEquals(dummyFeedEntries.map { it.feedEntryItem.asExternalModel() }, actual)
+    }
 
     @Test
-    fun `loadFeedEntries throws exception when network request failed`() =
-        runTest {
-            mockServer.enqueueError(statusCode = 404)
-            val exception = assertFailsWith<NoDataException> {
-                cloudFeedService.fetchFeedEntries(filters = null)
-            }
-            assertEquals(404, (exception.cause as ApolloHttpException).statusCode)
+    fun `fetchFeedEntries throws exception when network request failed`() = runTest {
+        mockServer.enqueueError(statusCode = 404)
+        val exception = assertFailsWith<NoDataException> {
+            cloudFeedService.fetchFeedEntries(filters = null)
         }
+        assertEquals(404, (exception.cause as ApolloHttpException).statusCode)
+    }
 
     @Test
-    fun `loadKotlinWeeklyIssue returns result when network request was successful`() =
-        runTest {
-            mockServer.enqueueString(
-                KotlinWeeklyIssueQuery.Data(kotlinWeeklyIssueEntries = dummyKotlinWeeklyEntries)
-                    .toResponseJson()
-            )
-            val actual = cloudFeedService.fetchKotlinWeeklyIssue(url = "url")
-            assertEquals(dummyKotlinWeeklyEntries.map { it.asExternalModel() }, actual)
-        }
+    fun `fetchFeedEntriesAndOrigins returns result when network request was successful`() = runTest {
+        mockServer.enqueueString(
+            FeedEntriesWithSourcesQuery.Data(
+                feedEntries = dummyFeedEntries.map {
+                    FeedEntriesWithSourcesQuery.FeedEntry(it.__typename, it.feedEntryItem)
+                },
+                feedSources = dummyFeedSources.map {
+                    FeedEntriesWithSourcesQuery.FeedSource(it.__typename, it.feedSourceItem)
+                }
+            ).toResponseJson()
+        )
+        val actual = cloudFeedService.fetchFeedEntriesAndOrigins(filters = null)
+        assertEquals(dummyFeedEntries.map { it.feedEntryItem.asExternalModel() }, actual.first)
+        assertEquals(dummyFeedSources.map { it.feedSourceItem.asExternalModel() }, actual.second)
+    }
 
     @Test
-    fun `loadKotlinWeeklyIssue throws exception when network request failed and cache is missing`() =
+    fun `fetchFeedEntriesAndOrigins throws exception when network request failed`() = runTest {
+        mockServer.enqueueError(statusCode = 404)
+        val exception = assertFailsWith<NoDataException> {
+            cloudFeedService.fetchFeedEntriesAndOrigins(filters = null)
+        }
+        assertEquals(404, (exception.cause as ApolloHttpException).statusCode)
+    }
+
+    @Test
+    fun `fetchKotlinWeeklyIssue returns result when network request was successful`() = runTest {
+        mockServer.enqueueString(
+            KotlinWeeklyIssueQuery.Data(kotlinWeeklyIssueEntries = dummyKotlinWeeklyEntries)
+                .toResponseJson()
+        )
+        val actual = cloudFeedService.fetchKotlinWeeklyIssue(url = "url")
+        assertEquals(dummyKotlinWeeklyEntries.map { it.asExternalModel() }, actual)
+    }
+
+    @Test
+    fun `fetchKotlinWeeklyIssue throws exception when network request failed and cache is missing`() =
         runTest {
             mockServer.enqueueError(statusCode = 404)
             val exception = assertFailsWith<NoDataException> {
@@ -150,7 +172,7 @@ class CloudFeedServiceTest {
         }
 
     @Test
-    fun `loadKotlinWeeklyIssue returns result when network request failed but cache is available`() =
+    fun `fetchKotlinWeeklyIssue returns result when network request failed but cache is available`() =
         runTest {
             // 1st request to populate cache
             mockServer.enqueueString(

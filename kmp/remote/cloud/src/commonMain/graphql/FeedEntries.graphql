@@ -1,25 +1,29 @@
-query FeedEntriesQuery($filters: [FeedSourceKey!]) {
+query FeedEntries($filters: [FeedSourceKey!]) {
   feedEntries(filters: $filters) {
-    id
-    title
-    publishTime
+    ...FeedEntryItem
+  }
+}
+
+fragment FeedEntryItem on FeedEntry {
+  id
+  title
+  publishTime
+  contentUrl
+  ... on KotlinBlog {
+    featuredImageUrl
+  }
+  ... on KotlinYouTube {
+    thumbnailUrl
+    description
+  }
+  ... on TalkingKotlin {
+    audioUrl
+    thumbnailUrl
+    summary
+    duration
+  }
+  ... on KotlinWeekly {
     contentUrl
-    ... on KotlinBlog {
-      featuredImageUrl
-    }
-    ... on KotlinYouTube {
-      thumbnailUrl
-      description
-    }
-    ... on TalkingKotlin {
-      audioUrl
-      thumbnailUrl
-      summary
-      duration
-    }
-    ... on KotlinWeekly {
-      contentUrl
-      issueNumber
-    }
+    issueNumber
   }
 }
