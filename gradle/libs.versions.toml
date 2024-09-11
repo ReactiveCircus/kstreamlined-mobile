@@ -20,6 +20,7 @@ leakcanary = "2.14"
 hilt = "2.52"
 kotlinx-coroutines = "1.8.1"
 kotlinx-datetime = "0.6.1"
+kotlinx-serialization = "1.7.1"
 firebase-analytics = "22.1.0"
 firebase-appDistributionPlugin = "5.0.0"
 firebase-remoteConfig = "22.0.0"
@@ -60,6 +61,7 @@ crashKios = "0.8.5"
 [libraries]
 plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin"}
 plugin-compose = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin"}
+plugin-serialization = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
 plugin-powerAssert = { module = "org.jetbrains.kotlin:kotlin-power-assert", version.ref = "kotlin"}
 plugin-ksp = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version.ref = "ksp"}
 plugin-agp = { module = "com.android.tools.build:gradle", version.ref = "androidGradlePlugin"}
@@ -87,6 +89,7 @@ hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hil
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx", version.ref = "firebase-analytics" }
 firebase-remoteConfig = { module = "com.google.firebase:firebase-config-ktx", version.ref = "firebase-remoteConfig" }
 firebase-perf = { module = "com.google.firebase:firebase-perf-ktx", version.ref = "firebase-perf" }
