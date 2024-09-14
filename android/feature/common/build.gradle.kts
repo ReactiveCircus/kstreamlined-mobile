@@ -18,6 +18,7 @@ dependencies {
     api(libs.androidx.compose.ui.tooling)
     api(libs.androidx.lifecycle.runtimeCompose)
     api(libs.androidx.lifecycle.viewmodelCompose)
+    api(libs.androidx.hilt.navigationCompose)
     implementation(libs.androidx.browser)
 
     // Image loading

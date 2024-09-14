@@ -32,8 +32,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.AsyncImage
 import io.github.reactivecircus.kstreamlined.android.foundation.commonui.feed.KotlinBlogCard
 import io.github.reactivecircus.kstreamlined.android.foundation.commonui.feed.KotlinWeeklyCard
@@ -58,7 +58,7 @@ public fun SavedForLaterScreen(
     onViewItem: (FeedItem) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val viewModel = viewModel<SavedForLaterViewModel>()
+    val viewModel = hiltViewModel<SavedForLaterViewModel>()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val eventSink = viewModel.eventSink
     SavedForLaterScreen(
