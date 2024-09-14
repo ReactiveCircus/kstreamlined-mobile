@@ -142,10 +142,10 @@ android {
     sourceSets {
         // common source set for dev and prod
         named(ProductFlavors.Dev) {
-            java.srcDir("src/devAndProd/java")
+            kotlin.srcDir("src/devAndProd/kotlin")
         }
         named(ProductFlavors.Prod) {
-            java.srcDir("src/devAndProd/java")
+            kotlin.srcDir("src/devAndProd/kotlin")
         }
     }
 
