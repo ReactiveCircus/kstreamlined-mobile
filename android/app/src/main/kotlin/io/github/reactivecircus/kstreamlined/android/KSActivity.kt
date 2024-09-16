@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.provider.Settings
 import androidx.activity.ComponentActivity
+import androidx.activity.SystemBarStyle
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -15,15 +16,14 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.semantics.semantics
@@ -37,7 +37,7 @@ import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.fou
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
 import kotlinx.parcelize.Parcelize
 
-@OptIn(ExperimentalComposeUiApi::class, ExperimentalSharedTransitionApi::class)
+@OptIn(ExperimentalSharedTransitionApi::class)
 @AndroidEntryPoint
 class KSActivity : ComponentActivity() {
 
@@ -50,18 +50,7 @@ class KSActivity : ComponentActivity() {
 
         setContent {
             KSTheme {
-                val darkTheme = isSystemInDarkTheme()
-                val context = LocalContext.current
-                val backgroundColor = KSTheme.colorScheme.background
-                DisposableEffect(darkTheme, context) {
-                    val navigationBarColor = when (SystemNavigationMode.of(context)) {
-                        SystemNavigationMode.Gesture -> Color.Transparent
-                        else -> backgroundColor
-                    }
-                    @Suppress("DEPRECATION")
-                    window.navigationBarColor = navigationBarColor.toArgb()
-                    onDispose { }
-                }
+                NavigationBarStyleEffect()
 
                 var navDestination: NavDestination by rememberSaveable {
                     mutableStateOf(
@@ -103,6 +92,7 @@ class KSActivity : ComponentActivity() {
                                                     issueNumber = item.issueNumber,
                                                 )
                                             }
+
                                             is FeedItem.TalkingKotlin -> {
                                                 NavDestination.TalkingKotlinEpisode(
                                                     boundsKey = "Bounds/$source/${item.id}",
@@ -111,6 +101,7 @@ class KSActivity : ComponentActivity() {
                                                     id = item.id,
                                                 )
                                             }
+
                                             else -> {
                                                 NavDestination.ContentViewer(
                                                     boundsKey = "Bounds/$source/${item.id}",
@@ -205,7 +196,32 @@ private sealed interface NavDestination : Parcelable {
     ) : NavDestination
 }
 
-enum class SystemNavigationMode {
+@Composable
+private fun ComponentActivity.NavigationBarStyleEffect() {
+    val darkTheme = isSystemInDarkTheme()
+    val context = LocalContext.current
+    val backgroundColor = KSTheme.colorScheme.background
+    DisposableEffect(darkTheme, context) {
+        if (SystemNavigationMode.of(context) != SystemNavigationMode.Gesture) {
+            val navigationBarColor = backgroundColor.toArgb()
+            enableEdgeToEdge(
+                navigationBarStyle = if (!darkTheme) {
+                    SystemBarStyle.light(
+                        navigationBarColor,
+                        navigationBarColor,
+                    )
+                } else {
+                    SystemBarStyle.dark(
+                        navigationBarColor,
+                    )
+                },
+            )
+        }
+        onDispose { }
+    }
+}
+
+private enum class SystemNavigationMode {
     ThreeButton,
     TwoButton,
     Gesture;
