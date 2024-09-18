@@ -17,7 +17,7 @@ internal fun KotlinProjectExtension.configureKotlin(
     enableExplicitApi: Boolean = true,
 ) {
     jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(22))
+        languageVersion.set(JavaLanguageVersion.of(23))
         vendor.set(JvmVendorSpec.AZUL)
     }
     target.tasks.withType<KotlinCompile>().configureEach {
