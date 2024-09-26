@@ -2,6 +2,7 @@ package io.github.reactivecircus.kstreamlined.buildlogic.convention
 
 import com.android.build.api.variant.ApplicationAndroidComponentsExtension
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
+import io.github.reactivecircus.kstreamlined.buildlogic.configureAndroidApplicationExtension
 import io.github.reactivecircus.kstreamlined.buildlogic.configureAndroidApplicationVariants
 import io.github.reactivecircus.kstreamlined.buildlogic.configureCommonAndroidExtension
 import io.github.reactivecircus.kstreamlined.buildlogic.configureDetekt
@@ -12,7 +13,6 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
-import java.io.File
 
 internal class AndroidApplicationConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) = with(target) {
@@ -27,17 +27,7 @@ internal class AndroidApplicationConventionPlugin : Plugin<Project> {
 
         extensions.configure<BaseAppModuleExtension> {
             configureCommonAndroidExtension(target)
-
-            lint {
-                quiet = false
-                ignoreWarnings = false
-                htmlReport = true
-                xmlReport = true
-                htmlOutput = File("${project.layout.buildDirectory.get()}/reports/lint/lint-reports.html")
-                xmlOutput = File("${project.layout.buildDirectory.get()}/reports/lint/lint-reports.xml")
-                checkDependencies = true
-                ignoreTestSources = true
-            }
+            configureAndroidApplicationExtension(target)
         }
 
         extensions.configure<ApplicationAndroidComponentsExtension> {

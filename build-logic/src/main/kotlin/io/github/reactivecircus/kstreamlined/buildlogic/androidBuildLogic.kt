@@ -7,10 +7,12 @@ import com.android.build.api.variant.HasUnitTestBuilder
 import com.android.build.api.variant.LibraryAndroidComponentsExtension
 import com.android.build.gradle.TestExtension
 import com.android.build.gradle.TestedExtension
+import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import org.gradle.accessors.dm.LibrariesForLibs
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.the
+import java.io.File
 
 /**
  * Apply baseline configurations on an Application or Library project.
@@ -22,9 +24,6 @@ internal fun TestedExtension.configureCommonAndroidExtension(project: Project) {
     defaultConfig {
         minSdk = AndroidSdk.minSdk
         targetSdk = AndroidSdk.targetSdk
-
-        // only support English for now
-        resourceConfigurations.add("en")
     }
 
     testOptions.animationsDisabled = true
@@ -52,6 +51,27 @@ internal fun TestedExtension.configureCommonAndroidExtension(project: Project) {
 }
 
 /**
+ * Apply baseline configurations on an Application project.
+ */
+internal fun BaseAppModuleExtension.configureAndroidApplicationExtension(project: Project) {
+    androidResources {
+        @Suppress("UnstableApiUsage")
+        localeFilters += "en"
+    }
+
+    lint {
+        quiet = false
+        ignoreWarnings = false
+        htmlReport = true
+        xmlReport = true
+        htmlOutput = File("${project.layout.buildDirectory.get()}/reports/lint/lint-reports.html")
+        xmlOutput = File("${project.layout.buildDirectory.get()}/reports/lint/lint-reports.xml")
+        checkDependencies = true
+        ignoreTestSources = true
+    }
+}
+
+/**
  * Apply baseline configurations on an Android Test project.
  */
 internal fun TestExtension.configureAndroidTestExtension() {
@@ -61,9 +81,6 @@ internal fun TestExtension.configureAndroidTestExtension() {
     defaultConfig {
         minSdk = AndroidSdk.minSdk
         targetSdk = AndroidSdk.targetSdk
-
-        // only support English for now
-        resourceConfigurations.add("en")
     }
 
     compileOptions {
