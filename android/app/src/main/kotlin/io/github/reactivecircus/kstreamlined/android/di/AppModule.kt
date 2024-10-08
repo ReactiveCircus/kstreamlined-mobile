@@ -38,7 +38,7 @@ object AppModule {
         OkHttpNetworkFetcherFactory()
         return ImageLoader.Builder(context)
             .components {
-                add(OkHttpNetworkFetcherFactory { okHttpCallFactory.get() })
+                add(OkHttpNetworkFetcherFactory({ okHttpCallFactory.get() }))
             }
             .crossfade(enable = true)
             // only enable hardware bitmaps on API 28+. See: https://github.com/coil-kt/coil/issues/159
