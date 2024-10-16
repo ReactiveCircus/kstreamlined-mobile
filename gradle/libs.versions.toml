@@ -54,7 +54,7 @@ molecule = "2.0.0"
 okhttp = "5.0.0-alpha.14"
 coil = "3.0.0-rc01"
 sqldelight = "2.0.2"
-turbine = "1.1.0"
+turbine = "1.2.0"
 kermit = "2.0.4"
 crashKios = "0.8.5"
 
