@@ -35,7 +35,6 @@ object AppModule {
         @ApplicationContext context: Context,
         okHttpCallFactory: Lazy<Call.Factory>,
     ): ImageLoader = trace("CoilImageLoader") {
-        OkHttpNetworkFetcherFactory()
         return ImageLoader.Builder(context)
             .components {
                 add(OkHttpNetworkFetcherFactory({ okHttpCallFactory.get() }))
