@@ -30,6 +30,7 @@ firebase-crashlytics = "19.2.1"
 firebase-crashlyticsPlugin = "3.0.2"
 androidx-compose-ui = "1.8.0-alpha06"
 androidx-compose-foundation = "1.8.0-alpha06"
+androidx-compose-materialIcons = "1.7.5"
 androidx-compose-material3 = "1.4.0-alpha04"
 androidx-compose-tracing = "1.7.5"
 androidx-core = "1.15.0"
@@ -96,6 +97,7 @@ firebase-perf = { module = "com.google.firebase:firebase-perf-ktx", version.ref 
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx", version.ref = "firebase-crashlytics" }
 androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "androidx-compose-ui" }
 androidx-compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "androidx-compose-foundation" }
+androidx-compose-materialIcons = { group = "androidx.compose.material", name = "material-icons-core", version.ref = "androidx-compose-materialIcons" }
 androidx-compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "androidx-compose-material3" }
 androidx-compose-runtime-tracing = { module = "androidx.compose.runtime:runtime-tracing", version.ref = "androidx-compose-tracing" }
 androidx-core = { module = "androidx.core:core-ktx", version.ref = "androidx-core" }
