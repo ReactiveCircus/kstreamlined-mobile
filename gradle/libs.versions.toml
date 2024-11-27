@@ -1,7 +1,7 @@
 [versions]
 kotlin = "2.0.21"
 ksp = "2.0.21-1.0.28"
-androidGradlePlugin = "8.9.0-alpha02"
+androidGradlePlugin = "8.9.0-alpha03"
 gradle-develocityPlugin = "3.18"
 gradle-toolchainsResolverPlugin = "0.8.0"
 appVersioning = "1.3.2"
