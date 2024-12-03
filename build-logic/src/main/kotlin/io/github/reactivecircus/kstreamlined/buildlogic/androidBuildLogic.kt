@@ -48,14 +48,6 @@ internal fun TestedExtension.configureCommonAndroidExtension(project: Project) {
     with(project) {
         dependencies.add("coreLibraryDesugaring", the<LibrariesForLibs>().desugarJdkLibs)
     }
-
-    project.configurations.configureEach {
-        resolutionStrategy.eachDependency {
-            if (requested.group == "com.google.dagger") {
-                useVersion(project.the<LibrariesForLibs>().versions.hilt.get())
-            }
-        }
-    }
 }
 
 /**

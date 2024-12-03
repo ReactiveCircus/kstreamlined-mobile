@@ -17,12 +17,6 @@ pluginManagement {
             }
         }
         mavenCentral()
-        maven {
-            url = uri("https://oss.sonatype.org/content/repositories/snapshots")
-            content {
-                includeGroup("com.google.dagger")
-            }
-        }
     }
 
     fun extractVersionFromCatalog(key: String) = file("$rootDir/gradle/libs.versions.toml")
@@ -50,12 +44,6 @@ dependencyResolutionManagement {
             }
         }
         mavenCentral()
-        maven {
-            url = uri("https://oss.sonatype.org/content/repositories/snapshots")
-            content {
-                includeGroup("com.google.dagger")
-            }
-        }
     }
 }
 
