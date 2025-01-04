@@ -51,9 +51,8 @@ import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.toDisplayable
 import kotlinx.datetime.Instant
 
-context(SharedTransitionScope)
 @Composable
-public fun TalkingKotlinCard(
+public fun SharedTransitionScope.TalkingKotlinCard(
     item: DisplayableFeedItem<FeedItem.TalkingKotlin>,
     onItemClick: (FeedItem.TalkingKotlin) -> Unit,
     onSaveButtonClick: (FeedItem.TalkingKotlin) -> Unit,

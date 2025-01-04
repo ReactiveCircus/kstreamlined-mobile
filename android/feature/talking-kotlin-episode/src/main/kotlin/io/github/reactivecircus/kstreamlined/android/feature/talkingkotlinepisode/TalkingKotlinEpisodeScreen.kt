@@ -67,9 +67,9 @@ import io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepiso
 import io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepisode.TalkingKotlinEpisodeUiState
 import io.github.reactivecircus.kstreamlined.android.feature.common.R as commonR
 
-context(SharedTransitionScope, AnimatedVisibilityScope)
 @Composable
-public fun TalkingKotlinEpisodeScreen(
+public fun SharedTransitionScope.TalkingKotlinEpisodeScreen(
+    animatedVisibilityScope: AnimatedVisibilityScope,
     topBarBoundsKey: String,
     boundsKey: String,
     playerElementKey: String,
@@ -90,6 +90,7 @@ public fun TalkingKotlinEpisodeScreen(
 
     val context = LocalContext.current
     TalkingKotlinEpisodeScreen(
+        animatedVisibilityScope = animatedVisibilityScope,
         topBarBoundsKey = topBarBoundsKey,
         playerElementKey = playerElementKey,
         onNavigateUp = onNavigateUp,
@@ -101,14 +102,14 @@ public fun TalkingKotlinEpisodeScreen(
         eventSink = eventSink,
         modifier = modifier.sharedBounds(
             rememberSharedContentState(key = boundsKey),
-            animatedVisibilityScope = this@AnimatedVisibilityScope,
+            animatedVisibilityScope = animatedVisibilityScope,
         ),
     )
 }
 
-context(SharedTransitionScope, AnimatedVisibilityScope)
 @Composable
-internal fun TalkingKotlinEpisodeScreen(
+internal fun SharedTransitionScope.TalkingKotlinEpisodeScreen(
+    animatedVisibilityScope: AnimatedVisibilityScope,
     topBarBoundsKey: String,
     playerElementKey: String,
     onNavigateUp: () -> Unit,
@@ -125,7 +126,7 @@ internal fun TalkingKotlinEpisodeScreen(
             .background(KSTheme.colorScheme.background),
     ) {
         TopNavBar(
-            animatedVisibilityScope = this@AnimatedVisibilityScope,
+            animatedVisibilityScope = animatedVisibilityScope,
             boundsKey = topBarBoundsKey,
             title = "",
             modifier = Modifier.zIndex(1f),
@@ -174,6 +175,7 @@ internal fun TalkingKotlinEpisodeScreen(
 
                 is TalkingKotlinEpisodeUiState.Content -> {
                     ContentUi(
+                        animatedVisibilityScope = animatedVisibilityScope,
                         playerElementKey = playerElementKey,
                         episode = uiState.episode,
                         eventSink = eventSink,
@@ -186,9 +188,9 @@ internal fun TalkingKotlinEpisodeScreen(
     }
 }
 
-context(SharedTransitionScope, AnimatedVisibilityScope)
 @Composable
-private fun ContentUi(
+private fun SharedTransitionScope.ContentUi(
+    animatedVisibilityScope: AnimatedVisibilityScope,
     playerElementKey: String,
     episode: TalkingKotlinEpisode,
     eventSink: (TalkingKotlinEpisodeUiEvent) -> Unit,
@@ -302,7 +304,7 @@ private fun ContentUi(
             contentPadding = WindowInsets.navigationBars.asPaddingValues(),
             modifier = Modifier.sharedElement(
                 rememberSharedContentState(key = playerElementKey),
-                animatedVisibilityScope = this@AnimatedVisibilityScope,
+                animatedVisibilityScope = animatedVisibilityScope,
             )
         )
     }
