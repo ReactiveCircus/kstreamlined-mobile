@@ -63,9 +63,9 @@ import io.github.reactivecircus.kstreamlined.kmp.presentation.kotlinweeklyissue.
 import io.github.reactivecircus.kstreamlined.kmp.presentation.kotlinweeklyissue.KotlinWeeklyIssueUiState
 import io.github.reactivecircus.kstreamlined.android.feature.common.R as commonR
 
-context(SharedTransitionScope, AnimatedVisibilityScope)
 @Composable
-public fun KotlinWeeklyIssueScreen(
+public fun SharedTransitionScope.KotlinWeeklyIssueScreen(
+    animatedVisibilityScope: AnimatedVisibilityScope,
     boundsKey: String,
     topBarBoundsKey: String,
     titleElementKey: String,
@@ -85,6 +85,7 @@ public fun KotlinWeeklyIssueScreen(
     val context = LocalContext.current
     val title = stringResource(id = R.string.title_kotlin_weekly_issue, issueNumber)
     KotlinWeeklyIssueScreen(
+        animatedVisibilityScope = animatedVisibilityScope,
         topBarBoundsKey = topBarBoundsKey,
         titleElementKey = titleElementKey,
         id = id,
@@ -100,14 +101,14 @@ public fun KotlinWeeklyIssueScreen(
         eventSink = eventSink,
         modifier = modifier.sharedBounds(
             rememberSharedContentState(key = boundsKey),
-            animatedVisibilityScope = this@AnimatedVisibilityScope,
+            animatedVisibilityScope = animatedVisibilityScope,
         ),
     )
 }
 
-context(SharedTransitionScope, AnimatedVisibilityScope)
 @Composable
-internal fun KotlinWeeklyIssueScreen(
+internal fun SharedTransitionScope.KotlinWeeklyIssueScreen(
+    animatedVisibilityScope: AnimatedVisibilityScope,
     topBarBoundsKey: String,
     titleElementKey: String,
     id: String,
@@ -126,7 +127,7 @@ internal fun KotlinWeeklyIssueScreen(
             .background(KSTheme.colorScheme.background),
     ) {
         TopNavBar(
-            animatedVisibilityScope = this@AnimatedVisibilityScope,
+            animatedVisibilityScope = animatedVisibilityScope,
             boundsKey = topBarBoundsKey,
             titleElementKey = titleElementKey,
             title = title,

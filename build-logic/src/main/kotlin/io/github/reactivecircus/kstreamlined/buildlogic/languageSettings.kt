@@ -6,7 +6,7 @@ internal fun LanguageSettingsBuilder.applyLanguageSettings(): LanguageSettingsBu
     return apply {
         progressiveMode = true
         optIn("kotlin.experimental.ExperimentalObjCName")
-        enableLanguageFeature("ContextReceivers")
+        enableLanguageFeature("ContextParameters")
         enableLanguageFeature("ExplicitBackingFields")
     }
 }

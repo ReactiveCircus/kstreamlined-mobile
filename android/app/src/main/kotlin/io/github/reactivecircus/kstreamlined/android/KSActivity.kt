@@ -77,6 +77,7 @@ class KSActivity : ComponentActivity() {
                         when (it) {
                             is NavDestination.Main -> {
                                 MainScreen(
+                                    animatedVisibilityScope = this@AnimatedContent,
                                     selectedNavItem = selectedNavItem,
                                     onSelectedNavItemChanged = { item -> selectedNavItem = item },
                                     homeListState = homeListState,
@@ -117,6 +118,7 @@ class KSActivity : ComponentActivity() {
 
                             is NavDestination.ContentViewer -> {
                                 ContentViewerScreen(
+                                    animatedVisibilityScope = this@AnimatedContent,
                                     boundsKey = it.boundsKey,
                                     topBarBoundsKey = it.topBarBoundsKey,
                                     saveButtonElementKey = it.saveButtonElementKey,
@@ -129,6 +131,7 @@ class KSActivity : ComponentActivity() {
 
                             is NavDestination.KotlinWeeklyIssue -> {
                                 KotlinWeeklyIssueScreen(
+                                    animatedVisibilityScope = this@AnimatedContent,
                                     boundsKey = it.boundKey,
                                     topBarBoundsKey = it.topBarBoundsKey,
                                     titleElementKey = it.titleElementKey,
@@ -142,6 +145,7 @@ class KSActivity : ComponentActivity() {
 
                             is NavDestination.TalkingKotlinEpisode -> {
                                 TalkingKotlinEpisodeScreen(
+                                    animatedVisibilityScope = this@AnimatedContent,
                                     boundsKey = it.boundsKey,
                                     topBarBoundsKey = it.topBarBoundsKey,
                                     playerElementKey = it.playerElementKey,
