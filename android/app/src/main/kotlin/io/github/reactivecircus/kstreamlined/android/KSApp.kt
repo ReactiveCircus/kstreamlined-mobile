@@ -30,7 +30,7 @@ open class KSApp : Application(), SingletonImageLoader.Factory, Configuration.Pr
         // TODO enable / disable AnalyticsTracker
 
         if (BuildConfig.ENABLE_CRASH_REPORTING) {
-            FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(true)
+            FirebaseCrashlytics.getInstance().isCrashlyticsCollectionEnabled = true
         }
 
         initializeKermit()
