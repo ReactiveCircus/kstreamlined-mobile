@@ -15,7 +15,6 @@ detekt = "1.23.7"
 playPublisher = "3.12.1"
 fladle = "0.17.5"
 skie = "0.10.0"
-desugarJdkLibs = "2.1.4"
 leakcanary = "2.14"
 hilt = "2.55"
 kotlinx-coroutines = "1.10.1"
@@ -82,7 +81,6 @@ plugin-fladle = { module = "com.osacky.flank.gradle:fladle", version.ref = "flad
 plugin-skie = { module = "co.touchlab.skie:co.touchlab.skie.gradle.plugin", version.ref = "skie"}
 plugin-sqldelight = { module = "app.cash.sqldelight:app.cash.sqldelight.gradle.plugin", version.ref = "sqldelight"}
 plugin-baselineprofile = { module = "androidx.baselineprofile:androidx.baselineprofile.gradle.plugin", version.ref = "androidx-benchmark"}
-desugarJdkLibs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugarJdkLibs" }
 leakcanary-android = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanary" }
 leakcanary-plumber = { module = "com.squareup.leakcanary:plumber-android", version.ref = "leakcanary" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }

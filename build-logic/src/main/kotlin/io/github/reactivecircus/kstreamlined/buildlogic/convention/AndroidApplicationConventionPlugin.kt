@@ -26,7 +26,7 @@ internal class AndroidApplicationConventionPlugin : Plugin<Project> {
         }
 
         extensions.configure<BaseAppModuleExtension> {
-            configureCommonAndroidExtension(target)
+            configureCommonAndroidExtension()
             configureAndroidApplicationExtension(target)
         }
 

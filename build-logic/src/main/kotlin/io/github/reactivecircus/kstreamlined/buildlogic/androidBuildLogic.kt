@@ -8,16 +8,14 @@ import com.android.build.api.variant.LibraryAndroidComponentsExtension
 import com.android.build.gradle.TestExtension
 import com.android.build.gradle.TestedExtension
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
-import org.gradle.accessors.dm.LibrariesForLibs
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.the
 import java.io.File
 
 /**
  * Apply baseline configurations on an Application or Library project.
  */
-internal fun TestedExtension.configureCommonAndroidExtension(project: Project) {
+internal fun TestedExtension.configureCommonAndroidExtension() {
     setCompileSdkVersion(AndroidSdk.compileSdk)
     buildToolsVersion = AndroidSdk.buildTools
 
@@ -31,7 +29,6 @@ internal fun TestedExtension.configureCommonAndroidExtension(project: Project) {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
-        isCoreLibraryDesugaringEnabled = true
     }
 
     packagingOptions {
@@ -43,10 +40,6 @@ internal fun TestedExtension.configureCommonAndroidExtension(project: Project) {
                 )
             )
         }
-    }
-
-    with(project) {
-        dependencies.add("coreLibraryDesugaring", the<LibrariesForLibs>().desugarJdkLibs)
     }
 }
 
