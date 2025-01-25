@@ -1,3 +1,4 @@
+import com.google.firebase.appdistribution.gradle.tasks.UploadDistributionTask
 import com.google.firebase.crashlytics.buildtools.gradle.CrashlyticsExtension
 import com.google.firebase.perf.plugin.FirebasePerfExtension
 import com.google.gms.googleservices.GoogleServicesPlugin
@@ -23,6 +24,14 @@ plugins {
 val googleServicesJsonExists = fileTree("src").matching {
     include("**/google-services.json")
 }.isEmpty.not()
+
+if (isCiBuild) {
+    tasks.withType<UploadDistributionTask> {
+        if (name.endsWith("devDebug", ignoreCase = true)) {
+            dependsOn("processDevDebugGoogleServices")
+        }
+    }
+}
 
 googleServices {
     missingGoogleServicesStrategy = GoogleServicesPlugin.MissingGoogleServicesStrategy.IGNORE
