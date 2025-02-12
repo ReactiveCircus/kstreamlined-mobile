@@ -15,10 +15,6 @@ kotlin {
             }
         }
     }
-    jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(23))
-        vendor.set(JvmVendorSpec.AZUL)
-    }
 }
 
 tasks.withType<KotlinCompile>().configureEach {
