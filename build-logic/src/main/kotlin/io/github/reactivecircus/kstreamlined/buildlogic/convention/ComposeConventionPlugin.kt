@@ -10,10 +10,8 @@ internal class ComposeConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) = with(target) {
         pluginManager.apply("org.jetbrains.kotlin.plugin.compose")
         configure<ComposeCompilerGradlePluginExtension> {
-            val stabilityConfigFile = layout.projectDirectory.file("compose_stability_config.conf").asFile
-            if (stabilityConfigFile.exists()) {
-                stabilityConfigurationFile.set(stabilityConfigFile)
-            }
+            val stabilityConfigFile = layout.projectDirectory.file("compose_stability_config.conf")
+            stabilityConfigurationFiles.add(stabilityConfigFile)
             if (providers.gradleProperty("enableComposeCompilerReports").orNull == "true") {
                 metricsDestination.set(layout.buildDirectory.dir("compose_metrics"))
                 reportsDestination.set(layout.buildDirectory.dir("compose_metrics"))
