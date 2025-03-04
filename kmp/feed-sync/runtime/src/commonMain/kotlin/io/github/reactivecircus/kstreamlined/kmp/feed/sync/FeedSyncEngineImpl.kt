@@ -19,6 +19,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.filter
@@ -77,7 +79,7 @@ public class FeedSyncEngineImpl(
                     }
                     syncState.value = SyncState.Idle
                 }.onFailure {
-                    if (it is CancellationException) throw it
+                    if (it is CancellationException) currentCoroutineContext().ensureActive()
                     Logger.w("Sync failed", it)
                     syncState.value = SyncState.OutOfSync
                 }
