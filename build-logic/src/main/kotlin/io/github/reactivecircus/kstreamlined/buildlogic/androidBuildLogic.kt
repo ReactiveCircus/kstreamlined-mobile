@@ -59,7 +59,6 @@ internal fun BaseAppModuleExtension.configureAndroidApplicationExtension(project
         xmlReport = true
         htmlOutput = File("${project.layout.buildDirectory.get()}/reports/lint/lint-reports.html")
         xmlOutput = File("${project.layout.buildDirectory.get()}/reports/lint/lint-reports.xml")
-        checkDependencies = true
         ignoreTestSources = true
     }
 }
