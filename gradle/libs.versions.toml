@@ -13,7 +13,6 @@ wire = "5.3.0"
 invert = "0.0.2-dev"
 detekt = "1.23.8"
 playPublisher = "3.12.1"
-fladle = "0.17.5"
 skie = "0.10.1"
 leakcanary = "2.14"
 hilt = "2.55"
@@ -77,7 +76,6 @@ plugin-appDistribution = { module = "com.google.firebase:firebase-appdistributio
 plugin-detekt = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt"}
 plugin-detektFormatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt"}
 plugin-playPublisher = { module = "com.github.triplet.gradle:play-publisher", version.ref = "playPublisher"}
-plugin-fladle = { module = "com.osacky.flank.gradle:fladle", version.ref = "fladle"}
 plugin-skie = { module = "co.touchlab.skie:co.touchlab.skie.gradle.plugin", version.ref = "skie"}
 plugin-sqldelight = { module = "app.cash.sqldelight:app.cash.sqldelight.gradle.plugin", version.ref = "sqldelight"}
 plugin-baselineprofile = { module = "androidx.baselineprofile:androidx.baselineprofile.gradle.plugin", version.ref = "androidx-benchmark"}
