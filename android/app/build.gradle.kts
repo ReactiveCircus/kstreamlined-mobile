@@ -21,7 +21,7 @@ plugins {
     id("androidx.baselineprofile")
 }
 
-val googleServicesJsonExists = fileTree("src").matching {
+val googleServicesJsonExists: Boolean = fileTree("src").matching {
     include("**/google-services.json")
 }.isEmpty.not()
 
