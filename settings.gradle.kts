@@ -93,6 +93,8 @@ if (!isXCFrameworkBuild) {
     includeProject(":foundation:common-ui:feed", "android/foundation/common-ui/feed")
     includeProject(":foundation:designsystem", "android/foundation/designsystem")
     includeProject(":foundation:compose-utils", "android/foundation/compose-utils")
+    includeProject(":foundation:screenshot-testing:tester", "android/foundation/screenshot-testing/tester")
+    includeProject(":foundation:screenshot-testing:paparazzi", "android/foundation/screenshot-testing/paparazzi")
     includeProject(":foundation:scheduled-work", "android/foundation/scheduled-work")
 }
 

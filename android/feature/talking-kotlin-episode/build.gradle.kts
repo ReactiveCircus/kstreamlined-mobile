@@ -2,6 +2,7 @@ import com.android.build.api.variant.HasUnitTestBuilder
 
 plugins {
     id("kstreamlined.android.library")
+    id("kstreamlined.android.screenshot-test")
     id("kstreamlined.compose")
     id("kstreamlined.ksp")
 }

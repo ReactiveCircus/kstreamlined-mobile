@@ -97,7 +97,37 @@ jobs:
           cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
 
       - name: Run unit tests
-        run: ./gradlew test jvmTest -PslimTests
+        run: ./gradlew test jvmTest
+
+  screenshot-tests:
+    name: Screenshot tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      ENABLE_APP_VERSIONING: false
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '23'
+
+      - uses: kaeawc/setup-tcmalloc@v0.0.1
+
+      - uses: ./.github/actions/cache-build-logic
+
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
+
+      - name: Run screenshot tests
+        run: |
+          ./scripts/enforce-git-lfs.sh
+          ./gradlew verifyPaparazzi
 
   static-analysis:
     name: Static analysis
@@ -127,7 +157,7 @@ jobs:
 
   deploy-dev-build:
     name: Upload dev build
-    needs: [ assemble, unit-tests, static-analysis ]
+    needs: [ assemble, unit-tests, screenshot-tests, static-analysis ]
     if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/android')
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -174,7 +204,7 @@ jobs:
 
   deploy-release-build:
     name: Publish release build to Play Store (internal test track)
-    needs: [ assemble, unit-tests, static-analysis ]
+    needs: [ assemble, unit-tests, screenshot-tests, static-analysis ]
     if: startsWith(github.ref, 'refs/tags/android')
     runs-on: ubuntu-latest
     timeout-minutes: 15

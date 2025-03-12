@@ -6,7 +6,6 @@ import io.github.reactivecircus.kstreamlined.buildlogic.configureAndroidLibraryV
 import io.github.reactivecircus.kstreamlined.buildlogic.configureCommonAndroidExtension
 import io.github.reactivecircus.kstreamlined.buildlogic.configureDetekt
 import io.github.reactivecircus.kstreamlined.buildlogic.configureKotlin
-import io.github.reactivecircus.kstreamlined.buildlogic.configureSlimTests
 import io.github.reactivecircus.kstreamlined.buildlogic.configureTest
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -33,7 +32,6 @@ internal class AndroidLibraryConventionPlugin : Plugin<Project> {
         }
 
         configureTest()
-        configureSlimTests()
         configureDetekt()
     }
 }

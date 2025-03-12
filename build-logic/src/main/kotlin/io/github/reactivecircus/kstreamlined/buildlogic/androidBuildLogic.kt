@@ -99,13 +99,13 @@ internal fun ApplicationAndroidComponentsExtension.configureAndroidApplicationVa
  */
 internal fun LibraryAndroidComponentsExtension.configureAndroidLibraryVariants() {
     beforeVariants {
+        // only enable release build variant for the Android library project
+        it.enable = it.buildType == "release"
+
         // disable unit tests by default
         (it as HasUnitTestBuilder).enableUnitTest = false
 
         // disable android tests by default
         it.androidTest.enable = false
-
-        // only enable release build variant for the Android library project
-        it.enable = it.buildType == "release"
     }
 }

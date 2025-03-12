@@ -49,6 +49,7 @@ dependencies {
     implementation(libs.plugin.detekt)
     implementation(libs.plugin.agp)
     implementation(libs.plugin.appVersioning)
+    implementation(libs.plugin.paparazzi)
     implementation(libs.plugin.hilt)
     implementation(libs.plugin.apollo)
     implementation(libs.plugin.wire)
@@ -81,6 +82,10 @@ gradlePlugin {
             id = "kstreamlined.android.test"
             implementationClass = "io.github.reactivecircus.kstreamlined.buildlogic.convention.AndroidTestConventionPlugin"
         }
+        register("androidScreenshotTest") {
+            id = "kstreamlined.android.screenshot-test"
+            implementationClass = "io.github.reactivecircus.kstreamlined.buildlogic.convention.AndroidScreenshotTestConventionPlugin"
+        }
         register("kmpCommon") {
             id = "kstreamlined.kmp.common"
             implementationClass = "io.github.reactivecircus.kstreamlined.buildlogic.convention.KMPCommonConventionPlugin"
@@ -96,6 +101,10 @@ gradlePlugin {
         register("kmpTest") {
             id = "kstreamlined.kmp.test"
             implementationClass = "io.github.reactivecircus.kstreamlined.buildlogic.convention.KMPTestConventionPlugin"
+        }
+        register("kotlinJvm") {
+            id = "kstreamlined.kotlin.jvm"
+            implementationClass = "io.github.reactivecircus.kstreamlined.buildlogic.convention.KotlinJvmConventionPlugin"
         }
         register("compose") {
             id = "kstreamlined.compose"
