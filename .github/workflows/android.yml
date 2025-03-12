@@ -97,7 +97,7 @@ jobs:
           cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
 
       - name: Run unit tests
-        run: ./gradlew test jvmTest -PslimTests
+        run: ./gradlew test jvmTest
 
   static-analysis:
     name: Static analysis

@@ -7,6 +7,16 @@ val Project.isCiBuild: Boolean
 val Project.isIdeBuild: Boolean
     get() = providers.systemProperty("idea.active").orNull == "true"
 
+val Project.runningPaparazzi: Boolean
+    get() = gradle.startParameter.taskNames.any {
+        it.substringAfterLast(":").contains("paparazzi", ignoreCase = true)
+    }
+
+val Project.runningCheck: Boolean
+    get() = gradle.startParameter.taskNames.any {
+        it.substringAfterLast(":").equals("check", ignoreCase = true)
+    }
+
 val Project.isGeneratingBaselineProfile: Boolean
     get() = gradle.startParameter.taskNames.any {
         it.contains("generateBaselineProfile", ignoreCase = true)
