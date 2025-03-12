@@ -14,6 +14,10 @@ import org.junit.runner.Description
 import org.junit.runners.model.Statement
 import java.util.Date
 
+/**
+ * Adapted from https://github.com/cashapp/paparazzi/blob/master/paparazzi/src/main/java/app/cash/paparazzi/Paparazzi.kt
+ * to support more opinionated test rule implementation.
+ */
 public abstract class PaparazziRule(
     private val deviceConfig: DeviceConfig,
     private val theme: String,
