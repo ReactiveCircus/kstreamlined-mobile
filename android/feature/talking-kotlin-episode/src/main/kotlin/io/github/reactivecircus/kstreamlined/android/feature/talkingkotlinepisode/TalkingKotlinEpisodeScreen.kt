@@ -109,7 +109,6 @@ public fun SharedTransitionScope.TalkingKotlinEpisodeScreen(
 
 @Composable
 internal fun SharedTransitionScope.TalkingKotlinEpisodeScreen(
-    animatedVisibilityScope: AnimatedVisibilityScope,
     topBarBoundsKey: String,
     playerElementKey: String,
     onNavigateUp: () -> Unit,
@@ -118,6 +117,7 @@ internal fun SharedTransitionScope.TalkingKotlinEpisodeScreen(
     uiState: TalkingKotlinEpisodeUiState,
     eventSink: (TalkingKotlinEpisodeUiEvent) -> Unit,
     modifier: Modifier = Modifier,
+    animatedVisibilityScope: AnimatedVisibilityScope? = null,
 ) {
     Column(
         modifier = modifier
@@ -190,7 +190,7 @@ internal fun SharedTransitionScope.TalkingKotlinEpisodeScreen(
 
 @Composable
 private fun SharedTransitionScope.ContentUi(
-    animatedVisibilityScope: AnimatedVisibilityScope,
+    animatedVisibilityScope: AnimatedVisibilityScope?,
     playerElementKey: String,
     episode: TalkingKotlinEpisode,
     eventSink: (TalkingKotlinEpisodeUiEvent) -> Unit,
@@ -302,10 +302,14 @@ private fun SharedTransitionScope.ContentUi(
                 eventSink(TalkingKotlinEpisodeUiEvent.SaveStartPosition(startPositionMillis))
             },
             contentPadding = WindowInsets.navigationBars.asPaddingValues(),
-            modifier = Modifier.sharedElement(
-                rememberSharedContentState(key = playerElementKey),
-                animatedVisibilityScope = animatedVisibilityScope,
-            )
+            modifier = if (animatedVisibilityScope != null) {
+                Modifier.sharedElement(
+                    rememberSharedContentState(key = playerElementKey),
+                    animatedVisibilityScope = animatedVisibilityScope,
+                )
+            } else {
+                Modifier
+            },
         )
     }
 }

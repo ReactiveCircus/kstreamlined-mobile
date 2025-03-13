@@ -26,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
@@ -69,56 +70,60 @@ internal fun PodcastPlayer(
     var playerDurationMillis by remember { mutableIntStateOf(0) }
 
     val context = LocalContext.current
-    val player = remember {
-        val audioOnlyRenderersFactory = RenderersFactory { handler, _, audioListener, _, _ ->
-            arrayOf<Renderer>(
-                MediaCodecAudioRenderer(context, MediaCodecSelector.DEFAULT, handler, audioListener)
-            )
-        }
-        val extractorFactory = ExtractorsFactory {
-            arrayOf(Mp3Extractor())
-        }
-        ExoPlayer.Builder(
-            context,
-            audioOnlyRenderersFactory,
-            DefaultMediaSourceFactory(context, extractorFactory)
-        ).build().apply {
-            setMediaItem(MediaItem.fromUri(episode.audioUrl))
-            prepare()
-            addListener(object : Player.Listener {
-                override fun onPlaybackStateChanged(playbackState: Int) {
-                    when (playbackState) {
-                        Player.STATE_READY -> {
-                            playerPositionMillis = currentPosition.toInt()
-                            playerDurationMillis = duration.toInt()
-                        }
+    val player = if (!LocalInspectionMode.current) {
+        remember {
+            val audioOnlyRenderersFactory = RenderersFactory { handler, _, audioListener, _, _ ->
+                arrayOf<Renderer>(
+                    MediaCodecAudioRenderer(context, MediaCodecSelector.DEFAULT, handler, audioListener)
+                )
+            }
+            val extractorFactory = ExtractorsFactory {
+                arrayOf(Mp3Extractor())
+            }
+            ExoPlayer.Builder(
+                context,
+                audioOnlyRenderersFactory,
+                DefaultMediaSourceFactory(context, extractorFactory)
+            ).build().apply {
+                setMediaItem(MediaItem.fromUri(episode.audioUrl))
+                prepare()
+                addListener(object : Player.Listener {
+                    override fun onPlaybackStateChanged(playbackState: Int) {
+                        when (playbackState) {
+                            Player.STATE_READY -> {
+                                playerPositionMillis = currentPosition.toInt()
+                                playerDurationMillis = duration.toInt()
+                            }
 
-                        Player.STATE_ENDED -> {
-                            seekTo(0)
-                            playerPositionMillis = currentPosition.toInt()
-                            onPlayPauseButtonClick()
-                        }
+                            Player.STATE_ENDED -> {
+                                seekTo(0)
+                                playerPositionMillis = currentPosition.toInt()
+                                onPlayPauseButtonClick()
+                            }
 
-                        else -> Unit
+                            else -> Unit
+                        }
                     }
-                }
-            })
+                })
+            }
         }
+    } else {
+        null
     }
 
     DisposableEffect(Unit) {
-        player.seekTo(episode.startPositionMillis)
+        player?.seekTo(episode.startPositionMillis)
         onDispose {
             onSaveStartPosition(playerPositionMillis.toLong())
-            player.release()
+            player?.release()
         }
     }
 
     DisposableEffect(isPlaying) {
         if (isPlaying) {
-            player.play()
+            player?.play()
         } else {
-            player.pause()
+            player?.pause()
         }
         onDispose { }
     }
@@ -131,8 +136,8 @@ internal fun PodcastPlayer(
                     emit(Unit)
                 }
             }.collectLatest {
-                playerPositionMillis = player.currentPosition.toInt()
-                playerDurationMillis = player.duration.toInt()
+                playerPositionMillis = player?.currentPosition?.toInt() ?: 0
+                playerDurationMillis = player?.duration?.toInt() ?: 0
             }
         }
     }
@@ -141,7 +146,7 @@ internal fun PodcastPlayer(
         playerPositionMillis = playerPositionMillis,
         playerDurationMillis = playerDurationMillis,
         onPositionChange = { position ->
-            player.seekTo(position.toLong())
+            player?.seekTo(position.toLong())
         },
         episode = episode,
         isPlaying = isPlaying,
