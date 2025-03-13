@@ -7,10 +7,13 @@ import androidx.compose.ui.unit.sp
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.icon.KSIcons
 import io.github.reactivecircus.kstreamlined.android.foundation.screenshottesting.tester.SnapshotTester
+import io.github.reactivecircus.kstreamlined.android.foundation.screenshottesting.tester.ThemeVariantInjector
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
 
 @OptIn(ExperimentalSharedTransitionApi::class)
+@RunWith(ThemeVariantInjector::class)
 class TopNavBarTest {
 
     @get:Rule
