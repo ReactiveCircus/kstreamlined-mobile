@@ -25,24 +25,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.media3.common.MediaItem
-import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
-import androidx.media3.exoplayer.ExoPlayer
-import androidx.media3.exoplayer.Renderer
-import androidx.media3.exoplayer.RenderersFactory
-import androidx.media3.exoplayer.audio.MediaCodecAudioRenderer
-import androidx.media3.exoplayer.mediacodec.MediaCodecSelector
-import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
-import androidx.media3.extractor.ExtractorsFactory
-import androidx.media3.extractor.mp3.Mp3Extractor
 import coil3.compose.AsyncImage
 import io.github.reactivecircus.kstreamlined.android.foundation.composeutils.marqueeWithFadedEdges
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.LargeIconButton
@@ -69,61 +57,31 @@ internal fun PodcastPlayer(
     var playerPositionMillis by remember { mutableIntStateOf(0) }
     var playerDurationMillis by remember { mutableIntStateOf(0) }
 
-    val context = LocalContext.current
-    val player = if (!LocalInspectionMode.current) {
-        remember {
-            val audioOnlyRenderersFactory = RenderersFactory { handler, _, audioListener, _, _ ->
-                arrayOf<Renderer>(
-                    MediaCodecAudioRenderer(context, MediaCodecSelector.DEFAULT, handler, audioListener)
-                )
-            }
-            val extractorFactory = ExtractorsFactory {
-                arrayOf(Mp3Extractor())
-            }
-            ExoPlayer.Builder(
-                context,
-                audioOnlyRenderersFactory,
-                DefaultMediaSourceFactory(context, extractorFactory)
-            ).build().apply {
-                setMediaItem(MediaItem.fromUri(episode.audioUrl))
-                prepare()
-                addListener(object : Player.Listener {
-                    override fun onPlaybackStateChanged(playbackState: Int) {
-                        when (playbackState) {
-                            Player.STATE_READY -> {
-                                playerPositionMillis = currentPosition.toInt()
-                                playerDurationMillis = duration.toInt()
-                            }
-
-                            Player.STATE_ENDED -> {
-                                seekTo(0)
-                                playerPositionMillis = currentPosition.toInt()
-                                onPlayPauseButtonClick()
-                            }
-
-                            else -> Unit
-                        }
-                    }
-                })
-            }
-        }
-    } else {
-        null
-    }
+    val player = rememberAudioPlayer(
+        audioUrl = episode.audioUrl,
+        onPlaybackReady = { currentPosition, duration ->
+            playerPositionMillis = currentPosition.toInt()
+            playerDurationMillis = duration.toInt()
+        },
+        onPlaybackEnded = { currentPosition ->
+            playerPositionMillis = currentPosition.toInt()
+            onPlayPauseButtonClick()
+        },
+    )
 
     DisposableEffect(Unit) {
-        player?.seekTo(episode.startPositionMillis)
+        player.seekTo(episode.startPositionMillis)
         onDispose {
             onSaveStartPosition(playerPositionMillis.toLong())
-            player?.release()
+            player.release()
         }
     }
 
     DisposableEffect(isPlaying) {
         if (isPlaying) {
-            player?.play()
+            player.play()
         } else {
-            player?.pause()
+            player.pause()
         }
         onDispose { }
     }
@@ -136,8 +94,8 @@ internal fun PodcastPlayer(
                     emit(Unit)
                 }
             }.collectLatest {
-                playerPositionMillis = player?.currentPosition?.toInt() ?: 0
-                playerDurationMillis = player?.duration?.toInt() ?: 0
+                playerPositionMillis = player.currentPosition.toInt()
+                playerDurationMillis = player.duration.toInt()
             }
         }
     }
@@ -146,7 +104,7 @@ internal fun PodcastPlayer(
         playerPositionMillis = playerPositionMillis,
         playerDurationMillis = playerDurationMillis,
         onPositionChange = { position ->
-            player?.seekTo(position.toLong())
+            player.seekTo(position.toLong())
         },
         episode = episode,
         isPlaying = isPlaying,
