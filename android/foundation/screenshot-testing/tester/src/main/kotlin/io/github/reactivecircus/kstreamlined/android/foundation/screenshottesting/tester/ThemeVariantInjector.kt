@@ -17,7 +17,6 @@ public class ThemeVariantInjector(private val testClass: Class<*>) : Runner() {
     private val delegate: BlockJUnit4ClassRunner
 
     init {
-        @Suppress("TooGenericExceptionThrown")
         try {
             delegate = object : BlockJUnit4ClassRunner(testClass) {
                 override fun getChildren(): List<FrameworkMethod> {
@@ -54,6 +53,7 @@ public class ThemeVariantInjector(private val testClass: Class<*>) : Runner() {
                 }
             }
         } catch (e: InitializationError) {
+            @Suppress("TooGenericExceptionThrown")
             throw RuntimeException("Failed to initialize ThemeVariantInjector", e)
         }
     }

@@ -28,7 +28,7 @@ public abstract class PaparazziBridge(
     private val snapshotHandler: SnapshotHandler = determineHandler(maxPercentDifference)
     private var testName: TestName? = null
 
-    protected fun runSnapshot(
+    protected fun runPaparazzi(
         testName: TestName,
         content: @Composable () -> Unit,
     ) {

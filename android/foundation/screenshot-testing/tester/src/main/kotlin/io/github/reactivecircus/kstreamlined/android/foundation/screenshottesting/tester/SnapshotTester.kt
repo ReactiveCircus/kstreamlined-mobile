@@ -44,7 +44,7 @@ public class SnapshotTester(
         content: @Composable () -> Unit,
     ) {
         val darkTheme = themeVariant == ThemeVariantInjector.ThemeVariant.Dark
-        runSnapshot(testName = description.toTestName()) {
+        runPaparazzi(testName = description.toTestName()) {
             CompositionLocalProvider(LocalInspectionMode provides true) {
                 KSTheme(darkTheme) {
                     if (addSurface) {
