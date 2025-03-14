@@ -4,9 +4,6 @@ plugins {
 }
 
 dependencies {
-    // AndroidX
     implementation(libs.androidx.compose.runtime)
-
-    // Paparazzi
     implementation(libs.paparazzi)
 }

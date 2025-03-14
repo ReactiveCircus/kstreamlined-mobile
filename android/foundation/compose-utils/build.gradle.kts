@@ -8,6 +8,5 @@ android {
 }
 
 dependencies {
-    // AndroidX
     implementation(libs.androidx.compose.foundation)
 }

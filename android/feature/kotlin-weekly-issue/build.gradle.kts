@@ -1,5 +1,6 @@
 plugins {
     id("kstreamlined.android.library")
+    id("kstreamlined.android.screenshot-test")
     id("kstreamlined.compose")
     id("kstreamlined.ksp")
 }
@@ -16,10 +17,9 @@ dependencies {
     implementation(project(":kmp:feed-datasource"))
     implementation(project(":kmp:presentation:kotlin-weekly-issue"))
 
-    // AndroidX
     implementation(libs.androidx.tracing)
-
-    // Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
+
+    testImplementation(libs.testParameterInjector)
 }

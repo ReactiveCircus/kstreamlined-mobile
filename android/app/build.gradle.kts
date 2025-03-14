@@ -227,23 +227,17 @@ dependencies {
     demoImplementation(project(":kmp:remote:edge"))
     devImplementation(project(":kmp:remote:cloud"))
     prodImplementation(project(":kmp:remote:cloud"))
-
     implementation(project(":feature:common"))
     implementation(project(":feature:content-viewer"))
     implementation(project(":feature:home"))
     implementation(project(":feature:kotlin-weekly-issue"))
     implementation(project(":feature:saved-for-later"))
     implementation(project(":feature:talking-kotlin-episode"))
-
     implementation(project(":foundation:scheduled-work"))
-
     baselineProfile(project(":benchmark"))
 
-    // Firebase
     releaseImplementation(libs.firebase.perf)
     implementation(libs.firebase.crashlytics)
-
-    // AndroidX
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.coreSplashscreen)
@@ -251,22 +245,12 @@ dependencies {
     implementation(libs.androidx.compose.runtime.tracing)
     implementation(libs.androidx.hilt.work)
     implementation(libs.androidx.tracing)
-
-    // Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
-
-    // OkHttp
     implementation(libs.okhttp)
-
-    // Image loading
     implementation(libs.coil.svg)
     implementation(libs.coil.network)
-
-    // SQLDelight
     implementation(libs.sqldelight.androidDriver)
-
-    // LeakCanary
     debugImplementation(libs.leakcanary.android)
     implementation(libs.leakcanary.plumber)
 }

@@ -33,17 +33,18 @@ public class SnapshotTester(
         }
     }
 
-    private var themeVariant: ThemeVariantInjector.ThemeVariant? = null
+    private var currentThemeVariant: ThemeVariant? = null
 
-    internal fun setCurrentThemeVariant(themeVariant: ThemeVariantInjector.ThemeVariant) {
-        this.themeVariant = themeVariant
+    internal fun setCurrentThemeVariant(themeVariant: ThemeVariant) {
+        currentThemeVariant = themeVariant
     }
 
     public fun snapshot(
         addSurface: Boolean = true,
+        themeVariant: ThemeVariant? = null,
         content: @Composable () -> Unit,
     ) {
-        val darkTheme = themeVariant == ThemeVariantInjector.ThemeVariant.Dark
+        val darkTheme = themeVariant == ThemeVariant.Dark || currentThemeVariant == ThemeVariant.Dark
         runPaparazzi(testName = description.toTestName()) {
             CompositionLocalProvider(LocalInspectionMode provides true) {
                 KSTheme(darkTheme) {
