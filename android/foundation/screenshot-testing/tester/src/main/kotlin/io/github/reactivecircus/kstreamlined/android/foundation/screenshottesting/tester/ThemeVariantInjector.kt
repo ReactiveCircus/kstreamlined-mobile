@@ -80,11 +80,6 @@ public class ThemeVariantInjector(private val testClass: Class<*>) : Runner() {
         }
     }
 
-    internal enum class ThemeVariant {
-        Light,
-        Dark,
-    }
-
     private class ThemeVariantStatement(
         private val delegate: Statement,
         private val testInstance: Any,

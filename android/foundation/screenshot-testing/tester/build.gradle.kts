@@ -11,9 +11,6 @@ dependencies {
     api(project(":foundation:screenshot-testing:paparazzi"))
     implementation(project(":foundation:designsystem"))
 
-    // AndroidX
     implementation(libs.androidx.compose.foundation)
-
-    // Paparazzi
     implementation(libs.paparazzi)
 }

@@ -108,7 +108,6 @@ public fun SharedTransitionScope.KotlinWeeklyIssueScreen(
 
 @Composable
 internal fun SharedTransitionScope.KotlinWeeklyIssueScreen(
-    animatedVisibilityScope: AnimatedVisibilityScope,
     topBarBoundsKey: String,
     titleElementKey: String,
     id: String,
@@ -119,6 +118,7 @@ internal fun SharedTransitionScope.KotlinWeeklyIssueScreen(
     uiState: KotlinWeeklyIssueUiState,
     eventSink: (KotlinWeeklyIssueUiEvent) -> Unit,
     modifier: Modifier = Modifier,
+    animatedVisibilityScope: AnimatedVisibilityScope? = null,
 ) {
     Column(
         modifier = modifier
@@ -144,7 +144,7 @@ internal fun SharedTransitionScope.KotlinWeeklyIssueScreen(
                 AnimatedVisibility(uiState is KotlinWeeklyIssueUiState.Content) {
                     Row {
                         val contentUrl = (uiState as? KotlinWeeklyIssueUiState.Content)?.contentUrl.orEmpty()
-                        val saved = (uiState as? KotlinWeeklyIssueUiState.Content)?.savedForLater ?: false
+                        val saved = (uiState as? KotlinWeeklyIssueUiState.Content)?.savedForLater == true
                         FilledIconButton(
                             KSIcons.Share,
                             contentDescription = null,

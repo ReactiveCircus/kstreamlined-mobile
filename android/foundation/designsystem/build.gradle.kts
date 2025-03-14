@@ -12,7 +12,6 @@ android {
 }
 
 dependencies {
-    // AndroidX
     implementation(libs.androidx.compose.materialIcons)
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.foundation)

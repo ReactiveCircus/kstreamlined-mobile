@@ -17,7 +17,6 @@ dependencies {
     implementation(project(":kmp:feed-datasource"))
     implementation(project(":kmp:presentation:saved-for-later"))
 
-    // Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
 }

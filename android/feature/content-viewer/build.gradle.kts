@@ -16,11 +16,8 @@ dependencies {
     implementation(project(":kmp:feed-datasource"))
     implementation(project(":kmp:presentation:content-viewer"))
 
-    // AndroidX
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.tracing)
-
-    // Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
 }
