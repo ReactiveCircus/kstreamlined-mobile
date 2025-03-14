@@ -19,7 +19,7 @@ public class SnapshotTester(
     deviceConfig = PIXEL_6,
     theme = "android:Theme.Material.Light.NoActionBar",
     renderingMode = SessionParams.RenderingMode.SHRINK,
-    compileSdkVersion = 34,
+    compileSdkVersion = 34, // TODO remove once paparazzi / layoutlib supports compileSdkVersion 35 / 36
     maxPercentDifference = maxPercentDifference,
 ) {
     private lateinit var description: Description

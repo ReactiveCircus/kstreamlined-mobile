@@ -11,7 +11,6 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 /**
  * Configure Kotlin compiler options, language settings, JVM toolchain for all projects.
  */
-@Suppress("MagicNumber")
 internal fun KotlinProjectExtension.configureKotlin(
     target: Project,
     enableExplicitApi: Boolean = true,

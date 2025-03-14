@@ -20,7 +20,7 @@ public abstract class PaparazziBridge(
     private val deviceConfig: DeviceConfig,
     private val theme: String,
     private val renderingMode: SessionParams.RenderingMode,
-    private val compileSdkVersion: Int,
+    private val compileSdkVersion: Int? = null,
     maxPercentDifference: Double,
 ) {
     private lateinit var sdk: PaparazziSdk
@@ -33,7 +33,13 @@ public abstract class PaparazziBridge(
         content: @Composable () -> Unit,
     ) {
         sdk = PaparazziSdk(
-            environment = detectEnvironment().copy(compileSdkVersion = compileSdkVersion),
+            environment = detectEnvironment().let {
+                if (compileSdkVersion != null) {
+                    it.copy(compileSdkVersion = compileSdkVersion)
+                } else {
+                    it
+                }
+            },
             deviceConfig = deviceConfig,
             theme = theme,
             renderingMode = renderingMode,
