@@ -18,15 +18,18 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides.Companion.Horizontal
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
@@ -99,7 +102,7 @@ internal fun SharedTransitionScope.HomeScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .navigationBarsPadding()
+            .windowInsetsPadding(WindowInsets.navigationBars.only(Horizontal))
             .background(KSTheme.colorScheme.background),
     ) {
         TopNavBar(
@@ -174,13 +177,13 @@ private fun SharedTransitionScope.ContentUi(
     modifier: Modifier = Modifier,
 ) = trace("FeedList") {
     Box(
-        modifier = modifier.fillMaxSize().navigationBarsPadding(),
+        modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.TopCenter,
     ) {
         LazyColumn(
             modifier = Modifier.testTag("home:feedList"),
             state = listState,
-            contentPadding = ListContentPadding,
+            contentPadding = calculateListContentPadding(),
             verticalArrangement = Arrangement.spacedBy(20.dp),
         ) {
             items(
@@ -337,7 +340,7 @@ private fun ErrorUi(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(ListContentPadding),
+            .padding(calculateListContentPadding()),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
@@ -361,12 +364,15 @@ private fun ErrorUi(
     }
 }
 
-private val ListContentPadding = PaddingValues(
-    top = 24.dp,
-    start = 24.dp,
-    end = 24.dp,
-    bottom = 120.dp,
-)
+@Composable
+private fun calculateListContentPadding(): PaddingValues {
+    return PaddingValues(
+        top = 24.dp,
+        start = 24.dp,
+        end = 24.dp,
+        bottom = 120.dp + WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding(),
+    )
+}
 
 private val HomeUiState.contentKey: Int
     get() = when (this) {
