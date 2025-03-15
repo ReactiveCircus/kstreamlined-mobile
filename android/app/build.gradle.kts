@@ -51,7 +51,7 @@ appVersioning {
 
 play {
     enabled.set(false) // only enable publishing for prodRelease variant in `playConfigs` block
-    serviceAccountCredentials.set(rootProject.file("android/secrets/play-publishing.json"))
+    serviceAccountCredentials.set(rootDir.resolve("android/secrets/play-publishing.json"))
     defaultToAppBundles.set(true)
 }
 
@@ -80,13 +80,13 @@ android {
 
     signingConfigs {
         named("debug") {
-            storeFile = rootProject.file("android/secrets/debug.keystore")
+            storeFile = rootDir.resolve("android/secrets/debug.keystore")
             storePassword = "kstreamlined-debug"
             keyAlias = "kstreamlined-debug"
             keyPassword = "kstreamlined-debug"
         }
         register("release") {
-            storeFile = rootProject.file("android/secrets/kstreamlined.jks")
+            storeFile = rootDir.resolve("android/secrets/kstreamlined.jks")
             storePassword = envOrProp("KSTREAMLINED_STORE_PASSWORD").get()
             keyAlias = envOrProp("KSTREAMLINED_KEY_ALIAS").get()
             keyPassword = envOrProp("KSTREAMLINED_KEY_PASSWORD").get()
@@ -106,7 +106,7 @@ android {
         }
         release {
             matchingFallbacks.add("release")
-            signingConfig = if (rootProject.file("android/secrets/kstreamlined.jks").exists()) {
+            signingConfig = if (rootDir.resolve("android/secrets/kstreamlined.jks").exists()) {
                 signingConfigs.getByName("release")
             } else {
                 signingConfigs.getByName("debug")
@@ -136,7 +136,7 @@ android {
             // distribute dev flavor for QA
             firebaseAppDistribution {
                 groups = "kstreamlined-qa"
-                serviceCredentialsFile = rootProject.file("secrets/firebase-key.json").absolutePath
+                serviceCredentialsFile = rootDir.resolve("secrets/firebase-key.json").absolutePath
             }
         }
         register(ProductFlavors.Demo) {
