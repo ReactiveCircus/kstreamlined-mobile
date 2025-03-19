@@ -25,12 +25,12 @@ public class KotlinWeeklyIssuePresenter(
     @OptIn(ExperimentalCoroutinesApi::class)
     @Composable
     override fun present(): KotlinWeeklyIssueUiState {
-        var uiState by remember { mutableStateOf<KotlinWeeklyIssueUiState>(KotlinWeeklyIssueUiState.InFlight) }
+        var uiState by remember { mutableStateOf<KotlinWeeklyIssueUiState>(KotlinWeeklyIssueUiState.Loading) }
         var itemId by remember { mutableStateOf<String?>(null) }
         LaunchedEffect(itemId) {
             itemId?.let { id ->
                 feedDataSource.streamFeedItemById(id)
-                    .onStart { uiState = KotlinWeeklyIssueUiState.InFlight }
+                    .onStart { uiState = KotlinWeeklyIssueUiState.Loading }
                     .mapLatest { item ->
                         item ?: error("Feed item not found")
                         item to feedDataSource.loadKotlinWeeklyIssue(item.contentUrl)

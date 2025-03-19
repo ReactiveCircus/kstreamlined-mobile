@@ -1,6 +1,7 @@
 package io.github.reactivecircus.kstreamlined.buildlogic.convention
 
 import app.cash.paparazzi.gradle.PrepareResourcesTask
+import com.android.build.api.dsl.LibraryExtension
 import com.android.build.api.variant.ApplicationAndroidComponentsExtension
 import com.android.build.api.variant.HasUnitTestBuilder
 import com.android.build.api.variant.LibraryAndroidComponentsExtension
@@ -46,6 +47,9 @@ internal class AndroidScreenshotTestConventionPlugin : Plugin<Project> {
                     beforeVariants {
                         (it as HasUnitTestBuilder).enableUnitTest = true
                     }
+                }
+                extensions.configure<LibraryExtension> {
+                    buildFeatures.androidResources = true
                 }
             }
             pluginManager.withPlugin("com.android.application") {

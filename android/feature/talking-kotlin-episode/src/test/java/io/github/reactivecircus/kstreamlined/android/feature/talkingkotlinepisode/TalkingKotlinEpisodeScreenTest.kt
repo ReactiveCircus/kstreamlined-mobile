@@ -51,9 +51,7 @@ class TalkingKotlinEpisodeScreenTest {
 
     @OptIn(ExperimentalSharedTransitionApi::class)
     @Composable
-    fun TalkingKotlinEpisodeScreenSnapshot(
-        uiState: TalkingKotlinEpisodeUiState,
-    ) {
+    fun TalkingKotlinEpisodeScreenSnapshot(uiState: TalkingKotlinEpisodeUiState) {
         SharedTransitionLayout {
             TalkingKotlinEpisodeScreen(
                 topBarBoundsKey = "",
