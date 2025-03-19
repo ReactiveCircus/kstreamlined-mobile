@@ -1,5 +1,6 @@
 plugins {
     id("kstreamlined.android.library")
+    id("kstreamlined.android.screenshot-test")
     id("kstreamlined.compose")
 }
 
@@ -16,4 +17,6 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling)
     implementation(libs.androidx.tracing)
     implementation(libs.coil.compose)
+
+    testImplementation(libs.testParameterInjector)
 }

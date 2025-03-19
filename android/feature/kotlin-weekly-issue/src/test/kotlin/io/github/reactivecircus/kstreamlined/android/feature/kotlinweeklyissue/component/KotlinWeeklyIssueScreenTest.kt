@@ -19,10 +19,10 @@ class KotlinWeeklyIssueScreenTest {
     val snapshotTester = SnapshotTester()
 
     @Test
-    fun snapshot_KotlinWeeklyIssueScreen_InFlight() {
+    fun snapshot_KotlinWeeklyIssueScreen_Loading() {
         snapshotTester.snapshot {
             KotlinWeeklyIssueScreenSnapshot(
-                uiState = KotlinWeeklyIssueUiState.InFlight,
+                uiState = KotlinWeeklyIssueUiState.Loading,
             )
         }
     }

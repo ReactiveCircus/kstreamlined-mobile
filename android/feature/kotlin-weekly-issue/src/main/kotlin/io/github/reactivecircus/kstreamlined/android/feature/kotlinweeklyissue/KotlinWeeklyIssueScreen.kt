@@ -177,7 +177,7 @@ internal fun SharedTransitionScope.KotlinWeeklyIssueScreen(
                 label = "uiState",
             ) { state ->
                 when (state) {
-                    is KotlinWeeklyIssueUiState.InFlight -> {
+                    is KotlinWeeklyIssueUiState.Loading -> {
                         LoadingSkeletonUi()
                     }
 
@@ -282,7 +282,7 @@ private fun ErrorUi(
 
 private val KotlinWeeklyIssueUiState.contentKey: Int
     get() = when (this) {
-        is KotlinWeeklyIssueUiState.InFlight -> 0
+        is KotlinWeeklyIssueUiState.Loading -> 0
         is KotlinWeeklyIssueUiState.Error -> 1
         is KotlinWeeklyIssueUiState.Content -> 2
     }

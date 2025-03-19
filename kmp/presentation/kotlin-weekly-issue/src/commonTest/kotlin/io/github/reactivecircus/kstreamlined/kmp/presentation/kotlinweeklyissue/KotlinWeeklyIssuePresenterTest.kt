@@ -89,7 +89,7 @@ class KotlinWeeklyIssuePresenterTest {
                     db.insertFeedItems(listOf(dummyFeedItem))
                 }
 
-                assertEquals(KotlinWeeklyIssueUiState.InFlight, awaitItem())
+                assertEquals(KotlinWeeklyIssueUiState.Loading, awaitItem())
 
                 feedService.nextKotlinWeeklyIssueResponse = { FakeKotlinWeeklyIssueEntries }
 
@@ -116,7 +116,7 @@ class KotlinWeeklyIssuePresenterTest {
                     db.insertFeedItems(listOf(dummyFeedItem))
                 }
 
-                assertEquals(KotlinWeeklyIssueUiState.InFlight, awaitItem())
+                assertEquals(KotlinWeeklyIssueUiState.Loading, awaitItem())
 
                 feedService.nextKotlinWeeklyIssueResponse = {
                     error("Failed to fetch Kotlin Weekly issue")
@@ -133,7 +133,7 @@ class KotlinWeeklyIssuePresenterTest {
     fun `presenter emits Error state when LoadIssue event is dispatched and item does not exist`() {
         testScope.runTest {
             presenter.states.test {
-                assertEquals(KotlinWeeklyIssueUiState.InFlight, awaitItem())
+                assertEquals(KotlinWeeklyIssueUiState.Loading, awaitItem())
 
                 presenter.eventSink(KotlinWeeklyIssueUiEvent.LoadIssue("id"))
 
@@ -150,7 +150,7 @@ class KotlinWeeklyIssuePresenterTest {
                     db.insertFeedItems(listOf(dummyFeedItem))
                 }
 
-                assertEquals(KotlinWeeklyIssueUiState.InFlight, awaitItem())
+                assertEquals(KotlinWeeklyIssueUiState.Loading, awaitItem())
 
                 presenter.eventSink(KotlinWeeklyIssueUiEvent.LoadIssue(dummyFeedItem.id))
 
