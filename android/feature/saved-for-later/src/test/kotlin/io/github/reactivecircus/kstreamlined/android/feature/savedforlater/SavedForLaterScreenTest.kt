@@ -95,11 +95,13 @@ class SavedForLaterScreenTest {
 
     @OptIn(ExperimentalSharedTransitionApi::class)
     @Composable
-    fun SavedForLaterScreenSnapshot(
-        uiState: SavedForLaterUiState,
-    ) {
+    fun SavedForLaterScreenSnapshot(uiState: SavedForLaterUiState) {
         SharedTransitionLayout {
-            AnimatedVisibility(visible = true, enter = EnterTransition.None, exit = ExitTransition.None) {
+            AnimatedVisibility(
+                visible = true,
+                enter = EnterTransition.None,
+                exit = ExitTransition.None,
+            ) {
                 SavedForLaterScreen(
                     animatedVisibilityScope = this,
                     listState = rememberLazyListState(),

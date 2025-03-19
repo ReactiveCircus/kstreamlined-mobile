@@ -104,11 +104,13 @@ class HomeScreenTest {
 
     @OptIn(ExperimentalSharedTransitionApi::class)
     @Composable
-    fun HomeScreenSnapshot(
-        uiState: HomeUiState,
-    ) {
+    fun HomeScreenSnapshot(uiState: HomeUiState) {
         SharedTransitionLayout {
-            AnimatedVisibility(visible = true, enter = EnterTransition.None, exit = ExitTransition.None) {
+            AnimatedVisibility(
+                visible = true,
+                enter = EnterTransition.None,
+                exit = ExitTransition.None,
+            ) {
                 HomeScreen(
                     animatedVisibilityScope = this,
                     listState = rememberLazyListState(),

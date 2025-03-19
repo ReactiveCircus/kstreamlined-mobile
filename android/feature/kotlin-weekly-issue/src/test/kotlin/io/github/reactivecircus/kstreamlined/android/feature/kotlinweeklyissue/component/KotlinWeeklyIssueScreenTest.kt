@@ -80,9 +80,7 @@ class KotlinWeeklyIssueScreenTest {
 
     @OptIn(ExperimentalSharedTransitionApi::class)
     @Composable
-    fun KotlinWeeklyIssueScreenSnapshot(
-        uiState: KotlinWeeklyIssueUiState,
-    ) {
+    fun KotlinWeeklyIssueScreenSnapshot(uiState: KotlinWeeklyIssueUiState) {
         SharedTransitionLayout {
             KotlinWeeklyIssueScreen(
                 topBarBoundsKey = "",
