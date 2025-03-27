@@ -29,7 +29,7 @@ internal fun Project.configureDetekt() {
             parallel = true
         }
         tasks.withType<Detekt>().configureEach {
-            jvmTarget = JvmTarget.JVM_22.target
+            jvmTarget = JvmTarget.JVM_11.target
             reports {
                 xml.required.set(false)
                 txt.required.set(false)

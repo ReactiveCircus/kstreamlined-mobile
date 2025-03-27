@@ -17,7 +17,7 @@ internal fun KotlinProjectExtension.configureKotlin(
 ) {
     target.tasks.withType<KotlinCompile>().configureEach {
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_17)
+            jvmTarget.set(JvmTarget.JVM_11)
             freeCompilerArgs.addAll(
                 "-Xjvm-default=all",
                 "-Xconsistent-data-class-copy-visibility",
@@ -25,8 +25,8 @@ internal fun KotlinProjectExtension.configureKotlin(
         }
     }
     target.tasks.withType<JavaCompile>().configureEach {
-        sourceCompatibility = JavaVersion.VERSION_17.toString()
-        targetCompatibility = JavaVersion.VERSION_17.toString()
+        sourceCompatibility = JavaVersion.VERSION_11.toString()
+        targetCompatibility = JavaVersion.VERSION_11.toString()
     }
     sourceSets.configureEach {
         languageSettings {

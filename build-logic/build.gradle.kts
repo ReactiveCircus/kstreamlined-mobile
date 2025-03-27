@@ -1,5 +1,7 @@
 import io.gitlab.arturbosch.detekt.Detekt
+import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     `kotlin-dsl`
@@ -16,6 +18,17 @@ kotlin {
     }
 }
 
+tasks.withType<KotlinCompile>().configureEach {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_21)
+    }
+}
+
+tasks.withType<JavaCompile>().configureEach {
+    sourceCompatibility = JavaVersion.VERSION_21.toString()
+    targetCompatibility = JavaVersion.VERSION_21.toString()
+}
+
 detekt {
     source.from(files("src/"))
     config.from(files("../detekt.yml"))
@@ -25,7 +38,7 @@ detekt {
 }
 
 tasks.withType<Detekt>().configureEach {
-    jvmTarget = JvmTarget.JVM_22.target
+    jvmTarget = JvmTarget.JVM_21.target
     reports {
         xml.required.set(false)
         txt.required.set(false)
