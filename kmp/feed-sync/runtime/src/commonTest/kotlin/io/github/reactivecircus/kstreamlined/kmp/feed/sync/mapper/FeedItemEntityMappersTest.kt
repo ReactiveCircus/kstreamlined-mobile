@@ -1,5 +1,6 @@
 package io.github.reactivecircus.kstreamlined.kmp.feed.sync.mapper
 
+import io.github.reactivecircus.kstreamlined.kmp.database.ContentFormat
 import io.github.reactivecircus.kstreamlined.kmp.database.FeedItemEntity
 import io.github.reactivecircus.kstreamlined.kmp.remote.model.FeedEntry
 import io.github.reactivecircus.kstreamlined.kmp.remote.model.FeedSource
@@ -30,6 +31,8 @@ class FeedItemEntityMappersTest {
             podcast_audio_url = null,
             podcast_duration = null,
             podcast_start_position = null,
+            podcast_description_format = null,
+            podcast_description_plain_text = null,
             saved_for_later = false,
         )
         assertEquals(expected, feedEntry.toDbModel(emptyList()))
@@ -57,13 +60,15 @@ class FeedItemEntityMappersTest {
             podcast_audio_url = null,
             podcast_duration = null,
             podcast_start_position = null,
+            podcast_description_format = null,
+            podcast_description_plain_text = null,
             saved_for_later = false,
         )
         assertEquals(expected, feedEntry.toDbModel(emptyList()))
     }
 
     @Test
-    fun `FeedEntry_TalkingKotlin maps to expected db model`() {
+    fun `FeedEntry_TalkingKotlin maps to expected db model when summary format is plain text`() {
         val feedEntry = FeedEntry.TalkingKotlin(
             id = "1",
             title = "Talking Kotlin Podcast",
@@ -86,6 +91,8 @@ class FeedItemEntityMappersTest {
             podcast_audio_url = "audio.mp3",
             podcast_duration = "35min.",
             podcast_start_position = 30_000,
+            podcast_description_format = ContentFormat.Text,
+            podcast_description_plain_text = null,
             saved_for_later = true,
         )
         val expected = FeedItemEntity(
@@ -100,9 +107,42 @@ class FeedItemEntityMappersTest {
             podcast_audio_url = "audio.mp3",
             podcast_duration = "35min.",
             podcast_start_position = 30_000,
+            podcast_description_format = ContentFormat.Text,
+            podcast_description_plain_text = null,
             saved_for_later = true,
         )
         assertEquals(expected, feedEntry.toDbModel(listOf(existingEntity)))
+    }
+
+    @Test
+    fun `FeedEntry_TalkingKotlin maps to expected db model when summary format is HTML`() {
+        val feedEntry = FeedEntry.TalkingKotlin(
+            id = "1",
+            title = "Talking Kotlin Podcast",
+            publishTime = Instant.parse("2022-01-03T00:00:00Z"),
+            contentUrl = "https://talkingkotlin.com/episode",
+            audioUrl = "audio.mp3",
+            thumbnailUrl = "https://talkingkotlin.com/podcast/logo",
+            summary = "<p>Talking kotlin <b>podcast</b> episode summary</p>",
+            duration = "35min.",
+        )
+        val expected = FeedItemEntity(
+            id = "1",
+            feed_origin_key = FeedSource.Key.TalkingKotlinPodcast.name,
+            title = "Talking Kotlin Podcast",
+            publish_time = Instant.parse("2022-01-03T00:00:00Z"),
+            content_url = "https://talkingkotlin.com/episode",
+            image_url = "https://talkingkotlin.com/podcast/logo",
+            description = "<p>Talking kotlin <b>podcast</b> episode summary</p>",
+            issue_number = null,
+            podcast_audio_url = "audio.mp3",
+            podcast_duration = "35min.",
+            podcast_start_position = null,
+            podcast_description_format = ContentFormat.Html,
+            podcast_description_plain_text = "Talking kotlin podcast episode summary",
+            saved_for_later = false,
+        )
+        assertEquals(expected, feedEntry.toDbModel(emptyList()))
     }
 
     @Test
@@ -126,6 +166,8 @@ class FeedItemEntityMappersTest {
             podcast_audio_url = null,
             podcast_duration = null,
             podcast_start_position = null,
+            podcast_description_format = null,
+            podcast_description_plain_text = null,
             saved_for_later = false,
         )
         assertEquals(expected, feedEntry.toDbModel(emptyList()))

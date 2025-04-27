@@ -40,6 +40,8 @@ class TalkingKotlinCardTest {
                         audioUrl = "",
                         thumbnailUrl = "",
                         summary = "In this episode, we talk to Rick Clephas.",
+                        summaryFormat = FeedItem.TalkingKotlin.ContentFormat.Text,
+                        summaryPlainText = null,
                         duration = "1h 3min.",
                         startPositionMillis = 0,
                     ).toDisplayable("Moments ago"),

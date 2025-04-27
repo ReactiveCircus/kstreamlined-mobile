@@ -1,5 +1,6 @@
 package io.github.reactivecircus.kstreamlined.kmp.feed.datasource.mapper
 
+import io.github.reactivecircus.kstreamlined.kmp.database.ContentFormat
 import io.github.reactivecircus.kstreamlined.kmp.database.FeedItemEntity
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedOrigin
@@ -34,6 +35,12 @@ internal fun FeedItemEntity.asExternalModel(): FeedItem {
             audioUrl = podcast_audio_url!!,
             thumbnailUrl = image_url!!,
             summary = description!!,
+            summaryFormat = when (podcast_description_format) {
+                ContentFormat.Text -> FeedItem.TalkingKotlin.ContentFormat.Text
+                ContentFormat.Html -> FeedItem.TalkingKotlin.ContentFormat.Html
+                null -> FeedItem.TalkingKotlin.ContentFormat.Text
+            },
+            summaryPlainText = podcast_description_plain_text,
             duration = podcast_duration!!,
             startPositionMillis = podcast_start_position ?: 0,
         )

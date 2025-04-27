@@ -10,7 +10,7 @@ import io.github.reactivecircus.kstreamlined.kmp.database.LastSyncMetadata
 public fun createInMemoryDatabase(): KStreamlinedDatabase {
     return KStreamlinedDatabase(
         createInMemoryDriver(),
-        FeedItemEntity.Adapter(InstantAdapter),
+        FeedItemEntity.Adapter(InstantAdapter, EnumColumnAdapter()),
         LastSyncMetadata.Adapter(
             resource_typeAdapter = EnumColumnAdapter(),
             last_sync_timeAdapter = InstantAdapter,

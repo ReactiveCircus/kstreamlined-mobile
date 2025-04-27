@@ -1,3 +1,4 @@
+import io.github.reactivecircus.kstreamlined.kmp.database.ContentFormat;
 import kotlin.Boolean;
 import kotlinx.datetime.Instant;
 
@@ -14,6 +15,8 @@ CREATE TABLE feedItemEntity (
     podcast_duration TEXT,
     podcast_start_position INTEGER,
     saved_for_later INTEGER AS Boolean NOT NULL,
+    podcast_description_format TEXT AS ContentFormat,
+    podcast_description_plain_text TEXT,
     FOREIGN KEY(feed_origin_key) REFERENCES feedOriginEntity(key) ON DELETE CASCADE
 );
 
@@ -34,7 +37,7 @@ SELECT * FROM feedItemEntity WHERE saved_for_later = 1 ORDER BY publish_time DES
 
 upsertFeedItem:
 INSERT OR REPLACE INTO feedItemEntity
-VALUES (:id, :feed_origin_key, :title, :publish_time, :content_url, :image_url, :description, :issue_number, :podcast_audio_url, :podcast_duration, :podcast_start_position, :saved_for_later);
+VALUES (:id, :feed_origin_key, :title, :publish_time, :content_url, :image_url, :description, :issue_number, :podcast_audio_url, :podcast_duration, :podcast_start_position, :saved_for_later, :podcast_description_format, :podcast_description_plain_text);
 
 updatePodcastStartPositionById:
 UPDATE feedItemEntity SET podcast_start_position = :podcast_start_position WHERE id = :id;

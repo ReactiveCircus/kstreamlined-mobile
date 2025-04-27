@@ -37,8 +37,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.fromHtml
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
@@ -253,7 +255,11 @@ private fun SharedTransitionScope.ContentUi(
                     fontWeight = FontWeight.Bold,
                 )
                 val annotatedString = remember(episode.summary) {
-                    episode.summary.linkify(linkStyle)
+                    if (episode.summaryIsHtml) {
+                        AnnotatedString.fromHtml(episode.summary)
+                    } else {
+                        episode.summary.linkify(linkStyle)
+                    }
                 }
                 Text(
                     text = annotatedString,
