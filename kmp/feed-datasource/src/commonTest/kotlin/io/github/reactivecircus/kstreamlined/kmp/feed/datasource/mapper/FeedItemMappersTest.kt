@@ -1,5 +1,6 @@
 package io.github.reactivecircus.kstreamlined.kmp.feed.datasource.mapper
 
+import io.github.reactivecircus.kstreamlined.kmp.database.ContentFormat
 import io.github.reactivecircus.kstreamlined.kmp.database.FeedItemEntity
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedOrigin
@@ -24,6 +25,8 @@ class FeedItemMappersTest {
             podcast_audio_url = null,
             podcast_duration = null,
             podcast_start_position = null,
+            podcast_description_format = null,
+            podcast_description_plain_text = null,
             saved_for_later = false,
         )
         val expected = FeedItem.KotlinBlog(
@@ -51,6 +54,8 @@ class FeedItemMappersTest {
             podcast_audio_url = null,
             podcast_duration = null,
             podcast_start_position = null,
+            podcast_description_format = null,
+            podcast_description_plain_text = null,
             saved_for_later = false,
         )
         val expected = FeedItem.KotlinYouTube(
@@ -79,6 +84,8 @@ class FeedItemMappersTest {
             podcast_audio_url = "audio.mp3",
             podcast_duration = "35min.",
             podcast_start_position = 30_000,
+            podcast_description_format = null,
+            podcast_description_plain_text = null,
             saved_for_later = false,
         )
         val expected = FeedItem.TalkingKotlin(
@@ -90,6 +97,8 @@ class FeedItemMappersTest {
             audioUrl = "audio.mp3",
             thumbnailUrl = "image-url",
             summary = "Desc",
+            summaryFormat = FeedItem.TalkingKotlin.ContentFormat.Text,
+            summaryPlainText = null,
             duration = "35min.",
             startPositionMillis = 30_000,
         )
@@ -110,6 +119,8 @@ class FeedItemMappersTest {
             podcast_audio_url = "audio.mp3",
             podcast_duration = "35min.",
             podcast_start_position = null,
+            podcast_description_format = null,
+            podcast_description_plain_text = null,
             saved_for_later = false,
         )
         val expected = FeedItem.TalkingKotlin(
@@ -121,8 +132,80 @@ class FeedItemMappersTest {
             audioUrl = "audio.mp3",
             thumbnailUrl = "image-url",
             summary = "Desc",
+            summaryFormat = FeedItem.TalkingKotlin.ContentFormat.Text,
+            summaryPlainText = null,
             duration = "35min.",
             startPositionMillis = 0,
+        )
+        assertEquals(expected, entity.asExternalModel())
+    }
+
+    @Test
+    fun `FeedItemEntity maps to FeedItem_TalkingKotlin when content format is plain text`() {
+        val entity = FeedItemEntity(
+            id = "1",
+            feed_origin_key = FeedOrigin.Key.TalkingKotlinPodcast.name,
+            title = "Talking Kotlin Episode",
+            publish_time = Instant.parse("2022-01-03T00:00:00Z"),
+            content_url = "content-url",
+            image_url = "image-url",
+            description = "Desc",
+            issue_number = null,
+            podcast_audio_url = "audio.mp3",
+            podcast_duration = "35min.",
+            podcast_start_position = 30_000,
+            podcast_description_format = ContentFormat.Text,
+            podcast_description_plain_text = null,
+            saved_for_later = false,
+        )
+        val expected = FeedItem.TalkingKotlin(
+            id = "1",
+            title = "Talking Kotlin Episode",
+            publishTime = Instant.parse("2022-01-03T00:00:00Z"),
+            contentUrl = "content-url",
+            savedForLater = false,
+            audioUrl = "audio.mp3",
+            thumbnailUrl = "image-url",
+            summary = "Desc",
+            summaryFormat = FeedItem.TalkingKotlin.ContentFormat.Text,
+            summaryPlainText = null,
+            duration = "35min.",
+            startPositionMillis = 30_000,
+        )
+        assertEquals(expected, entity.asExternalModel())
+    }
+
+    @Test
+    fun `FeedItemEntity maps to FeedItem_TalkingKotlin when content format is HTML`() {
+        val entity = FeedItemEntity(
+            id = "1",
+            feed_origin_key = FeedOrigin.Key.TalkingKotlinPodcast.name,
+            title = "Talking Kotlin Episode",
+            publish_time = Instant.parse("2022-01-03T00:00:00Z"),
+            content_url = "content-url",
+            image_url = "image-url",
+            description = "<p>Desc</p>",
+            issue_number = null,
+            podcast_audio_url = "audio.mp3",
+            podcast_duration = "35min.",
+            podcast_start_position = 30_000,
+            podcast_description_format = ContentFormat.Html,
+            podcast_description_plain_text = "Desc",
+            saved_for_later = false,
+        )
+        val expected = FeedItem.TalkingKotlin(
+            id = "1",
+            title = "Talking Kotlin Episode",
+            publishTime = Instant.parse("2022-01-03T00:00:00Z"),
+            contentUrl = "content-url",
+            savedForLater = false,
+            audioUrl = "audio.mp3",
+            thumbnailUrl = "image-url",
+            summary = "<p>Desc</p>",
+            summaryFormat = FeedItem.TalkingKotlin.ContentFormat.Html,
+            summaryPlainText = "Desc",
+            duration = "35min.",
+            startPositionMillis = 30_000,
         )
         assertEquals(expected, entity.asExternalModel())
     }
@@ -141,6 +224,8 @@ class FeedItemMappersTest {
             podcast_audio_url = null,
             podcast_duration = null,
             podcast_start_position = null,
+            podcast_description_format = null,
+            podcast_description_plain_text = null,
             saved_for_later = false,
         )
         val expected = FeedItem.KotlinWeekly(
@@ -168,6 +253,8 @@ class FeedItemMappersTest {
             podcast_audio_url = "audio.mp3",
             podcast_duration = "35min.",
             podcast_start_position = 30_000,
+            podcast_description_format = null,
+            podcast_description_plain_text = null,
             saved_for_later = false,
         )
         val error = assertFailsWith<IllegalStateException> {

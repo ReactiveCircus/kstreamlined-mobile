@@ -2,6 +2,7 @@ package io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepis
 
 import app.cash.molecule.RecompositionMode
 import app.cash.turbine.test
+import io.github.reactivecircus.kstreamlined.kmp.database.ContentFormat
 import io.github.reactivecircus.kstreamlined.kmp.database.FeedItemEntity
 import io.github.reactivecircus.kstreamlined.kmp.database.testing.createInMemoryDatabase
 import io.github.reactivecircus.kstreamlined.kmp.database.testing.insertFeedItems
@@ -41,6 +42,8 @@ class TalkingKotlinEpisodePresenterTest {
         podcast_audio_url = "audio.mp3",
         podcast_duration = "35min.",
         podcast_start_position = null,
+        podcast_description_format = ContentFormat.Text,
+        podcast_description_plain_text = null,
         saved_for_later = false,
     )
 
@@ -54,6 +57,12 @@ class TalkingKotlinEpisodePresenterTest {
             audioUrl = it.podcast_audio_url!!,
             thumbnailUrl = it.image_url.orEmpty(),
             summary = it.description.orEmpty(),
+            summaryFormat = when (it.podcast_description_format) {
+                ContentFormat.Text -> FeedItem.TalkingKotlin.ContentFormat.Text
+                ContentFormat.Html -> FeedItem.TalkingKotlin.ContentFormat.Html
+                null -> FeedItem.TalkingKotlin.ContentFormat.Text
+            },
+            summaryPlainText = it.podcast_description_plain_text,
             duration = it.podcast_duration.orEmpty(),
             startPositionMillis = it.podcast_start_position ?: 0,
         )

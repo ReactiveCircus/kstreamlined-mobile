@@ -151,6 +151,8 @@ public class FeedSyncEngineImpl(
                         podcast_audio_url = entity.podcast_audio_url,
                         podcast_duration = entity.podcast_duration,
                         podcast_start_position = entity.podcast_start_position,
+                        podcast_description_format = entity.podcast_description_format,
+                        podcast_description_plain_text = entity.podcast_description_plain_text,
                         saved_for_later = entity.saved_for_later,
                     )
                 }

@@ -37,9 +37,16 @@ public sealed interface FeedItem {
         val audioUrl: String,
         val thumbnailUrl: String,
         val summary: String,
+        val summaryFormat: ContentFormat,
+        val summaryPlainText: String?,
         val duration: String,
         val startPositionMillis: Long,
-    ) : FeedItem
+    ) : FeedItem {
+        public enum class ContentFormat {
+            Text,
+            Html,
+        }
+    }
 
     public data class KotlinWeekly(
         override val id: String,

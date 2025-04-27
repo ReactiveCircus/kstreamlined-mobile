@@ -12,6 +12,7 @@ kotlin {
                 implementation(project(":kmp:database"))
                 implementation(project(":kmp:network-monitor:common"))
                 implementation(libs.kermit)
+                implementation(libs.ksoup)
             }
         }
         commonTest {

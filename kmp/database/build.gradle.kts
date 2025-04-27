@@ -8,6 +8,7 @@ sqldelight {
     databases {
         create("KStreamlinedDatabase") {
             packageName.set("io.github.reactivecircus.kstreamlined.kmp.database")
+            schemaOutputDirectory.set(file("src/commonMain/sqldelight/databases"))
         }
     }
 }

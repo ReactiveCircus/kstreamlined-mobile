@@ -31,6 +31,7 @@ object PersistenceModule {
             ),
             feedItemEntityAdapter = FeedItemEntity.Adapter(
                 publish_timeAdapter = InstantAdapter,
+                podcast_description_formatAdapter = EnumColumnAdapter(),
             ),
             lastSyncMetadataAdapter = LastSyncMetadata.Adapter(
                 resource_typeAdapter = EnumColumnAdapter(),

@@ -96,8 +96,8 @@ jobs:
         with:
           cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
 
-      - name: Run unit tests
-        run: ./gradlew test jvmTest
+      - name: Run unit tests and verify DB migrations
+        run: ./gradlew test jvmTest verifySqlDelightMigration
 
   screenshot-tests:
     name: Screenshot tests

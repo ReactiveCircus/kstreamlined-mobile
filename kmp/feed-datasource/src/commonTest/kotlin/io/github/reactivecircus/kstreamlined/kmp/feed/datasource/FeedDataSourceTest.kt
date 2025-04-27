@@ -1,6 +1,7 @@
 package io.github.reactivecircus.kstreamlined.kmp.feed.datasource
 
 import app.cash.turbine.test
+import io.github.reactivecircus.kstreamlined.kmp.database.ContentFormat
 import io.github.reactivecircus.kstreamlined.kmp.database.FeedOriginEntity
 import io.github.reactivecircus.kstreamlined.kmp.database.testing.createInMemoryDatabase
 import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.mapper.asExternalModel
@@ -123,6 +124,8 @@ class FeedDataSourceTest {
                         podcast_audio_url = null,
                         podcast_duration = null,
                         podcast_start_position = null,
+                        podcast_description_format = null,
+                        podcast_description_plain_text = null,
                         saved_for_later = false,
                     )
                     db.feedItemEntityQueries.upsertFeedItem(
@@ -137,6 +140,8 @@ class FeedDataSourceTest {
                         podcast_audio_url = null,
                         podcast_duration = null,
                         podcast_start_position = null,
+                        podcast_description_format = null,
+                        podcast_description_plain_text = null,
                         saved_for_later = false,
                     )
                 }
@@ -217,6 +222,8 @@ class FeedDataSourceTest {
                         podcast_audio_url = null,
                         podcast_duration = null,
                         podcast_start_position = null,
+                        podcast_description_format = null,
+                        podcast_description_plain_text = null,
                         saved_for_later = false,
                     )
                     db.feedItemEntityQueries.upsertFeedItem(
@@ -231,6 +238,8 @@ class FeedDataSourceTest {
                         podcast_audio_url = null,
                         podcast_duration = null,
                         podcast_start_position = null,
+                        podcast_description_format = null,
+                        podcast_description_plain_text = null,
                         saved_for_later = false,
                     )
                 }
@@ -275,6 +284,8 @@ class FeedDataSourceTest {
                 podcast_audio_url = null,
                 podcast_duration = null,
                 podcast_start_position = null,
+                podcast_description_format = null,
+                podcast_description_plain_text = null,
                 saved_for_later = false,
             )
 
@@ -302,6 +313,8 @@ class FeedDataSourceTest {
                 podcast_audio_url = null,
                 podcast_duration = null,
                 podcast_start_position = null,
+                podcast_description_format = null,
+                podcast_description_plain_text = null,
                 saved_for_later = true,
             )
 
@@ -465,6 +478,8 @@ class FeedDataSourceTest {
             podcast_audio_url = null,
             podcast_duration = null,
             podcast_start_position = null,
+            podcast_description_format = null,
+            podcast_description_plain_text = null,
             saved_for_later = false,
         )
 
@@ -490,6 +505,8 @@ class FeedDataSourceTest {
             podcast_audio_url = null,
             podcast_duration = null,
             podcast_start_position = null,
+            podcast_description_format = null,
+            podcast_description_plain_text = null,
             saved_for_later = true,
         )
 
@@ -516,6 +533,8 @@ class FeedDataSourceTest {
                 podcast_audio_url = "audio.mp3",
                 podcast_duration = "35min.",
                 podcast_start_position = null,
+                podcast_description_format = ContentFormat.Text,
+                podcast_description_plain_text = null,
                 saved_for_later = false,
             )
 

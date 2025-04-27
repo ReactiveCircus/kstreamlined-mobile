@@ -41,6 +41,8 @@ class KotlinWeeklyIssuePresenterTest {
         podcast_audio_url = null,
         podcast_duration = null,
         podcast_start_position = null,
+        podcast_description_format = null,
+        podcast_description_plain_text = null,
         saved_for_later = false,
     )
 
