@@ -1,3 +1,5 @@
+import com.apollographql.apollo.annotations.ApolloExperimental
+
 plugins {
     id("kstreamlined.kmp.common")
     id("kstreamlined.kmp.test")
@@ -5,6 +7,7 @@ plugins {
 }
 
 apollo {
+    @OptIn(ApolloExperimental::class)
     service("kstreamlined") {
         packageName.set("io.github.reactivecircus.kstreamlined.graphql")
         codegenModels.set("experimental_operationBasedWithInterfaces")
