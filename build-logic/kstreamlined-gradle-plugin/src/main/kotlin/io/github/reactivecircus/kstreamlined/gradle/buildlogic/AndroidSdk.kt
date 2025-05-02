@@ -1,6 +1,6 @@
-package io.github.reactivecircus.kstreamlined.buildlogic
+package io.github.reactivecircus.kstreamlined.gradle.buildlogic
 
-object AndroidSdk {
+internal object AndroidSdk {
     const val minSdk = 26
     const val targetSdk = 35
     const val compileSdk = 35

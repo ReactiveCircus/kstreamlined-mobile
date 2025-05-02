@@ -43,3 +43,6 @@ dependencyResolutionManagement {
 plugins {
     id("org.gradle.toolchains.foojay-resolver-convention")
 }
+
+rootProject.name = "build-logic"
+include(":kstreamlined-gradle-plugin")

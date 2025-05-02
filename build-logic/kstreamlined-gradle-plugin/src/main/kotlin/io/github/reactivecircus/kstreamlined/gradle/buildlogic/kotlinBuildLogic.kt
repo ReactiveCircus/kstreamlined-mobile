@@ -1,4 +1,4 @@
-package io.github.reactivecircus.kstreamlined.buildlogic
+package io.github.reactivecircus.kstreamlined.gradle.buildlogic
 
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project

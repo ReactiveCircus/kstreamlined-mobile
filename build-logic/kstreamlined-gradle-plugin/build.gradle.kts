@@ -31,7 +31,7 @@ tasks.withType<JavaCompile>().configureEach {
 
 detekt {
     source.from(files("src/"))
-    config.from(files("../detekt.yml"))
+    config.from(files("$rootDir/../detekt.yml"))
     buildUponDefaultConfig = true
     allRules = true
     parallel = true
@@ -81,51 +81,51 @@ gradlePlugin {
     plugins {
         register("root") {
             id = "kstreamlined.root"
-            implementationClass = "io.github.reactivecircus.kstreamlined.buildlogic.convention.RootPlugin"
+            implementationClass = "io.github.reactivecircus.kstreamlined.gradle.RootPlugin"
         }
         register("androidApplication") {
             id = "kstreamlined.android.application"
-            implementationClass = "io.github.reactivecircus.kstreamlined.buildlogic.convention.AndroidApplicationConventionPlugin"
+            implementationClass = "io.github.reactivecircus.kstreamlined.gradle.AndroidApplicationConventionPlugin"
         }
         register("androidLibrary") {
             id = "kstreamlined.android.library"
-            implementationClass = "io.github.reactivecircus.kstreamlined.buildlogic.convention.AndroidLibraryConventionPlugin"
+            implementationClass = "io.github.reactivecircus.kstreamlined.gradle.AndroidLibraryConventionPlugin"
         }
         register("androidTest") {
             id = "kstreamlined.android.test"
-            implementationClass = "io.github.reactivecircus.kstreamlined.buildlogic.convention.AndroidTestConventionPlugin"
+            implementationClass = "io.github.reactivecircus.kstreamlined.gradle.AndroidTestConventionPlugin"
         }
         register("androidScreenshotTest") {
             id = "kstreamlined.android.screenshot-test"
-            implementationClass = "io.github.reactivecircus.kstreamlined.buildlogic.convention.AndroidScreenshotTestConventionPlugin"
+            implementationClass = "io.github.reactivecircus.kstreamlined.gradle.AndroidScreenshotTestConventionPlugin"
         }
         register("kmpCommon") {
             id = "kstreamlined.kmp.common"
-            implementationClass = "io.github.reactivecircus.kstreamlined.buildlogic.convention.KMPCommonConventionPlugin"
+            implementationClass = "io.github.reactivecircus.kstreamlined.gradle.KMPCommonConventionPlugin"
         }
         register("kmpAndroidAndIos") {
             id = "kstreamlined.kmp.android-and-ios"
-            implementationClass = "io.github.reactivecircus.kstreamlined.buildlogic.convention.KMPAndroidAndIosConventionPlugin"
+            implementationClass = "io.github.reactivecircus.kstreamlined.gradle.KMPAndroidAndIosConventionPlugin"
         }
         register("kmpIosOnly") {
             id = "kstreamlined.kmp.ios-only"
-            implementationClass = "io.github.reactivecircus.kstreamlined.buildlogic.convention.KMPIosOnlyConventionPlugin"
+            implementationClass = "io.github.reactivecircus.kstreamlined.gradle.KMPIosOnlyConventionPlugin"
         }
         register("kmpTest") {
             id = "kstreamlined.kmp.test"
-            implementationClass = "io.github.reactivecircus.kstreamlined.buildlogic.convention.KMPTestConventionPlugin"
+            implementationClass = "io.github.reactivecircus.kstreamlined.gradle.KMPTestConventionPlugin"
         }
         register("kotlinJvm") {
             id = "kstreamlined.kotlin.jvm"
-            implementationClass = "io.github.reactivecircus.kstreamlined.buildlogic.convention.KotlinJvmConventionPlugin"
+            implementationClass = "io.github.reactivecircus.kstreamlined.gradle.KotlinJvmConventionPlugin"
         }
         register("compose") {
             id = "kstreamlined.compose"
-            implementationClass = "io.github.reactivecircus.kstreamlined.buildlogic.convention.ComposeConventionPlugin"
+            implementationClass = "io.github.reactivecircus.kstreamlined.gradle.ComposeConventionPlugin"
         }
         register("ksp") {
             id = "kstreamlined.ksp"
-            implementationClass = "io.github.reactivecircus.kstreamlined.buildlogic.convention.KspConventionPlugin"
+            implementationClass = "io.github.reactivecircus.kstreamlined.gradle.KspConventionPlugin"
         }
     }
 }

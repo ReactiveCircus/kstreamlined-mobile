@@ -2,8 +2,8 @@ import com.google.firebase.appdistribution.gradle.tasks.UploadDistributionTask
 import com.google.firebase.crashlytics.buildtools.gradle.CrashlyticsExtension
 import com.google.firebase.perf.plugin.FirebasePerfExtension
 import com.google.gms.googleservices.GoogleServicesPlugin
-import io.github.reactivecircus.kstreamlined.buildlogic.FlavorDimensions
-import io.github.reactivecircus.kstreamlined.buildlogic.ProductFlavors
+import io.github.reactivecircus.kstreamlined.gradle.buildlogic.FlavorDimensions
+import io.github.reactivecircus.kstreamlined.gradle.buildlogic.ProductFlavors
 import java.time.Instant
 
 plugins {
