@@ -1,13 +1,13 @@
-package io.github.reactivecircus.kstreamlined.buildlogic.convention
+package io.github.reactivecircus.kstreamlined.gradle
 
 import com.android.build.api.variant.LibraryAndroidComponentsExtension
 import com.android.build.gradle.LibraryExtension
-import io.github.reactivecircus.kstreamlined.buildlogic.configureAndroidLibraryVariants
-import io.github.reactivecircus.kstreamlined.buildlogic.configureCommonAndroidExtension
-import io.github.reactivecircus.kstreamlined.buildlogic.configureDetekt
-import io.github.reactivecircus.kstreamlined.buildlogic.configureKMPCommon
-import io.github.reactivecircus.kstreamlined.buildlogic.configureKotlin
-import io.github.reactivecircus.kstreamlined.buildlogic.configureTest
+import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureAndroidLibraryVariants
+import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureCommonAndroidExtension
+import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureDetekt
+import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureKMPCommon
+import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureKotlin
+import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureTest
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure

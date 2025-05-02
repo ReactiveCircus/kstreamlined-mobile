@@ -1,4 +1,4 @@
-package io.github.reactivecircus.kstreamlined.buildlogic
+package io.github.reactivecircus.kstreamlined.gradle.buildlogic
 
 import io.gitlab.arturbosch.detekt.Detekt
 import io.gitlab.arturbosch.detekt.DetektPlugin

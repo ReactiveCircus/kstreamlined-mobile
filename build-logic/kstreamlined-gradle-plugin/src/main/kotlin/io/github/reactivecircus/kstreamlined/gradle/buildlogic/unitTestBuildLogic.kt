@@ -1,6 +1,6 @@
 @file:Suppress("MaxLineLength")
 
-package io.github.reactivecircus.kstreamlined.buildlogic
+package io.github.reactivecircus.kstreamlined.gradle.buildlogic
 
 import org.gradle.api.Project
 import org.gradle.api.tasks.testing.Test

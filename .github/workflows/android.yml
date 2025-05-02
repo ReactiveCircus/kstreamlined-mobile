@@ -151,13 +151,33 @@ jobs:
           cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
 
       - name: Run detekt, ktlint and Android Lint
-        run: |
-          ./gradlew detekt lint
-          ./gradlew -p build-logic detekt
+        run: ./gradlew detekt lint
+
+  build-logic-checks:
+    name: build-logic checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '24'
+
+      - uses: kaeawc/setup-tcmalloc@v0.0.1
+
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
+
+      - name: Run build-logic checks
+        run: ./gradlew -p build-logic check
 
   deploy-dev-build:
     name: Upload dev build
-    needs: [ assemble, unit-tests, screenshot-tests, static-analysis ]
+    needs: [ assemble, unit-tests, screenshot-tests, static-analysis, build-logic-checks ]
     if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/android')
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -204,7 +224,7 @@ jobs:
 
   deploy-release-build:
     name: Publish release build to Play Store (internal test track)
-    needs: [ assemble, unit-tests, screenshot-tests, static-analysis ]
+    needs: [ assemble, unit-tests, screenshot-tests, static-analysis, build-logic-checks ]
     if: startsWith(github.ref, 'refs/tags/android')
     runs-on: ubuntu-latest
     timeout-minutes: 15

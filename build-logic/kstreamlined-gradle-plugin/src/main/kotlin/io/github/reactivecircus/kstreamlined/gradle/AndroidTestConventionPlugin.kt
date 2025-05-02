@@ -1,9 +1,9 @@
-package io.github.reactivecircus.kstreamlined.buildlogic.convention
+package io.github.reactivecircus.kstreamlined.gradle
 
 import com.android.build.gradle.TestExtension
-import io.github.reactivecircus.kstreamlined.buildlogic.configureAndroidTestExtension
-import io.github.reactivecircus.kstreamlined.buildlogic.configureDetekt
-import io.github.reactivecircus.kstreamlined.buildlogic.configureKotlin
+import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureAndroidTestExtension
+import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureDetekt
+import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureKotlin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure

@@ -1,4 +1,4 @@
-package io.github.reactivecircus.kstreamlined.buildlogic
+package io.github.reactivecircus.kstreamlined.gradle.buildlogic
 
 object FlavorDimensions {
     const val Environment = "environment"

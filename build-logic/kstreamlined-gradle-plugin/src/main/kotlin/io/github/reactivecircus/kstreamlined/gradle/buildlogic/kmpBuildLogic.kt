@@ -1,4 +1,4 @@
-package io.github.reactivecircus.kstreamlined.buildlogic
+package io.github.reactivecircus.kstreamlined.gradle.buildlogic
 
 import isAppleSilicon
 import org.gradle.api.Project

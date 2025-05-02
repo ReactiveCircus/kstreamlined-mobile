@@ -1,4 +1,4 @@
-package io.github.reactivecircus.kstreamlined.buildlogic.convention
+package io.github.reactivecircus.kstreamlined.gradle
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project

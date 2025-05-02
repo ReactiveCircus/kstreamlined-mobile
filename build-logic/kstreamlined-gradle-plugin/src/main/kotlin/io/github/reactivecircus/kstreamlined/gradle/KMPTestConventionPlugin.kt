@@ -1,6 +1,6 @@
-package io.github.reactivecircus.kstreamlined.buildlogic.convention
+package io.github.reactivecircus.kstreamlined.gradle
 
-import io.github.reactivecircus.kstreamlined.buildlogic.configureKMPTest
+import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureKMPTest
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
