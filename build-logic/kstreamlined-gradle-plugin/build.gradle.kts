@@ -8,14 +8,61 @@ plugins {
     alias(libs.plugins.detekt)
 }
 
-kotlin {
-    sourceSets {
-        all {
-            languageSettings {
-                optIn("kotlin.RequiresOptIn")
-            }
+gradlePlugin {
+    plugins {
+        register("root") {
+            id = "kstreamlined.root"
+            implementationClass = "io.github.reactivecircus.kstreamlined.gradle.RootPlugin"
+        }
+        register("androidApplication") {
+            id = "kstreamlined.android.application"
+            implementationClass = "io.github.reactivecircus.kstreamlined.gradle.AndroidApplicationConventionPlugin"
+        }
+        register("androidLibrary") {
+            id = "kstreamlined.android.library"
+            implementationClass = "io.github.reactivecircus.kstreamlined.gradle.AndroidLibraryConventionPlugin"
+        }
+        register("androidTest") {
+            id = "kstreamlined.android.test"
+            implementationClass = "io.github.reactivecircus.kstreamlined.gradle.AndroidTestConventionPlugin"
+        }
+        register("androidScreenshotTest") {
+            id = "kstreamlined.android.screenshot-test"
+            implementationClass = "io.github.reactivecircus.kstreamlined.gradle.AndroidScreenshotTestConventionPlugin"
+        }
+        register("kmpCommon") {
+            id = "kstreamlined.kmp.common"
+            implementationClass = "io.github.reactivecircus.kstreamlined.gradle.KMPCommonConventionPlugin"
+        }
+        register("kmpAndroidAndIos") {
+            id = "kstreamlined.kmp.android-and-ios"
+            implementationClass = "io.github.reactivecircus.kstreamlined.gradle.KMPAndroidAndIosConventionPlugin"
+        }
+        register("kmpIosOnly") {
+            id = "kstreamlined.kmp.ios-only"
+            implementationClass = "io.github.reactivecircus.kstreamlined.gradle.KMPIosOnlyConventionPlugin"
+        }
+        register("kmpTest") {
+            id = "kstreamlined.kmp.test"
+            implementationClass = "io.github.reactivecircus.kstreamlined.gradle.KMPTestConventionPlugin"
+        }
+        register("kotlinJvm") {
+            id = "kstreamlined.kotlin.jvm"
+            implementationClass = "io.github.reactivecircus.kstreamlined.gradle.KotlinJvmConventionPlugin"
+        }
+        register("compose") {
+            id = "kstreamlined.compose"
+            implementationClass = "io.github.reactivecircus.kstreamlined.gradle.ComposeConventionPlugin"
+        }
+        register("ksp") {
+            id = "kstreamlined.ksp"
+            implementationClass = "io.github.reactivecircus.kstreamlined.gradle.KspConventionPlugin"
         }
     }
+}
+
+kotlin {
+    explicitApi()
 }
 
 tasks.withType<KotlinCompile>().configureEach {
@@ -75,57 +122,4 @@ dependencies {
     implementation(libs.plugin.skie)
     implementation(libs.plugin.sqldelight)
     implementation(libs.plugin.baselineprofile)
-}
-
-gradlePlugin {
-    plugins {
-        register("root") {
-            id = "kstreamlined.root"
-            implementationClass = "io.github.reactivecircus.kstreamlined.gradle.RootPlugin"
-        }
-        register("androidApplication") {
-            id = "kstreamlined.android.application"
-            implementationClass = "io.github.reactivecircus.kstreamlined.gradle.AndroidApplicationConventionPlugin"
-        }
-        register("androidLibrary") {
-            id = "kstreamlined.android.library"
-            implementationClass = "io.github.reactivecircus.kstreamlined.gradle.AndroidLibraryConventionPlugin"
-        }
-        register("androidTest") {
-            id = "kstreamlined.android.test"
-            implementationClass = "io.github.reactivecircus.kstreamlined.gradle.AndroidTestConventionPlugin"
-        }
-        register("androidScreenshotTest") {
-            id = "kstreamlined.android.screenshot-test"
-            implementationClass = "io.github.reactivecircus.kstreamlined.gradle.AndroidScreenshotTestConventionPlugin"
-        }
-        register("kmpCommon") {
-            id = "kstreamlined.kmp.common"
-            implementationClass = "io.github.reactivecircus.kstreamlined.gradle.KMPCommonConventionPlugin"
-        }
-        register("kmpAndroidAndIos") {
-            id = "kstreamlined.kmp.android-and-ios"
-            implementationClass = "io.github.reactivecircus.kstreamlined.gradle.KMPAndroidAndIosConventionPlugin"
-        }
-        register("kmpIosOnly") {
-            id = "kstreamlined.kmp.ios-only"
-            implementationClass = "io.github.reactivecircus.kstreamlined.gradle.KMPIosOnlyConventionPlugin"
-        }
-        register("kmpTest") {
-            id = "kstreamlined.kmp.test"
-            implementationClass = "io.github.reactivecircus.kstreamlined.gradle.KMPTestConventionPlugin"
-        }
-        register("kotlinJvm") {
-            id = "kstreamlined.kotlin.jvm"
-            implementationClass = "io.github.reactivecircus.kstreamlined.gradle.KotlinJvmConventionPlugin"
-        }
-        register("compose") {
-            id = "kstreamlined.compose"
-            implementationClass = "io.github.reactivecircus.kstreamlined.gradle.ComposeConventionPlugin"
-        }
-        register("ksp") {
-            id = "kstreamlined.ksp"
-            implementationClass = "io.github.reactivecircus.kstreamlined.gradle.KspConventionPlugin"
-        }
-    }
 }

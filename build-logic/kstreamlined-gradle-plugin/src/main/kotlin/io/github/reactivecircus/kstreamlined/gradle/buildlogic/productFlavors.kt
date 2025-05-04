@@ -1,12 +1,12 @@
 package io.github.reactivecircus.kstreamlined.gradle.buildlogic
 
-object FlavorDimensions {
-    const val Environment = "environment"
+public object FlavorDimensions {
+    public const val Environment: String = "environment"
 }
 
-object ProductFlavors {
-    const val Mock = "mock"
-    const val Dev = "dev"
-    const val Demo = "demo"
-    const val Prod = "prod"
+public object ProductFlavors {
+    public const val Mock: String = "mock"
+    public const val Dev: String = "dev"
+    public const val Demo: String = "demo"
+    public const val Prod: String = "prod"
 }
