@@ -9,9 +9,7 @@ plugins {
 
 android {
     namespace = "io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode"
-    buildFeatures {
-        androidResources = true
-    }
+    androidResources.enable = true
 }
 
 androidComponents {

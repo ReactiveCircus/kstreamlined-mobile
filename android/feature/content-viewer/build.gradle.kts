@@ -6,9 +6,7 @@ plugins {
 
 android {
     namespace = "io.github.reactivecircus.kstreamlined.android.feature.contentviewer"
-    buildFeatures {
-        androidResources = true
-    }
+    androidResources.enable = true
 }
 
 dependencies {

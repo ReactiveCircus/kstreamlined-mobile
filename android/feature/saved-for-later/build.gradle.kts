@@ -7,9 +7,7 @@ plugins {
 
 android {
     namespace = "io.github.reactivecircus.kstreamlined.android.feature.savedforlater"
-    buildFeatures {
-        androidResources = true
-    }
+    androidResources.enable = true
 }
 
 dependencies {

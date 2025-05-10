@@ -49,7 +49,7 @@ internal class AndroidScreenshotTestConventionPlugin : Plugin<Project> {
                     }
                 }
                 extensions.configure<LibraryExtension> {
-                    buildFeatures.androidResources = true
+                    androidResources.enable = true
                 }
             }
             pluginManager.withPlugin("com.android.application") {
