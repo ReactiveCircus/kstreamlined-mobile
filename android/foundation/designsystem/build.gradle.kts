@@ -1,12 +1,18 @@
 plugins {
     id("kstreamlined.android.library")
     id("kstreamlined.android.screenshot-test")
+    id("io.github.reactivecircus.cocoon")
     id("kstreamlined.compose")
 }
 
 android {
     namespace = "io.github.reactivecircus.kstreamlined.android.foundation.designsystem"
     androidResources.enable = true
+}
+
+cocoon {
+    annotation.set("io.github.reactivecircus.kstreamlined.android.foundation.designsystem.preview.PreviewKStreamlined")
+    wrappingFunction.set("io.github.reactivecircus.kstreamlined.android.foundation.designsystem.preview.KSThemeWithSurface")
 }
 
 dependencies {

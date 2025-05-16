@@ -1,7 +1,6 @@
 import com.android.build.api.dsl.SettingsExtension
 
 pluginManagement {
-    includeBuild("build-logic")
     repositories {
         google {
             content {
@@ -32,6 +31,8 @@ pluginManagement {
         id("com.android.settings") version extractVersionFromCatalog("androidGradlePlugin")
     }
 }
+
+includeBuild("build-logic")
 
 dependencyResolutionManagement {
     @Suppress("UnstableApiUsage")
