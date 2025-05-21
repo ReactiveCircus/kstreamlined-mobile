@@ -17,6 +17,8 @@ pluginManagement {
             }
         }
         mavenCentral()
+        // TODO remove once upgraded to next paparazzi version
+        maven("https://oss.sonatype.org/content/repositories/snapshots/")
     }
 
     fun extractVersionFromCatalog(key: String) = file("$rootDir/gradle/libs.versions.toml")
@@ -44,6 +46,8 @@ dependencyResolutionManagement {
             }
         }
         mavenCentral()
+        // TODO remove once upgraded to next paparazzi version
+        maven("https://oss.sonatype.org/content/repositories/snapshots/")
     }
 }
 
