@@ -26,7 +26,7 @@ internal class KMPAndroidAndIosConventionPlugin : Plugin<Project> {
         }
 
         extensions.configure<LibraryExtension> {
-            configureCommonAndroidExtension()
+            configureCommonAndroidExtension(target)
         }
 
         extensions.configure<LibraryAndroidComponentsExtension> {

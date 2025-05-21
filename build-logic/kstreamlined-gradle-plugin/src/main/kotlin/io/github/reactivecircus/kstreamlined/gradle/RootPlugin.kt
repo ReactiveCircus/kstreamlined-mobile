@@ -11,7 +11,8 @@ internal class RootPlugin : Plugin<Project> {
 
         // register task for cleaning the build directory in the root project
         target.tasks.register<Delete>("clean") {
-            delete(project.rootProject.layout.buildDirectory)
+            @Suppress("UnstableApiUsage")
+            delete(target.isolated.rootProject.projectDirectory.file("build"))
         }
     }
 }
