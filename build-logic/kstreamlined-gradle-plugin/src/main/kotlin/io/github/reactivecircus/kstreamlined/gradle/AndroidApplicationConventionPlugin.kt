@@ -1,7 +1,7 @@
 package io.github.reactivecircus.kstreamlined.gradle
 
+import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.variant.ApplicationAndroidComponentsExtension
-import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureAndroidApplicationExtension
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureAndroidApplicationVariants
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureCommonAndroidExtension
@@ -24,9 +24,9 @@ internal class AndroidApplicationConventionPlugin : Plugin<Project> {
             configureKotlin(target, enableExplicitApi = false)
         }
 
-        extensions.configure<BaseAppModuleExtension> {
-            configureCommonAndroidExtension()
-            configureAndroidApplicationExtension(target)
+        extensions.configure<ApplicationExtension> {
+            configureCommonAndroidExtension(target)
+            configureAndroidApplicationExtension()
         }
 
         extensions.configure<ApplicationAndroidComponentsExtension> {

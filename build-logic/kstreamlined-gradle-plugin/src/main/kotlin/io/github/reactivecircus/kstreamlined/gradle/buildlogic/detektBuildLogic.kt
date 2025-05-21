@@ -20,7 +20,7 @@ internal fun Project.configureDetekt() {
     // enable Ktlint formatting
     dependencies.add("detektPlugins", the<LibrariesForLibs>().plugin.detektFormatting)
 
-    plugins.withType<DetektPlugin> {
+    plugins.withType<DetektPlugin>().configureEach {
         extensions.configure<DetektExtension> {
             source.from(files("src/"))
             config.from(files("${project.rootDir}/detekt.yml"))

@@ -1,11 +1,11 @@
 package io.github.reactivecircus.kstreamlined.gradle.buildlogic
 
+import com.android.build.api.dsl.ApplicationExtension
+import com.android.build.api.dsl.CommonExtension
 import com.android.build.api.variant.ApplicationAndroidComponentsExtension
 import com.android.build.api.variant.HasUnitTestBuilder
 import com.android.build.api.variant.LibraryAndroidComponentsExtension
 import com.android.build.gradle.TestExtension
-import com.android.build.gradle.TestedExtension
-import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import java.io.File
@@ -13,13 +13,12 @@ import java.io.File
 /**
  * Apply baseline configurations on an Application or Library project.
  */
-internal fun TestedExtension.configureCommonAndroidExtension() {
-    setCompileSdkVersion(AndroidSdk.compileSdk)
+internal fun CommonExtension<*, *, *, *, *, *>.configureCommonAndroidExtension(project: Project) {
+    compileSdk = AndroidSdk.compileSdk
     buildToolsVersion = AndroidSdk.buildTools
 
     defaultConfig {
         minSdk = AndroidSdk.minSdk
-        targetSdk = AndroidSdk.targetSdk
     }
 
     testOptions.animationsDisabled = true
@@ -29,7 +28,15 @@ internal fun TestedExtension.configureCommonAndroidExtension() {
         targetCompatibility = JavaVersion.VERSION_11
     }
 
-    packagingOptions {
+    lint {
+        quiet = false
+        ignoreWarnings = false
+        htmlOutput = File("${project.layout.buildDirectory.get()}/reports/lint/lint-reports.html")
+        xmlOutput = File("${project.layout.buildDirectory.get()}/reports/lint/lint-reports.xml")
+        ignoreTestSources = true
+    }
+
+    packaging {
         resources {
             pickFirsts.addAll(
                 listOf(
@@ -44,20 +51,14 @@ internal fun TestedExtension.configureCommonAndroidExtension() {
 /**
  * Apply baseline configurations on an Application project.
  */
-internal fun BaseAppModuleExtension.configureAndroidApplicationExtension(project: Project) {
+internal fun ApplicationExtension.configureAndroidApplicationExtension() {
+    defaultConfig {
+        targetSdk = AndroidSdk.targetSdk
+    }
+
     androidResources {
         @Suppress("UnstableApiUsage")
         localeFilters += "en"
-    }
-
-    lint {
-        quiet = false
-        ignoreWarnings = false
-        htmlReport = true
-        xmlReport = true
-        htmlOutput = File("${project.layout.buildDirectory.get()}/reports/lint/lint-reports.html")
-        xmlOutput = File("${project.layout.buildDirectory.get()}/reports/lint/lint-reports.xml")
-        ignoreTestSources = true
     }
 }
 

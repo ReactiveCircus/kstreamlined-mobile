@@ -5,6 +5,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     `kotlin-dsl`
+    alias(libs.plugins.lint)
     alias(libs.plugins.detekt)
 }
 
@@ -99,7 +100,10 @@ dependencies {
     implementation(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
 
     // enable Ktlint formatting
-    add("detektPlugins", libs.plugin.detektFormatting)
+    detektPlugins(libs.plugin.detektFormatting)
+
+    // enable lint checks for Gradle plugins
+    lintChecks(libs.androidx.lintGradle)
 
     implementation(libs.plugin.kotlin)
     implementation(libs.plugin.compose)
