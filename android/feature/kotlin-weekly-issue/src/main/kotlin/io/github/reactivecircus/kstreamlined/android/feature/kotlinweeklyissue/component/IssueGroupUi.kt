@@ -3,6 +3,7 @@ package io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue.
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -57,8 +58,8 @@ private fun IssueGroupBadge(
     modifier: Modifier,
 ) {
     Surface(
-        modifier = modifier
-            .wrapContentWidth(Alignment.Start),
+        modifier = modifier.wrapContentWidth(Alignment.Start),
+        shape = RoundedCornerShape(4.dp),
         color = when (group) {
             KotlinWeeklyIssueItem.Group.Announcements -> AnnouncementsColor
             KotlinWeeklyIssueItem.Group.Articles -> ArticlesColor

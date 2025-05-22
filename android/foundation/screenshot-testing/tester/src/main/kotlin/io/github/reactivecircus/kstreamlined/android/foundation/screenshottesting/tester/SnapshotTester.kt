@@ -14,7 +14,7 @@ import org.junit.runner.Description
 import org.junit.runners.model.Statement
 
 public class SnapshotTester(
-    maxPercentDifference: Double = 0.1,
+    maxPercentDifference: Double = 0.0,
 ) : TestRule, PaparazziBridge(
     deviceConfig = PIXEL_6,
     theme = "android:Theme.Material.Light.NoActionBar",
