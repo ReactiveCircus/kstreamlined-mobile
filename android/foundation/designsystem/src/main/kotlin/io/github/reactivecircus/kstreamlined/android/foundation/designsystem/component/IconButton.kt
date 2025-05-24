@@ -171,6 +171,7 @@ private fun PreviewLargeIconButton() {
                 KSIcons.Close,
                 contentDescription = null,
                 onClick = {},
+                iconTint = KSTheme.colorScheme.primary,
                 modifier = Modifier.padding(8.dp),
             )
         }
@@ -186,6 +187,7 @@ private fun PreviewFilledIconButton() {
                 KSIcons.Settings,
                 contentDescription = null,
                 onClick = {},
+                iconTint = KSTheme.colorScheme.primary,
                 modifier = Modifier.padding(8.dp),
             )
         }
