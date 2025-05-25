@@ -34,7 +34,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -81,8 +81,11 @@ public fun SharedTransitionScope.KotlinWeeklyIssueScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val eventSink = viewModel.eventSink
 
-    LaunchedEffect(id) {
+    DisposableEffect(id) {
         eventSink(KotlinWeeklyIssueUiEvent.LoadIssue(id))
+        onDispose {
+            eventSink(KotlinWeeklyIssueUiEvent.Reset)
+        }
     }
 
     val context = LocalContext.current

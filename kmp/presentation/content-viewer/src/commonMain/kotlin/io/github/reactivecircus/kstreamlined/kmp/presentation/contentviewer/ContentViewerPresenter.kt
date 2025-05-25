@@ -52,6 +52,12 @@ public class ContentViewerPresenter(
                         feedDataSource.removeSavedFeedItem(item.id)
                     }
                 }
+
+                // TODO remove once ViewModel is scoped properly
+                is ContentViewerUiEvent.Reset -> {
+                    itemId = null
+                    uiState = ContentViewerUiState.Initializing
+                }
             }
         }
         return uiState
