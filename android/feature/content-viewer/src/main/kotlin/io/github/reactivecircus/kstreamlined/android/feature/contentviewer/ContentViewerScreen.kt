@@ -12,6 +12,8 @@ import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -22,7 +24,6 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.only
@@ -33,6 +34,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -51,7 +53,7 @@ import coil3.compose.AsyncImage
 import io.github.reactivecircus.kstreamlined.android.feature.common.openShareSheet
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.FilledIconButton
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.LargeIconButton
-import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.LinearProgressIndicator
+import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.LoadingIndicator
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.Text
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.TopNavBar
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.KSTheme
@@ -60,6 +62,7 @@ import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.fou
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.icon.KSIcons
 import io.github.reactivecircus.kstreamlined.kmp.presentation.contentviewer.ContentViewerUiEvent
 import io.github.reactivecircus.kstreamlined.kmp.presentation.contentviewer.ContentViewerUiState
+import kotlinx.coroutines.delay
 import io.github.reactivecircus.kstreamlined.android.feature.common.R as commonR
 
 @Composable
@@ -78,7 +81,9 @@ public fun SharedTransitionScope.ContentViewerScreen(
 
     DisposableEffect(id) {
         eventSink(ContentViewerUiEvent.LoadContent(id))
-        onDispose { }
+        onDispose {
+            eventSink(ContentViewerUiEvent.Reset)
+        }
     }
 
     Column(
@@ -172,7 +177,9 @@ private fun ContentUi(
         )
         WebView(
             state = state,
-            modifier = Modifier.alpha(animatedAlpha),
+            modifier = Modifier
+                .fillMaxSize()
+                .alpha(animatedAlpha),
             onCreated = {
                 @SuppressLint("SetJavaScriptEnabled")
                 it.settings.javaScriptEnabled = true
@@ -181,32 +188,29 @@ private fun ContentUi(
             client = remember { SchemeAwareWebViewClient() },
         )
 
-        var showProgressIndicator by remember { mutableStateOf(false) }
-        DisposableEffect(state.loadingState) {
-            if (state.loadingState != LoadingState.Finished) {
-                showProgressIndicator = state.isLoading
+        var showLoadingIndicator by remember { mutableStateOf(false) }
+        LaunchedEffect(state.loadingState) {
+            if (state.isLoading) {
+                showLoadingIndicator = true
+            } else {
+                delay(LoadingIndicatorDismissDelayMillis)
+                showLoadingIndicator = false
             }
-            onDispose { }
         }
         AnimatedVisibility(
-            visible = showProgressIndicator,
-            modifier = Modifier.fillMaxWidth(),
+            visible = showLoadingIndicator,
+            enter = fadeIn() + slideInVertically(),
+            exit = fadeOut() + slideOutVertically(),
+            modifier = Modifier.align(Alignment.TopCenter),
         ) {
-            LinearProgressIndicator(
-                progress = {
-                    when (val loadingState = state.loadingState) {
-                        is LoadingState.Initializing -> 0f
-                        is LoadingState.Loading -> loadingState.progress
-                        is LoadingState.Finished -> 1f
-                    }
-                },
-                onProgressAnimationEnd = {
-                    showProgressIndicator = false
-                },
+            LoadingIndicator(
+                modifier = Modifier.padding(16.dp),
             )
         }
     }
 }
+
+private const val LoadingIndicatorDismissDelayMillis = 200L
 
 @Composable
 private fun ItemNotFoundUi(
