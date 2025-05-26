@@ -1,7 +1,7 @@
 import com.apollographql.apollo.annotations.ApolloExperimental
 
 plugins {
-    id("kstreamlined.kmp.common")
+    id("kstreamlined.kmp.jvm-and-ios")
     id("kstreamlined.kmp.test")
     id("com.apollographql.apollo")
 }

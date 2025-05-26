@@ -7,9 +7,7 @@ import org.gradle.kotlin.dsl.configure
 
 internal class KspConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) = with(target) {
-        with(pluginManager) {
-            apply("com.google.devtools.ksp")
-        }
+        pluginManager.apply("com.google.devtools.ksp")
 
         extensions.configure<KspExtension> {
             if (hasHiltCompilerDependency) {
