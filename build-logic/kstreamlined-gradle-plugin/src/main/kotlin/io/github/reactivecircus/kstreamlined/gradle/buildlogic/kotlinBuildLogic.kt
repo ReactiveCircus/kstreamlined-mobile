@@ -31,7 +31,10 @@ internal fun KotlinProjectExtension.configureKotlin(
     }
     sourceSets.configureEach {
         languageSettings {
-            applyLanguageSettings()
+            progressiveMode = true
+            optIn("kotlin.experimental.ExperimentalObjCName")
+            enableLanguageFeature("ContextParameters")
+            enableLanguageFeature("ExplicitBackingFields")
         }
     }
     if (enableExplicitApi) {

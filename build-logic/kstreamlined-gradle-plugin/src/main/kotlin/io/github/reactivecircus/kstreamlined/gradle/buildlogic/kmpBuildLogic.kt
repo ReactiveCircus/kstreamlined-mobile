@@ -1,5 +1,6 @@
 package io.github.reactivecircus.kstreamlined.gradle.buildlogic
 
+import com.android.build.api.dsl.androidLibrary
 import isAppleSilicon
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.withType
@@ -7,32 +8,53 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import org.jetbrains.kotlin.gradle.plugin.mpp.NativeOutputKind
 
-/**
- * Apply common configs to KMP project.
- */
-internal fun KotlinMultiplatformExtension.configureKMPCommon(
+internal fun KotlinMultiplatformExtension.configureKmpTargets(
     project: Project,
-    enableJvmTarget: Boolean = true,
-    enableAndroidTarget: Boolean = false,
+    moduleType: KmpModuleType,
 ) {
-    if (enableJvmTarget) {
+    if (moduleType.jvmTargetEnabled()) {
         jvm()
     }
-    if (enableAndroidTarget) {
-        androidTarget()
+
+    if (moduleType.androidTargetEnabled()) {
+        @Suppress("UnstableApiUsage")
+        androidLibrary {
+            configureKmpAndroidLibraryExtension(project)
+        }
     }
-    iosArm64()
-    if (project.isAppleSilicon) {
-        iosSimulatorArm64()
-    } else {
-        iosX64()
+
+    if (moduleType.iosTargetEnabled()) {
+        iosArm64()
+        if (project.isAppleSilicon) {
+            iosSimulatorArm64()
+        } else {
+            iosX64()
+        }
+    }
+}
+
+internal enum class KmpModuleType {
+    JvmAndIos,
+    AndroidAndIos,
+    IosOnly;
+
+    fun jvmTargetEnabled(): Boolean {
+        return this == JvmAndIos
+    }
+
+    fun androidTargetEnabled(): Boolean {
+        return this == AndroidAndIos
+    }
+
+    fun iosTargetEnabled(): Boolean {
+        return this == JvmAndIos || this == AndroidAndIos || this == IosOnly
     }
 }
 
 /**
  * Apply test configs to KMP project.
  */
-internal fun KotlinMultiplatformExtension.configureKMPTest() {
+internal fun KotlinMultiplatformExtension.configureKmpTest() {
     with(sourceSets) {
         commonTest {
             dependencies {

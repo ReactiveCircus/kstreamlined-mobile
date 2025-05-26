@@ -1,6 +1,6 @@
 package io.github.reactivecircus.kstreamlined.gradle
 
-import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureKMPTest
+import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureKmpTest
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
@@ -8,14 +8,16 @@ import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.powerassert.gradle.PowerAssertGradleExtension
 
-internal class KMPTestConventionPlugin : Plugin<Project> {
+internal class KmpTestConventionPlugin : Plugin<Project> {
 
     override fun apply(target: Project) = with(target) {
-        pluginManager.apply("org.jetbrains.kotlin.multiplatform")
-        pluginManager.apply("org.jetbrains.kotlin.plugin.power-assert")
+        with(pluginManager) {
+            apply("org.jetbrains.kotlin.multiplatform")
+            apply("org.jetbrains.kotlin.plugin.power-assert")
+        }
 
         extensions.configure<KotlinMultiplatformExtension> {
-            configureKMPTest()
+            configureKmpTest()
         }
 
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
