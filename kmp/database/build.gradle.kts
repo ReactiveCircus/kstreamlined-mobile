@@ -1,9 +1,17 @@
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 
 plugins {
-    id("kstreamlined.kmp.jvm-and-ios")
-    id("kstreamlined.kmp.test")
+    id("kstreamlined")
     id("app.cash.sqldelight")
+}
+
+kstreamlined {
+    kmpLibrary {
+        targets {
+            jvm()
+            ios()
+        }
+    }
 }
 
 sqldelight {

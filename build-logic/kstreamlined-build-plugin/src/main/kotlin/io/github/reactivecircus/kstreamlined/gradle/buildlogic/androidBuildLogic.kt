@@ -37,10 +37,22 @@ internal fun CommonExtension.configureCommonAndroidExtension(project: Project) {
 /**
  * Apply baseline configurations on an KMP Android Library project.
  */
-internal fun KotlinMultiplatformAndroidLibraryExtension.configureKmpAndroidLibraryExtension(project: Project) {
+internal fun KotlinMultiplatformAndroidLibraryExtension.configureKmpAndroidLibraryExtension(
+    project: Project,
+    namespace: String? = null,
+    hostTestsEnabled: Boolean = false,
+) {
     compileSdk = AndroidSdk.CompileSdk
     minSdk = AndroidSdk.MinSdk
     buildToolsVersion = AndroidSdk.BuildTools
+
+    if (namespace != null) {
+        this.namespace = namespace
+    }
+
+    if (hostTestsEnabled) {
+        withHostTest {}
+    }
 
     withDeviceTest {
         animationsDisabled = true

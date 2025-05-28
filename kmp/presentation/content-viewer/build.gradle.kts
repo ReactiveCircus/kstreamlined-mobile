@@ -1,9 +1,18 @@
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 
 plugins {
-    id("kstreamlined.kmp.jvm-and-ios")
-    id("kstreamlined.kmp.test")
+    id("kstreamlined")
     id("kstreamlined.compose")
+}
+
+kstreamlined {
+    kmpLibrary {
+        targets {
+            jvm()
+            ios()
+        }
+        unitTests()
+    }
 }
 
 kotlin {

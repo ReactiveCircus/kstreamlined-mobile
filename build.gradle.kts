@@ -1,3 +1,3 @@
 plugins {
-    id("kstreamlined.root")
+    id("kstreamlined")
 }

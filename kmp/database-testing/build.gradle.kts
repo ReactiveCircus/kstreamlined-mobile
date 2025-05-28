@@ -1,5 +1,14 @@
 plugins {
-    id("kstreamlined.kmp.jvm-and-ios")
+    id("kstreamlined")
+}
+
+kstreamlined {
+    kmpLibrary {
+        targets {
+            jvm()
+            ios()
+        }
+    }
 }
 
 kotlin {
