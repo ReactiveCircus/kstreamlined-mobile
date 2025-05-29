@@ -29,14 +29,14 @@ internal fun IssueItemUi(
                 horizontal = 24.dp,
                 vertical = 16.dp,
             ),
-            verticalArrangement = Arrangement.spacedBy(4.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             Text(
                 text = item.title,
                 style = KSTheme.typography.titleMedium.copy(
                     fontWeight = FontWeight.ExtraBold
                 ),
-                color = KSTheme.colorScheme.primary,
+                color = KSTheme.colorScheme.onBackgroundVariant,
             )
             Text(
                 text = item.summary,
@@ -48,7 +48,7 @@ internal fun IssueItemUi(
                     fontWeight = FontWeight.ExtraBold,
                     letterSpacing = 0.sp,
                 ),
-                color = KSTheme.colorScheme.onBackgroundVariant,
+                color = KSTheme.colorScheme.primary,
             )
         }
     }
