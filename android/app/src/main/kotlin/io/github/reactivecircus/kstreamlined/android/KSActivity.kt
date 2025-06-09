@@ -159,10 +159,9 @@ class KSActivity : ComponentActivity() {
                     }
                 }
 
+                // TODO remove once implemented proper navigation
                 BackHandler(enabled = navDestination != NavDestination.Main) {
-                    if (navDestination != NavDestination.Main) {
-                        navDestination = NavDestination.Main
-                    }
+                    navDestination = NavDestination.Main
                 }
             }
         }

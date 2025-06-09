@@ -2,6 +2,7 @@
 
 package io.github.reactivecircus.kstreamlined.android
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionScope
@@ -21,6 +22,7 @@ import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
@@ -35,6 +37,7 @@ import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.fou
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.icon.KSIcons
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.icon.Kotlin
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
+import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
 
 @Composable
@@ -89,6 +92,8 @@ fun SharedTransitionScope.MainScreen(
             )
         }
 
+        val coroutineScope = rememberCoroutineScope()
+
         with(animatedVisibilityScope) {
             NavigationIsland(
                 modifier = Modifier
@@ -110,7 +115,13 @@ fun SharedTransitionScope.MainScreen(
                     icon = KSIcons.Kotlin,
                     contentDescription = "Home",
                     onClick = {
-                        onSelectedNavItemChanged(NavItemKey.Home)
+                        if (pagerState.currentPage != NavItemKey.Home.ordinal) {
+                            onSelectedNavItemChanged(NavItemKey.Home)
+                        } else {
+                            coroutineScope.launch {
+                                homeListState.animateScrollToItem(0)
+                            }
+                        }
                     },
                 )
                 NavigationIslandDivider()
@@ -119,10 +130,20 @@ fun SharedTransitionScope.MainScreen(
                     icon = KSIcons.Bookmarks,
                     contentDescription = "Saved",
                     onClick = {
-                        onSelectedNavItemChanged(NavItemKey.Saved)
+                        if (pagerState.currentPage != NavItemKey.Saved.ordinal) {
+                            onSelectedNavItemChanged(NavItemKey.Saved)
+                        } else {
+                            coroutineScope.launch {
+                                savedListState.animateScrollToItem(0)
+                            }
+                        }
                     },
                 )
             }
+        }
+
+        BackHandler(enabled = pagerState.currentPage != NavItemKey.Home.ordinal) {
+            onSelectedNavItemChanged(NavItemKey.Home)
         }
     }
 }
