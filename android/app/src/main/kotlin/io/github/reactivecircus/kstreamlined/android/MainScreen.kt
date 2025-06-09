@@ -2,6 +2,7 @@
 
 package io.github.reactivecircus.kstreamlined.android
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionScope
@@ -122,6 +123,12 @@ fun SharedTransitionScope.MainScreen(
                         onSelectedNavItemChanged(NavItemKey.Saved)
                     },
                 )
+            }
+        }
+
+        BackHandler(enabled = pagerState.currentPage != NavItemKey.Home.ordinal) {
+            if (pagerState.currentPage != NavItemKey.Home.ordinal) {
+                onSelectedNavItemChanged(NavItemKey.Home)
             }
         }
     }
