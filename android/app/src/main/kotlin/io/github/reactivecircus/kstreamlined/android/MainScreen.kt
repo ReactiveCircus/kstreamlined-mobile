@@ -143,9 +143,7 @@ fun SharedTransitionScope.MainScreen(
         }
 
         BackHandler(enabled = pagerState.currentPage != NavItemKey.Home.ordinal) {
-            if (pagerState.currentPage != NavItemKey.Home.ordinal) {
-                onSelectedNavItemChanged(NavItemKey.Home)
-            }
+            onSelectedNavItemChanged(NavItemKey.Home)
         }
     }
 }
