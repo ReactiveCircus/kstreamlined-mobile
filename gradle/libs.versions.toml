@@ -58,7 +58,7 @@ okhttp = "5.0.0-alpha.14"
 coil = "3.2.0"
 sqldelight = "2.1.0"
 ksoup = "0.2.4"
-turbine = "1.2.0"
+turbine = "1.2.1"
 kermit = "2.0.5"
 crashKios = "0.8.5"
 
