@@ -21,6 +21,7 @@ hilt = "2.56.2"
 kotlinx-coroutines = "1.10.2"
 kotlinx-datetime = "0.7.0"
 kotlinx-serialization = "1.9.0"
+koog = "0.2.1"
 firebase-analytics = "22.5.0"
 firebase-appDistributionPlugin = "5.1.1"
 firebase-remoteConfig = "22.1.2"
@@ -93,6 +94,7 @@ kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-c
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+koog-agents = { module = "ai.koog:koog-agents", version.ref = "koog" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx", version.ref = "firebase-analytics" }
 firebase-remoteConfig = { module = "com.google.firebase:firebase-config-ktx", version.ref = "firebase-remoteConfig" }
 firebase-perf = { module = "com.google.firebase:firebase-perf-ktx", version.ref = "firebase-perf" }

@@ -57,6 +57,7 @@ plugins {
 rootProject.name = "kstreamlined-mobile"
 
 includeKmpProjects(
+    ":kmp:agent:prototype",
     ":kmp:feed-datasource",
     ":kmp:feed-sync:common",
     ":kmp:feed-sync:runtime",
