@@ -104,7 +104,17 @@ if (!isXCFrameworkBuild) {
 
 fun includeProject(name: String, filePath: String) {
     include(name)
-    project(name).projectDir = File(filePath)
+    val project = project(name)
+    project.projectDir = file(filePath)
+    var current = project
+    while (current.parent != null && current.parent != rootProject) {
+        val parent = current.parent!!
+        val defaultDir = File(parent.parent!!.projectDir, parent.name)
+        if (parent.projectDir == defaultDir) {
+            parent.projectDir = current.projectDir.parentFile
+        }
+        current = parent
+    }
 }
 
 develocity {
