@@ -1,7 +1,6 @@
 import com.android.build.api.dsl.SettingsExtension
 
 pluginManagement {
-    includeBuild("build-logic")
     repositories {
         google {
             content {
@@ -35,6 +34,8 @@ pluginManagement {
     }
 }
 
+includeBuild("build-logic")
+
 dependencyResolutionManagement {
     @Suppress("UnstableApiUsage")
     repositories {
@@ -59,50 +60,60 @@ plugins {
 
 rootProject.name = "kstreamlined-mobile"
 
-// KMP
-include(":kmp:feed-datasource")
-include(":kmp:feed-sync:common")
-include(":kmp:feed-sync:runtime")
-include(":kmp:feed-sync:testing")
-include(":kmp:remote:common")
-include(":kmp:remote:cloud")
-include(":kmp:remote:edge")
-include(":kmp:remote:mock")
-include(":kmp:remote:testing")
-include(":kmp:database")
-include(":kmp:database-testing")
-include(":kmp:network-monitor:common")
-include(":kmp:network-monitor:runtime")
-include(":kmp:network-monitor:testing")
-include(":kmp:model")
-include(":kmp:presentation:common")
-include(":kmp:presentation:content-viewer")
-include(":kmp:presentation:home")
-include(":kmp:presentation:kotlin-weekly-issue")
-include(":kmp:presentation:saved-for-later")
-include(":kmp:presentation:talking-kotlin-episode")
-include(":kmp:pretty-time")
+includeKmpProjects(
+    ":kmp:feed-datasource",
+    ":kmp:feed-sync:common",
+    ":kmp:feed-sync:runtime",
+    ":kmp:feed-sync:testing",
+    ":kmp:remote:common",
+    ":kmp:remote:cloud",
+    ":kmp:remote:edge",
+    ":kmp:remote:mock",
+    ":kmp:remote:testing",
+    ":kmp:database",
+    ":kmp:database-testing",
+    ":kmp:network-monitor:common",
+    ":kmp:network-monitor:runtime",
+    ":kmp:network-monitor:testing",
+    ":kmp:model",
+    ":kmp:presentation:common",
+    ":kmp:presentation:content-viewer",
+    ":kmp:presentation:home",
+    ":kmp:presentation:kotlin-weekly-issue",
+    ":kmp:presentation:saved-for-later",
+    ":kmp:presentation:talking-kotlin-episode",
+    ":kmp:pretty-time",
+)
 
-val isXCFrameworkBuild = startParameter.taskNames.any { it.endsWith("XCFramework") }
-if (!isXCFrameworkBuild) {
-    // Android
-    includeProject(":app", "android/app")
-    includeProject(":benchmark", "android/benchmark")
-    includeProject(":feature:common", "android/feature/common")
-    includeProject(":feature:content-viewer", "android/feature/content-viewer")
-    includeProject(":feature:home", "android/feature/home")
-    includeProject(":feature:kotlin-weekly-issue", "android/feature/kotlin-weekly-issue")
-    includeProject(":feature:saved-for-later", "android/feature/saved-for-later")
-    includeProject(":feature:talking-kotlin-episode", "android/feature/talking-kotlin-episode")
-    includeProject(":foundation:common-ui:feed", "android/foundation/common-ui/feed")
-    includeProject(":foundation:designsystem", "android/foundation/designsystem")
-    includeProject(":foundation:compose-utils", "android/foundation/compose-utils")
-    includeProject(":foundation:screenshot-testing:tester", "android/foundation/screenshot-testing/tester")
-    includeProject(":foundation:screenshot-testing:paparazzi", "android/foundation/screenshot-testing/paparazzi")
-    includeProject(":foundation:scheduled-work", "android/foundation/scheduled-work")
+includeAndroidProjects(
+    ":app",
+    ":benchmark",
+    ":feature:common",
+    ":feature:content-viewer",
+    ":feature:home",
+    ":feature:kotlin-weekly-issue",
+    ":feature:saved-for-later",
+    ":feature:talking-kotlin-episode",
+    ":foundation:common-ui:feed",
+    ":foundation:designsystem",
+    ":foundation:compose-utils",
+    ":foundation:screenshot-testing:tester",
+    ":foundation:screenshot-testing:paparazzi",
+    ":foundation:scheduled-work",
+)
+
+private fun includeKmpProjects(vararg projectPaths: String) {
+    include(*projectPaths)
 }
 
-fun includeProject(name: String, filePath: String) {
+private fun includeAndroidProjects(vararg projectPaths: String) {
+    if (startParameter.taskNames.any { it.endsWith("XCFramework") }) return
+    for (path in projectPaths) {
+        includeProject(path, "android/${path.replace(":", "/")}")
+    }
+}
+
+private fun includeProject(name: String, filePath: String) {
     include(name)
     val project = project(name)
     project.projectDir = file(filePath)
