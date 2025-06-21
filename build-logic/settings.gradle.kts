@@ -38,8 +38,6 @@ dependencyResolutionManagement {
             }
         }
         mavenCentral()
-        // TODO remove once upgraded to next paparazzi version
-        maven("https://oss.sonatype.org/content/repositories/snapshots/")
     }
 
     versionCatalogs {
