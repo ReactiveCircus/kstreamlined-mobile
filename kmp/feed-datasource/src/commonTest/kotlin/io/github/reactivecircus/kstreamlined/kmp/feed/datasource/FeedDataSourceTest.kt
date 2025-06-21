@@ -404,7 +404,7 @@ class FeedDataSourceTest {
     }
 
     @Test
-    fun `unselectFeedSource selects all other feed origin in DB when the only selected one is being unselected`() =
+    fun `unselectFeedSource selects all feed origins in DB when the only selected one is being unselected`() =
         runTest(testDispatcher) {
             db.feedOriginEntityQueries.upsertFeedOrigin(
                 key = FeedOrigin.Key.KotlinBlog.name,

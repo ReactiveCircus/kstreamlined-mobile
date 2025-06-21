@@ -71,7 +71,7 @@ public class FeedDataSource(
     public suspend fun unselectFeedSource(feedOriginKey: FeedOrigin.Key): Unit =
         withContext(dbDispatcher) {
             db.transaction {
-                // select all other origins if the one being unselected is the last one selected
+                // select all origins if the one being unselected is the only one selected
                 val currentFeedOrigins = db.feedOriginEntityQueries.allFeedOrigins().executeAsList()
                 val selectedOrigins = currentFeedOrigins.filter { it.selected }
                 val isLastSelected = selectedOrigins.size == 1 &&
