@@ -2,9 +2,9 @@ package io.github.reactivecircus.kstreamlined.android.feature.contentviewer
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.net.Uri
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
+import androidx.core.net.toUri
 import co.touchlab.kermit.Logger
 
 internal class SchemeAwareWebViewClient : AccompanistWebViewClient() {
@@ -21,7 +21,7 @@ internal class SchemeAwareWebViewClient : AccompanistWebViewClient() {
                 url = url.replaceFirst("intent://", "vnd.youtube:")
             }
             try {
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                val intent = Intent(Intent.ACTION_VIEW, url.toUri())
                 view?.context?.startActivity(intent)
             } catch (e: ActivityNotFoundException) {
                 Logger.e(e) { "No Activity was found to handle the Intent." }
