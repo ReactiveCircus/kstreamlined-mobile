@@ -6,9 +6,9 @@ import io.github.reactivecircus.kstreamlined.graphql.type.buildKotlinWeekly
 import io.github.reactivecircus.kstreamlined.graphql.type.buildKotlinYouTube
 import io.github.reactivecircus.kstreamlined.graphql.type.buildTalkingKotlin
 import io.github.reactivecircus.kstreamlined.kmp.remote.model.FeedEntry
-import kotlinx.datetime.Instant
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.time.Instant
 
 class FeedEntryMappersTest {
 

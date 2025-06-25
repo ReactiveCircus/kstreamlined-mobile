@@ -5,7 +5,7 @@ package io.github.reactivecircus.kstreamlined.kmp.remote
 import io.github.reactivecircus.kstreamlined.kmp.remote.model.FeedEntry
 import io.github.reactivecircus.kstreamlined.kmp.remote.model.FeedSource
 import io.github.reactivecircus.kstreamlined.kmp.remote.model.KotlinWeeklyIssueEntry
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 
 public val FakeFeedSources: List<FeedSource> = listOf(
     FeedSource(

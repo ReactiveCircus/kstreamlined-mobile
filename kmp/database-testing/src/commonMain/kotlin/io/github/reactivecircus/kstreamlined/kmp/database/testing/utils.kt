@@ -4,7 +4,7 @@ import io.github.reactivecircus.kstreamlined.kmp.database.FeedItemEntity
 import io.github.reactivecircus.kstreamlined.kmp.database.FeedOriginEntity
 import io.github.reactivecircus.kstreamlined.kmp.database.KStreamlinedDatabase
 import io.github.reactivecircus.kstreamlined.kmp.database.SyncResourceType
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 
 public fun KStreamlinedDatabase.insertFeedOrigins(feedOrigins: List<FeedOriginEntity>) {
     transaction {

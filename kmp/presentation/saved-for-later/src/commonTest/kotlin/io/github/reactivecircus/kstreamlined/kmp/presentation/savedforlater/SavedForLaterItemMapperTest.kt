@@ -2,10 +2,10 @@ package io.github.reactivecircus.kstreamlined.kmp.presentation.savedforlater
 
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.DisplayableFeedItem
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
-import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.time.Instant
 
 class SavedForLaterItemMapperTest {
 

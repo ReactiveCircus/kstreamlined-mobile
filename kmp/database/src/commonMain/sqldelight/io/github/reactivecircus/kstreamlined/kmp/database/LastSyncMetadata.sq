@@ -1,5 +1,5 @@
 import io.github.reactivecircus.kstreamlined.kmp.database.SyncResourceType;
-import kotlinx.datetime.Instant;
+import kotlin.time.Instant;
 
 CREATE TABLE lastSyncMetadata (
     resource_type TEXT AS SyncResourceType NOT NULL,

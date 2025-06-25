@@ -4,8 +4,8 @@ import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.toDisplayable
 import io.github.reactivecircus.kstreamlined.kmp.prettytime.timeAgo
 import io.github.reactivecircus.kstreamlined.kmp.prettytime.weeksAgo
-import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
+import kotlin.time.Clock
 
 internal fun List<FeedItem>.toHomeFeedItems(
     clock: Clock = Clock.System,
