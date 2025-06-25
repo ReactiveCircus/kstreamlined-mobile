@@ -13,10 +13,10 @@ import io.github.reactivecircus.kstreamlined.kmp.model.feed.DisplayableFeedItem
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.presentation.home.HomeFeedItem
 import io.github.reactivecircus.kstreamlined.kmp.presentation.home.HomeUiState
-import kotlinx.datetime.Instant
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import kotlin.time.Instant
 
 @RunWith(ThemeVariantInjector::class)
 class HomeScreenTest {

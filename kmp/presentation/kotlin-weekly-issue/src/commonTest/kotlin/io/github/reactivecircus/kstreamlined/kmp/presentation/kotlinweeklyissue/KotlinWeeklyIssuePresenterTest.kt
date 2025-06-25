@@ -15,9 +15,9 @@ import io.github.reactivecircus.kstreamlined.kmp.remote.model.KotlinWeeklyIssueE
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
-import kotlinx.datetime.Instant
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.time.Instant
 
 class KotlinWeeklyIssuePresenterTest {
 

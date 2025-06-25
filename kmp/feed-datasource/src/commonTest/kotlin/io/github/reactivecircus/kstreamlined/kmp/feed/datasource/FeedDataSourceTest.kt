@@ -11,11 +11,11 @@ import io.github.reactivecircus.kstreamlined.kmp.remote.FakeFeedService
 import io.github.reactivecircus.kstreamlined.kmp.remote.FakeKotlinWeeklyIssueEntries
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
-import kotlinx.datetime.Instant
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertNull
+import kotlin.time.Instant
 
 class FeedDataSourceTest {
 

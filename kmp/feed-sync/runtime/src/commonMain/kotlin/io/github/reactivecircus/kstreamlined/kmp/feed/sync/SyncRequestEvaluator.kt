@@ -4,7 +4,7 @@ import io.github.reactivecircus.kstreamlined.kmp.database.FeedOriginEntityQuerie
 import io.github.reactivecircus.kstreamlined.kmp.database.LastSyncMetadataQueries
 import io.github.reactivecircus.kstreamlined.kmp.database.SyncResourceType
 import io.github.reactivecircus.kstreamlined.kmp.feed.sync.mapper.toSyncParams
-import kotlinx.datetime.Clock
+import kotlin.time.Clock
 
 internal class SyncRequestEvaluator(
     private val syncConfig: SyncConfig,

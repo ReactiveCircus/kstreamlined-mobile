@@ -11,10 +11,10 @@ import io.github.reactivecircus.kstreamlined.android.foundation.screenshottestin
 import io.github.reactivecircus.kstreamlined.android.foundation.screenshottesting.tester.ThemeVariant
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.toDisplayable
-import kotlinx.datetime.Instant
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import kotlin.time.Instant
 
 @OptIn(ExperimentalSharedTransitionApi::class)
 @RunWith(TestParameterInjector::class)

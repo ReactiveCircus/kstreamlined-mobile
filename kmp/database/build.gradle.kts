@@ -18,7 +18,6 @@ kotlin {
         commonMain {
             dependencies {
                 api(libs.sqldelight.coroutinesExtensions)
-                api(libs.kotlinx.datetime)
             }
         }
     }

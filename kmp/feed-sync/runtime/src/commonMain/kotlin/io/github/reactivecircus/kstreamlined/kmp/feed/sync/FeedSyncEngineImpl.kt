@@ -30,8 +30,8 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
-import kotlinx.datetime.Clock
 import kotlin.coroutines.cancellation.CancellationException
+import kotlin.time.Clock
 
 public class FeedSyncEngineImpl(
     private val feedService: FeedService,

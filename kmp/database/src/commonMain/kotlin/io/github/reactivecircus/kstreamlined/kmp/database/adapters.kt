@@ -1,7 +1,7 @@
 package io.github.reactivecircus.kstreamlined.kmp.database
 
 import app.cash.sqldelight.ColumnAdapter
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 
 public val InstantAdapter: ColumnAdapter<Instant, String> = object : ColumnAdapter<Instant, String> {
     override fun decode(databaseValue: String): Instant {

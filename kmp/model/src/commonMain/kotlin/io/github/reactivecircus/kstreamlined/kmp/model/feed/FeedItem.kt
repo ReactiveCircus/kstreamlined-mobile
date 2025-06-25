@@ -1,6 +1,6 @@
 package io.github.reactivecircus.kstreamlined.kmp.model.feed
 
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 
 public sealed interface FeedItem {
     public val id: String

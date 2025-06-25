@@ -1,6 +1,6 @@
 import io.github.reactivecircus.kstreamlined.kmp.database.ContentFormat;
 import kotlin.Boolean;
-import kotlinx.datetime.Instant;
+import kotlin.time.Instant;
 
 CREATE TABLE feedItemEntity (
     id TEXT NOT NULL PRIMARY KEY,
