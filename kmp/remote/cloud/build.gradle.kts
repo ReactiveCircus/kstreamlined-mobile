@@ -21,7 +21,7 @@ apollo {
         mapScalar(
             graphQLName = "Instant",
             targetName = "kotlin.time.Instant",
-            expression = "io.github.reactivecircus.kstreamlined.kmp.remote.apollo.KotlinInstantAdapter",
+            expression = "com.apollographql.adapter.core.KotlinInstantAdapter",
         )
     }
 }
@@ -33,7 +33,7 @@ kotlin {
                 api(project(":kmp:remote:common"))
                 api(libs.apollo.runtime)
                 api(libs.apollo.normalizedCache)
-                implementation(libs.apollo.adapters.datetime)
+                implementation(libs.apollo.adapters.core)
                 implementation(libs.kotlinx.coroutines.core)
                 implementation(libs.kermit)
             }

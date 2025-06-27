@@ -8,7 +8,7 @@ appVersioning = "1.5.0"
 paparazzi = "2.0.0-alpha02"
 testParameterInjector = "1.18"
 apollo = "4.3.1"
-apollo-adapters = "0.0.6"
+apollo-adapters = "0.7.0"
 apollo-mockserver = "0.1.1"
 googleServices = "4.4.3"
 wire = "5.3.3"
@@ -133,7 +133,7 @@ coil-network = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = 
 coil-svg = { module = "io.coil-kt.coil3:coil-svg", version.ref = "coil" }
 apollo-runtime = { module = "com.apollographql.apollo:apollo-runtime", version.ref = "apollo" }
 apollo-normalizedCache = { module = "com.apollographql.apollo:apollo-normalized-cache", version.ref = "apollo" }
-apollo-adapters-datetime = { module = "com.apollographql.adapters:apollo-adapters-kotlinx-datetime", version.ref = "apollo-adapters" }
+apollo-adapters-core = { module = "com.apollographql.adapters:apollo-adapters-core", version.ref = "apollo-adapters" }
 apollo-mockserver = { module = "com.apollographql.mockserver:apollo-mockserver", version.ref = "apollo-mockserver" }
 sqldelight-coroutinesExtensions = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqldelight" }
 sqldelight-androidDriver = { module = "app.cash.sqldelight:android-driver", version.ref = "sqldelight" }
