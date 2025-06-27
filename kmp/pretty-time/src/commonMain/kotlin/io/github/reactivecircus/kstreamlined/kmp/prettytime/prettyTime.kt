@@ -53,7 +53,7 @@ public fun Instant.toFormattedTime(
     return toLocalDateTime(timeZone).let { localDateTime ->
         buildString {
             append(
-                localDateTime.dayOfMonth.toString().padStart(2, '0')
+                localDateTime.day.toString().padStart(2, '0')
             )
             append(" ")
             append(
