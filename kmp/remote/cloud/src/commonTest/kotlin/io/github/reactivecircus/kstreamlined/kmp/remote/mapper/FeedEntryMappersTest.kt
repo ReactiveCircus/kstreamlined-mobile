@@ -1,10 +1,11 @@
 package io.github.reactivecircus.kstreamlined.kmp.remote.mapper
 
 import io.github.reactivecircus.kstreamlined.graphql.FeedEntriesQuery
-import io.github.reactivecircus.kstreamlined.graphql.type.buildKotlinBlog
-import io.github.reactivecircus.kstreamlined.graphql.type.buildKotlinWeekly
-import io.github.reactivecircus.kstreamlined.graphql.type.buildKotlinYouTube
-import io.github.reactivecircus.kstreamlined.graphql.type.buildTalkingKotlin
+import io.github.reactivecircus.kstreamlined.graphql.builder.Data
+import io.github.reactivecircus.kstreamlined.graphql.builder.buildKotlinBlog
+import io.github.reactivecircus.kstreamlined.graphql.builder.buildKotlinWeekly
+import io.github.reactivecircus.kstreamlined.graphql.builder.buildKotlinYouTube
+import io.github.reactivecircus.kstreamlined.graphql.builder.buildTalkingKotlin
 import io.github.reactivecircus.kstreamlined.kmp.remote.model.FeedEntry
 import kotlin.test.Test
 import kotlin.test.assertEquals

@@ -14,11 +14,13 @@ import io.github.reactivecircus.kstreamlined.graphql.FeedEntriesQuery
 import io.github.reactivecircus.kstreamlined.graphql.FeedEntriesWithSourcesQuery
 import io.github.reactivecircus.kstreamlined.graphql.FeedSourcesQuery
 import io.github.reactivecircus.kstreamlined.graphql.KotlinWeeklyIssueQuery
+import io.github.reactivecircus.kstreamlined.graphql.builder.Data
+import io.github.reactivecircus.kstreamlined.graphql.builder.buildFeedSource
+import io.github.reactivecircus.kstreamlined.graphql.builder.buildKotlinBlog
+import io.github.reactivecircus.kstreamlined.graphql.builder.buildKotlinWeeklyIssueEntry
+import io.github.reactivecircus.kstreamlined.graphql.builder.buildKotlinYouTube
+import io.github.reactivecircus.kstreamlined.graphql.builder.resolver.DefaultFakeResolver
 import io.github.reactivecircus.kstreamlined.graphql.type.KotlinWeeklyIssueEntryGroup
-import io.github.reactivecircus.kstreamlined.graphql.type.buildFeedSource
-import io.github.reactivecircus.kstreamlined.graphql.type.buildKotlinBlog
-import io.github.reactivecircus.kstreamlined.graphql.type.buildKotlinWeeklyIssueEntry
-import io.github.reactivecircus.kstreamlined.graphql.type.buildKotlinYouTube
 import io.github.reactivecircus.kstreamlined.kmp.remote.mapper.asExternalModel
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
@@ -36,7 +38,7 @@ class CloudFeedServiceTest {
 
     private lateinit var cloudFeedService: CloudFeedService
 
-    private val dummyFeedSources = FeedSourcesQuery.Data {
+    private val dummyFeedSources = FeedSourcesQuery.Data(resolver = DefaultFakeResolver()) {
         feedSources = listOf(
             buildFeedSource {
                 title = "Kotlin Blog"
@@ -47,7 +49,7 @@ class CloudFeedServiceTest {
         )
     }.feedSources
 
-    private val dummyFeedEntries = FeedEntriesQuery.Data {
+    private val dummyFeedEntries = FeedEntriesQuery.Data(resolver = DefaultFakeResolver()) {
         feedEntries = listOf(
             buildKotlinBlog {
                 title = "Kotlin blog entry"
@@ -60,7 +62,7 @@ class CloudFeedServiceTest {
         )
     }.feedEntries
 
-    private val dummyKotlinWeeklyEntries = KotlinWeeklyIssueQuery.Data {
+    private val dummyKotlinWeeklyEntries = KotlinWeeklyIssueQuery.Data(resolver = DefaultFakeResolver()) {
         kotlinWeeklyIssue = listOf(
             buildKotlinWeeklyIssueEntry {
                 title = "Kotlin Weekly entry 1"
