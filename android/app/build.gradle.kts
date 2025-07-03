@@ -13,7 +13,7 @@ plugins {
     id("kotlin-parcelize")
     id("com.google.dagger.hilt.android")
     id("com.google.gms.google-services")
-    // id("com.google.firebase.firebase-perf") TODO enable once https://issuetracker.google.com/issues/428022630 is fixed
+    id("com.google.firebase.firebase-perf")
     id("com.google.firebase.crashlytics")
     id("com.google.firebase.appdistribution")
     id("io.github.reactivecircus.app-versioning")
@@ -99,11 +99,10 @@ android {
             matchingFallbacks.add("release")
             signingConfig = signingConfigs.getByName("debug")
 
-            // TODO enable once https://issuetracker.google.com/issues/428022630 is fixed
-//            // disable performance monitoring plugin for debug builds
-//            configure<FirebasePerfExtension> {
-//                setInstrumentationEnabled(false)
-//            }
+            // disable performance monitoring plugin for debug builds
+            configure<FirebasePerfExtension> {
+                setInstrumentationEnabled(false)
+            }
         }
         release {
             matchingFallbacks.add("release")
