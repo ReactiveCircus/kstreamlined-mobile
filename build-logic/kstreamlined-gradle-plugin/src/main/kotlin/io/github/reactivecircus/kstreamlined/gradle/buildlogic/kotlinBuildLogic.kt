@@ -20,9 +20,6 @@ internal fun KotlinProjectExtension.configureKotlin(
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
             jvmDefault.set(JvmDefaultMode.NO_COMPATIBILITY)
-            freeCompilerArgs.addAll(
-                "-Xconsistent-data-class-copy-visibility",
-            )
         }
     }
     target.tasks.withType<JavaCompile>().configureEach {
@@ -34,8 +31,14 @@ internal fun KotlinProjectExtension.configureKotlin(
             progressiveMode = true
             optIn("kotlin.time.ExperimentalTime")
             optIn("kotlin.experimental.ExperimentalObjCName")
+            enableLanguageFeature("BreakContinueInInlineLambdas")
             enableLanguageFeature("ContextParameters")
+            enableLanguageFeature("ContextSensitiveResolutionUsingExpectedType")
+            enableLanguageFeature("DataClassCopyRespectsConstructorVisibility")
             enableLanguageFeature("ExplicitBackingFields")
+            enableLanguageFeature("MultiDollarInterpolation")
+            enableLanguageFeature("NestedTypeAliases")
+            enableLanguageFeature("WhenGuards")
         }
     }
     if (enableExplicitApi) {
