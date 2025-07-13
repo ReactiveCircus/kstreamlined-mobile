@@ -15,7 +15,7 @@ dependencies {
     api(libs.androidx.compose.ui.tooling)
     api(libs.androidx.lifecycle.runtimeCompose)
     api(libs.androidx.lifecycle.viewmodelCompose)
-    api(libs.androidx.hilt.navigationCompose)
+    api(libs.androidx.hilt.lifecycleViewmodelCompose)
     implementation(libs.androidx.browser)
     api(libs.coil.compose)
     api(libs.kermit)
