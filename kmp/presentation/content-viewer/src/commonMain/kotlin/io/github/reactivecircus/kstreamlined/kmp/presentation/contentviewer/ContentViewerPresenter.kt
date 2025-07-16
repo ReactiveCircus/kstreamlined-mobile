@@ -39,11 +39,11 @@ public class ContentViewerPresenter(
         }
         CollectEvent { event ->
             when (event) {
-                is ContentViewerUiEvent.LoadContent -> {
+                is LoadContent -> {
                     itemId = event.id
                 }
 
-                is ContentViewerUiEvent.ToggleSavedForLater -> {
+                is ToggleSavedForLater -> {
                     val item = (uiState as? ContentViewerUiState.Content)?.item
                         ?: return@CollectEvent
                     if (!item.savedForLater) {
@@ -54,7 +54,7 @@ public class ContentViewerPresenter(
                 }
 
                 // TODO remove once ViewModel is scoped properly
-                is ContentViewerUiEvent.Reset -> {
+                is Reset -> {
                     itemId = null
                     uiState = ContentViewerUiState.Initializing
                 }

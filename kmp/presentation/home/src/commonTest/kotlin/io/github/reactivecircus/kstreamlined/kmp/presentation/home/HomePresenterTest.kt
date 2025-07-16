@@ -191,14 +191,14 @@ class HomePresenterTest {
         }
 
     @Test
-    fun `presenter emits Error state when feedOrigins and feedItems are empty and syncState is OutOfSync`() =
+    fun `presenter emits Failed state when feedOrigins and feedItems are empty and syncState is OutOfSync`() =
         testScope.runTest {
             presenter.states.test {
                 assertEquals(HomeUiState.Loading, awaitItem())
 
                 feedSyncEngine.emitSyncState(SyncState.OutOfSync)
 
-                assertEquals(HomeUiState.Error, awaitItem())
+                assertEquals(HomeUiState.Failed, awaitItem())
             }
         }
 
@@ -210,7 +210,7 @@ class HomePresenterTest {
 
                 feedSyncEngine.emitSyncState(SyncState.OutOfSync)
 
-                assertEquals(HomeUiState.Error, awaitItem())
+                assertEquals(HomeUiState.Failed, awaitItem())
 
                 feedSyncEngine.emitSyncState(SyncState.Syncing)
 
@@ -226,7 +226,7 @@ class HomePresenterTest {
 
                 feedSyncEngine.emitSyncState(SyncState.OutOfSync)
 
-                assertEquals(HomeUiState.Error, awaitItem())
+                assertEquals(HomeUiState.Failed, awaitItem())
 
                 feedSyncEngine.emitSyncState(SyncState.Idle)
 

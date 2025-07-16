@@ -44,18 +44,17 @@ public class KotlinWeeklyIssuePresenter(
                         )
                     }
                     .catch {
-                        uiState = KotlinWeeklyIssueUiState.Error
-                    }
-                    .collect()
+                        uiState = KotlinWeeklyIssueUiState.Failed
+                    }.collect()
             }
         }
         CollectEvent { event ->
             when (event) {
-                is KotlinWeeklyIssueUiEvent.LoadIssue -> {
+                is LoadIssue -> {
                     itemId = event.id
                 }
-                is KotlinWeeklyIssueUiEvent.ToggleSavedForLater -> {
-                    val state = uiState as? KotlinWeeklyIssueUiState.Content ?: return@CollectEvent
+                is ToggleSavedForLater -> {
+                    val state = (uiState as? KotlinWeeklyIssueUiState.Content) ?: return@CollectEvent
                     if (!state.savedForLater) {
                         feedDataSource.addSavedFeedItem(state.id)
                     } else {
@@ -64,7 +63,7 @@ public class KotlinWeeklyIssuePresenter(
                 }
 
                 // TODO remove once ViewModel is scoped properly
-                KotlinWeeklyIssueUiEvent.Reset -> {
+                Reset -> {
                     itemId = null
                     uiState = KotlinWeeklyIssueUiState.Loading
                 }

@@ -34,7 +34,6 @@ import io.github.reactivecircus.kstreamlined.android.feature.contentviewer.Conte
 import io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue.KotlinWeeklyIssueScreen
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.TalkingKotlinEpisodeScreen
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.KSTheme
-import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
 import kotlinx.parcelize.Parcelize
 
 @OptIn(ExperimentalSharedTransitionApi::class)
@@ -72,9 +71,9 @@ class KSActivity : ComponentActivity() {
                             },
                         contentAlignment = Alignment.Center,
                         label = "NavTransition",
-                    ) {
-                        when (it) {
-                            is NavDestination.Main -> {
+                    ) { destination ->
+                        when (destination) {
+                            is Main -> {
                                 MainScreen(
                                     animatedVisibilityScope = this@AnimatedContent,
                                     selectedNavItem = selectedNavItem,
@@ -83,7 +82,7 @@ class KSActivity : ComponentActivity() {
                                     savedListState = savedListState,
                                     onViewItem = { item, source ->
                                         navDestination = when (item) {
-                                            is FeedItem.KotlinWeekly -> {
+                                            is KotlinWeekly -> {
                                                 NavDestination.KotlinWeeklyIssue(
                                                     boundKey = "Bounds/$source/${item.id}",
                                                     topBarBoundsKey = "Bounds/$source/TopBar",
@@ -93,7 +92,7 @@ class KSActivity : ComponentActivity() {
                                                 )
                                             }
 
-                                            is FeedItem.TalkingKotlin -> {
+                                            is TalkingKotlin -> {
                                                 NavDestination.TalkingKotlinEpisode(
                                                     boundsKey = "Bounds/$source/${item.id}",
                                                     topBarBoundsKey = "Bounds/$source/TopBar",
@@ -115,40 +114,40 @@ class KSActivity : ComponentActivity() {
                                 )
                             }
 
-                            is NavDestination.ContentViewer -> {
+                            is ContentViewer -> {
                                 ContentViewerScreen(
                                     animatedVisibilityScope = this@AnimatedContent,
-                                    boundsKey = it.boundsKey,
-                                    topBarBoundsKey = it.topBarBoundsKey,
-                                    saveButtonElementKey = it.saveButtonElementKey,
-                                    id = it.id,
+                                    boundsKey = destination.boundsKey,
+                                    topBarBoundsKey = destination.topBarBoundsKey,
+                                    saveButtonElementKey = destination.saveButtonElementKey,
+                                    id = destination.id,
                                     onNavigateUp = {
                                         navDestination = NavDestination.Main
                                     },
                                 )
                             }
 
-                            is NavDestination.KotlinWeeklyIssue -> {
+                            is KotlinWeeklyIssue -> {
                                 KotlinWeeklyIssueScreen(
                                     animatedVisibilityScope = this@AnimatedContent,
-                                    boundsKey = it.boundKey,
-                                    topBarBoundsKey = it.topBarBoundsKey,
-                                    titleElementKey = it.titleElementKey,
-                                    id = it.id,
-                                    issueNumber = it.issueNumber,
+                                    boundsKey = destination.boundKey,
+                                    topBarBoundsKey = destination.topBarBoundsKey,
+                                    titleElementKey = destination.titleElementKey,
+                                    id = destination.id,
+                                    issueNumber = destination.issueNumber,
                                     onNavigateUp = {
                                         navDestination = NavDestination.Main
                                     },
                                 )
                             }
 
-                            is NavDestination.TalkingKotlinEpisode -> {
+                            is TalkingKotlinEpisode -> {
                                 TalkingKotlinEpisodeScreen(
                                     animatedVisibilityScope = this@AnimatedContent,
-                                    boundsKey = it.boundsKey,
-                                    topBarBoundsKey = it.topBarBoundsKey,
-                                    playerElementKey = it.playerElementKey,
-                                    id = it.id,
+                                    boundsKey = destination.boundsKey,
+                                    topBarBoundsKey = destination.topBarBoundsKey,
+                                    playerElementKey = destination.playerElementKey,
+                                    id = destination.id,
                                     onNavigateUp = {
                                         navDestination = NavDestination.Main
                                     },

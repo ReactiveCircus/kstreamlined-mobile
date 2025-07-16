@@ -10,11 +10,11 @@ internal fun KotlinWeeklyIssueEntry.asExternalModel(): KotlinWeeklyIssueItem {
         url = this.url,
         source = this.source,
         group = when (this.group) {
-            KotlinWeeklyIssueEntry.Group.Announcements -> KotlinWeeklyIssueItem.Group.Announcements
-            KotlinWeeklyIssueEntry.Group.Articles -> KotlinWeeklyIssueItem.Group.Articles
-            KotlinWeeklyIssueEntry.Group.Android -> KotlinWeeklyIssueItem.Group.Android
-            KotlinWeeklyIssueEntry.Group.Videos -> KotlinWeeklyIssueItem.Group.Videos
-            KotlinWeeklyIssueEntry.Group.Libraries -> KotlinWeeklyIssueItem.Group.Libraries
+            Announcements -> Announcements
+            Articles -> Articles
+            Android -> Android
+            Videos -> Videos
+            Libraries -> Libraries
         },
     )
 }

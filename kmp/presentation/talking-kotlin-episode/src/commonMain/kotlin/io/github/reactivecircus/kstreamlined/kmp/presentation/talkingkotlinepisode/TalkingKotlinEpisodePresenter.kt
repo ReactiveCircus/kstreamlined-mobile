@@ -46,11 +46,11 @@ public class TalkingKotlinEpisodePresenter(
         }
         CollectEvent { event ->
             when (event) {
-                is TalkingKotlinEpisodeUiEvent.LoadEpisode -> {
+                is LoadEpisode -> {
                     itemId = event.id
                 }
 
-                is TalkingKotlinEpisodeUiEvent.ToggleSavedForLater -> {
+                is ToggleSavedForLater -> {
                     val episode = (uiState as? TalkingKotlinEpisodeUiState.Content)?.episode
                         ?: return@CollectEvent
                     if (!episode.savedForLater) {
@@ -60,7 +60,7 @@ public class TalkingKotlinEpisodePresenter(
                     }
                 }
 
-                is TalkingKotlinEpisodeUiEvent.SaveStartPosition -> {
+                is SaveStartPosition -> {
                     (uiState as? TalkingKotlinEpisodeUiState.Content)?.episode?.let { episode ->
                         feedDataSource.saveTalkingKotlinEpisodeStartPosition(
                             id = episode.id,
@@ -69,7 +69,7 @@ public class TalkingKotlinEpisodePresenter(
                     }
                 }
 
-                is TalkingKotlinEpisodeUiEvent.TogglePlayPause -> {
+                is TogglePlayPause -> {
                     val currentUiState = uiState
                     if (currentUiState is TalkingKotlinEpisodeUiState.Content) {
                         uiState = currentUiState.copy(isPlaying = !currentUiState.isPlaying)

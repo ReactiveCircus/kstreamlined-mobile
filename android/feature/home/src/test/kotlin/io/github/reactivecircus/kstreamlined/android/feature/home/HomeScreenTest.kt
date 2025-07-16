@@ -98,7 +98,7 @@ class HomeScreenTest {
     fun snapshot_HomeScreen_Error() {
         snapshotTester.snapshot {
             HomeScreenSnapshot(
-                uiState = HomeUiState.Error,
+                uiState = HomeUiState.Failed,
             )
         }
     }

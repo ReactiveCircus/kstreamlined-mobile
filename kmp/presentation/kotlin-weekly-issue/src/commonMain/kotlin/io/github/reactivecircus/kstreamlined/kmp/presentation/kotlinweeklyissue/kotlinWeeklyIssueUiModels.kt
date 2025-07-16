@@ -5,7 +5,7 @@ import io.github.reactivecircus.kstreamlined.kmp.model.feed.KotlinWeeklyIssueIte
 public sealed interface KotlinWeeklyIssueUiState {
     public data object Loading : KotlinWeeklyIssueUiState
 
-    public data object Error : KotlinWeeklyIssueUiState
+    public data object Failed : KotlinWeeklyIssueUiState
 
     public data class Content(
         val id: String,

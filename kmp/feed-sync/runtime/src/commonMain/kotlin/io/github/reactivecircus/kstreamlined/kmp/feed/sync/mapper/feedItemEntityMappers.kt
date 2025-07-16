@@ -20,33 +20,42 @@ internal fun FeedEntry.toDbModel(
     return FeedItemEntity(
         id = id,
         feed_origin_key = when (this) {
-            is FeedEntry.KotlinBlog -> FeedSource.Key.KotlinBlog.name
-            is FeedEntry.KotlinYouTube -> FeedSource.Key.KotlinYouTubeChannel.name
-            is FeedEntry.TalkingKotlin -> FeedSource.Key.TalkingKotlinPodcast.name
-            is FeedEntry.KotlinWeekly -> FeedSource.Key.KotlinWeekly.name
+            is KotlinBlog -> FeedSource.Key.KotlinBlog.name
+            is KotlinYouTube -> FeedSource.Key.KotlinYouTubeChannel.name
+            is TalkingKotlin -> FeedSource.Key.TalkingKotlinPodcast.name
+            is KotlinWeekly -> FeedSource.Key.KotlinWeekly.name
         },
         title = title,
         publish_time = publishTime,
         content_url = contentUrl,
         image_url = when (this) {
-            is FeedEntry.KotlinBlog -> featuredImageUrl
-            is FeedEntry.KotlinYouTube -> thumbnailUrl
-            is FeedEntry.TalkingKotlin -> thumbnailUrl
-            is FeedEntry.KotlinWeekly -> null
+            is KotlinBlog -> featuredImageUrl
+            is KotlinYouTube -> thumbnailUrl
+            is TalkingKotlin -> thumbnailUrl
+            is KotlinWeekly -> null
         },
         description = when (this) {
-            is FeedEntry.KotlinBlog -> null
-            is FeedEntry.KotlinYouTube -> description
-            is FeedEntry.TalkingKotlin -> summary
-            is FeedEntry.KotlinWeekly -> null
+            is KotlinBlog -> null
+            is KotlinYouTube -> description
+            is TalkingKotlin -> summary
+            is KotlinWeekly -> null
         },
-        issue_number = if (this is FeedEntry.KotlinWeekly) issueNumber.toLong() else null,
-        podcast_audio_url = if (this is FeedEntry.TalkingKotlin) audioUrl else null,
-        podcast_duration = if (this is FeedEntry.TalkingKotlin) duration else null,
-        podcast_start_position = if (this is FeedEntry.TalkingKotlin) {
-            currentFeedItems.find { it.id == id }?.podcast_start_position
-        } else {
-            null
+        issue_number = when (this) {
+            is KotlinWeekly -> issueNumber.toLong()
+            else -> null
+        },
+        podcast_audio_url = when (this) {
+            is TalkingKotlin -> audioUrl
+            else -> null
+        },
+        podcast_duration = when (this) {
+            is TalkingKotlin -> duration
+            else -> null
+        },
+        podcast_start_position = when (this) {
+            is TalkingKotlin ->
+                currentFeedItems.find { it.id == id }?.podcast_start_position
+            else -> null
         },
         podcast_description_format = podcastDescriptionFormat,
         podcast_description_plain_text = podcastDescriptionPlainText,

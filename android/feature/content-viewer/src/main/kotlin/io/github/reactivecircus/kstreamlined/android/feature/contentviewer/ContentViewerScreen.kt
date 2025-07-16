@@ -146,15 +146,15 @@ public fun SharedTransitionScope.ContentViewerScreen(
             label = "uiState",
         ) { state ->
             when (state) {
-                is ContentViewerUiState.Initializing -> {
+                is Initializing -> {
                     Box(modifier = Modifier.fillMaxSize())
                 }
 
-                is ContentViewerUiState.NotFound -> {
+                is NotFound -> {
                     ItemNotFoundUi()
                 }
 
-                is ContentViewerUiState.Content -> {
+                is Content -> {
                     ContentUi(url = state.item.contentUrl)
                 }
             }
@@ -238,7 +238,7 @@ private fun ItemNotFoundUi(
 
 private val ContentViewerUiState.contentKey: Int
     get() = when (this) {
-        is ContentViewerUiState.Initializing -> 0
-        is ContentViewerUiState.NotFound -> 1
-        is ContentViewerUiState.Content -> 2
+        is Initializing -> 0
+        is NotFound -> 1
+        is Content -> 2
     }

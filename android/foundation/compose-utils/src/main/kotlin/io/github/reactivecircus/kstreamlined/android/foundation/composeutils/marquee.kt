@@ -40,7 +40,7 @@ public fun Modifier.marqueeWithFadedEdges(
     .drawWithContent {
         drawContent()
         when (fadedEdgeMode) {
-            FadedEdgeMode.Both -> {
+            Both -> {
                 drawFadedEdge(
                     edgeWidth = edgeWidth,
                     leftEdge = true,
@@ -51,17 +51,17 @@ public fun Modifier.marqueeWithFadedEdges(
                 )
             }
 
-            FadedEdgeMode.Start -> drawFadedEdge(
+            Start -> drawFadedEdge(
                 edgeWidth = edgeWidth,
                 leftEdge = true,
             )
 
-            FadedEdgeMode.End -> drawFadedEdge(
+            End -> drawFadedEdge(
                 edgeWidth = edgeWidth,
                 leftEdge = false,
             )
 
-            FadedEdgeMode.None -> Unit
+            None -> Unit
         }
     }
     .basicMarquee(

@@ -12,7 +12,7 @@ public sealed interface HomeUiState {
         val hasTransientError: Boolean,
     ) : HomeUiState
 
-    public data object Error : HomeUiState
+    public data object Failed : HomeUiState
 }
 
 public sealed interface HomeUiEvent {
