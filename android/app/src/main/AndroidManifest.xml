@@ -30,6 +30,11 @@
         <activity
             android:name=".KSActivity"
             android:exported="true"
+            android:configChanges="assetsPaths|colorMode|density|fontScale
+                |fontWeightAdjustment|grammaticalGender|keyboard|keyboardHidden
+                |layoutDirection|locale|mcc|mnc|navigation|orientation|screenLayout
+                |screenSize|smallestScreenSize|touchscreen|uiMode
+                |resourcesUnused"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
