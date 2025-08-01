@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+
 plugins {
     id("kstreamlined.kmp.jvm-and-ios")
     id("kstreamlined.kmp.test")
@@ -5,21 +7,15 @@ plugins {
 }
 
 kotlin {
-    sourceSets {
-        commonMain {
-            dependencies {
-                api(project(":kmp:presentation:common"))
-                implementation(project(":kmp:feed-datasource"))
-                implementation(project(":kmp:pretty-time"))
-            }
-        }
-        commonTest {
-            dependencies {
-                implementation(project(":kmp:remote:testing"))
-                implementation(project(":kmp:database-testing"))
-                implementation(libs.kotlinx.coroutines.test)
-                implementation(libs.turbine)
-            }
-        }
+    @OptIn(ExperimentalKotlinGradlePluginApi::class)
+    dependencies {
+        api(project(":kmp:presentation:common"))
+        implementation(project(":kmp:feed-datasource"))
+        implementation(project(":kmp:pretty-time"))
+
+        testImplementation(project(":kmp:remote:testing"))
+        testImplementation(project(":kmp:database-testing"))
+        testImplementation(libs.kotlinx.coroutines.test)
+        testImplementation(libs.turbine)
     }
 }

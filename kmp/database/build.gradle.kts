@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+
 plugins {
     id("kstreamlined.kmp.jvm-and-ios")
     id("kstreamlined.kmp.test")
@@ -14,11 +16,8 @@ sqldelight {
 }
 
 kotlin {
-    sourceSets {
-        commonMain {
-            dependencies {
-                api(libs.sqldelight.coroutinesExtensions)
-            }
-        }
+    @OptIn(ExperimentalKotlinGradlePluginApi::class)
+    dependencies {
+        api(libs.sqldelight.coroutinesExtensions)
     }
 }

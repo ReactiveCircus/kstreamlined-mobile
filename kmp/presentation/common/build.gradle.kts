@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+
 plugins {
     id("kstreamlined.kmp.jvm-and-ios")
     id("kstreamlined.kmp.test")
@@ -5,12 +7,9 @@ plugins {
 }
 
 kotlin {
-    sourceSets {
-        commonMain {
-            dependencies {
-                api(libs.kotlinx.coroutines.core)
-                api(libs.molecule.runtime)
-            }
-        }
+    @OptIn(ExperimentalKotlinGradlePluginApi::class)
+    dependencies {
+        api(libs.kotlinx.coroutines.core)
+        api(libs.molecule.runtime)
     }
 }

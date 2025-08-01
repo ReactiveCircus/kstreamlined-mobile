@@ -1,4 +1,5 @@
 import com.apollographql.apollo.annotations.ApolloExperimental
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 
 plugins {
     id("kstreamlined.kmp.jvm-and-ios")
@@ -27,22 +28,16 @@ apollo {
 }
 
 kotlin {
-    sourceSets {
-        commonMain {
-            dependencies {
-                api(project(":kmp:remote:common"))
-                api(libs.apollo.runtime)
-                api(libs.apollo.normalizedCache)
-                implementation(libs.apollo.adapters.core)
-                implementation(libs.kotlinx.coroutines.core)
-                implementation(libs.kermit)
-            }
-        }
-        commonTest {
-            dependencies {
-                implementation(libs.kotlinx.coroutines.test)
-                implementation(libs.apollo.mockserver)
-            }
-        }
+    @OptIn(ExperimentalKotlinGradlePluginApi::class)
+    dependencies {
+        api(project(":kmp:remote:common"))
+        api(libs.apollo.runtime)
+        api(libs.apollo.normalizedCache)
+        implementation(libs.apollo.adapters.core)
+        implementation(libs.kotlinx.coroutines.core)
+        implementation(libs.kermit)
+
+        testImplementation(libs.kotlinx.coroutines.test)
+        testImplementation(libs.apollo.mockserver)
     }
 }

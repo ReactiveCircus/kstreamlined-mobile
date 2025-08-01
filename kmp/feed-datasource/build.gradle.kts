@@ -1,26 +1,22 @@
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+
 plugins {
     id("kstreamlined.kmp.jvm-and-ios")
     id("kstreamlined.kmp.test")
 }
 
 kotlin {
-    sourceSets {
-        commonMain {
-            dependencies {
-                implementation(project(":kmp:remote:common"))
-                implementation(project(":kmp:database"))
-                api(project(":kmp:model"))
-                implementation(libs.kotlinx.coroutines.core)
-                implementation(libs.kermit)
-            }
-        }
-        commonTest {
-            dependencies {
-                implementation(project(":kmp:remote:testing"))
-                implementation(project(":kmp:database-testing"))
-                implementation(libs.kotlinx.coroutines.test)
-                implementation(libs.turbine)
-            }
-        }
+    @OptIn(ExperimentalKotlinGradlePluginApi::class)
+    dependencies {
+        implementation(project(":kmp:remote:common"))
+        implementation(project(":kmp:database"))
+        api(project(":kmp:model"))
+        implementation(libs.kotlinx.coroutines.core)
+        implementation(libs.kermit)
+
+        testImplementation(project(":kmp:remote:testing"))
+        testImplementation(project(":kmp:database-testing"))
+        testImplementation(libs.kotlinx.coroutines.test)
+        testImplementation(libs.turbine)
     }
 }

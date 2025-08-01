@@ -1,14 +1,13 @@
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+
 plugins {
     id("kstreamlined.kmp.jvm-and-ios")
     id("kstreamlined.kmp.test")
 }
 
 kotlin {
-    sourceSets {
-        commonMain {
-            dependencies {
-                api(libs.kotlinx.datetime)
-            }
-        }
+    @OptIn(ExperimentalKotlinGradlePluginApi::class)
+    dependencies {
+        api(libs.kotlinx.datetime)
     }
 }
