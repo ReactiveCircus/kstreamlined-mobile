@@ -17,6 +17,7 @@ android {
         minSdk = 28
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments["androidx.benchmark.fullTracing.enable"] = "true"
+        testInstrumentationRunnerArguments["androidx.benchmark.killExistingPerfettoRecordings"] = "false" // remove once https://issuetracker.google.com/issues/323601788 is fixed
     }
 
     targetProjectPath = ":app"
