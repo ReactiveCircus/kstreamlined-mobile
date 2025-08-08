@@ -7,9 +7,20 @@
         {
             "groupName": "Kotlin, KSP",
             "matchPackagePrefixes": [
-                "org.jetbrains.kotlin:kotlin",
-                "org.jetbrains.kotlin:compose",
+                "org.jetbrains.kotlin",
                 "com.google.devtools.ksp",
+            ]
+        },
+        {
+            "groupName": "Firebase",
+            "matchPackagePrefixes": [
+                "com.google.firebase",
+            ]
+        },
+        {
+            "groupName": "AndroidX",
+            "matchPackagePrefixes": [
+                "androidx",
             ]
         },
     ],
