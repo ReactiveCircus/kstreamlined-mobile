@@ -2,6 +2,7 @@ package io.github.reactivecircus.kstreamlined.gradle
 
 import com.android.build.api.variant.LibraryAndroidComponentsExtension
 import com.android.build.gradle.LibraryExtension
+import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureAndroidLibraryExtension
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureAndroidLibraryVariants
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureCommonAndroidExtension
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureDetekt
@@ -25,6 +26,7 @@ internal class AndroidLibraryConventionPlugin : Plugin<Project> {
 
         extensions.configure<LibraryExtension> {
             configureCommonAndroidExtension(target)
+            configureAndroidLibraryExtension()
         }
 
         extensions.configure<LibraryAndroidComponentsExtension> {
