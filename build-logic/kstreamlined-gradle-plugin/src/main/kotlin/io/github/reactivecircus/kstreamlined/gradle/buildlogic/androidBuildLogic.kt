@@ -16,13 +16,9 @@ import java.io.File
 /**
  * Apply baseline configurations on an Android Application or Library project.
  */
-internal fun CommonExtension<*, *, *, *, *, *>.configureCommonAndroidExtension(project: Project) {
+internal fun CommonExtension.configureCommonAndroidExtension(project: Project) {
     compileSdk = AndroidSdk.compileSdk
     buildToolsVersion = AndroidSdk.buildTools
-
-    defaultConfig {
-        minSdk = AndroidSdk.minSdk
-    }
 
     testOptions.animationsDisabled = true
 
@@ -62,10 +58,20 @@ internal fun KotlinMultiplatformAndroidLibraryExtension.configureKmpAndroidLibra
 }
 
 /**
+ * Apply baseline configurations on an Android Library project.
+ */
+internal fun LibraryExtension.configureAndroidLibraryExtension() {
+    defaultConfig {
+        minSdk = AndroidSdk.minSdk
+    }
+}
+
+/**
  * Apply baseline configurations on an Android Application project.
  */
 internal fun ApplicationExtension.configureAndroidApplicationExtension() {
     defaultConfig {
+        minSdk = AndroidSdk.minSdk
         targetSdk = AndroidSdk.targetSdk
     }
 
