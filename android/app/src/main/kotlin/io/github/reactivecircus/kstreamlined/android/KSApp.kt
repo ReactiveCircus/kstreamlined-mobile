@@ -40,10 +40,11 @@ open class KSApp : Application(), SingletonImageLoader.Factory, Configuration.Pr
 
     override fun newImageLoader(context: PlatformContext): ImageLoader = imageLoader.get()
 
-    override val workManagerConfiguration: Configuration
-        get() = Configuration.Builder()
+    override fun getWorkManagerConfiguration(): Configuration {
+        return Configuration.Builder()
             .setWorkerFactory(workerFactory)
             .build()
+    }
 
     protected open fun initializeKermit() {
         // TODO
