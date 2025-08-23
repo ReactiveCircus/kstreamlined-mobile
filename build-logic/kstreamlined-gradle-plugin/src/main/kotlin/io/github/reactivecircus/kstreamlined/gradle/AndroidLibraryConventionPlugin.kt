@@ -25,7 +25,6 @@ internal class AndroidLibraryConventionPlugin : Plugin<Project> {
 
         extensions.configure<LibraryExtension> {
             configureCommonAndroidExtension(target)
-            configureAndroidLibraryExtension()
         }
 
         extensions.configure<LibraryAndroidComponentsExtension> {
