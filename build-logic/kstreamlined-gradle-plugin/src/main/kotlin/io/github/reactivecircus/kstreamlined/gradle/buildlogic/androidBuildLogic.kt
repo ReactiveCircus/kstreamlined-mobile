@@ -8,7 +8,6 @@ import com.android.build.api.dsl.Packaging
 import com.android.build.api.variant.ApplicationAndroidComponentsExtension
 import com.android.build.api.variant.HasUnitTestBuilder
 import com.android.build.api.variant.LibraryAndroidComponentsExtension
-import com.android.build.gradle.LibraryExtension
 import com.android.build.gradle.TestExtension
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
@@ -20,6 +19,8 @@ import java.io.File
 internal fun CommonExtension.configureCommonAndroidExtension(project: Project) {
     compileSdk = AndroidSdk.compileSdk
     buildToolsVersion = AndroidSdk.buildTools
+
+    defaultConfig.minSdk = AndroidSdk.minSdk
 
     testOptions.animationsDisabled = true
 
@@ -59,20 +60,10 @@ internal fun KotlinMultiplatformAndroidLibraryExtension.configureKmpAndroidLibra
 }
 
 /**
- * Apply baseline configurations on an Android Library project.
- */
-internal fun LibraryExtension.configureAndroidLibraryExtension() {
-    defaultConfig {
-        minSdk = AndroidSdk.minSdk
-    }
-}
-
-/**
  * Apply baseline configurations on an Android Application project.
  */
 internal fun ApplicationExtension.configureAndroidApplicationExtension() {
     defaultConfig {
-        minSdk = AndroidSdk.minSdk
         targetSdk = AndroidSdk.targetSdk
     }
 
