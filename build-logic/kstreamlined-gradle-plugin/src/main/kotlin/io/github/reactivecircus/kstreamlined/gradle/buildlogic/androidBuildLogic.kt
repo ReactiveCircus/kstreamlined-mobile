@@ -16,13 +16,11 @@ import java.io.File
 /**
  * Apply baseline configurations on an Android Application or Library project.
  */
-internal fun CommonExtension<*, *, *, *, *, *>.configureCommonAndroidExtension(project: Project) {
+internal fun CommonExtension.configureCommonAndroidExtension(project: Project) {
     compileSdk = AndroidSdk.compileSdk
     buildToolsVersion = AndroidSdk.buildTools
 
-    defaultConfig {
-        minSdk = AndroidSdk.minSdk
-    }
+    defaultConfig.minSdk = AndroidSdk.minSdk
 
     testOptions.animationsDisabled = true
 
