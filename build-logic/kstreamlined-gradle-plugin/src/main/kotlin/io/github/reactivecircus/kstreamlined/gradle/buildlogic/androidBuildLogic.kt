@@ -99,13 +99,8 @@ internal fun TestExtension.configureAndroidTestExtension() {
 internal fun LibraryAndroidComponentsExtension.configureAndroidLibraryVariants() {
     beforeVariants {
         // only enable release build variant for the Android library project
+        // note that this will also disable unit tests and Android tests by default
         it.enable = it.buildType == "release"
-
-        // disable unit tests by default
-        (it as HasUnitTestBuilder).enableUnitTest = false
-
-        // disable android tests by default
-        it.androidTest.enable = false
     }
 }
 
