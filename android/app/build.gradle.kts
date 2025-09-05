@@ -164,6 +164,11 @@ android {
             enabled.set(true)
         }
     }
+
+    // TODO remove once false positive is fixed: https://issuetracker.google.com/issues/440454431
+    lint {
+        disable += "RemoveWorkManagerInitializer"
+    }
 }
 
 androidComponents {
