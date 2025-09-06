@@ -1,6 +1,6 @@
 package io.github.reactivecircus.kstreamlined.gradle
 
-import com.android.build.gradle.TestExtension
+import com.android.build.api.dsl.TestExtension
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureAndroidTestExtension
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureDetekt
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureKotlin

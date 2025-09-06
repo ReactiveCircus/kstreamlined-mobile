@@ -5,10 +5,10 @@ import com.android.build.api.dsl.CommonExtension
 import com.android.build.api.dsl.KotlinMultiplatformAndroidLibraryExtension
 import com.android.build.api.dsl.Lint
 import com.android.build.api.dsl.Packaging
+import com.android.build.api.dsl.TestExtension
 import com.android.build.api.variant.ApplicationAndroidComponentsExtension
 import com.android.build.api.variant.HasUnitTestBuilder
 import com.android.build.api.variant.LibraryAndroidComponentsExtension
-import com.android.build.gradle.TestExtension
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import java.io.File
@@ -79,7 +79,7 @@ internal fun ApplicationExtension.configureAndroidApplicationExtension() {
  * Apply baseline configurations on an Android Test project.
  */
 internal fun TestExtension.configureAndroidTestExtension() {
-    setCompileSdkVersion(AndroidSdk.compileSdk)
+    compileSdk = AndroidSdk.compileSdk
     buildToolsVersion = AndroidSdk.buildTools
 
     defaultConfig {
