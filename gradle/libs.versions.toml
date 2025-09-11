@@ -1,6 +1,6 @@
 [versions]
-kotlin = "2.2.20-RC2"
-ksp = "2.2.20-RC2-2.0.2"
+kotlin = "2.2.20"
+ksp = "2.2.20-2.0.2"
 androidGradlePlugin = "9.0.0-alpha01"
 gradle-develocityPlugin = "4.1"
 gradle-toolchainsResolverPlugin = "1.0.0"
