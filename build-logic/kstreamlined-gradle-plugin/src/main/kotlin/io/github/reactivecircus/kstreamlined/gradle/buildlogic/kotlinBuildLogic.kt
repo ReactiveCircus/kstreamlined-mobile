@@ -20,6 +20,16 @@ internal fun KotlinProjectExtension.configureKotlin(
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
             jvmDefault.set(JvmDefaultMode.NO_COMPATIBILITY)
+            // TODO investigate:
+            //  why `-Xskip-prerelease-check` is needed when compiling Android library projects with experimental language features enabled (see https://youtrack.jetbrains.com/issue/KT-75588)
+            //  why opt-in from languageSettings DSL no longer works for Android library projects
+            freeCompilerArgs.addAll(
+                "-Xskip-prerelease-check"
+            )
+            optIn.addAll(
+                "kotlin.time.ExperimentalTime",
+                "kotlin.experimental.ExperimentalObjCName",
+            )
         }
     }
     target.tasks.withType<JavaCompile>().configureEach {
