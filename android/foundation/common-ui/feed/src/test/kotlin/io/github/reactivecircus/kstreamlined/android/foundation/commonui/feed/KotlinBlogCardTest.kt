@@ -5,19 +5,17 @@ import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.google.testing.junit.testparameterinjector.TestParameter
-import com.google.testing.junit.testparameterinjector.TestParameterInjector
+import app.cash.burst.Burst
 import io.github.reactivecircus.kstreamlined.android.foundation.screenshottesting.tester.SnapshotTester
 import io.github.reactivecircus.kstreamlined.android.foundation.screenshottesting.tester.ThemeVariant
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.toDisplayable
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 import kotlin.time.Instant
 
 @OptIn(ExperimentalSharedTransitionApi::class)
-@RunWith(TestParameterInjector::class)
+@Burst
 class KotlinBlogCardTest {
 
     @get:Rule
@@ -25,8 +23,8 @@ class KotlinBlogCardTest {
 
     @Test
     fun snapshot_KotlinBlogCard(
-        @TestParameter saved: Boolean,
-        @TestParameter themeVariant: ThemeVariant,
+        saved: Boolean,
+        themeVariant: ThemeVariant,
     ) {
         snapshotTester.snapshot(themeVariant = themeVariant) {
             SharedTransitionLayout {

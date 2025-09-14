@@ -3,6 +3,7 @@ plugins {
     id("kstreamlined.android.screenshot-test")
     id("kstreamlined.compose")
     id("kstreamlined.ksp")
+    id("app.cash.burst")
 }
 
 android {
@@ -18,6 +19,4 @@ dependencies {
     implementation(libs.androidx.tracing)
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
-
-    testImplementation(libs.testParameterInjector)
 }
