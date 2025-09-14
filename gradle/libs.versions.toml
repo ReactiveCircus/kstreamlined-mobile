@@ -6,7 +6,7 @@ gradle-develocityPlugin = "4.1"
 gradle-toolchainsResolverPlugin = "1.0.0"
 appVersioning = "1.5.0"
 paparazzi = "2.0.0-alpha02"
-testParameterInjector = "1.19"
+burst = "2.9.0"
 apollo = "5.0.0-alpha.2"
 apollo-adapters = "0.7.0"
 apollo-mockserver = "0.2.0"
@@ -70,6 +70,7 @@ plugin-ksp = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.
 plugin-agp = { module = "com.android.tools.build:gradle", version.ref = "androidGradlePlugin"}
 plugin-appVersioning = { module = "io.github.reactivecircus.appversioning:app-versioning-gradle-plugin", version.ref = "appVersioning"}
 plugin-paparazzi = { module = "app.cash.paparazzi:paparazzi-gradle-plugin", version.ref = "paparazzi" }
+plugin-burst = { module = "app.cash.burst:burst-gradle-plugin", version.ref = "burst"}
 plugin-hilt = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt"}
 plugin-apollo = { module = "com.apollographql.apollo:apollo-gradle-plugin", version.ref = "apollo"}
 plugin-invert = { module = "com.squareup.invert:com.squareup.invert.gradle.plugin", version.ref = "invert"}
@@ -139,7 +140,7 @@ sqldelight-nativeDriver = { module = "app.cash.sqldelight:native-driver", versio
 sqldelight-sqliteDriver = { module = "app.cash.sqldelight:sqlite-driver", version.ref = "sqldelight" }
 ksoup = { module = "com.fleeksoft.ksoup:ksoup", version.ref = "ksoup" }
 paparazzi = { module = "app.cash.paparazzi:paparazzi", version.ref = "paparazzi" }
-testParameterInjector = { group = "com.google.testparameterinjector", name = "test-parameter-injector", version.ref = "testParameterInjector" }
+
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
 crashKios = { module = "co.touchlab:crashkios", version.ref = "crashKios" }

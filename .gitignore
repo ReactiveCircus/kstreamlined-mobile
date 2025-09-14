@@ -2,6 +2,7 @@
 .gradle
 local.properties
 .idea/*
+!.idea/inspectionProfiles
 !.idea/icon.png
 .kotlin/
 .DS_Store

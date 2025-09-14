@@ -113,6 +113,7 @@ dependencies {
     implementation(libs.plugin.detekt)
     implementation(libs.plugin.agp)
     implementation(libs.plugin.appVersioning)
+    implementation(libs.plugin.burst)
     implementation(libs.plugin.paparazzi)
     implementation(libs.plugin.hilt)
     implementation(libs.plugin.apollo)

@@ -1,15 +1,13 @@
 package io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue.component
 
-import com.google.testing.junit.testparameterinjector.TestParameter
-import com.google.testing.junit.testparameterinjector.TestParameterInjector
+import app.cash.burst.Burst
 import io.github.reactivecircus.kstreamlined.android.foundation.screenshottesting.tester.SnapshotTester
 import io.github.reactivecircus.kstreamlined.android.foundation.screenshottesting.tester.ThemeVariant
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.KotlinWeeklyIssueItem
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 
-@RunWith(TestParameterInjector::class)
+@Burst
 class IssueGroupUiTest {
 
     @get:Rule
@@ -17,8 +15,8 @@ class IssueGroupUiTest {
 
     @Test
     fun snapshot_IssueGroupUi(
-        @TestParameter group: KotlinWeeklyIssueItem.Group,
-        @TestParameter themeVariant: ThemeVariant,
+        group: KotlinWeeklyIssueItem.Group,
+        themeVariant: ThemeVariant,
     ) {
         snapshotTester.snapshot(themeVariant = themeVariant) {
             IssueGroupUi(group = group)
