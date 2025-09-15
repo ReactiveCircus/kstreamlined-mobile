@@ -1,5 +1,8 @@
 -verbose
 
+# TODO remove once https://issuetracker.google.com/issues/445108426 is fixed
+-keep class * extends androidx.room.RoomDatabase { void <init>(); }
+
 # Keep annotations with RUNTIME retention and their defaults.
 -keepattributes RuntimeVisible*Annotations, AnnotationDefault
 
