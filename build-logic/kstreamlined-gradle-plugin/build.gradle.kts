@@ -1,5 +1,4 @@
-import io.gitlab.arturbosch.detekt.Detekt
-import org.gradle.kotlin.dsl.withType
+import dev.detekt.gradle.Detekt
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -90,7 +89,6 @@ tasks.withType(Detekt::class.java).configureEach {
     jvmTarget = JvmTarget.JVM_22.target
     reports {
         xml.required.set(false)
-        txt.required.set(false)
         sarif.required.set(false)
         md.required.set(false)
     }
@@ -101,7 +99,7 @@ dependencies {
     implementation(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
 
     // enable Ktlint formatting
-    detektPlugins(libs.plugin.detektFormatting)
+//    detektPlugins(libs.plugin.detektFormatting)
 
     // enable lint checks for Gradle plugins
     lintChecks(libs.androidx.lintGradle)
