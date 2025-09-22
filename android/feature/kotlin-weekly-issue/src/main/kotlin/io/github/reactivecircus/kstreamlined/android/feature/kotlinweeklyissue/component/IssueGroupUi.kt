@@ -47,7 +47,7 @@ internal fun IssueGroupUi(
                 bottom = 8.dp,
                 start = 24.dp,
                 end = 24.dp,
-            )
+            ),
         )
     }
 }
@@ -89,7 +89,7 @@ private val LibrariesColor = Color(0xFF800000)
 @Composable
 @PreviewLightDark
 private fun PreviewIssueGroupBadge(
-    @PreviewParameter(IssueGroupProvider::class) issueGroup: KotlinWeeklyIssueItem.Group
+    @PreviewParameter(IssueGroupProvider::class) issueGroup: KotlinWeeklyIssueItem.Group,
 ) {
     KSTheme {
         Surface {

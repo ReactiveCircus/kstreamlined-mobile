@@ -9,7 +9,6 @@ import kotlin.test.assertEquals
 import kotlin.time.Instant
 
 class FeedItemEntityMappersTest {
-
     @Test
     fun `FeedEntry_KotlinBlog maps to expected db model`() {
         val feedEntry = FeedEntry.KotlinBlog(

@@ -4,7 +4,6 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class PlaybackProgressLabelsTest {
-
     @Test
     fun `test playback progress labels`() {
         assertEquals("00:00:00" to "-00:00:00", playbackProgressLabels(0, 0))

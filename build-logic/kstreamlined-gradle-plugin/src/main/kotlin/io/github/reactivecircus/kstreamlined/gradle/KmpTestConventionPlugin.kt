@@ -8,7 +8,6 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.powerassert.gradle.PowerAssertGradleExtension
 
 internal class KmpTestConventionPlugin : Plugin<Project> {
-
     override fun apply(target: Project): Unit = with(target) {
         with(pluginManager) {
             apply("org.jetbrains.kotlin.multiplatform")
@@ -28,7 +27,7 @@ internal class KmpTestConventionPlugin : Plugin<Project> {
                     "kotlin.test.assertTrue",
                     "kotlin.test.assertFalse",
                     "kotlin.test.assertNull",
-                )
+                ),
             )
         }
     }

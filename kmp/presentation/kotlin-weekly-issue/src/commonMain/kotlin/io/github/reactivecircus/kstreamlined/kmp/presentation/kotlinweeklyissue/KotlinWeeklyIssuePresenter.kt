@@ -40,12 +40,13 @@ public class KotlinWeeklyIssuePresenter(
                             id = item.id,
                             contentUrl = item.contentUrl,
                             issueItems = issue.groupBy { it.group },
-                            savedForLater = item.savedForLater
+                            savedForLater = item.savedForLater,
                         )
                     }
                     .catch {
                         uiState = KotlinWeeklyIssueUiState.Error
-                    }.collect()
+                    }
+                    .collect()
             }
         }
         CollectEvent { event ->
@@ -54,7 +55,7 @@ public class KotlinWeeklyIssuePresenter(
                     itemId = event.id
                 }
                 is KotlinWeeklyIssueUiEvent.ToggleSavedForLater -> {
-                    val state = (uiState as? KotlinWeeklyIssueUiState.Content) ?: return@CollectEvent
+                    val state = uiState as? KotlinWeeklyIssueUiState.Content ?: return@CollectEvent
                     if (!state.savedForLater) {
                         feedDataSource.addSavedFeedItem(state.id)
                     } else {

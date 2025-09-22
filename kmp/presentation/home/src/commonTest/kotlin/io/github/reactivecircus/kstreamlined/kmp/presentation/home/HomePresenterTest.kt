@@ -28,7 +28,6 @@ import kotlin.time.Instant
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class HomePresenterTest {
-
     private val feedService = FakeFeedService()
 
     private val db = createInMemoryDatabase()
@@ -40,9 +39,7 @@ class HomePresenterTest {
     private val feedSyncEngine = FakeFeedSyncEngine()
 
     private val fixedClock = object : Clock {
-        override fun now(): Instant {
-            return Instant.parse("2023-12-03T03:10:54Z")
-        }
+        override fun now(): Instant = Instant.parse("2023-12-03T03:10:54Z")
     }
 
     private val timeZone = TimeZone.UTC
@@ -53,7 +50,7 @@ class HomePresenterTest {
             title = "Kotlin Blog",
             description = "Latest news from the official Kotlin Blog",
             selected = true,
-        )
+        ),
     )
 
     private val dummyFeedItems = listOf(
@@ -72,7 +69,7 @@ class HomePresenterTest {
             podcast_description_format = null,
             podcast_description_plain_text = null,
             saved_for_later = false,
-        )
+        ),
     )
 
     private val presenter = HomePresenter(
@@ -292,7 +289,7 @@ class HomePresenterTest {
                 )
 
                 presenter.eventSink(
-                    HomeUiEvent.ToggleSavedForLater(feedItem.copy(savedForLater = true))
+                    HomeUiEvent.ToggleSavedForLater(feedItem.copy(savedForLater = true)),
                 )
 
                 assertContentState(

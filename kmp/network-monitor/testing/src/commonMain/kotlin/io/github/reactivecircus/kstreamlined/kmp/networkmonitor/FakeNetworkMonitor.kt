@@ -4,7 +4,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 public class FakeNetworkMonitor : NetworkMonitor {
-
     override val networkState: StateFlow<NetworkState>
         field = MutableStateFlow(NetworkState.Unknown)
 

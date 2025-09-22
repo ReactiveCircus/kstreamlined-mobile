@@ -95,10 +95,10 @@ private fun IconButtonImpl(
                 interactionSource = remember { MutableInteractionSource() },
                 indication = ripple(
                     bounded = false,
-                    radius = containerSize / 2
-                )
+                    radius = containerSize / 2,
+                ),
             ),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         Icon(
             imageVector = imageVector,
@@ -129,7 +129,7 @@ public fun FilledIconButton(
     ) {
         Box(
             modifier = Modifier.size(DefaultContainerSize),
-            contentAlignment = Alignment.Center
+            contentAlignment = Alignment.Center,
         ) {
             Icon(
                 imageVector = imageVector,

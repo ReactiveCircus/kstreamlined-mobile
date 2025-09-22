@@ -20,7 +20,7 @@ internal class ComposeConventionPlugin : Plugin<Project> {
             it.targetKotlinPlatforms.set(
                 KotlinPlatformType.entries.filterNot { target ->
                     target == KotlinPlatformType.js || target == KotlinPlatformType.wasm
-                }
+                },
             )
         }
     }

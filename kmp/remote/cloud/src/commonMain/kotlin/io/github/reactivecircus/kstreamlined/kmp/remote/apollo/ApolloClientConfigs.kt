@@ -9,8 +9,8 @@ public object ApolloClientConfigs {
     public val apolloStore: ApolloStore = ApolloStore(
         normalizedCacheFactory = MemoryCacheFactory(
             maxSizeBytes = MaxSizeBytes,
-            expireAfterMillis = CacheExpiry.toLong(DurationUnit.MILLISECONDS)
-        )
+            expireAfterMillis = CacheExpiry.toLong(DurationUnit.MILLISECONDS),
+        ),
     )
 }
 

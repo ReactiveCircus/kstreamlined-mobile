@@ -67,7 +67,7 @@ fun SharedTransitionScope.MainScreen(
                         animatedVisibilityScope = animatedVisibilityScope,
                         listState = homeListState,
                         onViewItem = { item -> onViewItem(item, NavItemKey.Home) },
-                        modifier = Modifier.pagerScaleTransition(it, pagerState)
+                        modifier = Modifier.pagerScaleTransition(it, pagerState),
                     )
                 }
 
@@ -76,7 +76,7 @@ fun SharedTransitionScope.MainScreen(
                         animatedVisibilityScope = animatedVisibilityScope,
                         listState = savedListState,
                         onViewItem = { item -> onViewItem(item, NavItemKey.Saved) },
-                        modifier = Modifier.pagerScaleTransition(it, pagerState)
+                        modifier = Modifier.pagerScaleTransition(it, pagerState),
                     )
                 }
             }
@@ -101,11 +101,11 @@ fun SharedTransitionScope.MainScreen(
                     .padding(8.dp)
                     .align(Alignment.BottomCenter)
                     .renderInSharedTransitionScopeOverlay(
-                        zIndexInOverlay = 1f
+                        zIndexInOverlay = 1f,
                     )
                     .animateEnterExit(
                         enter = fadeIn() + slideInVertically(
-                            tween(delayMillis = 200, easing = LinearOutSlowInEasing)
+                            tween(delayMillis = 200, easing = LinearOutSlowInEasing),
                         ) { it * 2 },
                         exit = fadeOut(),
                     ),

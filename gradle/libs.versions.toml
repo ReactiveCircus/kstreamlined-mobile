@@ -12,7 +12,7 @@ apollo-adapters = "0.7.0"
 apollo-mockserver = "0.2.0"
 googleServices = "4.4.3"
 invert = "0.0.4-dev"
-detekt = "1.23.8"
+detekt = "2.0.0-alpha.0"
 playPublisher = "3.12.1"
 skie = "0.10.6"
 leakcanary = "2.14"
@@ -78,8 +78,8 @@ plugin-googleServices = { module = "com.google.gms:google-services", version.ref
 plugin-crashlytics = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "firebase-crashlyticsPlugin"}
 plugin-firebasePerf = { module = "com.google.firebase:perf-plugin", version.ref = "firebase-perfPlugin"}
 plugin-appDistribution = { module = "com.google.firebase:firebase-appdistribution-gradle", version.ref = "firebase-appDistributionPlugin"}
-plugin-detekt = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt"}
-plugin-detektFormatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt"}
+plugin-detekt = { module = "dev.detekt:detekt-gradle-plugin", version.ref = "detekt"}
+plugin-detektKtlintWrapper = { module = "dev.detekt:detekt-rules-ktlint-wrapper", version.ref = "detekt"}
 plugin-playPublisher = { module = "com.github.triplet.gradle:play-publisher", version.ref = "playPublisher"}
 plugin-skie = { module = "co.touchlab.skie:co.touchlab.skie.gradle.plugin", version.ref = "skie"}
 plugin-sqldelight = { module = "app.cash.sqldelight:app.cash.sqldelight.gradle.plugin", version.ref = "sqldelight"}
@@ -148,4 +148,4 @@ crashKios = { module = "co.touchlab:crashkios", version.ref = "crashKios" }
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 lint = { id = "com.android.lint", version.ref = "androidGradlePlugin" }
-detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+detekt = { id = "dev.detekt", version.ref = "detekt" }

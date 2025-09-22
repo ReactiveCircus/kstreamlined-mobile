@@ -19,11 +19,17 @@ import androidx.media3.extractor.mp3.Mp3Extractor
 
 internal interface AudioPlayer {
     fun play()
+
     fun pause()
+
     fun stop()
+
     fun seekTo(position: Long)
+
     fun release()
+
     val currentPosition: Long
+
     val duration: Long
 }
 
@@ -40,7 +46,7 @@ internal fun rememberAudioPlayer(
         if (!localInspectionMode) {
             val audioOnlyRenderersFactory = RenderersFactory { handler, _, audioListener, _, _ ->
                 arrayOf<Renderer>(
-                    MediaCodecAudioRenderer(context, MediaCodecSelector.DEFAULT, handler, audioListener)
+                    MediaCodecAudioRenderer(context, MediaCodecSelector.DEFAULT, handler, audioListener),
                 )
             }
             val extractorFactory = ExtractorsFactory {
@@ -49,7 +55,7 @@ internal fun rememberAudioPlayer(
             val exoPlayer = ExoPlayer.Builder(
                 context,
                 audioOnlyRenderersFactory,
-                DefaultMediaSourceFactory(context, extractorFactory)
+                DefaultMediaSourceFactory(context, extractorFactory),
             ).build().apply {
                 setMediaItem(MediaItem.fromUri(audioUrl))
                 prepare()
@@ -74,11 +80,17 @@ internal fun rememberAudioPlayer(
         } else {
             object : AudioPlayer {
                 override fun play() = Unit
+
                 override fun pause() = Unit
+
                 override fun stop() = Unit
+
                 override fun seekTo(position: Long) = Unit
+
                 override fun release() = Unit
+
                 override val currentPosition: Long = 0
+
                 override val duration: Long = 0
             }
         }

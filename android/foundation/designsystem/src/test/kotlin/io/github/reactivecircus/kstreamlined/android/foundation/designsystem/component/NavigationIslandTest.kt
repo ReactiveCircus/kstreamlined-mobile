@@ -14,7 +14,6 @@ import org.junit.runner.RunWith
 
 @RunWith(ThemeVariantInjector::class)
 class NavigationIslandTest {
-
     @get:Rule
     val snapshotTester = SnapshotTester()
 

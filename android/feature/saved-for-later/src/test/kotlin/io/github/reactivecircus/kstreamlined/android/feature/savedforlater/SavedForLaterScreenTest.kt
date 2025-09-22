@@ -19,7 +19,6 @@ import kotlin.time.Instant
 
 @RunWith(ThemeVariantInjector::class)
 class SavedForLaterScreenTest {
-
     @get:Rule
     val snapshotTester = SnapshotTester()
 
@@ -79,9 +78,9 @@ class SavedForLaterScreenTest {
                                 description = "JetBrains Kotlin Multiplatform (KMP) is an open-source technology",
                             ),
                             displayablePublishTime = "21 Nov 2023",
-                        )
+                        ),
                     ),
-                )
+                ),
             )
         }
     }

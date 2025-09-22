@@ -77,7 +77,7 @@ public fun SharedTransitionScope.TalkingKotlinCard(
                     )
                 } else {
                     Modifier
-                }
+                },
             )
             .drawBehind {
                 drawRoundRect(
@@ -96,7 +96,7 @@ public fun SharedTransitionScope.TalkingKotlinCard(
                 end = 8.dp,
                 top = 16.dp,
                 bottom = 16.dp,
-            )
+            ),
         ) {
             Row {
                 Column(
@@ -148,36 +148,47 @@ public fun SharedTransitionScope.TalkingKotlinCard(
                 )
             }
             Spacer(modifier = Modifier.height(8.dp))
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Surface(
-                    shape = CircleShape,
-                    color = KSTheme.colorScheme.containerOnTertiary,
-                    contentColor = KSTheme.colorScheme.primary,
-                ) {
-                    Text(
-                        text = item.value.duration,
-                        style = KSTheme.typography.labelMedium.copy(
-                            fontWeight = FontWeight.ExtraBold,
-                        ),
-                        modifier = Modifier.padding(
-                            vertical = 8.dp,
-                            horizontal = 12.dp,
-                        ),
-                    )
-                }
-                Spacer(modifier = Modifier.weight(1f))
-                IconButton(
-                    if (item.value.savedForLater) {
-                        KSIcons.BookmarkFill
-                    } else {
-                        KSIcons.BookmarkAdd
-                    },
-                    contentDescription = null,
-                    onClick = { onSaveButtonClick(item.value) },
-                    modifier = Modifier.testTag("saveButton"),
-                )
-            }
+            BottomRow(
+                item = item,
+                onSaveButtonClick = onSaveButtonClick,
+            )
         }
+    }
+}
+
+@Composable
+private fun BottomRow(
+    item: DisplayableFeedItem<FeedItem.TalkingKotlin>,
+    onSaveButtonClick: (FeedItem.TalkingKotlin) -> Unit,
+) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Surface(
+            shape = CircleShape,
+            color = KSTheme.colorScheme.containerOnTertiary,
+            contentColor = KSTheme.colorScheme.primary,
+        ) {
+            Text(
+                text = item.value.duration,
+                style = KSTheme.typography.labelMedium.copy(
+                    fontWeight = FontWeight.ExtraBold,
+                ),
+                modifier = Modifier.padding(
+                    vertical = 8.dp,
+                    horizontal = 12.dp,
+                ),
+            )
+        }
+        Spacer(modifier = Modifier.weight(1f))
+        IconButton(
+            if (item.value.savedForLater) {
+                KSIcons.BookmarkFill
+            } else {
+                KSIcons.BookmarkAdd
+            },
+            contentDescription = null,
+            onClick = { onSaveButtonClick(item.value) },
+            modifier = Modifier.testTag("saveButton"),
+        )
     }
 }
 

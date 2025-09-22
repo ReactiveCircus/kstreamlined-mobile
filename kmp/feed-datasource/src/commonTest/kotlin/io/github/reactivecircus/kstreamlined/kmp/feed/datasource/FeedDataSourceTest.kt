@@ -18,7 +18,6 @@ import kotlin.test.assertNull
 import kotlin.time.Instant
 
 class FeedDataSourceTest {
-
     private val feedService = FakeFeedService()
 
     private val db = createInMemoryDatabase()
@@ -64,9 +63,9 @@ class FeedDataSourceTest {
                         title = "Kotlin YouTube",
                         description = "The official YouTube channel of the Kotlin programming language",
                         selected = true,
-                    )
+                    ),
                 ),
-                awaitItem()
+                awaitItem(),
             )
 
             db.feedOriginEntityQueries.updateSelection(
@@ -86,9 +85,9 @@ class FeedDataSourceTest {
                         title = "Kotlin YouTube",
                         description = "The official YouTube channel of the Kotlin programming language",
                         selected = true,
-                    )
+                    ),
                 ),
-                awaitItem()
+                awaitItem(),
             )
         }
     }
@@ -373,7 +372,7 @@ class FeedDataSourceTest {
                     title = "Kotlin Blog",
                     description = "Latest news from the official Kotlin Blog",
                     selected = true,
-                )
+                ),
             ),
             db.feedOriginEntityQueries.allFeedOrigins().executeAsList(),
         )
@@ -397,7 +396,7 @@ class FeedDataSourceTest {
                     title = "Kotlin Blog",
                     description = "Latest news from the official Kotlin Blog",
                     selected = false,
-                )
+                ),
             ),
             db.feedOriginEntityQueries.allFeedOrigins().executeAsList(),
         )

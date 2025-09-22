@@ -290,7 +290,7 @@ private fun SharedTransitionScope.ContentUi(
                         Text(
                             text = stringResource(id = R.string.episode_website),
                             style = KSTheme.typography.labelLarge.copy(
-                                fontWeight = FontWeight.ExtraBold
+                                fontWeight = FontWeight.ExtraBold,
                             ),
                         )
                         Spacer(modifier = Modifier.weight(1f))

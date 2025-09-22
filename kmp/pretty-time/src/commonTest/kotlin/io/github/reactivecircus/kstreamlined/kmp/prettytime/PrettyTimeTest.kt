@@ -11,11 +11,8 @@ import kotlin.time.Duration.Companion.seconds
 import kotlin.time.Instant
 
 class PrettyTimeTest {
-
     private val fixedClock = object : Clock {
-        override fun now(): Instant {
-            return Instant.parse("2023-12-03T03:10:54Z")
-        }
+        override fun now(): Instant = Instant.parse("2023-12-03T03:10:54Z")
     }
 
     @Test
@@ -32,9 +29,7 @@ class PrettyTimeTest {
     @Test
     fun timeAgp() {
         val fixedClock = object : Clock {
-            override fun now(): Instant {
-                return Instant.parse("2023-12-03T03:10:54Z")
-            }
+            override fun now(): Instant = Instant.parse("2023-12-03T03:10:54Z")
         }
         val now = fixedClock.now()
         val timeZone = TimeZone.UTC

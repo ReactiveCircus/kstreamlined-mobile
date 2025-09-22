@@ -11,7 +11,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object MockRemoteModule {
-
     @Provides
     @Singleton
     fun feedService(): FeedService {

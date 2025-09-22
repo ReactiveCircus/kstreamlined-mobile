@@ -20,7 +20,6 @@ import org.junit.runner.RunWith
 @LargeTest
 @RunWith(AndroidJUnit4::class)
 class StartupBenchmark {
-
     @get:Rule
     val rule = MacrobenchmarkRule()
 
@@ -38,7 +37,7 @@ class StartupBenchmark {
         metrics = listOf(StartupTimingMetric()),
         compilationMode = compilationMode,
         experimentalConfig = ExperimentalConfig(
-            startupInsightsConfig = StartupInsightsConfig(isEnabled = true)
+            startupInsightsConfig = StartupInsightsConfig(isEnabled = true),
         ),
         startupMode = StartupMode.COLD,
         iterations = 10,
@@ -48,6 +47,6 @@ class StartupBenchmark {
         measureBlock = {
             startActivityAndWait()
             waitForHomeFeedContent()
-        }
+        },
     )
 }

@@ -14,7 +14,7 @@ import androidx.compose.ui.text.buildAnnotatedString
  * Adopted from https://stackoverflow.com/a/73662287
  */
 public fun String.linkify(
-    linkStyle: SpanStyle
+    linkStyle: SpanStyle,
 ): AnnotatedString = buildAnnotatedString {
     append(this@linkify)
     val spannable = SpannableString(this@linkify)

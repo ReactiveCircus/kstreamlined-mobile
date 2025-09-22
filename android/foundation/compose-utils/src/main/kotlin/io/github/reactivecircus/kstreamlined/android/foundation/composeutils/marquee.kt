@@ -34,7 +34,9 @@ public fun Modifier.marqueeWithFadedEdges(
 ): Modifier = if (fadedEdgeMode != FadedEdgeMode.None) {
     offset(x = -startEdgePadding)
         .graphicsLayer { compositingStrategy = CompositingStrategy.Offscreen }
-} else { this }
+} else {
+    this
+}
     .drawWithContent {
         drawContent()
         when (fadedEdgeMode) {
@@ -68,19 +70,18 @@ public fun Modifier.marqueeWithFadedEdges(
         repeatDelayMillis = repeatDelayMillis,
         initialDelayMillis = initialDelayMillis,
         spacing = spacing,
-        velocity = velocity
+        velocity = velocity,
     )
     .then(
         if (fadedEdgeMode != FadedEdgeMode.None) {
             Modifier.padding(start = startEdgePadding)
         } else {
             Modifier
-        }
+        },
     )
 
 @JvmInline
 public value class FadedEdgeMode private constructor(private val value: Int) {
-
     override fun toString(): String = when (this) {
         Both -> "Both"
         Start -> "Start"
@@ -90,7 +91,6 @@ public value class FadedEdgeMode private constructor(private val value: Int) {
     }
 
     public companion object {
-
         public val Both: FadedEdgeMode = FadedEdgeMode(0)
 
         public val Start: FadedEdgeMode = FadedEdgeMode(1)
@@ -114,8 +114,8 @@ private fun ContentDrawScope.drawFadedEdge(
         brush = Brush.horizontalGradient(
             colors = listOf(Color.Transparent, Color.Black),
             startX = if (leftEdge) 0f else size.width,
-            endX = if (leftEdge) edgeWidthPx else size.width - edgeWidthPx
+            endX = if (leftEdge) edgeWidthPx else size.width - edgeWidthPx,
         ),
-        blendMode = BlendMode.DstIn
+        blendMode = BlendMode.DstIn,
     )
 }

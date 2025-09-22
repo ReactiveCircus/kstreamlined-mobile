@@ -16,7 +16,7 @@ import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.fou
 @Composable
 public fun KSTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     val colorScheme = if (darkTheme) {
         DarkColorScheme

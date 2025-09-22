@@ -27,7 +27,7 @@ public class AppleNetworkMonitor(
                     NetworkState.Connected
                 } else {
                     NetworkState.Disconnected
-                }
+                },
             )
         }
         nw_path_monitor_set_queue(monitor, dispatch_queue_create("NWPathMonitor", null))

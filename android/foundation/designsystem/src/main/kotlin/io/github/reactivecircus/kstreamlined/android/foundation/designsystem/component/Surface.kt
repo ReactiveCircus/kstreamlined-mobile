@@ -23,7 +23,7 @@ public fun Surface(
     contentColor: Color = KSTheme.colorScheme.onBackground,
     border: BorderStroke? = null,
     elevation: Dp = 0.dp,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     CompositionLocalProvider(LocalContentColor provides contentColor) {
         MaterialSurface(
@@ -50,7 +50,7 @@ public fun Surface(
     contentColor: Color = KSTheme.colorScheme.onBackground,
     elevation: Dp = 0.dp,
     border: BorderStroke? = null,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     CompositionLocalProvider(LocalContentColor provides contentColor) {
         MaterialSurface(

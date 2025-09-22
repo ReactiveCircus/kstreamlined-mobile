@@ -7,7 +7,6 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class KotlinWeeklyIssueEntryMappersTest {
-
     @Test
     fun `KotlinWeeklyIssueQuery_KotlinWeeklyIssueEntry maps to expected KotlinWeeklyIssueEntry`() {
         val entry1 = KotlinWeeklyIssueQuery.KotlinWeeklyIssueEntry(

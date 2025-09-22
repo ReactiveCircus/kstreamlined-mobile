@@ -7,7 +7,6 @@ import kotlin.test.assertEquals
 import kotlin.time.Instant
 
 class TalkingKotlinEpisodeMapperTest {
-
     @Test
     fun `transformed TalkingKotlinEpisode has expected displayable time`() {
         val timeZone = TimeZone.UTC

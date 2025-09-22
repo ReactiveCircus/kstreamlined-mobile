@@ -20,7 +20,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object CloudRemoteModule {
-
     @Provides
     @Singleton
     fun feedService(apolloClient: ApolloClient): FeedService {
@@ -39,7 +38,7 @@ object CloudRemoteModule {
                 ApolloClientAwarenessInterceptor(
                     clientName = "KStreamlined Android",
                     clientVersion = BuildConfig.VERSION_NAME,
-                )
+                ),
             )
             .store(ApolloClientConfigs.apolloStore, writeToCacheAsynchronously = true)
             .build()

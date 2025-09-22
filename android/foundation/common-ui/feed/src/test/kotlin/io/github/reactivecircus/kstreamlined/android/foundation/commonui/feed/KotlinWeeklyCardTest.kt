@@ -14,7 +14,6 @@ import kotlin.time.Instant
 
 @Burst
 class KotlinWeeklyCardTest {
-
     @get:Rule
     val snapshotTester = SnapshotTester()
 

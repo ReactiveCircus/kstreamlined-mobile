@@ -30,7 +30,6 @@ import kotlin.time.Instant
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class FeedSyncEngineImplTest {
-
     private val feedService = FakeFeedService()
 
     private val db = createInMemoryDatabase()
@@ -52,6 +51,14 @@ class FeedSyncEngineImplTest {
         syncEngineScope = testScope.backgroundScope,
         syncEngineDispatcher = testDispatcher,
         clock = fakeClock,
+    )
+
+    private val newFeedEntry = FeedEntry.KotlinWeekly(
+        id = "https://mailchi.mp/kotlinweekly/kotlin-weekly-400",
+        title = "Kotlin Weekly #400",
+        publishTime = Instant.parse("2024-01-01T09:13:00Z"),
+        contentUrl = "https://mailchi.mp/kotlinweekly/kotlin-weekly-400",
+        issueNumber = 400,
     )
 
     @Test
@@ -163,7 +170,7 @@ class FeedSyncEngineImplTest {
             assertFeedItemsInDb(
                 initialFeedItems - initialFeedItems.first {
                     it.feed_origin_key == FeedSource.Key.KotlinBlog.name
-                } + newFeedEntry.toDbModel(emptyList())
+                } + newFeedEntry.toDbModel(emptyList()),
             )
         }
     }
@@ -449,14 +456,6 @@ class FeedSyncEngineImplTest {
             assertFeedItemsInDb(emptyList())
         }
     }
-
-    private val newFeedEntry = FeedEntry.KotlinWeekly(
-        id = "https://mailchi.mp/kotlinweekly/kotlin-weekly-400",
-        title = "Kotlin Weekly #400",
-        publishTime = Instant.parse("2024-01-01T09:13:00Z"),
-        contentUrl = "https://mailchi.mp/kotlinweekly/kotlin-weekly-400",
-        issueNumber = 400,
-    )
 
     private fun assertFeedOriginsInDb(expected: List<FeedOriginEntity>) {
         val savedFeedOrigins = db.feedOriginEntityQueries.allFeedOrigins().executeAsList()

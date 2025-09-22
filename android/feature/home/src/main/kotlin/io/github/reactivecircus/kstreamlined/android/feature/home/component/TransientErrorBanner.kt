@@ -79,7 +79,7 @@ private fun DismissButton(
                 interactionSource = remember { MutableInteractionSource() },
                 indication = null,
             ),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         Icon(
             imageVector = KSIcons.Close,

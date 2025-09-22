@@ -13,7 +13,6 @@ import org.junit.runner.RunWith
 
 @RunWith(ThemeVariantInjector::class)
 class TalkingKotlinEpisodeScreenTest {
-
     @get:Rule
     val snapshotTester = SnapshotTester()
 

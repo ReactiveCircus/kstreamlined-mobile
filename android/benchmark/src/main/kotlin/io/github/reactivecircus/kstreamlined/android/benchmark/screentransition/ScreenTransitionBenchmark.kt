@@ -21,7 +21,6 @@ import org.junit.runner.RunWith
 @LargeTest
 @RunWith(AndroidJUnit4::class)
 class ScreenTransitionBenchmark {
-
     @get:Rule
     val rule = MacrobenchmarkRule()
 
@@ -59,6 +58,6 @@ class ScreenTransitionBenchmark {
             clickCard(cardType)
             device.pressBack()
             pressHome()
-        }
+        },
     )
 }

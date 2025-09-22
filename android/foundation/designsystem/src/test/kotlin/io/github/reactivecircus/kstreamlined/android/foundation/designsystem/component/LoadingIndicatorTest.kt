@@ -11,7 +11,6 @@ import org.junit.runner.RunWith
 
 @RunWith(ThemeVariantInjector::class)
 class LoadingIndicatorTest {
-
     @get:Rule
     val snapshotTester = SnapshotTester()
 

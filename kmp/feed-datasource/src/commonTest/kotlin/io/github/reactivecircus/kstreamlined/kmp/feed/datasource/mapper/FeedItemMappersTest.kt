@@ -10,7 +10,6 @@ import kotlin.test.assertFailsWith
 import kotlin.time.Instant
 
 class FeedItemMappersTest {
-
     @Test
     fun `FeedItemEntity maps to FeedItem_KotlinBlog`() {
         val entity = FeedItemEntity(

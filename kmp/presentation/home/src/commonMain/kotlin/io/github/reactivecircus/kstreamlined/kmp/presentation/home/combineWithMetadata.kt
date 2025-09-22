@@ -11,7 +11,7 @@ internal fun <T1, T2, T3, R> combineWithMetadata(
     flow1: Flow<T1>,
     flow2: Flow<T2>,
     flow3: Flow<T3>,
-    @BuilderInference transform: suspend (T1, T2, T3, TransformMetadata) -> R
+    @BuilderInference transform: suspend (T1, T2, T3, TransformMetadata) -> R,
 ): Flow<R> = flow {
     var isFirstTransform = true
     var lastEmittedFlowIndex = -1
@@ -30,7 +30,7 @@ internal fun <T1, T2, T3, R> combineWithMetadata(
             value1,
             value2,
             value3,
-            TransformMetadata(isFirstTransform, lastEmittedFlowIndex)
+            TransformMetadata(isFirstTransform, lastEmittedFlowIndex),
         )
     }.collect {
         emit(it)

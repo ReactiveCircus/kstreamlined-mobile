@@ -11,7 +11,7 @@ internal fun List<FeedItem>.toSavedForLaterFeedItems(
 ): List<DisplayableFeedItem<FeedItem>> {
     return map {
         it.toDisplayable(
-            it.publishTime.toFormattedTime(timeZone)
+            it.publishTime.toFormattedTime(timeZone),
         )
     }
 }

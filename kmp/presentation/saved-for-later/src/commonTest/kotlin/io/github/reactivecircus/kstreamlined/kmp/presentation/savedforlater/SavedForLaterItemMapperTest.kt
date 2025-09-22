@@ -8,7 +8,6 @@ import kotlin.test.assertEquals
 import kotlin.time.Instant
 
 class SavedForLaterItemMapperTest {
-
     @Test
     fun `transformed Displayable FeedItems have expected displayable time`() {
         val timeZone = TimeZone.UTC

@@ -12,7 +12,6 @@ import org.junit.runner.RunWith
 
 @RunWith(ThemeVariantInjector::class)
 class PodcastPlayerUiTest {
-
     @get:Rule
     val snapshotTester = SnapshotTester()
 
