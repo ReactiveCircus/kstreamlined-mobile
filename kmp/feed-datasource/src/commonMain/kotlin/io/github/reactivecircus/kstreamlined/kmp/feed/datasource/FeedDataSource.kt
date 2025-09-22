@@ -22,10 +22,10 @@ public class FeedDataSource(
     private val db: KStreamlinedDatabase,
     private val dbDispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) {
-
     public fun streamFeedOrigins(): Flow<List<FeedOrigin>> {
         return db.feedOriginEntityQueries.allFeedOrigins()
-            .asFlow().mapToList(dbDispatcher)
+            .asFlow()
+            .mapToList(dbDispatcher)
             .distinctUntilChanged()
             .map { origins ->
                 origins.map { it.asExternalModel() }
@@ -34,7 +34,8 @@ public class FeedDataSource(
 
     public fun streamFeedItemsForSelectedOrigins(): Flow<List<FeedItem>> {
         return db.feedItemEntityQueries.feedItemsForSelectedOrigins()
-            .asFlow().mapToList(dbDispatcher)
+            .asFlow()
+            .mapToList(dbDispatcher)
             .distinctUntilChanged()
             .map { items ->
                 items.map { it.asExternalModel() }
@@ -43,7 +44,8 @@ public class FeedDataSource(
 
     public fun streamSavedFeedItems(): Flow<List<FeedItem>> {
         return db.feedItemEntityQueries.savedFeedItems()
-            .asFlow().mapToList(dbDispatcher)
+            .asFlow()
+            .mapToList(dbDispatcher)
             .distinctUntilChanged()
             .map { items ->
                 items.map { it.asExternalModel() }
@@ -52,7 +54,8 @@ public class FeedDataSource(
 
     public fun streamFeedItemById(id: String): Flow<FeedItem?> {
         return db.feedItemEntityQueries.feedItemById(id)
-            .asFlow().mapToOneOrNull(dbDispatcher)
+            .asFlow()
+            .mapToOneOrNull(dbDispatcher)
             .distinctUntilChanged()
             .map { it?.asExternalModel() }
     }
@@ -86,7 +89,7 @@ public class FeedDataSource(
                 }
                 db.feedOriginEntityQueries.updateSelection(
                     selected = false,
-                    key = feedOriginKey.name
+                    key = feedOriginKey.name,
                 )
             }
         }

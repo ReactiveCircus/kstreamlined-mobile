@@ -17,7 +17,6 @@ import org.junit.runner.RunWith
 @LargeTest
 @RunWith(AndroidJUnit4::class)
 class HomeFeedRecompositionBenchmark {
-
     @get:Rule
     val rule = MacrobenchmarkRule()
 
@@ -44,6 +43,6 @@ class HomeFeedRecompositionBenchmark {
             repeat(4) {
                 clickSaveButtonOnCard()
             }
-        }
+        },
     )
 }

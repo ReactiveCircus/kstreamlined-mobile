@@ -14,14 +14,14 @@ internal fun Project.configureDetekt() {
     pluginManager.apply(DetektPlugin::class.java)
 
     // enable Ktlint formatting
-//    dependencies.add("detektPlugins", the<LibrariesForLibs>().plugin.detektFormatting)
+    dependencies.add("detektPlugins", libs.plugin.detektKtlintWrapper)
 
     plugins.withType(DetektPlugin::class.java).configureEach {
         extensions.configure(DetektExtension::class.java) {
             it.source.from(files("src/"))
             it.config.from(files("${project.rootDir}/detekt.yml"))
             it.buildUponDefaultConfig.set(true)
-            it.allRules.set(true)
+//            it.allRules.set(true)
             it.parallel.set(true)
         }
         tasks.withType(Detekt::class.java).configureEach {

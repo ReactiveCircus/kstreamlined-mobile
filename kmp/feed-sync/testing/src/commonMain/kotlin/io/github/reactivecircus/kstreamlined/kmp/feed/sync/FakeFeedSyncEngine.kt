@@ -5,21 +5,20 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 public class FakeFeedSyncEngine : FeedSyncEngine {
-
     public val recordedSyncs: Turbine<RecordedSync> = Turbine()
+
+    override val syncState: StateFlow<SyncState>
+        field = MutableStateFlow<SyncState>(SyncState.Idle)
 
     public fun emitSyncState(newState: SyncState) {
         syncState.value = newState
     }
-
-    override val syncState: StateFlow<SyncState>
-        field = MutableStateFlow<SyncState>(SyncState.Idle)
 
     override suspend fun sync(forceRefresh: Boolean) {
         recordedSyncs.add(RecordedSync(forceRefresh))
     }
 
     public data class RecordedSync(
-        val forceRefresh: Boolean
+        val forceRefresh: Boolean,
     )
 }

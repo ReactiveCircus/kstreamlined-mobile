@@ -20,7 +20,6 @@ import kotlin.test.assertEquals
 import kotlin.time.Instant
 
 class KotlinWeeklyIssuePresenterTest {
-
     private val feedService = FakeFeedService()
 
     private val db = createInMemoryDatabase()
@@ -69,7 +68,7 @@ class KotlinWeeklyIssuePresenterTest {
                 KotlinWeeklyIssueEntry.Group.Android -> KotlinWeeklyIssueItem.Group.Android
                 KotlinWeeklyIssueEntry.Group.Videos -> KotlinWeeklyIssueItem.Group.Videos
                 KotlinWeeklyIssueEntry.Group.Libraries -> KotlinWeeklyIssueItem.Group.Libraries
-            }
+            },
         )
     }
 
@@ -102,7 +101,7 @@ class KotlinWeeklyIssuePresenterTest {
                         id = item.id,
                         contentUrl = item.contentUrl,
                         issueItems = fakeKotlinWeeklyIssueItems.groupBy { it.group },
-                        savedForLater = item.savedForLater
+                        savedForLater = item.savedForLater,
                     ),
                     awaitItem(),
                 )
@@ -161,7 +160,7 @@ class KotlinWeeklyIssuePresenterTest {
                         id = item.id,
                         contentUrl = item.contentUrl,
                         issueItems = fakeKotlinWeeklyIssueItems.groupBy { it.group },
-                        savedForLater = item.savedForLater
+                        savedForLater = item.savedForLater,
                     ),
                     awaitItem(),
                 )
@@ -173,7 +172,7 @@ class KotlinWeeklyIssuePresenterTest {
                         id = item.id,
                         contentUrl = item.contentUrl,
                         issueItems = fakeKotlinWeeklyIssueItems.groupBy { it.group },
-                        savedForLater = true
+                        savedForLater = true,
                     ),
                     awaitItem(),
                 )
@@ -185,7 +184,7 @@ class KotlinWeeklyIssuePresenterTest {
                         id = item.id,
                         contentUrl = item.contentUrl,
                         issueItems = fakeKotlinWeeklyIssueItems.groupBy { it.group },
-                        savedForLater = false
+                        savedForLater = false,
                     ),
                     awaitItem(),
                 )

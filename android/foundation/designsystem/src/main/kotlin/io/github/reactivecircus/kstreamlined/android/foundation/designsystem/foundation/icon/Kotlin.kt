@@ -15,7 +15,7 @@ public val KSIcons.Kotlin: ImageVector
                     "M22 22H2V2H22L12 12L22 22Z",
                     DefaultFillType,
                 ),
-            )
+            ),
         )
         return _kotlin!!
     }

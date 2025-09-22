@@ -47,7 +47,9 @@ public class FeedSyncEngineImpl(
     private val manualSyncTrigger = Channel<SyncRequest>()
 
     private val dbChangeSyncTrigger = db.feedOriginEntityQueries
-        .allFeedOrigins().asFlow().mapToList(syncEngineDispatcher)
+        .allFeedOrigins()
+        .asFlow()
+        .mapToList(syncEngineDispatcher)
         .map { SyncRequest(forceRefresh = false, skipFeedSources = it.isNotEmpty()) }
 
     private val networkStateChangeSyncTrigger = networkMonitor.networkState
@@ -109,7 +111,7 @@ public class FeedSyncEngineImpl(
         } else {
             feedSources = null
             feedEntries = feedService.fetchFeedEntries(
-                filters = db.feedOriginEntityQueries.allFeedOrigins().executeAsList().asNetworkModels()
+                filters = db.feedOriginEntityQueries.allFeedOrigins().executeAsList().asNetworkModels(),
             )
         }
 

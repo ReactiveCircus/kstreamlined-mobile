@@ -81,7 +81,6 @@ detekt {
     source.from(files("src/"))
     config.from(files("$rootDir/../detekt.yml"))
     buildUponDefaultConfig = true
-    allRules = true
     parallel = true
 }
 
@@ -99,7 +98,7 @@ dependencies {
     implementation(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
 
     // enable Ktlint formatting
-//    detektPlugins(libs.plugin.detektFormatting)
+    detektPlugins(libs.plugin.detektKtlintWrapper)
 
     // enable lint checks for Gradle plugins
     lintChecks(libs.androidx.lintGradle)

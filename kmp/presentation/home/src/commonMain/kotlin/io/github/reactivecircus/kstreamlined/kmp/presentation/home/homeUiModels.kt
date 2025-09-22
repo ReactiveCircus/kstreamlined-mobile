@@ -17,6 +17,8 @@ public sealed interface HomeUiState {
 
 public sealed interface HomeUiEvent {
     public data class ToggleSavedForLater(val item: FeedItem) : HomeUiEvent
+
     public data object Refresh : HomeUiEvent
+
     public data object DismissTransientError : HomeUiEvent
 }

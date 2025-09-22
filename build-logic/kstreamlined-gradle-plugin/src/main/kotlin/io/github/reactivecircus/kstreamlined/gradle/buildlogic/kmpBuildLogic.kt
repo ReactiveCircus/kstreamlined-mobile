@@ -35,19 +35,14 @@ internal fun KotlinMultiplatformExtension.configureKmpTargets(
 internal enum class KmpModuleType {
     JvmAndIos,
     AndroidAndIos,
-    IosOnly;
+    IosOnly,
+    ;
 
-    fun jvmTargetEnabled(): Boolean {
-        return this == JvmAndIos
-    }
+    fun jvmTargetEnabled(): Boolean = this == JvmAndIos
 
-    fun androidTargetEnabled(): Boolean {
-        return this == AndroidAndIos
-    }
+    fun androidTargetEnabled(): Boolean = this == AndroidAndIos
 
-    fun iosTargetEnabled(): Boolean {
-        return this == JvmAndIos || this == AndroidAndIos || this == IosOnly
-    }
+    fun iosTargetEnabled(): Boolean = this == JvmAndIos || this == AndroidAndIos || this == IosOnly
 }
 
 /**

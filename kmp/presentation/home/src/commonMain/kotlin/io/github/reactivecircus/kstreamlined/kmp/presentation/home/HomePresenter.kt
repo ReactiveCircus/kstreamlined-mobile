@@ -55,6 +55,7 @@ public class HomePresenter(
         return uiState
     }
 
+    @Suppress("CognitiveComplexMethod")
     private fun uiStateFlow(
         currentState: () -> HomeUiState,
     ): Flow<HomeUiState> = combineWithMetadata(

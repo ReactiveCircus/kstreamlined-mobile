@@ -13,15 +13,13 @@ public fun <T : Serializable> Variant.addBuildConfigField(key: String, value: T)
     buildConfigFields?.put(key, buildConfigField)
 }
 
-public fun Project.shouldEnableVariant(variantName: String): Boolean {
-    return variantName in listOf(
-        "devDebug",
-        "demoDebug",
-        "mockDebug",
-        "prodRelease",
-    ) ||
-        // nonMinified variant for baseline profile generation
-        isGeneratingBaselineProfile && variantName == "devNonMinifiedRelease" ||
-        // benchmark variants
-        isRunningBenchmark && variantName in listOf("devRelease", "devBenchmarkRelease")
-}
+public fun Project.shouldEnableVariant(variantName: String): Boolean = variantName in listOf(
+    "devDebug",
+    "demoDebug",
+    "mockDebug",
+    "prodRelease",
+) ||
+    // nonMinified variant for baseline profile generation
+    isGeneratingBaselineProfile && variantName == "devNonMinifiedRelease" ||
+    // benchmark variants
+    isRunningBenchmark && variantName in listOf("devRelease", "devBenchmarkRelease")

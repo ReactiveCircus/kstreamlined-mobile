@@ -14,7 +14,6 @@ import org.junit.runner.RunWith
 
 @RunWith(ThemeVariantInjector::class)
 class KotlinWeeklyIssueScreenTest {
-
     @get:Rule
     val snapshotTester = SnapshotTester()
 
@@ -41,8 +40,8 @@ class KotlinWeeklyIssueScreenTest {
                                 summary = "The Kotlin Foundation is once again participating in Google Summer of Code. If you are thinking of participating, check out this announcement.",
                                 url = "url",
                                 source = "blog.jetbrains.com",
-                                group = KotlinWeeklyIssueItem.Group.Announcements
-                            )
+                                group = KotlinWeeklyIssueItem.Group.Announcements,
+                            ),
                         ),
                         KotlinWeeklyIssueItem.Group.Articles to listOf(
                             KotlinWeeklyIssueItem(
@@ -50,8 +49,8 @@ class KotlinWeeklyIssueScreenTest {
                                 summary = "Watch out when you are using List, Map, Set, etc in Compose. Jorge Castillo explains what strong skipping in Compose does not fix.",
                                 url = "url",
                                 source = "newsletter.jorgecastillo.dev",
-                                group = KotlinWeeklyIssueItem.Group.Articles
-                            )
+                                group = KotlinWeeklyIssueItem.Group.Articles,
+                            ),
                         ),
                         KotlinWeeklyIssueItem.Group.Videos to listOf(
                             KotlinWeeklyIssueItem(
@@ -59,11 +58,11 @@ class KotlinWeeklyIssueScreenTest {
                                 summary = "Piotr from Codersee explains in this video how to integrate a Ktor application with the MongoDB database and Kotlin coroutines.",
                                 url = "url",
                                 source = "www.youtube.com",
-                                group = KotlinWeeklyIssueItem.Group.Videos
-                            )
+                                group = KotlinWeeklyIssueItem.Group.Videos,
+                            ),
                         ),
                     ),
-                    savedForLater = true
+                    savedForLater = true,
                 ),
             )
         }

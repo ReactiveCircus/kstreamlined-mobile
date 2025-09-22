@@ -7,7 +7,6 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
 class FeedOriginMappersTest {
-
     @Test
     fun `FeedOriginEntity maps to FeedOrigin with KotlinBlog key`() {
         val entity = FeedOriginEntity(
@@ -20,7 +19,7 @@ class FeedOriginMappersTest {
             title = "Kotlin Blog",
             description = "Latest news from the official Kotlin Blog",
             selected = true,
-            key = FeedOrigin.Key.KotlinBlog
+            key = FeedOrigin.Key.KotlinBlog,
         )
         assertEquals(expected, entity.asExternalModel())
     }
@@ -37,7 +36,7 @@ class FeedOriginMappersTest {
             title = "Kotlin YouTube",
             description = "The official YouTube channel of the Kotlin programming language",
             selected = true,
-            key = FeedOrigin.Key.KotlinYouTubeChannel
+            key = FeedOrigin.Key.KotlinYouTubeChannel,
         )
         assertEquals(expected, entity.asExternalModel())
     }
@@ -54,7 +53,7 @@ class FeedOriginMappersTest {
             title = "Talking Kotlin",
             description = "Technical show discussing everything Kotlin, hosted by Hadi and Sebastian",
             selected = true,
-            key = FeedOrigin.Key.TalkingKotlinPodcast
+            key = FeedOrigin.Key.TalkingKotlinPodcast,
         )
         assertEquals(expected, entity.asExternalModel())
     }
@@ -71,7 +70,7 @@ class FeedOriginMappersTest {
             title = "Kotlin Weekly",
             description = "Weekly community Kotlin newsletter, hosted by Enrique",
             selected = true,
-            key = FeedOrigin.Key.KotlinWeekly
+            key = FeedOrigin.Key.KotlinWeekly,
         )
         assertEquals(expected, entity.asExternalModel())
     }

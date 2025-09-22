@@ -10,7 +10,7 @@ import co.touchlab.kermit.Logger
 internal class SchemeAwareWebViewClient : AccompanistWebViewClient() {
     override fun shouldOverrideUrlLoading(
         view: WebView?,
-        request: WebResourceRequest?
+        request: WebResourceRequest?,
     ): Boolean {
         request?.let {
             var url = it.url.toString()

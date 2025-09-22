@@ -8,7 +8,6 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
 class FeedSourceMappersTest {
-
     @Test
     fun `FeedSource_Key maps to expected FeedSourceKey`() {
         assertEquals(FeedSourceKey.KOTLIN_BLOG, FeedSource.Key.KotlinBlog.asApolloModel())

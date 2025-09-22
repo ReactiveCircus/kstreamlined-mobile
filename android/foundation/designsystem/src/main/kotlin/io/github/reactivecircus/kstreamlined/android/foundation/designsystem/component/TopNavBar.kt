@@ -58,14 +58,14 @@ public fun SharedTransitionScope.TopNavBar(
                     )
                 } else {
                     Modifier
-                }
+                },
             ),
         elevation = elevation,
         color = KSTheme.colorScheme.background,
         contentColor = KSTheme.colorScheme.primary,
     ) {
         Box(
-            modifier = Modifier.padding(contentPadding)
+            modifier = Modifier.padding(contentPadding),
         ) {
             Column(
                 modifier = Modifier.padding(vertical = 16.dp),
@@ -86,7 +86,7 @@ public fun SharedTransitionScope.TopNavBar(
                         animatedVisibilityScope = animatedVisibilityScope,
                         titleElementKey = titleElementKey,
                         text = title,
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.weight(1f),
                     )
 
                     actions()
@@ -145,7 +145,7 @@ private fun SharedTransitionScope.GradientTitle(
                     .skipToLookaheadSize()
             } else {
                 Modifier
-            }
+            },
         )
     }
 }
@@ -198,11 +198,11 @@ private fun PreviewTopNavBar_withBottomRow() {
                                 style = KSTheme.typography.labelMedium.copy(
                                     fontWeight = FontWeight.ExtraBold,
                                     letterSpacing = 0.sp,
-                                )
+                                ),
                             )
                             Icon(KSIcons.ArrowDown, contentDescription = null)
                         }
-                    }
+                    },
                 )
             }
         }

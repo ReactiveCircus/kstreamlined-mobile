@@ -59,10 +59,10 @@ internal fun PlayPauseButton(
             ) { playing ->
                 Text(
                     text = stringResource(
-                        id = if (playing) R.string.pause else R.string.play
+                        id = if (playing) R.string.pause else R.string.play,
                     ),
                     style = KSTheme.typography.labelLarge.copy(
-                        fontWeight = FontWeight.ExtraBold
+                        fontWeight = FontWeight.ExtraBold,
                     ),
                 )
             }

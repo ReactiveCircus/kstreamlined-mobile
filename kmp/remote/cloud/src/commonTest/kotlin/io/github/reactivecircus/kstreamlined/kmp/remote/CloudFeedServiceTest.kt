@@ -33,7 +33,6 @@ import kotlin.test.assertTrue
 import kotlin.time.Instant
 
 class CloudFeedServiceTest {
-
     private lateinit var mockServer: MockServer
 
     private lateinit var cloudFeedService: CloudFeedService
@@ -58,7 +57,7 @@ class CloudFeedServiceTest {
             buildKotlinYouTube {
                 title = "Kotlin YouTube entry"
                 publishTime = Instant.parse("2023-11-21T18:47:47Z")
-            }
+            },
         )
     }.feedEntries
 
@@ -71,7 +70,7 @@ class CloudFeedServiceTest {
             buildKotlinWeeklyIssueEntry {
                 title = "Kotlin Weekly entry 2"
                 group = KotlinWeeklyIssueEntryGroup.ARTICLES
-            }
+            },
         )
     }.kotlinWeeklyIssueEntries
 
@@ -82,7 +81,7 @@ class CloudFeedServiceTest {
             apolloClient = ApolloClient.Builder()
                 .serverUrl(mockServer.url())
                 .normalizedCache(MemoryCacheFactory())
-                .build()
+                .build(),
         )
     }
 
@@ -94,7 +93,7 @@ class CloudFeedServiceTest {
     @Test
     fun `fetchFeedOrigins returns result when network request was successful`() = runTest {
         mockServer.enqueueString(
-            FeedSourcesQuery.Data(feedSources = dummyFeedSources).toResponseJson()
+            FeedSourcesQuery.Data(feedSources = dummyFeedSources).toResponseJson(),
         )
         val actual = cloudFeedService.fetchFeedOrigins()
         assertEquals(dummyFeedSources.map { it.feedSourceItem.asExternalModel() }, actual)
@@ -112,7 +111,7 @@ class CloudFeedServiceTest {
     @Test
     fun `fetchFeedEntries returns result when network request was successful`() = runTest {
         mockServer.enqueueString(
-            FeedEntriesQuery.Data(feedEntries = dummyFeedEntries).toResponseJson()
+            FeedEntriesQuery.Data(feedEntries = dummyFeedEntries).toResponseJson(),
         )
         val actual = cloudFeedService.fetchFeedEntries(filters = null)
         assertEquals(dummyFeedEntries.map { it.feedEntryItem.asExternalModel() }, actual)
@@ -136,8 +135,8 @@ class CloudFeedServiceTest {
                 },
                 feedSources = dummyFeedSources.map {
                     FeedEntriesWithSourcesQuery.FeedSource(it.__typename, it.feedSourceItem)
-                }
-            ).toResponseJson()
+                },
+            ).toResponseJson(),
         )
         val actual = cloudFeedService.fetchFeedEntriesAndOrigins(filters = null)
         assertEquals(dummyFeedEntries.map { it.feedEntryItem.asExternalModel() }, actual.first)
@@ -157,7 +156,7 @@ class CloudFeedServiceTest {
     fun `fetchKotlinWeeklyIssue returns result when network request was successful`() = runTest {
         mockServer.enqueueString(
             KotlinWeeklyIssueQuery.Data(kotlinWeeklyIssueEntries = dummyKotlinWeeklyEntries)
-                .toResponseJson()
+                .toResponseJson(),
         )
         val actual = cloudFeedService.fetchKotlinWeeklyIssue(url = "url")
         assertEquals(dummyKotlinWeeklyEntries.map { it.asExternalModel() }, actual)
@@ -179,7 +178,7 @@ class CloudFeedServiceTest {
             // 1st request to populate cache
             mockServer.enqueueString(
                 KotlinWeeklyIssueQuery.Data(kotlinWeeklyIssueEntries = dummyKotlinWeeklyEntries)
-                    .toResponseJson()
+                    .toResponseJson(),
             )
             cloudFeedService.fetchKotlinWeeklyIssue(url = "url")
 

@@ -17,7 +17,6 @@ import org.junit.runner.RunWith
 @LargeTest
 @RunWith(AndroidJUnit4::class)
 class HomeFeedScrollingBenchmark {
-
     @get:Rule
     val rule = MacrobenchmarkRule()
 
@@ -46,6 +45,6 @@ class HomeFeedScrollingBenchmark {
         },
         measureBlock = {
             homeFeedListFlingDownUp()
-        }
+        },
     )
 }

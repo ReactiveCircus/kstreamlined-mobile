@@ -79,7 +79,7 @@ plugin-crashlytics = { module = "com.google.firebase:firebase-crashlytics-gradle
 plugin-firebasePerf = { module = "com.google.firebase:perf-plugin", version.ref = "firebase-perfPlugin"}
 plugin-appDistribution = { module = "com.google.firebase:firebase-appdistribution-gradle", version.ref = "firebase-appDistributionPlugin"}
 plugin-detekt = { module = "dev.detekt:detekt-gradle-plugin", version.ref = "detekt"}
-plugin-detektFormatting = { module = "dev.detekt:detekt-formatting", version.ref = "detekt"}
+plugin-detektKtlintWrapper = { module = "dev.detekt:detekt-rules-ktlint-wrapper", version.ref = "detekt"}
 plugin-playPublisher = { module = "com.github.triplet.gradle:play-publisher", version.ref = "playPublisher"}
 plugin-skie = { module = "co.touchlab.skie:co.touchlab.skie.gradle.plugin", version.ref = "skie"}
 plugin-sqldelight = { module = "app.cash.sqldelight:app.cash.sqldelight.gradle.plugin", version.ref = "sqldelight"}

@@ -9,7 +9,6 @@ import org.junit.runner.RunWith
 
 @RunWith(ThemeVariantInjector::class)
 class IssueItemUiTest {
-
     @get:Rule
     val snapshotTester = SnapshotTester()
 

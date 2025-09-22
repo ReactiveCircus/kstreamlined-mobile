@@ -9,7 +9,6 @@ import kotlin.test.assertTrue
 import kotlin.time.Duration.Companion.seconds
 
 class SyncRequestEvaluatorTest {
-
     private val db = createInMemoryDatabase()
 
     private val syncConfig = SyncConfig.Default

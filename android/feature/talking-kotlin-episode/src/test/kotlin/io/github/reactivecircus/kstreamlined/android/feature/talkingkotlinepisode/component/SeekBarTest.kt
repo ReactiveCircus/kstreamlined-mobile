@@ -13,7 +13,6 @@ import org.junit.runner.RunWith
 
 @RunWith(ThemeVariantInjector::class)
 class SeekBarTest {
-
     @get:Rule
     val snapshotTester = SnapshotTester()
 
@@ -21,7 +20,7 @@ class SeekBarTest {
     fun snapshot_SeekBar() {
         snapshotTester.snapshot(addSurface = false) {
             Surface(
-                color = KSTheme.colorScheme.tertiary
+                color = KSTheme.colorScheme.tertiary,
             ) {
                 SeekBar(
                     modifier = Modifier.padding(8.dp),

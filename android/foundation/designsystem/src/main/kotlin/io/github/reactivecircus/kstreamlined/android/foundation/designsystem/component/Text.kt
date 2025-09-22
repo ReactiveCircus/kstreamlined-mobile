@@ -38,7 +38,7 @@ public fun Text(
             color = textColor,
             textAlign = textAlign,
             textDecoration = textDecoration,
-        )
+        ),
     )
     BasicText(
         text,
@@ -77,7 +77,7 @@ public fun Text(
             color = textColor,
             textAlign = textAlign,
             textDecoration = textDecoration,
-        )
+        ),
     )
     BasicText(
         text = text,

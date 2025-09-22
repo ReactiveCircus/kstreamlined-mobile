@@ -13,7 +13,6 @@ import org.junit.runner.RunWith
 
 @RunWith(ThemeVariantInjector::class)
 class ChipTest {
-
     @get:Rule
     val snapshotTester = SnapshotTester()
 

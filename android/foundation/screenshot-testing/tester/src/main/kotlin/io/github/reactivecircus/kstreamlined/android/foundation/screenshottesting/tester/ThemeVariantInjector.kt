@@ -13,7 +13,6 @@ import java.lang.reflect.Field
  * A test runner that runs snapshot tests with both Light and Dark theme variants.
  */
 public class ThemeVariantInjector(private val testClass: Class<*>) : Runner() {
-
     private val delegate: BlockJUnit4ClassRunner
 
     init {
@@ -33,7 +32,7 @@ public class ThemeVariantInjector(private val testClass: Class<*>) : Runner() {
                     return if (method is ThemeVariantMethod) {
                         Description.createTestDescription(
                             testClass.name,
-                            "${method.delegate.name}[${method.variant.name}]"
+                            "${method.delegate.name}[${method.variant.name}]",
                         )
                     } else {
                         super.describeChild(method)
@@ -45,7 +44,7 @@ public class ThemeVariantInjector(private val testClass: Class<*>) : Runner() {
                         ThemeVariantStatement(
                             super.methodInvoker(method.delegate, test),
                             test,
-                            method.variant
+                            method.variant,
                         )
                     } else {
                         super.methodInvoker(method, test)
@@ -62,18 +61,13 @@ public class ThemeVariantInjector(private val testClass: Class<*>) : Runner() {
         delegate.run(notifier)
     }
 
-    override fun getDescription(): Description {
-        return delegate.description
-    }
+    override fun getDescription(): Description = delegate.description
 
     private class ThemeVariantMethod(
         val delegate: FrameworkMethod,
-        val variant: ThemeVariant
+        val variant: ThemeVariant,
     ) : FrameworkMethod(delegate.method) {
-
-        override fun getName(): String {
-            return "${delegate.name}[${variant.name}]"
-        }
+        override fun getName(): String = "${delegate.name}[${variant.name}]"
 
         override fun validatePublicVoidNoArg(isStatic: Boolean, errors: MutableList<Throwable>) {
             delegate.validatePublicVoidNoArg(isStatic, errors)
@@ -83,9 +77,8 @@ public class ThemeVariantInjector(private val testClass: Class<*>) : Runner() {
     private class ThemeVariantStatement(
         private val delegate: Statement,
         private val testInstance: Any,
-        private val variant: ThemeVariant
+        private val variant: ThemeVariant,
     ) : Statement() {
-
         override fun evaluate() {
             val testerFields = findSnapshotTesterFields(testInstance)
             testerFields.forEach { field ->

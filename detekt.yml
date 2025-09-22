@@ -1,16 +1,41 @@
+comments:
+  active: false
+
 complexity:
+  LabeledExpression:
+    active: false
   LongMethod:
     active: false
   LongParameterList:
     active: false
+  StringLiteralDuplication:
+    active: false
   TooManyFunctions:
-    thresholdInFiles: 20
+    allowedFunctionsPerFile: 20
 
-formatting:
+ktlint:
+  ClassSignature:
+    active: false
+  ChainMethodContinuation:
+    active: false
+  BackingPropertyNaming:
+    active: false
   Filename:
     active: false
+  FunctionExpressionBody:
+    active: false
+  FunctionSignature:
+    active: false
+#  IfElseWrapping:
+#    active: false
   MaximumLineLength:
     active: false
+  MultilineExpressionWrapping:
+    active: false
+  StringTemplateIndent:
+    active: false
+  PropertyName:
+    constantNamingStyle: 'pascal_case'
 
 naming:
   FunctionNaming:
@@ -26,7 +51,7 @@ style:
     ignorePropertyDeclaration: true
   MaxLineLength:
     excludes: ['**/test/**', '**/*Test/**']
-  UnusedPrivateMember:
+  UnusedPrivateFunction:
     ignoreAnnotated:
       - Preview
       - PreviewLightDark

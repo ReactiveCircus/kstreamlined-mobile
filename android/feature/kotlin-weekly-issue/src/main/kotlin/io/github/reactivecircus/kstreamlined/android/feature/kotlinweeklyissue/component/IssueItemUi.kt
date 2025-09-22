@@ -34,7 +34,7 @@ internal fun IssueItemUi(
             Text(
                 text = item.title,
                 style = KSTheme.typography.titleMedium.copy(
-                    fontWeight = FontWeight.ExtraBold
+                    fontWeight = FontWeight.ExtraBold,
                 ),
                 color = KSTheme.colorScheme.onBackgroundVariant,
             )

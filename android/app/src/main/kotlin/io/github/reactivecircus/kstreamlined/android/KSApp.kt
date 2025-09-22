@@ -14,7 +14,6 @@ import javax.inject.Inject
 
 @HiltAndroidApp
 open class KSApp : Application(), SingletonImageLoader.Factory, Configuration.Provider {
-
     @Inject
     lateinit var imageLoader: Lazy<ImageLoader>
 

@@ -5,7 +5,6 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 
 class HtmlContentParserTest {
-
     @Test
     fun `tryParseHtml returns null for non-HTML content`() {
         assertNull(tryParseHtml("This is plain text"))
@@ -24,8 +23,8 @@ class HtmlContentParserTest {
                         <li>First item</li>
                         <li>Second item with <b>bold</b> text</li>
                     </ul>
-                """.trimIndent()
-            )
+                """.trimIndent(),
+            ),
         )
         assertNotNull(tryParseHtml("<p>This is &quot;quoted&quot; text with &amp; ampersand</p>"))
         assertNotNull(tryParseHtml("Plain text followed by <p>HTML</p>"))
@@ -37,8 +36,8 @@ class HtmlContentParserTest {
                     <ul>
                         <li>With a list</li>
                     </ul>
-                """.trimIndent()
-            )
+                """.trimIndent(),
+            ),
         )
     }
 }

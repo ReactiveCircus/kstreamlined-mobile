@@ -9,7 +9,6 @@ import org.junit.Test
 
 @Burst
 class IssueGroupUiTest {
-
     @get:Rule
     val snapshotTester = SnapshotTester()
 

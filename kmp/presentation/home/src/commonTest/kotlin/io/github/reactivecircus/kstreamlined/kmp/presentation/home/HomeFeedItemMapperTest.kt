@@ -9,13 +9,10 @@ import kotlin.time.Clock
 import kotlin.time.Instant
 
 class HomeFeedItemMapperTest {
-
     @Test
     fun `transformed HomeFeedItems are grouped by weeks with expected displayable time`() {
         val fixedClock = object : Clock {
-            override fun now(): Instant {
-                return Instant.parse("2023-12-03T03:10:54Z")
-            }
+            override fun now(): Instant = Instant.parse("2023-12-03T03:10:54Z")
         }
         val timeZone = TimeZone.UTC
 
@@ -109,7 +106,7 @@ class HomeFeedItemMapperTest {
                         featuredImageUrl = "feature-image-url",
                     ),
                     displayablePublishTime = "Moments ago",
-                )
+                ),
             ),
             HomeFeedItem.Item(
                 displayableFeedItem = DisplayableFeedItem(
@@ -123,7 +120,7 @@ class HomeFeedItemMapperTest {
                         description = "description",
                     ),
                     displayablePublishTime = "30 minutes ago",
-                )
+                ),
             ),
             HomeFeedItem.Item(
                 displayableFeedItem = DisplayableFeedItem(
@@ -136,7 +133,7 @@ class HomeFeedItemMapperTest {
                         issueNumber = 1,
                     ),
                     displayablePublishTime = "5 hours ago",
-                )
+                ),
             ),
             HomeFeedItem.Item(
                 displayableFeedItem = DisplayableFeedItem(
@@ -155,7 +152,7 @@ class HomeFeedItemMapperTest {
                         startPositionMillis = 0,
                     ),
                     displayablePublishTime = "Yesterday",
-                )
+                ),
             ),
             HomeFeedItem.Item(
                 displayableFeedItem = DisplayableFeedItem(
@@ -168,7 +165,7 @@ class HomeFeedItemMapperTest {
                         featuredImageUrl = "feature-image-url",
                     ),
                     displayablePublishTime = "5 days ago",
-                )
+                ),
             ),
             HomeFeedItem.SectionHeader("Last week"),
             HomeFeedItem.Item(
@@ -183,7 +180,7 @@ class HomeFeedItemMapperTest {
                         description = "description",
                     ),
                     displayablePublishTime = "21 Nov 2023",
-                )
+                ),
             ),
             HomeFeedItem.SectionHeader("Earlier"),
             HomeFeedItem.Item(
@@ -197,7 +194,7 @@ class HomeFeedItemMapperTest {
                         issueNumber = 2,
                     ),
                     displayablePublishTime = "13 Nov 2023",
-                )
+                ),
             ),
         )
 

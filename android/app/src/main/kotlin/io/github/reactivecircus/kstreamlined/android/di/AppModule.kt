@@ -28,7 +28,6 @@ import kotlin.time.toJavaDuration
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
-
     @Provides
     @Singleton
     fun imageLoader(

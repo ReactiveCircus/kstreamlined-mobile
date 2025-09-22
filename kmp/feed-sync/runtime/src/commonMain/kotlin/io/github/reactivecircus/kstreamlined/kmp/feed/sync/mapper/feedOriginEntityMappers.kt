@@ -10,7 +10,7 @@ internal fun List<FeedOriginEntity>.asNetworkModels(): List<FeedSource.Key>? {
 }
 
 internal fun FeedSource.toDbModel(
-    currentFeedOrigins: List<FeedOriginEntity>
+    currentFeedOrigins: List<FeedOriginEntity>,
 ): FeedOriginEntity {
     return FeedOriginEntity(
         key = key.name,
