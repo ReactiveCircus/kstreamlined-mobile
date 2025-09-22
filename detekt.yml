@@ -1,14 +1,7 @@
-comments:
-  active: false
-
 complexity:
-  LabeledExpression:
-    active: false
   LongMethod:
     active: false
   LongParameterList:
-    active: false
-  StringLiteralDuplication:
     active: false
   TooManyFunctions:
     allowedFunctionsPerFile: 20
@@ -26,8 +19,6 @@ ktlint:
     active: false
   FunctionSignature:
     active: false
-#  IfElseWrapping:
-#    active: false
   MaximumLineLength:
     active: false
   MultilineExpressionWrapping:

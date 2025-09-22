@@ -21,7 +21,6 @@ internal fun Project.configureDetekt() {
             it.source.from(files("src/"))
             it.config.from(files("${project.rootDir}/detekt.yml"))
             it.buildUponDefaultConfig.set(true)
-//            it.allRules.set(true)
             it.parallel.set(true)
         }
         tasks.withType(Detekt::class.java).configureEach {
