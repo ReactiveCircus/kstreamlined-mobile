@@ -18,7 +18,6 @@ import org.junit.runner.RunWith
 
 @RunWith(ThemeVariantInjector::class)
 class DividerTest {
-
     @get:Rule
     val snapshotTester = SnapshotTester()
 

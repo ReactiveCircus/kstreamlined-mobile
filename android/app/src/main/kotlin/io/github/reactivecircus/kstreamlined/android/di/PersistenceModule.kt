@@ -17,11 +17,10 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object PersistenceModule {
-
     @Provides
     @Singleton
     fun database(
-        @ApplicationContext context: Context
+        @ApplicationContext context: Context,
     ): KStreamlinedDatabase {
         return KStreamlinedDatabase(
             AndroidSqliteDriver(
@@ -36,7 +35,7 @@ object PersistenceModule {
             lastSyncMetadataAdapter = LastSyncMetadata.Adapter(
                 resource_typeAdapter = EnumColumnAdapter(),
                 last_sync_timeAdapter = InstantAdapter,
-            )
+            ),
         )
     }
 }

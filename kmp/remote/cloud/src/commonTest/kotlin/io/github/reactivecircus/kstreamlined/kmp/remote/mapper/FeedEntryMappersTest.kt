@@ -12,7 +12,6 @@ import kotlin.test.assertEquals
 import kotlin.time.Instant
 
 class FeedEntryMappersTest {
-
     @Test
     fun `KotlinBlogFeedEntryItem maps to expected FeedEntry`() {
         val apolloFeedEntry = FeedEntriesQuery.Data {

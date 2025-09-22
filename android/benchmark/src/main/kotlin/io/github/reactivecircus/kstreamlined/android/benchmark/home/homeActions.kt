@@ -57,7 +57,8 @@ enum class CardType {
     KotlinBlog,
     KotlinYouTube,
     TalkingKotlin,
-    KotlinWeekly;
+    KotlinWeekly,
+    ;
 
     val resourceName: String
         get() = "${name.replaceFirstChar { it.lowercase(Locale.getDefault()) }}Card"

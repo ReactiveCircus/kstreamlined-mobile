@@ -19,7 +19,6 @@ import kotlin.test.assertEquals
 import kotlin.time.Instant
 
 class TalkingKotlinEpisodePresenterTest {
-
     private val feedService = FakeFeedService()
 
     private val db = createInMemoryDatabase()

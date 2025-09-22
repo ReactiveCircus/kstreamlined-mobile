@@ -17,10 +17,10 @@ import java.io.File
  * Apply baseline configurations on an Android Application or Library project.
  */
 internal fun CommonExtension.configureCommonAndroidExtension(project: Project) {
-    compileSdk = AndroidSdk.compileSdk
-    buildToolsVersion = AndroidSdk.buildTools
+    compileSdk = AndroidSdk.CompileSdk
+    buildToolsVersion = AndroidSdk.BuildTools
 
-    defaultConfig.minSdk = AndroidSdk.minSdk
+    defaultConfig.minSdk = AndroidSdk.MinSdk
 
     testOptions.animationsDisabled = true
 
@@ -42,9 +42,9 @@ internal fun CommonExtension.configureCommonAndroidExtension(project: Project) {
  * Apply baseline configurations on an KMP Android Library project.
  */
 internal fun KotlinMultiplatformAndroidLibraryExtension.configureKmpAndroidLibraryExtension(project: Project) {
-    compileSdk = AndroidSdk.compileSdk
-    minSdk = AndroidSdk.minSdk
-    buildToolsVersion = AndroidSdk.buildTools
+    compileSdk = AndroidSdk.CompileSdk
+    minSdk = AndroidSdk.MinSdk
+    buildToolsVersion = AndroidSdk.BuildTools
 
     withDeviceTest {
         animationsDisabled = true
@@ -64,7 +64,7 @@ internal fun KotlinMultiplatformAndroidLibraryExtension.configureKmpAndroidLibra
  */
 internal fun ApplicationExtension.configureAndroidApplicationExtension() {
     defaultConfig {
-        targetSdk = AndroidSdk.targetSdk
+        targetSdk = AndroidSdk.TargetSdk
     }
 
     androidResources {
@@ -77,12 +77,12 @@ internal fun ApplicationExtension.configureAndroidApplicationExtension() {
  * Apply baseline configurations on an Android Test project.
  */
 internal fun TestExtension.configureAndroidTestExtension() {
-    compileSdk = AndroidSdk.compileSdk
-    buildToolsVersion = AndroidSdk.buildTools
+    compileSdk = AndroidSdk.CompileSdk
+    buildToolsVersion = AndroidSdk.BuildTools
 
     defaultConfig {
-        minSdk = AndroidSdk.minSdk
-        targetSdk = AndroidSdk.targetSdk
+        minSdk = AndroidSdk.MinSdk
+        targetSdk = AndroidSdk.TargetSdk
     }
 
     compileOptions {
@@ -129,7 +129,7 @@ private fun Packaging.configurePackagingOptions() {
             listOf(
                 "META-INF/AL2.0",
                 "META-INF/LGPL2.1",
-            )
+            ),
         )
     }
 }

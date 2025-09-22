@@ -5,7 +5,7 @@ import io.github.reactivecircus.kstreamlined.kmp.database.FeedItemEntity
 import io.github.reactivecircus.kstreamlined.kmp.remote.model.FeedEntry
 import io.github.reactivecircus.kstreamlined.kmp.remote.model.FeedSource
 
-@Suppress("CyclomaticComplexMethod")
+@Suppress("CyclomaticComplexMethod", "CognitiveComplexMethod")
 internal fun FeedEntry.toDbModel(
     currentFeedItems: List<FeedItemEntity>,
 ): FeedItemEntity {
@@ -40,22 +40,13 @@ internal fun FeedEntry.toDbModel(
             is FeedEntry.TalkingKotlin -> summary
             is FeedEntry.KotlinWeekly -> null
         },
-        issue_number = when (this) {
-            is FeedEntry.KotlinWeekly -> issueNumber.toLong()
-            else -> null
-        },
-        podcast_audio_url = when (this) {
-            is FeedEntry.TalkingKotlin -> audioUrl
-            else -> null
-        },
-        podcast_duration = when (this) {
-            is FeedEntry.TalkingKotlin -> duration
-            else -> null
-        },
-        podcast_start_position = when (this) {
-            is FeedEntry.TalkingKotlin ->
-                currentFeedItems.find { it.id == id }?.podcast_start_position
-            else -> null
+        issue_number = if (this is FeedEntry.KotlinWeekly) issueNumber.toLong() else null,
+        podcast_audio_url = if (this is FeedEntry.TalkingKotlin) audioUrl else null,
+        podcast_duration = if (this is FeedEntry.TalkingKotlin) duration else null,
+        podcast_start_position = if (this is FeedEntry.TalkingKotlin) {
+            currentFeedItems.find { it.id == id }?.podcast_start_position
+        } else {
+            null
         },
         podcast_description_format = podcastDescriptionFormat,
         podcast_description_plain_text = podcastDescriptionPlainText,

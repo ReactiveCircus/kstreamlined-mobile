@@ -93,7 +93,7 @@ internal fun WebView(
             }
         val layoutParams = FrameLayout.LayoutParams(
             width,
-            height
+            height,
         )
 
         WebView(
@@ -106,7 +106,7 @@ internal fun WebView(
             onDispose,
             client,
             chromeClient,
-            factory
+            factory,
         )
     }
 }
@@ -175,14 +175,14 @@ internal fun WebView(
                             content.data,
                             content.mimeType,
                             content.encoding,
-                            content.historyUrl
+                            content.historyUrl,
                         )
                     }
 
                     is WebContent.Post -> {
                         wv.postUrl(
                             content.url,
-                            content.postData
+                            content.postData,
                         )
                     }
 
@@ -219,7 +219,7 @@ internal fun WebView(
         modifier = modifier,
         onRelease = {
             onDispose(it)
-        }
+        },
     )
 }
 
@@ -262,7 +262,7 @@ internal open class AccompanistWebViewClient : WebViewClient() {
     override fun onReceivedError(
         view: WebView,
         request: WebResourceRequest?,
-        error: WebResourceError?
+        error: WebResourceError?,
     ) {
         super.onReceivedError(view, request, error)
 
@@ -281,7 +281,6 @@ internal open class AccompanistWebViewClient : WebViewClient() {
  * class that can be overridden if further custom behaviour is required.
  */
 internal open class AccompanistWebChromeClient : WebChromeClient() {
-
     open lateinit var state: WebViewState
         internal set
 
@@ -314,12 +313,12 @@ internal sealed class WebContent {
         val baseUrl: String? = null,
         val encoding: String = "utf-8",
         val mimeType: String? = null,
-        val historyUrl: String? = null
+        val historyUrl: String? = null,
     ) : WebContent()
 
     data class Post(
         val url: String,
-        val postData: ByteArray
+        val postData: ByteArray,
     ) : WebContent() {
         override fun equals(other: Any?): Boolean {
             if (this === other) return true
@@ -437,13 +436,16 @@ internal class WebViewState(webContent: WebContent) {
 internal class WebViewNavigator(private val coroutineScope: CoroutineScope) {
     private sealed interface NavigationEvent {
         data object Back : NavigationEvent
+
         data object Forward : NavigationEvent
+
         data object Reload : NavigationEvent
+
         data object StopLoading : NavigationEvent
 
         data class LoadUrl(
             val url: String,
-            val additionalHttpHeaders: Map<String, String> = emptyMap()
+            val additionalHttpHeaders: Map<String, String> = emptyMap(),
         ) : NavigationEvent
 
         data class LoadHtml(
@@ -451,12 +453,12 @@ internal class WebViewNavigator(private val coroutineScope: CoroutineScope) {
             val baseUrl: String? = null,
             val mimeType: String? = null,
             val encoding: String? = "utf-8",
-            val historyUrl: String? = null
+            val historyUrl: String? = null,
         ) : NavigationEvent
 
         data class PostUrl(
             val url: String,
-            val postData: ByteArray
+            val postData: ByteArray,
         ) : NavigationEvent {
             override fun equals(other: Any?): Boolean {
                 if (this === other) return true
@@ -491,7 +493,7 @@ internal class WebViewNavigator(private val coroutineScope: CoroutineScope) {
                     event.html,
                     event.mimeType,
                     event.encoding,
-                    event.historyUrl
+                    event.historyUrl,
                 )
 
                 is NavigationEvent.LoadUrl -> {
@@ -522,8 +524,8 @@ internal class WebViewNavigator(private val coroutineScope: CoroutineScope) {
             navigationEvents.emit(
                 NavigationEvent.LoadUrl(
                     url,
-                    additionalHttpHeaders
-                )
+                    additionalHttpHeaders,
+                ),
             )
         }
     }
@@ -533,7 +535,7 @@ internal class WebViewNavigator(private val coroutineScope: CoroutineScope) {
         baseUrl: String? = null,
         mimeType: String? = null,
         encoding: String? = "utf-8",
-        historyUrl: String? = null
+        historyUrl: String? = null,
     ) {
         coroutineScope.launch {
             navigationEvents.emit(
@@ -542,22 +544,22 @@ internal class WebViewNavigator(private val coroutineScope: CoroutineScope) {
                     baseUrl,
                     mimeType,
                     encoding,
-                    historyUrl
-                )
+                    historyUrl,
+                ),
             )
         }
     }
 
     fun postUrl(
         url: String,
-        postData: ByteArray
+        postData: ByteArray,
     ) {
         coroutineScope.launch {
             navigationEvents.emit(
                 NavigationEvent.PostUrl(
                     url,
-                    postData
-                )
+                    postData,
+                ),
             )
         }
     }
@@ -597,7 +599,7 @@ internal class WebViewNavigator(private val coroutineScope: CoroutineScope) {
  */
 @Composable
 internal fun rememberWebViewNavigator(
-    coroutineScope: CoroutineScope = rememberCoroutineScope()
+    coroutineScope: CoroutineScope = rememberCoroutineScope(),
 ): WebViewNavigator = remember(coroutineScope) { WebViewNavigator(coroutineScope) }
 
 /**
@@ -612,7 +614,7 @@ internal data class WebViewError(
     /**
      * The error that was reported.
      */
-    val error: WebResourceError
+    val error: WebResourceError,
 )
 
 /**
@@ -625,7 +627,7 @@ internal data class WebViewError(
 @Composable
 internal fun rememberWebViewState(
     url: String,
-    additionalHttpHeaders: Map<String, String> = emptyMap()
+    additionalHttpHeaders: Map<String, String> = emptyMap(),
 ): WebViewState =
 // Rather than using .apply {} here we will recreate the state, this prevents
     // a recomposition loop when the webview updates the url itself.
@@ -633,13 +635,13 @@ internal fun rememberWebViewState(
         WebViewState(
             WebContent.Url(
                 url = url,
-                additionalHttpHeaders = additionalHttpHeaders
-            )
+                additionalHttpHeaders = additionalHttpHeaders,
+            ),
         )
     }.apply {
         this.content = WebContent.Url(
             url = url,
-            additionalHttpHeaders = additionalHttpHeaders
+            additionalHttpHeaders = additionalHttpHeaders,
         )
     }
 
@@ -654,13 +656,17 @@ internal fun rememberWebViewStateWithHTMLData(
     baseUrl: String? = null,
     encoding: String = "utf-8",
     mimeType: String? = null,
-    historyUrl: String? = null
+    historyUrl: String? = null,
 ): WebViewState =
     remember {
         WebViewState(WebContent.Data(data, baseUrl, encoding, mimeType, historyUrl))
     }.apply {
         this.content = WebContent.Data(
-            data, baseUrl, encoding, mimeType, historyUrl
+            data,
+            baseUrl,
+            encoding,
+            mimeType,
+            historyUrl,
         )
     }
 
@@ -673,7 +679,7 @@ internal fun rememberWebViewStateWithHTMLData(
 @Composable
 internal fun rememberWebViewState(
     url: String,
-    postData: ByteArray
+    postData: ByteArray,
 ): WebViewState =
 // Rather than using .apply {} here we will recreate the state, this prevents
     // a recomposition loop when the webview updates the url itself.
@@ -681,13 +687,13 @@ internal fun rememberWebViewState(
         WebViewState(
             WebContent.Post(
                 url = url,
-                postData = postData
-            )
+                postData = postData,
+            ),
         )
     }.apply {
         this.content = WebContent.Post(
             url = url,
-            postData = postData
+            postData = postData,
         )
     }
 
@@ -714,7 +720,7 @@ internal val WebStateSaver: Saver<WebViewState, Any> = run {
             mapOf(
                 pageTitleKey to it.pageTitle,
                 lastLoadedUrlKey to it.lastLoadedUrl,
-                stateBundle to viewState
+                stateBundle to viewState,
             )
         },
         restore = {
@@ -723,6 +729,6 @@ internal val WebStateSaver: Saver<WebViewState, Any> = run {
                 this.lastLoadedUrl = it[lastLoadedUrlKey] as String?
                 this.viewState = it[stateBundle] as Bundle?
             }
-        }
+        },
     )
 }

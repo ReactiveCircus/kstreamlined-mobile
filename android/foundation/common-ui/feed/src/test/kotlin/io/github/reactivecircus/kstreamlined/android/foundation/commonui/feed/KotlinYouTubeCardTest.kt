@@ -17,7 +17,6 @@ import kotlin.time.Instant
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Burst
 class KotlinYouTubeCardTest {
-
     @get:Rule
     val snapshotTester = SnapshotTester()
 

@@ -23,9 +23,10 @@ internal class SyncRequestEvaluator(
     private fun shouldSyncFeedSources(): Boolean {
         val lastSyncTime = lastSyncMetadataQueries
             .lastSyncMetadata(SyncResourceType.FeedOrigins, "")
-            .executeAsOneOrNull()?.last_sync_time
+            .executeAsOneOrNull()
+            ?.last_sync_time
         return lastSyncTime == null ||
-            (clock.now() - lastSyncTime) > syncConfig.feedSourcesCacheMaxAge
+            clock.now() - lastSyncTime > syncConfig.feedSourcesCacheMaxAge
     }
 
     private fun shouldSyncFeedItems(): Boolean {
@@ -34,7 +35,7 @@ internal class SyncRequestEvaluator(
             .lastSyncMetadata(SyncResourceType.FeedItems, currentSyncParams)
             .executeAsOneOrNull()
         return itemsSyncMetadata == null ||
-            (clock.now() - itemsSyncMetadata.last_sync_time) > syncConfig.feedItemsCacheMaxAge
+            clock.now() - itemsSyncMetadata.last_sync_time > syncConfig.feedItemsCacheMaxAge
     }
 }
 

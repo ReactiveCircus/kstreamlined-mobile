@@ -7,7 +7,6 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
 class FeedOriginEntityMappersTest {
-
     @Test
     fun `list of FeedOriginEntity maps to expected network models when selected feed origins exist`() {
         val feedOriginEntities = listOf(
@@ -28,7 +27,7 @@ class FeedOriginEntityMappersTest {
                 title = "title3",
                 description = "description3",
                 selected = true,
-            )
+            ),
         )
         val expected = listOf(
             FeedSource.Key.KotlinBlog,
@@ -114,7 +113,7 @@ class FeedOriginEntityMappersTest {
                 title = "title3",
                 description = "description3",
                 selected = true,
-            )
+            ),
         )
         val expected = "KotlinBlog,TalkingKotlinPodcast"
         assertEquals(expected, feedOriginEntities.toSyncParams())

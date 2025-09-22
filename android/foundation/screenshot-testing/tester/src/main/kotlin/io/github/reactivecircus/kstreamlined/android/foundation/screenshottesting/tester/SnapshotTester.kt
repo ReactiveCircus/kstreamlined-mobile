@@ -23,6 +23,8 @@ public class SnapshotTester(
 ) {
     private lateinit var description: Description
 
+    private var currentThemeVariant: ThemeVariant? = null
+
     override fun apply(base: Statement, description: Description): Statement {
         this.description = description
         return object : Statement() {
@@ -31,8 +33,6 @@ public class SnapshotTester(
             }
         }
     }
-
-    private var currentThemeVariant: ThemeVariant? = null
 
     internal fun setCurrentThemeVariant(themeVariant: ThemeVariant) {
         currentThemeVariant = themeVariant

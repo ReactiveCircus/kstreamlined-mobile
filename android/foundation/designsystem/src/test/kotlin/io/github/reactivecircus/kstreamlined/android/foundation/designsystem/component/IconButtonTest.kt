@@ -14,7 +14,6 @@ import org.junit.runner.RunWith
 
 @RunWith(ThemeVariantInjector::class)
 class IconButtonTest {
-
     @get:Rule
     val snapshotTester = SnapshotTester()
 

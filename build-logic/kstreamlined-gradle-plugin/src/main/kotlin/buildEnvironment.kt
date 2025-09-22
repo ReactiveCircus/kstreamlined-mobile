@@ -7,11 +7,8 @@ public val Project.isCiBuild: Boolean
 public val Project.isIdeBuild: Boolean
     get() = providers.systemProperty("idea.active").orNull == "true"
 
-public fun Project.envOrProp(name: String): Provider<String> {
-    return providers.environmentVariable(name).orElse(
-        providers.gradleProperty(name).orElse("")
-    )
-}
+public fun Project.envOrProp(name: String): Provider<String> =
+    providers.environmentVariable(name).orElse(providers.gradleProperty(name).orElse(""))
 
 internal val Project.runningPaparazzi: Boolean
     get() = gradle.startParameter.taskNames.any {

@@ -40,7 +40,6 @@ import kotlinx.parcelize.Parcelize
 @OptIn(ExperimentalSharedTransitionApi::class)
 @AndroidEntryPoint
 class KSActivity : ComponentActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
 
@@ -54,7 +53,7 @@ class KSActivity : ComponentActivity() {
 
                 var navDestination: NavDestination by rememberSaveable {
                     mutableStateOf(
-                        NavDestination.Main
+                        NavDestination.Main,
                     )
                 }
 
@@ -169,7 +168,6 @@ class KSActivity : ComponentActivity() {
 }
 
 private sealed interface NavDestination : Parcelable {
-
     @Parcelize
     data object Main : NavDestination
 
@@ -227,11 +225,12 @@ private fun ComponentActivity.NavigationBarStyleEffect() {
 private enum class SystemNavigationMode {
     ThreeButton,
     TwoButton,
-    Gesture;
+    Gesture,
+    ;
 
     companion object {
         fun of(context: Context) = entries.getOrNull(
-            Settings.Secure.getInt(context.contentResolver, "navigation_mode", -1)
+            Settings.Secure.getInt(context.contentResolver, "navigation_mode", -1),
         )
     }
 }

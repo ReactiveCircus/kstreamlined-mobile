@@ -15,7 +15,6 @@ internal class SyncWorker @AssistedInject constructor(
     @Assisted workerParams: WorkerParameters,
     private val feedSyncEngine: FeedSyncEngine,
 ) : CoroutineWorker(appContext, workerParams) {
-
     override suspend fun doWork(): Result = traceAsync("ScheduledSync", 0) {
         feedSyncEngine.sync()
         Result.success()

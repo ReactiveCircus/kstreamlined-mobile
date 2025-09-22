@@ -20,7 +20,6 @@ import kotlin.time.Instant
 
 @RunWith(ThemeVariantInjector::class)
 class HomeScreenTest {
-
     @get:Rule
     val snapshotTester = SnapshotTester()
 
@@ -28,7 +27,7 @@ class HomeScreenTest {
     fun snapshot_HomeScreen_Loading() {
         snapshotTester.snapshot {
             HomeScreenSnapshot(
-                uiState = HomeUiState.Loading
+                uiState = HomeUiState.Loading,
             )
         }
     }
@@ -53,7 +52,7 @@ class HomeScreenTest {
                                     description = "Welcome to another engaging episode of Talking Kotlin! In this edition, we dive into the dynamic world of Android development with Colin White, the creator of the widely acclaimed Coil library. Join us as we discuss the latest developments, insights, and the exciting roadmap for Coil. \uD83D\uDE80 Highlights from this Episode: Learn about Colin's journey in developing the Coil library. Discover the pivotal role Coil plays in simplifying image loading for Android developers. Get an exclusive sneak peek into the upcoming Coil 3.0, featuring multi-platform support and seamless integration with Jetpack Compose. \uD83D\uDD17 Helpful Links: Coil Library GitHub: https://coil-kt.github.io/coil/ Follow Colin White on Twitter: https://twitter.com/colinwhi \uD83C\uDF10 Connect with the Kotlin Community: https://kotlinlang.org/community/ Kotlin Foundation: https://kotlinfoundation.org/ \uD83D\uDC49 Don't miss out on the latest insights and updates from the Kotlin world! Subscribe, hit the bell icon, and join the conversation in the comments below. \uD83D\uDCC8 Help us reach 20,000 views by liking, sharing, and subscribing! Your support keeps the Kotlin conversation alive.",
                                 ),
                                 displayablePublishTime = "Moments ago",
-                            )
+                            ),
                         ),
                         HomeFeedItem.Item(
                             displayableFeedItem = DisplayableFeedItem(
@@ -85,12 +84,12 @@ class HomeScreenTest {
                                     startPositionMillis = 0,
                                 ),
                                 displayablePublishTime = "6 days ago",
-                            )
-                        )
+                            ),
+                        ),
                     ),
                     refreshing = false,
                     hasTransientError = false,
-                )
+                ),
             )
         }
     }

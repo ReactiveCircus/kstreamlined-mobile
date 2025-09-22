@@ -5,7 +5,6 @@ import io.github.reactivecircus.kstreamlined.kmp.remote.model.FeedSource
 import io.github.reactivecircus.kstreamlined.kmp.remote.model.KotlinWeeklyIssueEntry
 
 public class EdgeFeedService : FeedService {
-
     override suspend fun fetchFeedOrigins(): List<FeedSource> {
         TODO()
     }
@@ -15,7 +14,7 @@ public class EdgeFeedService : FeedService {
     }
 
     override suspend fun fetchFeedEntriesAndOrigins(
-        filters: List<FeedSource.Key>?
+        filters: List<FeedSource.Key>?,
     ): Pair<List<FeedEntry>, List<FeedSource>> {
         TODO("Not yet implemented")
     }

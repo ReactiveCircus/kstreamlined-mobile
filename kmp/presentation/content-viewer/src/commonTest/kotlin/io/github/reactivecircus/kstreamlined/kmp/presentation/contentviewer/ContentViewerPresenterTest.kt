@@ -17,7 +17,6 @@ import kotlin.test.assertEquals
 import kotlin.time.Instant
 
 class ContentViewerPresenterTest {
-
     private val feedService = FakeFeedService()
 
     private val db = createInMemoryDatabase()
@@ -111,14 +110,14 @@ class ContentViewerPresenterTest {
 
                 assertEquals(
                     ContentViewerUiState.Content(item.copy(savedForLater = true)),
-                    awaitItem()
+                    awaitItem(),
                 )
 
                 presenter.eventSink(ContentViewerUiEvent.ToggleSavedForLater)
 
                 assertEquals(
                     ContentViewerUiState.Content(item.copy(savedForLater = false)),
-                    awaitItem()
+                    awaitItem(),
                 )
             }
         }

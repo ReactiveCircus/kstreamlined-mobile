@@ -42,7 +42,7 @@ public fun Button(
             Text(
                 text = text.uppercase(),
                 style = KSTheme.typography.labelLarge.copy(
-                    fontWeight = FontWeight.ExtraBold
+                    fontWeight = FontWeight.ExtraBold,
                 ),
             )
         }

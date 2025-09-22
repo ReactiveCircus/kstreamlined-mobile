@@ -88,7 +88,7 @@ internal fun SeekBar(
                                 },
                                 onTap = {
                                     seeking = false
-                                }
+                                },
                             )
                         }
                         .pointerInput(Unit) {
@@ -108,7 +108,7 @@ internal fun SeekBar(
                         }
                 } else {
                     Modifier
-                }
+                },
             ),
     ) {
         Layout(
@@ -123,7 +123,7 @@ internal fun SeekBar(
                 Canvas(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(trackHeight)
+                        .height(trackHeight),
                 ) {
                     drawRect(
                         color = inactiveColor,
@@ -137,7 +137,7 @@ internal fun SeekBar(
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .clip(CircleShape)
+                .clip(CircleShape),
         ) { measurables, constraints ->
             val trackPlaceable = measurables.first().measure(constraints)
             if (!seeking) {
@@ -151,7 +151,7 @@ internal fun SeekBar(
         Row(
             modifier = Modifier.offset {
                 IntOffset(0, timeLabelsOffsetPx.roundToInt())
-            }
+            },
         ) {
             val (playedProgress, remainingProgress) = playbackProgressLabels(currentPositionMillis, durationMillis)
             Text(
@@ -203,7 +203,7 @@ private const val AnimationDurationMillis = 400
 private fun PreviewSeekBar() {
     KSTheme {
         Surface(
-            color = KSTheme.colorScheme.tertiary
+            color = KSTheme.colorScheme.tertiary,
         ) {
             SeekBar(
                 modifier = Modifier.padding(8.dp),

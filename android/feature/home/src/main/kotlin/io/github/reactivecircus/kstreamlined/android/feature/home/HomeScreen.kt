@@ -130,7 +130,7 @@ internal fun SharedTransitionScope.HomeScreen(
                     syncing = (uiState is HomeUiState.Content && uiState.refreshing),
                     onClick = { eventSink(HomeUiEvent.Refresh) },
                 )
-            }
+            },
         )
 
         Box {

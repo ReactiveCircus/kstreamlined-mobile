@@ -18,7 +18,6 @@ import kotlin.test.assertEquals
 import kotlin.time.Instant
 
 class SavedForLaterPresenterTest {
-
     private val feedService = FakeFeedService()
 
     private val db = createInMemoryDatabase()
@@ -81,7 +80,7 @@ class SavedForLaterPresenterTest {
 
                 assertEquals(
                     SavedForLaterUiState.Content(
-                        listOf(item).toSavedForLaterFeedItems(timeZone)
+                        listOf(item).toSavedForLaterFeedItems(timeZone),
                     ),
                     awaitItem(),
                 )
@@ -102,7 +101,7 @@ class SavedForLaterPresenterTest {
 
                 assertEquals(
                     SavedForLaterUiState.Content(
-                        listOf(item).toSavedForLaterFeedItems(timeZone)
+                        listOf(item).toSavedForLaterFeedItems(timeZone),
                     ),
                     awaitItem(),
                 )

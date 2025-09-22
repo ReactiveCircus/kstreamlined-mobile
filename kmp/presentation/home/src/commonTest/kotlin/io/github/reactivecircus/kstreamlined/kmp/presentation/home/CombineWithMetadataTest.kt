@@ -8,7 +8,6 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class CombineWithMetadataTest {
-
     @Test
     fun `combineWithMetadata emits expected metadata`() =
         runTest {

@@ -6,7 +6,6 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class FakeNetworkMonitorTest {
-
     private val fakeNetworkMonitor = FakeNetworkMonitor()
 
     @Test

@@ -22,7 +22,7 @@ internal fun List<FeedItem>.toHomeFeedItems(
             currentSectionHeader = sectionHeader
         }
         val displayableFeedItem = feedItem.toDisplayable(
-            feedItem.publishTime.timeAgo(clock, timeZone)
+            feedItem.publishTime.timeAgo(clock, timeZone),
         )
         homeFeedItems.add(HomeFeedItem.Item(displayableFeedItem))
     }

@@ -15,7 +15,6 @@ import org.junit.runner.RunWith
 @OptIn(ExperimentalSharedTransitionApi::class)
 @RunWith(ThemeVariantInjector::class)
 class TopNavBarTest {
-
     @get:Rule
     val snapshotTester = SnapshotTester()
 
@@ -60,11 +59,11 @@ class TopNavBarTest {
                                 style = KSTheme.typography.labelMedium.copy(
                                     fontWeight = FontWeight.ExtraBold,
                                     letterSpacing = 0.sp,
-                                )
+                                ),
                             )
                             Icon(KSIcons.ArrowDown, contentDescription = null)
                         }
-                    }
+                    },
                 )
             }
         }

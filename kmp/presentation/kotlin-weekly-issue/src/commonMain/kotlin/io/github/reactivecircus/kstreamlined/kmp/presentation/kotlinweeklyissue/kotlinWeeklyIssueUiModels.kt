@@ -4,7 +4,9 @@ import io.github.reactivecircus.kstreamlined.kmp.model.feed.KotlinWeeklyIssueIte
 
 public sealed interface KotlinWeeklyIssueUiState {
     public data object Loading : KotlinWeeklyIssueUiState
+
     public data object Error : KotlinWeeklyIssueUiState
+
     public data class Content(
         val id: String,
         val contentUrl: String,
@@ -15,6 +17,8 @@ public sealed interface KotlinWeeklyIssueUiState {
 
 public sealed interface KotlinWeeklyIssueUiEvent {
     public data class LoadIssue(val id: String) : KotlinWeeklyIssueUiEvent
+
     public data object ToggleSavedForLater : KotlinWeeklyIssueUiEvent
+
     public data object Reset : KotlinWeeklyIssueUiEvent
 }

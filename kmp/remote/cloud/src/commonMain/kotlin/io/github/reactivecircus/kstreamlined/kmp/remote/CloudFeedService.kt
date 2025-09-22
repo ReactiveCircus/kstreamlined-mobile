@@ -16,7 +16,6 @@ import io.github.reactivecircus.kstreamlined.kmp.remote.model.FeedSource
 import io.github.reactivecircus.kstreamlined.kmp.remote.model.KotlinWeeklyIssueEntry
 
 public class CloudFeedService(private val apolloClient: ApolloClient) : FeedService {
-
     override suspend fun fetchFeedOrigins(): List<FeedSource> {
         return runCatching {
             apolloClient.query(FeedSourcesQuery())
@@ -33,8 +32,8 @@ public class CloudFeedService(private val apolloClient: ApolloClient) : FeedServ
         return runCatching {
             apolloClient.query(
                 FeedEntriesQuery(
-                    filters = Optional.presentIfNotNull(filters?.map { it.asApolloModel() })
-                )
+                    filters = Optional.presentIfNotNull(filters?.map { it.asApolloModel() }),
+                ),
             )
                 .fetchPolicy(FetchPolicy.NetworkOnly)
                 .execute()
@@ -46,13 +45,13 @@ public class CloudFeedService(private val apolloClient: ApolloClient) : FeedServ
     }
 
     override suspend fun fetchFeedEntriesAndOrigins(
-        filters: List<FeedSource.Key>?
+        filters: List<FeedSource.Key>?,
     ): Pair<List<FeedEntry>, List<FeedSource>> {
         return runCatching {
             apolloClient.query(
                 FeedEntriesWithSourcesQuery(
-                    filters = Optional.presentIfNotNull(filters?.map { it.asApolloModel() })
-                )
+                    filters = Optional.presentIfNotNull(filters?.map { it.asApolloModel() }),
+                ),
             )
                 .fetchPolicy(FetchPolicy.NetworkOnly)
                 .execute()
@@ -69,11 +68,11 @@ public class CloudFeedService(private val apolloClient: ApolloClient) : FeedServ
     }
 
     override suspend fun fetchKotlinWeeklyIssue(
-        url: String
+        url: String,
     ): List<KotlinWeeklyIssueEntry> {
         return runCatching {
             apolloClient.query(
-                KotlinWeeklyIssueQuery(url = url)
+                KotlinWeeklyIssueQuery(url = url),
             )
                 .fetchPolicy(FetchPolicy.CacheFirst)
                 .execute()
