@@ -146,5 +146,6 @@ kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
 crashKios = { module = "co.touchlab:crashkios", version.ref = "crashKios" }
 
 [plugins]
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 lint = { id = "com.android.lint", version.ref = "androidGradlePlugin" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }

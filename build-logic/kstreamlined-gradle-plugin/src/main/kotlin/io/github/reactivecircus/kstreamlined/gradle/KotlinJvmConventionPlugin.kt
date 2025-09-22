@@ -5,7 +5,6 @@ import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureKotlin
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureTest
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.configure
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 
 internal class KotlinJvmConventionPlugin : Plugin<Project> {
@@ -15,8 +14,8 @@ internal class KotlinJvmConventionPlugin : Plugin<Project> {
             apply("com.android.lint")
         }
 
-        extensions.configure<KotlinJvmProjectExtension> {
-            configureKotlin(target)
+        extensions.configure(KotlinJvmProjectExtension::class.java) {
+            it.configureKotlin(target)
         }
 
         configureTest()

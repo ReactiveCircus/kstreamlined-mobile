@@ -9,7 +9,6 @@ import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureKotlin
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureTest
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.configure
 import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
 
 internal class AndroidLibraryConventionPlugin : Plugin<Project> {
@@ -19,16 +18,16 @@ internal class AndroidLibraryConventionPlugin : Plugin<Project> {
             apply("org.jetbrains.kotlin.android")
         }
 
-        extensions.configure<KotlinAndroidProjectExtension> {
-            configureKotlin(target)
+        extensions.configure(KotlinAndroidProjectExtension::class.java) {
+            it.configureKotlin(target)
         }
 
-        extensions.configure<LibraryExtension> {
-            configureCommonAndroidExtension(target)
+        extensions.configure(LibraryExtension::class.java) {
+            it.configureCommonAndroidExtension(target)
         }
 
-        extensions.configure<LibraryAndroidComponentsExtension> {
-            configureAndroidLibraryVariants()
+        extensions.configure(LibraryAndroidComponentsExtension::class.java) {
+            it.configureAndroidLibraryVariants()
         }
 
         configureTest()

@@ -3,11 +3,7 @@ package io.github.reactivecircus.kstreamlined.gradle.buildlogic
 import io.gitlab.arturbosch.detekt.Detekt
 import io.gitlab.arturbosch.detekt.DetektPlugin
 import io.gitlab.arturbosch.detekt.extensions.DetektExtension
-import org.gradle.accessors.dm.LibrariesForLibs
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.configure
-import org.gradle.kotlin.dsl.the
-import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 /**
@@ -18,23 +14,23 @@ internal fun Project.configureDetekt() {
     pluginManager.apply(DetektPlugin::class.java)
 
     // enable Ktlint formatting
-    dependencies.add("detektPlugins", the<LibrariesForLibs>().plugin.detektFormatting)
+    dependencies.add("detektPlugins", libs.plugin.detektFormatting)
 
-    plugins.withType<DetektPlugin>().configureEach {
-        extensions.configure<DetektExtension> {
-            source.from(files("src/"))
-            config.from(files("${project.rootDir}/detekt.yml"))
-            buildUponDefaultConfig = true
-            allRules = true
-            parallel = true
+    plugins.withType(DetektPlugin::class.java).configureEach {
+        extensions.configure(DetektExtension::class.java) {
+            it.source.from(files("src/"))
+            it.config.from(files("${project.rootDir}/detekt.yml"))
+            it.buildUponDefaultConfig = true
+            it.allRules = true
+            it.parallel = true
         }
-        tasks.withType<Detekt>().configureEach {
-            jvmTarget = JvmTarget.JVM_17.target
-            reports {
-                xml.required.set(false)
-                txt.required.set(false)
-                sarif.required.set(false)
-                md.required.set(false)
+        tasks.withType(Detekt::class.java).configureEach {
+            it.jvmTarget = JvmTarget.JVM_17.target
+            it.reports { report ->
+                report.xml.required.set(false)
+                report.txt.required.set(false)
+                report.sarif.required.set(false)
+                report.md.required.set(false)
             }
         }
     }

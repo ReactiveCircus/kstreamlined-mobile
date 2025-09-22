@@ -6,7 +6,6 @@ import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureDetekt
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureKotlin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.configure
 import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
 
 internal class AndroidTestConventionPlugin : Plugin<Project> {
@@ -16,12 +15,12 @@ internal class AndroidTestConventionPlugin : Plugin<Project> {
             apply("org.jetbrains.kotlin.android")
         }
 
-        extensions.configure<KotlinAndroidProjectExtension> {
-            configureKotlin(target, enableExplicitApi = false)
+        extensions.configure(KotlinAndroidProjectExtension::class.java) {
+            it.configureKotlin(target, enableExplicitApi = false)
         }
 
-        extensions.configure<TestExtension> {
-            configureAndroidTestExtension()
+        extensions.configure(TestExtension::class.java) {
+            it.configureAndroidTestExtension()
         }
 
         configureDetekt()
