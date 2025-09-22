@@ -33,7 +33,6 @@ internal class CocoonFunctionTransformer(
     private val annotation: ClassId,
     private val wrappingFunction: CallableId,
 ) : IrElementTransformerVoidWithContext() {
-
     @OptIn(UnsafeDuringIrConstructionAPI::class)
     override fun visitFunctionNew(declaration: IrFunction): IrStatement {
         if (!declaration.hasAnnotation(annotation) || declaration.body == null) {
@@ -72,7 +71,7 @@ internal class CocoonFunctionTransformer(
                         }
                         arguments[wrappingFunctionParameters.size - 1] = lambdaExpression
                     }
-                }
+                },
             )
         }
 

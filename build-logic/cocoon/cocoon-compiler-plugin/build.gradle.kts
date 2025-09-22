@@ -1,4 +1,4 @@
-import io.gitlab.arturbosch.detekt.Detekt
+import dev.detekt.gradle.Detekt
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -31,7 +31,6 @@ detekt {
     source.from(files("src/"))
     config.from(files("$rootDir/../detekt.yml"))
     buildUponDefaultConfig = true
-    allRules = true
     parallel = true
 }
 
@@ -39,7 +38,6 @@ tasks.withType<Detekt>().configureEach {
     jvmTarget = JvmTarget.JVM_11.target
     reports {
         xml.required.set(false)
-        txt.required.set(false)
         sarif.required.set(false)
         md.required.set(false)
     }
@@ -47,7 +45,7 @@ tasks.withType<Detekt>().configureEach {
 
 dependencies {
     // enable Ktlint formatting
-    add("detektPlugins", libs.plugin.detektFormatting)
+    detektPlugins(libs.plugin.detektKtlintWrapper)
 
     compileOnly(libs.kotlin.compiler)
     compileOnly(libs.kotlin.stblib)

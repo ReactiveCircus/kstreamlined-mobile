@@ -12,7 +12,7 @@ public annotation class PreviewKStreamlined
 
 @Composable
 public fun KSThemeWithSurface(
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     KSTheme {
         Surface {
