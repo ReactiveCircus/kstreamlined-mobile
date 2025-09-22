@@ -2,21 +2,19 @@ package io.github.reactivecircus.cocoon.gradle
 
 import org.gradle.api.Project
 import org.gradle.api.provider.Provider
-import org.gradle.kotlin.dsl.getByType
 import org.jetbrains.kotlin.gradle.plugin.KotlinCompilation
 import org.jetbrains.kotlin.gradle.plugin.KotlinCompilerPluginSupportPlugin
 import org.jetbrains.kotlin.gradle.plugin.SubpluginArtifact
 import org.jetbrains.kotlin.gradle.plugin.SubpluginOption
 
 public class CocoonPlugin : KotlinCompilerPluginSupportPlugin {
-
     override fun apply(target: Project) {
         target.extensions.create("cocoon", CocoonExtension::class.java)
     }
 
     override fun applyToCompilation(kotlinCompilation: KotlinCompilation<*>): Provider<List<SubpluginOption>> {
         val project = kotlinCompilation.target.project
-        val extension = project.extensions.getByType<CocoonExtension>()
+        val extension = project.extensions.getByType(CocoonExtension::class.java)
         return project.provider {
             listOf(
                 SubpluginOption(

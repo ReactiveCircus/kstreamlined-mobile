@@ -7,7 +7,6 @@ import org.jetbrains.kotlin.config.CompilerConfiguration
 import org.jetbrains.kotlin.config.CompilerConfigurationKey
 
 public class CocoonCommandLineProcessor : CommandLineProcessor {
-
     override val pluginId: String = "io.github.reactivecircus.cocoon.compiler"
 
     @Suppress("MaxLineLength")
