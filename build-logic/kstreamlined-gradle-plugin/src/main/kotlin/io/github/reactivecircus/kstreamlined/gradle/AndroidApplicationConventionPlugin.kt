@@ -10,7 +10,6 @@ import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureKotlin
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureTest
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.configure
 import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
 
 internal class AndroidApplicationConventionPlugin : Plugin<Project> {
@@ -20,17 +19,17 @@ internal class AndroidApplicationConventionPlugin : Plugin<Project> {
             apply("org.jetbrains.kotlin.android")
         }
 
-        extensions.configure<KotlinAndroidProjectExtension> {
-            configureKotlin(target, enableExplicitApi = false)
+        extensions.configure(KotlinAndroidProjectExtension::class.java) {
+            it.configureKotlin(target, enableExplicitApi = false)
         }
 
-        extensions.configure<ApplicationExtension> {
-            configureCommonAndroidExtension(target)
-            configureAndroidApplicationExtension()
+        extensions.configure(ApplicationExtension::class.java) {
+            it.configureCommonAndroidExtension(target)
+            it.configureAndroidApplicationExtension()
         }
 
-        extensions.configure<ApplicationAndroidComponentsExtension> {
-            configureAndroidApplicationVariants()
+        extensions.configure(ApplicationAndroidComponentsExtension::class.java) {
+            it.configureAndroidApplicationVariants()
         }
 
         configureTest()

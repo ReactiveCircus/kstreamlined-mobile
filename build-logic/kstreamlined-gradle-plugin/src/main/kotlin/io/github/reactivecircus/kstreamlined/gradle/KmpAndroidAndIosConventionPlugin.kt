@@ -7,7 +7,6 @@ import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureKotlin
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureTest
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.configure
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 
 internal class KmpAndroidAndIosConventionPlugin : Plugin<Project> {
@@ -18,9 +17,9 @@ internal class KmpAndroidAndIosConventionPlugin : Plugin<Project> {
             apply("com.android.lint")
         }
 
-        extensions.configure<KotlinMultiplatformExtension> {
-            configureKmpTargets(target, KmpModuleType.AndroidAndIos)
-            configureKotlin(target)
+        extensions.configure(KotlinMultiplatformExtension::class.java) {
+            it.configureKmpTargets(target, KmpModuleType.AndroidAndIos)
+            it.configureKotlin(target)
         }
 
         configureTest()

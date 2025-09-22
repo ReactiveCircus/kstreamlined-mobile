@@ -3,17 +3,16 @@ package io.github.reactivecircus.kstreamlined.gradle
 import com.google.devtools.ksp.gradle.KspExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.configure
 
 internal class KspConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) = with(target) {
         pluginManager.apply("com.google.devtools.ksp")
 
-        extensions.configure<KspExtension> {
+        extensions.configure(KspExtension::class.java) {
             if (hasHiltCompilerDependency) {
-                arg("dagger.fastInit", "enabled")
-                arg("dagger.strictMultibindingValidation", "enabled")
-                arg("dagger.experimentalDaggerErrorMessages", "enabled")
+                it.arg("dagger.fastInit", "enabled")
+                it.arg("dagger.strictMultibindingValidation", "enabled")
+                it.arg("dagger.experimentalDaggerErrorMessages", "enabled")
             }
         }
 
@@ -21,7 +20,7 @@ internal class KspConventionPlugin : Plugin<Project> {
         tasks.named {
             it.startsWith("ksp") && it.endsWith("UnitTestKotlin")
         }.configureEach {
-            enabled = false
+            it.enabled = false
         }
     }
 }

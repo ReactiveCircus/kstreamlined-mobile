@@ -4,7 +4,8 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    `kotlin-dsl`
+    `java-gradle-plugin`
+    alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.lint)
     alias(libs.plugins.detekt)
 }
@@ -85,7 +86,7 @@ detekt {
     parallel = true
 }
 
-tasks.withType<Detekt>().configureEach {
+tasks.withType(Detekt::class.java).configureEach {
     jvmTarget = JvmTarget.JVM_22.target
     reports {
         xml.required.set(false)

@@ -9,8 +9,6 @@ import isIdeBuild
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.testing.Test
-import org.gradle.kotlin.dsl.configure
-import org.gradle.kotlin.dsl.withType
 import runningCheck
 import runningPaparazzi
 
@@ -18,24 +16,24 @@ internal class AndroidScreenshotTestConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) = with(target) {
         pluginManager.apply("app.cash.paparazzi")
         pluginManager.withPlugin("app.cash.paparazzi") {
-            tasks.withType<Test>().configureEach {
+            tasks.withType(Test::class.java).configureEach { test ->
                 if (!runningCheck) {
                     // skip running regular unit tests when running one of the paparazzi tasks
                     // skip running paparazzi tests when running regular unit tests
-                    filter {
+                    test.filter {
                         if (runningPaparazzi) {
-                            includePatterns += "*.snapshot*"
+                            it.includePatterns += "*.snapshot*"
                         } else {
-                            excludePatterns += "*.snapshot*"
+                            it.excludePatterns += "*.snapshot*"
                         }
                     }
                 }
             }
-            tasks.withType<PrepareResourcesTask>().configureEach {
-                enabled = runningCheck || runningPaparazzi
+            tasks.withType(PrepareResourcesTask::class.java).configureEach {
+                it.enabled = runningCheck || runningPaparazzi
             }
             tasks.named("check").configure {
-                dependsOn("verifyPaparazzi")
+                it.dependsOn("verifyPaparazzi")
             }
         }
 
@@ -43,19 +41,19 @@ internal class AndroidScreenshotTestConventionPlugin : Plugin<Project> {
 
         if (runningCheck || runningPaparazzi || isIdeBuild) {
             pluginManager.withPlugin("com.android.library") {
-                extensions.configure<LibraryAndroidComponentsExtension> {
-                    beforeVariants {
-                        (it as HasUnitTestBuilder).enableUnitTest = true
+                extensions.configure(LibraryAndroidComponentsExtension::class.java) {
+                    it.beforeVariants { variantBuilder ->
+                        (variantBuilder as HasUnitTestBuilder).enableUnitTest = true
                     }
                 }
-                extensions.configure<LibraryExtension> {
-                    androidResources.enable = true
+                extensions.configure(LibraryExtension::class.java) {
+                    it.androidResources.enable = true
                 }
             }
             pluginManager.withPlugin("com.android.application") {
-                extensions.configure<ApplicationAndroidComponentsExtension> {
-                    beforeVariants {
-                        (it as HasUnitTestBuilder).enableUnitTest = true
+                extensions.configure(ApplicationAndroidComponentsExtension::class.java) {
+                    it.beforeVariants { variantBuilder ->
+                        (variantBuilder as HasUnitTestBuilder).enableUnitTest = true
                     }
                 }
             }
