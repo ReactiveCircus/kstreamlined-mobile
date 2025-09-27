@@ -10,7 +10,8 @@ internal class ComposeConventionPlugin : Plugin<Project> {
         pluginManager.apply("org.jetbrains.kotlin.plugin.compose")
         extensions.configure(ComposeCompilerGradlePluginExtension::class.java) {
             // add compose stability config file
-            it.stabilityConfigurationFiles.add(rootProject.layout.projectDirectory.file("stability_config.conf"))
+            @Suppress("UnstableApiUsage")
+            it.stabilityConfigurationFiles.add(isolated.rootProject.projectDirectory.file("stability_config.conf"))
 
             // compose compiler metrics and reports
             if (providers.gradleProperty("enableComposeCompilerReports").orNull == "true") {
