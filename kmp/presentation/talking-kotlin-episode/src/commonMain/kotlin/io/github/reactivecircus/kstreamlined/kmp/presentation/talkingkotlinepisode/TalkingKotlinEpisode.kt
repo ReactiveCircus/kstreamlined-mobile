@@ -1,5 +1,8 @@
 package io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepisode
 
+import androidx.compose.runtime.Immutable
+
+@Immutable
 public data class TalkingKotlinEpisode(
     val id: String,
     val title: String,

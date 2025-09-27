@@ -1,5 +1,8 @@
 package io.github.reactivecircus.kstreamlined.kmp.model.feed
 
+import androidx.compose.runtime.Immutable
+
+@Immutable
 public data class KotlinWeeklyIssueItem(
     val title: String,
     val summary: String,
@@ -7,6 +10,7 @@ public data class KotlinWeeklyIssueItem(
     val source: String,
     val group: Group,
 ) {
+    @Immutable
     public enum class Group {
         Announcements,
         Articles,

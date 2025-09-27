@@ -1,8 +1,10 @@
 package io.github.reactivecircus.kstreamlined.kmp.presentation.savedforlater
 
+import androidx.compose.runtime.Immutable
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.DisplayableFeedItem
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
 
+@Immutable
 public sealed interface SavedForLaterUiState {
     public data object Loading : SavedForLaterUiState
 
