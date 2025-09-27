@@ -1,7 +1,9 @@
 package io.github.reactivecircus.kstreamlined.kmp.presentation.home
 
+import androidx.compose.runtime.Immutable
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
 
+@Immutable
 public sealed interface HomeUiState {
     public data object Loading : HomeUiState
 

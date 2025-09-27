@@ -1,5 +1,8 @@
 package io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepisode
 
+import androidx.compose.runtime.Immutable
+
+@Immutable
 public sealed interface TalkingKotlinEpisodeUiState {
     public data object Initializing : TalkingKotlinEpisodeUiState
 

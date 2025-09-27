@@ -9,14 +9,16 @@ internal class ComposeConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) = with(target) {
         pluginManager.apply("org.jetbrains.kotlin.plugin.compose")
         extensions.configure(ComposeCompilerGradlePluginExtension::class.java) {
-            val stabilityConfigFile = layout.projectDirectory.file("compose_stability_config.conf")
-            if (stabilityConfigFile.asFile.exists()) {
-                it.stabilityConfigurationFiles.add(stabilityConfigFile)
-            }
+            // add compose stability config file
+            it.stabilityConfigurationFiles.add(rootProject.layout.projectDirectory.file("stability_config.conf"))
+
+            // compose compiler metrics and reports
             if (providers.gradleProperty("enableComposeCompilerReports").orNull == "true") {
                 it.metricsDestination.set(layout.buildDirectory.dir("compose_metrics"))
                 it.reportsDestination.set(layout.buildDirectory.dir("compose_metrics"))
             }
+
+            // disable js and wasm targets
             it.targetKotlinPlatforms.set(
                 KotlinPlatformType.entries.filterNot { target ->
                     target == KotlinPlatformType.js || target == KotlinPlatformType.wasm

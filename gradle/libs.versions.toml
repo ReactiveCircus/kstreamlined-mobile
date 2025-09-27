@@ -102,6 +102,7 @@ androidx-compose-foundation = { module = "androidx.compose.foundation:foundation
 androidx-compose-materialIcons = { group = "androidx.compose.material", name = "material-icons-core", version.ref = "androidx-compose-materialIcons" }
 androidx-compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "androidx-compose-material3" }
 androidx-compose-runtime = { module = "androidx.compose.runtime:runtime", version.ref = "androidx-compose-runtime" }
+androidx-compose-runtimeAnnotation = { module = "androidx.compose.runtime:runtime-annotation", version.ref = "androidx-compose-runtime" }
 androidx-compose-runtime-tracing = { module = "androidx.compose.runtime:runtime-tracing", version.ref = "androidx-compose-tracing" }
 androidx-core = { module = "androidx.core:core-ktx", version.ref = "androidx-core" }
 androidx-coreSplashscreen = { module = "androidx.core:core-splashscreen", version.ref = "androidx-coreSplashscreen" }
