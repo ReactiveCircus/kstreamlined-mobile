@@ -1,7 +1,6 @@
 package io.github.reactivecircus.kstreamlined.kmp.remote.mapper
 
 import io.github.reactivecircus.kstreamlined.graphql.KotlinWeeklyIssueQuery
-import io.github.reactivecircus.kstreamlined.graphql.type.KotlinWeeklyIssueEntryGroup
 import io.github.reactivecircus.kstreamlined.kmp.remote.model.KotlinWeeklyIssueEntry
 
 internal fun KotlinWeeklyIssueQuery.KotlinWeeklyIssueEntry.asExternalModel(): KotlinWeeklyIssueEntry? {
@@ -11,12 +10,12 @@ internal fun KotlinWeeklyIssueQuery.KotlinWeeklyIssueEntry.asExternalModel(): Ko
         url = this.url,
         source = this.source,
         group = when (this.group) {
-            KotlinWeeklyIssueEntryGroup.ANNOUNCEMENTS -> KotlinWeeklyIssueEntry.Group.Announcements
-            KotlinWeeklyIssueEntryGroup.ARTICLES -> KotlinWeeklyIssueEntry.Group.Articles
-            KotlinWeeklyIssueEntryGroup.ANDROID -> KotlinWeeklyIssueEntry.Group.Android
-            KotlinWeeklyIssueEntryGroup.VIDEOS -> KotlinWeeklyIssueEntry.Group.Videos
-            KotlinWeeklyIssueEntryGroup.LIBRARIES -> KotlinWeeklyIssueEntry.Group.Libraries
-            KotlinWeeklyIssueEntryGroup.UNKNOWN__ -> return null
+            ANNOUNCEMENTS -> KotlinWeeklyIssueEntry.Group.Announcements
+            ARTICLES -> KotlinWeeklyIssueEntry.Group.Articles
+            ANDROID -> KotlinWeeklyIssueEntry.Group.Android
+            VIDEOS -> KotlinWeeklyIssueEntry.Group.Videos
+            LIBRARIES -> KotlinWeeklyIssueEntry.Group.Libraries
+            UNKNOWN__ -> return null
         },
     )
 }

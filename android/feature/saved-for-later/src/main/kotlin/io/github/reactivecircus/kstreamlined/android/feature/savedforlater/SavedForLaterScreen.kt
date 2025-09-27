@@ -153,7 +153,7 @@ private fun SharedTransitionScope.ContentUi(
         ) {
             val (item, displayablePublishTime) = it
             when (item) {
-                is FeedItem.KotlinBlog -> {
+                is KotlinBlog -> {
                     KotlinBlogCard(
                         item = item.toDisplayable(displayablePublishTime),
                         onItemClick = onItemClick,
@@ -169,7 +169,7 @@ private fun SharedTransitionScope.ContentUi(
                     )
                 }
 
-                is FeedItem.KotlinWeekly -> {
+                is KotlinWeekly -> {
                     KotlinWeeklyCard(
                         item = item.toDisplayable(displayablePublishTime),
                         onItemClick = onItemClick,
@@ -183,7 +183,7 @@ private fun SharedTransitionScope.ContentUi(
                     )
                 }
 
-                is FeedItem.KotlinYouTube -> {
+                is KotlinYouTube -> {
                     KotlinYouTubeCard(
                         item = item.toDisplayable(displayablePublishTime),
                         onItemClick = onItemClick,
@@ -199,7 +199,7 @@ private fun SharedTransitionScope.ContentUi(
                     )
                 }
 
-                is FeedItem.TalkingKotlin -> {
+                is TalkingKotlin -> {
                     TalkingKotlinCard(
                         item = item.toDisplayable(displayablePublishTime),
                         onItemClick = onItemClick,

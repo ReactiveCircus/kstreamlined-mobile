@@ -165,11 +165,11 @@ internal fun WebView(
         LaunchedEffect(wv, state) {
             snapshotFlow { state.content }.collect { content ->
                 when (content) {
-                    is WebContent.Url -> {
+                    is Url -> {
                         wv.loadUrl(content.url, content.additionalHttpHeaders)
                     }
 
-                    is WebContent.Data -> {
+                    is Data -> {
                         wv.loadDataWithBaseURL(
                             content.baseUrl,
                             content.data,
@@ -179,14 +179,14 @@ internal fun WebView(
                         )
                     }
 
-                    is WebContent.Post -> {
+                    is Post -> {
                         wv.postUrl(
                             content.url,
                             content.postData,
                         )
                     }
 
-                    is WebContent.NavigatorOnly -> {
+                    is NavigatorOnly -> {
                         // NO-OP
                     }
                 }
@@ -341,7 +341,7 @@ internal sealed class WebContent {
 }
 
 internal fun WebContent.withUrl(url: String) = when (this) {
-    is WebContent.Url -> copy(url = url)
+    is Url -> copy(url = url)
     else -> WebContent.Url(url)
 }
 
@@ -484,11 +484,11 @@ internal class WebViewNavigator(private val coroutineScope: CoroutineScope) {
     internal suspend fun WebView.handleNavigationEvents(): Nothing = withContext(Dispatchers.Main) {
         navigationEvents.collect { event ->
             when (event) {
-                is NavigationEvent.Back -> goBack()
-                is NavigationEvent.Forward -> goForward()
-                is NavigationEvent.Reload -> reload()
-                is NavigationEvent.StopLoading -> stopLoading()
-                is NavigationEvent.LoadHtml -> loadDataWithBaseURL(
+                is Back -> goBack()
+                is Forward -> goForward()
+                is Reload -> reload()
+                is StopLoading -> stopLoading()
+                is LoadHtml -> loadDataWithBaseURL(
                     event.baseUrl,
                     event.html,
                     event.mimeType,
@@ -496,11 +496,11 @@ internal class WebViewNavigator(private val coroutineScope: CoroutineScope) {
                     event.historyUrl,
                 )
 
-                is NavigationEvent.LoadUrl -> {
+                is LoadUrl -> {
                     loadUrl(event.url, event.additionalHttpHeaders)
                 }
 
-                is NavigationEvent.PostUrl -> {
+                is PostUrl -> {
                     postUrl(event.url, event.postData)
                 }
             }

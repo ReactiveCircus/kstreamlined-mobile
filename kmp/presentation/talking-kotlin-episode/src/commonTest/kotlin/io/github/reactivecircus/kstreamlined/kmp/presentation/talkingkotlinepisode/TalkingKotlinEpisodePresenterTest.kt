@@ -57,9 +57,9 @@ class TalkingKotlinEpisodePresenterTest {
             thumbnailUrl = it.image_url.orEmpty(),
             summary = it.description.orEmpty(),
             summaryFormat = when (it.podcast_description_format) {
-                ContentFormat.Text -> FeedItem.TalkingKotlin.ContentFormat.Text
-                ContentFormat.Html -> FeedItem.TalkingKotlin.ContentFormat.Html
-                null -> FeedItem.TalkingKotlin.ContentFormat.Text
+                Text -> Text
+                Html -> Html
+                null -> Text
             },
             summaryPlainText = it.podcast_description_plain_text,
             duration = it.podcast_duration.orEmpty(),

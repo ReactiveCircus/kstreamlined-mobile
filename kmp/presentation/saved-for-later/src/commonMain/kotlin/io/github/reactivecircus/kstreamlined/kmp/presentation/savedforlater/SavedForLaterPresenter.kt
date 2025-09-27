@@ -26,7 +26,7 @@ public class SavedForLaterPresenter(
         }
         CollectEvent { event ->
             when (event) {
-                is SavedForLaterUiEvent.RemoveSavedItem -> {
+                is RemoveSavedItem -> {
                     feedDataSource.removeSavedFeedItem(event.id)
                 }
             }

@@ -142,15 +142,15 @@ internal fun SharedTransitionScope.HomeScreen(
                 label = "uiState",
             ) { state ->
                 when (state) {
-                    is HomeUiState.Loading -> {
+                    is Loading -> {
                         LoadingSkeletonUi()
                     }
 
-                    is HomeUiState.Error -> {
+                    is HomeUiState.Failed -> {
                         ErrorUi(eventSink = eventSink)
                     }
 
-                    is HomeUiState.Content -> {
+                    is Content -> {
                         ContentUi(
                             animatedVisibilityScope = animatedVisibilityScope,
                             listState = listState,
@@ -190,19 +190,19 @@ private fun SharedTransitionScope.ContentUi(
                 items,
                 key = { item ->
                     when (item) {
-                        is HomeFeedItem.SectionHeader -> item.title
-                        is HomeFeedItem.Item -> item.displayableFeedItem.value.id
+                        is SectionHeader -> item.title
+                        is Item -> item.displayableFeedItem.value.id
                     }
                 },
                 contentType = { item ->
                     when (item) {
-                        is HomeFeedItem.SectionHeader -> HomeFeedItem.SectionHeader::class.simpleName
-                        is HomeFeedItem.Item -> item.displayableFeedItem.value::class.simpleName
+                        is SectionHeader -> HomeFeedItem.SectionHeader::class.simpleName
+                        is Item -> item.displayableFeedItem.value::class.simpleName
                     }
                 },
             ) {
                 when (it) {
-                    is HomeFeedItem.SectionHeader -> {
+                    is SectionHeader -> {
                         trace("SectionHeader") {
                             Text(
                                 text = it.title,
@@ -213,10 +213,10 @@ private fun SharedTransitionScope.ContentUi(
                         }
                     }
 
-                    is HomeFeedItem.Item -> {
+                    is Item -> {
                         val (item, displayablePublishTime) = it.displayableFeedItem
                         when (item) {
-                            is FeedItem.KotlinBlog -> {
+                            is KotlinBlog -> {
                                 KotlinBlogCard(
                                     item = item.toDisplayable(displayablePublishTime),
                                     onItemClick = onItemClick,
@@ -234,7 +234,7 @@ private fun SharedTransitionScope.ContentUi(
                                 )
                             }
 
-                            is FeedItem.KotlinWeekly -> {
+                            is KotlinWeekly -> {
                                 KotlinWeeklyCard(
                                     item = item.toDisplayable(displayablePublishTime),
                                     onItemClick = onItemClick,
@@ -250,7 +250,7 @@ private fun SharedTransitionScope.ContentUi(
                                 )
                             }
 
-                            is FeedItem.KotlinYouTube -> {
+                            is KotlinYouTube -> {
                                 KotlinYouTubeCard(
                                     item = item.toDisplayable(displayablePublishTime),
                                     onItemClick = onItemClick,
@@ -268,7 +268,7 @@ private fun SharedTransitionScope.ContentUi(
                                 )
                             }
 
-                            is FeedItem.TalkingKotlin -> {
+                            is TalkingKotlin -> {
                                 TalkingKotlinCard(
                                     item = item.toDisplayable(displayablePublishTime),
                                     onItemClick = onItemClick,
@@ -376,7 +376,7 @@ private fun calculateListContentPadding(): PaddingValues {
 
 private val HomeUiState.contentKey: Int
     get() = when (this) {
-        is HomeUiState.Loading -> 0
-        is HomeUiState.Error -> 1
-        is HomeUiState.Content -> 2
+        is Loading -> 0
+        is Failed -> 1
+        is Content -> 2
     }

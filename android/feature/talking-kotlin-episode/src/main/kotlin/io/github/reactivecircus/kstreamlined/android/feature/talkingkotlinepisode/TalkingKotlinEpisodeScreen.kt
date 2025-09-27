@@ -167,15 +167,15 @@ internal fun SharedTransitionScope.TalkingKotlinEpisodeScreen(
 
         Box {
             when (uiState) {
-                is TalkingKotlinEpisodeUiState.Initializing -> {
+                is Initializing -> {
                     Box(modifier = modifier.fillMaxSize())
                 }
 
-                is TalkingKotlinEpisodeUiState.NotFound -> {
+                is NotFound -> {
                     ItemNotFoundUi()
                 }
 
-                is TalkingKotlinEpisodeUiState.Content -> {
+                is Content -> {
                     ContentUi(
                         animatedVisibilityScope = animatedVisibilityScope,
                         playerElementKey = playerElementKey,

@@ -32,7 +32,7 @@ public class HomePresenter(
         }
         CollectEvent { event ->
             when (event) {
-                is HomeUiEvent.ToggleSavedForLater -> {
+                is ToggleSavedForLater -> {
                     if (!event.item.savedForLater) {
                         feedDataSource.addSavedFeedItem(event.item.id)
                     } else {
@@ -40,11 +40,11 @@ public class HomePresenter(
                     }
                 }
 
-                HomeUiEvent.Refresh -> {
+                Refresh -> {
                     feedSyncEngine.sync(forceRefresh = true)
                 }
 
-                HomeUiEvent.DismissTransientError -> {
+                DismissTransientError -> {
                     val currentUiState = uiState
                     if (currentUiState is HomeUiState.Content) {
                         uiState = currentUiState.copy(hasTransientError = false)
@@ -65,7 +65,7 @@ public class HomePresenter(
     ) { syncState, feedOrigins, feedItems, (isFirstTransform, lastEmittedFlowIndex) ->
         val hasContent = feedOrigins.isNotEmpty() && feedItems.isNotEmpty()
         when (syncState) {
-            is SyncState.Syncing -> {
+            is Syncing -> {
                 if (hasContent) {
                     HomeUiState.Content(
                         selectedFeedCount = feedOrigins.count { it.selected },
@@ -78,7 +78,7 @@ public class HomePresenter(
                 }
             }
 
-            is SyncState.Idle -> {
+            is Idle -> {
                 if (hasContent) {
                     HomeUiState.Content(
                         selectedFeedCount = feedOrigins.count { it.selected },
@@ -91,7 +91,7 @@ public class HomePresenter(
                 }
             }
 
-            is SyncState.OutOfSync -> {
+            is OutOfSync -> {
                 if (hasContent) {
                     /**
                      * Show transient error if:
@@ -110,7 +110,7 @@ public class HomePresenter(
                         hasTransientError = hasTransientError,
                     )
                 } else {
-                    HomeUiState.Error
+                    HomeUiState.Failed
                 }
             }
         }

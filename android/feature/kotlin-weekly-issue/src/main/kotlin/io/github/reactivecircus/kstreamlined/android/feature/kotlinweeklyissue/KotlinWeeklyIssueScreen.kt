@@ -180,15 +180,15 @@ internal fun SharedTransitionScope.KotlinWeeklyIssueScreen(
                 label = "uiState",
             ) { state ->
                 when (state) {
-                    is KotlinWeeklyIssueUiState.Loading -> {
+                    is Loading -> {
                         LoadingSkeletonUi()
                     }
 
-                    is KotlinWeeklyIssueUiState.Error -> {
+                    is Failed -> {
                         ErrorUi(onRetry = { eventSink(KotlinWeeklyIssueUiEvent.LoadIssue(id)) })
                     }
 
-                    is KotlinWeeklyIssueUiState.Content -> {
+                    is Content -> {
                         ContentUi(
                             groupedItems = state.issueItems,
                             onItemClick = { onOpenLink(it.url) },
@@ -285,7 +285,7 @@ private fun ErrorUi(
 
 private val KotlinWeeklyIssueUiState.contentKey: Int
     get() = when (this) {
-        is KotlinWeeklyIssueUiState.Loading -> 0
-        is KotlinWeeklyIssueUiState.Error -> 1
-        is KotlinWeeklyIssueUiState.Content -> 2
+        is Loading -> 0
+        is Failed -> 1
+        is Content -> 2
     }

@@ -11,7 +11,6 @@ import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedOrigin
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.KotlinWeeklyIssueItem
 import io.github.reactivecircus.kstreamlined.kmp.remote.FakeFeedService
 import io.github.reactivecircus.kstreamlined.kmp.remote.FakeKotlinWeeklyIssueEntries
-import io.github.reactivecircus.kstreamlined.kmp.remote.model.KotlinWeeklyIssueEntry
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
@@ -63,11 +62,11 @@ class KotlinWeeklyIssuePresenterTest {
             url = it.url,
             source = it.source,
             group = when (it.group) {
-                KotlinWeeklyIssueEntry.Group.Announcements -> KotlinWeeklyIssueItem.Group.Announcements
-                KotlinWeeklyIssueEntry.Group.Articles -> KotlinWeeklyIssueItem.Group.Articles
-                KotlinWeeklyIssueEntry.Group.Android -> KotlinWeeklyIssueItem.Group.Android
-                KotlinWeeklyIssueEntry.Group.Videos -> KotlinWeeklyIssueItem.Group.Videos
-                KotlinWeeklyIssueEntry.Group.Libraries -> KotlinWeeklyIssueItem.Group.Libraries
+                Announcements -> Announcements
+                Articles -> Articles
+                Android -> Android
+                Videos -> Videos
+                Libraries -> Libraries
             },
         )
     }
@@ -110,7 +109,7 @@ class KotlinWeeklyIssuePresenterTest {
     }
 
     @Test
-    fun `presenter emits Error state when LoadIssue event is dispatched and loading issue fails`() {
+    fun `presenter emits Failed state when LoadIssue event is dispatched and loading issue fails`() {
         testScope.runTest {
             presenter.states.test {
                 db.transaction {
@@ -125,20 +124,20 @@ class KotlinWeeklyIssuePresenterTest {
 
                 presenter.eventSink(KotlinWeeklyIssueUiEvent.LoadIssue(dummyFeedItem.id))
 
-                assertEquals(KotlinWeeklyIssueUiState.Error, awaitItem())
+                assertEquals(KotlinWeeklyIssueUiState.Failed, awaitItem())
             }
         }
     }
 
     @Test
-    fun `presenter emits Error state when LoadIssue event is dispatched and item does not exist`() {
+    fun `presenter emits Failed state when LoadIssue event is dispatched and item does not exist`() {
         testScope.runTest {
             presenter.states.test {
                 assertEquals(KotlinWeeklyIssueUiState.Loading, awaitItem())
 
                 presenter.eventSink(KotlinWeeklyIssueUiEvent.LoadIssue("id"))
 
-                assertEquals(KotlinWeeklyIssueUiState.Error, awaitItem())
+                assertEquals(KotlinWeeklyIssueUiState.Failed, awaitItem())
             }
         }
     }

@@ -61,11 +61,11 @@ private fun IssueGroupBadge(
         modifier = modifier.wrapContentWidth(Alignment.Start),
         shape = RoundedCornerShape(4.dp),
         color = when (group) {
-            KotlinWeeklyIssueItem.Group.Announcements -> AnnouncementsColor
-            KotlinWeeklyIssueItem.Group.Articles -> ArticlesColor
-            KotlinWeeklyIssueItem.Group.Android -> AndroidColor
-            KotlinWeeklyIssueItem.Group.Videos -> VideosColor
-            KotlinWeeklyIssueItem.Group.Libraries -> LibrariesColor
+            Announcements -> AnnouncementsColor
+            Articles -> ArticlesColor
+            Android -> AndroidColor
+            Videos -> VideosColor
+            Libraries -> LibrariesColor
         },
         contentColor = Color.White,
     ) {

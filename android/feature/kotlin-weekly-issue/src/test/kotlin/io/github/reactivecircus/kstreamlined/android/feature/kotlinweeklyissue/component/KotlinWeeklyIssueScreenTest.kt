@@ -72,7 +72,7 @@ class KotlinWeeklyIssueScreenTest {
     fun snapshot_KotlinWeeklyIssueScreen_Error() {
         snapshotTester.snapshot {
             KotlinWeeklyIssueScreenSnapshot(
-                uiState = KotlinWeeklyIssueUiState.Error,
+                uiState = KotlinWeeklyIssueUiState.Failed,
             )
         }
     }
