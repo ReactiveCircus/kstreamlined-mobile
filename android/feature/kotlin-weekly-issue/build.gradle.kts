@@ -3,7 +3,6 @@ plugins {
     id("kstreamlined.android.screenshot-test")
     id("kstreamlined.compose")
     id("kstreamlined.ksp")
-    id("app.cash.burst")
 }
 
 android {

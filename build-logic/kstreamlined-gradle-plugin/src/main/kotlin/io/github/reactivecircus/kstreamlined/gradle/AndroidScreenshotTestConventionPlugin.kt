@@ -5,6 +5,7 @@ import com.android.build.api.dsl.LibraryExtension
 import com.android.build.api.variant.ApplicationAndroidComponentsExtension
 import com.android.build.api.variant.HasUnitTestBuilder
 import com.android.build.api.variant.LibraryAndroidComponentsExtension
+import io.github.reactivecircus.chameleon.gradle.ChameleonExtension
 import isIdeBuild
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -34,6 +35,17 @@ internal class AndroidScreenshotTestConventionPlugin : Plugin<Project> {
             }
             tasks.named("check").configure {
                 it.dependsOn("verifyPaparazzi")
+            }
+        }
+
+        pluginManager.apply("app.cash.burst")
+        pluginManager.apply("io.github.reactivecircus.chameleon")
+        pluginManager.withPlugin("io.github.reactivecircus.chameleon") {
+            @Suppress("MaxLineLength")
+            extensions.configure(ChameleonExtension::class.java) {
+                it.snapshotFunction.set(
+                    "io.github.reactivecircus.kstreamlined.android.foundation.screenshottesting.tester.SnapshotTester#snapshot",
+                )
             }
         }
 
