@@ -53,3 +53,5 @@ plugins {
 
 rootProject.name = "build-logic"
 include(":kstreamlined-gradle-plugin")
+include(":cocoon:cocoon-compiler-plugin")
+include(":cocoon:cocoon-gradle-plugin")

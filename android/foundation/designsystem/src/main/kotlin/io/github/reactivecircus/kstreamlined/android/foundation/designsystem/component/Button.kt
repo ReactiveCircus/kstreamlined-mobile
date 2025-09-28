@@ -11,9 +11,9 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.KSTheme
+import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.preview.PreviewKStreamlined
 
 @Composable
 public fun Button(
@@ -50,15 +50,11 @@ public fun Button(
 }
 
 @Composable
-@PreviewLightDark
+@PreviewKStreamlined
 private fun PreviewButton() {
-    KSTheme {
-        Surface {
-            Button(
-                text = "Button",
-                onClick = {},
-                modifier = Modifier.padding(8.dp),
-            )
-        }
-    }
+    Button(
+        text = "Button",
+        onClick = {},
+        modifier = Modifier.padding(8.dp),
+    )
 }
