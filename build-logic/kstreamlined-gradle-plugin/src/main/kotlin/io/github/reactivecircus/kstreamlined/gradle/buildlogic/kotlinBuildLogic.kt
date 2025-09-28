@@ -26,7 +26,6 @@ internal fun KotlinProjectExtension.configureKotlin(
             freeCompilerArgs.addAll(
                 "-XXLanguage:+BreakContinueInInlineLambdas",
                 "-XXLanguage:+ContextParameters",
-                "-XXLanguage:+ContextSensitiveResolutionUsingExpectedType",
                 "-XXLanguage:+DataClassCopyRespectsConstructorVisibility",
                 "-XXLanguage:+ExplicitBackingFields",
                 "-XXLanguage:+MultiDollarInterpolation",
