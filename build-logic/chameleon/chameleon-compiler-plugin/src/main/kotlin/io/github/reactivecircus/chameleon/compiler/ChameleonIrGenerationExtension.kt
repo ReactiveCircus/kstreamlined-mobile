@@ -14,14 +14,20 @@ internal class ChameleonIrGenerationExtension(
     private val messageCollector: MessageCollector,
 ) : IrGenerationExtension {
     override fun generate(moduleFragment: IrModuleFragment, pluginContext: IrPluginContext) {
-        if (pluginContext.referenceClass(annotationName) == null) return
-//        if (pluginContext.referenceFunctions(snapshotFunctionName).isEmpty()) {
-//            messageCollector.report(
-//                CompilerMessageSeverity.ERROR,
-//                "Could not find snapshot function <$snapshotFunctionName>.",
-//            )
-//            return
-//        }
+        if (pluginContext.referenceClass(annotationName) == null) {
+            messageCollector.report(
+                CompilerMessageSeverity.ERROR,
+                "Could not find annotation class <$annotationName>.",
+            )
+            return
+        }
+        if (pluginContext.referenceFunctions(snapshotFunctionName).isEmpty()) {
+            messageCollector.report(
+                CompilerMessageSeverity.ERROR,
+                "Could not find snapshot function <$snapshotFunctionName>.",
+            )
+            return
+        }
         moduleFragment.transform(
             ChameleonFunctionTransformer(pluginContext, messageCollector, annotationName, snapshotFunctionName),
             null,

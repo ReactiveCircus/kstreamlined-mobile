@@ -44,7 +44,7 @@ internal class AndroidScreenshotTestConventionPlugin : Plugin<Project> {
             @Suppress("MaxLineLength")
             extensions.configure(ChameleonExtension::class.java) {
                 it.snapshotFunction.set(
-                    "io.github.reactivecircus.kstreamlined.android.foundation.screenshottesting.tester.SnapshotTester#snapshot",
+                    "io/github/reactivecircus/kstreamlined/android/foundation/screenshottesting/tester/SnapshotTester.snapshot",
                 )
             }
         }

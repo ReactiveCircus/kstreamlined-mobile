@@ -43,5 +43,6 @@ public class ChameleonPlugin : KotlinCompilerPluginSupportPlugin {
         )
     }
 
-    override fun isApplicable(kotlinCompilation: KotlinCompilation<*>): Boolean = true
+    override fun isApplicable(kotlinCompilation: KotlinCompilation<*>): Boolean =
+        kotlinCompilation.name.contains("UnitTest", ignoreCase = true)
 }
