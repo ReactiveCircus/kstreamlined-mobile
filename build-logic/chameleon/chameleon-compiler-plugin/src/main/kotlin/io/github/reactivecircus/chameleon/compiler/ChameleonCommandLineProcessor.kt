@@ -14,20 +14,25 @@ public class ChameleonCommandLineProcessor : CommandLineProcessor {
         CliOption(
             optionName = CompilerOptions.SnapshotFunction.toString(),
             valueDescription = "String",
-            description = "The fully qualified name of the snapshot function to be used for passing in the `themeVariant`.",
+            description = "The fully qualified name of the snapshot function with a `themeVariant` parameter.",
+        ),
+        CliOption(
+            optionName = CompilerOptions.ThemeVariantEnum.toString(),
+            valueDescription = "String",
+            description = "The fully qualified name of the enum class for the `themeVariant` parameter.",
         ),
     )
 
     override fun processOption(option: AbstractCliOption, value: String, configuration: CompilerConfiguration) {
         when (option.optionName) {
             CompilerOptions.SnapshotFunction.toString() -> configuration.put(CompilerOptions.SnapshotFunction, value)
+            CompilerOptions.ThemeVariantEnum.toString() -> configuration.put(CompilerOptions.ThemeVariantEnum, value)
             else -> throw IllegalArgumentException("Unknown plugin option: ${option.optionName}")
         }
     }
 
     internal object CompilerOptions {
-        // TODO check format (include fqn, class? or need separate `SnapshotTesterClass`?)
         val SnapshotFunction = CompilerConfigurationKey<String>("snapshotFunction")
-        // TODO add ThemeVariantEnum - find argument in SnapshotFunction by type and assign
+        val ThemeVariantEnum = CompilerConfigurationKey<String>("themeVariantEnum")
     }
 }

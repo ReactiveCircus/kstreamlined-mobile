@@ -30,6 +30,10 @@ public class ChameleonPlugin : KotlinCompilerPluginSupportPlugin {
                     key = "snapshotFunction",
                     value = extension.snapshotFunction.get(),
                 ),
+                SubpluginOption(
+                    key = "themeVariantEnum",
+                    value = extension.themeVariantEnum.get(),
+                ),
             )
         }
     }

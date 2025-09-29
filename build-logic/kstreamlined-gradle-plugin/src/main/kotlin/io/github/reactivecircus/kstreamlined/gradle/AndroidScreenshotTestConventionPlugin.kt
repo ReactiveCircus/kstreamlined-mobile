@@ -46,6 +46,9 @@ internal class AndroidScreenshotTestConventionPlugin : Plugin<Project> {
                 it.snapshotFunction.set(
                     "io/github/reactivecircus/kstreamlined/android/foundation/screenshottesting/tester/SnapshotTester.snapshot",
                 )
+                it.themeVariantEnum.set(
+                    "io/github/reactivecircus/kstreamlined/android/foundation/screenshottesting/tester/ThemeVariant",
+                )
             }
         }
 

@@ -9,27 +9,42 @@ import org.jetbrains.kotlin.name.CallableId
 import org.jetbrains.kotlin.name.ClassId
 
 internal class ChameleonIrGenerationExtension(
-    private val annotationName: ClassId,
-    private val snapshotFunctionName: CallableId,
+    private val chameleonAnnotationId: ClassId,
+    private val snapshotFunctionId: CallableId,
+    private val themeVariantEnumId: ClassId,
     private val messageCollector: MessageCollector,
 ) : IrGenerationExtension {
+    @Suppress("ReturnCount")
     override fun generate(moduleFragment: IrModuleFragment, pluginContext: IrPluginContext) {
-        if (pluginContext.referenceClass(annotationName) == null) {
+        if (pluginContext.referenceClass(chameleonAnnotationId) == null) {
             messageCollector.report(
                 CompilerMessageSeverity.ERROR,
-                "Could not find annotation class <$annotationName>.",
+                "Could not find annotation class <$chameleonAnnotationId>.",
             )
             return
         }
-        if (pluginContext.referenceFunctions(snapshotFunctionName).isEmpty()) {
+        if (pluginContext.referenceFunctions(snapshotFunctionId).isEmpty()) {
             messageCollector.report(
                 CompilerMessageSeverity.ERROR,
-                "Could not find snapshot function <$snapshotFunctionName>.",
+                "Could not find snapshot function <$snapshotFunctionId>.",
+            )
+            return
+        }
+        if (pluginContext.referenceClass(themeVariantEnumId) == null) {
+            messageCollector.report(
+                CompilerMessageSeverity.ERROR,
+                "Could not find theme variant enum class <$themeVariantEnumId>.",
             )
             return
         }
         moduleFragment.transform(
-            ChameleonFunctionTransformer(pluginContext, messageCollector, annotationName, snapshotFunctionName),
+            ChameleonFunctionTransformer(
+                pluginContext,
+                messageCollector,
+                chameleonAnnotationId,
+                snapshotFunctionId,
+                themeVariantEnumId,
+            ),
             null,
         )
     }

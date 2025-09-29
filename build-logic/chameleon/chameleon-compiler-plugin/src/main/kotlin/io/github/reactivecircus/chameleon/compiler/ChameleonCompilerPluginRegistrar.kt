@@ -20,6 +20,11 @@ public class ChameleonCompilerPluginRegistrar : CompilerPluginRegistrar() {
         )
         val snapshotFunctionCallableId = snapshotFunctionString.toMemberCallableId()
 
+        val themeVariantEnumString = requireNotNull(
+            configuration.get(ChameleonCommandLineProcessor.CompilerOptions.ThemeVariantEnum),
+        )
+        val themeVariantClassId = ClassId.fromString(themeVariantEnumString)
+
         val messageCollector = configuration.get(
             CommonConfigurationKeys.MESSAGE_COLLECTOR_KEY,
             MessageCollector.NONE,
@@ -27,8 +32,9 @@ public class ChameleonCompilerPluginRegistrar : CompilerPluginRegistrar() {
 
         IrGenerationExtension.registerExtension(
             extension = ChameleonIrGenerationExtension(
-                annotationName = annotationClassId,
-                snapshotFunctionName = snapshotFunctionCallableId,
+                chameleonAnnotationId = annotationClassId,
+                snapshotFunctionId = snapshotFunctionCallableId,
+                themeVariantEnumId = themeVariantClassId,
                 messageCollector = messageCollector,
             ),
         )

@@ -30,12 +30,13 @@ import org.jetbrains.kotlin.name.SpecialNames
 internal class ChameleonFunctionTransformer(
     private val pluginContext: IrPluginContext,
     private val messageCollector: MessageCollector,
-    private val annotation: ClassId,
+    private val chameleonAnnotation: ClassId,
     private val snapshotFunction: CallableId,
+    private val themeVariantEnum: ClassId,
 ) : IrElementTransformerVoidWithContext() {
     @OptIn(UnsafeDuringIrConstructionAPI::class)
     override fun visitFunctionNew(declaration: IrFunction): IrStatement {
-        if (!declaration.hasAnnotation(annotation) || declaration.body == null) {
+        if (!declaration.hasAnnotation(chameleonAnnotation) || declaration.body == null) {
             return super.visitFunctionNew(declaration)
         }
 
