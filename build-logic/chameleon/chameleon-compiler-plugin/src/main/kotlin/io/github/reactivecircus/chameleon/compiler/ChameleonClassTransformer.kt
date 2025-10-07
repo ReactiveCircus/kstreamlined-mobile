@@ -54,12 +54,11 @@ internal class ChameleonClassTransformer(
             ), null)
 
         // move the added themeVariant property to the top of the declarations after the constructors
-        val currentIndex = declaration.declarations.indexOfFirst {
-            it is IrProperty && it.backingField?.type?.getClass()?.classId == chameleonSymbols.themeVariantEnum.owner.classId
-        }
-        if (currentIndex != -1) {
+        val themeVariantProperty = declaration.findThemeVariantProperty()
+        if (themeVariantProperty != null) {
+            declaration.declarations.remove(themeVariantProperty)
             val newIndex = declaration.declarations.indexOfLast { it is IrConstructor } + 1
-            declaration.declarations.add(newIndex, declaration.declarations.removeAt(currentIndex))
+            declaration.declarations.add(newIndex, themeVariantProperty)
         }
 
         log("Transformed class IR: ${declaration.dump()}")
