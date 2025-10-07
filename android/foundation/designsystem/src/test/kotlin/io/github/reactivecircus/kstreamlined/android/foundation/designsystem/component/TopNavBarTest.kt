@@ -1,19 +1,21 @@
+@file:OptIn(ExperimentalSharedTransitionApi::class)
+
 package io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component
 
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import app.cash.burst.Burst
+import io.github.reactivecircus.chameleon.runtime.Chameleon
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.icon.KSIcons
 import io.github.reactivecircus.kstreamlined.android.foundation.screenshottesting.tester.SnapshotTester
-import io.github.reactivecircus.kstreamlined.android.foundation.screenshottesting.tester.ThemeVariantInjector
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 
-@OptIn(ExperimentalSharedTransitionApi::class)
-@RunWith(ThemeVariantInjector::class)
+@Burst
+@Chameleon
 class TopNavBarTest {
     @get:Rule
     val snapshotTester = SnapshotTester()

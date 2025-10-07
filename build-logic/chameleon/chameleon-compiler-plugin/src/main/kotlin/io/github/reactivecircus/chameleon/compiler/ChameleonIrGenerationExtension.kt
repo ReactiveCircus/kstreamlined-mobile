@@ -14,36 +14,20 @@ internal class ChameleonIrGenerationExtension(
     private val themeVariantEnumId: ClassId,
     private val messageCollector: MessageCollector,
 ) : IrGenerationExtension {
-    @Suppress("ReturnCount")
     override fun generate(moduleFragment: IrModuleFragment, pluginContext: IrPluginContext) {
-        if (pluginContext.referenceClass(chameleonAnnotationId) == null) {
-            messageCollector.report(
-                CompilerMessageSeverity.ERROR,
-                "Could not find annotation class <$chameleonAnnotationId>.",
-            )
-            return
-        }
-        if (pluginContext.referenceFunctions(snapshotFunctionId).isEmpty()) {
-            messageCollector.report(
-                CompilerMessageSeverity.ERROR,
-                "Could not find snapshot function <$snapshotFunctionId>.",
-            )
-            return
-        }
-        if (pluginContext.referenceClass(themeVariantEnumId) == null) {
-            messageCollector.report(
-                CompilerMessageSeverity.ERROR,
-                "Could not find theme variant enum class <$themeVariantEnumId>.",
-            )
-            return
-        }
+        val chameleonSymbols = ChameleonSymbols.create(
+            pluginContext,
+            messageCollector,
+            chameleonAnnotationId,
+            snapshotFunctionId,
+            themeVariantEnumId,
+        )
+        if (chameleonSymbols == null) return
         moduleFragment.transform(
-            ChameleonFunctionTransformer(
+            ChameleonClassTransformer(
                 pluginContext,
                 messageCollector,
-                chameleonAnnotationId,
-                snapshotFunctionId,
-                themeVariantEnumId,
+                chameleonSymbols,
             ),
             null,
         )

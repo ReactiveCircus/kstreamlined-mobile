@@ -38,7 +38,6 @@ internal class AndroidScreenshotTestConventionPlugin : Plugin<Project> {
             }
         }
 
-        pluginManager.apply("app.cash.burst")
         pluginManager.apply("io.github.reactivecircus.chameleon")
         pluginManager.withPlugin("io.github.reactivecircus.chameleon") {
             @Suppress("MaxLineLength")
@@ -51,6 +50,8 @@ internal class AndroidScreenshotTestConventionPlugin : Plugin<Project> {
                 )
             }
         }
+
+        pluginManager.apply("app.cash.burst")
 
         dependencies.add("testImplementation", project(":foundation:screenshot-testing:tester"))
 

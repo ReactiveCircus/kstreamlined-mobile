@@ -11,9 +11,7 @@ public class ChameleonCompilerPluginRegistrar : CompilerPluginRegistrar() {
     override val supportsK2: Boolean = true
 
     override fun ExtensionStorage.registerExtensions(configuration: CompilerConfiguration) {
-        // TODO refactor / move
-        val annotationString = "io/github/reactivecircus/chameleon/runtime/Chameleon"
-        val annotationClassId = ClassId.fromString(annotationString)
+        val annotationClassId = ClassId.fromString(ChameleonAnnotationString)
 
         val snapshotFunctionString = requireNotNull(
             configuration.get(ChameleonCommandLineProcessor.CompilerOptions.SnapshotFunction),
@@ -40,3 +38,5 @@ public class ChameleonCompilerPluginRegistrar : CompilerPluginRegistrar() {
         )
     }
 }
+
+private const val ChameleonAnnotationString = "io/github/reactivecircus/chameleon/runtime/Chameleon"
