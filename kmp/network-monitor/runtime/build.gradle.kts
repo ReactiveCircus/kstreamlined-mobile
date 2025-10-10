@@ -1,4 +1,3 @@
-import com.android.build.api.dsl.androidLibrary
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 
 plugins {
@@ -11,8 +10,7 @@ kotlin {
         api(project(":kmp:network-monitor:common"))
     }
 
-    @Suppress("UnstableApiUsage")
-    androidLibrary {
+    android {
         namespace = "io.github.reactivecircus.kmp.networkmonitor.runtime"
     }
 }

@@ -1,6 +1,6 @@
 package io.github.reactivecircus.kstreamlined.gradle.buildlogic
 
-import com.android.build.api.dsl.androidLibrary
+import com.android.build.api.dsl.KotlinMultiplatformAndroidLibraryTarget
 import isAppleSilicon
 import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
@@ -16,9 +16,8 @@ internal fun KotlinMultiplatformExtension.configureKmpTargets(
     }
 
     if (moduleType.androidTargetEnabled()) {
-        @Suppress("UnstableApiUsage")
-        androidLibrary {
-            configureKmpAndroidLibraryExtension(project)
+        extensions.configure(KotlinMultiplatformAndroidLibraryTarget::class.java) {
+            it.configureKmpAndroidLibraryExtension(project)
         }
     }
 
