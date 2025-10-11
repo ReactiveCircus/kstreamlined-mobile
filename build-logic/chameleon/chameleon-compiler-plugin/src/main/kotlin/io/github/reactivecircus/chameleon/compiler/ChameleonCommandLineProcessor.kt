@@ -7,7 +7,7 @@ import org.jetbrains.kotlin.config.CompilerConfiguration
 import org.jetbrains.kotlin.config.CompilerConfigurationKey
 
 public class ChameleonCommandLineProcessor : CommandLineProcessor {
-    override val pluginId: String = "io.github.reactivecircus.chameleon.compiler"
+    override val pluginId: String = ChameleonPluginId
 
     @Suppress("MaxLineLength")
     override val pluginOptions: Collection<AbstractCliOption> = listOf(

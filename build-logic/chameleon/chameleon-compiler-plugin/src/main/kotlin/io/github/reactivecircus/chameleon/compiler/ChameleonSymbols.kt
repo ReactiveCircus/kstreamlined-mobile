@@ -18,6 +18,7 @@ internal class ChameleonSymbols private constructor(
     val themeVariantEnum: IrClassSymbol,
 ) {
     companion object {
+        @Suppress("MaxLineLength", "ReturnCount")
         @OptIn(UnsafeDuringIrConstructionAPI::class)
         fun create(
             pluginContext: IrPluginContext,

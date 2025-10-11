@@ -42,23 +42,28 @@ internal fun IrProperty.addDefaultGetterWithSameVisibility(parentClass: IrClass,
     }.apply {
         parameters = listOf(parentClass.thisReceiver!!.copyTo(this))
         body = factory.createBlockBody(
-            UNDEFINED_OFFSET, UNDEFINED_OFFSET, listOf(
+            startOffset = UNDEFINED_OFFSET,
+            endOffset = UNDEFINED_OFFSET,
+            statements = listOf(
                 IrReturnImpl(
-                    UNDEFINED_OFFSET, UNDEFINED_OFFSET,
-                    builtIns.nothingType,
-                    symbol,
-                    IrGetFieldImpl(
-                        UNDEFINED_OFFSET, UNDEFINED_OFFSET,
-                        field.symbol,
-                        field.type,
-                        IrGetValueImpl(
-                            UNDEFINED_OFFSET, UNDEFINED_OFFSET,
-                            dispatchReceiverParameter!!.type,
-                            dispatchReceiverParameter!!.symbol
-                        )
-                    )
-                )
-            )
+                    startOffset = UNDEFINED_OFFSET,
+                    endOffset = UNDEFINED_OFFSET,
+                    type = builtIns.nothingType,
+                    returnTargetSymbol = symbol,
+                    value = IrGetFieldImpl(
+                        startOffset = UNDEFINED_OFFSET,
+                        endOffset = UNDEFINED_OFFSET,
+                        symbol = field.symbol,
+                        type = field.type,
+                        receiver = IrGetValueImpl(
+                            startOffset = UNDEFINED_OFFSET,
+                            endOffset = UNDEFINED_OFFSET,
+                            type = dispatchReceiverParameter!!.type,
+                            symbol = dispatchReceiverParameter!!.symbol,
+                        ),
+                    ),
+                ),
+            ),
         )
     }
 }
