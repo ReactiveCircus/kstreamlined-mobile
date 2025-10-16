@@ -1,6 +1,5 @@
 import dev.detekt.gradle.Detekt
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     `java-gradle-plugin`
@@ -63,18 +62,15 @@ gradlePlugin {
 }
 
 kotlin {
-    explicitApi()
-}
-
-tasks.withType<KotlinCompile>().configureEach {
     compilerOptions {
         jvmTarget.set(JvmTarget.JVM_24)
     }
+    explicitApi()
 }
 
-tasks.withType<JavaCompile>().configureEach {
-    sourceCompatibility = JavaVersion.VERSION_24.toString()
-    targetCompatibility = JavaVersion.VERSION_24.toString()
+java {
+    sourceCompatibility = JavaVersion.VERSION_24
+    targetCompatibility = JavaVersion.VERSION_24
 }
 
 detekt {

@@ -5,7 +5,6 @@ import org.jetbrains.kotlin.cli.common.messages.CompilerMessageSeverity
 import org.jetbrains.kotlin.cli.common.messages.MessageCollector
 import org.jetbrains.kotlin.ir.symbols.IrClassSymbol
 import org.jetbrains.kotlin.ir.symbols.IrSimpleFunctionSymbol
-import org.jetbrains.kotlin.ir.symbols.UnsafeDuringIrConstructionAPI
 import org.jetbrains.kotlin.ir.types.getClass
 import org.jetbrains.kotlin.ir.util.classId
 import org.jetbrains.kotlin.ir.util.isEnumClass
@@ -19,7 +18,6 @@ internal class ChameleonSymbols private constructor(
 ) {
     companion object {
         @Suppress("MaxLineLength", "ReturnCount")
-        @OptIn(UnsafeDuringIrConstructionAPI::class)
         fun create(
             pluginContext: IrPluginContext,
             messageCollector: MessageCollector,

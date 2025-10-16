@@ -22,7 +22,6 @@ import org.jetbrains.kotlin.ir.expressions.IrExpression
 import org.jetbrains.kotlin.ir.expressions.IrStatementOrigin
 import org.jetbrains.kotlin.ir.expressions.impl.IrCallImpl
 import org.jetbrains.kotlin.ir.expressions.impl.IrGetValueImpl
-import org.jetbrains.kotlin.ir.symbols.UnsafeDuringIrConstructionAPI
 import org.jetbrains.kotlin.ir.types.defaultType
 import org.jetbrains.kotlin.ir.types.getClass
 import org.jetbrains.kotlin.ir.util.callableId
@@ -39,7 +38,6 @@ internal class ChameleonClassTransformer(
     private val messageCollector: MessageCollector, // TODO remove
     private val chameleonSymbols: ChameleonSymbols,
 ) : IrElementTransformerVoidWithContext() {
-    @OptIn(UnsafeDuringIrConstructionAPI::class)
     override fun visitClassNew(declaration: IrClass): IrStatement {
         // skip transform if class isn't annotated with chameleon annotation
         if (!declaration.hasAnnotation(chameleonSymbols.chameleonAnnotation)) return super.visitClassNew(declaration)
@@ -65,7 +63,6 @@ internal class ChameleonClassTransformer(
         return super.visitClassNew(declaration)
     }
 
-    @OptIn(UnsafeDuringIrConstructionAPI::class)
     private fun IrClass.getOrCreateThemeVariantProperty(): IrProperty {
         val existing = findThemeVariantProperty()
         if (existing != null) return existing
@@ -103,7 +100,6 @@ internal class ChameleonClassTransformer(
         }
     }
 
-    @OptIn(UnsafeDuringIrConstructionAPI::class)
     private fun IrClass.findThemeVariantProperty(): IrProperty? = properties.firstOrNull {
         it.backingField?.type?.getClass()?.classId == chameleonSymbols.themeVariantEnum.owner.classId
     }
@@ -111,7 +107,6 @@ internal class ChameleonClassTransformer(
     private inner class SnapshotCallTransformer(
         private val themeVariantProperty: () -> IrProperty
     ) : IrElementTransformerVoidWithContext() {
-        @OptIn(UnsafeDuringIrConstructionAPI::class)
         override fun visitCall(expression: IrCall): IrExpression {
             // skip if not snapshot function call
             if (expression.symbol.owner.callableId != chameleonSymbols.snapshotFunction.owner.callableId) {
