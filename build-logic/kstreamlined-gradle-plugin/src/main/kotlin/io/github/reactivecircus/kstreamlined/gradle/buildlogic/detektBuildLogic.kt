@@ -26,9 +26,9 @@ internal fun Project.configureDetekt() {
         tasks.withType(Detekt::class.java).configureEach {
             it.jvmTarget.set(JvmTarget.JVM_17.target)
             it.reports { report ->
-                report.xml.required.set(false)
+                report.checkstyle.required.set(false)
                 report.sarif.required.set(false)
-                report.md.required.set(false)
+                report.markdown.required.set(false)
             }
         }
     }
