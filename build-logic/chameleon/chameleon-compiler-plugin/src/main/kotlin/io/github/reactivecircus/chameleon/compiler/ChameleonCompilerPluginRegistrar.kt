@@ -39,4 +39,4 @@ public class ChameleonCompilerPluginRegistrar : CompilerPluginRegistrar() {
     }
 }
 
-private const val ChameleonAnnotationString = "io/github/reactivecircus/chameleon/runtime/Chameleon"
+internal const val ChameleonAnnotationString = "io/github/reactivecircus/chameleon/runtime/Chameleon"

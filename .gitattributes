@@ -1,3 +1,5 @@
 # Auto detect text files and perform LF normalization
 * text=auto
 **/snapshots/**/*.png filter=lfs diff=lfs merge=lfs -text
+
+build-logic/chameleon/chameleon-compiler-plugin/test/**/*.java linguist-generated=true

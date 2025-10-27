@@ -1,0 +1,92 @@
+@Retention(value = AnnotationRetention.BINARY)
+@Target(allowedTargets = [AnnotationTarget.FUNCTION, AnnotationTarget.TYPE, AnnotationTarget.TYPE_PARAMETER, AnnotationTarget.PROPERTY_GETTER])
+open annotation class Composable : Annotation {
+  constructor() /* primary */ {
+    super/*Any*/()
+    /* <init>() */
+
+  }
+
+}
+
+@Retention(value = AnnotationRetention.RUNTIME)
+open annotation class Rule : Annotation {
+  constructor() /* primary */ {
+    super/*Any*/()
+    /* <init>() */
+
+  }
+
+}
+
+@Retention(value = AnnotationRetention.RUNTIME)
+open annotation class Test : Annotation {
+  constructor() /* primary */ {
+    super/*Any*/()
+    /* <init>() */
+
+  }
+
+}
+
+@Chameleon
+class ComponentTest {
+  private val themeVariant: ThemeVariant
+    field = themeVariant
+    private get
+
+  val snapshotTester: SnapshotTester
+    field = SnapshotTester()
+    get
+
+  constructor(themeVariant: ThemeVariant) /* primary */ {
+    super/*Any*/()
+    /* <init>() */
+
+  }
+
+  @Test
+  fun snapshot_Component() {
+    <this>.<get-snapshotTester>().snapshot(themeVariant = <this>.<get-themeVariant>(), content = local fun <anonymous>() {
+      Component()
+    }
+)
+  }
+
+}
+
+class SnapshotTester {
+  constructor() /* primary */ {
+    super/*Any*/()
+    /* <init>() */
+
+  }
+
+  fun snapshot(themeVariant: ThemeVariant? = null, content: @Composable Function0<Unit>) {
+  }
+
+}
+
+enum class ThemeVariant : Enum<ThemeVariant> {
+  Light = ThemeVariant()
+
+  Dark = ThemeVariant()
+
+  private constructor() /* primary */ {
+    super/*Enum*/<ThemeVariant>()
+    /* <init>() */
+
+  }
+
+  /* static */ fun valueOf(value: String): ThemeVariant /* Synthetic body for ENUM_VALUEOF */
+
+  /* static */ fun values(): Array<ThemeVariant> /* Synthetic body for ENUM_VALUES */
+
+  /* static */ val entries: EnumEntries<ThemeVariant>
+    get(): EnumEntries<ThemeVariant> /* Synthetic body for ENUM_ENTRIES */
+
+}
+
+@Composable
+fun Component() {
+}
