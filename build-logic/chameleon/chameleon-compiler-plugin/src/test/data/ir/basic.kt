@@ -22,7 +22,11 @@ annotation class Test
 annotation class Rule
 
 class SnapshotTester {
-    fun snapshot(themeVariant: ThemeVariant? = null, content: @Composable () -> Unit) {}
+    fun snapshot(
+        addSurface: Boolean = true,
+        themeVariant: ThemeVariant = ThemeVariant.Light,
+        content: @Composable () -> Unit,
+    ) {}
 }
 
 enum class ThemeVariant {

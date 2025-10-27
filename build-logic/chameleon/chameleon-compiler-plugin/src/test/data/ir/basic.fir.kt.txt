@@ -62,7 +62,7 @@ class SnapshotTester {
 
   }
 
-  fun snapshot(themeVariant: ThemeVariant? = null, content: @Composable Function0<Unit>) {
+  fun snapshot(addSurface: Boolean = true, themeVariant: ThemeVariant = ThemeVariant.Light, content: @Composable Function0<Unit>) {
   }
 
 }

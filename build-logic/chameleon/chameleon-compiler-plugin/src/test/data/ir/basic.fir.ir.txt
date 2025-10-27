@@ -112,7 +112,7 @@ FILE fqName:<root> fileName:/basic.kt
       annotations:
         Test
       BLOCK_BODY
-        CALL 'public final fun snapshot (themeVariant: <root>.ThemeVariant?, content: @[Composable] kotlin.Function0<kotlin.Unit>): kotlin.Unit declared in <root>.SnapshotTester' type=kotlin.Unit origin=null
+        CALL 'public final fun snapshot (addSurface: kotlin.Boolean, themeVariant: <root>.ThemeVariant, content: @[Composable] kotlin.Function0<kotlin.Unit>): kotlin.Unit declared in <root>.SnapshotTester' type=kotlin.Unit origin=null
           ARG <this>: CALL 'public final fun <get-snapshotTester> (): <root>.SnapshotTester declared in <root>.ComponentTest' type=<root>.SnapshotTester origin=GET_PROPERTY
             ARG <this>: GET_VAR '<this>: <root>.ComponentTest declared in <root>.ComponentTest.snapshot_Component' type=<root>.ComponentTest origin=IMPLICIT_ARGUMENT
           ARG themeVariant: CALL 'private final fun <get-themeVariant> (): <root>.ThemeVariant declared in <root>.ComponentTest' type=<root>.ThemeVariant origin=GET_PROPERTY
@@ -142,10 +142,13 @@ FILE fqName:<root> fileName:/basic.kt
         public open fun toString (): kotlin.String declared in kotlin.Any
     FUN name:snapshot visibility:public modality:FINAL returnType:kotlin.Unit
       VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:<root>.SnapshotTester
-      VALUE_PARAMETER kind:Regular name:themeVariant index:1 type:<root>.ThemeVariant?
+      VALUE_PARAMETER kind:Regular name:addSurface index:1 type:kotlin.Boolean
         EXPRESSION_BODY
-          CONST Null type=kotlin.Nothing? value=null
-      VALUE_PARAMETER kind:Regular name:content index:2 type:@[Composable] kotlin.Function0<kotlin.Unit>
+          CONST Boolean type=kotlin.Boolean value=true
+      VALUE_PARAMETER kind:Regular name:themeVariant index:2 type:<root>.ThemeVariant
+        EXPRESSION_BODY
+          GET_ENUM 'ENUM_ENTRY name:Light' type=<root>.ThemeVariant
+      VALUE_PARAMETER kind:Regular name:content index:3 type:@[Composable] kotlin.Function0<kotlin.Unit>
       BLOCK_BODY
   CLASS ENUM_CLASS name:ThemeVariant modality:FINAL visibility:public superTypes:[kotlin.Enum<<root>.ThemeVariant>]
     thisReceiver: VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> type:<root>.ThemeVariant

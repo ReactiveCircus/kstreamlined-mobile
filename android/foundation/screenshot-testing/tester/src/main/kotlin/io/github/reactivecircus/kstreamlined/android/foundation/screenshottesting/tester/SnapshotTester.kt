@@ -40,7 +40,7 @@ public class SnapshotTester(
 
     public fun snapshot(
         addSurface: Boolean = true,
-        themeVariant: ThemeVariant? = null,
+        themeVariant: ThemeVariant = ThemeVariant.Light,
         content: @Composable () -> Unit,
     ) {
         val darkTheme = themeVariant == ThemeVariant.Dark || currentThemeVariant == ThemeVariant.Dark
