@@ -15,6 +15,7 @@ idea {
 }
 
 val chameleonRuntimeClasspath: Configuration by configurations.creating { isTransitive = false }
+val burstRuntimeClasspath: Configuration by configurations.creating { isTransitive = false }
 
 dependencies {
     // enable Ktlint formatting
@@ -28,6 +29,7 @@ dependencies {
     testImplementation(kotlin("compiler"))
 
     chameleonRuntimeClasspath(project(":chameleon:chameleon-runtime"))
+    burstRuntimeClasspath(libs.burst)
 
     // Dependencies required to run the internal test framework.
     testRuntimeOnly(kotlin("reflect"))
@@ -73,6 +75,7 @@ tasks.withType<Test> {
     workingDir = rootDir
 
     systemProperty("chameleonRuntime.classpath", chameleonRuntimeClasspath.asPath)
+    systemProperty("burstRuntime.classpath", burstRuntimeClasspath.asPath)
 
     // Properties required to run the internal test framework.
     setLibraryProperty("org.jetbrains.kotlin.test.kotlin-stdlib", "kotlin-stdlib")

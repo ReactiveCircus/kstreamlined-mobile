@@ -1,3 +1,4 @@
+@Burst
 @Chameleon
 class ComponentTest {
   val themeVariant: ThemeVariant

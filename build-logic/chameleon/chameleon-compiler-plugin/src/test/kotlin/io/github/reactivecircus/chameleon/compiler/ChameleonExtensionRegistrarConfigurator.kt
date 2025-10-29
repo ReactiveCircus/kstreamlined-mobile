@@ -22,6 +22,7 @@ fun TestConfigurationBuilder.configurePlugin() {
     useDirectives(ChameleonDirectives)
     useCustomRuntimeClasspathProviders(::ChameleonRuntimeClassPathProvider)
     useAdditionalSourceProviders(::AdditionalFilesProvider)
+    configureBurstRuntime()
 }
 
 private class ChameleonExtensionRegistrarConfigurator(testServices: TestServices) : EnvironmentConfigurator(testServices) {

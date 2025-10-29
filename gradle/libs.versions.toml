@@ -142,6 +142,7 @@ sqldelight-sqliteDriver = { module = "app.cash.sqldelight:sqlite-driver", versio
 ksoup = { module = "com.fleeksoft.ksoup:ksoup", version.ref = "ksoup" }
 kotlin-test-junit = { group = "org.jetbrains.kotlin", name = "kotlin-test-junit", version.ref = "kotlin" }
 paparazzi = { module = "app.cash.paparazzi:paparazzi", version.ref = "paparazzi" }
+burst = { module = "app.cash.burst:burst", version.ref = "burst" }
 
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }

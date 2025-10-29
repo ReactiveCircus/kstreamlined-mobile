@@ -93,6 +93,7 @@ FILE fqName:<root> fileName:/SnapshotTester.kt
 FILE fqName:<root> fileName:/ThemeVariantArgumentProvided.kt
   CLASS CLASS name:ComponentTest modality:FINAL visibility:public superTypes:[kotlin.Any]
     annotations:
+      Burst
       Chameleon
     thisReceiver: VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> type:<root>.ComponentTest
     PROPERTY name:snapshotTester visibility:public modality:FINAL [val]

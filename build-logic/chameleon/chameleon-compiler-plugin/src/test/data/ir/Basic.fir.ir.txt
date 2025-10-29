@@ -1,6 +1,7 @@
 FILE fqName:<root> fileName:/Basic.kt
   CLASS CLASS name:ComponentTest modality:FINAL visibility:public superTypes:[kotlin.Any]
     annotations:
+      Burst
       Chameleon
     thisReceiver: VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> type:<root>.ComponentTest
     PROPERTY name:themeVariant visibility:private modality:FINAL [val]
