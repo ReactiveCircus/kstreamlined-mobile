@@ -1,0 +1,25 @@
+@Chameleon
+class ComponentTest {
+  val snapshotTester: SnapshotTester
+    field = SnapshotTester()
+    get
+
+  constructor() /* primary */ {
+    super/*Any*/()
+    /* <init>() */
+
+  }
+
+  @Test
+  fun snapshot_Component_Dark() {
+    <this>.<get-snapshotTester>().snapshot(addSurface = false, themeVariant = ThemeVariant.Dark, content = local fun <anonymous>() {
+      Component()
+    }
+)
+  }
+
+}
+
+@Composable
+fun Component() {
+}

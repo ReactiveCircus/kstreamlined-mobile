@@ -67,7 +67,6 @@ internal class ChameleonClassTransformer(
         val existing = findThemeVariantProperty()
         if (existing != null) return existing
 
-        // TODO add tests for: with and without existing constructor properties
         val propertyName = Name.identifier("themeVariant")
         val propertyType = chameleonSymbols.themeVariantEnum.defaultType
         val ctorParam = primaryConstructor?.addValueParameter {
@@ -114,7 +113,6 @@ internal class ChameleonClassTransformer(
             }
             // skip if themeVariant argument is already provided
             if (expression.getArgumentsWithIr().any { it.first.type.getClass()?.classId == chameleonSymbols.themeVariantEnum.owner.classId }) {
-                // TODO add test
                 return super.visitCall(expression)
             }
 

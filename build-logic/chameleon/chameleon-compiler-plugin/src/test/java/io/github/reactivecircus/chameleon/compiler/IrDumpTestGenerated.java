@@ -22,8 +22,26 @@ public class IrDumpTestGenerated extends AbstractIrDumpTest {
   }
 
   @Test
-  @TestMetadata("basic.kt")
+  @TestMetadata("Basic.kt")
   public void testBasic() {
-    runTest("chameleon/chameleon-compiler-plugin/src/test/data/ir/basic.kt");
+    runTest("chameleon/chameleon-compiler-plugin/src/test/data/ir/Basic.kt");
+  }
+
+  @Test
+  @TestMetadata("ExisitngThemeVariantProperty.kt")
+  public void testExisitngThemeVariantProperty() {
+    runTest("chameleon/chameleon-compiler-plugin/src/test/data/ir/ExisitngThemeVariantProperty.kt");
+  }
+
+  @Test
+  @TestMetadata("NoSnapshotFunctionCalls.kt")
+  public void testNoSnapshotFunctionCalls() {
+    runTest("chameleon/chameleon-compiler-plugin/src/test/data/ir/NoSnapshotFunctionCalls.kt");
+  }
+
+  @Test
+  @TestMetadata("ThemeVariantArgumentProvided.kt")
+  public void testThemeVariantArgumentProvided() {
+    runTest("chameleon/chameleon-compiler-plugin/src/test/data/ir/ThemeVariantArgumentProvided.kt");
   }
 }
