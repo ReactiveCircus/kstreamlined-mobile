@@ -1,6 +1,7 @@
 package io.github.reactivecircus.kstreamlined.gradle
 
 import com.google.devtools.ksp.gradle.KspExtension
+import io.github.reactivecircus.kstreamlined.gradle.buildlogic.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
@@ -21,6 +22,13 @@ internal class KspConventionPlugin : Plugin<Project> {
             it.startsWith("ksp") && it.endsWith("UnitTestKotlin")
         }.configureEach {
             it.enabled = false
+        }
+
+        // TODO remove once dagger with kotlin-metadata-jvm 2.3.0 is released: https://github.com/google/dagger/issues/5001
+        configurations.configureEach { configuration ->
+            configuration.resolutionStrategy {
+                it.force("org.jetbrains.kotlin:kotlin-metadata-jvm:${libs.versions.kotlin.get()}")
+            }
         }
     }
 }
