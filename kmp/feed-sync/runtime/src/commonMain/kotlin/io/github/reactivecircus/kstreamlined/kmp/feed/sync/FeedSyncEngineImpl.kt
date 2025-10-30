@@ -41,8 +41,8 @@ public class FeedSyncEngineImpl(
     syncEngineDispatcher: CoroutineDispatcher = Dispatchers.IO,
     private val clock: Clock = Clock.System,
 ) : FeedSyncEngine {
-    override val syncState: StateFlow<SyncState>
-        field = MutableStateFlow<SyncState>(SyncState.Idle)
+    private val _syncState = MutableStateFlow<SyncState>(SyncState.Idle)
+    override val syncState: StateFlow<SyncState> = _syncState
 
     private val manualSyncTrigger = Channel<SyncRequest>()
 
@@ -76,14 +76,14 @@ public class FeedSyncEngineImpl(
                         lastSyncFailed = syncState.value is SyncState.OutOfSync,
                     )
                     if (decision.shouldSyncFeedSources || decision.shouldSyncFeedItems) {
-                        syncState.value = SyncState.Syncing
+                        _syncState.value = SyncState.Syncing
                         performSync(decision)
                     }
-                    syncState.value = SyncState.Idle
+                    _syncState.value = SyncState.Idle
                 }.onFailure {
                     if (it is CancellationException) currentCoroutineContext().ensureActive()
                     Logger.w("Sync failed", it)
-                    syncState.value = SyncState.OutOfSync
+                    _syncState.value = SyncState.OutOfSync
                 }
             }
             .flowOn(syncEngineDispatcher)

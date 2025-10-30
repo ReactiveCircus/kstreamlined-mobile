@@ -1,5 +1,5 @@
 [versions]
-kotlin = "2.2.20"
+kotlin = "2.3.0-Beta2"
 ksp = "2.2.20-2.0.3"
 androidGradlePlugin = "9.0.0-alpha12"
 gradle-develocityPlugin = "4.1"
