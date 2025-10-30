@@ -8,6 +8,8 @@ import org.jetbrains.kotlin.config.CompilerConfiguration
 import org.jetbrains.kotlin.name.ClassId
 
 public class ChameleonCompilerPluginRegistrar : CompilerPluginRegistrar() {
+    override val pluginId: String get() = ChameleonPluginId
+
     override val supportsK2: Boolean get() = true
 
     override fun ExtensionStorage.registerExtensions(configuration: CompilerConfiguration) {
