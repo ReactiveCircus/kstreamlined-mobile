@@ -54,7 +54,7 @@ internal class ChameleonSymbols private constructor(
             if (!themeVariantEnum.owner.isEnumClass) {
                 messageCollector.report(
                     CompilerMessageSeverity.ERROR,
-                    "Theme variant enum class <$themeVariantEnumId> is not an enum.",
+                    "<$themeVariantEnumId> is not an enum.",
                 )
                 return null
             }

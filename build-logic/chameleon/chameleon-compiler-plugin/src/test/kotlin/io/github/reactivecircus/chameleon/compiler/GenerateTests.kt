@@ -8,7 +8,8 @@ fun main() {
             testDataRoot = "chameleon/chameleon-compiler-plugin/src/test/data",
             testsRoot = "chameleon/chameleon-compiler-plugin/src/test/java",
         ) {
-            testClass<AbstractIrDumpTest> { model("ir") }
+            testClass<AbstractIrDumpTest> { model("dump/ir") }
+            testClass<AbstractIrDiagnosticTest> { model("diagnostic/ir") }
         }
     }
 }

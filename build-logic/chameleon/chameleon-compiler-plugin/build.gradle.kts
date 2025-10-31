@@ -77,6 +77,12 @@ tasks.withType<Test> {
     systemProperty("chameleonRuntime.classpath", chameleonRuntimeClasspath.asPath)
     systemProperty("burstRuntime.classpath", burstRuntimeClasspath.asPath)
 
+    // Satisfy JDK paths normalization checks with CHECK_COMPILER_OUTPUT directive, we don't run tests on different JDKs.
+    environment("JDK_1_8", "")
+    environment("JDK_11_0", "")
+    environment("JDK_17_0", "")
+    environment("JDK_21_0", "")
+
     // Properties required to run the internal test framework.
     setLibraryProperty("org.jetbrains.kotlin.test.kotlin-stdlib", "kotlin-stdlib")
     setLibraryProperty("org.jetbrains.kotlin.test.kotlin-stdlib-jdk8", "kotlin-stdlib-jdk8")
