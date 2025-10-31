@@ -33,9 +33,7 @@ internal fun CommonExtension.configureCommonAndroidExtension(project: Project) {
         configureLintOptions(project)
     }
 
-    packaging {
-        configurePackagingOptions()
-    }
+    packaging.configurePackagingOptions()
 }
 
 /**
