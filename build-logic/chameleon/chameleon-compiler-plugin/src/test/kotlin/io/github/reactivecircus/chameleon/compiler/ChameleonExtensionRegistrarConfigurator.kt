@@ -1,11 +1,14 @@
 package io.github.reactivecircus.chameleon.compiler
 
+import io.github.reactivecircus.chameleon.compiler.fir.ChameleonFirExtensionRegistrar
+import io.github.reactivecircus.chameleon.compiler.ir.ChameleonIrGenerationExtension
 import org.jetbrains.kotlin.backend.common.extensions.IrGenerationExtension
 import org.jetbrains.kotlin.cli.common.messages.MessageCollector
 import org.jetbrains.kotlin.cli.jvm.config.addJvmClasspathRoots
 import org.jetbrains.kotlin.compiler.plugin.CompilerPluginRegistrar
 import org.jetbrains.kotlin.config.CommonConfigurationKeys
 import org.jetbrains.kotlin.config.CompilerConfiguration
+import org.jetbrains.kotlin.fir.extensions.FirExtensionRegistrarAdapter
 import org.jetbrains.kotlin.name.ClassId
 import org.jetbrains.kotlin.test.builders.TestConfigurationBuilder
 import org.jetbrains.kotlin.test.model.TestModule
@@ -33,9 +36,11 @@ private class ChameleonExtensionRegistrarConfigurator(testServices: TestServices
         val snapshotFunctionString = module.directives[ChameleonDirectives.SNAPSHOT_FUNCTION].first()
         val themeVariantEnumString = module.directives[ChameleonDirectives.THEME_VARIANT_ENUM].first()
 
+        FirExtensionRegistrarAdapter.registerExtension(ChameleonFirExtensionRegistrar)
+
         IrGenerationExtension.registerExtension(
             ChameleonIrGenerationExtension(
-                chameleonAnnotationId = ClassId.fromString(ChameleonAnnotationString),
+                chameleonAnnotationId = Chameleon.ANNOTATION_ID,
                 snapshotFunctionId = snapshotFunctionString.toMemberCallableId(),
                 themeVariantEnumId = ClassId.fromString(themeVariantEnumString),
                 messageCollector = configuration.get(

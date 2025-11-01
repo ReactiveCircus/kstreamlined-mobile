@@ -1,3 +1,2 @@
 // SNAPSHOT_FUNCTION: /SnapshotTester.snapshot
 // THEME_VARIANT_ENUM: /ThemeVariant2
-// CHECK_COMPILER_OUTPUT

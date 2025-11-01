@@ -43,6 +43,7 @@ kotlin {
         jvmTarget.set(JvmTarget.JVM_11)
         optIn.add("org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi")
         optIn.add("org.jetbrains.kotlin.ir.symbols.UnsafeDuringIrConstructionAPI")
+        freeCompilerArgs.addAll("-XXLanguage:+ContextParameters")
     }
     explicitApi()
 }

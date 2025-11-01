@@ -1,9 +1,8 @@
-package io.github.reactivecircus.chameleon.compiler
+package io.github.reactivecircus.chameleon.compiler.ir
 
+import io.github.reactivecircus.chameleon.compiler.addDefaultGetterWithSameVisibility
 import org.jetbrains.kotlin.backend.common.IrElementTransformerVoidWithContext
 import org.jetbrains.kotlin.backend.common.extensions.IrPluginContext
-import org.jetbrains.kotlin.cli.common.messages.CompilerMessageSeverity
-import org.jetbrains.kotlin.cli.common.messages.MessageCollector
 import org.jetbrains.kotlin.descriptors.DescriptorVisibilities
 import org.jetbrains.kotlin.descriptors.Modality
 import org.jetbrains.kotlin.ir.IrStatement
@@ -26,7 +25,6 @@ import org.jetbrains.kotlin.ir.types.defaultType
 import org.jetbrains.kotlin.ir.types.getClass
 import org.jetbrains.kotlin.ir.util.callableId
 import org.jetbrains.kotlin.ir.util.classId
-import org.jetbrains.kotlin.ir.util.dump
 import org.jetbrains.kotlin.ir.util.getArgumentsWithIr
 import org.jetbrains.kotlin.ir.util.hasAnnotation
 import org.jetbrains.kotlin.ir.util.primaryConstructor
@@ -35,7 +33,6 @@ import org.jetbrains.kotlin.name.Name
 
 internal class ChameleonClassTransformer(
     private val pluginContext: IrPluginContext,
-    private val messageCollector: MessageCollector, // TODO remove
     private val chameleonSymbols: ChameleonSymbols,
 ) : IrElementTransformerVoidWithContext() {
     override fun visitClassNew(declaration: IrClass): IrStatement {
@@ -45,7 +42,6 @@ internal class ChameleonClassTransformer(
         // skip transform if class already has theme variant property
         if (declaration.findThemeVariantProperty() != null) return super.visitClassNew(declaration)
 
-        log("Transforming class: ${declaration.name}")
         declaration.transform(
             SnapshotCallTransformer(
                 themeVariantProperty = { declaration.getOrCreateThemeVariantProperty() }
@@ -59,7 +55,6 @@ internal class ChameleonClassTransformer(
             declaration.declarations.add(newIndex, themeVariantProperty)
         }
 
-        log("Transformed class IR: ${declaration.dump()}")
         return super.visitClassNew(declaration)
     }
 
@@ -151,9 +146,5 @@ internal class ChameleonClassTransformer(
 
             return super.visitCall(expression)
         }
-    }
-
-    private fun log(message: String) {
-        messageCollector.report(CompilerMessageSeverity.LOGGING, "Chameleon Compiler Plugin (IR) - $message")
     }
 }

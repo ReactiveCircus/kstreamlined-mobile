@@ -1,4 +1,4 @@
-package io.github.reactivecircus.chameleon.compiler
+package io.github.reactivecircus.chameleon.compiler.ir
 
 import org.jetbrains.kotlin.backend.common.extensions.IrGenerationExtension
 import org.jetbrains.kotlin.backend.common.extensions.IrPluginContext
@@ -25,7 +25,6 @@ internal class ChameleonIrGenerationExtension(
         moduleFragment.transform(
             ChameleonClassTransformer(
                 pluginContext,
-                messageCollector,
                 chameleonSymbols,
             ),
             null,
