@@ -27,9 +27,9 @@ public class IrDumpTestGenerated extends AbstractIrDumpTest {
   }
 
   @Test
-  @TestMetadata("ExisitngThemeVariantProperty.kt")
-  public void testExisitngThemeVariantProperty() {
-    runTest("chameleon/chameleon-compiler-plugin/src/test/data/dump/ir/ExisitngThemeVariantProperty.kt");
+  @TestMetadata("ExistingThemeVariantProperty.kt")
+  public void testExistingThemeVariantProperty() {
+    runTest("chameleon/chameleon-compiler-plugin/src/test/data/dump/ir/ExistingThemeVariantProperty.kt");
   }
 
   @Test

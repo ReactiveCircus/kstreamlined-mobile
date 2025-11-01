@@ -1,4 +1,4 @@
-FILE fqName:<root> fileName:/ExisitngThemeVariantProperty.kt
+FILE fqName:<root> fileName:/ExistingThemeVariantProperty.kt
   CLASS CLASS name:ComponentTest modality:FINAL visibility:public superTypes:[kotlin.Any]
     annotations:
       Burst
