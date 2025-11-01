@@ -74,8 +74,8 @@ java {
 }
 
 detekt {
-    source.from(files("src/"))
-    config.from(files("$rootDir/../detekt.yml"))
+    source.setFrom(file("src/"))
+    config.setFrom(file("$rootDir/../detekt.yml"))
     buildUponDefaultConfig = true
     parallel = true
 }

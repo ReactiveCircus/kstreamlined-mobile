@@ -18,8 +18,8 @@ internal fun Project.configureDetekt() {
 
     plugins.withType(DetektPlugin::class.java).configureEach {
         extensions.configure(DetektExtension::class.java) {
-            it.source.from(files("src/"))
-            it.config.from(files("${project.rootDir}/detekt.yml"))
+            it.source.setFrom(file("src/"))
+            it.config.setFrom(file("${project.rootDir}/detekt.yml"))
             it.buildUponDefaultConfig.set(true)
             it.parallel.set(true)
         }

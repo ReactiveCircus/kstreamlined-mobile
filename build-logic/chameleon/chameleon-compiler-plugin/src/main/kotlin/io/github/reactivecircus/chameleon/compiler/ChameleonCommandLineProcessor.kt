@@ -9,7 +9,6 @@ import org.jetbrains.kotlin.config.CompilerConfigurationKey
 public class ChameleonCommandLineProcessor : CommandLineProcessor {
     override val pluginId: String get() = Chameleon.PLUGIN_ID
 
-    @Suppress("MaxLineLength")
     override val pluginOptions: Collection<AbstractCliOption> = listOf(
         CliOption(
             optionName = CompilerOptions.SnapshotFunction.toString(),

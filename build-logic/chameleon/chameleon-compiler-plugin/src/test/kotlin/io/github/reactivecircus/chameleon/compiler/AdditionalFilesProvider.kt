@@ -14,7 +14,7 @@ class AdditionalFilesProvider(testServices: TestServices) : AdditionalSourceProv
     override fun produceAdditionalFiles(
         globalDirectives: RegisteredDirectives,
         module: TestModule,
-        testModuleStructure: TestModuleStructure
+        testModuleStructure: TestModuleStructure,
     ): List<TestFile> = filesPath
         .walkTopDown()
         .filter {

@@ -4,6 +4,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     `java-gradle-plugin`
     alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.lint)
     alias(libs.plugins.detekt)
 }
 
@@ -29,8 +30,8 @@ java {
 }
 
 detekt {
-    source.from(files("src/"))
-    config.from(files("$rootDir/../detekt.yml"))
+    source.setFrom(file("src/"))
+    config.setFrom(file("$rootDir/../detekt.yml"))
     buildUponDefaultConfig = true
     parallel = true
 }

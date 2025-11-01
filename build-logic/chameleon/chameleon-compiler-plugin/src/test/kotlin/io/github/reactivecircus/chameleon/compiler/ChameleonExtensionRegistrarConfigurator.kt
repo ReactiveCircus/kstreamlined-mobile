@@ -28,7 +28,9 @@ fun TestConfigurationBuilder.configurePlugin() {
     configureBurstRuntime()
 }
 
-private class ChameleonExtensionRegistrarConfigurator(testServices: TestServices) : EnvironmentConfigurator(testServices) {
+private class ChameleonExtensionRegistrarConfigurator(
+    testServices: TestServices,
+) : EnvironmentConfigurator(testServices) {
     override fun CompilerPluginRegistrar.ExtensionStorage.registerCompilerExtensions(
         module: TestModule,
         configuration: CompilerConfiguration,
@@ -47,7 +49,7 @@ private class ChameleonExtensionRegistrarConfigurator(testServices: TestServices
                     CommonConfigurationKeys.MESSAGE_COLLECTOR_KEY,
                     MessageCollector.NONE,
                 ),
-            )
+            ),
         )
     }
 }
@@ -56,7 +58,9 @@ private val ChameleonRuntimeClasspath =
     System.getProperty("chameleonRuntime.classpath")?.split(File.pathSeparator)?.map(::File)
         ?: error("Unable to get a valid classpath from 'chameleonRuntime.classpath' property")
 
-private class ChameleonRuntimeEnvironmentConfigurator(testServices: TestServices) : EnvironmentConfigurator(testServices) {
+private class ChameleonRuntimeEnvironmentConfigurator(
+    testServices: TestServices,
+) : EnvironmentConfigurator(testServices) {
     override fun CompilerPluginRegistrar.ExtensionStorage.registerCompilerExtensions(
         module: TestModule,
         configuration: CompilerConfiguration,

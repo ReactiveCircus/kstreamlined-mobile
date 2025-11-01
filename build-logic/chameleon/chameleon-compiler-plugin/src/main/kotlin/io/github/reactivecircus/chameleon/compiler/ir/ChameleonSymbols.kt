@@ -1,3 +1,5 @@
+@file:Suppress("MaxLineLength", "ReturnCount")
+
 package io.github.reactivecircus.chameleon.compiler.ir
 
 import org.jetbrains.kotlin.backend.common.extensions.IrPluginContext
@@ -17,7 +19,6 @@ internal class ChameleonSymbols private constructor(
     val themeVariantEnum: IrClassSymbol,
 ) {
     companion object {
-        @Suppress("MaxLineLength", "ReturnCount")
         fun create(
             pluginContext: IrPluginContext,
             messageCollector: MessageCollector,

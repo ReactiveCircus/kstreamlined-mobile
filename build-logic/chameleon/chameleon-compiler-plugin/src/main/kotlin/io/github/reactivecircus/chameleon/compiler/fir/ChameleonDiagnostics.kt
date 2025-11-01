@@ -1,3 +1,5 @@
+@file:Suppress("PropertyName")
+
 package io.github.reactivecircus.chameleon.compiler.fir
 
 import io.github.reactivecircus.chameleon.compiler.fir.ChameleonDiagnostics.MISSING_BURST_ANNOTATION

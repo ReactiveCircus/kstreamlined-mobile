@@ -1,3 +1,5 @@
+@file:Suppress("PropertyName")
+
 package io.github.reactivecircus.chameleon.compiler
 
 import org.jetbrains.kotlin.name.ClassId

@@ -1,3 +1,5 @@
+@file:Suppress("ReturnCount")
+
 package io.github.reactivecircus.chameleon.compiler.ir
 
 import io.github.reactivecircus.chameleon.compiler.addDefaultGetterWithSameVisibility
@@ -43,9 +45,11 @@ internal class ChameleonClassTransformer(
         if (declaration.findThemeVariantProperty() != null) return super.visitClassNew(declaration)
 
         declaration.transform(
-            SnapshotCallTransformer(
-                themeVariantProperty = { declaration.getOrCreateThemeVariantProperty() }
-            ), null)
+            transformer = SnapshotCallTransformer(
+                themeVariantProperty = { declaration.getOrCreateThemeVariantProperty() },
+            ),
+            data = null,
+        )
 
         // move the added themeVariant property to the top of the declarations after the constructors
         val themeVariantProperty = declaration.findThemeVariantProperty()
@@ -86,7 +90,7 @@ internal class ChameleonClassTransformer(
                         type = propertyType,
                         symbol = ctorParam.symbol,
                         origin = IrStatementOrigin.INITIALIZE_PROPERTY_FROM_PARAMETER,
-                    )
+                    ),
                 )
             }
             val irClass = this@getOrCreateThemeVariantProperty
@@ -99,15 +103,18 @@ internal class ChameleonClassTransformer(
     }
 
     private inner class SnapshotCallTransformer(
-        private val themeVariantProperty: () -> IrProperty
+        private val themeVariantProperty: () -> IrProperty,
     ) : IrElementTransformerVoidWithContext() {
         override fun visitCall(expression: IrCall): IrExpression {
             // skip if not snapshot function call
             if (expression.symbol.owner.callableId != chameleonSymbols.snapshotFunction.owner.callableId) {
                 return super.visitCall(expression)
             }
+
+            val themeVariantEnumClassId = chameleonSymbols.themeVariantEnum.owner.classId
+
             // skip if themeVariant argument is already provided
-            if (expression.getArgumentsWithIr().any { it.first.type.getClass()?.classId == chameleonSymbols.themeVariantEnum.owner.classId }) {
+            if (expression.getArgumentsWithIr().any { it.first.type.getClass()?.classId == themeVariantEnumClassId }) {
                 return super.visitCall(expression)
             }
 
@@ -116,17 +123,18 @@ internal class ChameleonClassTransformer(
 
             // find the themeVariant parameter from the snapshot function
             val themeVariantParam = expression.symbol.owner.parameters.first {
-                it.type.getClass()?.classId == chameleonSymbols.themeVariantEnum.owner.classId
+                it.type.getClass()?.classId == themeVariantEnumClassId
             }
 
             // get current function's dispatcher receiver
-            val dispatchReceiver = (currentFunction?.irElement as? IrFunction)?.dispatchReceiverParameter ?: return super.visitCall(expression)
+            val dispatchReceiver = (currentFunction?.irElement as? IrFunction)?.dispatchReceiverParameter
+                ?: return super.visitCall(expression)
             val dispatchReceiverGet = IrGetValueImpl(
                 startOffset = expression.startOffset,
                 endOffset = expression.endOffset,
                 type = dispatchReceiver.type,
                 symbol = dispatchReceiver.symbol,
-                origin = IrStatementOrigin.IMPLICIT_ARGUMENT
+                origin = IrStatementOrigin.IMPLICIT_ARGUMENT,
             )
 
             // create a call to the property getter
@@ -136,7 +144,7 @@ internal class ChameleonClassTransformer(
                 themeVariantProperty.getter!!.returnType,
                 themeVariantProperty.getter!!.symbol,
                 typeArgumentsCount = 0,
-                origin = IrStatementOrigin.GET_PROPERTY
+                origin = IrStatementOrigin.GET_PROPERTY,
             ).apply {
                 arguments[0] = dispatchReceiverGet
             }
