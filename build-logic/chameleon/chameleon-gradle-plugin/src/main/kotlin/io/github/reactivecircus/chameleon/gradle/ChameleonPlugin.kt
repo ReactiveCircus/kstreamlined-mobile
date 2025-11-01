@@ -14,6 +14,9 @@ public class ChameleonPlugin : KotlinCompilerPluginSupportPlugin {
     }
 
     override fun applyToCompilation(kotlinCompilation: KotlinCompilation<*>): Provider<List<SubpluginOption>> {
+        kotlinCompilation.compileTaskProvider.configure {
+            it.compilerOptions.freeCompilerArgs.add("-Xcompiler-plugin-order=io.github.reactivecircus.chameleon.compiler>app.cash.burst.kotlin")
+        }
         val project = kotlinCompilation.target.project
         project.pluginManager.withPlugin("com.android.base") {
             if (project.plugins.hasPlugin(KotlinBaseApiPlugin::class.java)) {
