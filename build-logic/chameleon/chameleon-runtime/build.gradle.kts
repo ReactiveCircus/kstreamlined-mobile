@@ -4,9 +4,11 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.detekt)
+    alias(libs.plugins.testkit)
 }
 
-group = "io.github.reactivecircus.chameleon"
+group = project.property("GROUP") as String
+version = project.property("VERSION_NAME") as String
 
 kotlin {
     compilerOptions {

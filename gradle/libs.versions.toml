@@ -60,6 +60,7 @@ ksoup = "0.2.5"
 turbine = "1.2.1"
 kermit = "2.0.8"
 crashKios = "0.8.5"
+testkit = "0.17"
 
 [libraries]
 plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin"}
@@ -152,3 +153,4 @@ crashKios = { module = "co.touchlab:crashkios", version.ref = "crashKios" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 lint = { id = "com.android.lint", version.ref = "androidGradlePlugin" }
 detekt = { id = "dev.detekt", version.ref = "detekt" }
+testkit = { id = "com.autonomousapps.testkit", version.ref = "testkit" }

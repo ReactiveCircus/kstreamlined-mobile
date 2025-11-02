@@ -6,7 +6,11 @@ plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.lint)
     alias(libs.plugins.detekt)
+    alias(libs.plugins.testkit)
 }
+
+group = project.property("GROUP") as String
+version = project.property("VERSION_NAME") as String
 
 gradlePlugin {
     plugins {
@@ -45,9 +49,20 @@ tasks.withType<Detekt>().configureEach {
     }
 }
 
+tasks.withType<Test> {
+    systemProperty("io.github.reactivecircus.chameleon.gradle.test.kotlin-version", libs.versions.kotlin.get())
+    systemProperty("io.github.reactivecircus.chameleon.gradle.test.burst-version", libs.versions.burst.get())
+}
+
+gradleTestKitSupport {
+    withSupportLibrary()
+}
+
 dependencies {
     // enable Ktlint formatting
     detektPlugins(libs.plugin.detektKtlintWrapper)
 
     compileOnly(libs.plugin.kotlin)
+
+    functionalTestImplementation(libs.kotlin.test.junit)
 }

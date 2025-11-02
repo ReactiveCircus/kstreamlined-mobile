@@ -5,10 +5,12 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.detekt)
+    alias(libs.plugins.testkit)
     idea
 }
 
-group = "io.github.reactivecircus.chameleon"
+group = project.property("GROUP") as String
+version = project.property("VERSION_NAME") as String
 
 idea {
     module.generatedSourceDirs.add(projectDir.resolve("src/test/java"))

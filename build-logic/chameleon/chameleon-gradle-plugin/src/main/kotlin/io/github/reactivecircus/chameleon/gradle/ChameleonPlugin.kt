@@ -9,7 +9,10 @@ import org.jetbrains.kotlin.gradle.plugin.SubpluginArtifact
 import org.jetbrains.kotlin.gradle.plugin.SubpluginOption
 
 public class ChameleonPlugin : KotlinCompilerPluginSupportPlugin {
+    private var version: String? = null
+
     override fun apply(target: Project) {
+        version = target.version as String
         target.extensions.create("chameleon", ChameleonExtension::class.java)
     }
 
@@ -22,6 +25,12 @@ public class ChameleonPlugin : KotlinCompilerPluginSupportPlugin {
                     "io.github.reactivecircus.chameleon:chameleon-runtime",
                 )
             }
+        }
+        project.pluginManager.withPlugin("org.jetbrains.kotlin.jvm") {
+            project.dependencies.add(
+                "testImplementation",
+                "io.github.reactivecircus.chameleon:chameleon-runtime:$version",
+            )
         }
         val extension = project.extensions.getByType(ChameleonExtension::class.java)
         return project.provider {
@@ -44,9 +53,10 @@ public class ChameleonPlugin : KotlinCompilerPluginSupportPlugin {
         return SubpluginArtifact(
             groupId = "io.github.reactivecircus.chameleon",
             artifactId = "chameleon-compiler-plugin",
+            version = version,
         )
     }
 
     override fun isApplicable(kotlinCompilation: KotlinCompilation<*>): Boolean =
-        kotlinCompilation.name.contains("UnitTest", ignoreCase = true)
+        kotlinCompilation.name.contains("test", ignoreCase = true)
 }
