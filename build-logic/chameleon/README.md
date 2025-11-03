@@ -5,7 +5,7 @@ A Kotlin compiler plugin that supports generating parameterized snapshot tests f
 
 ## How It Works
 
-When a test class is annotated with `@Chameleon`, the compiler plugin does IR transforms to:
+When a test class is annotated with `@Chameleon`, the compiler plugin performs IR transforms to:
 - Add a `themeVariant: ThemeVariant` (enum) property to the class as a constructor parameter
 - Assign the value of the `themeVariant` property to the `themeVariant` parameter of all `snapshot` function calls in the class
 
@@ -27,7 +27,7 @@ class SampleTest {
 }
 ```
 
-After the transform the IR equivalent of the following will be produced:
+After the transform, the IR equivalent of the following will be produced:
 
 ```kt
 @Burst
@@ -62,7 +62,7 @@ plugins {
 }
 ```
 
-Configure the `snapshotFunction` and `themeVariant` to use in the format where the packages are delimited by `/` and the class names are delimited by `.`:
+Configure the `snapshotFunction` and `themeVariantEnum` to use in the format where the packages are delimited by `/` and the class names are delimited by `.`:
 
 ```kotlin
 chameleon {

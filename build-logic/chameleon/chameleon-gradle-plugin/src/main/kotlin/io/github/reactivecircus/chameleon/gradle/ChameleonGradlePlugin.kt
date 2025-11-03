@@ -8,7 +8,7 @@ import org.jetbrains.kotlin.gradle.plugin.KotlinCompilerPluginSupportPlugin
 import org.jetbrains.kotlin.gradle.plugin.SubpluginArtifact
 import org.jetbrains.kotlin.gradle.plugin.SubpluginOption
 
-public class ChameleonPlugin : KotlinCompilerPluginSupportPlugin {
+public class ChameleonGradlePlugin : KotlinCompilerPluginSupportPlugin {
     private var version: String? = null
 
     override fun apply(target: Project) {
@@ -22,7 +22,7 @@ public class ChameleonPlugin : KotlinCompilerPluginSupportPlugin {
             if (project.plugins.hasPlugin(KotlinBaseApiPlugin::class.java)) {
                 project.dependencies.add(
                     "testImplementation",
-                    "io.github.reactivecircus.chameleon:chameleon-runtime",
+                    "io.github.reactivecircus.chameleon:chameleon-runtime:$version",
                 )
             }
         }

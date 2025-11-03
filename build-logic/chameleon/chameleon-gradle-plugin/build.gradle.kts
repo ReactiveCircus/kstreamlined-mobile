@@ -10,13 +10,12 @@ plugins {
 }
 
 group = project.property("GROUP") as String
-version = project.property("VERSION_NAME") as String
 
 gradlePlugin {
     plugins {
         register("chameleon") {
             id = "io.github.reactivecircus.chameleon"
-            implementationClass = "io.github.reactivecircus.chameleon.gradle.ChameleonPlugin"
+            implementationClass = "io.github.reactivecircus.chameleon.gradle.ChameleonGradlePlugin"
         }
     }
 }

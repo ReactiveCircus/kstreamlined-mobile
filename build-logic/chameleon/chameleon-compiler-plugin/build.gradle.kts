@@ -10,7 +10,6 @@ plugins {
 }
 
 group = project.property("GROUP") as String
-version = project.property("VERSION_NAME") as String
 
 idea {
     module.generatedSourceDirs.add(projectDir.resolve("src/test/java"))
