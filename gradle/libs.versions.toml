@@ -6,7 +6,7 @@ gradle-develocityPlugin = "4.1"
 gradle-toolchainsResolverPlugin = "1.0.0"
 appVersioning = "1.5.0"
 paparazzi = "2.0.0-alpha02"
-burst = "2.10.2"
+burst = "2.11.0-beta1"
 apollo = "5.0.0-alpha.2"
 apollo-adapters = "0.7.0"
 apollo-mockserver = "0.3.0"
@@ -60,6 +60,7 @@ ksoup = "0.2.5"
 turbine = "1.2.1"
 kermit = "2.0.8"
 crashKios = "0.8.5"
+testkit = "0.17"
 
 [libraries]
 plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin"}
@@ -142,6 +143,7 @@ sqldelight-sqliteDriver = { module = "app.cash.sqldelight:sqlite-driver", versio
 ksoup = { module = "com.fleeksoft.ksoup:ksoup", version.ref = "ksoup" }
 kotlin-test-junit = { group = "org.jetbrains.kotlin", name = "kotlin-test-junit", version.ref = "kotlin" }
 paparazzi = { module = "app.cash.paparazzi:paparazzi", version.ref = "paparazzi" }
+burst = { module = "app.cash.burst:burst", version.ref = "burst" }
 
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
@@ -151,3 +153,4 @@ crashKios = { module = "co.touchlab:crashkios", version.ref = "crashKios" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 lint = { id = "com.android.lint", version.ref = "androidGradlePlugin" }
 detekt = { id = "dev.detekt", version.ref = "detekt" }
+testkit = { id = "com.autonomousapps.testkit", version.ref = "testkit" }

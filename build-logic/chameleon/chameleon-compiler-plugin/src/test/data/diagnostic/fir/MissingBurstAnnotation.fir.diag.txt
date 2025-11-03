@@ -1,0 +1,1 @@
+/MissingBurstAnnotation.kt:(163,176): error: Classes annotated with `@Chameleon` must also be annotated with `@Burst`.

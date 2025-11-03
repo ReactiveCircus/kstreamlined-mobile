@@ -1,4 +1,4 @@
-@file:Suppress("MaximumLineLength", "MaxLineLength")
+@file:Suppress("MaxLineLength")
 
 package io.github.reactivecircus.kstreamlined.kmp.remote
 

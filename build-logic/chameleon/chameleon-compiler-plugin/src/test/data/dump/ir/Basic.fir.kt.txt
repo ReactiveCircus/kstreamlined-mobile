@@ -1,0 +1,30 @@
+@Burst
+@Chameleon
+class ComponentTest {
+  private val themeVariant: ThemeVariant
+    field = themeVariant
+    private get
+
+  val snapshotTester: SnapshotTester
+    field = SnapshotTester()
+    get
+
+  constructor(themeVariant: ThemeVariant) /* primary */ {
+    super/*Any*/()
+    /* <init>() */
+
+  }
+
+  @Test
+  fun snapshot_Component() {
+    <this>.<get-snapshotTester>().snapshot(themeVariant = <this>.<get-themeVariant>(), content = local fun <anonymous>() {
+      Component()
+    }
+)
+  }
+
+}
+
+@Composable
+fun Component() {
+}

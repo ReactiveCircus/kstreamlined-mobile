@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalSharedTransitionApi::class)
+
 package io.github.reactivecircus.kstreamlined.android.foundation.commonui.feed
 
 import androidx.compose.animation.ExperimentalSharedTransitionApi
@@ -14,7 +16,6 @@ import org.junit.Rule
 import org.junit.Test
 import kotlin.time.Instant
 
-@OptIn(ExperimentalSharedTransitionApi::class)
 @Burst
 class KotlinBlogCardTest {
     @get:Rule

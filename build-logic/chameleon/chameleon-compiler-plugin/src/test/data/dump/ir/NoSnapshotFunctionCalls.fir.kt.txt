@@ -1,0 +1,18 @@
+@Burst
+@Chameleon
+class ComponentTest {
+  constructor() /* primary */ {
+    super/*Any*/()
+    /* <init>() */
+
+  }
+
+  @Test
+  fun foo() {
+    Foo()
+  }
+
+}
+
+fun Foo() {
+}

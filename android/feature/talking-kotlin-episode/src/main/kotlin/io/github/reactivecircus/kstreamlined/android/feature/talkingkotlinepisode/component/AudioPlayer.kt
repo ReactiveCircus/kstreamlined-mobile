@@ -89,9 +89,9 @@ internal fun rememberAudioPlayer(
 
                 override fun release() = Unit
 
-                override val currentPosition: Long = 0
+                override val currentPosition: Long get() = 0
 
-                override val duration: Long = 0
+                override val duration: Long get() = 0
             }
         }
     }
