@@ -8,8 +8,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import app.cash.burst.Burst
+import io.github.reactivecircus.chameleon.runtime.Chameleon
 import io.github.reactivecircus.kstreamlined.android.foundation.screenshottesting.tester.SnapshotTester
-import io.github.reactivecircus.kstreamlined.android.foundation.screenshottesting.tester.ThemeVariant
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.toDisplayable
 import org.junit.Rule
@@ -17,16 +17,14 @@ import org.junit.Test
 import kotlin.time.Instant
 
 @Burst
+@Chameleon
 class KotlinYouTubeCardTest {
     @get:Rule
     val snapshotTester = SnapshotTester()
 
     @Test
-    fun snapshot_KotlinYouTubeCard(
-        saved: Boolean,
-        themeVariant: ThemeVariant,
-    ) {
-        snapshotTester.snapshot(themeVariant = themeVariant) {
+    fun snapshot_KotlinYouTubeCard(saved: Boolean) {
+        snapshotTester.snapshot {
             SharedTransitionLayout {
                 KotlinYouTubeCard(
                     item = FeedItem.KotlinYouTube(

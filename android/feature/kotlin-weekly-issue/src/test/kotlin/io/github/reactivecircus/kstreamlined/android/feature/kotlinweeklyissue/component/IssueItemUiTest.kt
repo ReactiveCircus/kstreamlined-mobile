@@ -1,13 +1,14 @@
 package io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue.component
 
+import app.cash.burst.Burst
+import io.github.reactivecircus.chameleon.runtime.Chameleon
 import io.github.reactivecircus.kstreamlined.android.foundation.screenshottesting.tester.SnapshotTester
-import io.github.reactivecircus.kstreamlined.android.foundation.screenshottesting.tester.ThemeVariantInjector
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.KotlinWeeklyIssueItem
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 
-@RunWith(ThemeVariantInjector::class)
+@Burst
+@Chameleon
 class IssueItemUiTest {
     @get:Rule
     val snapshotTester = SnapshotTester()

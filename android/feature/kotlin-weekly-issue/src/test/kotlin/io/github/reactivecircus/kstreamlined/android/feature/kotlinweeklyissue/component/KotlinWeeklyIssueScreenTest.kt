@@ -3,16 +3,17 @@ package io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue.
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.runtime.Composable
+import app.cash.burst.Burst
+import io.github.reactivecircus.chameleon.runtime.Chameleon
 import io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue.KotlinWeeklyIssueScreen
 import io.github.reactivecircus.kstreamlined.android.foundation.screenshottesting.tester.SnapshotTester
-import io.github.reactivecircus.kstreamlined.android.foundation.screenshottesting.tester.ThemeVariantInjector
 import io.github.reactivecircus.kstreamlined.kmp.model.feed.KotlinWeeklyIssueItem
 import io.github.reactivecircus.kstreamlined.kmp.presentation.kotlinweeklyissue.KotlinWeeklyIssueUiState
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 
-@RunWith(ThemeVariantInjector::class)
+@Burst
+@Chameleon
 class KotlinWeeklyIssueScreenTest {
     @get:Rule
     val snapshotTester = SnapshotTester()

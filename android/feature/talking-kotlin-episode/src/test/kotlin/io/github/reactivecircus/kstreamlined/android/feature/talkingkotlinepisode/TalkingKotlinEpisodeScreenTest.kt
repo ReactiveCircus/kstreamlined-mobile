@@ -3,15 +3,16 @@ package io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepiso
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.runtime.Composable
+import app.cash.burst.Burst
+import io.github.reactivecircus.chameleon.runtime.Chameleon
 import io.github.reactivecircus.kstreamlined.android.foundation.screenshottesting.tester.SnapshotTester
-import io.github.reactivecircus.kstreamlined.android.foundation.screenshottesting.tester.ThemeVariantInjector
 import io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepisode.TalkingKotlinEpisode
 import io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepisode.TalkingKotlinEpisodeUiState
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 
-@RunWith(ThemeVariantInjector::class)
+@Burst
+@Chameleon
 class TalkingKotlinEpisodeScreenTest {
     @get:Rule
     val snapshotTester = SnapshotTester()
