@@ -1,3 +1,4 @@
+import com.google.firebase.appdistribution.gradle.firebaseAppDistribution
 import com.google.firebase.appdistribution.gradle.tasks.UploadDistributionTask
 import com.google.firebase.crashlytics.buildtools.gradle.CrashlyticsExtension
 import com.google.firebase.perf.plugin.FirebasePerfExtension
@@ -151,10 +152,10 @@ android {
     sourceSets {
         // common source set for dev and prod
         named(ProductFlavors.Dev) {
-            kotlin.srcDir("src/devAndProd/kotlin")
+            kotlin.directories.add("src/devAndProd/kotlin")
         }
         named(ProductFlavors.Prod) {
-            kotlin.srcDir("src/devAndProd/kotlin")
+            kotlin.directories.add("src/devAndProd/kotlin")
         }
     }
 
