@@ -8,7 +8,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import app.cash.molecule.RecompositionMode
 import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.FeedDataSource
-import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
+import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.presentation.common.Presenter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collect

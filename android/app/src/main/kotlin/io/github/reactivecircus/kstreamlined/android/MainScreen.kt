@@ -36,7 +36,7 @@ import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.com
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.icon.Bookmarks
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.icon.KSIcons
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.icon.Kotlin
-import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
+import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
 import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
 

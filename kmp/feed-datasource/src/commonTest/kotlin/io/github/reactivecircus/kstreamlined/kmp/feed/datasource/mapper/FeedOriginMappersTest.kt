@@ -1,7 +1,7 @@
 package io.github.reactivecircus.kstreamlined.kmp.feed.datasource.mapper
 
 import io.github.reactivecircus.kstreamlined.kmp.database.FeedOriginEntity
-import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedOrigin
+import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedOrigin
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith

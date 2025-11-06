@@ -58,6 +58,7 @@ rootProject.name = "kstreamlined-mobile"
 
 includeKmpProjects(
     ":kmp:feed-datasource",
+    ":kmp:feed-model",
     ":kmp:feed-sync:common",
     ":kmp:feed-sync:runtime",
     ":kmp:feed-sync:testing",
@@ -71,7 +72,6 @@ includeKmpProjects(
     ":kmp:network-monitor:common",
     ":kmp:network-monitor:runtime",
     ":kmp:network-monitor:testing",
-    ":kmp:model",
     ":kmp:presentation:common",
     ":kmp:presentation:content-viewer",
     ":kmp:presentation:home",

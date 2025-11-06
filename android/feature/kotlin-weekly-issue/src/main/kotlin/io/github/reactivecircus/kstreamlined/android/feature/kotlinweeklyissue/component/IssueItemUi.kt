@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.sp
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.Surface
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.Text
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.KSTheme
-import io.github.reactivecircus.kstreamlined.kmp.model.feed.KotlinWeeklyIssueItem
+import io.github.reactivecircus.kstreamlined.kmp.feed.model.KotlinWeeklyIssueItem
 
 @Composable
 internal fun IssueItemUi(

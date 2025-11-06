@@ -1,6 +1,6 @@
 package io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepisode
 
-import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
+import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.prettytime.toFormattedTime
 import kotlinx.datetime.TimeZone
 

@@ -11,7 +11,7 @@ android {
 dependencies {
     implementation(project(":foundation:designsystem"))
     implementation(project(":foundation:compose-utils"))
-    implementation(project(":kmp:model"))
+    implementation(project(":kmp:feed-model"))
 
     implementation(libs.androidx.compose.foundation)
     implementation(libs.androidx.compose.ui.tooling)

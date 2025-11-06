@@ -7,7 +7,7 @@ import app.cash.burst.Burst
 import io.github.reactivecircus.chameleon.runtime.Chameleon
 import io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue.KotlinWeeklyIssueScreen
 import io.github.reactivecircus.kstreamlined.android.foundation.screenshottesting.tester.SnapshotTester
-import io.github.reactivecircus.kstreamlined.kmp.model.feed.KotlinWeeklyIssueItem
+import io.github.reactivecircus.kstreamlined.kmp.feed.model.KotlinWeeklyIssueItem
 import io.github.reactivecircus.kstreamlined.kmp.presentation.kotlinweeklyissue.KotlinWeeklyIssueUiState
 import org.junit.Rule
 import org.junit.Test

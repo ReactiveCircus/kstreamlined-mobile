@@ -5,8 +5,8 @@ import io.github.reactivecircus.kstreamlined.kmp.database.ContentFormat
 import io.github.reactivecircus.kstreamlined.kmp.database.FeedOriginEntity
 import io.github.reactivecircus.kstreamlined.kmp.database.testing.createInMemoryDatabase
 import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.mapper.asExternalModel
-import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
-import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedOrigin
+import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
+import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedOrigin
 import io.github.reactivecircus.kstreamlined.kmp.remote.FakeFeedService
 import io.github.reactivecircus.kstreamlined.kmp.remote.FakeKotlinWeeklyIssueEntries
 import kotlinx.coroutines.test.StandardTestDispatcher

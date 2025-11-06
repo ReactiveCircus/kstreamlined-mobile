@@ -5,9 +5,9 @@ import app.cash.sqldelight.coroutines.mapToList
 import app.cash.sqldelight.coroutines.mapToOneOrNull
 import io.github.reactivecircus.kstreamlined.kmp.database.KStreamlinedDatabase
 import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.mapper.asExternalModel
-import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
-import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedOrigin
-import io.github.reactivecircus.kstreamlined.kmp.model.feed.KotlinWeeklyIssueItem
+import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
+import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedOrigin
+import io.github.reactivecircus.kstreamlined.kmp.feed.model.KotlinWeeklyIssueItem
 import io.github.reactivecircus.kstreamlined.kmp.remote.FeedService
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers

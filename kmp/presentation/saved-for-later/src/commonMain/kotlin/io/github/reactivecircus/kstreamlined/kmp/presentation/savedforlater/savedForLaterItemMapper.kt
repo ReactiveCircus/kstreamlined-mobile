@@ -1,8 +1,8 @@
 package io.github.reactivecircus.kstreamlined.kmp.presentation.savedforlater
 
-import io.github.reactivecircus.kstreamlined.kmp.model.feed.DisplayableFeedItem
-import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
-import io.github.reactivecircus.kstreamlined.kmp.model.feed.toDisplayable
+import io.github.reactivecircus.kstreamlined.kmp.feed.model.DisplayableFeedItem
+import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
+import io.github.reactivecircus.kstreamlined.kmp.feed.model.toDisplayable
 import io.github.reactivecircus.kstreamlined.kmp.prettytime.toFormattedTime
 import kotlinx.datetime.TimeZone
 

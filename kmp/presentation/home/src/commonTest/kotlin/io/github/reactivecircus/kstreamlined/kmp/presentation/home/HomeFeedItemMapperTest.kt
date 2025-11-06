@@ -1,7 +1,7 @@
 package io.github.reactivecircus.kstreamlined.kmp.presentation.home
 
-import io.github.reactivecircus.kstreamlined.kmp.model.feed.DisplayableFeedItem
-import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
+import io.github.reactivecircus.kstreamlined.kmp.feed.model.DisplayableFeedItem
+import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
 import kotlinx.datetime.TimeZone
 import kotlin.test.Test
 import kotlin.test.assertEquals

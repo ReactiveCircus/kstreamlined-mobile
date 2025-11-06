@@ -1,7 +1,7 @@
 package io.github.reactivecircus.kstreamlined.kmp.presentation.kotlinweeklyissue
 
 import androidx.compose.runtime.Immutable
-import io.github.reactivecircus.kstreamlined.kmp.model.feed.KotlinWeeklyIssueItem
+import io.github.reactivecircus.kstreamlined.kmp.feed.model.KotlinWeeklyIssueItem
 
 @Immutable
 public sealed interface KotlinWeeklyIssueUiState {

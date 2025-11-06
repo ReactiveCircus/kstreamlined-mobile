@@ -1,7 +1,7 @@
 package io.github.reactivecircus.kstreamlined.kmp.presentation.home
 
-import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
-import io.github.reactivecircus.kstreamlined.kmp.model.feed.toDisplayable
+import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
+import io.github.reactivecircus.kstreamlined.kmp.feed.model.toDisplayable
 import io.github.reactivecircus.kstreamlined.kmp.prettytime.timeAgo
 import io.github.reactivecircus.kstreamlined.kmp.prettytime.weeksAgo
 import kotlinx.datetime.TimeZone

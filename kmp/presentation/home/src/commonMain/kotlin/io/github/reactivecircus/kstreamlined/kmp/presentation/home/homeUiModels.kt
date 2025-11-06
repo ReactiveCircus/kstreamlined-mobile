@@ -1,7 +1,7 @@
 package io.github.reactivecircus.kstreamlined.kmp.presentation.home
 
 import androidx.compose.runtime.Immutable
-import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
+import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
 
 @Immutable
 public sealed interface HomeUiState {

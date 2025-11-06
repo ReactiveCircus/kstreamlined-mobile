@@ -10,7 +10,7 @@ kotlin {
     dependencies {
         implementation(project(":kmp:remote:common"))
         implementation(project(":kmp:database"))
-        api(project(":kmp:model"))
+        api(project(":kmp:feed-model"))
         implementation(libs.kotlinx.coroutines.core)
         implementation(libs.kermit)
 

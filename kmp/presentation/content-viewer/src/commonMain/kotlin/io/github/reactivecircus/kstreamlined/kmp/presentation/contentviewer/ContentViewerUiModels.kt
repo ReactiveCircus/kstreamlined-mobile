@@ -1,6 +1,6 @@
 package io.github.reactivecircus.kstreamlined.kmp.presentation.contentviewer
 
-import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedItem
+import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
 
 public sealed interface ContentViewerUiState {
     public data object Initializing : ContentViewerUiState

@@ -1,7 +1,7 @@
 package io.github.reactivecircus.kstreamlined.kmp.feed.datasource.mapper
 
 import io.github.reactivecircus.kstreamlined.kmp.database.FeedOriginEntity
-import io.github.reactivecircus.kstreamlined.kmp.model.feed.FeedOrigin
+import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedOrigin
 
 internal fun FeedOriginEntity.asExternalModel(): FeedOrigin {
     return FeedOrigin(
