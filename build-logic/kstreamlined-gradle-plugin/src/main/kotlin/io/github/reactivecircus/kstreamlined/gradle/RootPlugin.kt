@@ -6,8 +6,7 @@ import org.gradle.api.tasks.Delete
 
 internal class RootPlugin : Plugin<Project> {
     override fun apply(target: Project) {
-        // TODO enable once invert supports Gradle 9
-        // target.pluginManager.apply("com.squareup.invert")
+        target.pluginManager.apply("com.squareup.invert")
 
         // register task for cleaning the build directory in the root project
         target.tasks.register("clean", Delete::class.java) {
