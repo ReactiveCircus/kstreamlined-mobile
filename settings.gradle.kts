@@ -62,6 +62,8 @@ includeKmpProjects(
     ":kmp:feed-sync:common",
     ":kmp:feed-sync:runtime",
     ":kmp:feed-sync:testing",
+    ":kmp:settings-datasource",
+    ":kmp:settings-model",
     ":kmp:remote:common",
     ":kmp:remote:cloud",
     ":kmp:remote:edge",
