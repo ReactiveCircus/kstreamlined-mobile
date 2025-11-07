@@ -22,7 +22,7 @@ open class AbstractIrDumpTest : AbstractFirLightTreeJvmIrTextTest() {
         configurePlugin()
 
         defaultDirectives {
-            JVM_TARGET.with(JvmTarget.JVM_11)
+            JVM_TARGET.with(JvmTarget.JVM_17)
             +FULL_JDK
             +WITH_STDLIB
 

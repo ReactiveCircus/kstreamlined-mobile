@@ -62,15 +62,7 @@ gradlePlugin {
 }
 
 kotlin {
-    compilerOptions {
-        jvmTarget.set(JvmTarget.JVM_24)
-    }
     explicitApi()
-}
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_24
-    targetCompatibility = JavaVersion.VERSION_24
 }
 
 detekt {
