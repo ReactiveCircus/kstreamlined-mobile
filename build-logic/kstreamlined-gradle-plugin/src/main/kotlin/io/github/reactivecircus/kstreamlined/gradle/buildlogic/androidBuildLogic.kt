@@ -24,14 +24,12 @@ internal fun CommonExtension.configureCommonAndroidExtension(project: Project) {
 
     testOptions.animationsDisabled = true
 
-    compileOptions {
+    with(compileOptions) {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    lint {
-        configureLintOptions(project)
-    }
+    lint.configureLintOptions(project)
 
     packaging.configurePackagingOptions()
 }
