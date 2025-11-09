@@ -2,9 +2,18 @@ import com.apollographql.apollo.annotations.ApolloExperimental
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 
 plugins {
-    id("kstreamlined.kmp.jvm-and-ios")
-    id("kstreamlined.kmp.test")
+    id("kstreamlined")
     id("com.apollographql.apollo")
+}
+
+kstreamlined {
+    kmpLibrary {
+        targets {
+            jvm()
+            ios()
+        }
+        unitTests()
+    }
 }
 
 apollo {

@@ -7,21 +7,28 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import org.jetbrains.kotlin.gradle.plugin.mpp.NativeOutputKind
 
+/**
+ * Enable and configure KMP targets.
+ */
 internal fun KotlinMultiplatformExtension.configureKmpTargets(
     project: Project,
-    moduleType: KmpModuleType,
+    config: KmpTargetsConfig,
 ) {
-    if (moduleType.jvmTargetEnabled()) {
+    if (config.jvmTargetEnabled) {
         jvm()
     }
 
-    if (moduleType.androidTargetEnabled()) {
+    if (config.androidTargetEnabled) {
         extensions.configure(KotlinMultiplatformAndroidLibraryTarget::class.java) {
-            it.configureKmpAndroidLibraryExtension(project)
+            it.configureKmpAndroidLibraryExtension(
+                project = project,
+                namespace = config.androidNamespace!!,
+                hostTestsEnabled = config.androidHostTestsEnabled,
+            )
         }
     }
 
-    if (moduleType.iosTargetEnabled()) {
+    if (config.iosTargetEnabled) {
         iosArm64()
         if (project.isAppleSilicon) {
             iosSimulatorArm64()
@@ -31,41 +38,31 @@ internal fun KotlinMultiplatformExtension.configureKmpTargets(
     }
 }
 
-internal enum class KmpModuleType {
-    JvmAndIos,
-    AndroidAndIos,
-    IosOnly,
-    ;
-
-    fun jvmTargetEnabled(): Boolean = this == JvmAndIos
-
-    fun androidTargetEnabled(): Boolean = this == AndroidAndIos
-
-    fun iosTargetEnabled(): Boolean = this == JvmAndIos || this == AndroidAndIos || this == IosOnly
-}
+internal class KmpTargetsConfig(
+    val jvmTargetEnabled: Boolean,
+    val androidTargetEnabled: Boolean,
+    val iosTargetEnabled: Boolean,
+    val androidNamespace: String?,
+    val androidHostTestsEnabled: Boolean,
+)
 
 /**
  * Apply test configs to KMP project.
  */
-internal fun KotlinMultiplatformExtension.configureKmpTest() {
+internal fun KotlinMultiplatformExtension.configureKmpTest(project: Project) {
     with(sourceSets) {
         commonTest {
-            dependencies {
-                implementation(kotlin("test-common"))
-                implementation(kotlin("test-annotations-common"))
-            }
-        }
-        jvmTest {
             dependencies {
                 implementation(kotlin("test"))
             }
         }
     }
-    targets.withType(KotlinNativeTarget::class.java).configureEach {
-        it.binaries.configureEach {
+    targets.withType(KotlinNativeTarget::class.java).configureEach { target ->
+        target.binaries.configureEach {
             if (it.outputKind == NativeOutputKind.TEST) {
                 it.linkerOpts("-lsqlite3")
             }
         }
     }
+    project.configureTest()
 }

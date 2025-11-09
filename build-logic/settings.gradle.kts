@@ -52,7 +52,7 @@ plugins {
 }
 
 rootProject.name = "build-logic"
-include(":kstreamlined-gradle-plugin")
+include(":kstreamlined-build-plugin")
 include(":chameleon:chameleon-compiler-plugin")
 include(":chameleon:chameleon-gradle-plugin")
 include(":chameleon:chameleon-runtime")

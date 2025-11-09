@@ -10,9 +10,9 @@ plugins {
 
 gradlePlugin {
     plugins {
-        register("root") {
-            id = "kstreamlined.root"
-            implementationClass = "io.github.reactivecircus.kstreamlined.gradle.RootPlugin"
+        register("kstreamlined") {
+            id = "kstreamlined"
+            implementationClass = "io.github.reactivecircus.kstreamlined.gradle.KStreamlinedBuildPlugin"
         }
         register("androidApplication") {
             id = "kstreamlined.android.application"
@@ -29,22 +29,6 @@ gradlePlugin {
         register("androidScreenshotTest") {
             id = "kstreamlined.android.screenshot-test"
             implementationClass = "io.github.reactivecircus.kstreamlined.gradle.AndroidScreenshotTestConventionPlugin"
-        }
-        register("kmpJvmAndIos") {
-            id = "kstreamlined.kmp.jvm-and-ios"
-            implementationClass = "io.github.reactivecircus.kstreamlined.gradle.KmpJvmAndIosConventionPlugin"
-        }
-        register("kmpAndroidAndIos") {
-            id = "kstreamlined.kmp.android-and-ios"
-            implementationClass = "io.github.reactivecircus.kstreamlined.gradle.KmpAndroidAndIosConventionPlugin"
-        }
-        register("kmpIosOnly") {
-            id = "kstreamlined.kmp.ios-only"
-            implementationClass = "io.github.reactivecircus.kstreamlined.gradle.KmpIosOnlyConventionPlugin"
-        }
-        register("kmpTest") {
-            id = "kstreamlined.kmp.test"
-            implementationClass = "io.github.reactivecircus.kstreamlined.gradle.KmpTestConventionPlugin"
         }
         register("kotlinJvm") {
             id = "kstreamlined.kotlin.jvm"
