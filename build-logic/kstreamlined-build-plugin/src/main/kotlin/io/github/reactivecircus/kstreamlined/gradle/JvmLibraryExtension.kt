@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalKotlinGradlePluginApi::class)
+
 package io.github.reactivecircus.kstreamlined.gradle
 
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureDetekt
@@ -5,9 +7,14 @@ import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureKotlin
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureTest
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.libs
 import org.gradle.api.Action
+import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.Project
+import org.gradle.api.artifacts.Dependency
+import org.gradle.api.artifacts.dsl.DependencyCollector
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.dsl.KotlinDependencies
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
-import org.jetbrains.kotlin.gradle.plugin.KotlinDependencyHandler
+import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 import javax.inject.Inject
 
 /**
@@ -21,14 +28,9 @@ public interface JvmLibraryExtension {
     public fun unitTests()
 
     /**
-     * Configure dependencies for `main` source set.
+     * Configure dependencies.
      */
-    public fun mainDependencies(action: Action<KotlinDependencyHandler>)
-
-    /**
-     * Configure dependencies for `test` source set.
-     */
-    public fun testDependencies(action: Action<KotlinDependencyHandler>)
+    public fun dependencies(action: Action<KotlinDependencies>)
 }
 
 internal abstract class JvmLibraryExtensionImpl @Inject constructor(
@@ -36,19 +38,14 @@ internal abstract class JvmLibraryExtensionImpl @Inject constructor(
 ) : JvmLibraryExtension, TopLevelExtension {
     private var unitTestsEnabled: Boolean = false
 
-    private var mainDependenciesBlock: Action<KotlinDependencyHandler>? = null
-    private var testDependenciesBlock: Action<KotlinDependencyHandler>? = null
+    private var dependenciesBlock: Action<KotlinDependencies>? = null
 
     override fun unitTests() {
         unitTestsEnabled = true
     }
 
-    override fun mainDependencies(action: Action<KotlinDependencyHandler>) {
-        mainDependenciesBlock = action
-    }
-
-    override fun testDependencies(action: Action<KotlinDependencyHandler>) {
-        testDependenciesBlock = action
+    override fun dependencies(action: Action<KotlinDependencies>) {
+        dependenciesBlock = action
     }
 
     override fun evaluate() = with(project) {
@@ -57,7 +54,13 @@ internal abstract class JvmLibraryExtensionImpl @Inject constructor(
 
         extensions.configure(KotlinJvmProjectExtension::class.java) {
             it.configureKotlin(this)
-            it.configureDependencies()
+
+            dependenciesBlock?.let { block ->
+                configureTopLevelDependencies(
+                    sourceSets = it.sourceSets,
+                    dependenciesBlock = block,
+                )
+            }
         }
 
         if (unitTestsEnabled) {
@@ -67,13 +70,38 @@ internal abstract class JvmLibraryExtensionImpl @Inject constructor(
 
         configureDetekt()
     }
+}
 
-    private fun KotlinJvmProjectExtension.configureDependencies() {
-        mainDependenciesBlock?.let {
-            sourceSets.getByName("main").dependencies(it)
-        }
-        testDependenciesBlock?.let {
-            sourceSets.getByName("test").dependencies(it)
-        }
+@Suppress("UnstableApiUsage")
+private fun Project.configureTopLevelDependencies(
+    sourceSets: NamedDomainObjectContainer<KotlinSourceSet>,
+    dependenciesBlock: Action<KotlinDependencies>,
+) {
+    val kotlinDependencies = project.objects.newInstance(KotlinDependenciesImpl::class.java)
+
+    val main = sourceSets.getByName("main")
+    val test = sourceSets.getByName("test")
+
+    infix fun DependencyCollector.wireWith(configurationName: String) {
+        val configuration = project.configurations.getByName(configurationName)
+        configuration.fromDependencyCollector(this)
     }
+
+    kotlinDependencies.api wireWith main.apiConfigurationName
+    kotlinDependencies.implementation wireWith main.implementationConfigurationName
+    kotlinDependencies.compileOnly wireWith main.compileOnlyConfigurationName
+    kotlinDependencies.runtimeOnly wireWith main.runtimeOnlyConfigurationName
+
+    kotlinDependencies.testImplementation wireWith test.implementationConfigurationName
+    kotlinDependencies.testCompileOnly wireWith test.compileOnlyConfigurationName
+    kotlinDependencies.testRuntimeOnly wireWith test.runtimeOnlyConfigurationName
+
+    dependenciesBlock.execute(kotlinDependencies)
+}
+
+private abstract class KotlinDependenciesImpl : KotlinDependencies {
+    override fun kotlin(module: String) = kotlin(module, null)
+
+    override fun kotlin(module: String, version: String?): Dependency = project.dependencyFactory
+        .create("org.jetbrains.kotlin", "kotlin-$module", version)
 }

@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+
 plugins {
     id("kstreamlined")
     id("kstreamlined.compose")
@@ -5,7 +7,8 @@ plugins {
 
 kstreamlined {
     jvmLibrary {
-        mainDependencies {
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        dependencies {
             implementation(libs.androidx.compose.runtime)
             implementation(libs.paparazzi)
         }
