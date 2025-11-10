@@ -30,10 +30,6 @@ gradlePlugin {
             id = "kstreamlined.android.screenshot-test"
             implementationClass = "io.github.reactivecircus.kstreamlined.gradle.convention.AndroidScreenshotTestConventionPlugin"
         }
-        register("kotlinJvm") {
-            id = "kstreamlined.kotlin.jvm"
-            implementationClass = "io.github.reactivecircus.kstreamlined.gradle.convention.KotlinJvmConventionPlugin"
-        }
         register("compose") {
             id = "kstreamlined.compose"
             implementationClass = "io.github.reactivecircus.kstreamlined.gradle.convention.ComposeConventionPlugin"

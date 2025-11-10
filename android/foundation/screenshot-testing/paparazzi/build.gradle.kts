@@ -1,9 +1,13 @@
 plugins {
-    id("kstreamlined.kotlin.jvm")
+    id("kstreamlined")
     id("kstreamlined.compose")
 }
 
-dependencies {
-    implementation(libs.androidx.compose.runtime)
-    implementation(libs.paparazzi)
+kstreamlined {
+    jvmLibrary {
+        mainDependencies {
+            implementation(libs.androidx.compose.runtime)
+            implementation(libs.paparazzi)
+        }
+    }
 }
