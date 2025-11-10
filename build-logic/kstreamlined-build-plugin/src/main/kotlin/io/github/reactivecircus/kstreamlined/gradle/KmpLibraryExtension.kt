@@ -100,7 +100,7 @@ public interface KmpLibraryExtension {
 internal abstract class KmpLibraryExtensionImpl @Inject constructor(
     objects: ObjectFactory,
     private val project: Project,
-) : KmpLibraryExtension {
+) : KmpLibraryExtension, TopLevelExtension {
     private val targetsOptions = objects.newInstance(TargetsOptionsImpl::class.java)
 
     private var unitTestsEnabled: Boolean = false
@@ -166,7 +166,7 @@ internal abstract class KmpLibraryExtensionImpl @Inject constructor(
         iosTestDependenciesBlock = action
     }
 
-    internal fun evaluate() = with(targetsOptions) {
+    override fun evaluate() = with(targetsOptions) {
         if (!jvmEnabled && !androidEnabled && !iosEnabled) {
             error(
                 """

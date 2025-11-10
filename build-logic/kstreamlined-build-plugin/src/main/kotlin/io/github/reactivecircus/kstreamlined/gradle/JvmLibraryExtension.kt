@@ -33,7 +33,7 @@ public interface JvmLibraryExtension {
 
 internal abstract class JvmLibraryExtensionImpl @Inject constructor(
     private val project: Project,
-) : JvmLibraryExtension {
+) : JvmLibraryExtension, TopLevelExtension {
     private var unitTestsEnabled: Boolean = false
 
     private var mainDependenciesBlock: Action<KotlinDependencyHandler>? = null
@@ -51,7 +51,7 @@ internal abstract class JvmLibraryExtensionImpl @Inject constructor(
         testDependenciesBlock = action
     }
 
-    internal fun evaluate() = with(project) {
+    override fun evaluate() = with(project) {
         pluginManager.apply("org.jetbrains.kotlin.jvm")
         pluginManager.apply("com.android.lint")
 

@@ -4,9 +4,6 @@ import org.gradle.api.Action
 import org.gradle.api.model.ObjectFactory
 import javax.inject.Inject
 
-@DslMarker
-internal annotation class KStreamlinedExtensionMarker
-
 /**
  * Entry point for all build configurations in KStreamlined.
  */
@@ -18,33 +15,57 @@ public interface KStreamlinedExtension {
 }
 
 internal abstract class KStreamlinedExtensionImpl @Inject constructor(objects: ObjectFactory) : KStreamlinedExtension {
-    private val kmpLibraryExtension = objects.newInstance(KmpLibraryExtensionImpl::class.java)
-    private val jvmLibraryExtension = objects.newInstance(JvmLibraryExtensionImpl::class.java)
+    private val kmpLibraryExtension by lazy { objects.newInstance(KmpLibraryExtensionImpl::class.java) }
+    private val jvmLibraryExtension by lazy { objects.newInstance(JvmLibraryExtensionImpl::class.java) }
 
-    private var kmpLibraryConfigured: Boolean = false
-    private var jvmLibraryConfigured: Boolean = false
+    private var configured = false
 
     override fun kmpLibrary(action: Action<KmpLibraryExtension>) {
-        action.execute(kmpLibraryExtension)
-        kmpLibraryExtension.evaluate()
-        kmpLibraryConfigured = true
+        configureOnce {
+            action.execute(kmpLibraryExtension)
+            kmpLibraryExtension.evaluate()
+        }
     }
 
     override fun jvmLibrary(action: Action<JvmLibraryExtension>) {
-        action.execute(jvmLibraryExtension)
-        jvmLibraryExtension.evaluate()
-        jvmLibraryConfigured = true
+        configureOnce {
+            action.execute(jvmLibraryExtension)
+            jvmLibraryExtension.evaluate()
+        }
+    }
+
+    private inline fun configureOnce(block: () -> Unit) {
+        require(!configured) {
+            """
+            |Multiple top-level configuration blocks found in kstreamlined {...}. Only one of the following may be configured:
+            |$availableTopLevelExtensions
+            """.trimMargin()
+        }
+        block()
+        configured = true
     }
 
     internal fun validate() {
-        if (!kmpLibraryConfigured && !jvmLibraryConfigured) {
-            error(
-                """
-                |One of the following top-level configuration blocks must be present in `kstreamlined {...}`:
-                |- kmpLibrary {...}
-                |- jvmLibrary {...}
-                """.trimMargin(),
-            )
+        require(configured) {
+            """
+            |Missing top-level configuration block in kstreamlined {...}. One of the following must be configured:
+            |$availableTopLevelExtensions
+            """.trimMargin()
         }
     }
+
+    private val availableTopLevelExtensions = TopLevelExtension.Kind.entries
+        .joinToString(separator = "\n") { "- ${it.extensionName} {...}" }
 }
+
+internal interface TopLevelExtension {
+    fun evaluate()
+
+    enum class Kind(val extensionName: String) {
+        KmpLibrary("kmpLibrary"),
+        JvmLibrary("jvmLibrary"),
+    }
+}
+
+@DslMarker
+internal annotation class KStreamlinedExtensionMarker
