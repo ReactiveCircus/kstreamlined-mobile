@@ -1,4 +1,4 @@
-package io.github.reactivecircus.kstreamlined.gradle
+package io.github.reactivecircus.kstreamlined.gradle.convention
 
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureDetekt
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureKotlin

@@ -1,4 +1,4 @@
-package io.github.reactivecircus.kstreamlined.gradle
+package io.github.reactivecircus.kstreamlined.gradle.convention
 
 import com.google.devtools.ksp.gradle.KspExtension
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.libs
