@@ -21,20 +21,20 @@ internal abstract class KStreamlinedExtensionImpl @Inject constructor(objects: O
     private var configured = false
 
     override fun kmpLibrary(action: Action<KmpLibraryExtension>) {
-        configureOnce {
+        configureTopLevelDsl {
             action.execute(kmpLibraryExtension)
             kmpLibraryExtension.evaluate()
         }
     }
 
     override fun jvmLibrary(action: Action<JvmLibraryExtension>) {
-        configureOnce {
+        configureTopLevelDsl {
             action.execute(jvmLibraryExtension)
             jvmLibraryExtension.evaluate()
         }
     }
 
-    private inline fun configureOnce(block: () -> Unit) {
+    private inline fun configureTopLevelDsl(block: () -> Unit) {
         require(!configured) {
             """
             |Multiple top-level configuration blocks found in kstreamlined {...}. Only one of the following may be configured:
