@@ -11,15 +11,13 @@ kstreamlined {
             ios()
         }
         unitTests()
-    }
-}
 
-kotlin {
-    @OptIn(ExperimentalKotlinGradlePluginApi::class)
-    dependencies {
-        api(project(":kmp:remote:common"))
-        implementation(libs.kotlinx.coroutines.core)
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        dependencies {
+            api(project(":kmp:remote:common"))
+            implementation(libs.kotlinx.coroutines.core)
 
-        testImplementation(libs.kotlinx.coroutines.test)
+            testImplementation(libs.kotlinx.coroutines.test)
+        }
     }
 }

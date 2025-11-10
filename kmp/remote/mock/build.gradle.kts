@@ -10,13 +10,11 @@ kstreamlined {
             jvm()
             ios()
         }
-    }
-}
 
-kotlin {
-    @OptIn(ExperimentalKotlinGradlePluginApi::class)
-    dependencies {
-        api(project(":kmp:remote:common"))
-        implementation(libs.kotlinx.coroutines.core)
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        dependencies {
+            api(project(":kmp:remote:common"))
+            implementation(libs.kotlinx.coroutines.core)
+        }
     }
 }

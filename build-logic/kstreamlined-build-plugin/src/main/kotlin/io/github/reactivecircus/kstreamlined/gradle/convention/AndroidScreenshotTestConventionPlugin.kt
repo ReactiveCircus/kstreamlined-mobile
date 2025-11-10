@@ -1,4 +1,4 @@
-package io.github.reactivecircus.kstreamlined.gradle
+package io.github.reactivecircus.kstreamlined.gradle.convention
 
 import app.cash.paparazzi.gradle.PrepareResourcesTask
 import com.android.build.api.dsl.LibraryExtension

@@ -11,6 +11,11 @@ kstreamlined {
             jvm()
             ios()
         }
+
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        dependencies {
+            api(libs.sqldelight.coroutinesExtensions)
+        }
     }
 }
 
@@ -20,12 +25,5 @@ sqldelight {
             packageName.set("io.github.reactivecircus.kstreamlined.kmp.database")
             schemaOutputDirectory.set(file("src/commonMain/sqldelight/databases"))
         }
-    }
-}
-
-kotlin {
-    @OptIn(ExperimentalKotlinGradlePluginApi::class)
-    dependencies {
-        api(libs.sqldelight.coroutinesExtensions)
     }
 }

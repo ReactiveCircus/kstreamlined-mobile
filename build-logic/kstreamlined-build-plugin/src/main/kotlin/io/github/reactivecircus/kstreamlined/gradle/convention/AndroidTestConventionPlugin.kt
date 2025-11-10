@@ -1,4 +1,4 @@
-package io.github.reactivecircus.kstreamlined.gradle
+package io.github.reactivecircus.kstreamlined.gradle.convention
 
 import com.android.build.api.dsl.TestExtension
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureAndroidTestExtension

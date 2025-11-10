@@ -10,12 +10,10 @@ kstreamlined {
             ios()
             android("io.github.reactivecircus.kstreamlined.kmp.networkmonitor.runtime")
         }
-    }
-}
 
-kotlin {
-    @OptIn(ExperimentalKotlinGradlePluginApi::class)
-    dependencies {
-        api(project(":kmp:network-monitor:common"))
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        dependencies {
+            api(project(":kmp:network-monitor:common"))
+        }
     }
 }
