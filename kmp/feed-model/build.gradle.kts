@@ -10,12 +10,10 @@ kstreamlined {
             jvm()
             ios()
         }
-    }
-}
 
-kotlin {
-    @OptIn(ExperimentalKotlinGradlePluginApi::class)
-    dependencies {
-        implementation(libs.androidx.compose.runtimeAnnotation)
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        dependencies {
+            implementation(libs.androidx.compose.runtimeAnnotation)
+        }
     }
 }

@@ -10,12 +10,10 @@ kstreamlined {
             jvm()
             ios()
         }
-    }
-}
 
-kotlin {
-    @OptIn(ExperimentalKotlinGradlePluginApi::class)
-    dependencies {
-        api(libs.kotlinx.coroutines.core)
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        dependencies {
+            api(libs.kotlinx.coroutines.core)
+        }
     }
 }

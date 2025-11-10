@@ -13,6 +13,19 @@ kstreamlined {
             ios()
         }
         unitTests()
+
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        dependencies {
+            api(project(":kmp:remote:common"))
+            api(libs.apollo.runtime)
+            api(libs.apollo.normalizedCache)
+            implementation(libs.apollo.adapters.core)
+            implementation(libs.kotlinx.coroutines.core)
+            implementation(libs.kermit)
+
+            testImplementation(libs.kotlinx.coroutines.test)
+            testImplementation(libs.apollo.mockserver)
+        }
     }
 }
 
@@ -33,20 +46,5 @@ apollo {
             targetName = "kotlin.time.Instant",
             expression = "com.apollographql.adapter.core.KotlinInstantAdapter",
         )
-    }
-}
-
-kotlin {
-    @OptIn(ExperimentalKotlinGradlePluginApi::class)
-    dependencies {
-        api(project(":kmp:remote:common"))
-        api(libs.apollo.runtime)
-        api(libs.apollo.normalizedCache)
-        implementation(libs.apollo.adapters.core)
-        implementation(libs.kotlinx.coroutines.core)
-        implementation(libs.kermit)
-
-        testImplementation(libs.kotlinx.coroutines.test)
-        testImplementation(libs.apollo.mockserver)
     }
 }

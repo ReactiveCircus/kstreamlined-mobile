@@ -8,25 +8,15 @@ kstreamlined {
             jvm()
             ios()
         }
-    }
-}
 
-kotlin {
-    sourceSets {
-        commonMain {
-            dependencies {
-                api(project(":kmp:database"))
-            }
+        commonMainDependencies {
+            api(project(":kmp:database"))
         }
-        jvmMain {
-            dependencies {
-                implementation(libs.sqldelight.sqliteDriver)
-            }
+        jvmMainDependencies {
+            implementation(libs.sqldelight.sqliteDriver)
         }
-        iosMain {
-            dependencies {
-                implementation(libs.sqldelight.nativeDriver)
-            }
+        iosMainDependencies {
+            implementation(libs.sqldelight.nativeDriver)
         }
     }
 }

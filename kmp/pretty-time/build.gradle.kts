@@ -11,12 +11,10 @@ kstreamlined {
             ios()
         }
         unitTests()
-    }
-}
 
-kotlin {
-    @OptIn(ExperimentalKotlinGradlePluginApi::class)
-    dependencies {
-        api(libs.kotlinx.datetime)
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        dependencies {
+            api(libs.kotlinx.datetime)
+        }
     }
 }
