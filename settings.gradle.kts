@@ -71,6 +71,7 @@ includeKmpProjects(
     ":kmp:remote:testing",
     ":kmp:database",
     ":kmp:database-testing",
+    ":kmp:datastore-testing",
     ":kmp:network-monitor:common",
     ":kmp:network-monitor:runtime",
     ":kmp:network-monitor:testing",

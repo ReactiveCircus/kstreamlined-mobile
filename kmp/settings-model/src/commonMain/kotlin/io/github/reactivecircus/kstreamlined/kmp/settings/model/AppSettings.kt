@@ -3,7 +3,7 @@ package io.github.reactivecircus.kstreamlined.kmp.settings.model
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.hours
 
-public class AppSettings(
+public data class AppSettings(
     public val theme: Theme,
     public val autoSync: Boolean,
     public val autoSyncInterval: Duration,
@@ -11,7 +11,7 @@ public class AppSettings(
     public enum class Theme {
         Light,
         Dark,
-        System;
+        System,
     }
 
     public companion object {

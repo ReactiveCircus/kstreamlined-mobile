@@ -16,11 +16,11 @@ kstreamlined {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         dependencies {
             api(project(":kmp:settings-model"))
-            implementation(libs.androidx.datastore)
             implementation(libs.androidx.datastore.preferences)
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.kermit)
 
+            testImplementation(project(":kmp:datastore-testing"))
             testImplementation(libs.kotlinx.coroutines.test)
             testImplementation(libs.turbine)
         }

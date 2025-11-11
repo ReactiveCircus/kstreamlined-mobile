@@ -8,6 +8,6 @@ public fun createAppSettingsDataStore(context: Context): DataStore<Preferences> 
     return createAppSettingsDataStore(
         producePath = {
             context.filesDir.resolve(AppSettingsDataStoreFileName).absolutePath
-        }
+        },
     )
 }

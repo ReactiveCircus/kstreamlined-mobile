@@ -19,6 +19,6 @@ public fun createAppSettingsDataStore(): DataStore<Preferences> {
                 error = null,
             )
             requireNotNull(documentDirectory).path + "/$AppSettingsDataStoreFileName"
-        }
+        },
     )
 }
