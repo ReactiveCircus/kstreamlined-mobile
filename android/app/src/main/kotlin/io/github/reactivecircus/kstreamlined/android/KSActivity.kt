@@ -217,6 +217,8 @@ private fun ComponentActivity.NavigationBarStyleEffect() {
                     )
                 },
             )
+        } else {
+            enableEdgeToEdge()
         }
         onDispose { }
     }
