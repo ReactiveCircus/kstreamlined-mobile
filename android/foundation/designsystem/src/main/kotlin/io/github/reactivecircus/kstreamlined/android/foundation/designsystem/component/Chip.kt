@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.KSTheme
@@ -33,8 +34,8 @@ public fun Chip(
     ) {
         Row(
             modifier = Modifier.padding(
-                vertical = 8.dp,
-                horizontal = 12.dp,
+                vertical = 10.dp,
+                horizontal = 14.dp,
             ),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalAlignment = Alignment.CenterVertically,
@@ -51,10 +52,13 @@ private fun PreviewChip() {
             Chip(
                 onClick = {},
                 modifier = Modifier.padding(8.dp),
+                contentColor = KSTheme.colorScheme.primary,
             ) {
                 Text(
-                    text = "Chip",
-                    style = KSTheme.typography.labelLarge,
+                    text = "Chip".uppercase(),
+                    style = KSTheme.typography.labelLarge.copy(
+                        fontWeight = FontWeight.ExtraBold,
+                    ),
                 )
                 Icon(KSIcons.ArrowDown, contentDescription = null)
             }

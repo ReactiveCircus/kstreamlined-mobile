@@ -60,7 +60,7 @@ class TopNavBarTest {
                                 text = "Button".uppercase(),
                                 style = KSTheme.typography.labelMedium.copy(
                                     fontWeight = FontWeight.ExtraBold,
-                                    letterSpacing = 0.sp,
+                                    letterSpacing = 0.1.sp,
                                 ),
                             )
                             Icon(KSIcons.ArrowDown, contentDescription = null)

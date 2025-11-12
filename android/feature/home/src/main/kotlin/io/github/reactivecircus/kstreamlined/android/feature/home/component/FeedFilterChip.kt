@@ -37,7 +37,7 @@ internal fun FeedFilterChip(
             text = stringResource(id = R.string.feeds_selected, selectedFeedCount).uppercase(),
             style = KSTheme.typography.labelMedium.copy(
                 fontWeight = FontWeight.ExtraBold,
-                letterSpacing = 0.sp,
+                letterSpacing = 0.1.sp,
             ),
         )
         Icon(KSIcons.ArrowDown, contentDescription = null)
