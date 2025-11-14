@@ -144,6 +144,41 @@ class KotlinWeeklyIssuePresenterTest {
     }
 
     @Test
+    fun `presenter emits Content state when current state is Error and loading issue again succeeds`() {
+        testScope.runTest {
+            presenter.states.test {
+                db.transaction {
+                    db.insertFeedItems(listOf(dummyFeedItem))
+                }
+
+                assertEquals(KotlinWeeklyIssueUiState.Loading, awaitItem())
+
+                feedService.nextKotlinWeeklyIssueResponse = {
+                    error("Failed to fetch Kotlin Weekly issue")
+                }
+
+                presenter.eventSink(KotlinWeeklyIssueUiEvent.LoadIssue(dummyFeedItem.id))
+
+                assertEquals(KotlinWeeklyIssueUiState.Error, awaitItem())
+
+                feedService.nextKotlinWeeklyIssueResponse = { FakeKotlinWeeklyIssueEntries }
+
+                presenter.eventSink(KotlinWeeklyIssueUiEvent.LoadIssue(dummyFeedItem.id))
+
+                assertEquals(
+                    KotlinWeeklyIssueUiState.Content(
+                        id = item.id,
+                        contentUrl = item.contentUrl,
+                        issueItems = fakeKotlinWeeklyIssueItems.groupBy { it.group },
+                        savedForLater = item.savedForLater,
+                    ),
+                    awaitItem(),
+                )
+            }
+        }
+    }
+
+    @Test
     fun `presenter emits Content state with updated savedForLater value when ToggleSavedForLater event is dispatched`() {
         testScope.runTest {
             presenter.states.test {

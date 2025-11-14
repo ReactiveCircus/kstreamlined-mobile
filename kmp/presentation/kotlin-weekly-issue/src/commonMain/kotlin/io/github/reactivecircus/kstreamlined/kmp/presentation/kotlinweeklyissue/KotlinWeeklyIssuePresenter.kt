@@ -45,6 +45,7 @@ public class KotlinWeeklyIssuePresenter(
                     }
                     .catch {
                         uiState = KotlinWeeklyIssueUiState.Error
+                        itemId = null
                     }
                     .collect()
             }
