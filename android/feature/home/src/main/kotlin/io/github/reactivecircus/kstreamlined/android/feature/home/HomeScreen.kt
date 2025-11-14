@@ -74,6 +74,7 @@ public fun SharedTransitionScope.HomeScreen(
     animatedVisibilityScope: AnimatedVisibilityScope,
     listState: LazyListState,
     onViewItem: (FeedItem) -> Unit,
+    onOpenSettings: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val viewModel = hiltViewModel<HomeViewModel>()
@@ -83,6 +84,7 @@ public fun SharedTransitionScope.HomeScreen(
         animatedVisibilityScope = animatedVisibilityScope,
         listState = listState,
         onViewItem = onViewItem,
+        onOpenSettings = onOpenSettings,
         uiState = uiState,
         eventSink = eventSink,
         modifier = modifier,
@@ -95,6 +97,7 @@ internal fun SharedTransitionScope.HomeScreen(
     animatedVisibilityScope: AnimatedVisibilityScope,
     listState: LazyListState,
     onViewItem: (FeedItem) -> Unit,
+    onOpenSettings: () -> Unit,
     uiState: HomeUiState,
     eventSink: (HomeUiEvent) -> Unit,
     modifier: Modifier = Modifier,
@@ -115,7 +118,7 @@ internal fun SharedTransitionScope.HomeScreen(
                 FilledIconButton(
                     KSIcons.Settings,
                     contentDescription = null,
-                    onClick = {},
+                    onClick = onOpenSettings,
                 )
             },
             bottomRow = {

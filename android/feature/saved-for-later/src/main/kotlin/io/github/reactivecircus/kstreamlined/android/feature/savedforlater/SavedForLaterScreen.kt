@@ -60,6 +60,7 @@ public fun SharedTransitionScope.SavedForLaterScreen(
     animatedVisibilityScope: AnimatedVisibilityScope,
     listState: LazyListState,
     onViewItem: (FeedItem) -> Unit,
+    onOpenSettings: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val viewModel = hiltViewModel<SavedForLaterViewModel>()
@@ -69,6 +70,7 @@ public fun SharedTransitionScope.SavedForLaterScreen(
         animatedVisibilityScope = animatedVisibilityScope,
         listState = listState,
         onViewItem = onViewItem,
+        onOpenSettings = onOpenSettings,
         uiState = uiState,
         eventSink = eventSink,
         modifier = modifier,
@@ -80,6 +82,7 @@ internal fun SharedTransitionScope.SavedForLaterScreen(
     animatedVisibilityScope: AnimatedVisibilityScope,
     listState: LazyListState,
     onViewItem: (FeedItem) -> Unit,
+    onOpenSettings: () -> Unit,
     uiState: SavedForLaterUiState,
     eventSink: (SavedForLaterUiEvent) -> Unit,
     modifier: Modifier = Modifier,
@@ -100,7 +103,7 @@ internal fun SharedTransitionScope.SavedForLaterScreen(
                 FilledIconButton(
                     KSIcons.Settings,
                     contentDescription = null,
-                    onClick = {},
+                    onClick = onOpenSettings,
                 )
             },
         )

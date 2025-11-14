@@ -13,8 +13,10 @@ import kotlin.time.toDuration
 public class SettingsDataSource(private val dataStore: DataStore<Preferences>) {
     public val appSettings: Flow<AppSettings> = dataStore.data.map { it.toData() }
 
-    public suspend fun updateAppSettings(appSettings: AppSettings) {
-        dataStore.updateData { appSettings.toPreferences(it.toMutablePreferences()) }
+    public suspend fun updateAppSettings(transform: suspend (appSettings: AppSettings) -> AppSettings) {
+        dataStore.updateData {
+            transform(it.toData()).toPreferences(it.toMutablePreferences())
+        }
     }
 
     private fun AppSettings.toPreferences(mutablePreferences: MutablePreferences): Preferences {

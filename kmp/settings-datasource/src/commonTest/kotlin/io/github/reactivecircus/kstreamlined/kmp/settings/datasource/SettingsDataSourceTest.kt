@@ -20,28 +20,47 @@ class SettingsDataSourceTest {
     }
 
     @Test
-    fun `appSettings Flow emits when updateAppSettings changes AppSettings in DataStore`() = runTest {
-        settingsDataSource.updateAppSettings(AppSettings.Default.copy(autoSync = false))
+    fun `appSettings Flow emits when updateAppSettings changes AppSettings in DataStore`() =
+        runTest {
+            settingsDataSource.updateAppSettings {
+                it.copy(autoSync = false)
+            }
 
-        settingsDataSource.appSettings.test {
-            assertEquals(AppSettings.Default.copy(autoSync = false), awaitItem())
+            settingsDataSource.appSettings.test {
+                assertEquals(AppSettings.Default.copy(autoSync = false), awaitItem())
 
-            val newAppSettings1 = AppSettings(
-                theme = AppSettings.Theme.Dark,
-                autoSync = true,
-                autoSyncInterval = 30.minutes,
-            )
-            settingsDataSource.updateAppSettings(newAppSettings1)
+                settingsDataSource.updateAppSettings {
+                    it.copy(
+                        theme = AppSettings.Theme.Dark,
+                        autoSync = true,
+                        autoSyncInterval = 30.minutes,
+                    )
+                }
 
-            val newAppSettings2 = AppSettings(
-                theme = AppSettings.Theme.Light,
-                autoSync = false,
-                autoSyncInterval = 1.hours,
-            )
-            settingsDataSource.updateAppSettings(newAppSettings2)
+                settingsDataSource.updateAppSettings {
+                    it.copy(
+                        theme = AppSettings.Theme.Light,
+                        autoSync = false,
+                        autoSyncInterval = 1.hours,
+                    )
+                }
 
-            assertEquals(newAppSettings1, awaitItem())
-            assertEquals(newAppSettings2, awaitItem())
+                assertEquals(
+                    AppSettings(
+                        theme = AppSettings.Theme.Dark,
+                        autoSync = true,
+                        autoSyncInterval = 30.minutes,
+                    ),
+                    awaitItem(),
+                )
+                assertEquals(
+                    AppSettings(
+                        theme = AppSettings.Theme.Light,
+                        autoSync = false,
+                        autoSyncInterval = 1.hours,
+                    ),
+                    awaitItem(),
+                )
+            }
         }
-    }
 }

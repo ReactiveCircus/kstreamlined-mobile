@@ -226,6 +226,7 @@ androidComponents {
 dependencies {
     implementation(project(":kmp:feed-datasource"))
     implementation(project(":kmp:feed-sync:runtime"))
+    implementation(project(":kmp:settings-datasource"))
     implementation(project(":kmp:database"))
     implementation(project(":kmp:network-monitor:runtime"))
     mockImplementation(project(":kmp:remote:mock"))
@@ -255,6 +256,7 @@ dependencies {
     implementation(libs.okhttp)
     implementation(libs.coil.svg)
     implementation(libs.coil.network)
+    implementation(libs.androidx.datastore.preferences)
     implementation(libs.sqldelight.androidDriver)
     debugImplementation(libs.leakcanary.android)
     implementation(libs.leakcanary.plumber)
