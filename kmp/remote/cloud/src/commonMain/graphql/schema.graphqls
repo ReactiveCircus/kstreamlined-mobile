@@ -1,3 +1,8 @@
+"""
+Built-in Boolean
+"""
+scalar Boolean
+
 interface FeedEntry {
   """
   Unique id of the feed entry.
@@ -63,6 +68,11 @@ enum FeedSourceKey {
 ISO 8601 instant.
 """
 scalar Instant
+
+"""
+Built-in Int
+"""
+scalar Int
 
 type KotlinBlog implements FeedEntry {
   """
@@ -235,6 +245,11 @@ type Query {
   _service: _Service!
 }
 
+"""
+Built-in String
+"""
+scalar String
+
 type TalkingKotlin implements FeedEntry {
   """
   Unique id of the feed entry.
@@ -277,6 +292,7 @@ type TalkingKotlin implements FeedEntry {
   duration: String!
 }
 
+""""""
 scalar _FieldSet
 
 type _Service {
@@ -565,7 +581,7 @@ directive @requires (fields: _FieldSet!) on FIELD_DEFINITION
 """
 Marks the field, argument, input field or enum value as deprecated
 """
-directive @deprecated ("The reason for the deprecation" reason: String = "No longer supported") on FIELD_DEFINITION|ARGUMENT_DEFINITION|ENUM_VALUE|INPUT_FIELD_DEFINITION
+directive @deprecated ("The reason for the deprecation" reason: String! = "No longer supported") on FIELD_DEFINITION|ARGUMENT_DEFINITION|ENUM_VALUE|INPUT_FIELD_DEFINITION
 
 """
 Exposes a URL that specifies the behaviour of this scalar.
@@ -576,6 +592,16 @@ directive @specifiedBy ("The URL that specifies the behaviour of this scalar." u
 Indicates an Input Object is a OneOf Input Object.
 """
 directive @oneOf on INPUT_OBJECT
+
+"""
+This directive allows results to be deferred during execution
+"""
+directive @defer ("Deferred behaviour is controlled by this argument" if: Boolean! = true, "A unique label that represents the fragment being deferred" label: String) on FRAGMENT_SPREAD|INLINE_FRAGMENT
+
+"""
+This directive disables error propagation when a non nullable field returns null for the given operation.
+"""
+directive @experimental_disableErrorPropagation on QUERY|MUTATION|SUBSCRIPTION
 
 schema {
   query: Query
