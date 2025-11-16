@@ -80,6 +80,7 @@ includeKmpProjects(
     ":kmp:presentation:home",
     ":kmp:presentation:kotlin-weekly-issue",
     ":kmp:presentation:saved-for-later",
+    ":kmp:presentation:settings",
     ":kmp:presentation:talking-kotlin-episode",
     ":kmp:pretty-time",
 )

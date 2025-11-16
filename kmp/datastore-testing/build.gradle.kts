@@ -13,7 +13,7 @@ kstreamlined {
 
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         dependencies {
-            implementation(libs.androidx.datastore.preferences)
+            api(libs.androidx.datastore.preferences)
             implementation(libs.okio.fakefilesystem)
         }
     }
