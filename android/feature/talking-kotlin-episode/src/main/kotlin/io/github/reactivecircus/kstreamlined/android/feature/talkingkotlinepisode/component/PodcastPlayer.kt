@@ -29,7 +29,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.media3.common.util.UnstableApi
 import coil3.compose.AsyncImage
 import io.github.reactivecircus.kstreamlined.android.foundation.composeutils.marqueeWithFadedEdges
@@ -158,7 +157,6 @@ internal fun PodcastPlayerUi(
                     text = episode.title,
                     style = KSTheme.typography.titleSmall.copy(
                         fontWeight = FontWeight.ExtraBold,
-                        letterSpacing = 0.sp,
                     ),
                     modifier = Modifier
                         .marqueeWithFadedEdges(

@@ -60,7 +60,7 @@ internal val LightColorScheme = KSColorScheme(
 )
 
 internal val DarkColorScheme = KSColorScheme(
-    primary = Palette.CandyGrapeFizz60,
+    primary = Palette.CandyGrapeFizz70,
     primaryDark = Palette.CandyGrapeFizz40,
     primaryLight = Palette.CandyGrapeFizz70,
     onPrimary = Palette.Lavender40,

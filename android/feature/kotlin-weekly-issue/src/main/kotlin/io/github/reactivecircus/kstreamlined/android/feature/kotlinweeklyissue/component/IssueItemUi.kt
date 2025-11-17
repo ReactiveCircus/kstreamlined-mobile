@@ -8,7 +8,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.Surface
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.Text
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.KSTheme
@@ -46,7 +45,6 @@ internal fun IssueItemUi(
                 text = item.source,
                 style = KSTheme.typography.labelLarge.copy(
                     fontWeight = FontWeight.ExtraBold,
-                    letterSpacing = 0.sp,
                 ),
                 color = KSTheme.colorScheme.primary,
             )
