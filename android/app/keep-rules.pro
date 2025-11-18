@@ -1,8 +1,5 @@
 -verbose
 
-# TODO remove once https://issuetracker.google.com/issues/445108426 is fixed
--keep class * extends androidx.room.RoomDatabase { void <init>(); }
-
 # Keep annotations with RUNTIME retention and their defaults.
 -keepattributes RuntimeVisible*Annotations, AnnotationDefault
 
@@ -55,22 +52,3 @@
    void traceEventStart(int,java.lang.String);
    void traceEventEnd();
 }
-
-# This is generated automatically by the Android Gradle plugin.
--dontwarn kotlinx.serialization.KSerializer
--dontwarn kotlinx.serialization.Serializable
--dontwarn kotlinx.serialization.descriptors.PrimitiveKind$STRING
--dontwarn kotlinx.serialization.descriptors.PrimitiveKind
--dontwarn kotlinx.serialization.descriptors.SerialDescriptor
--dontwarn kotlinx.serialization.descriptors.SerialDescriptorsKt
--dontwarn kotlinx.serialization.internal.AbstractPolymorphicSerializer
--dontwarn org.bouncycastle.jsse.BCSSLParameters
--dontwarn org.bouncycastle.jsse.BCSSLSocket
--dontwarn org.bouncycastle.jsse.provider.BouncyCastleJsseProvider
--dontwarn org.conscrypt.Conscrypt$Version
--dontwarn org.conscrypt.Conscrypt
--dontwarn org.conscrypt.ConscryptHostnameVerifier
--dontwarn org.openjsse.javax.net.ssl.SSLParameters
--dontwarn org.openjsse.javax.net.ssl.SSLSocket
--dontwarn org.openjsse.net.ssl.OpenJSSE
--dontwarn org.slf4j.impl.StaticLoggerBinder

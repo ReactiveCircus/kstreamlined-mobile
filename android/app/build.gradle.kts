@@ -112,9 +112,13 @@ android {
             } else {
                 signingConfigs.getByName("debug")
             }
-            isShrinkResources = true
-            isMinifyEnabled = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "shrinker-rules.pro")
+            @Suppress("UnstableApiUsage")
+            optimization {
+                enable = true
+                keepRules {
+                    files.addAll(getDefaultProguardFile("proguard-android-optimize.txt"), file("keep-rules.pro"))
+                }
+            }
 
             // only upload mapping file on CI
             configure<CrashlyticsExtension> {
