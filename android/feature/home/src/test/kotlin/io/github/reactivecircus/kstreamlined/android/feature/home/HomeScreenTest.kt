@@ -117,6 +117,7 @@ class HomeScreenTest {
                     animatedVisibilityScope = this,
                     listState = rememberLazyListState(),
                     onViewItem = {},
+                    onOpenSettings = {},
                     uiState = uiState,
                     eventSink = {},
                 )

@@ -1,9 +1,8 @@
 package io.github.reactivecircus.kstreamlined.android
 
-import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.os.Parcelable
-import android.provider.Settings
 import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.BackHandler
@@ -18,6 +17,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -25,36 +26,49 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import dagger.hilt.android.AndroidEntryPoint
+import io.github.reactivecircus.kstreamlined.android.NavDestination.ContentViewer
+import io.github.reactivecircus.kstreamlined.android.NavDestination.KotlinWeeklyIssue
+import io.github.reactivecircus.kstreamlined.android.NavDestination.Settings
+import io.github.reactivecircus.kstreamlined.android.NavDestination.TalkingKotlinEpisode
 import io.github.reactivecircus.kstreamlined.android.feature.contentviewer.ContentViewerScreen
 import io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue.KotlinWeeklyIssueScreen
+import io.github.reactivecircus.kstreamlined.android.feature.settings.SettingsScreen
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.TalkingKotlinEpisodeScreen
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
+import io.github.reactivecircus.kstreamlined.kmp.settings.datasource.SettingsDataSource
+import io.github.reactivecircus.kstreamlined.kmp.settings.model.AppSettings
 import kotlinx.parcelize.Parcelize
+import javax.inject.Inject
 
 @OptIn(ExperimentalSharedTransitionApi::class)
 @AndroidEntryPoint
 class KSActivity : ComponentActivity() {
+    @Inject
+    lateinit var settingsDataSource: SettingsDataSource
+
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
 
         super.onCreate(savedInstanceState)
 
-        enableEdgeToEdge()
-
         setContent {
-            KSTheme {
-                NavigationBarStyleEffect()
+            var theme by rememberSaveable { mutableStateOf(AppSettings.Theme.System) }
+            LaunchedEffect(Unit) {
+                settingsDataSource.appSettings.collect { theme = it.theme }
+            }
+
+            KSTheme(
+                darkTheme = theme.isDarkEffectively,
+            ) {
+                NavigationBarStyleEffect(theme)
 
                 var navDestination: NavDestination by rememberSaveable {
-                    mutableStateOf(
-                        NavDestination.Main,
-                    )
+                    mutableStateOf(NavDestination.Main)
                 }
 
                 var selectedNavItem by rememberSaveable { mutableStateOf(NavItemKey.Home) }
@@ -84,7 +98,7 @@ class KSActivity : ComponentActivity() {
                                     onViewItem = { item, source ->
                                         navDestination = when (item) {
                                             is FeedItem.KotlinWeekly -> {
-                                                NavDestination.KotlinWeeklyIssue(
+                                                KotlinWeeklyIssue(
                                                     boundKey = "Bounds/$source/${item.id}",
                                                     topBarBoundsKey = "Bounds/$source/TopBar",
                                                     titleElementKey = "Element/$source/TopBar/Title",
@@ -94,7 +108,7 @@ class KSActivity : ComponentActivity() {
                                             }
 
                                             is FeedItem.TalkingKotlin -> {
-                                                NavDestination.TalkingKotlinEpisode(
+                                                TalkingKotlinEpisode(
                                                     boundsKey = "Bounds/$source/${item.id}",
                                                     topBarBoundsKey = "Bounds/$source/TopBar",
                                                     playerElementKey = "Element/$source/${item.id}/player",
@@ -103,7 +117,7 @@ class KSActivity : ComponentActivity() {
                                             }
 
                                             else -> {
-                                                NavDestination.ContentViewer(
+                                                ContentViewer(
                                                     boundsKey = "Bounds/$source/${item.id}",
                                                     topBarBoundsKey = "Bounds/$source/TopBar",
                                                     saveButtonElementKey = "Element/$source/${item.id}/saveButton",
@@ -111,6 +125,11 @@ class KSActivity : ComponentActivity() {
                                                 )
                                             }
                                         }
+                                    },
+                                    onOpenSettings = {
+                                        navDestination = Settings(
+                                            boundsKey = "Bounds/Settings",
+                                        )
                                     },
                                 )
                             }
@@ -154,6 +173,16 @@ class KSActivity : ComponentActivity() {
                                     },
                                 )
                             }
+
+                            is NavDestination.Settings -> {
+                                SettingsScreen(
+                                    animatedVisibilityScope = this@AnimatedContent,
+                                    boundsKey = it.boundsKey,
+                                    onNavigateUp = {
+                                        navDestination = NavDestination.Main
+                                    },
+                                )
+                            }
                         }
                     }
                 }
@@ -164,6 +193,35 @@ class KSActivity : ComponentActivity() {
                 }
             }
         }
+    }
+}
+
+private val AppSettings.Theme.isDarkEffectively: Boolean
+    @Composable
+    @ReadOnlyComposable
+    get() = when (this) {
+        AppSettings.Theme.System -> isSystemInDarkTheme()
+        AppSettings.Theme.Light -> false
+        AppSettings.Theme.Dark -> true
+    }
+
+@Composable
+private fun ComponentActivity.NavigationBarStyleEffect(theme: AppSettings.Theme) {
+    val navigationBarColor = KSTheme.colorScheme.background.toArgb()
+    val isDarkEffectively = theme.isDarkEffectively
+    DisposableEffect(theme, isDarkEffectively) {
+        if (isDarkEffectively) {
+            enableEdgeToEdge(
+                statusBarStyle = SystemBarStyle.dark(Color.TRANSPARENT),
+                navigationBarStyle = SystemBarStyle.dark(navigationBarColor),
+            )
+        } else {
+            enableEdgeToEdge(
+                statusBarStyle = SystemBarStyle.light(Color.TRANSPARENT, Color.TRANSPARENT),
+                navigationBarStyle = SystemBarStyle.light(navigationBarColor, navigationBarColor),
+            )
+        }
+        onDispose { }
     }
 }
 
@@ -195,44 +253,9 @@ private sealed interface NavDestination : Parcelable {
         val playerElementKey: String,
         val id: String,
     ) : NavDestination
-}
 
-@Composable
-private fun ComponentActivity.NavigationBarStyleEffect() {
-    val darkTheme = isSystemInDarkTheme()
-    val context = LocalContext.current
-    val backgroundColor = KSTheme.colorScheme.background
-    DisposableEffect(darkTheme, context) {
-        if (SystemNavigationMode.of(context) != SystemNavigationMode.Gesture) {
-            val navigationBarColor = backgroundColor.toArgb()
-            enableEdgeToEdge(
-                navigationBarStyle = if (!darkTheme) {
-                    SystemBarStyle.light(
-                        navigationBarColor,
-                        navigationBarColor,
-                    )
-                } else {
-                    SystemBarStyle.dark(
-                        navigationBarColor,
-                    )
-                },
-            )
-        } else {
-            enableEdgeToEdge()
-        }
-        onDispose { }
-    }
-}
-
-private enum class SystemNavigationMode {
-    ThreeButton,
-    TwoButton,
-    Gesture,
-    ;
-
-    companion object {
-        fun of(context: Context) = entries.getOrNull(
-            Settings.Secure.getInt(context.contentResolver, "navigation_mode", -1),
-        )
-    }
+    @Parcelize
+    data class Settings(
+        val boundsKey: String,
+    ) : NavDestination
 }

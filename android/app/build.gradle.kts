@@ -226,6 +226,7 @@ androidComponents {
 dependencies {
     implementation(project(":kmp:feed-datasource"))
     implementation(project(":kmp:feed-sync:runtime"))
+    implementation(project(":kmp:settings-datasource"))
     implementation(project(":kmp:database"))
     implementation(project(":kmp:network-monitor:runtime"))
     mockImplementation(project(":kmp:remote:mock"))
@@ -237,6 +238,7 @@ dependencies {
     implementation(project(":feature:home"))
     implementation(project(":feature:kotlin-weekly-issue"))
     implementation(project(":feature:saved-for-later"))
+    implementation(project(":feature:settings"))
     implementation(project(":feature:talking-kotlin-episode"))
     implementation(project(":foundation:scheduled-work"))
     baselineProfile(project(":benchmark"))
@@ -255,6 +257,7 @@ dependencies {
     implementation(libs.okhttp)
     implementation(libs.coil.svg)
     implementation(libs.coil.network)
+    implementation(libs.androidx.datastore.preferences)
     implementation(libs.sqldelight.androidDriver)
     debugImplementation(libs.leakcanary.android)
     implementation(libs.leakcanary.plumber)

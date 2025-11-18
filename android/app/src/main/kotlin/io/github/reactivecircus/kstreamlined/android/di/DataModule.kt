@@ -13,6 +13,8 @@ import io.github.reactivecircus.kstreamlined.kmp.feed.sync.FeedSyncEngineImpl
 import io.github.reactivecircus.kstreamlined.kmp.networkmonitor.AndroidNetworkMonitor
 import io.github.reactivecircus.kstreamlined.kmp.networkmonitor.NetworkMonitor
 import io.github.reactivecircus.kstreamlined.kmp.remote.FeedService
+import io.github.reactivecircus.kstreamlined.kmp.settings.datasource.SettingsDataSource
+import io.github.reactivecircus.kstreamlined.kmp.settings.datasource.datastore.createAppSettingsDataStore
 import kotlinx.coroutines.CoroutineScope
 import javax.inject.Singleton
 
@@ -42,6 +44,14 @@ object DataModule {
             networkMonitor = networkMonitor,
             syncEngineScope = scope,
         )
+    }
+
+    @Provides
+    @Singleton
+    fun settingsDataSource(
+        @ApplicationContext context: Context,
+    ): SettingsDataSource {
+        return SettingsDataSource(dataStore = createAppSettingsDataStore(context))
     }
 
     @Provides

@@ -1,0 +1,29 @@
+package io.github.reactivecircus.kstreamlined.android.feature.settings.component
+
+import androidx.compose.foundation.layout.padding
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import app.cash.burst.Burst
+import io.github.reactivecircus.chameleon.runtime.Chameleon
+import io.github.reactivecircus.kstreamlined.android.foundation.screenshottesting.tester.SnapshotTester
+import io.github.reactivecircus.kstreamlined.kmp.settings.model.AppSettings
+import org.junit.Rule
+import org.junit.Test
+
+@Burst
+@Chameleon
+class ThemeSelectorTest {
+    @get:Rule
+    val snapshotTester = SnapshotTester()
+
+    @Test
+    fun snapshot_ThemeSelector() {
+        snapshotTester.snapshot {
+            ThemeSelector(
+                selectedTheme = AppSettings.Theme.System,
+                onSelectTheme = {},
+                modifier = Modifier.padding(24.dp),
+            )
+        }
+    }
+}

@@ -48,6 +48,7 @@ fun SharedTransitionScope.MainScreen(
     homeListState: LazyListState,
     savedListState: LazyListState,
     onViewItem: (item: FeedItem, source: NavItemKey) -> Unit,
+    onOpenSettings: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Box(modifier = modifier.fillMaxSize()) {
@@ -67,6 +68,7 @@ fun SharedTransitionScope.MainScreen(
                         animatedVisibilityScope = animatedVisibilityScope,
                         listState = homeListState,
                         onViewItem = { item -> onViewItem(item, NavItemKey.Home) },
+                        onOpenSettings = onOpenSettings,
                         modifier = Modifier.pagerScaleTransition(it, pagerState),
                     )
                 }
@@ -76,6 +78,7 @@ fun SharedTransitionScope.MainScreen(
                         animatedVisibilityScope = animatedVisibilityScope,
                         listState = savedListState,
                         onViewItem = { item -> onViewItem(item, NavItemKey.Saved) },
+                        onOpenSettings = onOpenSettings,
                         modifier = Modifier.pagerScaleTransition(it, pagerState),
                     )
                 }
