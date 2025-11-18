@@ -16,7 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
@@ -25,13 +25,12 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.color.LocalContentColor
-import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.icon.BookmarkAdd
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.icon.KSIcons
 
 @Composable
 @NonRestartableComposable
 public fun IconButton(
-    imageVector: ImageVector,
+    painter: Painter,
     contentDescription: String?,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -39,7 +38,7 @@ public fun IconButton(
     iconTint: Color = LocalContentColor.current,
 ) {
     IconButtonImpl(
-        imageVector = imageVector,
+        painter = painter,
         contentDescription = contentDescription,
         onClick = onClick,
         modifier = modifier,
@@ -53,7 +52,7 @@ public fun IconButton(
 @Composable
 @NonRestartableComposable
 public fun LargeIconButton(
-    imageVector: ImageVector,
+    painter: Painter,
     contentDescription: String?,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -61,7 +60,7 @@ public fun LargeIconButton(
     iconTint: Color = LocalContentColor.current,
 ) {
     IconButtonImpl(
-        imageVector = imageVector,
+        painter = painter,
         contentDescription = contentDescription,
         onClick = onClick,
         modifier = modifier,
@@ -74,7 +73,7 @@ public fun LargeIconButton(
 
 @Composable
 private fun IconButtonImpl(
-    imageVector: ImageVector,
+    painter: Painter,
     contentDescription: String?,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -101,7 +100,7 @@ private fun IconButtonImpl(
         contentAlignment = Alignment.Center,
     ) {
         Icon(
-            imageVector = imageVector,
+            painter = painter,
             contentDescription = contentDescription,
             modifier = Modifier.requiredSize(iconSize),
             tint = iconTint,
@@ -111,7 +110,7 @@ private fun IconButtonImpl(
 
 @Composable
 public fun FilledIconButton(
-    imageVector: ImageVector,
+    painter: Painter,
     contentDescription: String?,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -132,7 +131,7 @@ public fun FilledIconButton(
             contentAlignment = Alignment.Center,
         ) {
             Icon(
-                imageVector = imageVector,
+                painter = painter,
                 contentDescription = contentDescription,
                 modifier = Modifier.requiredSize(DefaultIconSize),
                 tint = iconTint,

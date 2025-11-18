@@ -1,35 +1,68 @@
 package io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.icon
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.KeyboardArrowRight
-import androidx.compose.material.icons.rounded.Close
-import androidx.compose.material.icons.rounded.KeyboardArrowDown
-import androidx.compose.material.icons.rounded.PlayArrow
-import androidx.compose.material.icons.rounded.Settings
-import androidx.compose.material.icons.rounded.Share
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.R
 
 public object KSIcons {
-    public val Close: ImageVector = Icons.Rounded.Close
-    public val Settings: ImageVector = Icons.Rounded.Settings
-    public val ArrowDown: ImageVector = Icons.Rounded.KeyboardArrowDown
-    public val ArrowRight: ImageVector = Icons.AutoMirrored.Rounded.KeyboardArrowRight
-    public val PlayArrow: ImageVector = Icons.Rounded.PlayArrow
-    public val Share: ImageVector = Icons.Rounded.Share
-
-    public val Mobile: Painter
+    public val ArrowDown: Painter
         @Composable
-        get() = painterResource(R.drawable.ic_mobile)
+        get() = painterResource(R.drawable.ic_arrow_down)
+
+    public val ArrowRight: Painter
+        @Composable
+        get() = painterResource(R.drawable.ic_arrow_right)
+
+    public val BookmarkAdd: Painter
+        @Composable
+        get() = painterResource(R.drawable.ic_bookmark_add)
+
+    public val BookmarkFill: Painter
+        @Composable
+        get() = painterResource(R.drawable.ic_bookmark_fill)
+
+    public val Bookmarks: Painter
+        @Composable
+        get() = painterResource(R.drawable.ic_bookmarks)
+
+    public val Close: Painter
+        @Composable
+        get() = painterResource(R.drawable.ic_close)
+
+    public val DarkMode: Painter
+        @Composable
+        get() = painterResource(R.drawable.ic_dark_mode)
+
+    public val Kotlin: Painter
+        @Composable
+        get() = painterResource(R.drawable.ic_kotlin)
 
     public val LightMode: Painter
         @Composable
         get() = painterResource(R.drawable.ic_light_mode)
 
-    public val DarkMode: Painter
+    public val Mobile: Painter
         @Composable
-        get() = painterResource(R.drawable.ic_dark_mode)
+        get() = painterResource(R.drawable.ic_mobile)
+
+    public val Pause: Painter
+        @Composable
+        get() = painterResource(R.drawable.ic_pause)
+
+    public val PlayArrow: Painter
+        @Composable
+        get() = painterResource(R.drawable.ic_play_arrow)
+
+    public val Settings: Painter
+        @Composable
+        get() = painterResource(R.drawable.ic_settings)
+
+    public val Share: Painter
+        @Composable
+        get() = painterResource(R.drawable.ic_share)
+
+    public val Sync: Painter
+        @Composable
+        get() = painterResource(R.drawable.ic_sync)
 }

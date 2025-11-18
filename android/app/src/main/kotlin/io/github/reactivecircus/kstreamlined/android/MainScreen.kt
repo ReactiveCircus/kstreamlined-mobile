@@ -33,9 +33,7 @@ import io.github.reactivecircus.kstreamlined.android.feature.savedforlater.Saved
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.NavigationIsland
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.NavigationIslandDivider
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.NavigationIslandItem
-import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.icon.Bookmarks
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.icon.KSIcons
-import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.icon.Kotlin
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
 import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
