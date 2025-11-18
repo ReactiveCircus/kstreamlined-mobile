@@ -82,7 +82,7 @@ private fun DismissButton(
         contentAlignment = Alignment.Center,
     ) {
         Icon(
-            imageVector = KSIcons.Close,
+            painter = KSIcons.Close,
             contentDescription = null,
             modifier = Modifier.requiredSize(20.dp),
         )

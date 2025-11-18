@@ -36,8 +36,6 @@ import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.com
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.Surface
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.Text
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.KSTheme
-import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.icon.BookmarkAdd
-import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.icon.BookmarkFill
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.icon.KSIcons
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.DisplayableFeedItem
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
@@ -151,7 +149,7 @@ private fun PlayIconOverlay(
         contentAlignment = Alignment.Center,
     ) {
         Icon(
-            imageVector = KSIcons.PlayArrow,
+            painter = KSIcons.PlayArrow,
             contentDescription = null,
             modifier = Modifier
                 .padding(8.dp)

@@ -23,7 +23,6 @@ import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.com
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.Text
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.icon.KSIcons
-import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.icon.Pause
 
 @Composable
 internal fun PlayPauseButton(
