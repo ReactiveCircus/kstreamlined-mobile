@@ -93,6 +93,7 @@ includeAndroidProjects(
     ":feature:home",
     ":feature:kotlin-weekly-issue",
     ":feature:saved-for-later",
+    ":feature:settings",
     ":feature:talking-kotlin-episode",
     ":foundation:common-ui:feed",
     ":foundation:designsystem",

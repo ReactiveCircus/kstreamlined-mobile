@@ -7,7 +7,11 @@ import androidx.compose.material.icons.rounded.KeyboardArrowDown
 import androidx.compose.material.icons.rounded.PlayArrow
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material.icons.rounded.Share
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
+import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.R
 
 public object KSIcons {
     public val Close: ImageVector = Icons.Rounded.Close
@@ -16,4 +20,16 @@ public object KSIcons {
     public val ArrowRight: ImageVector = Icons.AutoMirrored.Rounded.KeyboardArrowRight
     public val PlayArrow: ImageVector = Icons.Rounded.PlayArrow
     public val Share: ImageVector = Icons.Rounded.Share
+
+    public val Mobile: Painter
+        @Composable
+        get() = painterResource(R.drawable.ic_mobile)
+
+    public val LightMode: Painter
+        @Composable
+        get() = painterResource(R.drawable.ic_light_mode)
+
+    public val DarkMode: Painter
+        @Composable
+        get() = painterResource(R.drawable.ic_dark_mode)
 }

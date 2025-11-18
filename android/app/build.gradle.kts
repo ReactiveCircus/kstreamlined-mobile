@@ -238,6 +238,7 @@ dependencies {
     implementation(project(":feature:home"))
     implementation(project(":feature:kotlin-weekly-issue"))
     implementation(project(":feature:saved-for-later"))
+    implementation(project(":feature:settings"))
     implementation(project(":feature:talking-kotlin-episode"))
     implementation(project(":foundation:scheduled-work"))
     baselineProfile(project(":benchmark"))

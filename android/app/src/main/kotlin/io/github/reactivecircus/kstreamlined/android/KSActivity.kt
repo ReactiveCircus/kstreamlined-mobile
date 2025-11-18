@@ -21,7 +21,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -31,14 +30,18 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import dagger.hilt.android.AndroidEntryPoint
+import io.github.reactivecircus.kstreamlined.android.NavDestination.ContentViewer
+import io.github.reactivecircus.kstreamlined.android.NavDestination.KotlinWeeklyIssue
+import io.github.reactivecircus.kstreamlined.android.NavDestination.Settings
+import io.github.reactivecircus.kstreamlined.android.NavDestination.TalkingKotlinEpisode
 import io.github.reactivecircus.kstreamlined.android.feature.contentviewer.ContentViewerScreen
 import io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue.KotlinWeeklyIssueScreen
+import io.github.reactivecircus.kstreamlined.android.feature.settings.SettingsScreen
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.TalkingKotlinEpisodeScreen
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.settings.datasource.SettingsDataSource
 import io.github.reactivecircus.kstreamlined.kmp.settings.model.AppSettings
-import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
 import javax.inject.Inject
 
@@ -84,7 +87,6 @@ class KSActivity : ComponentActivity() {
                         contentAlignment = Alignment.Center,
                         label = "NavTransition",
                     ) {
-                        val scope = rememberCoroutineScope() // TODO remove
                         when (it) {
                             is NavDestination.Main -> {
                                 MainScreen(
@@ -96,7 +98,7 @@ class KSActivity : ComponentActivity() {
                                     onViewItem = { item, source ->
                                         navDestination = when (item) {
                                             is FeedItem.KotlinWeekly -> {
-                                                NavDestination.KotlinWeeklyIssue(
+                                                KotlinWeeklyIssue(
                                                     boundKey = "Bounds/$source/${item.id}",
                                                     topBarBoundsKey = "Bounds/$source/TopBar",
                                                     titleElementKey = "Element/$source/TopBar/Title",
@@ -106,7 +108,7 @@ class KSActivity : ComponentActivity() {
                                             }
 
                                             is FeedItem.TalkingKotlin -> {
-                                                NavDestination.TalkingKotlinEpisode(
+                                                TalkingKotlinEpisode(
                                                     boundsKey = "Bounds/$source/${item.id}",
                                                     topBarBoundsKey = "Bounds/$source/TopBar",
                                                     playerElementKey = "Element/$source/${item.id}/player",
@@ -115,7 +117,7 @@ class KSActivity : ComponentActivity() {
                                             }
 
                                             else -> {
-                                                NavDestination.ContentViewer(
+                                                ContentViewer(
                                                     boundsKey = "Bounds/$source/${item.id}",
                                                     topBarBoundsKey = "Bounds/$source/TopBar",
                                                     saveButtonElementKey = "Element/$source/${item.id}/saveButton",
@@ -125,18 +127,9 @@ class KSActivity : ComponentActivity() {
                                         }
                                     },
                                     onOpenSettings = {
-                                        // TODO move to settings screen
-                                        scope.launch {
-                                            settingsDataSource.updateAppSettings { current ->
-                                                current.copy(
-                                                    theme = when (current.theme) {
-                                                        AppSettings.Theme.System -> AppSettings.Theme.Light
-                                                        AppSettings.Theme.Light -> AppSettings.Theme.Dark
-                                                        AppSettings.Theme.Dark -> AppSettings.Theme.System
-                                                    },
-                                                )
-                                            }
-                                        }
+                                        navDestination = Settings(
+                                            boundsKey = "Bounds/Settings",
+                                        )
                                     },
                                 )
                             }
@@ -175,6 +168,16 @@ class KSActivity : ComponentActivity() {
                                     topBarBoundsKey = it.topBarBoundsKey,
                                     playerElementKey = it.playerElementKey,
                                     id = it.id,
+                                    onNavigateUp = {
+                                        navDestination = NavDestination.Main
+                                    },
+                                )
+                            }
+
+                            is NavDestination.Settings -> {
+                                SettingsScreen(
+                                    animatedVisibilityScope = this@AnimatedContent,
+                                    boundsKey = it.boundsKey,
                                     onNavigateUp = {
                                         navDestination = NavDestination.Main
                                     },
@@ -249,5 +252,10 @@ private sealed interface NavDestination : Parcelable {
         val topBarBoundsKey: String,
         val playerElementKey: String,
         val id: String,
+    ) : NavDestination
+
+    @Parcelize
+    data class Settings(
+        val boundsKey: String,
     ) : NavDestination
 }

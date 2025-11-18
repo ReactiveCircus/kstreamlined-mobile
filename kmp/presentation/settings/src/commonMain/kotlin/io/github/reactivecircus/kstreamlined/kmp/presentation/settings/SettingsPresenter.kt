@@ -13,7 +13,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.onStart
 
 public class SettingsPresenter(
     private val settingsDataSource: SettingsDataSource,
@@ -26,10 +25,7 @@ public class SettingsPresenter(
         var uiState by remember { mutableStateOf<SettingsUiState>(SettingsUiState.Loading) }
         LaunchedEffect(Unit) {
             settingsDataSource.appSettings
-                .onStart { uiState = SettingsUiState.Loading }
-                .onEach {
-                    uiState = SettingsUiState.Content(appSettings = it)
-                }
+                .onEach { uiState = SettingsUiState.Content(appSettings = it) }
                 .collect()
         }
         CollectEvent { event ->

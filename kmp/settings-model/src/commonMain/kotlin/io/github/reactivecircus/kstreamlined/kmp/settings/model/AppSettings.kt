@@ -9,9 +9,9 @@ public data class AppSettings(
     public val autoSyncInterval: Duration,
 ) {
     public enum class Theme {
+        System,
         Light,
         Dark,
-        System,
     }
 
     public companion object {
