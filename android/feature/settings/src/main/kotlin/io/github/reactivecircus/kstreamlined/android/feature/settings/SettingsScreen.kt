@@ -85,8 +85,6 @@ internal fun SharedTransitionScope.SettingsScreen(
     ) {
         TopNavBar(
             animatedVisibilityScope = animatedVisibilityScope,
-            boundsKey = "Bounds/Settings/TopBar",
-            titleElementKey = "Element/Settings/TopBar/Title",
             title = title,
             modifier = Modifier.zIndex(1f),
             contentPadding = WindowInsets.statusBars.asPaddingValues(),
