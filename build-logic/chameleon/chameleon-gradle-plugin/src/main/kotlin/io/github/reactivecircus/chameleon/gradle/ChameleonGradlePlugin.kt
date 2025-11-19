@@ -17,6 +17,11 @@ public class ChameleonGradlePlugin : KotlinCompilerPluginSupportPlugin {
     }
 
     override fun applyToCompilation(kotlinCompilation: KotlinCompilation<*>): Provider<List<SubpluginOption>> {
+        kotlinCompilation.compileTaskProvider.configure {
+            it.compilerOptions.freeCompilerArgs.add(
+                "-Xcompiler-plugin-order=$ChameleonCompilerPluginId>$BurstCompilerPluginId",
+            )
+        }
         val project = kotlinCompilation.target.project
         project.pluginManager.withPlugin("com.android.base") {
             if (project.plugins.hasPlugin(KotlinBaseApiPlugin::class.java)) {
@@ -47,7 +52,7 @@ public class ChameleonGradlePlugin : KotlinCompilerPluginSupportPlugin {
         }
     }
 
-    override fun getCompilerPluginId(): String = "io.github.reactivecircus.chameleon.compiler"
+    override fun getCompilerPluginId(): String = ChameleonCompilerPluginId
 
     override fun getPluginArtifact(): SubpluginArtifact {
         return SubpluginArtifact(
@@ -60,3 +65,6 @@ public class ChameleonGradlePlugin : KotlinCompilerPluginSupportPlugin {
     override fun isApplicable(kotlinCompilation: KotlinCompilation<*>): Boolean =
         kotlinCompilation.name.contains("test", ignoreCase = true)
 }
+
+private const val ChameleonCompilerPluginId = "io.github.reactivecircus.chameleon.compiler"
+private const val BurstCompilerPluginId = "app.cash.burst.kotlin"

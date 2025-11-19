@@ -59,6 +59,53 @@ class ChameleonGradlePluginTest {
     }
 
     @Test
+    fun `Chameleon plugin always runs before Burst plugin`() {
+        val project = TestFixture(
+            sources = listOf(
+                Source.kotlin(
+                    """
+                        package test
+                        
+                        import app.cash.burst.Burst
+                        import io.github.reactivecircus.chameleon.runtime.Chameleon
+                        import kotlin.test.Test
+                        
+                        @Burst
+                        @Chameleon
+                        class SampleTest {
+                            private val snapshotTester = SnapshotTester()
+                        
+                            @Test
+                            fun test() {
+                                snapshotTester.snapshot()
+                            }
+                        }
+                    """.trimIndent(),
+                )
+                    .withPath(
+                        packagePath = "test",
+                        className = "SampleTest",
+                    )
+                    .withSourceSet("test")
+                    .build(),
+                SnapshotTesterSource,
+            ),
+            applyBurstGradlePluginFirst = true,
+        ).build()
+
+        val result = build(project.rootDir, ":test")
+
+        assertEquals(TaskOutcome.SUCCESS, result.task(":test")?.outcome)
+
+        val reports = project.rootBuildDir().walkTopDown().filter {
+            it.isFile && it.path.contains("test-results/test/") && it.extension == "xml"
+        }.map { it.name }
+
+        assertContains(reports, "TEST-test.SampleTest_Light.xml")
+        assertContains(reports, "TEST-test.SampleTest_Dark.xml")
+    }
+
+    @Test
     fun `does not generate parameterized tests when snapshot function calls already have ThemeVariant argument`() {
         val project = TestFixture(
             sources = listOf(
