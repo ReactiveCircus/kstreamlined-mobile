@@ -5,13 +5,6 @@
     ],
     "packageRules": [
         {
-            "groupName": "Kotlin, KSP",
-            "matchPackagePrefixes": [
-                "org.jetbrains.kotlin",
-                "com.google.devtools.ksp",
-            ]
-        },
-        {
             "groupName": "Firebase",
             "matchPackagePrefixes": [
                 "com.google.firebase",
