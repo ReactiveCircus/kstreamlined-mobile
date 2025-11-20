@@ -27,44 +27,49 @@ internal fun ThemeSelector(
     onSelectTheme: (AppSettings.Theme) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Row(
+    Surface(
         modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(12.dp),
+        shape = CircleShape,
+        color = KSTheme.colorScheme.container,
     ) {
-        AppSettings.Theme.entries.forEach {
-            val selected = it == selectedTheme
-            val borderColor = KSTheme.colorScheme.primary
-            Surface(
-                onClick = { onSelectTheme(it) },
-                enabled = !selected,
-                shape = CircleShape,
-                color = KSTheme.colorScheme.container,
-                contentColor = KSTheme.colorScheme.primary,
-                border = if (selected) BorderStroke(2.dp, borderColor) else null,
-            ) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(
-                        painter = when (it) {
-                            AppSettings.Theme.System -> KSIcons.Mobile
-                            AppSettings.Theme.Light -> KSIcons.LightMode
-                            AppSettings.Theme.Dark -> KSIcons.DarkMode
-                        },
-                        contentDescription = null,
-                        modifier = Modifier
-                            .padding(start = 12.dp)
-                            .padding(vertical = 12.dp),
-                    )
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+        ) {
+            AppSettings.Theme.entries.forEach {
+                val selected = it == selectedTheme
+                val borderColor = KSTheme.colorScheme.primary
+                Surface(
+                    onClick = { onSelectTheme(it) },
+                    enabled = !selected,
+                    shape = CircleShape,
+                    color = KSTheme.colorScheme.container,
+                    contentColor = KSTheme.colorScheme.primary,
+                    border = if (selected) BorderStroke(2.dp, borderColor) else null,
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
+                            painter = when (it) {
+                                AppSettings.Theme.System -> KSIcons.Mobile
+                                AppSettings.Theme.Light -> KSIcons.LightMode
+                                AppSettings.Theme.Dark -> KSIcons.DarkMode
+                            },
+                            contentDescription = null,
+                            modifier = Modifier
+                                .padding(start = 12.dp)
+                                .padding(vertical = 12.dp),
+                        )
 
-                    Spacer(modifier = Modifier.width(8.dp))
+                        Spacer(modifier = Modifier.width(8.dp))
 
-                    Text(
-                        text = it.name.uppercase(),
-                        style = KSTheme.typography.labelMedium.copy(
-                            fontWeight = FontWeight.ExtraBold,
-                            letterSpacing = 0.1.sp,
-                        ),
-                        modifier = Modifier.padding(end = 16.dp),
-                    )
+                        Text(
+                            text = it.name.uppercase(),
+                            style = KSTheme.typography.labelMedium.copy(
+                                fontWeight = FontWeight.ExtraBold,
+                                letterSpacing = 0.1.sp,
+                            ),
+                            modifier = Modifier.padding(end = 16.dp),
+                        )
+                    }
                 }
             }
         }
