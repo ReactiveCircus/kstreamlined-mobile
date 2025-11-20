@@ -11,9 +11,11 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionLayout
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.layout.LazyLayoutCacheWindow
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -28,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
+import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import dagger.hilt.android.AndroidEntryPoint
 import io.github.reactivecircus.kstreamlined.android.NavDestination.ContentViewer
@@ -51,6 +54,7 @@ class KSActivity : ComponentActivity() {
     @Inject
     lateinit var settingsDataSource: SettingsDataSource
 
+    @OptIn(ExperimentalFoundationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
 
@@ -72,8 +76,10 @@ class KSActivity : ComponentActivity() {
                 }
 
                 var selectedNavItem by rememberSaveable { mutableStateOf(NavItemKey.Home) }
-                val homeListState = rememberLazyListState()
-                val savedListState = rememberLazyListState()
+
+                val dpCacheWindow = LazyLayoutCacheWindow(ahead = 300.dp, behind = 300.dp)
+                val homeListState = rememberLazyListState(cacheWindow = dpCacheWindow)
+                val savedListState = rememberLazyListState(cacheWindow = dpCacheWindow)
 
                 SharedTransitionLayout {
                     AnimatedContent(
