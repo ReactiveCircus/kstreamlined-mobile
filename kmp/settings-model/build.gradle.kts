@@ -13,7 +13,6 @@ kstreamlined {
 
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         dependencies {
-            // TODO check if stability annotations are needed
             implementation(libs.androidx.compose.runtimeAnnotation)
         }
     }

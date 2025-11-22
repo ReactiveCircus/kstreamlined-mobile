@@ -104,7 +104,7 @@ class KSActivity : ComponentActivity() {
                                     onViewItem = { item, source ->
                                         navDestination = when (item) {
                                             is FeedItem.KotlinWeekly -> {
-                                                KotlinWeeklyIssue(
+                                                NavDestination.KotlinWeeklyIssue(
                                                     boundKey = "Bounds/$source/${item.id}",
                                                     topBarBoundsKey = "Bounds/$source/TopBar",
                                                     titleElementKey = "Element/$source/TopBar/Title",
@@ -114,7 +114,7 @@ class KSActivity : ComponentActivity() {
                                             }
 
                                             is FeedItem.TalkingKotlin -> {
-                                                TalkingKotlinEpisode(
+                                                NavDestination.TalkingKotlinEpisode(
                                                     boundsKey = "Bounds/$source/${item.id}",
                                                     topBarBoundsKey = "Bounds/$source/TopBar",
                                                     playerElementKey = "Element/$source/${item.id}/player",
@@ -123,7 +123,7 @@ class KSActivity : ComponentActivity() {
                                             }
 
                                             else -> {
-                                                ContentViewer(
+                                                NavDestination.ContentViewer(
                                                     boundsKey = "Bounds/$source/${item.id}",
                                                     topBarBoundsKey = "Bounds/$source/TopBar",
                                                     saveButtonElementKey = "Element/$source/${item.id}/saveButton",
@@ -133,7 +133,7 @@ class KSActivity : ComponentActivity() {
                                         }
                                     },
                                     onOpenSettings = {
-                                        navDestination = Settings(
+                                        navDestination = NavDestination.Settings(
                                             boundsKey = "Bounds/Settings",
                                         )
                                     },

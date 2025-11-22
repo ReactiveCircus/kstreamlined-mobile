@@ -10,7 +10,6 @@ import app.cash.molecule.RecompositionMode
 import io.github.reactivecircus.kstreamlined.kmp.presentation.common.Presenter
 import io.github.reactivecircus.kstreamlined.kmp.settings.datasource.SettingsDataSource
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 
@@ -19,7 +18,6 @@ public class SettingsPresenter(
     scope: CoroutineScope,
     recompositionMode: RecompositionMode,
 ) : Presenter<SettingsUiEvent, SettingsUiState>(scope, recompositionMode) {
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Composable
     override fun present(): SettingsUiState {
         var uiState by remember { mutableStateOf<SettingsUiState>(SettingsUiState.Loading) }
