@@ -54,7 +54,7 @@ internal val LightColorScheme = KSColorScheme(
     onContainerInverse = Palette.Lavender20,
     outline = Palette.CandyDreams20,
     outlineVariant = Palette.CandyDreams10,
-    outlineInverse = Palette.MysteriousDepths40,
+    outlineInverse = Palette.MysteriousDepths50,
     gradient = listOf(
         Palette.CandyGrapeFizz50,
         Palette.PromiscuousPink50,
@@ -116,6 +116,7 @@ private object Palette {
     val CandyDreams20 = Color(0xFF_EDB3F7)
     val CandyDreams10 = Color(0xFF_D5A1DE)
 
+    val MysteriousDepths50 = Color(0XFF_A9ABB9)
     val MysteriousDepths40 = Color(0xFF_5A5E77)
     val MysteriousDepths30 = Color(0xFF_2C2F4E)
     val MysteriousDepths20 = Color(0xFF_18193A)
