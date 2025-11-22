@@ -26,6 +26,10 @@ public object KSIcons {
         @Composable
         get() = painterResource(R.drawable.ic_bookmarks)
 
+    public val Check: Painter
+        @Composable
+        get() = painterResource(R.drawable.ic_check)
+
     public val Close: Painter
         @Composable
         get() = painterResource(R.drawable.ic_close)

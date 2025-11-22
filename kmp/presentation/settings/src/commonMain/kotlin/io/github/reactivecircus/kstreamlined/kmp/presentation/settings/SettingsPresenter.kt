@@ -33,6 +33,12 @@ public class SettingsPresenter(
                         it.copy(theme = event.theme)
                     }
                 }
+
+                is SettingsUiEvent.ToggleAutoSync -> {
+                    settingsDataSource.updateAppSettings {
+                        it.copy(autoSync = !it.autoSync)
+                    }
+                }
             }
         }
         return uiState

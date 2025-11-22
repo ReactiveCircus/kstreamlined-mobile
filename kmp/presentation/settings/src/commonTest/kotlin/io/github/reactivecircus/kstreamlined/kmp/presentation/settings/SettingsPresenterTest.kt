@@ -25,16 +25,17 @@ class SettingsPresenterTest {
     )
 
     @Test
-    fun `presenter emits Loading state followed by Content state with current appSettings when initialized`() = testScope.runTest {
-        presenter.states.test {
-            assertEquals(SettingsUiState.Loading, awaitItem())
+    fun `presenter emits Loading state followed by Content state with current appSettings when initialized`() =
+        testScope.runTest {
+            presenter.states.test {
+                assertEquals(SettingsUiState.Loading, awaitItem())
 
-            assertEquals(SettingsUiState.Content(AppSettings.Default), awaitItem())
+                assertEquals(SettingsUiState.Content(AppSettings.Default), awaitItem())
+            }
         }
-    }
 
     @Test
-    fun `presenter emits Content state with new appSettings when SelectTheme event is dispatched`() {
+    fun `presenter emits Content state with updated appSettings when SelectTheme event is dispatched`() =
         testScope.runTest {
             presenter.states.test {
                 assertEquals(SettingsUiState.Loading, awaitItem())
@@ -60,5 +61,32 @@ class SettingsPresenterTest {
                 )
             }
         }
-    }
+
+    @Test
+    fun `presenter emits Content state with updated appSettings when ToggleAutoSync event is dispatched`() =
+        testScope.runTest {
+            presenter.states.test {
+                assertEquals(SettingsUiState.Loading, awaitItem())
+
+                assertEquals(SettingsUiState.Content(AppSettings.Default), awaitItem())
+
+                presenter.eventSink(SettingsUiEvent.ToggleAutoSync)
+
+                assertEquals(
+                    SettingsUiState.Content(
+                        AppSettings.Default.copy(autoSync = false),
+                    ),
+                    awaitItem(),
+                )
+
+                presenter.eventSink(SettingsUiEvent.ToggleAutoSync)
+
+                assertEquals(
+                    SettingsUiState.Content(
+                        AppSettings.Default.copy(autoSync = true),
+                    ),
+                    awaitItem(),
+                )
+            }
+        }
 }

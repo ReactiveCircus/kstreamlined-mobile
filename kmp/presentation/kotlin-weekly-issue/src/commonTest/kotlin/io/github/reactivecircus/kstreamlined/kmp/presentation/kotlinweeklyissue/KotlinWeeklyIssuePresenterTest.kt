@@ -83,7 +83,7 @@ class KotlinWeeklyIssuePresenterTest {
     )
 
     @Test
-    fun `presenter emits Content state when LoadIssue event is dispatched and loading issue succeeds`() {
+    fun `presenter emits Content state when LoadIssue event is dispatched and loading issue succeeds`() =
         testScope.runTest {
             presenter.states.test {
                 db.transaction {
@@ -107,10 +107,9 @@ class KotlinWeeklyIssuePresenterTest {
                 )
             }
         }
-    }
 
     @Test
-    fun `presenter emits Error state when LoadIssue event is dispatched and loading issue fails`() {
+    fun `presenter emits Error state when LoadIssue event is dispatched and loading issue fails`() =
         testScope.runTest {
             presenter.states.test {
                 db.transaction {
@@ -128,10 +127,9 @@ class KotlinWeeklyIssuePresenterTest {
                 assertEquals(KotlinWeeklyIssueUiState.Error, awaitItem())
             }
         }
-    }
 
     @Test
-    fun `presenter emits Error state when LoadIssue event is dispatched and item does not exist`() {
+    fun `presenter emits Error state when LoadIssue event is dispatched and item does not exist`() =
         testScope.runTest {
             presenter.states.test {
                 assertEquals(KotlinWeeklyIssueUiState.Loading, awaitItem())
@@ -141,10 +139,9 @@ class KotlinWeeklyIssuePresenterTest {
                 assertEquals(KotlinWeeklyIssueUiState.Error, awaitItem())
             }
         }
-    }
 
     @Test
-    fun `presenter emits Content state when current state is Error and loading issue again succeeds`() {
+    fun `presenter emits Content state when current state is Error and loading issue again succeeds`() =
         testScope.runTest {
             presenter.states.test {
                 db.transaction {
@@ -176,10 +173,9 @@ class KotlinWeeklyIssuePresenterTest {
                 )
             }
         }
-    }
 
     @Test
-    fun `presenter emits Content state with updated savedForLater value when ToggleSavedForLater event is dispatched`() {
+    fun `presenter emits Content state with updated savedForLater value when ToggleSavedForLater event is dispatched`() =
         testScope.runTest {
             presenter.states.test {
                 db.transaction {
@@ -225,5 +221,4 @@ class KotlinWeeklyIssuePresenterTest {
                 )
             }
         }
-    }
 }

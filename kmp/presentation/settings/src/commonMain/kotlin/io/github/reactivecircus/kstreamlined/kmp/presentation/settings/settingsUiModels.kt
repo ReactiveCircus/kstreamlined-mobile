@@ -14,4 +14,6 @@ public sealed interface SettingsUiState {
 
 public sealed interface SettingsUiEvent {
     public data class SelectTheme(val theme: AppSettings.Theme) : SettingsUiEvent
+
+    public data object ToggleAutoSync : SettingsUiEvent
 }
