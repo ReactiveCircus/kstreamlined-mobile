@@ -23,7 +23,13 @@ public class SettingsPresenter(
         var uiState by remember { mutableStateOf<SettingsUiState>(SettingsUiState.Loading) }
         LaunchedEffect(Unit) {
             settingsDataSource.appSettings
-                .onEach { uiState = SettingsUiState.Content(appSettings = it) }
+                .onEach {
+                    uiState = SettingsUiState.Content(
+                        theme = it.theme,
+                        autoSyncEnabled = it.autoSync,
+                        autoSyncInterval = AutoSyncInterval.from(it.autoSyncInterval),
+                    )
+                }
                 .collect()
         }
         CollectEvent { event ->
@@ -37,6 +43,12 @@ public class SettingsPresenter(
                 is SettingsUiEvent.ToggleAutoSync -> {
                     settingsDataSource.updateAppSettings {
                         it.copy(autoSync = !it.autoSync)
+                    }
+                }
+
+                is SettingsUiEvent.SelectSyncInterval -> {
+                    settingsDataSource.updateAppSettings {
+                        it.copy(autoSyncInterval = event.syncInterval.value)
                     }
                 }
             }

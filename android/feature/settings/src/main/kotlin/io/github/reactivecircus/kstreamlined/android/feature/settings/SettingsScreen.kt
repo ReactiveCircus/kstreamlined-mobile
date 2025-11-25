@@ -6,6 +6,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionScope
+import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -35,6 +36,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.tracing.trace
 import io.github.reactivecircus.kstreamlined.android.feature.settings.component.AutoSyncSwitch
+import io.github.reactivecircus.kstreamlined.android.feature.settings.component.SyncIntervalTile
 import io.github.reactivecircus.kstreamlined.android.feature.settings.component.ThemeSelector
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.HorizontalDivider
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.LargeIconButton
@@ -44,7 +46,6 @@ import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.fou
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.icon.KSIcons
 import io.github.reactivecircus.kstreamlined.kmp.presentation.settings.SettingsUiEvent
 import io.github.reactivecircus.kstreamlined.kmp.presentation.settings.SettingsUiState
-import io.github.reactivecircus.kstreamlined.kmp.settings.model.AppSettings
 
 @Composable
 public fun SharedTransitionScope.SettingsScreen(
@@ -107,7 +108,7 @@ internal fun SharedTransitionScope.SettingsScreen(
         ) {
             if (uiState is SettingsUiState.Content) {
                 ContentUi(
-                    appSettings = uiState.appSettings,
+                    state = uiState,
                     eventSink = eventSink,
                 )
             }
@@ -118,7 +119,7 @@ internal fun SharedTransitionScope.SettingsScreen(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun ContentUi(
-    appSettings: AppSettings,
+    state: SettingsUiState.Content,
     eventSink: (SettingsUiEvent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -139,7 +140,7 @@ private fun ContentUi(
             Spacer(modifier = Modifier.height(16.dp))
 
             ThemeSelector(
-                selectedTheme = appSettings.theme,
+                selectedTheme = state.theme,
                 onSelectTheme = { eventSink(SettingsUiEvent.SelectTheme(it)) },
             )
 
@@ -148,22 +149,33 @@ private fun ContentUi(
             HorizontalDivider()
         }
         item {
-            Text(
-                text = stringResource(R.string.section_heading_data_sync),
-                style = KSTheme.typography.labelLarge.copy(
-                    fontWeight = FontWeight.SemiBold,
-                ),
-                color = KSTheme.colorScheme.onBackgroundVariant,
-            )
+            Column(modifier = Modifier.animateContentSize()) {
+                Text(
+                    text = stringResource(R.string.section_heading_data_sync),
+                    style = KSTheme.typography.labelLarge.copy(
+                        fontWeight = FontWeight.SemiBold,
+                    ),
+                    color = KSTheme.colorScheme.onBackgroundVariant,
+                )
 
-            Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(16.dp))
 
-            AutoSyncSwitch(
-                selected = appSettings.autoSync,
-                onSelectedChange = { eventSink(SettingsUiEvent.ToggleAutoSync) },
-            )
+                AutoSyncSwitch(
+                    selected = state.autoSyncEnabled,
+                    onSelectedChange = { eventSink(SettingsUiEvent.ToggleAutoSync) },
+                )
 
-            Spacer(modifier = Modifier.height(24.dp))
+                Spacer(modifier = Modifier.height(4.dp))
+
+                if (state.autoSyncEnabled) {
+                    SyncIntervalTile(
+                        syncInterval = state.autoSyncInterval,
+                        onClick = {},
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(24.dp))
+            }
         }
     }
 }
