@@ -15,6 +15,7 @@ kstreamlined {
         dependencies {
             api(libs.androidx.datastore.preferences)
             implementation(libs.okio.fakefilesystem)
+            implementation(libs.kotlinx.coroutines.test)
         }
     }
 }
