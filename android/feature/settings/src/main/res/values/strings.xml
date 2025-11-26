@@ -6,9 +6,9 @@
     <string name="setting_auto_sync_title">Enable auto-sync</string>
     <string name="setting_auto_sync_description">Schedule automatic sync to keep your content up-to-date.</string>
     <string name="setting_sync_interval_title">Sync interval</string>
-    <string name="setting_sync_interval_description_hourly">Hourly</string>
-    <string name="setting_sync_interval_description_every_3_hours">Every 3 hours</string>
-    <string name="setting_sync_interval_description_every_6_hours">Every 6 hours</string>
-    <string name="setting_sync_interval_description_every_12_hours">Every 12 hours</string>
-    <string name="setting_sync_interval_description_daily">Daily</string>
+    <string name="sync_interval_option_hourly">Hourly</string>
+    <string name="sync_interval_option_every_3_hours">Every 3 hours</string>
+    <string name="sync_interval_option_every_6_hours">Every 6 hours</string>
+    <string name="sync_interval_option_every_12_hours">Every 12 hours</string>
+    <string name="sync_interval_option_daily">Daily</string>
 </resources>

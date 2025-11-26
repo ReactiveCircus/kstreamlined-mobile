@@ -27,6 +27,10 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -36,16 +40,20 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.tracing.trace
 import io.github.reactivecircus.kstreamlined.android.feature.settings.component.AutoSyncSwitch
+import io.github.reactivecircus.kstreamlined.android.feature.settings.component.SyncIntervalPicker
 import io.github.reactivecircus.kstreamlined.android.feature.settings.component.SyncIntervalTile
 import io.github.reactivecircus.kstreamlined.android.feature.settings.component.ThemeSelector
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.HorizontalDivider
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.LargeIconButton
+import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.ModalBottomSheet
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.Text
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.TopNavBar
+import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.rememberModalBottomSheetState
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.icon.KSIcons
 import io.github.reactivecircus.kstreamlined.kmp.presentation.settings.SettingsUiEvent
 import io.github.reactivecircus.kstreamlined.kmp.presentation.settings.SettingsUiState
+import kotlinx.coroutines.launch
 
 @Composable
 public fun SharedTransitionScope.SettingsScreen(
@@ -168,10 +176,34 @@ private fun ContentUi(
                 Spacer(modifier = Modifier.height(4.dp))
 
                 if (state.autoSyncEnabled) {
+                    var openSyncIntervalPicker by rememberSaveable { mutableStateOf(false) }
+
                     SyncIntervalTile(
-                        syncInterval = state.autoSyncInterval,
-                        onClick = {},
+                        selectedSyncInterval = state.autoSyncInterval,
+                        onClick = { openSyncIntervalPicker = true },
                     )
+
+                    val syncIntervalSheetState = rememberModalBottomSheetState()
+                    if (openSyncIntervalPicker) {
+                        val scope = rememberCoroutineScope()
+                        ModalBottomSheet(
+                            onDismissRequest = { openSyncIntervalPicker = false },
+                            sheetState = syncIntervalSheetState,
+                        ) {
+                            SyncIntervalPicker(
+                                selectedSyncInterval = state.autoSyncInterval,
+                                onSelectSyncInterval = {
+                                    scope.launch { syncIntervalSheetState.hide() }
+                                        .invokeOnCompletion {
+                                            if (!syncIntervalSheetState.isVisible) {
+                                                openSyncIntervalPicker = false
+                                            }
+                                        }
+                                    eventSink(SettingsUiEvent.SelectSyncInterval(it))
+                                },
+                            )
+                        }
+                    }
                 }
 
                 Spacer(modifier = Modifier.height(24.dp))

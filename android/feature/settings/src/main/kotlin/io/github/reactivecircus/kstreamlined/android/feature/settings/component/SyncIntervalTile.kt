@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -23,7 +24,7 @@ import io.github.reactivecircus.kstreamlined.kmp.presentation.settings.AutoSyncI
 
 @Composable
 internal fun SyncIntervalTile(
-    syncInterval: AutoSyncInterval,
+    selectedSyncInterval: AutoSyncInterval,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -50,23 +51,7 @@ internal fun SyncIntervalTile(
                 )
 
                 Text(
-                    text = when (syncInterval) {
-                        AutoSyncInterval.Hourly -> {
-                            stringResource(R.string.setting_sync_interval_description_hourly)
-                        }
-                        AutoSyncInterval.Every3Hours -> {
-                            stringResource(R.string.setting_sync_interval_description_every_3_hours)
-                        }
-                        AutoSyncInterval.Every6Hours -> {
-                            stringResource(R.string.setting_sync_interval_description_every_6_hours)
-                        }
-                        AutoSyncInterval.Every12Hours -> {
-                            stringResource(R.string.setting_sync_interval_description_every_12_hours)
-                        }
-                        AutoSyncInterval.Daily -> {
-                            stringResource(R.string.setting_sync_interval_description_daily)
-                        }
-                    },
+                    text = syncIntervalOptionLabel(selectedSyncInterval),
                     style = KSTheme.typography.labelMedium,
                 )
             }
@@ -81,12 +66,24 @@ internal fun SyncIntervalTile(
 }
 
 @Composable
+@ReadOnlyComposable
+internal fun syncIntervalOptionLabel(autoSyncInterval: AutoSyncInterval): String {
+    return when (autoSyncInterval) {
+        AutoSyncInterval.Hourly -> stringResource(R.string.sync_interval_option_hourly)
+        AutoSyncInterval.Every3Hours -> stringResource(R.string.sync_interval_option_every_3_hours)
+        AutoSyncInterval.Every6Hours -> stringResource(R.string.sync_interval_option_every_6_hours)
+        AutoSyncInterval.Every12Hours -> stringResource(R.string.sync_interval_option_every_12_hours)
+        AutoSyncInterval.Daily -> stringResource(R.string.sync_interval_option_daily)
+    }
+}
+
+@Composable
 @PreviewLightDark
 private fun PreviewSyncIntervalTile() {
     KSTheme {
         Surface {
             SyncIntervalTile(
-                syncInterval = AutoSyncInterval.Every6Hours,
+                selectedSyncInterval = AutoSyncInterval.Every6Hours,
                 onClick = {},
                 modifier = Modifier.padding(24.dp),
             )
