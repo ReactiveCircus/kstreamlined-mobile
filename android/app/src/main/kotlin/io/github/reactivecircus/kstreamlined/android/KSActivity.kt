@@ -33,10 +33,6 @@ import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import dagger.hilt.android.AndroidEntryPoint
-import io.github.reactivecircus.kstreamlined.android.NavDestination.ContentViewer
-import io.github.reactivecircus.kstreamlined.android.NavDestination.KotlinWeeklyIssue
-import io.github.reactivecircus.kstreamlined.android.NavDestination.Settings
-import io.github.reactivecircus.kstreamlined.android.NavDestination.TalkingKotlinEpisode
 import io.github.reactivecircus.kstreamlined.android.feature.contentviewer.ContentViewerScreen
 import io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue.KotlinWeeklyIssueScreen
 import io.github.reactivecircus.kstreamlined.android.feature.settings.SettingsScreen
@@ -101,13 +97,13 @@ class KSActivity : ComponentActivity() {
                                     onSelectedNavItemChanged = { item -> selectedNavItem = item },
                                     homeListState = homeListState,
                                     savedListState = savedListState,
-                                    onViewItem = { item, source ->
+                                    onViewItem = { item, origin ->
                                         navDestination = when (item) {
                                             is FeedItem.KotlinWeekly -> {
                                                 NavDestination.KotlinWeeklyIssue(
-                                                    boundKey = "Bounds/$source/${item.id}",
-                                                    topBarBoundsKey = "Bounds/$source/TopBar",
-                                                    titleElementKey = "Element/$source/TopBar/Title",
+                                                    boundsKey = "Bounds/$origin/${item.id}",
+                                                    topBarBoundsKey = "Bounds/$origin/TopBar",
+                                                    titleElementKey = "Element/$origin/TopBar/Title",
                                                     id = item.id,
                                                     issueNumber = item.issueNumber,
                                                 )
@@ -115,26 +111,27 @@ class KSActivity : ComponentActivity() {
 
                                             is FeedItem.TalkingKotlin -> {
                                                 NavDestination.TalkingKotlinEpisode(
-                                                    boundsKey = "Bounds/$source/${item.id}",
-                                                    topBarBoundsKey = "Bounds/$source/TopBar",
-                                                    playerElementKey = "Element/$source/${item.id}/player",
+                                                    boundsKey = "Bounds/$origin/${item.id}",
+                                                    topBarBoundsKey = "Bounds/$origin/TopBar",
+                                                    playerElementKey = "Element/$origin/${item.id}/player",
                                                     id = item.id,
                                                 )
                                             }
 
                                             else -> {
                                                 NavDestination.ContentViewer(
-                                                    boundsKey = "Bounds/$source/${item.id}",
-                                                    topBarBoundsKey = "Bounds/$source/TopBar",
-                                                    saveButtonElementKey = "Element/$source/${item.id}/saveButton",
+                                                    boundsKey = "Bounds/$origin/${item.id}",
+                                                    topBarBoundsKey = "Bounds/$origin/TopBar",
+                                                    saveButtonElementKey = "Element/$origin/${item.id}/saveButton",
                                                     id = item.id,
                                                 )
                                             }
                                         }
                                     },
-                                    onOpenSettings = {
+                                    onOpenSettings = { origin ->
                                         navDestination = NavDestination.Settings(
-                                            boundsKey = "Bounds/Settings",
+                                            topBarBoundsKey = "Bounds/$origin/TopBar",
+                                            titleElementKey = "Element/$origin/TopBar/Title",
                                         )
                                     },
                                 )
@@ -156,7 +153,7 @@ class KSActivity : ComponentActivity() {
                             is NavDestination.KotlinWeeklyIssue -> {
                                 KotlinWeeklyIssueScreen(
                                     animatedVisibilityScope = this@AnimatedContent,
-                                    boundsKey = it.boundKey,
+                                    boundsKey = it.boundsKey,
                                     topBarBoundsKey = it.topBarBoundsKey,
                                     titleElementKey = it.titleElementKey,
                                     id = it.id,
@@ -183,7 +180,8 @@ class KSActivity : ComponentActivity() {
                             is NavDestination.Settings -> {
                                 SettingsScreen(
                                     animatedVisibilityScope = this@AnimatedContent,
-                                    boundsKey = it.boundsKey,
+                                    topBarBoundsKey = it.topBarBoundsKey,
+                                    titleElementKey = it.titleElementKey,
                                     onNavigateUp = {
                                         navDestination = NavDestination.Main
                                     },
@@ -245,7 +243,7 @@ private sealed interface NavDestination : Parcelable {
 
     @Parcelize
     data class KotlinWeeklyIssue(
-        val boundKey: String,
+        val boundsKey: String,
         val topBarBoundsKey: String,
         val titleElementKey: String,
         val id: String,
@@ -262,6 +260,7 @@ private sealed interface NavDestination : Parcelable {
 
     @Parcelize
     data class Settings(
-        val boundsKey: String,
+        val topBarBoundsKey: String,
+        val titleElementKey: String,
     ) : NavDestination
 }

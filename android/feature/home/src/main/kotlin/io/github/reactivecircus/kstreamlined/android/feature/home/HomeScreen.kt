@@ -116,7 +116,7 @@ internal fun SharedTransitionScope.HomeScreen(
             contentPadding = WindowInsets.statusBars.asPaddingValues(),
             actions = {
                 FilledIconButton(
-                    KSIcons.Settings,
+                    painter = KSIcons.Settings,
                     contentDescription = null,
                     onClick = onOpenSettings,
                 )

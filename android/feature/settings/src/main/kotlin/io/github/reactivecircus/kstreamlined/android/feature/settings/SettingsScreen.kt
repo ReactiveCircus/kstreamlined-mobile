@@ -58,7 +58,8 @@ import kotlinx.coroutines.launch
 @Composable
 public fun SharedTransitionScope.SettingsScreen(
     animatedVisibilityScope: AnimatedVisibilityScope,
-    boundsKey: String,
+    topBarBoundsKey: String,
+    titleElementKey: String,
     onNavigateUp: () -> Unit,
     modifier: Modifier = Modifier,
 ): Unit = trace("Screen:Settings") {
@@ -69,19 +70,20 @@ public fun SharedTransitionScope.SettingsScreen(
     val title = stringResource(id = R.string.title_settings)
     SettingsScreen(
         animatedVisibilityScope = animatedVisibilityScope,
+        topBarBoundsKey = topBarBoundsKey,
+        titleElementKey = titleElementKey,
         title = title,
         onNavigateUp = onNavigateUp,
         uiState = uiState,
         eventSink = eventSink,
-        modifier = modifier.sharedBounds(
-            rememberSharedContentState(key = boundsKey),
-            animatedVisibilityScope = animatedVisibilityScope,
-        ),
+        modifier = modifier,
     )
 }
 
 @Composable
 internal fun SharedTransitionScope.SettingsScreen(
+    topBarBoundsKey: String,
+    titleElementKey: String,
     title: String,
     onNavigateUp: () -> Unit,
     uiState: SettingsUiState,
@@ -97,6 +99,8 @@ internal fun SharedTransitionScope.SettingsScreen(
     ) {
         TopNavBar(
             animatedVisibilityScope = animatedVisibilityScope,
+            boundsKey = topBarBoundsKey,
+            titleElementKey = titleElementKey,
             title = title,
             modifier = Modifier.zIndex(1f),
             contentPadding = WindowInsets.statusBars.asPaddingValues(),
