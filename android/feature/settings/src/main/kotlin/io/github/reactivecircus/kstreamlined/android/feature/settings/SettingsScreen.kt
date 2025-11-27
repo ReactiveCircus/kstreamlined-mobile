@@ -67,12 +67,10 @@ public fun SharedTransitionScope.SettingsScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val eventSink = viewModel.eventSink
 
-    val title = stringResource(id = R.string.title_settings)
     SettingsScreen(
         animatedVisibilityScope = animatedVisibilityScope,
         topBarBoundsKey = topBarBoundsKey,
         titleElementKey = titleElementKey,
-        title = title,
         onNavigateUp = onNavigateUp,
         uiState = uiState,
         eventSink = eventSink,
@@ -84,7 +82,6 @@ public fun SharedTransitionScope.SettingsScreen(
 internal fun SharedTransitionScope.SettingsScreen(
     topBarBoundsKey: String,
     titleElementKey: String,
-    title: String,
     onNavigateUp: () -> Unit,
     uiState: SettingsUiState,
     eventSink: (SettingsUiEvent) -> Unit,
@@ -101,7 +98,7 @@ internal fun SharedTransitionScope.SettingsScreen(
             animatedVisibilityScope = animatedVisibilityScope,
             boundsKey = topBarBoundsKey,
             titleElementKey = titleElementKey,
-            title = title,
+            title = stringResource(id = R.string.title_settings),
             modifier = Modifier.zIndex(1f),
             contentPadding = WindowInsets.statusBars.asPaddingValues(),
             navigationIcon = {
