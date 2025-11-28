@@ -17,10 +17,12 @@ class ThemeSelectorTest {
     val snapshotTester = SnapshotTester()
 
     @Test
-    fun snapshot_ThemeSelector() {
+    fun snapshot_ThemeSelector(
+        selectedTheme: AppSettings.Theme,
+    ) {
         snapshotTester.snapshot {
             ThemeSelector(
-                selectedTheme = AppSettings.Theme.System,
+                selectedTheme = selectedTheme,
                 onSelectTheme = {},
                 modifier = Modifier.padding(24.dp),
             )

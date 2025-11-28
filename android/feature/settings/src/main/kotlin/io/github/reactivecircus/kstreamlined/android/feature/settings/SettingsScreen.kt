@@ -6,10 +6,12 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionScope
+import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -25,28 +27,39 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.tracing.trace
+import io.github.reactivecircus.kstreamlined.android.feature.settings.component.AutoSyncSwitch
+import io.github.reactivecircus.kstreamlined.android.feature.settings.component.SyncIntervalPicker
+import io.github.reactivecircus.kstreamlined.android.feature.settings.component.SyncIntervalTile
 import io.github.reactivecircus.kstreamlined.android.feature.settings.component.ThemeSelector
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.HorizontalDivider
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.LargeIconButton
+import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.ModalBottomSheet
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.Text
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.TopNavBar
+import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.rememberModalBottomSheetState
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.icon.KSIcons
 import io.github.reactivecircus.kstreamlined.kmp.presentation.settings.SettingsUiEvent
 import io.github.reactivecircus.kstreamlined.kmp.presentation.settings.SettingsUiState
-import io.github.reactivecircus.kstreamlined.kmp.settings.model.AppSettings
+import kotlinx.coroutines.launch
 
 @Composable
 public fun SharedTransitionScope.SettingsScreen(
     animatedVisibilityScope: AnimatedVisibilityScope,
-    boundsKey: String,
+    topBarBoundsKey: String,
+    titleElementKey: String,
     onNavigateUp: () -> Unit,
     modifier: Modifier = Modifier,
 ): Unit = trace("Screen:Settings") {
@@ -54,23 +67,21 @@ public fun SharedTransitionScope.SettingsScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val eventSink = viewModel.eventSink
 
-    val title = stringResource(id = R.string.title_settings)
     SettingsScreen(
         animatedVisibilityScope = animatedVisibilityScope,
-        title = title,
+        topBarBoundsKey = topBarBoundsKey,
+        titleElementKey = titleElementKey,
         onNavigateUp = onNavigateUp,
         uiState = uiState,
         eventSink = eventSink,
-        modifier = modifier.sharedBounds(
-            rememberSharedContentState(key = boundsKey),
-            animatedVisibilityScope = animatedVisibilityScope,
-        ),
+        modifier = modifier,
     )
 }
 
 @Composable
 internal fun SharedTransitionScope.SettingsScreen(
-    title: String,
+    topBarBoundsKey: String,
+    titleElementKey: String,
     onNavigateUp: () -> Unit,
     uiState: SettingsUiState,
     eventSink: (SettingsUiEvent) -> Unit,
@@ -85,7 +96,9 @@ internal fun SharedTransitionScope.SettingsScreen(
     ) {
         TopNavBar(
             animatedVisibilityScope = animatedVisibilityScope,
-            title = title,
+            boundsKey = topBarBoundsKey,
+            titleElementKey = titleElementKey,
+            title = stringResource(id = R.string.title_settings),
             modifier = Modifier.zIndex(1f),
             contentPadding = WindowInsets.statusBars.asPaddingValues(),
             navigationIcon = {
@@ -104,7 +117,7 @@ internal fun SharedTransitionScope.SettingsScreen(
         ) {
             if (uiState is SettingsUiState.Content) {
                 ContentUi(
-                    appSettings = uiState.appSettings,
+                    state = uiState,
                     eventSink = eventSink,
                 )
             }
@@ -115,31 +128,87 @@ internal fun SharedTransitionScope.SettingsScreen(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun ContentUi(
-    appSettings: AppSettings,
+    state: SettingsUiState.Content,
     eventSink: (SettingsUiEvent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(
         modifier = modifier.fillMaxSize(),
         contentPadding = PaddingValues(24.dp),
+        verticalArrangement = Arrangement.spacedBy(24.dp),
     ) {
         item {
             Text(
-                text = stringResource(R.string.setting_title_appearance),
-                style = KSTheme.typography.titleMedium,
+                text = stringResource(R.string.section_heading_appearance),
+                style = KSTheme.typography.labelLarge.copy(
+                    fontWeight = FontWeight.SemiBold,
+                ),
                 color = KSTheme.colorScheme.onBackgroundVariant,
             )
 
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
             ThemeSelector(
-                selectedTheme = appSettings.theme,
+                selectedTheme = state.theme,
                 onSelectTheme = { eventSink(SettingsUiEvent.SelectTheme(it)) },
             )
 
             Spacer(modifier = Modifier.height(24.dp))
 
             HorizontalDivider()
+        }
+        item {
+            Column(modifier = Modifier.animateContentSize()) {
+                Text(
+                    text = stringResource(R.string.section_heading_data_sync),
+                    style = KSTheme.typography.labelLarge.copy(
+                        fontWeight = FontWeight.SemiBold,
+                    ),
+                    color = KSTheme.colorScheme.onBackgroundVariant,
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                AutoSyncSwitch(
+                    selected = state.autoSyncEnabled,
+                    onSelectedChange = { eventSink(SettingsUiEvent.ToggleAutoSync) },
+                )
+
+                Spacer(modifier = Modifier.height(4.dp))
+
+                if (state.autoSyncEnabled) {
+                    var openSyncIntervalPicker by rememberSaveable { mutableStateOf(false) }
+
+                    SyncIntervalTile(
+                        selectedSyncInterval = state.autoSyncInterval,
+                        onClick = { openSyncIntervalPicker = true },
+                    )
+
+                    val syncIntervalSheetState = rememberModalBottomSheetState()
+                    if (openSyncIntervalPicker) {
+                        val scope = rememberCoroutineScope()
+                        ModalBottomSheet(
+                            onDismissRequest = { openSyncIntervalPicker = false },
+                            sheetState = syncIntervalSheetState,
+                        ) {
+                            SyncIntervalPicker(
+                                selectedSyncInterval = state.autoSyncInterval,
+                                onSelectSyncInterval = {
+                                    scope.launch { syncIntervalSheetState.hide() }
+                                        .invokeOnCompletion {
+                                            if (!syncIntervalSheetState.isVisible) {
+                                                openSyncIntervalPicker = false
+                                            }
+                                        }
+                                    eventSink(SettingsUiEvent.SelectSyncInterval(it))
+                                },
+                            )
+                        }
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(24.dp))
+            }
         }
     }
 }

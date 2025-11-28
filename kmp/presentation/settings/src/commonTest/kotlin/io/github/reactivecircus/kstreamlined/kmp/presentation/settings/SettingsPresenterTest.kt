@@ -25,27 +25,44 @@ class SettingsPresenterTest {
     )
 
     @Test
-    fun `presenter emits Loading state followed by Content state with current appSettings when initialized`() = testScope.runTest {
-        presenter.states.test {
-            assertEquals(SettingsUiState.Loading, awaitItem())
-
-            assertEquals(SettingsUiState.Content(AppSettings.Default), awaitItem())
-        }
-    }
-
-    @Test
-    fun `presenter emits Content state with new appSettings when SelectTheme event is dispatched`() {
+    fun `presenter emits Loading state followed by Content state with current app settings when initialized`() =
         testScope.runTest {
             presenter.states.test {
                 assertEquals(SettingsUiState.Loading, awaitItem())
 
-                assertEquals(SettingsUiState.Content(AppSettings.Default), awaitItem())
+                assertEquals(
+                    SettingsUiState.Content(
+                        theme = AppSettings.Default.theme,
+                        autoSyncEnabled = AppSettings.Default.autoSync,
+                        autoSyncInterval = AutoSyncInterval.Default,
+                    ),
+                    awaitItem(),
+                )
+            }
+        }
+
+    @Test
+    fun `presenter emits Content state with updated app settings when SelectTheme event is dispatched`() =
+        testScope.runTest {
+            presenter.states.test {
+                assertEquals(SettingsUiState.Loading, awaitItem())
+
+                assertEquals(
+                    SettingsUiState.Content(
+                        theme = AppSettings.Default.theme,
+                        autoSyncEnabled = AppSettings.Default.autoSync,
+                        autoSyncInterval = AutoSyncInterval.Default,
+                    ),
+                    awaitItem(),
+                )
 
                 presenter.eventSink(SettingsUiEvent.SelectTheme(AppSettings.Theme.Light))
 
                 assertEquals(
                     SettingsUiState.Content(
-                        AppSettings.Default.copy(theme = AppSettings.Theme.Light),
+                        theme = AppSettings.Theme.Light,
+                        autoSyncEnabled = AppSettings.Default.autoSync,
+                        autoSyncInterval = AutoSyncInterval.Default,
                     ),
                     awaitItem(),
                 )
@@ -54,11 +71,92 @@ class SettingsPresenterTest {
 
                 assertEquals(
                     SettingsUiState.Content(
-                        AppSettings.Default.copy(theme = AppSettings.Theme.Dark),
+                        theme = AppSettings.Theme.Dark,
+                        autoSyncEnabled = AppSettings.Default.autoSync,
+                        autoSyncInterval = AutoSyncInterval.from(
+                            AppSettings.Default.autoSyncInterval,
+                        ),
                     ),
                     awaitItem(),
                 )
             }
         }
-    }
+
+    @Test
+    fun `presenter emits Content state with updated app settings when ToggleAutoSync event is dispatched`() =
+        testScope.runTest {
+            presenter.states.test {
+                assertEquals(SettingsUiState.Loading, awaitItem())
+
+                assertEquals(
+                    SettingsUiState.Content(
+                        theme = AppSettings.Default.theme,
+                        autoSyncEnabled = AppSettings.Default.autoSync,
+                        autoSyncInterval = AutoSyncInterval.Default,
+                    ),
+                    awaitItem(),
+                )
+
+                presenter.eventSink(SettingsUiEvent.ToggleAutoSync)
+
+                assertEquals(
+                    SettingsUiState.Content(
+                        theme = AppSettings.Default.theme,
+                        autoSyncEnabled = false,
+                        autoSyncInterval = AutoSyncInterval.Default,
+                    ),
+                    awaitItem(),
+                )
+
+                presenter.eventSink(SettingsUiEvent.ToggleAutoSync)
+
+                assertEquals(
+                    SettingsUiState.Content(
+                        theme = AppSettings.Default.theme,
+                        autoSyncEnabled = true,
+                        autoSyncInterval = AutoSyncInterval.Default,
+                    ),
+                    awaitItem(),
+                )
+            }
+        }
+
+    @Test
+    fun `presenter emits Content state with updated app settings when SelectSyncInterval event is dispatched`() =
+        testScope.runTest {
+            presenter.states.test {
+                assertEquals(SettingsUiState.Loading, awaitItem())
+
+                assertEquals(
+                    SettingsUiState.Content(
+                        theme = AppSettings.Default.theme,
+                        autoSyncEnabled = AppSettings.Default.autoSync,
+                        autoSyncInterval = AutoSyncInterval.Default,
+                    ),
+                    awaitItem(),
+                )
+
+                presenter.eventSink(SettingsUiEvent.SelectSyncInterval(AutoSyncInterval.Hourly))
+
+                assertEquals(
+                    SettingsUiState.Content(
+                        theme = AppSettings.Default.theme,
+                        autoSyncEnabled = AppSettings.Default.autoSync,
+                        autoSyncInterval = AutoSyncInterval.Hourly,
+                    ),
+                    awaitItem(),
+                )
+
+                presenter.eventSink(SettingsUiEvent.SelectSyncInterval(AutoSyncInterval.Daily))
+
+                assertEquals(
+                    SettingsUiState.Content(
+                        theme = AppSettings.Default.theme,
+                        autoSyncEnabled = AppSettings.Default.autoSync,
+                        autoSyncInterval = AutoSyncInterval.Daily,
+                    ),
+                    awaitItem(),
+                )
+            }
+        }
 }

@@ -101,7 +101,7 @@ internal fun SharedTransitionScope.SavedForLaterScreen(
             contentPadding = WindowInsets.statusBars.asPaddingValues(),
             actions = {
                 FilledIconButton(
-                    KSIcons.Settings,
+                    painter = KSIcons.Settings,
                     contentDescription = null,
                     onClick = onOpenSettings,
                 )
