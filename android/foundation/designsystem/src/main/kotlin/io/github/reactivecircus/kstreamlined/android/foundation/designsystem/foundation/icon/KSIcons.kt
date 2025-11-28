@@ -34,13 +34,25 @@ public object KSIcons {
         @Composable
         get() = painterResource(R.drawable.ic_close)
 
+    public val Code: Painter
+        @Composable
+        get() = painterResource(R.drawable.ic_code)
+
     public val DarkMode: Painter
         @Composable
         get() = painterResource(R.drawable.ic_dark_mode)
 
+    public val Info: Painter
+        @Composable
+        get() = painterResource(R.drawable.ic_info)
+
     public val Kotlin: Painter
         @Composable
         get() = painterResource(R.drawable.ic_kotlin)
+
+    public val License: Painter
+        @Composable
+        get() = painterResource(R.drawable.ic_bookmark_stacks)
 
     public val LightMode: Painter
         @Composable

@@ -1,4 +1,4 @@
-package io.github.reactivecircus.kstreamlined.android.feature.settings.component
+package io.github.reactivecircus.kstreamlined.android.feature.settings.component.sync
 
 import app.cash.burst.Burst
 import io.github.reactivecircus.chameleon.runtime.Chameleon

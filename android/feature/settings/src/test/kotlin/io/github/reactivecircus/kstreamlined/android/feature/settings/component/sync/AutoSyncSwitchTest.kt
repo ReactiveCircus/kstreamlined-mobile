@@ -1,4 +1,4 @@
-package io.github.reactivecircus.kstreamlined.android.feature.settings.component
+package io.github.reactivecircus.kstreamlined.android.feature.settings.component.sync
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Modifier

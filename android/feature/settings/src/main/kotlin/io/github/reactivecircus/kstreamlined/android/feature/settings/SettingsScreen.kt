@@ -39,11 +39,13 @@ import androidx.compose.ui.zIndex
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.tracing.trace
-import io.github.reactivecircus.kstreamlined.android.feature.settings.component.AutoSyncSwitch
-import io.github.reactivecircus.kstreamlined.android.feature.settings.component.SyncIntervalPicker
-import io.github.reactivecircus.kstreamlined.android.feature.settings.component.SyncIntervalTile
-import io.github.reactivecircus.kstreamlined.android.feature.settings.component.ThemeSelector
-import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.HorizontalDivider
+import io.github.reactivecircus.kstreamlined.android.feature.settings.component.about.OpenSourceLicensesTile
+import io.github.reactivecircus.kstreamlined.android.feature.settings.component.about.SourceCodeTile
+import io.github.reactivecircus.kstreamlined.android.feature.settings.component.about.VersionTile
+import io.github.reactivecircus.kstreamlined.android.feature.settings.component.sync.AutoSyncSwitch
+import io.github.reactivecircus.kstreamlined.android.feature.settings.component.sync.SyncIntervalPicker
+import io.github.reactivecircus.kstreamlined.android.feature.settings.component.sync.SyncIntervalTile
+import io.github.reactivecircus.kstreamlined.android.feature.settings.component.theme.ThemeSelector
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.LargeIconButton
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.ModalBottomSheet
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.Text
@@ -153,9 +155,7 @@ private fun ContentUi(
                 onSelectTheme = { eventSink(SettingsUiEvent.SelectTheme(it)) },
             )
 
-            Spacer(modifier = Modifier.height(24.dp))
-
-            HorizontalDivider()
+            Spacer(modifier = Modifier.height(20.dp))
         }
         item {
             Column(modifier = Modifier.animateContentSize()) {
@@ -206,9 +206,35 @@ private fun ContentUi(
                         }
                     }
                 }
-
-                Spacer(modifier = Modifier.height(24.dp))
             }
+
+            Spacer(modifier = Modifier.height(20.dp))
+        }
+        item {
+            Text(
+                text = stringResource(R.string.section_heading_about),
+                style = KSTheme.typography.labelLarge.copy(
+                    fontWeight = FontWeight.SemiBold,
+                ),
+                color = KSTheme.colorScheme.onBackgroundVariant,
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // TODO inject source code url
+            SourceCodeTile(sourceCodeUrl = "https://github.com/ReactiveCircus/kstreamlined-mobile")
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // TODO show licenses
+            OpenSourceLicensesTile(onClick = {})
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // TODO inject version
+            VersionTile(version = "android-0.3.0 (4c52de9)")
+
+            Spacer(modifier = Modifier.height(20.dp))
         }
     }
 }

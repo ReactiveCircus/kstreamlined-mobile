@@ -1,4 +1,4 @@
-package io.github.reactivecircus.kstreamlined.android.feature.settings.component
+package io.github.reactivecircus.kstreamlined.android.feature.settings.component.theme
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.border

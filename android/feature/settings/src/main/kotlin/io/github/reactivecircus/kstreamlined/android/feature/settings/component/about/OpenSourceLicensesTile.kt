@@ -1,6 +1,5 @@
-package io.github.reactivecircus.kstreamlined.android.feature.settings.component
+package io.github.reactivecircus.kstreamlined.android.feature.settings.component.about
 
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -8,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -16,31 +14,31 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import io.github.reactivecircus.kstreamlined.android.feature.settings.R
+import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.Icon
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.Surface
-import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.Switch
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.Text
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.KSTheme
+import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.icon.KSIcons
 
 @Composable
-internal fun AutoSyncSwitch(
-    selected: Boolean,
-    onSelectedChange: (Boolean) -> Unit,
+internal fun OpenSourceLicensesTile(
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val bottomCornerRadius by animateDpAsState(if (selected) 0.dp else 16.dp)
     Surface(
-        onClick = { onSelectedChange(!selected) },
+        onClick = onClick,
         modifier = modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(
-            topStart = 16.dp,
-            topEnd = 16.dp,
-            bottomStart = bottomCornerRadius,
-            bottomEnd = bottomCornerRadius,
-        ),
+        shape = RoundedCornerShape(16.dp),
         color = KSTheme.colorScheme.container,
         contentColor = KSTheme.colorScheme.onBackgroundVariant,
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(
+                painter = KSIcons.License,
+                contentDescription = null,
+                modifier = Modifier.padding(start = 12.dp),
+            )
+
             Column(
                 modifier = Modifier
                     .weight(1f)
@@ -49,49 +47,28 @@ internal fun AutoSyncSwitch(
                 verticalArrangement = Arrangement.spacedBy(6.dp),
             ) {
                 Text(
-                    text = stringResource(R.string.setting_auto_sync_title),
+                    text = stringResource(R.string.setting_opensource_licenses_title),
                     style = KSTheme.typography.titleSmall.copy(
                         fontWeight = FontWeight.ExtraBold,
                     ),
                 )
 
                 Text(
-                    text = stringResource(R.string.setting_auto_sync_description),
+                    text = stringResource(R.string.setting_opensource_licenses_description),
                     style = KSTheme.typography.labelMedium,
                 )
             }
-
-            Switch(
-                selected = selected,
-                onSelectedChange = onSelectedChange,
-                modifier = Modifier.padding(16.dp),
-            )
         }
     }
 }
 
 @Composable
 @PreviewLightDark
-private fun PreviewAutoSyncSwitch_selected() {
+private fun PreviewOpenSourceLicensesTile() {
     KSTheme {
         Surface {
-            AutoSyncSwitch(
-                selected = true,
-                onSelectedChange = {},
-                modifier = Modifier.padding(24.dp),
-            )
-        }
-    }
-}
-
-@Composable
-@PreviewLightDark
-private fun PreviewAutoSyncSwitch_unselected() {
-    KSTheme {
-        Surface {
-            AutoSyncSwitch(
-                selected = false,
-                onSelectedChange = {},
+            OpenSourceLicensesTile(
+                onClick = {},
                 modifier = Modifier.padding(24.dp),
             )
         }
