@@ -22,7 +22,7 @@ open class KSApp : Application(), SingletonImageLoader.Factory, Configuration.Pr
     lateinit var imageLoader: Lazy<ImageLoader>
 
     @Inject
-    lateinit var workerFactory: HiltWorkerFactory
+    lateinit var workerFactory: Lazy<HiltWorkerFactory>
 
     @Inject
     lateinit var syncScheduler: SyncScheduler
@@ -49,7 +49,7 @@ open class KSApp : Application(), SingletonImageLoader.Factory, Configuration.Pr
 
     override fun getWorkManagerConfiguration(): Configuration {
         return Configuration.Builder()
-            .setWorkerFactory(workerFactory)
+            .setWorkerFactory(workerFactory.get())
             .build()
     }
 
