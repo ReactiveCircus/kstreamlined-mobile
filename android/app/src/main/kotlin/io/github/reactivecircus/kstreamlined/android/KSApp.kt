@@ -9,10 +9,10 @@ import coil3.SingletonImageLoader
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.Lazy
 import dagger.hilt.android.HiltAndroidApp
+import io.github.reactivecircus.kstreamlined.android.di.AppCoroutineScope
 import io.github.reactivecircus.kstreamlined.android.foundation.scheduledwork.sync.SyncScheduler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -27,7 +27,9 @@ open class KSApp : Application(), SingletonImageLoader.Factory, Configuration.Pr
     @Inject
     lateinit var syncScheduler: SyncScheduler
 
-    private val appCoroutineScope = CoroutineScope(Dispatchers.Main.immediate + SupervisorJob())
+    @Inject
+    @AppCoroutineScope
+    lateinit var appCoroutineScope: CoroutineScope
 
     override fun onCreate() {
         super.onCreate()
@@ -40,7 +42,7 @@ open class KSApp : Application(), SingletonImageLoader.Factory, Configuration.Pr
 
         initializeKermit()
 
-        appCoroutineScope.launch { syncScheduler.initialize() }
+        appCoroutineScope.launch(Dispatchers.Main.immediate) { syncScheduler.initialize() }
     }
 
     override fun newImageLoader(context: PlatformContext): ImageLoader = imageLoader.get()
