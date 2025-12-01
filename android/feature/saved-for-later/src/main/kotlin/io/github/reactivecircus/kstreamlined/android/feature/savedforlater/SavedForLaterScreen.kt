@@ -164,7 +164,7 @@ private fun SharedTransitionScope.ContentUi(
                         modifier = Modifier
                             .animateItem()
                             .sharedBounds(
-                                rememberSharedContentState(key = "Bounds/Saved/${item.id}"),
+                                sharedContentState = rememberSharedContentState(key = "Bounds/Saved/${item.id}"),
                                 animatedVisibilityScope = animatedVisibilityScope,
                             ),
                         animatedVisibilityScope = animatedVisibilityScope,
@@ -180,7 +180,7 @@ private fun SharedTransitionScope.ContentUi(
                         modifier = Modifier
                             .animateItem()
                             .sharedBounds(
-                                rememberSharedContentState(key = "Bounds/Saved/${item.id}"),
+                                sharedContentState = rememberSharedContentState(key = "Bounds/Saved/${item.id}"),
                                 animatedVisibilityScope = animatedVisibilityScope,
                             ),
                     )
@@ -194,7 +194,7 @@ private fun SharedTransitionScope.ContentUi(
                         modifier = Modifier
                             .animateItem()
                             .sharedBounds(
-                                rememberSharedContentState(key = "Bounds/Saved/${item.id}"),
+                                sharedContentState = rememberSharedContentState(key = "Bounds/Saved/${item.id}"),
                                 animatedVisibilityScope = animatedVisibilityScope,
                             ),
                         animatedVisibilityScope = animatedVisibilityScope,
@@ -210,7 +210,7 @@ private fun SharedTransitionScope.ContentUi(
                         modifier = Modifier
                             .animateItem()
                             .sharedBounds(
-                                rememberSharedContentState(key = "Bounds/Saved/${item.id}"),
+                                sharedContentState = rememberSharedContentState(key = "Bounds/Saved/${item.id}"),
                                 animatedVisibilityScope = animatedVisibilityScope,
                             ),
                         animatedVisibilityScope = animatedVisibilityScope,

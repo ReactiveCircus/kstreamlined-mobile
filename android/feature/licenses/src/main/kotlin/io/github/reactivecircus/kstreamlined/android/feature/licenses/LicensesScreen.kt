@@ -36,8 +36,7 @@ import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.fou
 @Composable
 public fun SharedTransitionScope.LicensesScreen(
     animatedVisibilityScope: AnimatedVisibilityScope,
-    topBarBoundsKey: String,
-    titleElementKey: String,
+    boundsKey: String,
     onNavigateUp: () -> Unit,
     modifier: Modifier = Modifier,
 ): Unit = trace("Screen:Licenses") {
@@ -45,23 +44,20 @@ public fun SharedTransitionScope.LicensesScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     LicensesScreen(
-        animatedVisibilityScope = animatedVisibilityScope,
-        topBarBoundsKey = topBarBoundsKey,
-        titleElementKey = titleElementKey,
         onNavigateUp = onNavigateUp,
         uiState = uiState,
-        modifier = modifier,
+        modifier = modifier.sharedBounds(
+            sharedContentState = rememberSharedContentState(key = boundsKey),
+            animatedVisibilityScope = animatedVisibilityScope,
+        ),
     )
 }
 
 @Composable
 internal fun SharedTransitionScope.LicensesScreen(
-    topBarBoundsKey: String,
-    titleElementKey: String,
     onNavigateUp: () -> Unit,
     uiState: LicensesUiState,
     modifier: Modifier = Modifier,
-    animatedVisibilityScope: AnimatedVisibilityScope? = null,
 ) {
     Column(
         modifier = modifier
@@ -70,9 +66,6 @@ internal fun SharedTransitionScope.LicensesScreen(
             .background(KSTheme.colorScheme.background),
     ) {
         TopNavBar(
-            animatedVisibilityScope = animatedVisibilityScope,
-            boundsKey = topBarBoundsKey,
-            titleElementKey = titleElementKey,
             title = stringResource(id = R.string.title_licenses),
             modifier = Modifier.zIndex(1f),
             contentPadding = WindowInsets.statusBars.asPaddingValues(),

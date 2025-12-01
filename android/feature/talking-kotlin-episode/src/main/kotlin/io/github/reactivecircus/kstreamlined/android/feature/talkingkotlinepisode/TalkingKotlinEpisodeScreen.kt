@@ -101,7 +101,7 @@ public fun SharedTransitionScope.TalkingKotlinEpisodeScreen(
         uiState = uiState,
         eventSink = eventSink,
         modifier = modifier.sharedBounds(
-            rememberSharedContentState(key = boundsKey),
+            sharedContentState = rememberSharedContentState(key = boundsKey),
             animatedVisibilityScope = animatedVisibilityScope,
         ),
     )
@@ -308,7 +308,7 @@ private fun SharedTransitionScope.ContentUi(
             contentPadding = WindowInsets.navigationBars.asPaddingValues(),
             modifier = if (animatedVisibilityScope != null) {
                 Modifier.sharedElement(
-                    rememberSharedContentState(key = playerElementKey),
+                    sharedContentState = rememberSharedContentState(key = playerElementKey),
                     animatedVisibilityScope = animatedVisibilityScope,
                 )
             } else {

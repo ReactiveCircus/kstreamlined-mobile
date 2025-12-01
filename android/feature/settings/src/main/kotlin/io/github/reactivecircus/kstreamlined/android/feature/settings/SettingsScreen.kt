@@ -84,6 +84,7 @@ public fun SharedTransitionScope.SettingsScreen(
 
 @Composable
 internal fun SharedTransitionScope.SettingsScreen(
+    animatedVisibilityScope: AnimatedVisibilityScope,
     topBarBoundsKey: String,
     titleElementKey: String,
     onOpenLicenses: () -> Unit,
@@ -91,7 +92,6 @@ internal fun SharedTransitionScope.SettingsScreen(
     uiState: SettingsUiState,
     eventSink: (SettingsUiEvent) -> Unit,
     modifier: Modifier = Modifier,
-    animatedVisibilityScope: AnimatedVisibilityScope? = null,
 ) {
     Column(
         modifier = modifier
@@ -122,6 +122,7 @@ internal fun SharedTransitionScope.SettingsScreen(
         ) {
             if (uiState is SettingsUiState.Content) {
                 ContentUi(
+                    animatedVisibilityScope = animatedVisibilityScope,
                     state = uiState,
                     eventSink = eventSink,
                     onOpenLicenses = onOpenLicenses,
@@ -133,7 +134,8 @@ internal fun SharedTransitionScope.SettingsScreen(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun ContentUi(
+private fun SharedTransitionScope.ContentUi(
+    animatedVisibilityScope: AnimatedVisibilityScope,
     state: SettingsUiState.Content,
     eventSink: (SettingsUiEvent) -> Unit,
     onOpenLicenses: () -> Unit,
@@ -232,6 +234,10 @@ private fun ContentUi(
 
             OpenSourceLicensesTile(
                 onClick = onOpenLicenses,
+                modifier = Modifier.sharedBounds(
+                    sharedContentState = rememberSharedContentState(key = "Bounds/LicensesTile"),
+                    animatedVisibilityScope = animatedVisibilityScope,
+                ),
             )
 
             Spacer(modifier = Modifier.height(8.dp))

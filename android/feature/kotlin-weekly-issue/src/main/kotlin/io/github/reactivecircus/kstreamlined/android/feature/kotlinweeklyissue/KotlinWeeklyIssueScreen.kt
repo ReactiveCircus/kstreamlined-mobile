@@ -104,7 +104,7 @@ public fun SharedTransitionScope.KotlinWeeklyIssueScreen(
         uiState = uiState,
         eventSink = eventSink,
         modifier = modifier.sharedBounds(
-            rememberSharedContentState(key = boundsKey),
+            sharedContentState = rememberSharedContentState(key = boundsKey),
             animatedVisibilityScope = animatedVisibilityScope,
         ),
     )

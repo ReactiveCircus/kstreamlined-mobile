@@ -89,8 +89,6 @@ class LicensesScreenTest {
                 exit = ExitTransition.None,
             ) {
                 LicensesScreen(
-                    topBarBoundsKey = "",
-                    titleElementKey = "",
                     onNavigateUp = {},
                     uiState = uiState,
                 )
