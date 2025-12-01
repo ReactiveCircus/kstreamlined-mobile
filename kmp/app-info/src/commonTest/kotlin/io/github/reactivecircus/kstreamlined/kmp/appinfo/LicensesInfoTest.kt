@@ -3,7 +3,7 @@ package io.github.reactivecircus.kstreamlined.kmp.appinfo
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class AppInfoTest {
+class LicensesInfoTest {
     @Test
     fun `LicensesInfo can be created from JSON`() {
         val licensesInfo = LicensesInfo.fromJson {
