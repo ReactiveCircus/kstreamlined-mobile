@@ -7,6 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import app.cash.molecule.RecompositionMode
+import io.github.reactivecircus.kstreamlined.kmp.appinfo.AppInfo
 import io.github.reactivecircus.kstreamlined.kmp.presentation.common.Presenter
 import io.github.reactivecircus.kstreamlined.kmp.settings.datasource.SettingsDataSource
 import kotlinx.coroutines.CoroutineScope
@@ -15,6 +16,7 @@ import kotlinx.coroutines.flow.onEach
 
 public class SettingsPresenter(
     private val settingsDataSource: SettingsDataSource,
+    private val appInfo: AppInfo,
     scope: CoroutineScope,
     recompositionMode: RecompositionMode,
 ) : Presenter<SettingsUiEvent, SettingsUiState>(scope, recompositionMode) {
@@ -28,6 +30,8 @@ public class SettingsPresenter(
                         theme = it.theme,
                         autoSyncEnabled = it.autoSync,
                         autoSyncInterval = AutoSyncInterval.from(it.autoSyncInterval),
+                        versionName = appInfo.versionName,
+                        sourceCodeUrl = appInfo.sourceCodeUrl,
                     )
                 }
                 .collect()

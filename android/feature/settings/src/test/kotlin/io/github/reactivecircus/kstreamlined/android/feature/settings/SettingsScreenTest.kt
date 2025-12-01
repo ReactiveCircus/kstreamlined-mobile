@@ -24,11 +24,13 @@ class SettingsScreenTest {
     @Test
     fun snapshot_SettingsScreen() {
         snapshotTester.snapshot {
-            HomeSettingsSnapshot(
+            SettingsScreenSnapshot(
                 uiState = SettingsUiState.Content(
                     theme = AppSettings.Default.theme,
                     autoSyncEnabled = AppSettings.Default.autoSync,
                     autoSyncInterval = AutoSyncInterval.Every6Hours,
+                    versionName = "android-0.3.0 (4c52de9)",
+                    sourceCodeUrl = "",
                 ),
             )
         }
@@ -36,7 +38,7 @@ class SettingsScreenTest {
 
     @OptIn(ExperimentalSharedTransitionApi::class)
     @Composable
-    fun HomeSettingsSnapshot(uiState: SettingsUiState) {
+    fun SettingsScreenSnapshot(uiState: SettingsUiState) {
         SharedTransitionLayout {
             AnimatedVisibility(
                 visible = true,
@@ -46,6 +48,7 @@ class SettingsScreenTest {
                 SettingsScreen(
                     topBarBoundsKey = "",
                     titleElementKey = "",
+                    onOpenLicenses = {},
                     onNavigateUp = {},
                     uiState = uiState,
                     eventSink = {},

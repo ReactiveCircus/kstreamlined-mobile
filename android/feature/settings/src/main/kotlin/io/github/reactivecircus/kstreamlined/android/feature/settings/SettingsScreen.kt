@@ -62,6 +62,7 @@ public fun SharedTransitionScope.SettingsScreen(
     animatedVisibilityScope: AnimatedVisibilityScope,
     topBarBoundsKey: String,
     titleElementKey: String,
+    onOpenLicenses: () -> Unit,
     onNavigateUp: () -> Unit,
     modifier: Modifier = Modifier,
 ): Unit = trace("Screen:Settings") {
@@ -73,6 +74,7 @@ public fun SharedTransitionScope.SettingsScreen(
         animatedVisibilityScope = animatedVisibilityScope,
         topBarBoundsKey = topBarBoundsKey,
         titleElementKey = titleElementKey,
+        onOpenLicenses = onOpenLicenses,
         onNavigateUp = onNavigateUp,
         uiState = uiState,
         eventSink = eventSink,
@@ -84,6 +86,7 @@ public fun SharedTransitionScope.SettingsScreen(
 internal fun SharedTransitionScope.SettingsScreen(
     topBarBoundsKey: String,
     titleElementKey: String,
+    onOpenLicenses: () -> Unit,
     onNavigateUp: () -> Unit,
     uiState: SettingsUiState,
     eventSink: (SettingsUiEvent) -> Unit,
@@ -121,6 +124,7 @@ internal fun SharedTransitionScope.SettingsScreen(
                 ContentUi(
                     state = uiState,
                     eventSink = eventSink,
+                    onOpenLicenses = onOpenLicenses,
                 )
             }
         }
@@ -132,6 +136,7 @@ internal fun SharedTransitionScope.SettingsScreen(
 private fun ContentUi(
     state: SettingsUiState.Content,
     eventSink: (SettingsUiEvent) -> Unit,
+    onOpenLicenses: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(
@@ -221,18 +226,17 @@ private fun ContentUi(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // TODO inject source code url
-            SourceCodeTile(sourceCodeUrl = "https://github.com/ReactiveCircus/kstreamlined-mobile")
+            SourceCodeTile(sourceCodeUrl = state.sourceCodeUrl)
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // TODO show licenses
-            OpenSourceLicensesTile(onClick = {})
+            OpenSourceLicensesTile(
+                onClick = onOpenLicenses,
+            )
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // TODO inject version
-            VersionTile(version = "android-0.3.0 (4c52de9)")
+            VersionTile(version = state.versionName)
 
             Spacer(modifier = Modifier.height(20.dp))
         }

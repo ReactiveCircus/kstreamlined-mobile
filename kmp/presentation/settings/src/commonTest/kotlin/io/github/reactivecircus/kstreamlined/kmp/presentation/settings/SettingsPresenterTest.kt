@@ -2,6 +2,7 @@ package io.github.reactivecircus.kstreamlined.kmp.presentation.settings
 
 import app.cash.molecule.RecompositionMode
 import app.cash.turbine.test
+import io.github.reactivecircus.kstreamlined.kmp.appinfo.AppInfo
 import io.github.reactivecircus.kstreamlined.kmp.datastore.testing.createFakeDataStore
 import io.github.reactivecircus.kstreamlined.kmp.settings.datasource.SettingsDataSource
 import io.github.reactivecircus.kstreamlined.kmp.settings.model.AppSettings
@@ -20,6 +21,10 @@ class SettingsPresenterTest {
 
     private val presenter = SettingsPresenter(
         settingsDataSource = SettingsDataSource(settingsDataStore),
+        appInfo = AppInfo(
+            versionName = "1.0.0",
+            sourceCodeUrl = "source-url",
+        ),
         scope = testScope.backgroundScope,
         recompositionMode = RecompositionMode.Immediate,
     )
@@ -35,6 +40,8 @@ class SettingsPresenterTest {
                         theme = AppSettings.Default.theme,
                         autoSyncEnabled = AppSettings.Default.autoSync,
                         autoSyncInterval = AutoSyncInterval.Default,
+                        versionName = "1.0.0",
+                        sourceCodeUrl = "source-url",
                     ),
                     awaitItem(),
                 )
@@ -52,6 +59,8 @@ class SettingsPresenterTest {
                         theme = AppSettings.Default.theme,
                         autoSyncEnabled = AppSettings.Default.autoSync,
                         autoSyncInterval = AutoSyncInterval.Default,
+                        versionName = "1.0.0",
+                        sourceCodeUrl = "source-url",
                     ),
                     awaitItem(),
                 )
@@ -63,6 +72,8 @@ class SettingsPresenterTest {
                         theme = AppSettings.Theme.Light,
                         autoSyncEnabled = AppSettings.Default.autoSync,
                         autoSyncInterval = AutoSyncInterval.Default,
+                        versionName = "1.0.0",
+                        sourceCodeUrl = "source-url",
                     ),
                     awaitItem(),
                 )
@@ -76,6 +87,8 @@ class SettingsPresenterTest {
                         autoSyncInterval = AutoSyncInterval.from(
                             AppSettings.Default.autoSyncInterval,
                         ),
+                        versionName = "1.0.0",
+                        sourceCodeUrl = "source-url",
                     ),
                     awaitItem(),
                 )
@@ -93,6 +106,8 @@ class SettingsPresenterTest {
                         theme = AppSettings.Default.theme,
                         autoSyncEnabled = AppSettings.Default.autoSync,
                         autoSyncInterval = AutoSyncInterval.Default,
+                        versionName = "1.0.0",
+                        sourceCodeUrl = "source-url",
                     ),
                     awaitItem(),
                 )
@@ -104,6 +119,8 @@ class SettingsPresenterTest {
                         theme = AppSettings.Default.theme,
                         autoSyncEnabled = false,
                         autoSyncInterval = AutoSyncInterval.Default,
+                        versionName = "1.0.0",
+                        sourceCodeUrl = "source-url",
                     ),
                     awaitItem(),
                 )
@@ -115,6 +132,8 @@ class SettingsPresenterTest {
                         theme = AppSettings.Default.theme,
                         autoSyncEnabled = true,
                         autoSyncInterval = AutoSyncInterval.Default,
+                        versionName = "1.0.0",
+                        sourceCodeUrl = "source-url",
                     ),
                     awaitItem(),
                 )
@@ -132,6 +151,8 @@ class SettingsPresenterTest {
                         theme = AppSettings.Default.theme,
                         autoSyncEnabled = AppSettings.Default.autoSync,
                         autoSyncInterval = AutoSyncInterval.Default,
+                        versionName = "1.0.0",
+                        sourceCodeUrl = "source-url",
                     ),
                     awaitItem(),
                 )
@@ -143,6 +164,8 @@ class SettingsPresenterTest {
                         theme = AppSettings.Default.theme,
                         autoSyncEnabled = AppSettings.Default.autoSync,
                         autoSyncInterval = AutoSyncInterval.Hourly,
+                        versionName = "1.0.0",
+                        sourceCodeUrl = "source-url",
                     ),
                     awaitItem(),
                 )
@@ -154,6 +177,8 @@ class SettingsPresenterTest {
                         theme = AppSettings.Default.theme,
                         autoSyncEnabled = AppSettings.Default.autoSync,
                         autoSyncInterval = AutoSyncInterval.Daily,
+                        versionName = "1.0.0",
+                        sourceCodeUrl = "source-url",
                     ),
                     awaitItem(),
                 )

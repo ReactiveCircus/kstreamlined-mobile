@@ -220,10 +220,12 @@ androidComponents {
             }
         }
         it.addBuildConfigField(key = "NETWORK_TIMEOUT_SECONDS", value = 10)
+        it.addBuildConfigField(key = "SOURCE_CODE_URL", value = "\"https://github.com/ReactiveCircus/kstreamlined-mobile\"")
     }
 }
 
 dependencies {
+    implementation(project(":kmp:app-info"))
     implementation(project(":kmp:feed-datasource"))
     implementation(project(":kmp:feed-sync:runtime"))
     implementation(project(":kmp:settings-datasource"))
@@ -237,6 +239,7 @@ dependencies {
     implementation(project(":feature:content-viewer"))
     implementation(project(":feature:home"))
     implementation(project(":feature:kotlin-weekly-issue"))
+    implementation(project(":feature:licenses"))
     implementation(project(":feature:saved-for-later"))
     implementation(project(":feature:settings"))
     implementation(project(":feature:talking-kotlin-episode"))

@@ -35,6 +35,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import dagger.hilt.android.AndroidEntryPoint
 import io.github.reactivecircus.kstreamlined.android.feature.contentviewer.ContentViewerScreen
 import io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue.KotlinWeeklyIssueScreen
+import io.github.reactivecircus.kstreamlined.android.feature.licenses.LicensesScreen
 import io.github.reactivecircus.kstreamlined.android.feature.settings.SettingsScreen
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.TalkingKotlinEpisodeScreen
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.KSTheme
@@ -182,6 +183,21 @@ class KSActivity : ComponentActivity() {
                                     animatedVisibilityScope = this@AnimatedContent,
                                     topBarBoundsKey = it.topBarBoundsKey,
                                     titleElementKey = it.titleElementKey,
+                                    onOpenLicenses = {
+                                        // TODO implement basic backstack
+                                        navDestination = NavDestination.Licenses
+                                    },
+                                    onNavigateUp = {
+                                        navDestination = NavDestination.Main
+                                    },
+                                )
+                            }
+
+                            is NavDestination.Licenses -> {
+                                LicensesScreen(
+                                    animatedVisibilityScope = this@AnimatedContent,
+                                    topBarBoundsKey = "Bounds/Licenses/TopBar",
+                                    titleElementKey = "Element/Licenses/TopBar/Title",
                                     onNavigateUp = {
                                         navDestination = NavDestination.Main
                                     },
@@ -263,4 +279,7 @@ private sealed interface NavDestination : Parcelable {
         val topBarBoundsKey: String,
         val titleElementKey: String,
     ) : NavDestination
+
+    @Parcelize
+    data object Licenses : NavDestination
 }

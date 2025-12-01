@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.cash.molecule.RecompositionMode
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.github.reactivecircus.kstreamlined.kmp.appinfo.AppInfo
 import io.github.reactivecircus.kstreamlined.kmp.presentation.settings.SettingsPresenter
 import io.github.reactivecircus.kstreamlined.kmp.presentation.settings.SettingsUiEvent
 import io.github.reactivecircus.kstreamlined.kmp.presentation.settings.SettingsUiState
@@ -16,9 +17,11 @@ import javax.inject.Inject
 @HiltViewModel
 internal class SettingsViewModel @Inject constructor(
     settingsDataSource: SettingsDataSource,
+    appInfo: AppInfo,
 ) : ViewModel() {
     private val presenter = SettingsPresenter(
         settingsDataSource = settingsDataSource,
+        appInfo = appInfo,
         scope = CoroutineScope(viewModelScope.coroutineContext + AndroidUiDispatcher.Main),
         recompositionMode = RecompositionMode.ContextClock,
     )
