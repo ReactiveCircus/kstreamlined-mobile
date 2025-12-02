@@ -39,6 +39,13 @@ import androidx.compose.ui.zIndex
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.tracing.trace
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.LargeIconButton
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.ModalBottomSheet
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Text
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.TopNavBar
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.rememberModalBottomSheetState
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.icon.KSIcons
 import io.github.reactivecircus.kstreamlined.android.feature.settings.component.about.OpenSourceLicensesTile
 import io.github.reactivecircus.kstreamlined.android.feature.settings.component.about.SourceCodeTile
 import io.github.reactivecircus.kstreamlined.android.feature.settings.component.about.VersionTile
@@ -46,13 +53,6 @@ import io.github.reactivecircus.kstreamlined.android.feature.settings.component.
 import io.github.reactivecircus.kstreamlined.android.feature.settings.component.sync.SyncIntervalPicker
 import io.github.reactivecircus.kstreamlined.android.feature.settings.component.sync.SyncIntervalTile
 import io.github.reactivecircus.kstreamlined.android.feature.settings.component.theme.ThemeSelector
-import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.LargeIconButton
-import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.ModalBottomSheet
-import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.Text
-import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.TopNavBar
-import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.rememberModalBottomSheetState
-import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.KSTheme
-import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.icon.KSIcons
 import io.github.reactivecircus.kstreamlined.kmp.presentation.settings.SettingsUiEvent
 import io.github.reactivecircus.kstreamlined.kmp.presentation.settings.SettingsUiState
 import kotlinx.coroutines.launch

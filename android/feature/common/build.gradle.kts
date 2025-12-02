@@ -8,7 +8,7 @@ android {
 }
 
 dependencies {
-    api(project(":foundation:designsystem"))
+    api(project(":core:designsystem"))
 
     api(libs.androidx.core)
     api(libs.androidx.compose.foundation)

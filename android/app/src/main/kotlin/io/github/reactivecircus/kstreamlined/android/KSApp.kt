@@ -9,8 +9,8 @@ import coil3.SingletonImageLoader
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.Lazy
 import dagger.hilt.android.HiltAndroidApp
+import io.github.reactivecircus.kstreamlined.android.core.scheduledwork.sync.SyncScheduler
 import io.github.reactivecircus.kstreamlined.android.di.AppCoroutineScope
-import io.github.reactivecircus.kstreamlined.android.foundation.scheduledwork.sync.SyncScheduler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

@@ -20,7 +20,7 @@ androidComponents {
 
 dependencies {
     implementation(project(":feature:common"))
-    implementation(project(":foundation:compose-utils"))
+    implementation(project(":core:compose-utils"))
     implementation(project(":kmp:feed-datasource"))
     implementation(project(":kmp:presentation:talking-kotlin-episode"))
 

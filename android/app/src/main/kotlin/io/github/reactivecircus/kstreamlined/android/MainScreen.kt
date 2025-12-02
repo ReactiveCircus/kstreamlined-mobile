@@ -28,12 +28,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.NavigationIsland
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.NavigationIslandDivider
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.NavigationIslandItem
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.icon.KSIcons
 import io.github.reactivecircus.kstreamlined.android.feature.home.HomeScreen
 import io.github.reactivecircus.kstreamlined.android.feature.savedforlater.SavedForLaterScreen
-import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.NavigationIsland
-import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.NavigationIslandDivider
-import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.NavigationIslandItem
-import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.icon.KSIcons
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
 import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue

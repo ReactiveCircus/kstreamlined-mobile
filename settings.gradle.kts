@@ -97,12 +97,12 @@ includeAndroidProjects(
     ":feature:saved-for-later",
     ":feature:settings",
     ":feature:talking-kotlin-episode",
-    ":foundation:common-ui:feed",
-    ":foundation:designsystem",
-    ":foundation:compose-utils",
-    ":foundation:screenshot-testing:tester",
-    ":foundation:screenshot-testing:paparazzi",
-    ":foundation:scheduled-work",
+    ":core:common-ui:feed",
+    ":core:designsystem",
+    ":core:compose-utils",
+    ":core:screenshot-testing:tester",
+    ":core:screenshot-testing:paparazzi",
+    ":core:scheduled-work",
 )
 
 private fun includeKmpProjects(vararg projectPaths: String) {

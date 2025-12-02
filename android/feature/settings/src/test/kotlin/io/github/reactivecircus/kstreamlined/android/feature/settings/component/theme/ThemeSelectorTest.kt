@@ -5,7 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import app.cash.burst.Burst
 import io.github.reactivecircus.chameleon.runtime.Chameleon
-import io.github.reactivecircus.kstreamlined.android.foundation.screenshottesting.tester.SnapshotTester
+import io.github.reactivecircus.kstreamlined.android.core.screenshottesting.tester.SnapshotTester
 import io.github.reactivecircus.kstreamlined.kmp.settings.model.AppSettings
 import org.junit.Rule
 import org.junit.Test

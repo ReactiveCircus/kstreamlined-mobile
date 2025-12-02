@@ -45,15 +45,15 @@ internal class AndroidScreenshotTestConventionPlugin : Plugin<Project> {
             @Suppress("MaxLineLength")
             extensions.configure(ChameleonExtension::class.java) {
                 it.snapshotFunction.set(
-                    "io/github/reactivecircus/kstreamlined/android/foundation/screenshottesting/tester/SnapshotTester.snapshot",
+                    "io/github/reactivecircus/kstreamlined/android/core/screenshottesting/tester/SnapshotTester.snapshot",
                 )
                 it.themeVariantEnum.set(
-                    "io/github/reactivecircus/kstreamlined/android/foundation/screenshottesting/tester/ThemeVariant",
+                    "io/github/reactivecircus/kstreamlined/android/core/screenshottesting/tester/ThemeVariant",
                 )
             }
         }
 
-        dependencies.add("testImplementation", project(":foundation:screenshot-testing:tester"))
+        dependencies.add("testImplementation", project(":core:screenshot-testing:tester"))
 
         if (runningCheck || runningPaparazzi || isIdeBuild) {
             pluginManager.withPlugin("com.android.library") {
