@@ -2,6 +2,7 @@
 
 package io.github.reactivecircus.kstreamlined.gradle
 
+import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureCompose
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureDetekt
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureKotlin
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureTest
@@ -23,6 +24,11 @@ import javax.inject.Inject
 @KStreamlinedExtensionMarker
 public interface JvmLibraryExtension {
     /**
+     * Enable Compose.
+     */
+    public fun compose()
+
+    /**
      * Enable unit tests.
      */
     public fun unitTests()
@@ -36,9 +42,15 @@ public interface JvmLibraryExtension {
 internal abstract class JvmLibraryExtensionImpl @Inject constructor(
     private val project: Project,
 ) : JvmLibraryExtension, TopLevelExtension {
+    private var composeEnabled: Boolean = false
+
     private var unitTestsEnabled: Boolean = false
 
     private var dependenciesBlock: Action<KotlinDependencies>? = null
+
+    override fun compose() {
+        composeEnabled = true
+    }
 
     override fun unitTests() {
         unitTestsEnabled = true
@@ -61,6 +73,14 @@ internal abstract class JvmLibraryExtensionImpl @Inject constructor(
                     dependenciesBlock = block,
                 )
             }
+        }
+
+        if (composeEnabled) {
+            configureCompose(
+                jvmTargetEnabled = true,
+                androidTargetEnabled = false,
+                iosTargetEnabled = false,
+            )
         }
 
         if (unitTestsEnabled) {

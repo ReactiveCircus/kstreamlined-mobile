@@ -2,7 +2,6 @@ import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 
 plugins {
     id("kstreamlined")
-    id("kstreamlined.compose")
 }
 
 kstreamlined {
@@ -11,6 +10,7 @@ kstreamlined {
             jvm()
             ios()
         }
+        compose()
 
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         dependencies {

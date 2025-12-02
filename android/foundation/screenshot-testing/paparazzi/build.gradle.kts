@@ -2,11 +2,12 @@ import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 
 plugins {
     id("kstreamlined")
-    id("kstreamlined.compose")
 }
 
 kstreamlined {
     jvmLibrary {
+        compose()
+
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         dependencies {
             implementation(libs.androidx.compose.runtime)

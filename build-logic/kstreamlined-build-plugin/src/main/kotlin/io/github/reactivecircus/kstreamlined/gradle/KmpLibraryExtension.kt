@@ -3,6 +3,7 @@
 package io.github.reactivecircus.kstreamlined.gradle
 
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.KmpTargetsConfig
+import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureCompose
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureDetekt
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureKmpTargets
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureKmpTest
@@ -20,12 +21,18 @@ import javax.inject.Inject
 /**
  * Entry point for configuring a KMP library module.
  */
+@Suppress("TooManyFunctions")
 @KStreamlinedExtensionMarker
 public interface KmpLibraryExtension {
     /**
      * Configure targets.
      */
     public fun targets(action: Action<TargetsOptions>)
+
+    /**
+     * Enable Compose.
+     */
+    public fun compose()
 
     /**
      * Enable unit tests.
@@ -103,6 +110,8 @@ internal abstract class KmpLibraryExtensionImpl @Inject constructor(
 ) : KmpLibraryExtension, TopLevelExtension {
     private val targetsOptions = objects.newInstance(TargetsOptionsImpl::class.java)
 
+    private var composeEnabled: Boolean = false
+
     private var unitTestsEnabled: Boolean = false
 
     private var androidHostTestsEnabled: Boolean = false
@@ -123,6 +132,10 @@ internal abstract class KmpLibraryExtensionImpl @Inject constructor(
 
     override fun targets(action: Action<KmpLibraryExtension.TargetsOptions>) {
         action.execute(targetsOptions)
+    }
+
+    override fun compose() {
+        composeEnabled = true
     }
 
     override fun unitTests(androidHostTests: Boolean) {
@@ -204,6 +217,14 @@ internal abstract class KmpLibraryExtensionImpl @Inject constructor(
                 extension.configureKotlin(this)
 
                 this@KmpLibraryExtensionImpl.configureDependencies(extension)
+            }
+
+            if (this@KmpLibraryExtensionImpl.composeEnabled) {
+                configureCompose(
+                    jvmTargetEnabled = jvmEnabled,
+                    androidTargetEnabled = androidEnabled,
+                    iosTargetEnabled = iosEnabled,
+                )
             }
 
             if (this@KmpLibraryExtensionImpl.unitTestsEnabled) {

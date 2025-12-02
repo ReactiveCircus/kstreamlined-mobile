@@ -13,9 +13,7 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinBaseExtension
 
 internal class AndroidLibraryConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) = with(target) {
-        with(pluginManager) {
-            apply("com.android.library")
-        }
+        pluginManager.apply("com.android.library")
 
         extensions.configure(KotlinBaseExtension::class.java) {
             it.configureBuiltInKotlin(target)
