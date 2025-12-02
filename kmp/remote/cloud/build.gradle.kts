@@ -3,7 +3,6 @@ import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 
 plugins {
     id("kstreamlined")
-    id("com.apollographql.apollo")
 }
 
 kstreamlined {
@@ -11,6 +10,23 @@ kstreamlined {
         targets {
             jvm()
             ios()
+        }
+        @OptIn(ApolloExperimental::class)
+        apolloService("kstreamlined") {
+            packageName.set("io.github.reactivecircus.kstreamlined.graphql")
+            codegenModels.set("experimental_operationBasedWithInterfaces")
+            generateMethods.set(listOf("equalsHashCode", "toString"))
+            generateInputBuilders.set(true)
+            generateDataBuilders.set(true)
+            generateAsInternal.set(true)
+            introspection {
+                endpointUrl.set(envOrProp("KSTREAMLINED_API_ENDPOINT"))
+            }
+            mapScalar(
+                graphQLName = "Instant",
+                targetName = "kotlin.time.Instant",
+                expression = "com.apollographql.adapter.core.KotlinInstantAdapter",
+            )
         }
         unitTests()
 
@@ -26,25 +42,5 @@ kstreamlined {
             testImplementation(libs.kotlinx.coroutines.test)
             testImplementation(libs.apollo.mockserver)
         }
-    }
-}
-
-apollo {
-    @OptIn(ApolloExperimental::class)
-    service("kstreamlined") {
-        packageName.set("io.github.reactivecircus.kstreamlined.graphql")
-        codegenModels.set("experimental_operationBasedWithInterfaces")
-        generateMethods.set(listOf("equalsHashCode", "toString"))
-        generateInputBuilders.set(true)
-        generateDataBuilders.set(true)
-        generateAsInternal.set(true)
-        introspection {
-            endpointUrl.set(envOrProp("KSTREAMLINED_API_ENDPOINT"))
-        }
-        mapScalar(
-            graphQLName = "Instant",
-            targetName = "kotlin.time.Instant",
-            expression = "com.apollographql.adapter.core.KotlinInstantAdapter",
-        )
     }
 }
