@@ -13,6 +13,8 @@ public sealed interface SettingsUiState {
         val theme: AppSettings.Theme,
         val autoSyncEnabled: Boolean,
         val autoSyncInterval: AutoSyncInterval,
+        val versionName: String,
+        val sourceCodeUrl: String,
     ) : SettingsUiState
 }
 

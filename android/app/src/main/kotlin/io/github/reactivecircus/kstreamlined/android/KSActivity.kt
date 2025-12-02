@@ -22,6 +22,7 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -35,6 +36,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import dagger.hilt.android.AndroidEntryPoint
 import io.github.reactivecircus.kstreamlined.android.feature.contentviewer.ContentViewerScreen
 import io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue.KotlinWeeklyIssueScreen
+import io.github.reactivecircus.kstreamlined.android.feature.licenses.LicensesScreen
 import io.github.reactivecircus.kstreamlined.android.feature.settings.SettingsScreen
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.TalkingKotlinEpisodeScreen
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.KSTheme
@@ -67,10 +69,7 @@ class KSActivity : ComponentActivity() {
             ) {
                 NavigationBarStyleEffect(theme)
 
-                var navDestination: NavDestination by rememberSaveable {
-                    mutableStateOf(NavDestination.Main)
-                }
-
+                val backStack = rememberSaveable { mutableStateListOf<NavDestination>(NavDestination.Main) }
                 var selectedNavItem by rememberSaveable { mutableStateOf(NavItemKey.Home) }
 
                 val dpCacheWindow = LazyLayoutCacheWindow(ahead = 300.dp, behind = 300.dp)
@@ -79,7 +78,7 @@ class KSActivity : ComponentActivity() {
 
                 SharedTransitionLayout {
                     AnimatedContent(
-                        navDestination,
+                        backStack.last(),
                         modifier = Modifier
                             .fillMaxSize()
                             .background(KSTheme.colorScheme.background)
@@ -98,40 +97,44 @@ class KSActivity : ComponentActivity() {
                                     homeListState = homeListState,
                                     savedListState = savedListState,
                                     onViewItem = { item, origin ->
-                                        navDestination = when (item) {
-                                            is FeedItem.KotlinWeekly -> {
-                                                NavDestination.KotlinWeeklyIssue(
-                                                    boundsKey = "Bounds/$origin/${item.id}",
-                                                    topBarBoundsKey = "Bounds/$origin/TopBar",
-                                                    titleElementKey = "Element/$origin/TopBar/Title",
-                                                    id = item.id,
-                                                    issueNumber = item.issueNumber,
-                                                )
-                                            }
+                                        backStack.add(
+                                            when (item) {
+                                                is FeedItem.KotlinWeekly -> {
+                                                    NavDestination.KotlinWeeklyIssue(
+                                                        boundsKey = "Bounds/$origin/${item.id}",
+                                                        topBarBoundsKey = "Bounds/$origin/TopBar",
+                                                        titleElementKey = "Element/$origin/TopBar/Title",
+                                                        id = item.id,
+                                                        issueNumber = item.issueNumber,
+                                                    )
+                                                }
 
-                                            is FeedItem.TalkingKotlin -> {
-                                                NavDestination.TalkingKotlinEpisode(
-                                                    boundsKey = "Bounds/$origin/${item.id}",
-                                                    topBarBoundsKey = "Bounds/$origin/TopBar",
-                                                    playerElementKey = "Element/$origin/${item.id}/player",
-                                                    id = item.id,
-                                                )
-                                            }
+                                                is FeedItem.TalkingKotlin -> {
+                                                    NavDestination.TalkingKotlinEpisode(
+                                                        boundsKey = "Bounds/$origin/${item.id}",
+                                                        topBarBoundsKey = "Bounds/$origin/TopBar",
+                                                        playerElementKey = "Element/$origin/${item.id}/player",
+                                                        id = item.id,
+                                                    )
+                                                }
 
-                                            else -> {
-                                                NavDestination.ContentViewer(
-                                                    boundsKey = "Bounds/$origin/${item.id}",
-                                                    topBarBoundsKey = "Bounds/$origin/TopBar",
-                                                    saveButtonElementKey = "Element/$origin/${item.id}/saveButton",
-                                                    id = item.id,
-                                                )
-                                            }
-                                        }
+                                                else -> {
+                                                    NavDestination.ContentViewer(
+                                                        boundsKey = "Bounds/$origin/${item.id}",
+                                                        topBarBoundsKey = "Bounds/$origin/TopBar",
+                                                        saveButtonElementKey = "Element/$origin/${item.id}/saveButton",
+                                                        id = item.id,
+                                                    )
+                                                }
+                                            },
+                                        )
                                     },
                                     onOpenSettings = { origin ->
-                                        navDestination = NavDestination.Settings(
-                                            topBarBoundsKey = "Bounds/$origin/TopBar",
-                                            titleElementKey = "Element/$origin/TopBar/Title",
+                                        backStack.add(
+                                            NavDestination.Settings(
+                                                topBarBoundsKey = "Bounds/$origin/TopBar",
+                                                titleElementKey = "Element/$origin/TopBar/Title",
+                                            ),
                                         )
                                     },
                                 )
@@ -145,7 +148,7 @@ class KSActivity : ComponentActivity() {
                                     saveButtonElementKey = it.saveButtonElementKey,
                                     id = it.id,
                                     onNavigateUp = {
-                                        navDestination = NavDestination.Main
+                                        backStack.removeLastOrNull()
                                     },
                                 )
                             }
@@ -159,7 +162,7 @@ class KSActivity : ComponentActivity() {
                                     id = it.id,
                                     issueNumber = it.issueNumber,
                                     onNavigateUp = {
-                                        navDestination = NavDestination.Main
+                                        backStack.removeLastOrNull()
                                     },
                                 )
                             }
@@ -172,7 +175,7 @@ class KSActivity : ComponentActivity() {
                                     playerElementKey = it.playerElementKey,
                                     id = it.id,
                                     onNavigateUp = {
-                                        navDestination = NavDestination.Main
+                                        backStack.removeLastOrNull()
                                     },
                                 )
                             }
@@ -182,8 +185,25 @@ class KSActivity : ComponentActivity() {
                                     animatedVisibilityScope = this@AnimatedContent,
                                     topBarBoundsKey = it.topBarBoundsKey,
                                     titleElementKey = it.titleElementKey,
+                                    onOpenLicenses = {
+                                        backStack.add(
+                                            NavDestination.Licenses(
+                                                boundsKey = "Bounds/LicensesTile",
+                                            ),
+                                        )
+                                    },
                                     onNavigateUp = {
-                                        navDestination = NavDestination.Main
+                                        backStack.removeLastOrNull()
+                                    },
+                                )
+                            }
+
+                            is NavDestination.Licenses -> {
+                                LicensesScreen(
+                                    animatedVisibilityScope = this@AnimatedContent,
+                                    boundsKey = it.boundsKey,
+                                    onNavigateUp = {
+                                        backStack.removeLastOrNull()
                                     },
                                 )
                             }
@@ -192,8 +212,8 @@ class KSActivity : ComponentActivity() {
                 }
 
                 // TODO remove once implemented proper navigation
-                BackHandler(enabled = navDestination != NavDestination.Main) {
-                    navDestination = NavDestination.Main
+                BackHandler(enabled = backStack.size > 1) {
+                    backStack.removeLastOrNull()
                 }
             }
         }
@@ -263,4 +283,7 @@ private sealed interface NavDestination : Parcelable {
         val topBarBoundsKey: String,
         val titleElementKey: String,
     ) : NavDestination
+
+    @Parcelize
+    data class Licenses(val boundsKey: String) : NavDestination
 }

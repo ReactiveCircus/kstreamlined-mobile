@@ -14,6 +14,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import io.github.reactivecircus.kstreamlined.android.BuildConfig
+import io.github.reactivecircus.kstreamlined.kmp.appinfo.AppInfo
+import io.github.reactivecircus.kstreamlined.kmp.appinfo.LicensesInfo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -60,6 +62,23 @@ object AppModule {
     @AppCoroutineScope
     fun appCoroutineScope(): CoroutineScope {
         return CoroutineScope(SupervisorJob() + Dispatchers.Default)
+    }
+
+    @Provides
+    @Singleton
+    fun appInfo(): AppInfo = AppInfo(
+        versionName = BuildConfig.VERSION_NAME,
+        sourceCodeUrl = BuildConfig.SOURCE_CODE_URL,
+    )
+
+    @Provides
+    @Singleton
+    fun licensesInfo(
+        @ApplicationContext context: Context,
+    ): LicensesInfo = LicensesInfo.fromJson {
+        context.assets.open("licensee/artifacts.json").use {
+            it.bufferedReader().readText()
+        }
     }
 }
 

@@ -7,6 +7,7 @@ gradle-toolchainsResolverPlugin = "1.0.0"
 appVersioning = "1.5.0"
 paparazzi = "2.0.0-alpha02"
 burst = "2.11.0-beta1"
+licensee = "1.14.1"
 apollo = "5.0.0-alpha.3"
 apollo-adapters = "0.7.0"
 apollo-mockserver = "0.3.1"
@@ -72,6 +73,7 @@ plugin-agp = { module = "com.android.tools.build:gradle", version.ref = "android
 plugin-appVersioning = { module = "io.github.reactivecircus.appversioning:app-versioning-gradle-plugin", version.ref = "appVersioning"}
 plugin-paparazzi = { module = "app.cash.paparazzi:paparazzi-gradle-plugin", version.ref = "paparazzi" }
 plugin-burst = { module = "app.cash.burst:burst-gradle-plugin", version.ref = "burst"}
+plugin-licensee = { module = "app.cash.licensee:licensee-gradle-plugin", version.ref = "licensee"}
 plugin-hilt = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt"}
 plugin-apollo = { module = "com.apollographql.apollo:apollo-gradle-plugin", version.ref = "apollo"}
 plugin-invert = { module = "com.squareup.invert:com.squareup.invert.gradle.plugin", version.ref = "invert"}

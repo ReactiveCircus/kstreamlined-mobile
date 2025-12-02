@@ -90,7 +90,7 @@ public fun SharedTransitionScope.ContentViewerScreen(
             .windowInsetsPadding(WindowInsets.navigationBars.only(WindowInsetsSides.Horizontal))
             .background(KSTheme.colorScheme.background)
             .sharedBounds(
-                rememberSharedContentState(key = boundsKey),
+                sharedContentState = rememberSharedContentState(key = boundsKey),
                 animatedVisibilityScope = animatedVisibilityScope,
             ),
     ) {
@@ -127,7 +127,7 @@ public fun SharedTransitionScope.ContentViewerScreen(
                         contentDescription = null,
                         onClick = { eventSink(ContentViewerUiEvent.ToggleSavedForLater) },
                         modifier = Modifier.sharedElement(
-                            rememberSharedContentState(key = saveButtonElementKey),
+                            sharedContentState = rememberSharedContentState(key = saveButtonElementKey),
                             animatedVisibilityScope = animatedVisibilityScope,
                             zIndexInOverlay = 1f,
                         ),

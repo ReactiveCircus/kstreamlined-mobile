@@ -123,7 +123,7 @@ public fun SharedTransitionScope.KotlinYouTubeCard(
                             .then(
                                 if (animatedVisibilityScope != null && saveButtonElementKey != null) {
                                     Modifier.sharedElement(
-                                        rememberSharedContentState(key = saveButtonElementKey),
+                                        sharedContentState = rememberSharedContentState(key = saveButtonElementKey),
                                         animatedVisibilityScope = animatedVisibilityScope,
                                         zIndexInOverlay = 1f,
                                     )

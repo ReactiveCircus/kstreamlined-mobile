@@ -17,6 +17,7 @@ kstreamlined {
         dependencies {
             api(project(":kmp:presentation:common"))
             implementation(project(":kmp:settings-datasource"))
+            implementation(project(":kmp:app-info"))
 
             testImplementation(project(":kmp:datastore-testing"))
             testImplementation(libs.kotlinx.coroutines.test)

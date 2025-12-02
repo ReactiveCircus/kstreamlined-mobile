@@ -70,7 +70,7 @@ public fun SharedTransitionScope.TalkingKotlinCard(
             .then(
                 if (animatedVisibilityScope != null && cardElementKey != null) {
                     Modifier.sharedElement(
-                        rememberSharedContentState(key = cardElementKey),
+                        sharedContentState = rememberSharedContentState(key = cardElementKey),
                         animatedVisibilityScope = animatedVisibilityScope,
                     )
                 } else {

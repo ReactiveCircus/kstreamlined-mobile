@@ -39,11 +39,13 @@ import androidx.compose.ui.zIndex
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.tracing.trace
-import io.github.reactivecircus.kstreamlined.android.feature.settings.component.AutoSyncSwitch
-import io.github.reactivecircus.kstreamlined.android.feature.settings.component.SyncIntervalPicker
-import io.github.reactivecircus.kstreamlined.android.feature.settings.component.SyncIntervalTile
-import io.github.reactivecircus.kstreamlined.android.feature.settings.component.ThemeSelector
-import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.HorizontalDivider
+import io.github.reactivecircus.kstreamlined.android.feature.settings.component.about.OpenSourceLicensesTile
+import io.github.reactivecircus.kstreamlined.android.feature.settings.component.about.SourceCodeTile
+import io.github.reactivecircus.kstreamlined.android.feature.settings.component.about.VersionTile
+import io.github.reactivecircus.kstreamlined.android.feature.settings.component.sync.AutoSyncSwitch
+import io.github.reactivecircus.kstreamlined.android.feature.settings.component.sync.SyncIntervalPicker
+import io.github.reactivecircus.kstreamlined.android.feature.settings.component.sync.SyncIntervalTile
+import io.github.reactivecircus.kstreamlined.android.feature.settings.component.theme.ThemeSelector
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.LargeIconButton
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.ModalBottomSheet
 import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.Text
@@ -60,6 +62,7 @@ public fun SharedTransitionScope.SettingsScreen(
     animatedVisibilityScope: AnimatedVisibilityScope,
     topBarBoundsKey: String,
     titleElementKey: String,
+    onOpenLicenses: () -> Unit,
     onNavigateUp: () -> Unit,
     modifier: Modifier = Modifier,
 ): Unit = trace("Screen:Settings") {
@@ -71,6 +74,7 @@ public fun SharedTransitionScope.SettingsScreen(
         animatedVisibilityScope = animatedVisibilityScope,
         topBarBoundsKey = topBarBoundsKey,
         titleElementKey = titleElementKey,
+        onOpenLicenses = onOpenLicenses,
         onNavigateUp = onNavigateUp,
         uiState = uiState,
         eventSink = eventSink,
@@ -80,13 +84,14 @@ public fun SharedTransitionScope.SettingsScreen(
 
 @Composable
 internal fun SharedTransitionScope.SettingsScreen(
+    animatedVisibilityScope: AnimatedVisibilityScope,
     topBarBoundsKey: String,
     titleElementKey: String,
+    onOpenLicenses: () -> Unit,
     onNavigateUp: () -> Unit,
     uiState: SettingsUiState,
     eventSink: (SettingsUiEvent) -> Unit,
     modifier: Modifier = Modifier,
-    animatedVisibilityScope: AnimatedVisibilityScope? = null,
 ) {
     Column(
         modifier = modifier
@@ -117,8 +122,10 @@ internal fun SharedTransitionScope.SettingsScreen(
         ) {
             if (uiState is SettingsUiState.Content) {
                 ContentUi(
+                    animatedVisibilityScope = animatedVisibilityScope,
                     state = uiState,
                     eventSink = eventSink,
+                    onOpenLicenses = onOpenLicenses,
                 )
             }
         }
@@ -127,9 +134,11 @@ internal fun SharedTransitionScope.SettingsScreen(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun ContentUi(
+private fun SharedTransitionScope.ContentUi(
+    animatedVisibilityScope: AnimatedVisibilityScope,
     state: SettingsUiState.Content,
     eventSink: (SettingsUiEvent) -> Unit,
+    onOpenLicenses: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(
@@ -153,9 +162,7 @@ private fun ContentUi(
                 onSelectTheme = { eventSink(SettingsUiEvent.SelectTheme(it)) },
             )
 
-            Spacer(modifier = Modifier.height(24.dp))
-
-            HorizontalDivider()
+            Spacer(modifier = Modifier.height(20.dp))
         }
         item {
             Column(modifier = Modifier.animateContentSize()) {
@@ -206,9 +213,38 @@ private fun ContentUi(
                         }
                     }
                 }
-
-                Spacer(modifier = Modifier.height(24.dp))
             }
+
+            Spacer(modifier = Modifier.height(20.dp))
+        }
+        item {
+            Text(
+                text = stringResource(R.string.section_heading_about),
+                style = KSTheme.typography.labelLarge.copy(
+                    fontWeight = FontWeight.SemiBold,
+                ),
+                color = KSTheme.colorScheme.onBackgroundVariant,
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            SourceCodeTile(sourceCodeUrl = state.sourceCodeUrl)
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            OpenSourceLicensesTile(
+                onClick = onOpenLicenses,
+                modifier = Modifier.sharedBounds(
+                    sharedContentState = rememberSharedContentState(key = "Bounds/LicensesTile"),
+                    animatedVisibilityScope = animatedVisibilityScope,
+                ),
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            VersionTile(version = state.versionName)
+
+            Spacer(modifier = Modifier.height(20.dp))
         }
     }
 }

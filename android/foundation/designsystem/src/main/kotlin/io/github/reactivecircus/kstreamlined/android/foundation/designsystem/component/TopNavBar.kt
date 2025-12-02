@@ -54,7 +54,7 @@ public fun SharedTransitionScope.TopNavBar(
             .then(
                 if (boundsKey != null && animatedVisibilityScope != null) {
                     Modifier.sharedBounds(
-                        rememberSharedContentState(key = boundsKey),
+                        sharedContentState = rememberSharedContentState(key = boundsKey),
                         animatedVisibilityScope = animatedVisibilityScope,
                         zIndexInOverlay = 1f,
                         resizeMode = scaleToBounds(ContentScale.FillWidth, Alignment.TopCenter),
@@ -141,7 +141,7 @@ private fun SharedTransitionScope.GradientTitle(
             modifier = if (titleElementKey != null && animatedVisibilityScope != null) {
                 Modifier
                     .sharedElement(
-                        rememberSharedContentState(key = titleElementKey),
+                        sharedContentState = rememberSharedContentState(key = titleElementKey),
                         animatedVisibilityScope = animatedVisibilityScope,
                         zIndexInOverlay = 1f,
                     )
