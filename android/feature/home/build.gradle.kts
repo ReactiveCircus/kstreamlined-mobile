@@ -12,7 +12,7 @@ android {
 
 dependencies {
     implementation(project(":feature:common"))
-    implementation(project(":foundation:common-ui:feed"))
+    implementation(project(":core:common-ui:feed"))
     implementation(project(":kmp:feed-datasource"))
     implementation(project(":kmp:feed-sync:common"))
     implementation(project(":kmp:presentation:home"))

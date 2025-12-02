@@ -19,11 +19,11 @@ import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
-import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.Icon
-import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.Surface
-import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.component.Text
-import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.KSTheme
-import io.github.reactivecircus.kstreamlined.android.foundation.designsystem.foundation.icon.KSIcons
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Icon
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Surface
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Text
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.icon.KSIcons
 import io.github.reactivecircus.kstreamlined.kmp.settings.model.AppSettings
 
 @Composable

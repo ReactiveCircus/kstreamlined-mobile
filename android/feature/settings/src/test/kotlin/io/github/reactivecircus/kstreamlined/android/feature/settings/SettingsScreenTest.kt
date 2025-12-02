@@ -8,7 +8,7 @@ import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.runtime.Composable
 import app.cash.burst.Burst
 import io.github.reactivecircus.chameleon.runtime.Chameleon
-import io.github.reactivecircus.kstreamlined.android.foundation.screenshottesting.tester.SnapshotTester
+import io.github.reactivecircus.kstreamlined.android.core.screenshottesting.tester.SnapshotTester
 import io.github.reactivecircus.kstreamlined.kmp.presentation.settings.AutoSyncInterval
 import io.github.reactivecircus.kstreamlined.kmp.presentation.settings.SettingsUiState
 import io.github.reactivecircus.kstreamlined.kmp.settings.model.AppSettings
