@@ -10,9 +10,7 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinBaseExtension
 
 internal class AndroidTestConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) = with(target) {
-        with(pluginManager) {
-            apply("com.android.test")
-        }
+        pluginManager.apply("com.android.test")
 
         extensions.configure(KotlinBaseExtension::class.java) {
             it.configureBuiltInKotlin(target, enableExplicitApi = false)

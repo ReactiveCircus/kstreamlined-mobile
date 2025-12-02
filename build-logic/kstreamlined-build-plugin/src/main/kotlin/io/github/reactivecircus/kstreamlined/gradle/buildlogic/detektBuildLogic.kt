@@ -7,7 +7,7 @@ import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 /**
- * Apply and configure detekt.
+ * Apply and configure detekt plugin.
  */
 internal fun Project.configureDetekt() {
     // apply detekt plugin
