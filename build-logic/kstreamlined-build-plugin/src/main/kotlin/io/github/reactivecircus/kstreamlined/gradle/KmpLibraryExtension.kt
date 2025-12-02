@@ -2,12 +2,17 @@
 
 package io.github.reactivecircus.kstreamlined.gradle
 
+import app.cash.sqldelight.gradle.SqlDelightDatabase
+import app.cash.sqldelight.gradle.SqlDelightExtension
+import com.apollographql.apollo.gradle.api.ApolloExtension
+import com.apollographql.apollo.gradle.api.Service
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.KmpTargetsConfig
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureCompose
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureDetekt
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureKmpTargets
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureKmpTest
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureKotlin
+import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configurePowerAssert
 import org.gradle.api.Action
 import org.gradle.api.Project
 import org.gradle.api.model.ObjectFactory
@@ -15,7 +20,6 @@ import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.KotlinDependencies
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinDependencyHandler
-import org.jetbrains.kotlin.powerassert.gradle.PowerAssertGradleExtension
 import javax.inject.Inject
 
 /**
@@ -33,6 +37,21 @@ public interface KmpLibraryExtension {
      * Enable Compose.
      */
     public fun compose()
+
+    /**
+     * Enable kotlinx.serialization by applying the `org.jetbrains.kotlin.plugin.serialization` plugin.
+     */
+    public fun serialization()
+
+    /**
+     * Create a new Apollo service with the provided [name].
+     */
+    public fun apolloService(name: String, action: Action<Service>)
+
+    /**
+     * Create a new SQLDelight database with the provided [name].
+     */
+    public fun sqlDelightDatabase(name: String, action: Action<SqlDelightDatabase>)
 
     /**
      * Enable unit tests.
@@ -112,6 +131,12 @@ internal abstract class KmpLibraryExtensionImpl @Inject constructor(
 
     private var composeEnabled: Boolean = false
 
+    private var serializationEnabled: Boolean = false
+
+    private val apolloServiceConfigs: MutableMap<String, Action<Service>> = mutableMapOf()
+
+    private val sqlDelightDatabaseConfigs: MutableMap<String, Action<SqlDelightDatabase>> = mutableMapOf()
+
     private var unitTestsEnabled: Boolean = false
 
     private var androidHostTestsEnabled: Boolean = false
@@ -136,6 +161,18 @@ internal abstract class KmpLibraryExtensionImpl @Inject constructor(
 
     override fun compose() {
         composeEnabled = true
+    }
+
+    override fun serialization() {
+        serializationEnabled = true
+    }
+
+    override fun apolloService(name: String, action: Action<Service>) {
+        apolloServiceConfigs[name] = action
+    }
+
+    override fun sqlDelightDatabase(name: String, action: Action<SqlDelightDatabase>) {
+        sqlDelightDatabaseConfigs[name] = action
     }
 
     override fun unitTests(androidHostTests: Boolean) {
@@ -227,20 +264,16 @@ internal abstract class KmpLibraryExtensionImpl @Inject constructor(
                 )
             }
 
+            if (this@KmpLibraryExtensionImpl.serializationEnabled) {
+                pluginManager.apply("org.jetbrains.kotlin.plugin.serialization")
+            }
+
+            this@KmpLibraryExtensionImpl.configureApolloServices()
+
+            this@KmpLibraryExtensionImpl.configureSqlDelightDatabases()
+
             if (this@KmpLibraryExtensionImpl.unitTestsEnabled) {
-                pluginManager.apply("org.jetbrains.kotlin.plugin.power-assert")
-                @OptIn(ExperimentalKotlinGradlePluginApi::class)
-                extensions.configure(PowerAssertGradleExtension::class.java) {
-                    it.functions.set(
-                        listOf(
-                            "kotlin.assert",
-                            "kotlin.test.assertEquals",
-                            "kotlin.test.assertTrue",
-                            "kotlin.test.assertFalse",
-                            "kotlin.test.assertNull",
-                        ),
-                    )
-                }
+                configurePowerAssert()
                 extensions.configure(KotlinMultiplatformExtension::class.java) {
                     it.configureKmpTest(project)
                 }
@@ -276,6 +309,34 @@ internal abstract class KmpLibraryExtensionImpl @Inject constructor(
             }
             iosTestDependenciesBlock?.let {
                 iosTest { dependencies(it) }
+            }
+        }
+    }
+
+    private fun configureApolloServices() = with(project) {
+        val serviceConfigs = apolloServiceConfigs
+        if (serviceConfigs.isNotEmpty()) {
+            pluginManager.apply("com.apollographql.apollo")
+            extensions.configure(ApolloExtension::class.java) {
+                serviceConfigs.forEach { (name, action) ->
+                    it.service(name) { service ->
+                        action.execute(service)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun configureSqlDelightDatabases() = with(project) {
+        val dbConfigs = sqlDelightDatabaseConfigs
+        if (dbConfigs.isNotEmpty()) {
+            pluginManager.apply("app.cash.sqldelight")
+            extensions.configure(SqlDelightExtension::class.java) {
+                dbConfigs.forEach { (name, action) ->
+                    it.databases.create(name) { database ->
+                        action.execute(database)
+                    }
+                }
             }
         }
     }

@@ -2,7 +2,6 @@ import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 
 plugins {
     id("kstreamlined")
-    id("org.jetbrains.kotlin.plugin.serialization")
 }
 
 kstreamlined {
@@ -11,6 +10,7 @@ kstreamlined {
             jvm()
             ios()
         }
+        serialization()
         unitTests()
 
         @OptIn(ExperimentalKotlinGradlePluginApi::class)

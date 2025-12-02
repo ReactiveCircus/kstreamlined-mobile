@@ -5,6 +5,7 @@ package io.github.reactivecircus.kstreamlined.gradle
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureCompose
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureDetekt
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureKotlin
+import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configurePowerAssert
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureTest
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.libs
 import org.gradle.api.Action
@@ -29,6 +30,11 @@ public interface JvmLibraryExtension {
     public fun compose()
 
     /**
+     * Enable kotlinx.serialization by applying the `org.jetbrains.kotlin.plugin.serialization` plugin.
+     */
+    public fun serialization()
+
+    /**
      * Enable unit tests.
      */
     public fun unitTests()
@@ -44,12 +50,18 @@ internal abstract class JvmLibraryExtensionImpl @Inject constructor(
 ) : JvmLibraryExtension, TopLevelExtension {
     private var composeEnabled: Boolean = false
 
+    private var serializationEnabled: Boolean = false
+
     private var unitTestsEnabled: Boolean = false
 
     private var dependenciesBlock: Action<KotlinDependencies>? = null
 
     override fun compose() {
         composeEnabled = true
+    }
+
+    override fun serialization() {
+        serializationEnabled = true
     }
 
     override fun unitTests() {
@@ -83,8 +95,12 @@ internal abstract class JvmLibraryExtensionImpl @Inject constructor(
             )
         }
 
+        if (serializationEnabled) {
+            pluginManager.apply("org.jetbrains.kotlin.plugin.serialization")
+        }
         if (unitTestsEnabled) {
             dependencies.add("testImplementation", libs.kotlin.test.junit)
+            configurePowerAssert()
             configureTest()
         }
 
