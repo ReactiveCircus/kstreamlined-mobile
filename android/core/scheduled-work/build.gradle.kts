@@ -16,7 +16,6 @@ kstreamlined {
 
             implementation(libs.androidx.work.runtime)
             implementation(libs.androidx.tracing)
-            implementation(libs.hilt.android)
 
             testImplementation(project(":kmp:datastore-testing"))
             testImplementation(libs.kotlin.test.junit)
