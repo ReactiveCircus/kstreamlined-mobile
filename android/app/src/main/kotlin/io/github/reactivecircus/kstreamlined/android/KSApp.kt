@@ -1,7 +1,6 @@
 package io.github.reactivecircus.kstreamlined.android
 
 import android.app.Application
-import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
 import coil3.ImageLoader
 import coil3.PlatformContext
@@ -9,6 +8,7 @@ import coil3.SingletonImageLoader
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.Lazy
 import dagger.hilt.android.HiltAndroidApp
+import io.github.reactivecircus.kstreamlined.android.core.scheduledwork.KSWorkerFactory
 import io.github.reactivecircus.kstreamlined.android.core.scheduledwork.sync.SyncScheduler
 import io.github.reactivecircus.kstreamlined.android.di.AppCoroutineScope
 import kotlinx.coroutines.CoroutineScope
@@ -22,7 +22,7 @@ open class KSApp : Application(), SingletonImageLoader.Factory, Configuration.Pr
     lateinit var imageLoader: Lazy<ImageLoader>
 
     @Inject
-    lateinit var workerFactory: Lazy<HiltWorkerFactory>
+    lateinit var workerFactory: Lazy<KSWorkerFactory>
 
     @Inject
     lateinit var syncScheduler: SyncScheduler
@@ -47,11 +47,10 @@ open class KSApp : Application(), SingletonImageLoader.Factory, Configuration.Pr
 
     override fun newImageLoader(context: PlatformContext): ImageLoader = imageLoader.get()
 
-    override fun getWorkManagerConfiguration(): Configuration {
-        return Configuration.Builder()
+    override val workManagerConfiguration: Configuration
+        get() = Configuration.Builder()
             .setWorkerFactory(workerFactory.get())
             .build()
-    }
 
     protected open fun initializeKermit() {
         // TODO

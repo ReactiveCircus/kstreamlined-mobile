@@ -6,10 +6,7 @@ plugins {
 
 kstreamlined {
     androidCoreLibrary("io.github.reactivecircus.kstreamlined.android.core.scheduledwork") {
-        ksp {
-            add(libs.androidx.hilt.compiler)
-            add(libs.hilt.compiler)
-        }
+        hilt()
         unitTests()
 
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
@@ -18,9 +15,7 @@ kstreamlined {
             implementation(project(":kmp:settings-datasource"))
 
             implementation(libs.androidx.work.runtime)
-            implementation(libs.androidx.hilt.work)
             implementation(libs.androidx.tracing)
-            implementation(libs.hilt.android)
 
             testImplementation(project(":kmp:datastore-testing"))
             testImplementation(libs.kotlin.test.junit)

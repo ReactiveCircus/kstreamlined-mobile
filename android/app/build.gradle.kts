@@ -254,7 +254,7 @@ dependencies {
     implementation(libs.androidx.coreSplashscreen)
     implementation(libs.androidx.profileinstaller)
     implementation(libs.androidx.compose.runtime.tracing)
-    implementation(libs.androidx.hilt.work)
+    implementation(libs.androidx.work.runtime)
     implementation(libs.androidx.tracing)
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)

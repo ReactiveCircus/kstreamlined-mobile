@@ -33,9 +33,9 @@ public interface AndroidCoreLibraryExtension {
     public fun compose()
 
     /**
-     * Enable KSP and configure KSP dependencies.
+     * Enable Hilt by adding the `hilt-compiler` using KSP and adding the `hilt-android` runtime dependency.
      */
-    public fun ksp(action: Action<KspOptions>)
+    public fun hilt()
 
     /**
      * Enable Android resources.
@@ -61,11 +61,6 @@ public interface AndroidCoreLibraryExtension {
      * Configure dependencies.
      */
     public fun dependencies(action: Action<KotlinDependencies>)
-
-    @KStreamlinedExtensionMarker
-    public interface KspOptions {
-        public fun add(dependency: Any)
-    }
 }
 
 internal abstract class AndroidCoreLibraryExtensionImpl @Inject constructor(
@@ -74,7 +69,7 @@ internal abstract class AndroidCoreLibraryExtensionImpl @Inject constructor(
 ) : AndroidCoreLibraryExtension, TopLevelExtension {
     private var composeEnabled: Boolean = false
 
-    private var kspOptions: KspOptionsImpl? = null
+    private var hiltEnabled: Boolean = false
 
     private var androidResourcesEnabled: Boolean = false
 
@@ -90,11 +85,8 @@ internal abstract class AndroidCoreLibraryExtensionImpl @Inject constructor(
         composeEnabled = true
     }
 
-    override fun ksp(action: Action<AndroidCoreLibraryExtension.KspOptions>) {
-        if (kspOptions == null) {
-            kspOptions = project.objects.newInstance(KspOptionsImpl::class.java)
-        }
-        action.execute(kspOptions!!)
+    override fun hilt() {
+        hiltEnabled = true
     }
 
     override fun androidResources() {
@@ -150,9 +142,12 @@ internal abstract class AndroidCoreLibraryExtensionImpl @Inject constructor(
             )
         }
 
-        val kspDependencies = kspOptions?.kspDependencies
-        if (!kspDependencies.isNullOrEmpty()) {
-            configureKsp(kspDependencies)
+        if (hiltEnabled) {
+            configureKsp()
+            with(dependencies) {
+                add("ksp", libs.hilt.compiler)
+                add("implementation", libs.hilt.android)
+            }
         }
 
         if (serializationEnabled) {
@@ -170,14 +165,5 @@ internal abstract class AndroidCoreLibraryExtensionImpl @Inject constructor(
         }
 
         configureDetekt()
-    }
-
-    internal abstract class KspOptionsImpl : AndroidCoreLibraryExtension.KspOptions {
-        private val _kspDependencies = mutableSetOf<Any>()
-        val kspDependencies: Set<Any> = _kspDependencies
-
-        override fun add(dependency: Any) {
-            _kspDependencies.add(dependency)
-        }
     }
 }

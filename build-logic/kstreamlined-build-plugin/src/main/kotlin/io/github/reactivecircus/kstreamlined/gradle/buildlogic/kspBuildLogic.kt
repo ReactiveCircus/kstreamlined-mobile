@@ -6,9 +6,7 @@ import org.gradle.api.Project
 /**
  * Apply and configure KSP plugin.
  */
-internal fun Project.configureKsp(
-    kspDependencies: Set<Any> = emptySet(),
-) {
+internal fun Project.configureKsp() {
     pluginManager.apply("com.google.devtools.ksp")
 
     extensions.configure(KspExtension::class.java) {
@@ -16,9 +14,6 @@ internal fun Project.configureKsp(
             it.arg("dagger.fastInit", "enabled")
             it.arg("dagger.strictMultibindingValidation", "enabled")
             it.arg("dagger.experimentalDaggerErrorMessages", "enabled")
-        }
-        kspDependencies.forEach { dependency ->
-            dependencies.add("ksp", dependency)
         }
     }
 
