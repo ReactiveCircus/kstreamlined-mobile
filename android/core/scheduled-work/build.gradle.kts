@@ -7,7 +7,6 @@ plugins {
 kstreamlined {
     androidCoreLibrary("io.github.reactivecircus.kstreamlined.android.core.scheduledwork") {
         ksp {
-            add(libs.androidx.hilt.compiler)
             add(libs.hilt.compiler)
         }
         unitTests()
@@ -18,7 +17,6 @@ kstreamlined {
             implementation(project(":kmp:settings-datasource"))
 
             implementation(libs.androidx.work.runtime)
-            implementation(libs.androidx.hilt.work)
             implementation(libs.androidx.tracing)
             implementation(libs.hilt.android)
 
