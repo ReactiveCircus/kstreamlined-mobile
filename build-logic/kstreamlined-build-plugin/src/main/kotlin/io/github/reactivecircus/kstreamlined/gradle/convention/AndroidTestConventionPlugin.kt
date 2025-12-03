@@ -17,7 +17,7 @@ internal class AndroidTestConventionPlugin : Plugin<Project> {
         }
 
         extensions.configure(TestExtension::class.java) {
-            it.configureAndroidTestExtension()
+            it.configureAndroidTestExtension(target)
         }
 
         configureDetekt()

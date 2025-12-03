@@ -1,12 +1,16 @@
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+
 plugins {
-    id("kstreamlined.android.library")
-    id("kstreamlined.compose")
+    id("kstreamlined")
 }
 
-android {
-    namespace = "io.github.reactivecircus.kstreamlined.android.core.composeutils"
-}
+kstreamlined {
+    androidCoreLibrary("io.github.reactivecircus.kstreamlined.android.core.composeutils") {
+        compose()
 
-dependencies {
-    implementation(libs.androidx.compose.foundation)
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        dependencies {
+            implementation(libs.androidx.compose.foundation)
+        }
+    }
 }

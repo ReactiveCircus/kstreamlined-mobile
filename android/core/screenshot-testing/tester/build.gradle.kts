@@ -1,16 +1,20 @@
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+
 plugins {
-    id("kstreamlined.android.library")
-    id("kstreamlined.compose")
+    id("kstreamlined")
 }
 
-android {
-    namespace = "io.github.reactivecircus.kstreamlined.android.core.screenshottesting.tester"
-}
+kstreamlined {
+    androidCoreLibrary("io.github.reactivecircus.kstreamlined.android.core.screenshottesting.tester") {
+        compose()
 
-dependencies {
-    api(project(":core:screenshot-testing:paparazzi"))
-    implementation(project(":core:designsystem"))
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        dependencies {
+            api(project(":core:screenshot-testing:paparazzi"))
+            implementation(project(":core:designsystem"))
 
-    implementation(libs.androidx.compose.foundation)
-    implementation(libs.paparazzi)
+            implementation(libs.androidx.compose.foundation)
+            implementation(libs.paparazzi)
+        }
+    }
 }

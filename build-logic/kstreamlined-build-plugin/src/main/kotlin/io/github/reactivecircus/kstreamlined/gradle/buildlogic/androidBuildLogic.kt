@@ -3,6 +3,7 @@ package io.github.reactivecircus.kstreamlined.gradle.buildlogic
 import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.dsl.CommonExtension
 import com.android.build.api.dsl.KotlinMultiplatformAndroidLibraryExtension
+import com.android.build.api.dsl.LibraryExtension
 import com.android.build.api.dsl.Lint
 import com.android.build.api.dsl.Packaging
 import com.android.build.api.dsl.TestExtension
@@ -14,24 +15,47 @@ import org.gradle.api.Project
 import java.io.File
 
 /**
- * Apply baseline configurations on an Android Application or Library project.
+ * Apply baseline configurations on an Android Application project.
  */
-internal fun CommonExtension.configureCommonAndroidExtension(project: Project) {
-    compileSdk = AndroidSdk.CompileSdk
-    buildToolsVersion = AndroidSdk.BuildTools
-
-    defaultConfig.minSdk = AndroidSdk.MinSdk
-
-    testOptions.animationsDisabled = true
-
-    with(compileOptions) {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+internal fun ApplicationExtension.configureAndroidApplicationExtension(project: Project) {
+    defaultConfig {
+        targetSdk = AndroidSdk.TargetSdk
     }
+    androidResources {
+        @Suppress("UnstableApiUsage")
+        localeFilters += "en"
+    }
+    configureCommonAndroidExtension(project)
+}
 
-    lint.configureLintOptions(project)
+/**
+ * Apply baseline configurations on an Android Library project.
+ */
+internal fun LibraryExtension.configureAndroidLibraryExtension(project: Project) {
+    configureCommonAndroidExtension(project)
+}
 
-    packaging.configurePackagingOptions()
+/**
+ * Apply baseline configurations on an Android Library project.
+ */
+internal fun LibraryExtension.configureAndroidLibraryExtension(
+    project: Project,
+    namespace: String,
+    enableAndroidResources: Boolean,
+) {
+    this.namespace = namespace
+    this.androidResources.enable = enableAndroidResources
+    configureCommonAndroidExtension(project)
+}
+
+/**
+ * Apply baseline configurations on an Android Test project.
+ */
+internal fun TestExtension.configureAndroidTestExtension(project: Project) {
+    defaultConfig {
+        targetSdk = AndroidSdk.TargetSdk
+    }
+    configureCommonAndroidExtension(project)
 }
 
 /**
@@ -68,38 +92,6 @@ internal fun KotlinMultiplatformAndroidLibraryExtension.configureKmpAndroidLibra
 }
 
 /**
- * Apply baseline configurations on an Android Application project.
- */
-internal fun ApplicationExtension.configureAndroidApplicationExtension() {
-    defaultConfig {
-        targetSdk = AndroidSdk.TargetSdk
-    }
-
-    androidResources {
-        @Suppress("UnstableApiUsage")
-        localeFilters += "en"
-    }
-}
-
-/**
- * Apply baseline configurations on an Android Test project.
- */
-internal fun TestExtension.configureAndroidTestExtension() {
-    compileSdk = AndroidSdk.CompileSdk
-    buildToolsVersion = AndroidSdk.BuildTools
-
-    defaultConfig {
-        minSdk = AndroidSdk.MinSdk
-        targetSdk = AndroidSdk.TargetSdk
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-}
-
-/**
  * Configure the Library Component based on build variants.
  */
 internal fun LibraryAndroidComponentsExtension.configureAndroidLibraryVariants() {
@@ -121,6 +113,24 @@ internal fun ApplicationAndroidComponentsExtension.configureAndroidApplicationVa
         // disable android tests by default
         it.androidTest.enable = false
     }
+}
+
+private fun CommonExtension.configureCommonAndroidExtension(project: Project) {
+    compileSdk = AndroidSdk.CompileSdk
+    buildToolsVersion = AndroidSdk.BuildTools
+
+    defaultConfig.minSdk = AndroidSdk.MinSdk
+
+    testOptions.animationsDisabled = true
+
+    with(compileOptions) {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    lint.configureLintOptions(project)
+
+    packaging.configurePackagingOptions()
 }
 
 private fun Lint.configureLintOptions(project: Project) {

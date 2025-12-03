@@ -1,33 +1,31 @@
-import com.android.build.api.variant.HasUnitTestBuilder
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 
 plugins {
-    id("kstreamlined.android.library")
-    id("kstreamlined.ksp")
+    id("kstreamlined")
 }
 
-android {
-    namespace = "io.github.reactivecircus.kstreamlined.android.core.scheduledwork"
-}
+kstreamlined {
+    androidCoreLibrary("io.github.reactivecircus.kstreamlined.android.core.scheduledwork") {
+        ksp {
+            add(libs.androidx.hilt.compiler)
+            add(libs.hilt.compiler)
+        }
+        unitTests()
 
-androidComponents {
-    beforeVariants {
-        (it as HasUnitTestBuilder).enableUnitTest = true
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        dependencies {
+            implementation(project(":kmp:feed-sync:common"))
+            implementation(project(":kmp:settings-datasource"))
+
+            implementation(libs.androidx.work.runtime)
+            implementation(libs.androidx.hilt.work)
+            implementation(libs.androidx.tracing)
+            implementation(libs.hilt.android)
+
+            testImplementation(project(":kmp:datastore-testing"))
+            testImplementation(libs.kotlin.test.junit)
+            testImplementation(libs.kotlinx.coroutines.test)
+            testImplementation(libs.turbine)
+        }
     }
-}
-
-dependencies {
-    implementation(project(":kmp:feed-sync:common"))
-    implementation(project(":kmp:settings-datasource"))
-
-    implementation(libs.androidx.work.runtime)
-    implementation(libs.androidx.hilt.work)
-    ksp(libs.androidx.hilt.compiler)
-    implementation(libs.androidx.tracing)
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.compiler)
-
-    testImplementation(project(":kmp:datastore-testing"))
-    testImplementation(libs.kotlin.test.junit)
-    testImplementation(libs.kotlinx.coroutines.test)
-    testImplementation(libs.turbine)
 }

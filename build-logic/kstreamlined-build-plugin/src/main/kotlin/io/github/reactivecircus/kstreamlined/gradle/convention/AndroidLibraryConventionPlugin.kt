@@ -2,9 +2,9 @@ package io.github.reactivecircus.kstreamlined.gradle.convention
 
 import com.android.build.api.dsl.LibraryExtension
 import com.android.build.api.variant.LibraryAndroidComponentsExtension
+import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureAndroidLibraryExtension
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureAndroidLibraryVariants
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureBuiltInKotlin
-import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureCommonAndroidExtension
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureDetekt
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureTest
 import org.gradle.api.Plugin
@@ -20,7 +20,7 @@ internal class AndroidLibraryConventionPlugin : Plugin<Project> {
         }
 
         extensions.configure(LibraryExtension::class.java) {
-            it.configureCommonAndroidExtension(target)
+            it.configureAndroidLibraryExtension(target)
         }
 
         extensions.configure(LibraryAndroidComponentsExtension::class.java) {

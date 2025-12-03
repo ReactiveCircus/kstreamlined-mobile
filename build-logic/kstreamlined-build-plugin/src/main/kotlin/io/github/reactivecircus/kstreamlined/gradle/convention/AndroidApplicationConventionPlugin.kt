@@ -5,7 +5,6 @@ import com.android.build.api.variant.ApplicationAndroidComponentsExtension
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureAndroidApplicationExtension
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureAndroidApplicationVariants
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureBuiltInKotlin
-import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureCommonAndroidExtension
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureDetekt
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureLicensee
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureTest
@@ -22,8 +21,7 @@ internal class AndroidApplicationConventionPlugin : Plugin<Project> {
         }
 
         extensions.configure(ApplicationExtension::class.java) {
-            it.configureCommonAndroidExtension(target)
-            it.configureAndroidApplicationExtension()
+            it.configureAndroidApplicationExtension(target)
         }
 
         extensions.configure(ApplicationAndroidComponentsExtension::class.java) {

@@ -1,20 +1,24 @@
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+
 plugins {
-    id("kstreamlined.android.library")
-    id("kstreamlined.android.screenshot-test")
-    id("kstreamlined.compose")
+    id("kstreamlined")
 }
 
-android {
-    namespace = "io.github.reactivecircus.kstreamlined.android.core.commonui.feed"
-}
+kstreamlined {
+    androidCoreLibrary("io.github.reactivecircus.kstreamlined.android.core.commonui.feed") {
+        compose()
+        screenshotTests()
 
-dependencies {
-    implementation(project(":core:designsystem"))
-    implementation(project(":core:compose-utils"))
-    implementation(project(":kmp:feed-model"))
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        dependencies {
+            implementation(project(":core:designsystem"))
+            implementation(project(":core:compose-utils"))
+            implementation(project(":kmp:feed-model"))
 
-    implementation(libs.androidx.compose.foundation)
-    implementation(libs.androidx.compose.ui.tooling)
-    implementation(libs.androidx.tracing)
-    implementation(libs.coil.compose)
+            implementation(libs.androidx.compose.foundation)
+            implementation(libs.androidx.compose.ui.tooling)
+            implementation(libs.androidx.tracing)
+            implementation(libs.coil.compose)
+        }
+    }
 }
