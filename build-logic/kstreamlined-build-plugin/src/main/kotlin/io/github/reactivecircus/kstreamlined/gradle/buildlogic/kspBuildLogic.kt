@@ -4,7 +4,7 @@ import com.google.devtools.ksp.gradle.KspExtension
 import org.gradle.api.Project
 
 /**
- * Apply and configure KSP plugin and dependencies.
+ * Apply and configure KSP plugin.
  */
 internal fun Project.configureKsp(
     kspDependencies: Set<Any> = emptySet(),
