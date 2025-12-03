@@ -61,6 +61,11 @@ public interface AndroidCoreLibraryExtension {
      * Configure dependencies.
      */
     public fun dependencies(action: Action<KotlinDependencies>)
+
+    @KStreamlinedExtensionMarker
+    public interface KspOptions {
+        public fun add(dependency: Any)
+    }
 }
 
 internal abstract class AndroidCoreLibraryExtensionImpl @Inject constructor(
@@ -85,7 +90,7 @@ internal abstract class AndroidCoreLibraryExtensionImpl @Inject constructor(
         composeEnabled = true
     }
 
-    override fun ksp(action: Action<KspOptions>) {
+    override fun ksp(action: Action<AndroidCoreLibraryExtension.KspOptions>) {
         if (kspOptions == null) {
             kspOptions = project.objects.newInstance(KspOptionsImpl::class.java)
         }
@@ -166,17 +171,13 @@ internal abstract class AndroidCoreLibraryExtensionImpl @Inject constructor(
 
         configureDetekt()
     }
-}
 
-public interface KspOptions {
-    public fun add(dependency: Any)
-}
+    internal abstract class KspOptionsImpl : AndroidCoreLibraryExtension.KspOptions {
+        private val _kspDependencies = mutableSetOf<Any>()
+        val kspDependencies: Set<Any> = _kspDependencies
 
-internal abstract class KspOptionsImpl : KspOptions {
-    private val _kspDependencies = mutableSetOf<Any>()
-    val kspDependencies: Set<Any> = _kspDependencies
-
-    override fun add(dependency: Any) {
-        _kspDependencies.add(dependency)
+        override fun add(dependency: Any) {
+            _kspDependencies.add(dependency)
+        }
     }
 }
