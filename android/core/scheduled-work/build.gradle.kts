@@ -6,9 +6,7 @@ plugins {
 
 kstreamlined {
     androidCoreLibrary("io.github.reactivecircus.kstreamlined.android.core.scheduledwork") {
-        ksp {
-            add(libs.hilt.compiler)
-        }
+        hilt()
         unitTests()
 
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
