@@ -1,16 +1,20 @@
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+
 plugins {
-    id("kstreamlined.android.library")
-    id("kstreamlined.android.screenshot-test")
-    id("kstreamlined.compose")
+    id("kstreamlined")
 }
 
-android {
-    namespace = "io.github.reactivecircus.kstreamlined.android.core.designsystem"
-    androidResources.enable = true
-}
+kstreamlined {
+    androidCoreLibrary("io.github.reactivecircus.kstreamlined.android.core.designsystem") {
+        compose()
+        androidResources()
+        screenshotTests()
 
-dependencies {
-    implementation(libs.androidx.compose.material3)
-    implementation(libs.androidx.compose.foundation)
-    implementation(libs.androidx.compose.ui.tooling)
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        dependencies {
+            implementation(libs.androidx.compose.material3)
+            implementation(libs.androidx.compose.foundation)
+            implementation(libs.androidx.compose.ui.tooling)
+        }
+    }
 }

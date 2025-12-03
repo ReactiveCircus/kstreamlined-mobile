@@ -1,23 +1,27 @@
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+
 plugins {
-    id("kstreamlined.android.library")
+    id("kstreamlined")
 }
 
-android {
-    namespace = "io.github.reactivecircus.kstreamlined.android.feature.common"
-    androidResources.enable = true
-}
+kstreamlined {
+    androidCoreLibrary("io.github.reactivecircus.kstreamlined.android.feature.common") {
+        androidResources()
 
-dependencies {
-    api(project(":core:designsystem"))
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        dependencies {
+            api(project(":core:designsystem"))
 
-    api(libs.androidx.core)
-    api(libs.androidx.compose.foundation)
-    api(libs.androidx.compose.ui.tooling)
-    api(libs.androidx.lifecycle.runtimeCompose)
-    api(libs.androidx.lifecycle.viewmodelCompose)
-    api(libs.androidx.hilt.lifecycleViewmodelCompose)
-    implementation(libs.androidx.browser)
-    api(libs.coil.compose)
-    api(libs.kermit)
-    api(libs.kotlinx.coroutines.core)
+            api(libs.androidx.core)
+            api(libs.androidx.compose.foundation)
+            api(libs.androidx.compose.ui.tooling)
+            api(libs.androidx.lifecycle.runtimeCompose)
+            api(libs.androidx.lifecycle.viewmodelCompose)
+            api(libs.androidx.hilt.lifecycleViewmodelCompose)
+            implementation(libs.androidx.browser)
+            api(libs.coil.compose)
+            api(libs.kermit)
+            api(libs.kotlinx.coroutines.core)
+        }
+    }
 }
