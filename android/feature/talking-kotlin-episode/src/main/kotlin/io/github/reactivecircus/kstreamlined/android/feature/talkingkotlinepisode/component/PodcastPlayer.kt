@@ -55,7 +55,7 @@ internal fun PodcastPlayer(
     var playerPositionMillis by remember { mutableIntStateOf(0) }
     var playerDurationMillis by remember { mutableIntStateOf(0) }
 
-    val player = rememberAudioPlayer(
+    val player = retainAudioPlayer(
         audioUrl = episode.audioUrl,
         onPlaybackReady = { currentPosition, duration ->
             playerPositionMillis = currentPosition.toInt()
@@ -75,17 +75,9 @@ internal fun PodcastPlayer(
         }
     }
 
-    DisposableEffect(isPlaying) {
-        if (isPlaying) {
-            player.play()
-        } else {
-            player.pause()
-        }
-        onDispose { }
-    }
-
     LaunchedEffect(isPlaying) {
         if (isPlaying) {
+            player.play()
             flow {
                 while (true) {
                     delay(PlaybackSyncInterval)
@@ -95,6 +87,8 @@ internal fun PodcastPlayer(
                 playerPositionMillis = player.currentPosition.toInt()
                 playerDurationMillis = player.duration.toInt()
             }
+        } else {
+            player.pause()
         }
     }
 

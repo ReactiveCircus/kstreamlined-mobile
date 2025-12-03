@@ -2,7 +2,7 @@ package io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepiso
 
 import androidx.annotation.OptIn
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.retain.retain
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.media3.common.MediaItem
@@ -35,15 +35,15 @@ internal interface AudioPlayer {
 
 @OptIn(UnstableApi::class)
 @Composable
-internal fun rememberAudioPlayer(
+internal fun retainAudioPlayer(
     audioUrl: String,
     onPlaybackReady: (currentPosition: Long, duration: Long) -> Unit,
     onPlaybackEnded: (currentPosition: Long) -> Unit,
 ): AudioPlayer {
-    val context = LocalContext.current
-    val localInspectionMode = LocalInspectionMode.current
-    return remember(audioUrl, context) {
-        if (!localInspectionMode) {
+    val context = LocalContext.current.applicationContext
+    val inspectionMode = LocalInspectionMode.current
+    return retain(audioUrl) {
+        if (!inspectionMode) {
             val audioOnlyRenderersFactory = RenderersFactory { handler, _, audioListener, _, _ ->
                 arrayOf<Renderer>(
                     MediaCodecAudioRenderer(context, MediaCodecSelector.DEFAULT, handler, audioListener),
