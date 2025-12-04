@@ -1,21 +1,19 @@
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+
 plugins {
-    id("kstreamlined.android.library")
-    id("kstreamlined.android.screenshot-test")
-    id("kstreamlined.compose")
-    id("kstreamlined.ksp")
+    id("kstreamlined")
 }
 
-android {
-    namespace = "io.github.reactivecircus.kstreamlined.android.feature.savedforlater"
-    androidResources.enable = true
-}
+kstreamlined {
+    androidFeatureLibrary("io.github.reactivecircus.kstreamlined.android.feature.savedforlater") {
+        screenshotTests()
 
-dependencies {
-    implementation(project(":feature:common"))
-    implementation(project(":core:common-ui:feed"))
-    implementation(project(":kmp:feed-datasource"))
-    implementation(project(":kmp:presentation:saved-for-later"))
-
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.compiler)
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        dependencies {
+            implementation(project(":feature:common"))
+            implementation(project(":core:common-ui:feed"))
+            implementation(project(":kmp:feed-datasource"))
+            implementation(project(":kmp:presentation:saved-for-later"))
+        }
+    }
 }

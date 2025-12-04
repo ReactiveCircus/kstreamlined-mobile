@@ -1,33 +1,22 @@
-import com.android.build.api.variant.HasUnitTestBuilder
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 
 plugins {
-    id("kstreamlined.android.library")
-    id("kstreamlined.android.screenshot-test")
-    id("kstreamlined.compose")
-    id("kstreamlined.ksp")
+    id("kstreamlined")
 }
 
-android {
-    namespace = "io.github.reactivecircus.kstreamlined.android.feature.licenses"
-    androidResources.enable = true
-}
+kstreamlined {
+    androidFeatureLibrary("io.github.reactivecircus.kstreamlined.android.feature.licenses") {
+        unitTests()
+        screenshotTests()
 
-androidComponents {
-    beforeVariants {
-        (it as HasUnitTestBuilder).enableUnitTest = true
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        dependencies {
+            implementation(project(":kmp:presentation:common"))
+            implementation(project(":feature:common"))
+            implementation(project(":kmp:app-info"))
+
+            testImplementation(libs.kotlinx.coroutines.test)
+            testImplementation(libs.turbine)
+        }
     }
-}
-
-dependencies {
-    implementation(project(":kmp:presentation:common"))
-    implementation(project(":feature:common"))
-    implementation(project(":kmp:app-info"))
-
-    implementation(libs.androidx.tracing)
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.compiler)
-
-    testImplementation(libs.kotlin.test.junit)
-    testImplementation(libs.kotlinx.coroutines.test)
-    testImplementation(libs.turbine)
 }
