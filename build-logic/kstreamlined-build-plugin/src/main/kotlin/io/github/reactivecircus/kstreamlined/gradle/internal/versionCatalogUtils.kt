@@ -1,4 +1,4 @@
-package io.github.reactivecircus.kstreamlined.gradle.buildlogic
+package io.github.reactivecircus.kstreamlined.gradle.internal
 
 import org.gradle.accessors.dm.LibrariesForLibs
 import org.gradle.api.Project

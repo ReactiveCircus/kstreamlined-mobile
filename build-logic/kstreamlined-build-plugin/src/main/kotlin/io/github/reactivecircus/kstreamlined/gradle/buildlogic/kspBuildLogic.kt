@@ -1,6 +1,7 @@
 package io.github.reactivecircus.kstreamlined.gradle.buildlogic
 
 import com.google.devtools.ksp.gradle.KspExtension
+import io.github.reactivecircus.kstreamlined.gradle.internal.libs
 import org.gradle.api.Project
 
 /**

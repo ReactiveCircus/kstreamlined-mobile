@@ -31,13 +31,6 @@ internal fun ApplicationExtension.configureAndroidApplicationExtension(project: 
 /**
  * Apply baseline configurations on an Android Library project.
  */
-internal fun LibraryExtension.configureAndroidLibraryExtension(project: Project) {
-    configureCommonAndroidExtension(project)
-}
-
-/**
- * Apply baseline configurations on an Android Library project.
- */
 internal fun LibraryExtension.configureAndroidLibraryExtension(
     project: Project,
     namespace: String,

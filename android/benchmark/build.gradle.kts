@@ -1,8 +1,6 @@
 @file:Suppress("UnstableApiUsage")
 
 import com.android.build.api.dsl.ManagedVirtualDevice
-import io.github.reactivecircus.kstreamlined.gradle.buildlogic.FlavorDimensions
-import io.github.reactivecircus.kstreamlined.gradle.buildlogic.ProductFlavors
 
 plugins {
     id("kstreamlined.android.test")

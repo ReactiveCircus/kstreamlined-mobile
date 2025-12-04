@@ -18,17 +18,9 @@ gradlePlugin {
             id = "kstreamlined.android.application"
             implementationClass = "io.github.reactivecircus.kstreamlined.gradle.convention.AndroidApplicationConventionPlugin"
         }
-        register("androidLibrary") {
-            id = "kstreamlined.android.library"
-            implementationClass = "io.github.reactivecircus.kstreamlined.gradle.convention.AndroidLibraryConventionPlugin"
-        }
         register("androidTest") {
             id = "kstreamlined.android.test"
             implementationClass = "io.github.reactivecircus.kstreamlined.gradle.convention.AndroidTestConventionPlugin"
-        }
-        register("androidScreenshotTest") {
-            id = "kstreamlined.android.screenshot-test"
-            implementationClass = "io.github.reactivecircus.kstreamlined.gradle.convention.AndroidScreenshotTestConventionPlugin"
         }
         register("compose") {
             id = "kstreamlined.compose"
