@@ -97,12 +97,12 @@ includeAndroidProjects(
     ":feature:saved-for-later",
     ":feature:settings",
     ":feature:talking-kotlin-episode",
-    ":core:common-ui:feed",
     ":core:designsystem",
     ":core:intents",
     ":core:scheduled-work",
     ":core:screenshot-testing:tester",
     ":core:screenshot-testing:paparazzi",
+    ":core:ui:feed",
     ":core:ui:utils",
 )
 

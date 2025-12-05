@@ -47,10 +47,6 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.tracing.trace
 import coil3.compose.AsyncImage
-import io.github.reactivecircus.kstreamlined.android.core.commonui.feed.KotlinBlogCard
-import io.github.reactivecircus.kstreamlined.android.core.commonui.feed.KotlinWeeklyCard
-import io.github.reactivecircus.kstreamlined.android.core.commonui.feed.KotlinYouTubeCard
-import io.github.reactivecircus.kstreamlined.android.core.commonui.feed.TalkingKotlinCard
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Button
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.FilledIconButton
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Surface
@@ -58,6 +54,10 @@ import io.github.reactivecircus.kstreamlined.android.core.designsystem.component
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.TopNavBar
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.icon.KSIcons
+import io.github.reactivecircus.kstreamlined.android.core.ui.feed.KotlinBlogCard
+import io.github.reactivecircus.kstreamlined.android.core.ui.feed.KotlinWeeklyCard
+import io.github.reactivecircus.kstreamlined.android.core.ui.feed.KotlinYouTubeCard
+import io.github.reactivecircus.kstreamlined.android.core.ui.feed.TalkingKotlinCard
 import io.github.reactivecircus.kstreamlined.android.feature.home.component.FeedFilterChip
 import io.github.reactivecircus.kstreamlined.android.feature.home.component.SyncButton
 import io.github.reactivecircus.kstreamlined.android.feature.home.component.TransientErrorBanner
