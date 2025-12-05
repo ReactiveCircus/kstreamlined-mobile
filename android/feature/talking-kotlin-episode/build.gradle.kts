@@ -1,33 +1,22 @@
-import com.android.build.api.variant.HasUnitTestBuilder
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 
 plugins {
-    id("kstreamlined.android.library")
-    id("kstreamlined.android.screenshot-test")
-    id("kstreamlined.compose")
-    id("kstreamlined.ksp")
+    id("kstreamlined")
 }
 
-android {
-    namespace = "io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode"
-    androidResources.enable = true
-}
+kstreamlined {
+    androidFeatureLibrary("io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode") {
+        unitTests()
+        screenshotTests()
 
-androidComponents {
-    beforeVariants {
-        (it as HasUnitTestBuilder).enableUnitTest = true
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        dependencies {
+            implementation(project(":core:launcher"))
+            implementation(project(":core:ui:pattern"))
+            implementation(project(":core:ui:util"))
+            implementation(project(":kmp:feed-datasource"))
+            implementation(project(":kmp:presentation:talking-kotlin-episode"))
+            implementation(libs.androidx.media3.exoplayer)
+        }
     }
-}
-
-dependencies {
-    implementation(project(":feature:common"))
-    implementation(project(":core:compose-utils"))
-    implementation(project(":kmp:feed-datasource"))
-    implementation(project(":kmp:presentation:talking-kotlin-episode"))
-
-    implementation(libs.androidx.media3.exoplayer)
-    implementation(libs.androidx.tracing)
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.compiler)
-
-    testImplementation(libs.kotlin.test.junit)
 }

@@ -14,6 +14,8 @@ public interface KStreamlinedExtension {
     public fun jvmLibrary(action: Action<JvmLibraryExtension> = Action {})
 
     public fun androidCoreLibrary(namespace: String, action: Action<AndroidCoreLibraryExtension> = Action {})
+
+    public fun androidFeatureLibrary(namespace: String, action: Action<AndroidFeatureLibraryExtension> = Action {})
 }
 
 internal abstract class KStreamlinedExtensionImpl @Inject constructor(
@@ -22,6 +24,7 @@ internal abstract class KStreamlinedExtensionImpl @Inject constructor(
     private val kmpLibraryExtension by lazy { objects.newInstance(KmpLibraryExtensionImpl::class.java) }
     private val jvmLibraryExtension by lazy { objects.newInstance(JvmLibraryExtensionImpl::class.java) }
     private var androidCoreLibraryExtension: AndroidCoreLibraryExtensionImpl? = null
+    private var androidFeatureLibraryExtension: AndroidFeatureLibraryExtensionImpl? = null
 
     private var configured = false
 
@@ -48,6 +51,20 @@ internal abstract class KStreamlinedExtensionImpl @Inject constructor(
                 )
             }
             val extension = androidCoreLibraryExtension!!
+            action.execute(extension)
+            extension.evaluate()
+        }
+    }
+
+    override fun androidFeatureLibrary(namespace: String, action: Action<AndroidFeatureLibraryExtension>) {
+        configureTopLevelDsl {
+            if (androidFeatureLibraryExtension == null) {
+                androidFeatureLibraryExtension = objects.newInstance(
+                    AndroidFeatureLibraryExtensionImpl::class.java,
+                    namespace,
+                )
+            }
+            val extension = androidFeatureLibraryExtension!!
             action.execute(extension)
             extension.evaluate()
         }
@@ -84,6 +101,7 @@ internal interface TopLevelExtension {
         KmpLibrary("kmpLibrary"),
         JvmLibrary("jvmLibrary"),
         AndroidCoreLibrary("androidCoreLibrary"),
+        AndroidFeatureLibrary("androidFeatureLibrary"),
     }
 }
 

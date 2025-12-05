@@ -89,7 +89,6 @@ includeKmpProjects(
 includeAndroidProjects(
     ":app",
     ":benchmark",
-    ":feature:common",
     ":feature:content-viewer",
     ":feature:home",
     ":feature:kotlin-weekly-issue",
@@ -97,12 +96,14 @@ includeAndroidProjects(
     ":feature:saved-for-later",
     ":feature:settings",
     ":feature:talking-kotlin-episode",
-    ":core:common-ui:feed",
     ":core:designsystem",
-    ":core:compose-utils",
+    ":core:launcher",
+    ":core:scheduled-work",
     ":core:screenshot-testing:tester",
     ":core:screenshot-testing:paparazzi",
-    ":core:scheduled-work",
+    ":core:ui:feed",
+    ":core:ui:pattern",
+    ":core:ui:util",
 )
 
 private fun includeKmpProjects(vararg projectPaths: String) {

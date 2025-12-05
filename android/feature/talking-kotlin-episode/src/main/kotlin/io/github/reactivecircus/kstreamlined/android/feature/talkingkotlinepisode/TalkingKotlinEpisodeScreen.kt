@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
@@ -48,7 +47,6 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.tracing.trace
 import coil3.compose.AsyncImage
-import io.github.reactivecircus.kstreamlined.android.core.composeutils.linkify
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.FilledIconButton
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.HorizontalDivider
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Icon
@@ -58,14 +56,15 @@ import io.github.reactivecircus.kstreamlined.android.core.designsystem.component
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.TopNavBar
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.icon.KSIcons
-import io.github.reactivecircus.kstreamlined.android.feature.common.openCustomTab
-import io.github.reactivecircus.kstreamlined.android.feature.common.openShareSheet
+import io.github.reactivecircus.kstreamlined.android.core.launcher.openCustomTab
+import io.github.reactivecircus.kstreamlined.android.core.launcher.openShareSheet
+import io.github.reactivecircus.kstreamlined.android.core.ui.pattern.ItemNotFoundUi
+import io.github.reactivecircus.kstreamlined.android.core.ui.util.linkify
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.component.PlayPauseButton
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.component.PodcastPlayer
 import io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepisode.TalkingKotlinEpisode
 import io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepisode.TalkingKotlinEpisodeUiEvent
 import io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepisode.TalkingKotlinEpisodeUiState
-import io.github.reactivecircus.kstreamlined.android.feature.common.R as commonR
 
 @Composable
 public fun SharedTransitionScope.TalkingKotlinEpisodeScreen(
@@ -170,7 +169,7 @@ internal fun SharedTransitionScope.TalkingKotlinEpisodeScreen(
                 }
 
                 is TalkingKotlinEpisodeUiState.NotFound -> {
-                    ItemNotFoundUi()
+                    ItemNotFoundUi(modifier = Modifier.padding(24.dp))
                 }
 
                 is TalkingKotlinEpisodeUiState.Content -> {
@@ -319,27 +318,3 @@ private fun SharedTransitionScope.ContentUi(
 }
 
 private val ImageSize = 240.dp
-
-@Composable
-private fun ItemNotFoundUi(
-    modifier: Modifier = Modifier,
-) {
-    Column(
-        modifier = modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-    ) {
-        AsyncImage(
-            commonR.drawable.ic_kodee_broken_hearted,
-            contentDescription = null,
-            modifier = Modifier.size(160.dp),
-        )
-        Spacer(modifier = Modifier.height(36.dp))
-        Text(
-            text = stringResource(id = commonR.string.content_not_found_message),
-            style = KSTheme.typography.bodyLarge,
-            modifier = Modifier.padding(horizontal = 24.dp),
-            textAlign = TextAlign.Center,
-        )
-    }
-}

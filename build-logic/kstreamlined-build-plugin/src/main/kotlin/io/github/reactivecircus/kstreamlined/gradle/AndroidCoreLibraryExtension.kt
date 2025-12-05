@@ -13,8 +13,8 @@ import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureKsp
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configurePowerAssert
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureScreenshotTest
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureTest
-import io.github.reactivecircus.kstreamlined.gradle.buildlogic.libs
 import io.github.reactivecircus.kstreamlined.gradle.internal.configureAndroidTopLevelDependencies
+import io.github.reactivecircus.kstreamlined.gradle.internal.libs
 import org.gradle.api.Action
 import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi

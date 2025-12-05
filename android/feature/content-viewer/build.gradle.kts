@@ -1,21 +1,19 @@
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+
 plugins {
-    id("kstreamlined.android.library")
-    id("kstreamlined.compose")
-    id("kstreamlined.ksp")
+    id("kstreamlined")
 }
 
-android {
-    namespace = "io.github.reactivecircus.kstreamlined.android.feature.contentviewer"
-    androidResources.enable = true
-}
-
-dependencies {
-    implementation(project(":feature:common"))
-    implementation(project(":kmp:feed-datasource"))
-    implementation(project(":kmp:presentation:content-viewer"))
-
-    implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.tracing)
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.compiler)
+kstreamlined {
+    androidFeatureLibrary("io.github.reactivecircus.kstreamlined.android.feature.contentviewer") {
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        dependencies {
+            implementation(project(":core:launcher"))
+            implementation(project(":core:ui:pattern"))
+            implementation(project(":kmp:feed-datasource"))
+            implementation(project(":kmp:presentation:content-viewer"))
+            implementation(libs.androidx.core)
+            implementation(libs.androidx.activity.compose)
+        }
+    }
 }

@@ -1,24 +1,21 @@
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+
 plugins {
-    id("kstreamlined.android.library")
-    id("kstreamlined.android.screenshot-test")
-    id("kstreamlined.compose")
-    id("kstreamlined.ksp")
+    id("kstreamlined")
 }
 
-android {
-    namespace = "io.github.reactivecircus.kstreamlined.android.feature.home"
-    androidResources.enable = true
-}
+kstreamlined {
+    androidFeatureLibrary("io.github.reactivecircus.kstreamlined.android.feature.home") {
+        screenshotTests()
 
-dependencies {
-    implementation(project(":feature:common"))
-    implementation(project(":core:common-ui:feed"))
-    implementation(project(":kmp:feed-datasource"))
-    implementation(project(":kmp:feed-sync:common"))
-    implementation(project(":kmp:presentation:home"))
-
-    implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.tracing)
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.compiler)
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        dependencies {
+            implementation(project(":core:ui:feed"))
+            implementation(project(":core:ui:pattern"))
+            implementation(project(":kmp:feed-datasource"))
+            implementation(project(":kmp:feed-sync:common"))
+            implementation(project(":kmp:presentation:home"))
+            implementation(libs.androidx.activity.compose)
+        }
+    }
 }

@@ -7,8 +7,8 @@ import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureDetekt
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureKotlin
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configurePowerAssert
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureTest
-import io.github.reactivecircus.kstreamlined.gradle.buildlogic.libs
 import io.github.reactivecircus.kstreamlined.gradle.internal.configureJvmTopLevelDependencies
+import io.github.reactivecircus.kstreamlined.gradle.internal.libs
 import org.gradle.api.Action
 import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi

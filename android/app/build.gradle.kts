@@ -3,8 +3,6 @@ import com.google.firebase.appdistribution.gradle.tasks.UploadDistributionTask
 import com.google.firebase.crashlytics.buildtools.gradle.CrashlyticsExtension
 import com.google.firebase.perf.plugin.FirebasePerfExtension
 import com.google.gms.googleservices.GoogleServicesPlugin
-import io.github.reactivecircus.kstreamlined.gradle.buildlogic.FlavorDimensions
-import io.github.reactivecircus.kstreamlined.gradle.buildlogic.ProductFlavors
 import java.time.Instant
 
 plugins {
@@ -235,7 +233,7 @@ dependencies {
     demoImplementation(project(":kmp:remote:edge"))
     devImplementation(project(":kmp:remote:cloud"))
     prodImplementation(project(":kmp:remote:cloud"))
-    implementation(project(":feature:common"))
+    implementation(project(":core:designsystem"))
     implementation(project(":feature:content-viewer"))
     implementation(project(":feature:home"))
     implementation(project(":feature:kotlin-weekly-issue"))
@@ -253,12 +251,14 @@ dependencies {
     implementation(libs.androidx.navigation3.ui)
     implementation(libs.androidx.coreSplashscreen)
     implementation(libs.androidx.profileinstaller)
+    implementation(libs.androidx.compose.foundation)
     implementation(libs.androidx.compose.runtime.tracing)
     implementation(libs.androidx.work.runtime)
     implementation(libs.androidx.tracing)
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
     implementation(libs.okhttp)
+    implementation(libs.coil.compose)
     implementation(libs.coil.svg)
     implementation(libs.coil.network)
     implementation(libs.androidx.datastore.preferences)
