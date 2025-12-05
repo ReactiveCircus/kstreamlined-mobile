@@ -1,4 +1,4 @@
-package io.github.reactivecircus.kstreamlined.android.core.composeutils
+package io.github.reactivecircus.kstreamlined.android.core.ui.utils
 
 import androidx.compose.foundation.MarqueeAnimationMode
 import androidx.compose.foundation.MarqueeDefaults

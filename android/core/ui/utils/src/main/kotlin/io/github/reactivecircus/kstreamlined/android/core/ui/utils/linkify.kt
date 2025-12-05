@@ -1,4 +1,4 @@
-package io.github.reactivecircus.kstreamlined.android.core.composeutils
+package io.github.reactivecircus.kstreamlined.android.core.ui.utils
 
 import android.text.SpannableString
 import android.text.style.URLSpan

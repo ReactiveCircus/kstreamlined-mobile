@@ -5,7 +5,7 @@ plugins {
 }
 
 kstreamlined {
-    androidCoreLibrary("io.github.reactivecircus.kstreamlined.android.core.composeutils") {
+    androidCoreLibrary("io.github.reactivecircus.kstreamlined.android.core.ui.utils") {
         compose()
 
         @OptIn(ExperimentalKotlinGradlePluginApi::class)

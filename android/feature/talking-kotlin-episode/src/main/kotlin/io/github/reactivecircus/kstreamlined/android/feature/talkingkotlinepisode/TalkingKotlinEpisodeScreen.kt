@@ -48,7 +48,6 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.tracing.trace
 import coil3.compose.AsyncImage
-import io.github.reactivecircus.kstreamlined.android.core.composeutils.linkify
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.FilledIconButton
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.HorizontalDivider
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Icon
@@ -60,6 +59,7 @@ import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundatio
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.icon.KSIcons
 import io.github.reactivecircus.kstreamlined.android.core.intents.openCustomTab
 import io.github.reactivecircus.kstreamlined.android.core.intents.openShareSheet
+import io.github.reactivecircus.kstreamlined.android.core.ui.utils.linkify
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.component.PlayPauseButton
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.component.PodcastPlayer
 import io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepisode.TalkingKotlinEpisode
