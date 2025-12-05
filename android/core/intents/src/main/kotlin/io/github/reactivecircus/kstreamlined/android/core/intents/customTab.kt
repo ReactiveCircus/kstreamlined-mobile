@@ -1,4 +1,4 @@
-package io.github.reactivecircus.kstreamlined.android.feature.common
+package io.github.reactivecircus.kstreamlined.android.core.intents
 
 import android.content.ActivityNotFoundException
 import android.content.Context
