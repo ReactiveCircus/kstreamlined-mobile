@@ -1,4 +1,4 @@
-package io.github.reactivecircus.kstreamlined.android.feature.home.component
+package io.github.reactivecircus.kstreamlined.android.core.ui.pattern
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Modifier

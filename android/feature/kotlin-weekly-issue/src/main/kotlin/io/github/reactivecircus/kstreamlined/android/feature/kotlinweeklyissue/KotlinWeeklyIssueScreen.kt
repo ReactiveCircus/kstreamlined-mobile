@@ -26,7 +26,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
@@ -40,29 +39,25 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.tracing.trace
-import coil3.compose.AsyncImage
-import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Button
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.FilledIconButton
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.LargeIconButton
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Surface
-import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Text
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.TopNavBar
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.icon.KSIcons
 import io.github.reactivecircus.kstreamlined.android.core.launcher.openCustomTab
 import io.github.reactivecircus.kstreamlined.android.core.launcher.openShareSheet
+import io.github.reactivecircus.kstreamlined.android.core.ui.pattern.ErrorUi
 import io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue.component.IssueGroupUi
 import io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue.component.IssueItemUi
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.KotlinWeeklyIssueItem
 import io.github.reactivecircus.kstreamlined.kmp.presentation.kotlinweeklyissue.KotlinWeeklyIssueUiEvent
 import io.github.reactivecircus.kstreamlined.kmp.presentation.kotlinweeklyissue.KotlinWeeklyIssueUiState
-import io.github.reactivecircus.kstreamlined.android.feature.common.R as commonR
 
 @Composable
 public fun SharedTransitionScope.KotlinWeeklyIssueScreen(
@@ -183,7 +178,10 @@ internal fun SharedTransitionScope.KotlinWeeklyIssueScreen(
                     }
 
                     is KotlinWeeklyIssueUiState.Error -> {
-                        ErrorUi(onRetry = { eventSink(KotlinWeeklyIssueUiEvent.LoadIssue(id)) })
+                        ErrorUi(
+                            onRetry = { eventSink(KotlinWeeklyIssueUiEvent.LoadIssue(id)) },
+                            modifier = Modifier.padding(24.dp),
+                        )
                     }
 
                     is KotlinWeeklyIssueUiState.Content -> {
@@ -250,36 +248,6 @@ private fun LoadingSkeletonUi(
 }
 
 private const val SkeletonItemCount = 5
-
-@Composable
-private fun ErrorUi(
-    onRetry: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    Column(
-        modifier = modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-    ) {
-        AsyncImage(
-            commonR.drawable.ic_kodee_broken_hearted,
-            contentDescription = null,
-            modifier = Modifier.size(160.dp),
-        )
-        Spacer(modifier = Modifier.height(36.dp))
-        Text(
-            text = stringResource(id = commonR.string.error_message),
-            style = KSTheme.typography.bodyLarge,
-            modifier = Modifier.padding(horizontal = 24.dp),
-            textAlign = TextAlign.Center,
-        )
-        Spacer(modifier = Modifier.height(24.dp))
-        Button(
-            text = stringResource(id = commonR.string.retry),
-            onClick = onRetry,
-        )
-    }
-}
 
 private val KotlinWeeklyIssueUiState.contentKey: Int
     get() = when (this) {

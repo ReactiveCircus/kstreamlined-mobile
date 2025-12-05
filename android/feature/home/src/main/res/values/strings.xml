@@ -3,5 +3,4 @@
     <string name="title_home">KStreamlined</string>
     <string name="feeds_selected">%1$d Feeds selected</string>
     <string name="sync">Sync</string>
-    <string name="transient_error_message">Something went wrong.</string>
 </resources>

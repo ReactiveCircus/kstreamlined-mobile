@@ -14,16 +14,13 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -34,13 +31,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import coil3.compose.AsyncImage
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.FilledIconButton
-import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Text
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.TopNavBar
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.icon.KSIcons
@@ -48,12 +42,12 @@ import io.github.reactivecircus.kstreamlined.android.core.ui.feed.KotlinBlogCard
 import io.github.reactivecircus.kstreamlined.android.core.ui.feed.KotlinWeeklyCard
 import io.github.reactivecircus.kstreamlined.android.core.ui.feed.KotlinYouTubeCard
 import io.github.reactivecircus.kstreamlined.android.core.ui.feed.TalkingKotlinCard
+import io.github.reactivecircus.kstreamlined.android.core.ui.pattern.EmptyUi
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.DisplayableFeedItem
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.toDisplayable
 import io.github.reactivecircus.kstreamlined.kmp.presentation.savedforlater.SavedForLaterUiEvent
 import io.github.reactivecircus.kstreamlined.kmp.presentation.savedforlater.SavedForLaterUiState
-import io.github.reactivecircus.kstreamlined.android.feature.common.R as commonR
 
 @Composable
 public fun SharedTransitionScope.SavedForLaterScreen(
@@ -125,7 +119,7 @@ internal fun SharedTransitionScope.SavedForLaterScreen(
                             eventSink = eventSink,
                         )
                     } else {
-                        EmptyUi()
+                        EmptyUi(modifier = Modifier.padding(calculateListContentPadding()))
                     }
                 }
             }
@@ -219,32 +213,6 @@ private fun SharedTransitionScope.ContentUi(
                 }
             }
         }
-    }
-}
-
-@Composable
-private fun EmptyUi(
-    modifier: Modifier = Modifier,
-) {
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(calculateListContentPadding()),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-    ) {
-        AsyncImage(
-            commonR.drawable.ic_kodee_lost,
-            contentDescription = null,
-            modifier = Modifier.size(160.dp),
-        )
-        Spacer(modifier = Modifier.height(36.dp))
-        Text(
-            text = stringResource(id = commonR.string.empty_state_message),
-            style = KSTheme.typography.bodyLarge,
-            modifier = Modifier.padding(horizontal = 24.dp),
-            textAlign = TextAlign.Center,
-        )
     }
 }
 

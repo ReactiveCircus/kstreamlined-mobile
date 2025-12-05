@@ -103,6 +103,7 @@ includeAndroidProjects(
     ":core:screenshot-testing:tester",
     ":core:screenshot-testing:paparazzi",
     ":core:ui:feed",
+    ":core:ui:pattern",
     ":core:ui:util",
 )
 

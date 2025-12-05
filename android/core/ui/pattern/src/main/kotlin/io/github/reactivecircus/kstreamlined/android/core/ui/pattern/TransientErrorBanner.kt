@@ -1,4 +1,4 @@
-package io.github.reactivecircus.kstreamlined.android.feature.home.component
+package io.github.reactivecircus.kstreamlined.android.core.ui.pattern
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -26,11 +26,9 @@ import io.github.reactivecircus.kstreamlined.android.core.designsystem.component
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Text
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.icon.KSIcons
-import io.github.reactivecircus.kstreamlined.android.feature.home.R
-import io.github.reactivecircus.kstreamlined.android.feature.common.R as commonR
 
 @Composable
-internal fun TransientErrorBanner(
+public fun TransientErrorBanner(
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -45,7 +43,7 @@ internal fun TransientErrorBanner(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Image(
-                painterResource(commonR.drawable.ic_kodee_broken_hearted),
+                painterResource(R.drawable.ic_kodee_broken_hearted),
                 contentDescription = null,
                 modifier = Modifier
                     .padding(start = 16.dp)
