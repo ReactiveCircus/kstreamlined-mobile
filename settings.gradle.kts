@@ -89,7 +89,6 @@ includeKmpProjects(
 includeAndroidProjects(
     ":app",
     ":benchmark",
-    ":feature:common",
     ":feature:content-viewer",
     ":feature:home",
     ":feature:kotlin-weekly-issue",

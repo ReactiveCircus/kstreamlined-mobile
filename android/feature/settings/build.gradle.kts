@@ -10,7 +10,6 @@ kstreamlined {
 
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         dependencies {
-            implementation(project(":feature:common"))
             implementation(project(":kmp:settings-datasource"))
             implementation(project(":kmp:presentation:settings"))
             implementation(project(":kmp:app-info"))

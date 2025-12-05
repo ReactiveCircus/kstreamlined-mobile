@@ -10,7 +10,6 @@ kstreamlined {
         dependencies {
             implementation(project(":core:launcher"))
             implementation(project(":core:ui:pattern"))
-            implementation(project(":feature:common"))
             implementation(project(":kmp:feed-datasource"))
             implementation(project(":kmp:presentation:content-viewer"))
             implementation(libs.androidx.core)

@@ -13,7 +13,6 @@ kstreamlined {
         dependencies {
             implementation(project(":core:launcher"))
             implementation(project(":core:ui:pattern"))
-            implementation(project(":feature:common"))
             implementation(project(":core:ui:util"))
             implementation(project(":kmp:feed-datasource"))
             implementation(project(":kmp:presentation:talking-kotlin-episode"))
