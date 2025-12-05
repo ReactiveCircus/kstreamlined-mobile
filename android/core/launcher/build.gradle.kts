@@ -5,7 +5,7 @@ plugins {
 }
 
 kstreamlined {
-    androidCoreLibrary("io.github.reactivecircus.kstreamlined.android.core.intents") {
+    androidCoreLibrary("io.github.reactivecircus.kstreamlined.android.core.launcher") {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         dependencies {
             implementation(libs.androidx.core)

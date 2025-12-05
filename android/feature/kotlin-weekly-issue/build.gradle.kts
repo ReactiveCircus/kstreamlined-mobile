@@ -10,7 +10,7 @@ kstreamlined {
 
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         dependencies {
-            implementation(project(":core:intents"))
+            implementation(project(":core:launcher"))
             implementation(project(":feature:common"))
             implementation(project(":kmp:feed-datasource"))
             implementation(project(":kmp:presentation:kotlin-weekly-issue"))

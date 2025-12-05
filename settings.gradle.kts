@@ -98,7 +98,7 @@ includeAndroidProjects(
     ":feature:settings",
     ":feature:talking-kotlin-episode",
     ":core:designsystem",
-    ":core:intents",
+    ":core:launcher",
     ":core:scheduled-work",
     ":core:screenshot-testing:tester",
     ":core:screenshot-testing:paparazzi",
