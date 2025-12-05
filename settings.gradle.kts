@@ -103,7 +103,7 @@ includeAndroidProjects(
     ":core:screenshot-testing:tester",
     ":core:screenshot-testing:paparazzi",
     ":core:ui:feed",
-    ":core:ui:utils",
+    ":core:ui:util",
 )
 
 private fun includeKmpProjects(vararg projectPaths: String) {

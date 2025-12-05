@@ -12,7 +12,7 @@ kstreamlined {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         dependencies {
             implementation(project(":core:designsystem"))
-            implementation(project(":core:ui:utils"))
+            implementation(project(":core:ui:util"))
             implementation(project(":kmp:feed-model"))
 
             implementation(libs.androidx.compose.foundation)
