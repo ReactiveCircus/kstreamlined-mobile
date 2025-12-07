@@ -46,7 +46,7 @@ internal fun Project.configureAndroidTopLevelDependencies(
     val kotlinDependencies = project.objects.newInstance(KotlinDependenciesImpl::class.java)
 
     val main = sourceSets.getByName("main")
-    val test = sourceSets.getByName("test")
+    val test = sourceSets.findByName("test")
 
     infix fun DependencyCollector.wireWith(configurationName: String) {
         val configuration = project.configurations.getByName(configurationName)
@@ -58,9 +58,11 @@ internal fun Project.configureAndroidTopLevelDependencies(
     kotlinDependencies.compileOnly wireWith main.compileOnlyConfigurationName
     kotlinDependencies.runtimeOnly wireWith main.runtimeOnlyConfigurationName
 
-    kotlinDependencies.testImplementation wireWith test.implementationConfigurationName
-    kotlinDependencies.testCompileOnly wireWith test.compileOnlyConfigurationName
-    kotlinDependencies.testRuntimeOnly wireWith test.runtimeOnlyConfigurationName
+    if (test != null) {
+        kotlinDependencies.testImplementation wireWith test.implementationConfigurationName
+        kotlinDependencies.testCompileOnly wireWith test.compileOnlyConfigurationName
+        kotlinDependencies.testRuntimeOnly wireWith test.runtimeOnlyConfigurationName
+    }
 
     dependenciesBlock.execute(kotlinDependencies)
 }
