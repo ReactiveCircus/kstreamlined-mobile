@@ -1,57 +1,29 @@
-@file:Suppress("UnstableApiUsage")
-
-import com.android.build.api.dsl.ManagedVirtualDevice
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 
 plugins {
-    id("kstreamlined.android.test")
-    id("androidx.baselineprofile")
+    id("kstreamlined")
 }
 
-android {
-    namespace = "io.github.reactivecircus.kstreamlined.android.benchmark"
-
-    defaultConfig {
-        missingDimensionStrategy(FlavorDimensions.Environment, ProductFlavors.Dev)
-        minSdk = 28
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        testInstrumentationRunnerArguments["androidx.benchmark.fullTracing.enable"] = "true"
-        testInstrumentationRunnerArguments["androidx.benchmark.killExistingPerfettoRecordings"] = "false" // remove once https://issuetracker.google.com/issues/323601788 is fixed
-    }
-
-    targetProjectPath = ":app"
-    experimentalProperties["android.experimental.self-instrumenting"] = true
-
-    testOptions.managedDevices.allDevices {
-        create<ManagedVirtualDevice>("pixel9Api35") {
+kstreamlined {
+    androidBenchmark(
+        namespace = "io.github.reactivecircus.kstreamlined.android.benchmark",
+        targetProjectPath = ":app",
+        environment = ProductFlavors.Dev,
+        targetAppIdKey = "targetAppId",
+        minSdk = 28,
+    ) {
+        @Suppress("UnstableApiUsage")
+        managedVirtualDevice("pixel9Api35") {
             device = "Pixel 9"
             apiLevel = 35
             systemImageSource = "aosp-atd"
         }
+
+        produceBaselineProfile("pixel9Api35")
+
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        dependencies {
+            implementation(libs.kermit)
+        }
     }
-}
-
-baselineProfile {
-    managedDevices += "pixel9Api35"
-    useConnectedDevices = false
-}
-
-androidComponents {
-    onVariants { variant ->
-        val artifactsLoader = variant.artifacts.getBuiltArtifactsLoader()
-        variant.instrumentationRunnerArguments.put(
-            "targetAppId",
-            variant.testedApks.map { artifactsLoader.load(it)!!.applicationId }
-        )
-    }
-}
-
-dependencies {
-    implementation(libs.androidx.test.runner)
-    implementation(libs.androidx.test.rules)
-    implementation(libs.androidx.test.junit)
-    implementation(libs.androidx.test.uiautomator)
-    implementation(libs.androidx.benchmark.macroJunit)
-    implementation(libs.androidx.tracing.perfetto)
-    implementation(libs.androidx.tracing.perfetto.binary)
-    implementation(libs.kermit)
 }

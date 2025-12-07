@@ -44,7 +44,11 @@ internal fun LibraryExtension.configureAndroidLibraryExtension(
 /**
  * Apply baseline configurations on an Android Test project.
  */
-internal fun TestExtension.configureAndroidTestExtension(project: Project) {
+internal fun TestExtension.configureAndroidTestExtension(
+    project: Project,
+    namespace: String,
+) {
+    this.namespace = namespace
     defaultConfig {
         targetSdk = AndroidSdk.TargetSdk
     }

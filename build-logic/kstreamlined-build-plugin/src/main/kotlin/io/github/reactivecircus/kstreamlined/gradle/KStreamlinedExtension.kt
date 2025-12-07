@@ -16,6 +16,15 @@ public interface KStreamlinedExtension {
     public fun androidCoreLibrary(namespace: String, action: Action<AndroidCoreLibraryExtension> = Action {})
 
     public fun androidFeatureLibrary(namespace: String, action: Action<AndroidFeatureLibraryExtension> = Action {})
+
+    public fun androidBenchmark(
+        namespace: String,
+        targetProjectPath: String,
+        environment: String,
+        targetAppIdKey: String,
+        minSdk: Int,
+        action: Action<AndroidBenchmarkExtension>,
+    )
 }
 
 internal abstract class KStreamlinedExtensionImpl @Inject constructor(
@@ -25,6 +34,7 @@ internal abstract class KStreamlinedExtensionImpl @Inject constructor(
     private val jvmLibraryExtension by lazy { objects.newInstance(JvmLibraryExtensionImpl::class.java) }
     private var androidCoreLibraryExtension: AndroidCoreLibraryExtensionImpl? = null
     private var androidFeatureLibraryExtension: AndroidFeatureLibraryExtensionImpl? = null
+    private var androidBenchmarkExtension: AndroidBenchmarkExtensionImpl? = null
 
     private var configured = false
 
@@ -70,6 +80,31 @@ internal abstract class KStreamlinedExtensionImpl @Inject constructor(
         }
     }
 
+    override fun androidBenchmark(
+        namespace: String,
+        targetProjectPath: String,
+        environment: String,
+        targetAppIdKey: String,
+        minSdk: Int,
+        action: Action<AndroidBenchmarkExtension>,
+    ) {
+        configureTopLevelDsl {
+            if (androidBenchmarkExtension == null) {
+                androidBenchmarkExtension = objects.newInstance(
+                    AndroidBenchmarkExtensionImpl::class.java,
+                    namespace,
+                    targetProjectPath,
+                    environment,
+                    targetAppIdKey,
+                    minSdk,
+                )
+            }
+            val extension = androidBenchmarkExtension!!
+            action.execute(extension)
+            extension.evaluate()
+        }
+    }
+
     private inline fun configureTopLevelDsl(block: () -> Unit) {
         require(!configured) {
             """
@@ -102,6 +137,7 @@ internal interface TopLevelExtension {
         JvmLibrary("jvmLibrary"),
         AndroidCoreLibrary("androidCoreLibrary"),
         AndroidFeatureLibrary("androidFeatureLibrary"),
+        AndroidBenchmark("androidBenchmark"),
     }
 }
 

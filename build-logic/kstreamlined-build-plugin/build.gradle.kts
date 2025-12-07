@@ -18,10 +18,6 @@ gradlePlugin {
             id = "kstreamlined.android.application"
             implementationClass = "io.github.reactivecircus.kstreamlined.gradle.convention.AndroidApplicationConventionPlugin"
         }
-        register("androidTest") {
-            id = "kstreamlined.android.test"
-            implementationClass = "io.github.reactivecircus.kstreamlined.gradle.convention.AndroidTestConventionPlugin"
-        }
         register("compose") {
             id = "kstreamlined.compose"
             implementationClass = "io.github.reactivecircus.kstreamlined.gradle.convention.ComposeConventionPlugin"
