@@ -2,7 +2,6 @@ package io.github.reactivecircus.kstreamlined.android
 
 import android.graphics.Color
 import android.os.Bundle
-import android.os.Parcelable
 import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.BackHandler
@@ -43,7 +42,6 @@ import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisod
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.settings.datasource.SettingsDataSource
 import io.github.reactivecircus.kstreamlined.kmp.settings.model.AppSettings
-import kotlinx.parcelize.Parcelize
 import javax.inject.Inject
 
 @OptIn(ExperimentalSharedTransitionApi::class)
@@ -249,11 +247,9 @@ private fun ComponentActivity.NavigationBarStyleEffect(theme: AppSettings.Theme)
     }
 }
 
-private sealed interface NavDestination : Parcelable {
-    @Parcelize
+private sealed interface NavDestination {
     data object Main : NavDestination
 
-    @Parcelize
     data class ContentViewer(
         val boundsKey: String,
         val topBarBoundsKey: String,
@@ -261,7 +257,6 @@ private sealed interface NavDestination : Parcelable {
         val id: String,
     ) : NavDestination
 
-    @Parcelize
     data class KotlinWeeklyIssue(
         val boundsKey: String,
         val topBarBoundsKey: String,
@@ -270,7 +265,6 @@ private sealed interface NavDestination : Parcelable {
         val issueNumber: Int,
     ) : NavDestination
 
-    @Parcelize
     data class TalkingKotlinEpisode(
         val boundsKey: String,
         val topBarBoundsKey: String,
@@ -278,12 +272,10 @@ private sealed interface NavDestination : Parcelable {
         val id: String,
     ) : NavDestination
 
-    @Parcelize
     data class Settings(
         val topBarBoundsKey: String,
         val titleElementKey: String,
     ) : NavDestination
 
-    @Parcelize
     data class Licenses(val boundsKey: String) : NavDestination
 }

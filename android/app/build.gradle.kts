@@ -9,7 +9,6 @@ plugins {
     id("kstreamlined.android.application")
     id("kstreamlined.compose")
     id("kstreamlined.ksp")
-    id("kotlin-parcelize")
     id("com.google.dagger.hilt.android")
     id("com.google.gms.google-services")
     id("com.google.firebase.firebase-perf")
