@@ -13,13 +13,11 @@ import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureKsp
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configurePowerAssert
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureScreenshotTest
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureTest
-import io.github.reactivecircus.kstreamlined.gradle.internal.configureAndroidTopLevelDependencies
 import io.github.reactivecircus.kstreamlined.gradle.internal.libs
 import org.gradle.api.Action
 import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.KotlinBaseExtension
-import org.jetbrains.kotlin.gradle.dsl.KotlinDependencies
 import javax.inject.Inject
 
 /**
@@ -60,7 +58,7 @@ public interface AndroidCoreLibraryExtension {
     /**
      * Configure dependencies.
      */
-    public fun dependencies(action: Action<KotlinDependencies>)
+    public fun dependencies(action: Action<KSDependencies.Android.Library>)
 }
 
 internal abstract class AndroidCoreLibraryExtensionImpl @Inject constructor(
@@ -79,7 +77,7 @@ internal abstract class AndroidCoreLibraryExtensionImpl @Inject constructor(
 
     private var screenshotTestsEnabled: Boolean = false
 
-    private var dependenciesBlock: Action<KotlinDependencies>? = null
+    private var dependenciesBlock: Action<KSDependencies.Android.Library>? = null
 
     override fun compose() {
         composeEnabled = true
@@ -105,7 +103,7 @@ internal abstract class AndroidCoreLibraryExtensionImpl @Inject constructor(
         screenshotTestsEnabled = true
     }
 
-    override fun dependencies(action: Action<KotlinDependencies>) {
+    override fun dependencies(action: Action<KSDependencies.Android.Library>) {
         dependenciesBlock = action
     }
 
@@ -123,7 +121,7 @@ internal abstract class AndroidCoreLibraryExtensionImpl @Inject constructor(
                 enableAndroidResources = androidResourcesEnabled,
             )
             dependenciesBlock?.let { block ->
-                configureAndroidTopLevelDependencies(
+                configureDependencies(
                     sourceSets = it.sourceSets,
                     dependenciesBlock = block,
                 )

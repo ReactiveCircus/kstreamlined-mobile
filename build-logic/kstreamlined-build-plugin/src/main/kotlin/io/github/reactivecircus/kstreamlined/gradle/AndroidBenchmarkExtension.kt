@@ -10,13 +10,11 @@ import com.android.build.api.variant.TestAndroidComponentsExtension
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureAndroidTestExtension
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureBuiltInKotlin
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureDetekt
-import io.github.reactivecircus.kstreamlined.gradle.internal.configureAndroidTopLevelDependencies
 import io.github.reactivecircus.kstreamlined.gradle.internal.libs
 import org.gradle.api.Action
 import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.KotlinBaseExtension
-import org.jetbrains.kotlin.gradle.dsl.KotlinDependencies
 import javax.inject.Inject
 
 /**
@@ -38,7 +36,7 @@ public interface AndroidBenchmarkExtension {
     /**
      * Configure dependencies.
      */
-    public fun dependencies(action: Action<KotlinDependencies>)
+    public fun dependencies(action: Action<KSDependencies.Android.Test>)
 }
 
 @Suppress("UnstableApiUsage")
@@ -54,7 +52,7 @@ internal abstract class AndroidBenchmarkExtensionImpl @Inject constructor(
 
     private val baselineProfileDevices: MutableList<String> = mutableListOf()
 
-    private var dependenciesBlock: Action<KotlinDependencies>? = null
+    private var dependenciesBlock: Action<KSDependencies.Android.Test>? = null
 
     override fun managedVirtualDevice(name: String, action: Action<ManagedVirtualDevice>) {
         managedVirtualDeviceConfigs[name] = action
@@ -64,7 +62,7 @@ internal abstract class AndroidBenchmarkExtensionImpl @Inject constructor(
         baselineProfileDevices += devices
     }
 
-    override fun dependencies(action: Action<KotlinDependencies>) {
+    override fun dependencies(action: Action<KSDependencies.Android.Test>) {
         dependenciesBlock = action
     }
 
@@ -97,7 +95,7 @@ internal abstract class AndroidBenchmarkExtensionImpl @Inject constructor(
             }
 
             dependenciesBlock?.let { block ->
-                configureAndroidTopLevelDependencies(
+                configureDependencies(
                     sourceSets = it.sourceSets,
                     dependenciesBlock = block,
                 )
