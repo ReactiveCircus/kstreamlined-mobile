@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
-
 plugins {
     id("kstreamlined")
 }
@@ -9,7 +7,6 @@ kstreamlined {
         unitTests()
         screenshotTests()
 
-        @OptIn(ExperimentalKotlinGradlePluginApi::class)
         dependencies {
             implementation(project(":kmp:presentation:common"))
             implementation(project(":kmp:app-info"))

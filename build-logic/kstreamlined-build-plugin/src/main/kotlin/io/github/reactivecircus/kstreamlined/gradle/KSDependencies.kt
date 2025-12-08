@@ -25,8 +25,8 @@ public sealed interface KSDependencies : Dependencies {
         public abstract class App : KSDependencies, HasTestConfiguration {
             public abstract val debugImplementation: DependencyCollector
             public abstract val releaseImplementation: DependencyCollector
-            public abstract val devImplementation: DependencyCollector
             public abstract val mockImplementation: DependencyCollector
+            public abstract val devImplementation: DependencyCollector
             public abstract val demoImplementation: DependencyCollector
             public abstract val prodImplementation: DependencyCollector
         }
