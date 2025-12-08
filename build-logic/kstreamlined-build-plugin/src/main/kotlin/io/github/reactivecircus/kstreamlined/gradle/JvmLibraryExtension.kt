@@ -7,12 +7,10 @@ import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureDetekt
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureKotlin
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configurePowerAssert
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureTest
-import io.github.reactivecircus.kstreamlined.gradle.internal.configureJvmTopLevelDependencies
 import io.github.reactivecircus.kstreamlined.gradle.internal.libs
 import org.gradle.api.Action
 import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
-import org.jetbrains.kotlin.gradle.dsl.KotlinDependencies
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import javax.inject.Inject
 
@@ -39,7 +37,7 @@ public interface JvmLibraryExtension {
     /**
      * Configure dependencies.
      */
-    public fun dependencies(action: Action<KotlinDependencies>)
+    public fun dependencies(action: Action<KSDependencies.Jvm>)
 }
 
 internal abstract class JvmLibraryExtensionImpl @Inject constructor(
@@ -51,7 +49,7 @@ internal abstract class JvmLibraryExtensionImpl @Inject constructor(
 
     private var unitTestsEnabled: Boolean = false
 
-    private var dependenciesBlock: Action<KotlinDependencies>? = null
+    private var dependenciesBlock: Action<KSDependencies.Jvm>? = null
 
     override fun compose() {
         composeEnabled = true
@@ -65,7 +63,7 @@ internal abstract class JvmLibraryExtensionImpl @Inject constructor(
         unitTestsEnabled = true
     }
 
-    override fun dependencies(action: Action<KotlinDependencies>) {
+    override fun dependencies(action: Action<KSDependencies.Jvm>) {
         dependenciesBlock = action
     }
 
@@ -77,7 +75,7 @@ internal abstract class JvmLibraryExtensionImpl @Inject constructor(
             it.configureKotlin(this)
 
             dependenciesBlock?.let { block ->
-                configureJvmTopLevelDependencies(
+                configureDependencies(
                     sourceSets = it.sourceSets,
                     dependenciesBlock = block,
                 )

@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
-
 plugins {
     id("kstreamlined")
 }
@@ -10,7 +8,6 @@ kstreamlined {
         androidResources()
         screenshotTests()
 
-        @OptIn(ExperimentalKotlinGradlePluginApi::class)
         dependencies {
             implementation(project(":core:designsystem"))
             implementation(libs.androidx.compose.foundation)

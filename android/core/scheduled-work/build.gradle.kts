@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
-
 plugins {
     id("kstreamlined")
 }
@@ -9,7 +7,6 @@ kstreamlined {
         hilt()
         unitTests()
 
-        @OptIn(ExperimentalKotlinGradlePluginApi::class)
         dependencies {
             implementation(project(":kmp:feed-sync:common"))
             implementation(project(":kmp:settings-datasource"))
