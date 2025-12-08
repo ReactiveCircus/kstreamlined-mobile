@@ -173,7 +173,7 @@ jobs:
           cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
 
       - name: Run build-logic checks
-        run: ./gradlew -p build-logic installForFunctionalTest check
+        run: ./gradlew -p build-logic check
 
   deploy-dev-build:
     name: Upload dev build
