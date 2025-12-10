@@ -1,7 +1,6 @@
 package io.github.reactivecircus.kstreamlined.gradle.buildlogic
 
 import com.android.build.api.dsl.KotlinMultiplatformAndroidLibraryTarget
-import isAppleSilicon
 import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
@@ -66,3 +65,6 @@ internal fun KotlinMultiplatformExtension.configureKmpTest(project: Project) {
     }
     project.configureTest()
 }
+
+private val Project.isAppleSilicon: Boolean
+    get() = providers.systemProperty("os.arch").orNull == "aarch64"

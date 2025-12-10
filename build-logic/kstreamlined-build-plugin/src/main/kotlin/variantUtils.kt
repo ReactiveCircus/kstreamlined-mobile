@@ -47,3 +47,13 @@ public fun Project.shouldEnableVariant(variantName: String): Boolean = variantNa
     isGeneratingBaselineProfile && variantName == "devNonMinifiedRelease" ||
     // benchmark variants
     isRunningBenchmark && variantName in listOf("devRelease", "devBenchmarkRelease")
+
+private val Project.isGeneratingBaselineProfile: Boolean
+    get() = gradle.startParameter.taskNames.any {
+        it.contains("generateBaselineProfile", ignoreCase = true)
+    }
+
+private val Project.isRunningBenchmark: Boolean
+    get() = gradle.startParameter.taskNames.any {
+        it.contains("connectedBenchmarkReleaseAndroidTest", ignoreCase = true)
+    }

@@ -2,14 +2,19 @@
 
 package io.github.reactivecircus.kstreamlined.gradle
 
+import FlavorDimensions
 import ProductFlavors
 import androidx.baselineprofile.gradle.consumer.BaselineProfileConsumerExtension
 import app.cash.licensee.LicenseeExtension
 import app.cash.licensee.UnusedAction
+import com.android.build.api.dsl.ApkSigningConfig
 import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.variant.ApplicationAndroidComponentsExtension
 import com.github.triplet.gradle.play.PlayPublisherExtension
+import com.google.firebase.appdistribution.gradle.AppDistributionExtension
 import com.google.firebase.appdistribution.gradle.tasks.UploadDistributionTask
+import com.google.firebase.crashlytics.buildtools.gradle.CrashlyticsExtension
+import com.google.firebase.perf.plugin.FirebasePerfExtension
 import com.google.gms.googleservices.GoogleServicesPlugin
 import io.github.reactivecircus.appversioning.AppVersioningExtension
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureAndroidApplicationExtension
@@ -35,8 +40,49 @@ import javax.inject.Inject
 /**
  * Entry point for configuring an Android application module.
  */
+@Suppress("TooManyFunctions")
 @KStreamlinedExtensionMarker
 public interface AndroidAppExtension {
+    /**
+     * Configure custom R8 keep rule.
+     */
+    public fun keepRule(keepRuleFile: File)
+
+    /**
+     * Configure app versioning.
+     */
+    public fun versioning(action: Action<AppVersioningExtension>)
+
+    /**
+     * Configure Google Play publishing.
+     */
+    public fun playPublishing(serviceAccountCredentials: File)
+
+    /**
+     * Enable and configure Firebase Performance Monitoring plugin.
+     */
+    public fun firebasePerf()
+
+    /**
+     * Enable and configure Firebase Crashlytics plugin.
+     */
+    public fun firebaseCrashlytics()
+
+    /**
+     * Enable and configure Firebase App Distribution plugin.
+     */
+    public fun firebaseAppDistribution(testerGroups: String, serviceAccountCredentials: File)
+
+    /**
+     * Enable baseline profile generation.
+     */
+    public fun consumeBaselineProfile(baselineProfileProjectPath: String)
+
+    /**
+     * Enable OSS licenses info generation using the Licensee plugin.
+     */
+    public fun generateLicensesInfo()
+
     /**
      * Enable Compose.
      */
@@ -51,31 +97,6 @@ public interface AndroidAppExtension {
      * Enable kotlinx.serialization by applying the `org.jetbrains.kotlin.plugin.serialization` plugin.
      */
     public fun serialization()
-
-    /**
-     * Configure app versioning.
-     */
-    public fun versioning(action: Action<AppVersioningExtension>)
-
-    /**
-     * Configure Google Play publishing.
-     */
-    public fun playPublishing(serviceAccountCredentials: File)
-
-    /**
-     * Enable and configure Google Services plugin.
-     */
-    public fun googleServices()
-
-    /**
-     * Enable baseline profile generation.
-     */
-    public fun consumeBaselineProfile(baselineProfileProjectPath: String)
-
-    /**
-     * Enable OSS licenses info generation using the Licensee plugin.
-     */
-    public fun generateLicensesInfo()
 
     /**
      * Enable unit tests.
@@ -95,25 +116,72 @@ internal abstract class AndroidAppExtensionImpl @Inject constructor(
     private val applicationId: String,
     private val baseApkName: String,
 ) : AndroidAppExtension, TopLevelExtension {
+    private var keepRuleFile: File? = null
+
+    private var versioningConfig: Action<AppVersioningExtension>? = null
+
+    private var playPublishingServiceAccountCredentials: File? = null
+
+    private var firebasePerfEnabled: Boolean = false
+
+    private var firebaseCrashlyticsEnabled: Boolean = false
+
+    private var firebaseAppDistributionEnabled: Boolean = false
+
+    private var firebaseAppDistributionTesterGroups: String? = null
+
+    private var firebaseAppDistributionServiceAccountCredentials: File? = null
+
+    private val googleServicesEnabled: Boolean
+        get() = firebasePerfEnabled || firebaseCrashlyticsEnabled || firebaseAppDistributionEnabled
+
+    private var baselineProfileProjectPath: String? = null
+
+    private var licensesInfoGenerationEnabled: Boolean = false
+
     private var composeEnabled: Boolean = false
 
     private var hiltEnabled: Boolean = false
 
     private var serializationEnabled: Boolean = false
 
-    private var versioningConfig: Action<AppVersioningExtension>? = null
-
-    private var playPublishingServiceAccountCredentials: File? = null
-
-    private var googleServicesEnabled: Boolean = false
-
-    private var baselineProfileProjectPath: String? = null
-
-    private var licensesInfoGenerationEnabled: Boolean = false
-
     private var unitTestsEnabled: Boolean = false
 
     private var dependenciesBlock: Action<KSDependencies.Android.App>? = null
+
+    override fun keepRule(keepRuleFile: File) {
+        this.keepRuleFile = keepRuleFile
+    }
+
+    override fun versioning(action: Action<AppVersioningExtension>) {
+        versioningConfig = action
+    }
+
+    override fun playPublishing(serviceAccountCredentials: File) {
+        playPublishingServiceAccountCredentials = serviceAccountCredentials
+    }
+
+    override fun firebasePerf() {
+        firebasePerfEnabled = true
+    }
+
+    override fun firebaseCrashlytics() {
+        firebaseCrashlyticsEnabled = true
+    }
+
+    override fun firebaseAppDistribution(testerGroups: String, serviceAccountCredentials: File) {
+        firebaseAppDistributionEnabled = true
+        firebaseAppDistributionTesterGroups = testerGroups
+        firebaseAppDistributionServiceAccountCredentials = serviceAccountCredentials
+    }
+
+    override fun consumeBaselineProfile(baselineProfileProjectPath: String) {
+        this.baselineProfileProjectPath = baselineProfileProjectPath
+    }
+
+    override fun generateLicensesInfo() {
+        licensesInfoGenerationEnabled = true
+    }
 
     override fun compose() {
         composeEnabled = true
@@ -127,26 +195,6 @@ internal abstract class AndroidAppExtensionImpl @Inject constructor(
         serializationEnabled = true
     }
 
-    override fun versioning(action: Action<AppVersioningExtension>) {
-        versioningConfig = action
-    }
-
-    override fun playPublishing(serviceAccountCredentials: File) {
-        playPublishingServiceAccountCredentials = serviceAccountCredentials
-    }
-
-    override fun googleServices() {
-        googleServicesEnabled = true
-    }
-
-    override fun consumeBaselineProfile(baselineProfileProjectPath: String) {
-        this.baselineProfileProjectPath = baselineProfileProjectPath
-    }
-
-    override fun generateLicensesInfo() {
-        licensesInfoGenerationEnabled = true
-    }
-
     override fun unitTests() {
         unitTestsEnabled = true
     }
@@ -156,6 +204,10 @@ internal abstract class AndroidAppExtensionImpl @Inject constructor(
     }
 
     override fun evaluate() = with(project) {
+        if (keepRuleFile == null) {
+            error("Missing keepRule(keepRuleFile: File) configuration.")
+        }
+
         pluginManager.apply("com.android.application")
 
         extensions.configure(KotlinBaseExtension::class.java) {
@@ -168,6 +220,13 @@ internal abstract class AndroidAppExtensionImpl @Inject constructor(
                 namespace = namespace,
                 applicationId = applicationId,
             )
+
+            it.configureBuildTypes(
+                signingConfigs = it.signingConfigs,
+                keepRules = listOf(it.getDefaultProguardFile("proguard-android-optimize.txt"), keepRuleFile!!),
+            )
+
+            it.configureProductFlavors()
 
             dependenciesBlock?.let { block ->
                 configureDependencies(
@@ -191,6 +250,18 @@ internal abstract class AndroidAppExtensionImpl @Inject constructor(
 
         if (googleServicesEnabled) {
             configureGoogleServices()
+        }
+
+        if (firebasePerfEnabled) {
+            pluginManager.apply("com.google.firebase.firebase-perf")
+        }
+
+        if (firebaseCrashlyticsEnabled) {
+            pluginManager.apply("com.google.firebase.crashlytics")
+        }
+
+        if (firebaseAppDistributionEnabled) {
+            pluginManager.apply("com.google.firebase.appdistribution")
         }
 
         if (composeEnabled) {
@@ -229,6 +300,93 @@ internal abstract class AndroidAppExtensionImpl @Inject constructor(
         configureDetekt()
     }
 
+    private fun ApplicationExtension.configureBuildTypes(
+        signingConfigs: NamedDomainObjectContainer<out ApkSigningConfig>,
+        keepRules: List<File>,
+    ) = buildTypes {
+        with(getByName("debug")) {
+            if (firebasePerfEnabled) {
+                isDefault = true
+                matchingFallbacks.add("release")
+//                signingConfig = signingConfigs.getByName("debug")
+
+                project.pluginManager.withPlugin("com.google.firebase.firebase-perf") {
+                    // disable performance monitoring plugin for debug builds
+                    (this as ExtensionAware).extensions.configure(FirebasePerfExtension::class.java) {
+                        it.setInstrumentationEnabled(false)
+                    }
+                }
+            }
+        }
+        with(getByName("release")) {
+            matchingFallbacks.add("release")
+//            signingConfig = if (rootDir.resolve("android/secrets/kstreamlined.jks").exists()) {
+//                signingConfigs.getByName("release")
+//            } else {
+//                signingConfigs.getByName("debug")
+//            }
+
+            if (firebaseCrashlyticsEnabled) {
+                project.pluginManager.withPlugin("com.google.firebase.crashlytics") {
+                    // only upload mapping file on CI
+                    (this as ExtensionAware).extensions.configure(CrashlyticsExtension::class.java) {
+                        it.mappingFileUploadEnabled = project.isCiBuild
+                    }
+                }
+            }
+
+            @Suppress("UnstableApiUsage")
+            optimization {
+                enable = true
+                keepRules {
+                    files.addAll(keepRules)
+                }
+            }
+        }
+    }
+
+    private fun ApplicationExtension.configureProductFlavors() {
+        flavorDimensions.add(FlavorDimensions.Environment)
+        productFlavors {
+            register(ProductFlavors.Mock) {
+                it.dimension = FlavorDimensions.Environment
+                it.applicationIdSuffix = ".${ProductFlavors.Mock}"
+            }
+            register(ProductFlavors.Dev) { flavor ->
+                flavor.isDefault = true
+                flavor.dimension = FlavorDimensions.Environment
+                flavor.applicationIdSuffix = ".${ProductFlavors.Dev}"
+
+                if (firebaseAppDistributionEnabled) {
+                    // distribute dev flavor for QA
+                    project.pluginManager.withPlugin("com.google.firebase.appdistribution") {
+                        // only upload mapping file on CI
+                        (flavor as ExtensionAware).extensions.configure(AppDistributionExtension::class.java) {
+                            it.groups = firebaseAppDistributionTesterGroups
+                            it.serviceCredentialsFile = firebaseAppDistributionServiceAccountCredentials!!.absolutePath
+                        }
+                    }
+                }
+            }
+            register(ProductFlavors.Demo) {
+                it.dimension = FlavorDimensions.Environment
+                it.applicationIdSuffix = ".${ProductFlavors.Demo}"
+            }
+            register(ProductFlavors.Prod) {
+                it.dimension = FlavorDimensions.Environment
+            }
+        }
+        // common source set for dev and prod
+        sourceSets {
+            named(ProductFlavors.Dev) {
+                it.kotlin.directories.add("src/devAndProd/kotlin")
+            }
+            named(ProductFlavors.Prod) {
+                it.kotlin.directories.add("src/devAndProd/kotlin")
+            }
+        }
+    }
+
     private fun configureAppVersioning(action: Action<AppVersioningExtension>) = with(project) {
         pluginManager.apply("io.github.reactivecircus.app-versioning")
         extensions.configure(AppVersioningExtension::class.java) {
@@ -255,13 +413,13 @@ internal abstract class AndroidAppExtensionImpl @Inject constructor(
 
     private fun configureGoogleServices() = with(project) {
         pluginManager.apply("com.google.gms.google-services")
+        extensions.configure(GoogleServicesPlugin.GoogleServicesPluginConfig::class.java) {
+            it.missingGoogleServicesStrategy = GoogleServicesPlugin.MissingGoogleServicesStrategy.IGNORE
+        }
         if (isCiBuild) {
-            extensions.configure(GoogleServicesPlugin.GoogleServicesPluginConfig::class.java) {
-                it.missingGoogleServicesStrategy = GoogleServicesPlugin.MissingGoogleServicesStrategy.IGNORE
-                tasks.withType(UploadDistributionTask::class.java).configureEach { task ->
-                    if (name.endsWith("devDebug", ignoreCase = true)) {
-                        task.dependsOn("processDevDebugGoogleServices")
-                    }
+            tasks.withType(UploadDistributionTask::class.java).configureEach { task ->
+                if (name.endsWith("devDebug", ignoreCase = true)) {
+                    task.dependsOn("processDevDebugGoogleServices")
                 }
             }
         }

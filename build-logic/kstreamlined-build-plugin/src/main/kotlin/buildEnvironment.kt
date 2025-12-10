@@ -14,26 +14,3 @@ public val Project.googleServicesJsonExists: Provider<Boolean>
     get() = providers.provider {
         fileTree("src").matching { it.include("**/google-services.json") }.isEmpty.not()
     }
-
-internal val Project.runningPaparazzi: Boolean
-    get() = gradle.startParameter.taskNames.any {
-        it.substringAfterLast(":").contains("paparazzi", ignoreCase = true)
-    }
-
-internal val Project.runningCheck: Boolean
-    get() = gradle.startParameter.taskNames.any {
-        it.substringAfterLast(":").equals("check", ignoreCase = true)
-    }
-
-internal val Project.isGeneratingBaselineProfile: Boolean
-    get() = gradle.startParameter.taskNames.any {
-        it.contains("generateBaselineProfile", ignoreCase = true)
-    }
-
-internal val Project.isRunningBenchmark: Boolean
-    get() = gradle.startParameter.taskNames.any {
-        it.contains("connectedBenchmarkReleaseAndroidTest", ignoreCase = true)
-    }
-
-internal val Project.isAppleSilicon: Boolean
-    get() = providers.systemProperty("os.arch").orNull == "aarch64"
