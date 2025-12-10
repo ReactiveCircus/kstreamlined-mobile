@@ -48,6 +48,11 @@ public interface AndroidAppExtension {
     public fun hilt()
 
     /**
+     * Enable kotlinx.serialization by applying the `org.jetbrains.kotlin.plugin.serialization` plugin.
+     */
+    public fun serialization()
+
+    /**
      * Configure app versioning.
      */
     public fun versioning(action: Action<AppVersioningExtension>)
@@ -94,6 +99,8 @@ internal abstract class AndroidAppExtensionImpl @Inject constructor(
 
     private var hiltEnabled: Boolean = false
 
+    private var serializationEnabled: Boolean = false
+
     private var versioningConfig: Action<AppVersioningExtension>? = null
 
     private var playPublishingServiceAccountCredentials: File? = null
@@ -114,6 +121,10 @@ internal abstract class AndroidAppExtensionImpl @Inject constructor(
 
     override fun hilt() {
         hiltEnabled = true
+    }
+
+    override fun serialization() {
+        serializationEnabled = true
     }
 
     override fun versioning(action: Action<AppVersioningExtension>) {
@@ -197,6 +208,10 @@ internal abstract class AndroidAppExtensionImpl @Inject constructor(
                 add("ksp", libs.hilt.compiler)
                 add("implementation", libs.hilt.android)
             }
+        }
+
+        if (serializationEnabled) {
+            pluginManager.apply("org.jetbrains.kotlin.plugin.serialization")
         }
 
         baselineProfileProjectPath?.let(::configureBaselineProfile)

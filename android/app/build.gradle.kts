@@ -20,6 +20,7 @@ kstreamlined {
     ) {
         compose()
         hilt()
+        serialization()
         versioning {
             enabled.set(
                 providers.environmentVariable("ENABLE_APP_VERSIONING").orElse("true").map { it.toBoolean() }

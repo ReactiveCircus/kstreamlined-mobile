@@ -21,9 +21,9 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.saveable.rememberSerializable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,6 +32,8 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.runtime.rememberNavBackStack
 import dagger.hilt.android.AndroidEntryPoint
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.feature.contentviewer.ContentViewerScreen
@@ -42,6 +44,7 @@ import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisod
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.settings.datasource.SettingsDataSource
 import io.github.reactivecircus.kstreamlined.kmp.settings.model.AppSettings
+import kotlinx.serialization.Serializable
 import javax.inject.Inject
 
 @OptIn(ExperimentalSharedTransitionApi::class)
@@ -67,8 +70,8 @@ class KSActivity : ComponentActivity() {
             ) {
                 NavigationBarStyleEffect(theme)
 
-                val backStack = rememberSaveable { mutableStateListOf<NavDestination>(NavDestination.Main) }
-                var selectedNavItem by rememberSaveable { mutableStateOf(NavItemKey.Home) }
+                val backStack = rememberNavBackStack(NavDestination.Main)
+                var selectedNavItem by rememberSerializable { mutableStateOf(NavItemKey.Home) }
 
                 val dpCacheWindow = LazyLayoutCacheWindow(ahead = 300.dp, behind = 300.dp)
                 val homeListState = rememberLazyListState(cacheWindow = dpCacheWindow)
@@ -247,9 +250,11 @@ private fun ComponentActivity.NavigationBarStyleEffect(theme: AppSettings.Theme)
     }
 }
 
-private sealed interface NavDestination {
+private sealed interface NavDestination : NavKey {
+    @Serializable
     data object Main : NavDestination
 
+    @Serializable
     data class ContentViewer(
         val boundsKey: String,
         val topBarBoundsKey: String,
@@ -257,6 +262,7 @@ private sealed interface NavDestination {
         val id: String,
     ) : NavDestination
 
+    @Serializable
     data class KotlinWeeklyIssue(
         val boundsKey: String,
         val topBarBoundsKey: String,
@@ -265,6 +271,7 @@ private sealed interface NavDestination {
         val issueNumber: Int,
     ) : NavDestination
 
+    @Serializable
     data class TalkingKotlinEpisode(
         val boundsKey: String,
         val topBarBoundsKey: String,
@@ -272,10 +279,12 @@ private sealed interface NavDestination {
         val id: String,
     ) : NavDestination
 
+    @Serializable
     data class Settings(
         val topBarBoundsKey: String,
         val titleElementKey: String,
     ) : NavDestination
 
+    @Serializable
     data class Licenses(val boundsKey: String) : NavDestination
 }
