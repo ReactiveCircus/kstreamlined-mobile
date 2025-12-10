@@ -18,7 +18,7 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinBaseExtension
 import javax.inject.Inject
 
 /**
- * Entry point for configuring a Android benchmark module.
+ * Entry point for configuring an Android benchmark module.
  */
 @Suppress("UnstableApiUsage")
 @KStreamlinedExtensionMarker

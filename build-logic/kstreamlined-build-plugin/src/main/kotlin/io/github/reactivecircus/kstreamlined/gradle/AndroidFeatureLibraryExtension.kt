@@ -21,7 +21,7 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinBaseExtension
 import javax.inject.Inject
 
 /**
- * Entry point for configuring a Android feature library module.
+ * Entry point for configuring an Android feature library module.
  */
 @KStreamlinedExtensionMarker
 public interface AndroidFeatureLibraryExtension {

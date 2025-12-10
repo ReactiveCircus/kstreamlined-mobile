@@ -17,8 +17,14 @@ import java.io.File
 /**
  * Apply baseline configurations on an Android Application project.
  */
-internal fun ApplicationExtension.configureAndroidApplicationExtension(project: Project) {
+internal fun ApplicationExtension.configureAndroidApplicationExtension(
+    project: Project,
+    namespace: String,
+    applicationId: String,
+) {
+    this.namespace = namespace
     defaultConfig {
+        this.applicationId = applicationId
         targetSdk = AndroidSdk.TargetSdk
     }
     androidResources {

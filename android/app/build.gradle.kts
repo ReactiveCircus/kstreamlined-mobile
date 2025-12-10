@@ -1,79 +1,47 @@
 import com.google.firebase.appdistribution.gradle.firebaseAppDistribution
-import com.google.firebase.appdistribution.gradle.tasks.UploadDistributionTask
 import com.google.firebase.crashlytics.buildtools.gradle.CrashlyticsExtension
 import com.google.firebase.perf.plugin.FirebasePerfExtension
-import com.google.gms.googleservices.GoogleServicesPlugin
 import java.time.Instant
 
 plugins {
-    id("kstreamlined.android.application")
-    id("kstreamlined.compose")
-    id("kstreamlined.ksp")
-    id("com.google.dagger.hilt.android")
-    id("com.google.gms.google-services")
+    id("kstreamlined")
+
+    id("com.android.application")
     id("com.google.firebase.firebase-perf")
     id("com.google.firebase.crashlytics")
     id("com.google.firebase.appdistribution")
-    id("io.github.reactivecircus.app-versioning")
-    id("com.github.triplet.play")
-    id("androidx.baselineprofile")
 }
 
-val googleServicesJsonExists: Boolean = fileTree("src").matching {
-    include("**/google-services.json")
-}.isEmpty.not()
-
-if (isCiBuild) {
-    tasks.withType<UploadDistributionTask> {
-        if (name.endsWith("devDebug", ignoreCase = true)) {
-            dependsOn("processDevDebugGoogleServices")
+kstreamlined {
+    androidApp(
+        namespace = "io.github.reactivecircus.kstreamlined.android",
+        applicationId = "io.github.reactivecircus.kstreamlined",
+        baseApkName = "kstreamlined",
+    ) {
+        compose()
+        hilt()
+        versioning {
+            enabled.set(
+                providers.environmentVariable("ENABLE_APP_VERSIONING").orElse("true").map { it.toBoolean() }
+            )
+            overrideVersionCode { _, _, _ ->
+                Instant.now().epochSecond.toInt()
+            }
+            overrideVersionName { gitTag, _, _ ->
+                "${gitTag.rawTagName} (${gitTag.commitHash})"
+            }
         }
-    }
-}
-
-googleServices {
-    missingGoogleServicesStrategy = GoogleServicesPlugin.MissingGoogleServicesStrategy.IGNORE
-}
-
-appVersioning {
-    enabled.set(
-        providers.environmentVariable("ENABLE_APP_VERSIONING").orElse("true").map { it.toBoolean() }
-    )
-    overrideVersionCode { _, _, _ ->
-        Instant.now().epochSecond.toInt()
-    }
-    overrideVersionName { gitTag, _, _ ->
-        "${gitTag.rawTagName} (${gitTag.commitHash})"
-    }
-}
-
-play {
-    enabled.set(false) // only enable publishing for prodRelease variant in `playConfigs` block
-    serviceAccountCredentials.set(rootDir.resolve("android/secrets/play-publishing.json"))
-    defaultToAppBundles.set(true)
-}
-
-baselineProfile {
-    mergeIntoMain = true
-    warnings {
-        maxAgpVersion = false
-        disabledVariants = false
+        playPublishing(rootDir.resolve("android/secrets/play-publishing.json"))
+        googleServices()
+        consumeBaselineProfile(":benchmark")
+        generateLicensesInfo()
     }
 }
 
 android {
-    namespace = "io.github.reactivecircus.kstreamlined.android"
     buildFeatures {
         buildConfig = true
         resValues = true
-    }
-
-    defaultConfig {
-        applicationId = "io.github.reactivecircus.kstreamlined"
-        base.archivesName.set("kstreamlined")
-
-        testApplicationId = "io.github.reactivecircus.kstreamlined.android.test"
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     signingConfigs {
@@ -159,12 +127,6 @@ android {
             kotlin.directories.add("src/devAndProd/kotlin")
         }
     }
-
-    playConfigs {
-        register(ProductFlavors.Prod) {
-            enabled.set(true)
-        }
-    }
 }
 
 androidComponents {
@@ -178,32 +140,32 @@ androidComponents {
             it.addBuildConfigField(key = "ENABLE_LEAK_CANARY", value = !isCiBuild)
 
             // hide LeakCanary icon for CI builds
-            it.addResValue(key = "leak_canary_add_launcher_icon", type = "bool", value = "${!isCiBuild}")
+            it.addResValueFromBoolean(key = "leak_canary_add_launcher_icon", value = !isCiBuild)
 
             // override app name for LeakCanary
-            it.addResValue(key = "leak_canary_display_activity_label", type = "string", value = "KStreamlined leaks")
+            it.addResValueFromString(key = "leak_canary_display_activity_label", value = "KStreamlined leaks")
 
             // disable automatic watcher install for LeakCanary
-            it.addResValue(key = "leak_canary_watcher_auto_install", type = "bool", value = "false")
+            it.addResValueFromBoolean(key = "leak_canary_watcher_auto_install", value = false)
 
             // concatenate build variant to app name
-            it.addResValue(key = "app_name", type = "string", value = "KStreamlined-${it.name}")
+            it.addResValueFromString(key = "app_name", value = "KStreamlined-${it.name}")
         } else {
             // set app_name for release build
-            it.addResValue(key = "app_name", type = "string", value = "KStreamlined")
+            it.addResValueFromString(key = "app_name", value = "KStreamlined")
         }
 
         when (it.flavorName) {
             ProductFlavors.Prod -> {
                 it.addBuildConfigField(key = "ENABLE_ANALYTICS", value = googleServicesJsonExists)
                 it.addBuildConfigField(key = "ENABLE_CRASH_REPORTING", value = googleServicesJsonExists)
-                it.addBuildConfigField(key = "API_ENDPOINT", value = "\"${envOrProp("KSTREAMLINED_API_ENDPOINT").get()}\"")
+                it.addBuildConfigField(key = "API_ENDPOINT", value = envOrProp("KSTREAMLINED_API_ENDPOINT"))
             }
 
             ProductFlavors.Dev -> {
                 it.addBuildConfigField(key = "ENABLE_ANALYTICS", value = googleServicesJsonExists)
                 it.addBuildConfigField(key = "ENABLE_CRASH_REPORTING", value = googleServicesJsonExists)
-                it.addBuildConfigField(key = "API_ENDPOINT", value = "\"${envOrProp("KSTREAMLINED_API_ENDPOINT").get()}\"")
+                it.addBuildConfigField(key = "API_ENDPOINT", value = envOrProp("KSTREAMLINED_API_ENDPOINT"))
             }
 
             ProductFlavors.Demo -> {
@@ -217,7 +179,7 @@ androidComponents {
             }
         }
         it.addBuildConfigField(key = "NETWORK_TIMEOUT_SECONDS", value = 10)
-        it.addBuildConfigField(key = "SOURCE_CODE_URL", value = "\"https://github.com/ReactiveCircus/kstreamlined-mobile\"")
+        it.addBuildConfigField(key = "SOURCE_CODE_URL", value = "https://github.com/ReactiveCircus/kstreamlined-mobile")
     }
 }
 
@@ -241,7 +203,6 @@ dependencies {
     implementation(project(":feature:settings"))
     implementation(project(":feature:talking-kotlin-episode"))
     implementation(project(":core:scheduled-work"))
-    baselineProfile(project(":benchmark"))
 
     releaseImplementation(libs.firebase.perf)
     implementation(libs.firebase.crashlytics)
@@ -254,8 +215,6 @@ dependencies {
     implementation(libs.androidx.compose.runtime.tracing)
     implementation(libs.androidx.work.runtime)
     implementation(libs.androidx.tracing)
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.compiler)
     implementation(libs.okhttp)
     implementation(libs.coil.compose)
     implementation(libs.coil.svg)

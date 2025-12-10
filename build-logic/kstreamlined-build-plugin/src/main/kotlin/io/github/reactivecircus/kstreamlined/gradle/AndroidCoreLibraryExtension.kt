@@ -21,7 +21,7 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinBaseExtension
 import javax.inject.Inject
 
 /**
- * Entry point for configuring a Android core library module.
+ * Entry point for configuring an Android core library module.
  */
 @KStreamlinedExtensionMarker
 public interface AndroidCoreLibraryExtension {

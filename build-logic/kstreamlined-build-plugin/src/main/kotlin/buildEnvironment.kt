@@ -10,6 +10,11 @@ public val Project.isIdeBuild: Boolean
 public fun Project.envOrProp(name: String): Provider<String> =
     providers.environmentVariable(name).orElse(providers.gradleProperty(name).orElse(""))
 
+public val Project.googleServicesJsonExists: Provider<Boolean>
+    get() = providers.provider {
+        fileTree("src").matching { it.include("**/google-services.json") }.isEmpty.not()
+    }
+
 internal val Project.runningPaparazzi: Boolean
     get() = gradle.startParameter.taskNames.any {
         it.substringAfterLast(":").contains("paparazzi", ignoreCase = true)
