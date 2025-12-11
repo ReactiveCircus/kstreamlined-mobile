@@ -12,6 +12,20 @@ kstreamlined {
         applicationId = "io.github.reactivecircus.kstreamlined",
         baseApkName = "kstreamlined",
     ) {
+        signing {
+            debug {
+                storeFile(rootDir.resolve("android/secrets/debug.keystore"))
+                storePassword("kstreamlined-debug")
+                keyAlias("kstreamlined-debug")
+                keyPassword("kstreamlined-debug")
+            }
+            release {
+                storeFile(rootDir.resolve("android/secrets/kstreamlined.jks"))
+                storePassword(envOrProp("KSTREAMLINED_STORE_PASSWORD").get())
+                keyAlias(envOrProp("KSTREAMLINED_KEY_ALIAS").get())
+                keyPassword(envOrProp("KSTREAMLINED_KEY_PASSWORD").get())
+            }
+        }
         keepRule(file("keep-rules.pro"))
         versioning {
             enabled.set(
@@ -85,34 +99,6 @@ android {
     buildFeatures {
         buildConfig = true
         resValues = true
-    }
-
-    signingConfigs {
-        named("debug") {
-            storeFile = rootDir.resolve("android/secrets/debug.keystore")
-            storePassword = "kstreamlined-debug"
-            keyAlias = "kstreamlined-debug"
-            keyPassword = "kstreamlined-debug"
-        }
-        register("release") {
-            storeFile = rootDir.resolve("android/secrets/kstreamlined.jks")
-            storePassword = envOrProp("KSTREAMLINED_STORE_PASSWORD").get()
-            keyAlias = envOrProp("KSTREAMLINED_KEY_ALIAS").get()
-            keyPassword = envOrProp("KSTREAMLINED_KEY_PASSWORD").get()
-        }
-    }
-
-    buildTypes {
-        debug {
-            signingConfig = signingConfigs.getByName("debug")
-        }
-        release {
-            signingConfig = if (rootDir.resolve("android/secrets/kstreamlined.jks").exists()) {
-                signingConfigs.getByName("release")
-            } else {
-                signingConfigs.getByName("debug")
-            }
-        }
     }
 }
 

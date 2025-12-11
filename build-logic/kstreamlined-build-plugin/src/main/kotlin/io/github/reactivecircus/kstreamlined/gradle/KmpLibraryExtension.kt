@@ -15,7 +15,6 @@ import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureKotlin
 import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configurePowerAssert
 import org.gradle.api.Action
 import org.gradle.api.Project
-import org.gradle.api.model.ObjectFactory
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.KotlinDependencies
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
@@ -124,10 +123,9 @@ public interface KmpLibraryExtension {
 
 @Suppress("TooManyFunctions")
 internal abstract class KmpLibraryExtensionImpl @Inject constructor(
-    objects: ObjectFactory,
     private val project: Project,
 ) : KmpLibraryExtension, TopLevelExtension {
-    private val targetsOptions = objects.newInstance(TargetsOptionsImpl::class.java)
+    private val targetsOptions = project.objects.newInstance(TargetsOptionsImpl::class.java)
 
     private var composeEnabled: Boolean = false
 
@@ -341,16 +339,14 @@ internal abstract class KmpLibraryExtensionImpl @Inject constructor(
         }
     }
 
-    internal abstract class TargetsOptionsImpl @Inject constructor(
-        private val project: Project,
-    ) : KmpLibraryExtension.TargetsOptions {
-        internal var jvmEnabled: Boolean = false
+    internal abstract class TargetsOptionsImpl : KmpLibraryExtension.TargetsOptions {
+        var jvmEnabled: Boolean = false
 
-        internal var androidEnabled: Boolean = false
+        var androidEnabled: Boolean = false
 
-        internal var androidNamespace: String? = null
+        var androidNamespace: String? = null
 
-        internal var iosEnabled: Boolean = false
+        var iosEnabled: Boolean = false
 
         override fun jvm() {
             jvmEnabled = true

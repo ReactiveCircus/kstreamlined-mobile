@@ -30,6 +30,7 @@ import isCiBuild
 import org.gradle.api.Action
 import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.Project
+import org.gradle.api.model.ObjectFactory
 import org.gradle.api.plugins.BasePluginExtension
 import org.gradle.api.plugins.ExtensionAware
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
@@ -43,6 +44,11 @@ import javax.inject.Inject
 @Suppress("TooManyFunctions")
 @KStreamlinedExtensionMarker
 public interface AndroidAppExtension {
+    /**
+     * Configure app signing configs.
+     */
+    public fun signing(action: Action<AppSigningOption>)
+
     /**
      * Configure custom R8 keep rule.
      */
@@ -107,6 +113,42 @@ public interface AndroidAppExtension {
      * Configure dependencies.
      */
     public fun dependencies(action: Action<KSDependencies.Android.App>)
+
+    @KStreamlinedExtensionMarker
+    public interface AppSigningOption {
+        /**
+         * Configure signing configs for the Debug build type.
+         */
+        public fun debug(action: Action<PerBuildTypeOptions>)
+
+        /**
+         * Configure signing configs for the Release build type.
+         */
+        public fun release(action: Action<PerBuildTypeOptions>)
+
+        @KStreamlinedExtensionMarker
+        public interface PerBuildTypeOptions {
+            /**
+             * Configure store file used when signing.
+             */
+            public fun storeFile(storeFile: File)
+
+            /**
+             * Configure store password used when signing.
+             */
+            public fun storePassword(storePassword: String)
+
+            /**
+             * Configure key alias used when signing.
+             */
+            public fun keyAlias(keyAlias: String)
+
+            /**
+             * Configure key password used when signing.
+             */
+            public fun keyPassword(keyPassword: String)
+        }
+    }
 }
 
 @Suppress("TooManyFunctions")
@@ -116,6 +158,8 @@ internal abstract class AndroidAppExtensionImpl @Inject constructor(
     private val applicationId: String,
     private val baseApkName: String,
 ) : AndroidAppExtension, TopLevelExtension {
+    private val appSigningOptions = project.objects.newInstance(AppSigningOptionImpl::class.java)
+
     private var keepRuleFile: File? = null
 
     private var versioningConfig: Action<AppVersioningExtension>? = null
@@ -148,6 +192,10 @@ internal abstract class AndroidAppExtensionImpl @Inject constructor(
     private var unitTestsEnabled: Boolean = false
 
     private var dependenciesBlock: Action<KSDependencies.Android.App>? = null
+
+    override fun signing(action: Action<AndroidAppExtension.AppSigningOption>) {
+        action.execute(appSigningOptions)
+    }
 
     override fun keepRule(keepRuleFile: File) {
         this.keepRuleFile = keepRuleFile
@@ -203,7 +251,20 @@ internal abstract class AndroidAppExtensionImpl @Inject constructor(
         dependenciesBlock = action
     }
 
+    @Suppress("CyclomaticComplexMethod")
     override fun evaluate() = with(project) {
+        if (!appSigningOptions.fullyConfigured) {
+            error(
+                """
+                |Missing signing configuration. The following must be configured for both Debug and Release build types:
+                |- storeFile(storeFile: File)
+                |- storePassword(storePassword: String)
+                |- keyAlias(keyAlias: String)
+                |- keyPassword(keyPassword: String)
+                """.trimMargin(),
+            )
+        }
+
         if (keepRuleFile == null) {
             error("Missing keepRule(keepRuleFile: File) configuration.")
         }
@@ -221,8 +282,9 @@ internal abstract class AndroidAppExtensionImpl @Inject constructor(
                 applicationId = applicationId,
             )
 
+            it.configureSigningConfigs()
+
             it.configureBuildTypes(
-                signingConfigs = it.signingConfigs,
                 keepRules = listOf(it.getDefaultProguardFile("proguard-android-optimize.txt"), keepRuleFile!!),
             )
 
@@ -300,15 +362,34 @@ internal abstract class AndroidAppExtensionImpl @Inject constructor(
         configureDetekt()
     }
 
-    private fun ApplicationExtension.configureBuildTypes(
-        signingConfigs: NamedDomainObjectContainer<out ApkSigningConfig>,
-        keepRules: List<File>,
-    ) = buildTypes {
+    private fun ApplicationExtension.configureSigningConfigs() = signingConfigs {
+        fun ApkSigningConfig.setFrom(options: AppSigningOptionImpl.PerBuildTypeOptionsImpl) {
+            storeFile = options.storeFile
+            storePassword = options.storePassword
+            keyAlias = options.keyAlias
+            keyPassword = options.keyPassword
+        }
+        named("debug") {
+            it.setFrom(appSigningOptions.debugSigningOptions)
+        }
+        register("release") {
+            // fallbacks to debug signing config if store file configured for release build doesn't exist
+            it.setFrom(
+                options = if (appSigningOptions.releaseSigningOptions.storeFile?.exists() == true) {
+                    appSigningOptions.releaseSigningOptions
+                } else {
+                    appSigningOptions.debugSigningOptions
+                },
+            )
+        }
+    }
+
+    private fun ApplicationExtension.configureBuildTypes(keepRules: List<File>) = buildTypes {
         with(getByName("debug")) {
             if (firebasePerfEnabled) {
                 isDefault = true
                 matchingFallbacks.add("release")
-//                signingConfig = signingConfigs.getByName("debug")
+                signingConfig = signingConfigs.getByName("debug")
 
                 project.pluginManager.withPlugin("com.google.firebase.firebase-perf") {
                     // disable performance monitoring plugin for debug builds
@@ -320,11 +401,7 @@ internal abstract class AndroidAppExtensionImpl @Inject constructor(
         }
         with(getByName("release")) {
             matchingFallbacks.add("release")
-//            signingConfig = if (rootDir.resolve("android/secrets/kstreamlined.jks").exists()) {
-//                signingConfigs.getByName("release")
-//            } else {
-//                signingConfigs.getByName("debug")
-//            }
+            signingConfig = signingConfigs.getByName("release")
 
             if (firebaseCrashlyticsEnabled) {
                 project.pluginManager.withPlugin("com.google.firebase.crashlytics") {
@@ -448,6 +525,54 @@ internal abstract class AndroidAppExtensionImpl @Inject constructor(
             it.allowUrl("https://opensource.org/license/MIT")
             it.allowUrl("https://developer.android.com/studio/terms.html")
             it.unusedAction(UnusedAction.IGNORE)
+        }
+    }
+
+    internal abstract class AppSigningOptionImpl @Inject constructor(
+        objects: ObjectFactory,
+    ) : AndroidAppExtension.AppSigningOption {
+        val debugSigningOptions = objects.newInstance(PerBuildTypeOptionsImpl::class.java)
+
+        val releaseSigningOptions = objects.newInstance(PerBuildTypeOptionsImpl::class.java)
+
+        override fun debug(action: Action<AndroidAppExtension.AppSigningOption.PerBuildTypeOptions>) {
+            action.execute(debugSigningOptions)
+        }
+
+        override fun release(action: Action<AndroidAppExtension.AppSigningOption.PerBuildTypeOptions>) {
+            action.execute(releaseSigningOptions)
+        }
+
+        val fullyConfigured: Boolean
+            get() = debugSigningOptions.fullyConfigured && releaseSigningOptions.fullyConfigured
+
+        abstract class PerBuildTypeOptionsImpl : AndroidAppExtension.AppSigningOption.PerBuildTypeOptions {
+            var storeFile: File? = null
+
+            var storePassword: String? = null
+
+            var keyAlias: String? = null
+
+            var keyPassword: String? = null
+
+            override fun storeFile(storeFile: File) {
+                this.storeFile = storeFile
+            }
+
+            override fun storePassword(storePassword: String) {
+                this.storePassword = storePassword
+            }
+
+            override fun keyAlias(keyAlias: String) {
+                this.keyAlias = keyAlias
+            }
+
+            override fun keyPassword(keyPassword: String) {
+                this.keyPassword = keyPassword
+            }
+
+            val fullyConfigured: Boolean
+                get() = storeFile != null && storePassword != null && keyAlias != null && keyPassword != null
         }
     }
 }
