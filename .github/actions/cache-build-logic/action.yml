@@ -5,7 +5,7 @@ runs:
   using: "composite"
   steps:
     - name: Cache build-logic
-      uses: actions/cache@v4
+      uses: actions/cache@v5
       with:
         path: build-logic/build
         key: build-logic-${{ hashFiles('build-logic/**/src/**', 'build-logic/**/build.gradle.kts','build-logic/settings.gradle.kts') }}
