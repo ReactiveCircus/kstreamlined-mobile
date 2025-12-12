@@ -2,11 +2,11 @@
 
 package io.github.reactivecircus.kstreamlined.gradle
 
-import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureCompose
-import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureDetekt
-import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureKotlin
-import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configurePowerAssert
-import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureTest
+import io.github.reactivecircus.kstreamlined.gradle.internal.configureCompose
+import io.github.reactivecircus.kstreamlined.gradle.internal.configureDetekt
+import io.github.reactivecircus.kstreamlined.gradle.internal.configureKotlin
+import io.github.reactivecircus.kstreamlined.gradle.internal.configurePowerAssert
+import io.github.reactivecircus.kstreamlined.gradle.internal.configureTest
 import io.github.reactivecircus.kstreamlined.gradle.internal.libs
 import org.gradle.api.Action
 import org.gradle.api.Project

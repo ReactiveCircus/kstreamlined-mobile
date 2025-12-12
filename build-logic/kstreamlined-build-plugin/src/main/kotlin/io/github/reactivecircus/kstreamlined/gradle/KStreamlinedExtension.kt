@@ -17,6 +17,13 @@ public interface KStreamlinedExtension {
 
     public fun androidFeatureLibrary(namespace: String, action: Action<AndroidFeatureLibraryExtension> = Action {})
 
+    public fun androidApp(
+        namespace: String,
+        applicationId: String,
+        baseApkName: String,
+        action: Action<AndroidAppExtension>,
+    )
+
     public fun androidBenchmark(
         namespace: String,
         targetProjectPath: String,
@@ -34,6 +41,7 @@ internal abstract class KStreamlinedExtensionImpl @Inject constructor(
     private val jvmLibraryExtension by lazy { objects.newInstance(JvmLibraryExtensionImpl::class.java) }
     private var androidCoreLibraryExtension: AndroidCoreLibraryExtensionImpl? = null
     private var androidFeatureLibraryExtension: AndroidFeatureLibraryExtensionImpl? = null
+    private var androidAppExtension: AndroidAppExtensionImpl? = null
     private var androidBenchmarkExtension: AndroidBenchmarkExtensionImpl? = null
 
     private var configured = false
@@ -75,6 +83,27 @@ internal abstract class KStreamlinedExtensionImpl @Inject constructor(
                 )
             }
             val extension = androidFeatureLibraryExtension!!
+            action.execute(extension)
+            extension.evaluate()
+        }
+    }
+
+    override fun androidApp(
+        namespace: String,
+        applicationId: String,
+        baseApkName: String,
+        action: Action<AndroidAppExtension>,
+    ) {
+        configureTopLevelDsl {
+            if (androidAppExtension == null) {
+                androidAppExtension = objects.newInstance(
+                    AndroidAppExtensionImpl::class.java,
+                    namespace,
+                    applicationId,
+                    baseApkName,
+                )
+            }
+            val extension = androidAppExtension!!
             action.execute(extension)
             extension.evaluate()
         }
@@ -137,6 +166,7 @@ internal interface TopLevelExtension {
         JvmLibrary("jvmLibrary"),
         AndroidCoreLibrary("androidCoreLibrary"),
         AndroidFeatureLibrary("androidFeatureLibrary"),
+        AndroidApp("androidApp"),
         AndroidBenchmark("androidBenchmark"),
     }
 }

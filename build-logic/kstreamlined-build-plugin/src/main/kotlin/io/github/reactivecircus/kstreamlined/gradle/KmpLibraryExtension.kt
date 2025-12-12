@@ -6,16 +6,15 @@ import app.cash.sqldelight.gradle.SqlDelightDatabase
 import app.cash.sqldelight.gradle.SqlDelightExtension
 import com.apollographql.apollo.gradle.api.ApolloExtension
 import com.apollographql.apollo.gradle.api.Service
-import io.github.reactivecircus.kstreamlined.gradle.buildlogic.KmpTargetsConfig
-import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureCompose
-import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureDetekt
-import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureKmpTargets
-import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureKmpTest
-import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureKotlin
-import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configurePowerAssert
+import io.github.reactivecircus.kstreamlined.gradle.internal.KmpTargetsConfig
+import io.github.reactivecircus.kstreamlined.gradle.internal.configureCompose
+import io.github.reactivecircus.kstreamlined.gradle.internal.configureDetekt
+import io.github.reactivecircus.kstreamlined.gradle.internal.configureKmpTargets
+import io.github.reactivecircus.kstreamlined.gradle.internal.configureKmpTest
+import io.github.reactivecircus.kstreamlined.gradle.internal.configureKotlin
+import io.github.reactivecircus.kstreamlined.gradle.internal.configurePowerAssert
 import org.gradle.api.Action
 import org.gradle.api.Project
-import org.gradle.api.model.ObjectFactory
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.KotlinDependencies
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
@@ -124,10 +123,9 @@ public interface KmpLibraryExtension {
 
 @Suppress("TooManyFunctions")
 internal abstract class KmpLibraryExtensionImpl @Inject constructor(
-    objects: ObjectFactory,
     private val project: Project,
 ) : KmpLibraryExtension, TopLevelExtension {
-    private val targetsOptions = objects.newInstance(TargetsOptionsImpl::class.java)
+    private val targetsOptions = project.objects.newInstance(TargetsOptionsImpl::class.java)
 
     private var composeEnabled: Boolean = false
 
@@ -341,16 +339,14 @@ internal abstract class KmpLibraryExtensionImpl @Inject constructor(
         }
     }
 
-    internal abstract class TargetsOptionsImpl @Inject constructor(
-        private val project: Project,
-    ) : KmpLibraryExtension.TargetsOptions {
-        internal var jvmEnabled: Boolean = false
+    internal abstract class TargetsOptionsImpl : KmpLibraryExtension.TargetsOptions {
+        var jvmEnabled: Boolean = false
 
-        internal var androidEnabled: Boolean = false
+        var androidEnabled: Boolean = false
 
-        internal var androidNamespace: String? = null
+        var androidNamespace: String? = null
 
-        internal var iosEnabled: Boolean = false
+        var iosEnabled: Boolean = false
 
         override fun jvm() {
             jvmEnabled = true

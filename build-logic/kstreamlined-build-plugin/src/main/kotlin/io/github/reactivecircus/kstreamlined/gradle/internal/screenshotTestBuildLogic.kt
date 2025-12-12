@@ -1,4 +1,4 @@
-package io.github.reactivecircus.kstreamlined.gradle.buildlogic
+package io.github.reactivecircus.kstreamlined.gradle.internal
 
 import app.cash.paparazzi.gradle.PrepareResourcesTask
 import com.android.build.api.dsl.LibraryExtension
@@ -9,8 +9,6 @@ import io.github.reactivecircus.chameleon.gradle.ChameleonExtension
 import isIdeBuild
 import org.gradle.api.Project
 import org.gradle.api.tasks.testing.Test
-import runningCheck
-import runningPaparazzi
 
 /**
  * Configure screenshot testing.
@@ -76,3 +74,13 @@ internal fun Project.configureScreenshotTest() {
         }
     }
 }
+
+private val Project.runningPaparazzi: Boolean
+    get() = gradle.startParameter.taskNames.any {
+        it.substringAfterLast(":").contains("paparazzi", ignoreCase = true)
+    }
+
+private val Project.runningCheck: Boolean
+    get() = gradle.startParameter.taskNames.any {
+        it.substringAfterLast(":").equals("check", ignoreCase = true)
+    }

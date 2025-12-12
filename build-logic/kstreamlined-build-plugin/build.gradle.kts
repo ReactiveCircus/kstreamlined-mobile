@@ -14,18 +14,6 @@ gradlePlugin {
             id = "kstreamlined"
             implementationClass = "io.github.reactivecircus.kstreamlined.gradle.KStreamlinedBuildPlugin"
         }
-        register("androidApplication") {
-            id = "kstreamlined.android.application"
-            implementationClass = "io.github.reactivecircus.kstreamlined.gradle.convention.AndroidApplicationConventionPlugin"
-        }
-        register("compose") {
-            id = "kstreamlined.compose"
-            implementationClass = "io.github.reactivecircus.kstreamlined.gradle.convention.ComposeConventionPlugin"
-        }
-        register("ksp") {
-            id = "kstreamlined.ksp"
-            implementationClass = "io.github.reactivecircus.kstreamlined.gradle.convention.KspConventionPlugin"
-        }
     }
 }
 

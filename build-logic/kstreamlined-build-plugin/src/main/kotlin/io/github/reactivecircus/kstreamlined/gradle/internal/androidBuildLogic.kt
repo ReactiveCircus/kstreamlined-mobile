@@ -1,4 +1,4 @@
-package io.github.reactivecircus.kstreamlined.gradle.buildlogic
+package io.github.reactivecircus.kstreamlined.gradle.internal
 
 import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.dsl.CommonExtension
@@ -17,8 +17,14 @@ import java.io.File
 /**
  * Apply baseline configurations on an Android Application project.
  */
-internal fun ApplicationExtension.configureAndroidApplicationExtension(project: Project) {
+internal fun ApplicationExtension.configureAndroidApplicationExtension(
+    project: Project,
+    namespace: String,
+    applicationId: String,
+) {
+    this.namespace = namespace
     defaultConfig {
+        this.applicationId = applicationId
         targetSdk = AndroidSdk.TargetSdk
     }
     androidResources {
@@ -102,8 +108,9 @@ internal fun LibraryAndroidComponentsExtension.configureAndroidLibraryVariants()
 /**
  * Configure the Application Component based on build variants.
  */
-internal fun ApplicationAndroidComponentsExtension.configureAndroidApplicationVariants() {
+internal fun ApplicationAndroidComponentsExtension.configureAndroidApplicationVariants(project: Project) {
     beforeVariants {
+        it.enable = project.shouldEnableVariant(it.name)
         // disable unit tests by default
         (it as HasUnitTestBuilder).enableUnitTest = false
 
