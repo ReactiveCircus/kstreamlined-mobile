@@ -558,7 +558,7 @@ internal abstract class AndroidAppExtensionImpl @Inject constructor(
         }
         if (isCiBuild) {
             tasks.withType(UploadDistributionTask::class.java).configureEach { task ->
-                if (name.endsWith("devDebug", ignoreCase = true)) {
+                if (task.name.endsWith("devDebug", ignoreCase = true)) {
                     task.dependsOn("processDevDebugGoogleServices")
                 }
             }
