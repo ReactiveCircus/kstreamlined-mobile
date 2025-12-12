@@ -10,6 +10,7 @@ import com.android.build.api.dsl.TestExtension
 import com.android.build.api.variant.ApplicationAndroidComponentsExtension
 import com.android.build.api.variant.HasUnitTestBuilder
 import com.android.build.api.variant.LibraryAndroidComponentsExtension
+import io.github.reactivecircus.kstreamlined.gradle.internal.shouldEnableVariant
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import java.io.File
@@ -108,8 +109,9 @@ internal fun LibraryAndroidComponentsExtension.configureAndroidLibraryVariants()
 /**
  * Configure the Application Component based on build variants.
  */
-internal fun ApplicationAndroidComponentsExtension.configureAndroidApplicationVariants() {
+internal fun ApplicationAndroidComponentsExtension.configureAndroidApplicationVariants(project: Project) {
     beforeVariants {
+        it.enable = project.shouldEnableVariant(it.name)
         // disable unit tests by default
         (it as HasUnitTestBuilder).enableUnitTest = false
 

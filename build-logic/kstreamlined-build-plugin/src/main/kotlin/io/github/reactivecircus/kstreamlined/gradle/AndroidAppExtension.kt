@@ -10,6 +10,9 @@ import app.cash.licensee.UnusedAction
 import com.android.build.api.dsl.ApkSigningConfig
 import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.variant.ApplicationAndroidComponentsExtension
+import com.android.build.api.variant.BuildConfigField
+import com.android.build.api.variant.ResValue
+import com.android.build.api.variant.Variant
 import com.github.triplet.gradle.play.PlayPublisherExtension
 import com.google.firebase.appdistribution.gradle.AppDistributionExtension
 import com.google.firebase.appdistribution.gradle.tasks.UploadDistributionTask
@@ -33,9 +36,11 @@ import org.gradle.api.Project
 import org.gradle.api.model.ObjectFactory
 import org.gradle.api.plugins.BasePluginExtension
 import org.gradle.api.plugins.ExtensionAware
+import org.gradle.api.provider.Provider
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.KotlinBaseExtension
 import java.io.File
+import java.io.Serializable
 import javax.inject.Inject
 
 /**
@@ -45,9 +50,19 @@ import javax.inject.Inject
 @KStreamlinedExtensionMarker
 public interface AndroidAppExtension {
     /**
+     * Enable and configure build config fields generation.
+     */
+    public fun buildConfigs(callback: BuildConfigsOptions.(Variant) -> Unit)
+
+    /**
+     * Enable and configure res values generation.
+     */
+    public fun resValues(callback: ResValuesOptions.(Variant) -> Unit)
+
+    /**
      * Configure app signing configs.
      */
-    public fun signing(action: Action<AppSigningOption>)
+    public fun signing(action: Action<AppSigningOptions>)
 
     /**
      * Configure custom R8 keep rule.
@@ -115,7 +130,21 @@ public interface AndroidAppExtension {
     public fun dependencies(action: Action<KSDependencies.Android.App>)
 
     @KStreamlinedExtensionMarker
-    public interface AppSigningOption {
+    public interface BuildConfigsOptions {
+        public fun <T : Serializable> buildConfigField(key: String, value: T)
+
+        public fun <T : Serializable> buildConfigField(key: String, value: Provider<T>)
+    }
+
+    @KStreamlinedExtensionMarker
+    public interface ResValuesOptions {
+        public fun resValueFromString(key: String, value: String)
+
+        public fun resValueFromBoolean(key: String, value: Boolean)
+    }
+
+    @KStreamlinedExtensionMarker
+    public interface AppSigningOptions {
         /**
          * Configure signing configs for the Debug build type.
          */
@@ -158,7 +187,15 @@ internal abstract class AndroidAppExtensionImpl @Inject constructor(
     private val applicationId: String,
     private val baseApkName: String,
 ) : AndroidAppExtension, TopLevelExtension {
-    private val appSigningOptions = project.objects.newInstance(AppSigningOptionImpl::class.java)
+    private val buildConfigsOptionsForVariants = mutableMapOf<String, BuildConfigsOptionsImpl>()
+
+    private val resValuesOptionsForVariants = mutableMapOf<String, ResValuesOptionsImpl>()
+
+    private var buildConfigsCallback: (AndroidAppExtension.BuildConfigsOptions.(Variant) -> Unit)? = null
+
+    private var resValuesCallback: (AndroidAppExtension.ResValuesOptions.(Variant) -> Unit)? = null
+
+    private val appSigningOptions = project.objects.newInstance(AppSigningOptionsImpl::class.java)
 
     private var keepRuleFile: File? = null
 
@@ -193,7 +230,15 @@ internal abstract class AndroidAppExtensionImpl @Inject constructor(
 
     private var dependenciesBlock: Action<KSDependencies.Android.App>? = null
 
-    override fun signing(action: Action<AndroidAppExtension.AppSigningOption>) {
+    override fun buildConfigs(callback: AndroidAppExtension.BuildConfigsOptions.(Variant) -> Unit) {
+        buildConfigsCallback = callback
+    }
+
+    override fun resValues(callback: AndroidAppExtension.ResValuesOptions.(Variant) -> Unit) {
+        resValuesCallback = callback
+    }
+
+    override fun signing(action: Action<AndroidAppExtension.AppSigningOptions>) {
         action.execute(appSigningOptions)
     }
 
@@ -290,6 +335,11 @@ internal abstract class AndroidAppExtensionImpl @Inject constructor(
 
             it.configureProductFlavors()
 
+            it.buildFeatures {
+                buildConfig = buildConfigsCallback != null
+                resValues = resValuesCallback != null
+            }
+
             dependenciesBlock?.let { block ->
                 configureDependencies(
                     sourceSets = it.sourceSets,
@@ -302,8 +352,21 @@ internal abstract class AndroidAppExtensionImpl @Inject constructor(
             it.archivesName.set(baseApkName)
         }
 
-        extensions.configure(ApplicationAndroidComponentsExtension::class.java) {
-            it.configureAndroidApplicationVariants()
+        extensions.configure(ApplicationAndroidComponentsExtension::class.java) { extension ->
+            extension.configureAndroidApplicationVariants(project)
+
+            extension.onVariants { variant ->
+                buildConfigsCallback?.let { callback ->
+                    buildConfigsOptionsForVariants.getOrPut(variant.name) {
+                        project.objects.newInstance(BuildConfigsOptionsImpl::class.java, variant)
+                    }.callback(variant)
+                }
+                resValuesCallback?.let { callback ->
+                    resValuesOptionsForVariants.getOrPut(variant.name) {
+                        project.objects.newInstance(ResValuesOptionsImpl::class.java, variant)
+                    }.callback(variant)
+                }
+            }
         }
 
         versioningConfig?.let(::configureAppVersioning)
@@ -363,7 +426,7 @@ internal abstract class AndroidAppExtensionImpl @Inject constructor(
     }
 
     private fun ApplicationExtension.configureSigningConfigs() = signingConfigs {
-        fun ApkSigningConfig.setFrom(options: AppSigningOptionImpl.PerBuildTypeOptionsImpl) {
+        fun ApkSigningConfig.setFrom(options: AppSigningOptionsImpl.PerBuildTypeOptionsImpl) {
             storeFile = options.storeFile
             storePassword = options.storePassword
             keyAlias = options.keyAlias
@@ -528,25 +591,25 @@ internal abstract class AndroidAppExtensionImpl @Inject constructor(
         }
     }
 
-    internal abstract class AppSigningOptionImpl @Inject constructor(
+    internal abstract class AppSigningOptionsImpl @Inject constructor(
         objects: ObjectFactory,
-    ) : AndroidAppExtension.AppSigningOption {
+    ) : AndroidAppExtension.AppSigningOptions {
         val debugSigningOptions = objects.newInstance(PerBuildTypeOptionsImpl::class.java)
 
         val releaseSigningOptions = objects.newInstance(PerBuildTypeOptionsImpl::class.java)
 
-        override fun debug(action: Action<AndroidAppExtension.AppSigningOption.PerBuildTypeOptions>) {
+        override fun debug(action: Action<AndroidAppExtension.AppSigningOptions.PerBuildTypeOptions>) {
             action.execute(debugSigningOptions)
         }
 
-        override fun release(action: Action<AndroidAppExtension.AppSigningOption.PerBuildTypeOptions>) {
+        override fun release(action: Action<AndroidAppExtension.AppSigningOptions.PerBuildTypeOptions>) {
             action.execute(releaseSigningOptions)
         }
 
         val fullyConfigured: Boolean
             get() = debugSigningOptions.fullyConfigured && releaseSigningOptions.fullyConfigured
 
-        abstract class PerBuildTypeOptionsImpl : AndroidAppExtension.AppSigningOption.PerBuildTypeOptions {
+        abstract class PerBuildTypeOptionsImpl : AndroidAppExtension.AppSigningOptions.PerBuildTypeOptions {
             var storeFile: File? = null
 
             var storePassword: String? = null
@@ -573,6 +636,46 @@ internal abstract class AndroidAppExtensionImpl @Inject constructor(
 
             val fullyConfigured: Boolean
                 get() = storeFile != null && storePassword != null && keyAlias != null && keyPassword != null
+        }
+    }
+
+    internal abstract class BuildConfigsOptionsImpl @Inject constructor(
+        private val variant: Variant,
+    ) : AndroidAppExtension.BuildConfigsOptions {
+        override fun <T : Serializable> buildConfigField(key: String, value: T) {
+            variant.buildConfigFields?.put(
+                key,
+                if (value is String) {
+                    BuildConfigField(type = value::class.java.simpleName, value = "\"$value\"", comment = null)
+                } else {
+                    BuildConfigField(type = value::class.java.simpleName, value = value, comment = null)
+                },
+            )
+        }
+
+        override fun <T : Serializable> buildConfigField(key: String, value: Provider<T>) {
+            variant.buildConfigFields?.put(
+                key,
+                value.map {
+                    if (it is String) {
+                        BuildConfigField(type = it::class.java.simpleName, value = "\"$it\"", comment = null)
+                    } else {
+                        BuildConfigField(type = it::class.java.simpleName, value = it, comment = null)
+                    }
+                },
+            )
+        }
+    }
+
+    internal abstract class ResValuesOptionsImpl @Inject constructor(
+        private val variant: Variant,
+    ) : AndroidAppExtension.ResValuesOptions {
+        override fun resValueFromString(key: String, value: String) = with(variant) {
+            resValues.put(makeResValueKey(type = "string", key), ResValue(value))
+        }
+
+        override fun resValueFromBoolean(key: String, value: Boolean) = with(variant) {
+            resValues.put(makeResValueKey(type = "bool", key), ResValue(value.toString()))
         }
     }
 }

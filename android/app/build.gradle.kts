@@ -2,8 +2,6 @@ import java.time.Instant
 
 plugins {
     id("kstreamlined")
-
-    id("com.android.application")
 }
 
 kstreamlined {
@@ -12,6 +10,49 @@ kstreamlined {
         applicationId = "io.github.reactivecircus.kstreamlined",
         baseApkName = "kstreamlined",
     ) {
+        buildConfigs { variant ->
+            if (variant.buildType == "debug") {
+                // disable LeakCanary for CI builds
+                buildConfigField(key = "ENABLE_LEAK_CANARY", value = !isCiBuild)
+            }
+            when (variant.flavorName) {
+                ProductFlavors.Prod -> {
+                    buildConfigField(key = "ENABLE_ANALYTICS", value = googleServicesJsonExists)
+                    buildConfigField(key = "ENABLE_CRASH_REPORTING", value = googleServicesJsonExists)
+                    buildConfigField(key = "API_ENDPOINT", value = envOrProp("KSTREAMLINED_API_ENDPOINT"))
+                }
+                ProductFlavors.Dev -> {
+                    buildConfigField(key = "ENABLE_ANALYTICS", value = googleServicesJsonExists)
+                    buildConfigField(key = "ENABLE_CRASH_REPORTING", value = googleServicesJsonExists)
+                    buildConfigField(key = "API_ENDPOINT", value = envOrProp("KSTREAMLINED_API_ENDPOINT"))
+                }
+                ProductFlavors.Demo -> {
+                    buildConfigField(key = "ENABLE_ANALYTICS", value = false)
+                    buildConfigField(key = "ENABLE_CRASH_REPORTING", value = false)
+                }
+                ProductFlavors.Mock -> {
+                    buildConfigField(key = "ENABLE_ANALYTICS", value = false)
+                    buildConfigField(key = "ENABLE_CRASH_REPORTING", value = false)
+                }
+            }
+            buildConfigField(key = "NETWORK_TIMEOUT_SECONDS", value = 10)
+            buildConfigField(key = "SOURCE_CODE_URL", value = "https://github.com/ReactiveCircus/kstreamlined-mobile")
+        }
+        resValues { variant ->
+            if (variant.buildType == "debug") {
+                // hide LeakCanary icon for CI builds
+                resValueFromBoolean(key = "leak_canary_add_launcher_icon", value = !isCiBuild)
+                // override app name for LeakCanary
+                resValueFromString(key = "leak_canary_display_activity_label", value = "KStreamlined leaks")
+                // disable automatic watcher install for LeakCanary
+                resValueFromBoolean(key = "leak_canary_watcher_auto_install", value = false)
+                // concatenate build variant to app name
+                resValueFromString(key = "app_name", value = "KStreamlined-${variant.name}")
+            } else {
+                // set app_name for release build
+                resValueFromString(key = "app_name", value = "KStreamlined")
+            }
+        }
         signing {
             debug {
                 storeFile(rootDir.resolve("android/secrets/debug.keystore"))
@@ -92,66 +133,5 @@ kstreamlined {
             debugImplementation(libs.leakcanary.android)
             implementation(libs.leakcanary.plumber)
         }
-    }
-}
-
-android {
-    buildFeatures {
-        buildConfig = true
-        resValues = true
-    }
-}
-
-androidComponents {
-    beforeVariants {
-        it.enable = shouldEnableVariant(it.name)
-    }
-
-    onVariants {
-        if (it.buildType == "debug") {
-            // disable LeakCanary for CI builds
-            it.addBuildConfigField(key = "ENABLE_LEAK_CANARY", value = !isCiBuild)
-
-            // hide LeakCanary icon for CI builds
-            it.addResValueFromBoolean(key = "leak_canary_add_launcher_icon", value = !isCiBuild)
-
-            // override app name for LeakCanary
-            it.addResValueFromString(key = "leak_canary_display_activity_label", value = "KStreamlined leaks")
-
-            // disable automatic watcher install for LeakCanary
-            it.addResValueFromBoolean(key = "leak_canary_watcher_auto_install", value = false)
-
-            // concatenate build variant to app name
-            it.addResValueFromString(key = "app_name", value = "KStreamlined-${it.name}")
-        } else {
-            // set app_name for release build
-            it.addResValueFromString(key = "app_name", value = "KStreamlined")
-        }
-
-        when (it.flavorName) {
-            ProductFlavors.Prod -> {
-                it.addBuildConfigField(key = "ENABLE_ANALYTICS", value = googleServicesJsonExists)
-                it.addBuildConfigField(key = "ENABLE_CRASH_REPORTING", value = googleServicesJsonExists)
-                it.addBuildConfigField(key = "API_ENDPOINT", value = envOrProp("KSTREAMLINED_API_ENDPOINT"))
-            }
-
-            ProductFlavors.Dev -> {
-                it.addBuildConfigField(key = "ENABLE_ANALYTICS", value = googleServicesJsonExists)
-                it.addBuildConfigField(key = "ENABLE_CRASH_REPORTING", value = googleServicesJsonExists)
-                it.addBuildConfigField(key = "API_ENDPOINT", value = envOrProp("KSTREAMLINED_API_ENDPOINT"))
-            }
-
-            ProductFlavors.Demo -> {
-                it.addBuildConfigField(key = "ENABLE_ANALYTICS", value = false)
-                it.addBuildConfigField(key = "ENABLE_CRASH_REPORTING", value = false)
-            }
-
-            ProductFlavors.Mock -> {
-                it.addBuildConfigField(key = "ENABLE_ANALYTICS", value = false)
-                it.addBuildConfigField(key = "ENABLE_CRASH_REPORTING", value = false)
-            }
-        }
-        it.addBuildConfigField(key = "NETWORK_TIMEOUT_SECONDS", value = 10)
-        it.addBuildConfigField(key = "SOURCE_CODE_URL", value = "https://github.com/ReactiveCircus/kstreamlined-mobile")
     }
 }
