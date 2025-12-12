@@ -7,9 +7,9 @@ import androidx.baselineprofile.gradle.producer.BaselineProfileProducerExtension
 import com.android.build.api.dsl.ManagedVirtualDevice
 import com.android.build.api.dsl.TestExtension
 import com.android.build.api.variant.TestAndroidComponentsExtension
-import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureAndroidTestExtension
-import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureBuiltInKotlin
-import io.github.reactivecircus.kstreamlined.gradle.buildlogic.configureDetekt
+import io.github.reactivecircus.kstreamlined.gradle.internal.configureAndroidTestExtension
+import io.github.reactivecircus.kstreamlined.gradle.internal.configureBuiltInKotlin
+import io.github.reactivecircus.kstreamlined.gradle.internal.configureDetekt
 import io.github.reactivecircus.kstreamlined.gradle.internal.libs
 import org.gradle.api.Action
 import org.gradle.api.Project

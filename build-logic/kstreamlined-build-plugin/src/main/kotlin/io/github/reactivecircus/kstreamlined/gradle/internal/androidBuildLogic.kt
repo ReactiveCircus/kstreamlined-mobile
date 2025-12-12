@@ -1,4 +1,4 @@
-package io.github.reactivecircus.kstreamlined.gradle.buildlogic
+package io.github.reactivecircus.kstreamlined.gradle.internal
 
 import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.dsl.CommonExtension
@@ -10,7 +10,6 @@ import com.android.build.api.dsl.TestExtension
 import com.android.build.api.variant.ApplicationAndroidComponentsExtension
 import com.android.build.api.variant.HasUnitTestBuilder
 import com.android.build.api.variant.LibraryAndroidComponentsExtension
-import io.github.reactivecircus.kstreamlined.gradle.internal.shouldEnableVariant
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import java.io.File

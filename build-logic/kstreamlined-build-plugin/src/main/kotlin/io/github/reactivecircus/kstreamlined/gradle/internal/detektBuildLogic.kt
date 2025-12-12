@@ -1,9 +1,8 @@
-package io.github.reactivecircus.kstreamlined.gradle.buildlogic
+package io.github.reactivecircus.kstreamlined.gradle.internal
 
 import dev.detekt.gradle.Detekt
 import dev.detekt.gradle.extensions.DetektExtension
 import dev.detekt.gradle.plugin.DetektPlugin
-import io.github.reactivecircus.kstreamlined.gradle.internal.libs
 import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 

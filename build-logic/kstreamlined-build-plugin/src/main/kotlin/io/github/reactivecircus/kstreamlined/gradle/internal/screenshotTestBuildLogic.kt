@@ -1,4 +1,4 @@
-package io.github.reactivecircus.kstreamlined.gradle.buildlogic
+package io.github.reactivecircus.kstreamlined.gradle.internal
 
 import app.cash.paparazzi.gradle.PrepareResourcesTask
 import com.android.build.api.dsl.LibraryExtension

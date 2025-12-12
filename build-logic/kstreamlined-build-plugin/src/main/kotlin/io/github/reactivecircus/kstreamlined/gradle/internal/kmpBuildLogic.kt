@@ -1,4 +1,4 @@
-package io.github.reactivecircus.kstreamlined.gradle.buildlogic
+package io.github.reactivecircus.kstreamlined.gradle.internal
 
 import com.android.build.api.dsl.KotlinMultiplatformAndroidLibraryTarget
 import org.gradle.api.Project
