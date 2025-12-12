@@ -214,7 +214,7 @@ jobs:
           cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
 
       - name: Publish dev build to Firebase App Distribution
-        run: ./gradlew processDevDebugGoogleServices appDistributionUploadDevDebug
+        run: ./gradlew appDistributionUploadDevDebug
 
       - name: Cleanup secrets
         if: always()
