@@ -151,6 +151,7 @@ crashKios = { module = "co.touchlab:crashkios", version.ref = "crashKios" }
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 lint = { id = "com.android.lint", version.ref = "androidGradlePlugin" }
 detekt = { id = "dev.detekt", version.ref = "detekt" }
 testkit = { id = "com.autonomousapps.testkit", version.ref = "testkit" }
