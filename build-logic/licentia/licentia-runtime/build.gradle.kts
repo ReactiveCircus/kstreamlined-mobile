@@ -7,6 +7,8 @@ plugins {
     alias(libs.plugins.detekt)
 }
 
+group = project.property("GROUP") as String
+
 kotlin {
     jvm {
         compilerOptions {
