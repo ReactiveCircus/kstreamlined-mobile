@@ -2,7 +2,6 @@ import java.time.Instant
 
 plugins {
     id("kstreamlined")
-    id("io.github.reactivecircus.licentia")
 }
 
 kstreamlined {

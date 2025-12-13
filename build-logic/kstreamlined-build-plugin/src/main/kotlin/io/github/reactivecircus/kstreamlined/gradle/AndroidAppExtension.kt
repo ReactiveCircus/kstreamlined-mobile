@@ -5,8 +5,6 @@ package io.github.reactivecircus.kstreamlined.gradle
 import FlavorDimensions
 import ProductFlavors
 import androidx.baselineprofile.gradle.consumer.BaselineProfileConsumerExtension
-import app.cash.licensee.LicenseeExtension
-import app.cash.licensee.UnusedAction
 import com.android.build.api.dsl.ApkSigningConfig
 import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.variant.ApplicationAndroidComponentsExtension
@@ -26,6 +24,7 @@ import io.github.reactivecircus.kstreamlined.gradle.internal.configureBuiltInKot
 import io.github.reactivecircus.kstreamlined.gradle.internal.configureCompose
 import io.github.reactivecircus.kstreamlined.gradle.internal.configureDetekt
 import io.github.reactivecircus.kstreamlined.gradle.internal.configureKsp
+import io.github.reactivecircus.kstreamlined.gradle.internal.configureLicensesInfoGeneration
 import io.github.reactivecircus.kstreamlined.gradle.internal.configurePowerAssert
 import io.github.reactivecircus.kstreamlined.gradle.internal.configureTest
 import io.github.reactivecircus.kstreamlined.gradle.internal.libs
@@ -413,7 +412,7 @@ internal abstract class AndroidAppExtensionImpl @Inject constructor(
         baselineProfileProjectPath?.let(::configureBaselineProfile)
 
         if (licensesInfoGenerationEnabled) {
-            configureLicensee()
+            configureLicensesInfoGeneration()
         }
 
         if (unitTestsEnabled) {
@@ -574,20 +573,6 @@ internal abstract class AndroidAppExtensionImpl @Inject constructor(
                 disabledVariants = false
             }
             dependencies.add("baselineProfile", project(projectPath))
-        }
-    }
-
-    private fun configureLicensee() = with(project) {
-        pluginManager.apply("app.cash.licensee")
-        extensions.configure(LicenseeExtension::class.java) {
-            it.bundleAndroidAsset.set(true)
-            it.androidAssetReportPath.set("licensee/artifacts.json")
-            it.allow("Apache-2.0")
-            it.allow("MIT")
-            it.allow("BSD-3-Clause")
-            it.allowUrl("https://opensource.org/license/MIT")
-            it.allowUrl("https://developer.android.com/studio/terms.html")
-            it.unusedAction(UnusedAction.IGNORE)
         }
     }
 
