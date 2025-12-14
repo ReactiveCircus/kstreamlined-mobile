@@ -55,7 +55,7 @@ Burst will then generate separate tests for each enum entry of `ThemeVariant`.
 
 Apply the Chameleon Gradle plugin in `build.gradle.kts`:
 
-```kotlin
+```kt
 plugins {
     id("io.github.reactivecircus.chameleon")
     id("app.cash.burst")
@@ -64,7 +64,7 @@ plugins {
 
 Configure the `snapshotFunction` and `themeVariantEnum` to use in the format where the packages are delimited by `/` and the class names are delimited by `.`:
 
-```kotlin
+```kt
 chameleon {
     snapshotFunction.set("com/example/SnapshotTester.snapshot")
     themeVariantEnum.set("com/example/ThemeVariant")
@@ -73,7 +73,7 @@ chameleon {
 
 The `SnapshotTester` and `ThemeVariant` need to be visible in the test source set of the module:
 
-```kotlin
+```kt
 class SnapshotTester {
     fun snapshot(
         themeVariant: ThemeVariant = ThemeVariant.Light,
@@ -92,7 +92,7 @@ enum class ThemeVariant {
 
 Annotate the snapshot test class with both `@Burst` and `@Chameleon`:
 
-```kotlin
+```kt
 import app.cash.burst.Burst
 import io.github.reactivecircus.chameleon.runtime.Chameleon
 
