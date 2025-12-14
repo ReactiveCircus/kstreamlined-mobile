@@ -341,12 +341,16 @@ internal abstract class KmpLibraryExtensionImpl @Inject constructor(
 
     internal abstract class TargetsOptionsImpl : KmpLibraryExtension.TargetsOptions {
         var jvmEnabled: Boolean = false
+            private set
 
         var androidEnabled: Boolean = false
+            private set
 
         var androidNamespace: String? = null
+            private set
 
         var iosEnabled: Boolean = false
+            private set
 
         override fun jvm() {
             jvmEnabled = true

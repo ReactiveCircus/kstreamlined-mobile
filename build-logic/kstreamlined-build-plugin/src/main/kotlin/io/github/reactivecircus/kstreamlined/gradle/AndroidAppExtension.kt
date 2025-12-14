@@ -412,7 +412,7 @@ internal abstract class AndroidAppExtensionImpl @Inject constructor(
         baselineProfileProjectPath?.let(::configureBaselineProfile)
 
         if (licensesInfoGenerationEnabled) {
-            configureLicensesInfoGeneration()
+            configureLicensesInfoGeneration(variantForCodegenOnSync = "devDebug")
         }
 
         if (unitTestsEnabled) {
@@ -596,12 +596,16 @@ internal abstract class AndroidAppExtensionImpl @Inject constructor(
 
         abstract class PerBuildTypeOptionsImpl : AndroidAppExtension.AppSigningOptions.PerBuildTypeOptions {
             var storeFile: File? = null
+                private set
 
             var storePassword: String? = null
+                private set
 
             var keyAlias: String? = null
+                private set
 
             var keyPassword: String? = null
+                private set
 
             override fun storeFile(storeFile: File) {
                 this.storeFile = storeFile

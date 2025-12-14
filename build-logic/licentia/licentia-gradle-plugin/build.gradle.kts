@@ -9,7 +9,6 @@ plugins {
 }
 
 group = project.property("GROUP") as String
-version = project.property("VERSION_NAME") as String
 
 gradlePlugin {
     plugins {

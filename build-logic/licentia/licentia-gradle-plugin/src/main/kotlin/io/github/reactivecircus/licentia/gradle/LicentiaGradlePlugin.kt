@@ -8,6 +8,11 @@ import org.gradle.internal.extensions.stdlib.capitalized
 
 public class LicentiaGradlePlugin : Plugin<Project> {
     override fun apply(target: Project): Unit = with(target) {
+        val licentiaExtension = target.extensions.create(
+            LicentiaExtension::class.java,
+            "licentia",
+            LicentiaExtensionImpl::class.java,
+        ) as LicentiaExtensionImpl
         var androidAppPluginApplied = false
         var licenseePluginApplied = false
         pluginManager.withPlugin("com.android.application") {
@@ -32,6 +37,12 @@ public class LicentiaGradlePlugin : Plugin<Project> {
                             generateLicensesInfoSource,
                             GenerateLicensesInfoSource::outputDir,
                         )
+                        // automatically run the GenerateLicensesInfoSource task
+                        // for the specified variant on Gradle Sync
+                        if (variant.name == licentiaExtension.variantForCodegenOnSync) {
+                            target.tasks.maybeCreate("prepareKotlinIdeaImport")
+                                .dependsOn(generateLicensesInfoSource)
+                        }
                     }
                 }
             }
