@@ -14,8 +14,9 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import io.github.reactivecircus.kstreamlined.android.BuildConfig
+import io.github.reactivecircus.kstreamlined.android.licentia.AllLicensesInfo
 import io.github.reactivecircus.kstreamlined.kmp.appinfo.AppInfo
-import io.github.reactivecircus.kstreamlined.kmp.appinfo.LicensesInfo
+import io.github.reactivecircus.licentia.runtime.LicensesInfo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -73,13 +74,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun licensesInfo(
-        @ApplicationContext context: Context,
-    ): LicensesInfo = LicensesInfo.fromJson {
-        context.assets.open("licensee/artifacts.json").use {
-            it.bufferedReader().readText()
-        }
-    }
+    fun licensesInfo(): LicensesInfo = AllLicensesInfo
 }
 
 @Retention(AnnotationRetention.RUNTIME)

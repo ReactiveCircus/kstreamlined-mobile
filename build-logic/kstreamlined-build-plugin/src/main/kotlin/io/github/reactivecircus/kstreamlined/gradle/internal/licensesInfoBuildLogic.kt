@@ -10,8 +10,6 @@ import org.gradle.api.Project
 internal fun Project.configureLicensesInfoGeneration() {
     pluginManager.apply("app.cash.licensee")
     extensions.configure(LicenseeExtension::class.java) {
-        it.bundleAndroidAsset.set(true)
-        it.androidAssetReportPath.set("licensee/artifacts.json")
         it.allow("Apache-2.0")
         it.allow("MIT")
         it.allow("BSD-3-Clause")

@@ -2,7 +2,7 @@ package io.github.reactivecircus.kstreamlined.android.feature.licenses
 
 import app.cash.molecule.RecompositionMode
 import app.cash.turbine.test
-import io.github.reactivecircus.kstreamlined.kmp.appinfo.LicensesInfo
+import io.github.reactivecircus.licentia.runtime.LicensesInfo
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
@@ -15,8 +15,8 @@ class LicensesPresenterTest {
     private val testScope = TestScope(testDispatcher)
 
     private val presenter = LicensesPresenter(
-        licensesInfo = LicensesInfo.from(
-            listOf(
+        licensesInfo = object : LicensesInfo {
+            override val artifacts: List<LicensesInfo.Artifact> = listOf(
                 LicensesInfo.Artifact(
                     name = "name",
                     artifactId = "artifact-id",
@@ -26,8 +26,8 @@ class LicensesPresenterTest {
                     spdxLicenses = null,
                     unknownLicenses = null,
                 ),
-            ),
-        ),
+            )
+        },
         scope = testScope.backgroundScope,
         recompositionMode = RecompositionMode.Immediate,
     )

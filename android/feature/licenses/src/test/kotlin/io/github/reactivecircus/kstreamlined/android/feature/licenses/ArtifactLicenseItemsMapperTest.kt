@@ -1,6 +1,6 @@
 package io.github.reactivecircus.kstreamlined.android.feature.licenses
 
-import io.github.reactivecircus.kstreamlined.kmp.appinfo.LicensesInfo
+import io.github.reactivecircus.licentia.runtime.LicensesInfo
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

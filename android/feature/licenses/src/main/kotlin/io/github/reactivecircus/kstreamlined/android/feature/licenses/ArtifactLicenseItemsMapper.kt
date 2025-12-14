@@ -1,6 +1,6 @@
 package io.github.reactivecircus.kstreamlined.android.feature.licenses
 
-import io.github.reactivecircus.kstreamlined.kmp.appinfo.LicensesInfo
+import io.github.reactivecircus.licentia.runtime.LicensesInfo
 
 internal fun List<LicensesInfo.Artifact>.toArtifactLicenseItems(): List<ArtifactLicenseItem> {
     return map {
