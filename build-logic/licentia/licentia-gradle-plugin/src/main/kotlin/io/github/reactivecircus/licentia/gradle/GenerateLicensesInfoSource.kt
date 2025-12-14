@@ -28,11 +28,15 @@ internal abstract class GenerateLicensesInfoSource : DefaultTask() {
 
     init {
         group = "Licentia"
-        description = "Generates `LicencesInfo` implementation from Licensee plugin's JSON report."
+        description = "Generates `LicencesInfo` implementation from Licensee plugin's Json report."
     }
 
     @TaskAction
     fun execute() {
-        println("packageName: ${packageName.get()}")
+        val packageName = packageName
+        LicensesInfoGenerator.buildAllLicensesInfoFileSpec(
+            packageName = packageName.get(),
+            artifactsJson = artifactsJsonFile.get().asFile.readText(),
+        ).writeTo(outputDir.get().asFile)
     }
 }

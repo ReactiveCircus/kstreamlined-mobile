@@ -53,6 +53,8 @@ dependencies {
 
     compileOnly(libs.plugin.agp)
     compileOnly(libs.plugin.licensee)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.kotlinpoet)
 
     testImplementation(libs.kotlin.test.junit)
 }
