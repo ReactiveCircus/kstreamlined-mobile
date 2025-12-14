@@ -11,8 +11,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.cash.molecule.RecompositionMode
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.github.reactivecircus.kstreamlined.kmp.appinfo.LicensesInfo
 import io.github.reactivecircus.kstreamlined.kmp.presentation.common.Presenter
+import io.github.reactivecircus.licentia.runtime.LicensesInfo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject

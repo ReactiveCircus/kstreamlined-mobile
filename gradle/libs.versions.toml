@@ -16,6 +16,7 @@ invert = "0.0.8"
 detekt = "2.0.0-alpha.1"
 playPublisher = "3.13.0"
 skie = "0.10.8"
+kotlinpoet = "2.2.0"
 leakcanary = "2.14"
 hilt = "2.57.2"
 kotlinx-coroutines = "1.10.2"
@@ -42,7 +43,7 @@ androidx-navigation3 = "1.1.0-alpha01"
 androidx-datastore = "1.3.0-alpha02"
 androidx-work = "2.11.0"
 androidx-hilt = "1.3.0"
-androidx-browser="1.10.0-alpha02"
+androidx-browser = "1.10.0-alpha02"
 androidx-media3 = "1.9.0-beta01"
 androidx-profileinstaller = "1.4.1"
 androidx-benchmark = "1.4.1"
@@ -64,29 +65,30 @@ crashKios = "0.8.5"
 testkit = "0.17"
 
 [libraries]
-plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin"}
-plugin-compose = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin"}
+plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+plugin-compose = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
 plugin-serialization = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
-plugin-powerAssert = { module = "org.jetbrains.kotlin:kotlin-power-assert", version.ref = "kotlin"}
-plugin-ksp = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version.ref = "ksp"}
-plugin-agp = { module = "com.android.tools.build:gradle", version.ref = "androidGradlePlugin"}
-plugin-appVersioning = { module = "io.github.reactivecircus.appversioning:app-versioning-gradle-plugin", version.ref = "appVersioning"}
+plugin-powerAssert = { module = "org.jetbrains.kotlin:kotlin-power-assert", version.ref = "kotlin" }
+plugin-ksp = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
+plugin-agp = { module = "com.android.tools.build:gradle", version.ref = "androidGradlePlugin" }
+plugin-appVersioning = { module = "io.github.reactivecircus.appversioning:app-versioning-gradle-plugin", version.ref = "appVersioning" }
 plugin-paparazzi = { module = "app.cash.paparazzi:paparazzi-gradle-plugin", version.ref = "paparazzi" }
-plugin-burst = { module = "app.cash.burst:burst-gradle-plugin", version.ref = "burst"}
-plugin-licensee = { module = "app.cash.licensee:licensee-gradle-plugin", version.ref = "licensee"}
-plugin-hilt = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt"}
-plugin-apollo = { module = "com.apollographql.apollo:apollo-gradle-plugin", version.ref = "apollo"}
-plugin-invert = { module = "com.squareup.invert:com.squareup.invert.gradle.plugin", version.ref = "invert"}
-plugin-googleServices = { module = "com.google.gms:google-services", version.ref = "googleServices"}
-plugin-crashlytics = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "firebase-crashlyticsPlugin"}
-plugin-firebasePerf = { module = "com.google.firebase:perf-plugin", version.ref = "firebase-perfPlugin"}
-plugin-appDistribution = { module = "com.google.firebase:firebase-appdistribution-gradle", version.ref = "firebase-appDistributionPlugin"}
-plugin-detekt = { module = "dev.detekt:detekt-gradle-plugin", version.ref = "detekt"}
-plugin-detektKtlintWrapper = { module = "dev.detekt:detekt-rules-ktlint-wrapper", version.ref = "detekt"}
-plugin-playPublisher = { module = "com.github.triplet.gradle:play-publisher", version.ref = "playPublisher"}
-plugin-skie = { module = "co.touchlab.skie:co.touchlab.skie.gradle.plugin", version.ref = "skie"}
-plugin-sqldelight = { module = "app.cash.sqldelight:app.cash.sqldelight.gradle.plugin", version.ref = "sqldelight"}
-plugin-baselineprofile = { module = "androidx.baselineprofile:androidx.baselineprofile.gradle.plugin", version.ref = "androidx-benchmark"}
+plugin-burst = { module = "app.cash.burst:burst-gradle-plugin", version.ref = "burst" }
+plugin-licensee = { module = "app.cash.licensee:licensee-gradle-plugin", version.ref = "licensee" }
+plugin-hilt = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt" }
+plugin-apollo = { module = "com.apollographql.apollo:apollo-gradle-plugin", version.ref = "apollo" }
+plugin-invert = { module = "com.squareup.invert:com.squareup.invert.gradle.plugin", version.ref = "invert" }
+plugin-googleServices = { module = "com.google.gms:google-services", version.ref = "googleServices" }
+plugin-crashlytics = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "firebase-crashlyticsPlugin" }
+plugin-firebasePerf = { module = "com.google.firebase:perf-plugin", version.ref = "firebase-perfPlugin" }
+plugin-appDistribution = { module = "com.google.firebase:firebase-appdistribution-gradle", version.ref = "firebase-appDistributionPlugin" }
+plugin-detekt = { module = "dev.detekt:detekt-gradle-plugin", version.ref = "detekt" }
+plugin-detektKtlintWrapper = { module = "dev.detekt:detekt-rules-ktlint-wrapper", version.ref = "detekt" }
+plugin-playPublisher = { module = "com.github.triplet.gradle:play-publisher", version.ref = "playPublisher" }
+plugin-skie = { module = "co.touchlab.skie:co.touchlab.skie.gradle.plugin", version.ref = "skie" }
+plugin-sqldelight = { module = "app.cash.sqldelight:app.cash.sqldelight.gradle.plugin", version.ref = "sqldelight" }
+plugin-baselineprofile = { module = "androidx.baselineprofile:androidx.baselineprofile.gradle.plugin", version.ref = "androidx-benchmark" }
+kotlinpoet = { module = "com.squareup:kotlinpoet", version.ref = "kotlinpoet" }
 leakcanary-android = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanary" }
 leakcanary-plumber = { module = "com.squareup.leakcanary:plumber-android", version.ref = "leakcanary" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
@@ -141,6 +143,7 @@ sqldelight-androidDriver = { module = "app.cash.sqldelight:android-driver", vers
 sqldelight-nativeDriver = { module = "app.cash.sqldelight:native-driver", version.ref = "sqldelight" }
 sqldelight-sqliteDriver = { module = "app.cash.sqldelight:sqlite-driver", version.ref = "sqldelight" }
 ksoup = { module = "com.fleeksoft.ksoup:ksoup", version.ref = "ksoup" }
+licentia-runtime = { module = "io.github.reactivecircus.licentia:licentia-runtime" }
 kotlin-test-junit = { group = "org.jetbrains.kotlin", name = "kotlin-test-junit", version.ref = "kotlin" }
 paparazzi = { module = "app.cash.paparazzi:paparazzi", version.ref = "paparazzi" }
 burst = { module = "app.cash.burst:burst", version.ref = "burst" }
@@ -151,6 +154,7 @@ crashKios = { module = "co.touchlab:crashkios", version.ref = "crashKios" }
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 lint = { id = "com.android.lint", version.ref = "androidGradlePlugin" }
 detekt = { id = "dev.detekt", version.ref = "detekt" }
 testkit = { id = "com.autonomousapps.testkit", version.ref = "testkit" }

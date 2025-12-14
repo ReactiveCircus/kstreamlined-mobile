@@ -50,6 +50,7 @@ dependencies {
     implementation(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
 
     implementation(project(":chameleon:chameleon-gradle-plugin"))
+    implementation(project(":licentia:licentia-gradle-plugin"))
 
     // enable Ktlint formatting
     detektPlugins(libs.plugin.detektKtlintWrapper)
