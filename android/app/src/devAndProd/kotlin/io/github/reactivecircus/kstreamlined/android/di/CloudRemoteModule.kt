@@ -2,6 +2,7 @@ package io.github.reactivecircus.kstreamlined.android.di
 
 import androidx.tracing.trace
 import com.apollographql.apollo.ApolloClient
+import com.apollographql.apollo.api.http.HttpMethod
 import com.apollographql.apollo.cache.normalized.store
 import com.apollographql.apollo.network.http.ApolloClientAwarenessInterceptor
 import com.apollographql.apollo.network.okHttpCallFactory
@@ -34,6 +35,7 @@ object CloudRemoteModule {
         return ApolloClient.Builder()
             .okHttpCallFactory { okHttpCallFactory.get() }
             .serverUrl(BuildConfig.API_ENDPOINT)
+            .autoPersistedQueries(httpMethodForHashedQueries = HttpMethod.Post)
             .addHttpInterceptor(
                 ApolloClientAwarenessInterceptor(
                     clientName = "KStreamlined Android",
