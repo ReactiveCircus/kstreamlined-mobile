@@ -33,7 +33,6 @@ internal abstract class GenerateLicensesInfoSource : DefaultTask() {
 
     @TaskAction
     fun execute() {
-        val packageName = packageName
         LicensesInfoGenerator.buildAllLicensesInfoFileSpec(
             packageName = packageName.get(),
             artifactsJson = artifactsJsonFile.get().asFile.readText(),
