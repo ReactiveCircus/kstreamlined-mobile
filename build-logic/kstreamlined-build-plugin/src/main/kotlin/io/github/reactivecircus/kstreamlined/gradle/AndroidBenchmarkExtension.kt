@@ -132,7 +132,7 @@ internal abstract class AndroidBenchmarkExtensionImpl @Inject constructor(
 
         configurations.configureEach { configuration ->
             configuration.resolutionStrategy.eachDependency { details ->
-                if (details.requested.group == "androidx.tracing" && details.requested.name.startsWith("tracing-perfetto")) {
+                if (details.requested.name.startsWith("tracing-perfetto")) {
                     details.useVersion(libs.versions.androidx.tracing.perfetto.get())
                 }
             }
