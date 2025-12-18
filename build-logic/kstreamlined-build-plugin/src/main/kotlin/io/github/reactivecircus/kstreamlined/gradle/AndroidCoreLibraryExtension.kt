@@ -160,6 +160,7 @@ internal abstract class AndroidCoreLibraryExtensionImpl @Inject constructor(
             extensions.configure(V2PExtension::class.java) { extension ->
                 extension.generate(v2pContainerName!!) {
                     it.prefix.set(v2pDrawablePrefix)
+                    it.generateAsListFunction.set(true)
                 }
                 extension.runCodegenOnSync("release")
             }
