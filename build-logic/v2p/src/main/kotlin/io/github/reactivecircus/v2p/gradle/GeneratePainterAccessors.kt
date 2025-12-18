@@ -43,10 +43,10 @@ internal abstract class GeneratePainterAccessors : DefaultTask() {
             .map { it.name }
             .sorted()
 
-        codegenOptionsMap.get().forEach { (objectName, configs) ->
+        codegenOptionsMap.get().forEach { (containerName, configs) ->
             PainterAccessorsGenerator.buildFileSpec(
                 packageName = packageName.get(),
-                objectName = objectName,
+                containerName = containerName,
                 configs = configs,
                 drawableFileNames = drawableFileNames.filter { it.startsWith(configs.prefix) },
             ).writeTo(outputDir.get().asFile)

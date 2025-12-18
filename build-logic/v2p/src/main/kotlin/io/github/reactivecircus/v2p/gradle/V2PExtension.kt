@@ -6,7 +6,7 @@ import org.gradle.api.provider.Property
 import javax.inject.Inject
 
 public interface V2PExtension {
-    public fun generate(objectName: String, action: Action<CodegenOptions>)
+    public fun generate(containerName: String, action: Action<CodegenOptions>)
 
     public fun runCodegenOnSync(variantName: String)
 
@@ -22,8 +22,8 @@ internal abstract class V2PExtensionImpl @Inject constructor(private val objects
     var variantForCodegenOnSync: String? = null
         private set
 
-    override fun generate(objectName: String, action: Action<V2PExtension.CodegenOptions>) {
-        groupsOfCodegenOptions.computeIfAbsent(objectName) {
+    override fun generate(containerName: String, action: Action<V2PExtension.CodegenOptions>) {
+        groupsOfCodegenOptions.computeIfAbsent(containerName) {
             objects.newInstance(V2PExtension.CodegenOptions::class.java).also {
                 action.execute(it)
             }

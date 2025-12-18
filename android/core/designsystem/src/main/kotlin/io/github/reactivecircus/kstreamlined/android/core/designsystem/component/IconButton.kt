@@ -23,9 +23,9 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.KSIcons
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.color.LocalContentColor
-import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.icon.KSIcons
 
 @Composable
 @NonRestartableComposable

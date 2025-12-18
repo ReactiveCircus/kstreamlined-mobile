@@ -14,6 +14,7 @@ import io.github.reactivecircus.kstreamlined.gradle.internal.configurePowerAsser
 import io.github.reactivecircus.kstreamlined.gradle.internal.configureScreenshotTest
 import io.github.reactivecircus.kstreamlined.gradle.internal.configureTest
 import io.github.reactivecircus.kstreamlined.gradle.internal.libs
+import io.github.reactivecircus.v2p.gradle.V2PExtension
 import org.gradle.api.Action
 import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
@@ -29,6 +30,11 @@ public interface AndroidCoreLibraryExtension {
      * Enable Compose.
      */
     public fun compose()
+
+    /**
+     * Enable generating type-safe Compose `Painter` accessors from vector drawables.
+     */
+    public fun generatePaintersFromDrawables(containerName: String, drawablePrefix: String)
 
     /**
      * Enable Hilt by adding the `hilt-compiler` using KSP and adding the `hilt-android` runtime dependency.
@@ -73,6 +79,10 @@ internal abstract class AndroidCoreLibraryExtensionImpl @Inject constructor(
 
     private var serializationEnabled: Boolean = false
 
+    private var v2pContainerName: String? = null
+
+    private var v2pDrawablePrefix: String? = null
+
     private var unitTestsEnabled: Boolean = false
 
     private var screenshotTestsEnabled: Boolean = false
@@ -93,6 +103,11 @@ internal abstract class AndroidCoreLibraryExtensionImpl @Inject constructor(
 
     override fun serialization() {
         serializationEnabled = true
+    }
+
+    override fun generatePaintersFromDrawables(containerName: String, drawablePrefix: String) {
+        v2pContainerName = containerName
+        v2pDrawablePrefix = drawablePrefix
     }
 
     override fun unitTests() {
@@ -138,6 +153,16 @@ internal abstract class AndroidCoreLibraryExtensionImpl @Inject constructor(
                 androidTargetEnabled = true,
                 iosTargetEnabled = false,
             )
+        }
+
+        if (v2pContainerName != null && v2pDrawablePrefix != null) {
+            pluginManager.apply("io.github.reactivecircus.v2p")
+            extensions.configure(V2PExtension::class.java) { extension ->
+                extension.generate(v2pContainerName!!) {
+                    it.prefix.set(v2pDrawablePrefix)
+                }
+                extension.runCodegenOnSync("release")
+            }
         }
 
         if (hiltEnabled) {

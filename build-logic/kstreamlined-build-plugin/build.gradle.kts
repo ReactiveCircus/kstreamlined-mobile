@@ -51,6 +51,7 @@ dependencies {
 
     implementation(project(":chameleon:chameleon-gradle-plugin"))
     implementation(project(":licentia:licentia-gradle-plugin"))
+    implementation(project(":v2p"))
 
     // enable Ktlint formatting
     detektPlugins(libs.plugin.detektKtlintWrapper)

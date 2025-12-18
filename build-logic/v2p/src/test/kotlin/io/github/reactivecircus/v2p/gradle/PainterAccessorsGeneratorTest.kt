@@ -17,7 +17,7 @@ class PainterAccessorsGeneratorTest {
         )
         val fileSpec = PainterAccessorsGenerator.buildFileSpec(
             packageName = "com.example",
-            objectName = "KSIcons",
+            containerName = "KSIcons",
             configs = configs,
             drawableFileNames = drawableFileNames,
         )
@@ -63,7 +63,7 @@ class PainterAccessorsGeneratorTest {
         )
         val fileSpec = PainterAccessorsGenerator.buildFileSpec(
             packageName = "com.example",
-            objectName = "KSIcons",
+            containerName = "KSIcons",
             configs = configs,
             drawableFileNames = drawableFileNames,
         )

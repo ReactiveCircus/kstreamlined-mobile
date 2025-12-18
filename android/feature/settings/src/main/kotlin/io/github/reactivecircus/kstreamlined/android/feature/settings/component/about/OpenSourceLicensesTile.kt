@@ -13,11 +13,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.KSIcons
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Icon
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Surface
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Text
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
-import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.icon.KSIcons
 import io.github.reactivecircus.kstreamlined.android.feature.settings.R
 
 @Composable
@@ -34,7 +34,7 @@ internal fun OpenSourceLicensesTile(
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Icon(
-                painter = KSIcons.License,
+                painter = KSIcons.BookmarkStacks,
                 contentDescription = null,
                 modifier = Modifier.padding(start = 12.dp),
             )

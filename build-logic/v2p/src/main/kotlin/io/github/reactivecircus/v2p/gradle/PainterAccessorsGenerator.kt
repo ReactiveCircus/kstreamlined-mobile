@@ -12,7 +12,7 @@ import com.squareup.kotlinpoet.asClassName
 internal object PainterAccessorsGenerator {
     fun buildFileSpec(
         packageName: String,
-        objectName: String,
+        containerName: String,
         configs: PerGroupCodegenConfigs,
         drawableFileNames: List<String>,
     ): FileSpec {
@@ -33,7 +33,7 @@ internal object PainterAccessorsGenerator {
                 .build()
         }
 
-        val objectBuilder = TypeSpec.objectBuilder(objectName)
+        val objectBuilder = TypeSpec.objectBuilder(containerName)
             .addProperties(properties)
 
         if (configs.generateAsListFunction) {
@@ -48,7 +48,7 @@ internal object PainterAccessorsGenerator {
             objectBuilder.addFunction(asListFun)
         }
 
-        return FileSpec.builder(packageName, objectName)
+        return FileSpec.builder(packageName, containerName)
             .addFileComment("AUTO-GENERATED FILE. DO NOT MODIFY.")
             .addType(objectBuilder.build())
             .build()

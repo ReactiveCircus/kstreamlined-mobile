@@ -1,12 +1,15 @@
 plugins {
     id("kstreamlined")
-    id("io.github.reactivecircus.v2p")
 }
 
 kstreamlined {
     androidCoreLibrary("io.github.reactivecircus.kstreamlined.android.core.designsystem") {
         compose()
         androidResources()
+        generatePaintersFromDrawables(
+            containerName = "KSIcons",
+            drawablePrefix = "ic_",
+        )
         screenshotTests()
 
         dependencies {
@@ -15,12 +18,4 @@ kstreamlined {
             implementation(libs.androidx.compose.ui.tooling)
         }
     }
-}
-
-v2p {
-    generate("KSIcons") {
-        prefix = "ic_"
-        generateAsListFunction = true
-    }
-    runCodegenOnSync("release")
 }

@@ -33,8 +33,8 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.KSIcons
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
-import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.icon.KSIcons
 
 @Composable
 public fun SharedTransitionScope.TopNavBar(
