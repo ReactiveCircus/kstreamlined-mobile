@@ -16,7 +16,7 @@ import org.gradle.work.NormalizeLineEndings
 import java.io.Serializable
 
 @CacheableTask
-internal abstract class GenerateComposePainterAccessors : DefaultTask() {
+internal abstract class GeneratePainterAccessors : DefaultTask() {
     @get:Input
     abstract val packageName: Property<String>
 
@@ -38,21 +38,18 @@ internal abstract class GenerateComposePainterAccessors : DefaultTask() {
 
     @TaskAction
     fun execute() {
-        val drawableDir = resourceDirectories.files
-            .flatMap { it.listFiles().orEmpty().toList() }
-            .single { it.name == "drawable" }
-        val drawableFiles = drawableDir.listFiles().orEmpty()
-            .filter { it.name.endsWith(".xml") }
+        val drawableFileNames = resourceDirectories.asFileTree
+            .matching { it.include("**/drawable/*.xml") }.files
+            .map { it.name }
+            .sorted()
 
-        println("-----------------")
         codegenOptionsMap.get().forEach { (objectName, configs) ->
-            println("$objectName codegen configs:")
-            println("--prefix: ${configs.prefix}")
-            println("--generateAsListFunction: ${configs.generateAsListFunction}")
-            println("--files to process:")
-            drawableFiles.filter { it.name.startsWith(configs.prefix) }.forEach {
-                println("----${it.name}")
-            }
+            PainterAccessorsGenerator.buildFileSpec(
+                packageName = packageName.get(),
+                objectName = objectName,
+                configs = configs,
+                drawableFileNames = drawableFileNames.filter { it.startsWith(configs.prefix) },
+            ).writeTo(outputDir.get().asFile)
         }
     }
 }

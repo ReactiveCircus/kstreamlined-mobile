@@ -22,4 +22,5 @@ v2p {
         prefix = "ic_"
         generateAsListFunction = true
     }
+    runCodegenOnSync("release")
 }

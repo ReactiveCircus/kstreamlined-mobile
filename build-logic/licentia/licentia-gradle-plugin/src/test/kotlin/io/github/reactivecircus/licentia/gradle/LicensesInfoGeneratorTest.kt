@@ -102,7 +102,7 @@ class LicensesInfoGeneratorTest {
             |]
             """.trimMargin()
 
-        val fileSpec = LicensesInfoGenerator.buildAllLicensesInfoFileSpec(
+        val fileSpec = LicensesInfoGenerator.buildFileSpec(
             packageName = "com.example.licentia",
             artifactsJson = artifactsJson,
         )
