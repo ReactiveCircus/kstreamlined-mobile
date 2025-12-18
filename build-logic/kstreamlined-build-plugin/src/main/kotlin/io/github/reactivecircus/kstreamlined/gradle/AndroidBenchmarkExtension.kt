@@ -46,7 +46,7 @@ internal abstract class AndroidBenchmarkExtensionImpl @Inject constructor(
     private val targetProjectPath: String,
     private val environment: String,
     private val targetAppIdKey: String,
-    private val minSdk: Int,
+    private val testMinSdk: Int,
 ) : AndroidBenchmarkExtension, TopLevelExtension {
     private val managedVirtualDeviceConfigs: MutableMap<String, Action<ManagedVirtualDevice>> = mutableMapOf()
 
@@ -80,7 +80,7 @@ internal abstract class AndroidBenchmarkExtensionImpl @Inject constructor(
             )
             it.defaultConfig {
                 missingDimensionStrategy(FlavorDimensions.Environment, environment)
-                minSdk = minSdk
+                minSdk = testMinSdk
                 testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
                 testInstrumentationRunnerArguments["androidx.benchmark.fullTracing.enable"] = "true"
                 // TODO remove once https://issuetracker.google.com/issues/435589290 is fixed
@@ -128,6 +128,14 @@ internal abstract class AndroidBenchmarkExtensionImpl @Inject constructor(
             add("implementation", libs.androidx.benchmark.macroJunit)
             add("implementation", libs.androidx.tracing.perfetto)
             add("implementation", libs.androidx.tracing.perfetto.binary)
+        }
+
+        configurations.configureEach { configuration ->
+            configuration.resolutionStrategy.eachDependency { details ->
+                if (details.requested.name.startsWith("tracing-perfetto")) {
+                    details.useVersion(libs.versions.androidx.tracing.perfetto.get())
+                }
+            }
         }
 
         configureDetekt()
