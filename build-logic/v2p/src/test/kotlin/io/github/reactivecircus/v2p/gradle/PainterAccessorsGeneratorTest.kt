@@ -6,11 +6,6 @@ import kotlin.test.assertEquals
 class PainterAccessorsGeneratorTest {
     @Test
     fun `PainterAccessorsGenerator generates expected Compose Painter accessors`() {
-        val configs = PerGroupCodegenConfigs(
-            prefix = "ic_",
-            generateAsListFunction = false,
-            subpackage = null,
-        )
         val drawableFileNames = listOf(
             "ic_arrow_down.xml",
             "ic_arrow_right.xml",
@@ -19,7 +14,9 @@ class PainterAccessorsGeneratorTest {
         val fileSpec = PainterAccessorsGenerator.buildFileSpec(
             packageName = "com.example",
             containerName = "KSIcons",
-            configs = configs,
+            drawablePrefix = "ic_",
+            generateAsListFunction = false,
+            subpackage = null,
             drawableFileNames = drawableFileNames,
         )
 
@@ -53,11 +50,6 @@ class PainterAccessorsGeneratorTest {
 
     @Test
     fun `PainterAccessorsGenerator generates expected asList() function`() {
-        val configs = PerGroupCodegenConfigs(
-            prefix = "ic_",
-            generateAsListFunction = true,
-            subpackage = null,
-        )
         val drawableFileNames = listOf(
             "ic_arrow_down.xml",
             "ic_arrow_right.xml",
@@ -66,7 +58,9 @@ class PainterAccessorsGeneratorTest {
         val fileSpec = PainterAccessorsGenerator.buildFileSpec(
             packageName = "com.example",
             containerName = "KSIcons",
-            configs = configs,
+            drawablePrefix = "ic_",
+            generateAsListFunction = true,
+            subpackage = null,
             drawableFileNames = drawableFileNames,
         )
 
@@ -107,18 +101,15 @@ class PainterAccessorsGeneratorTest {
 
     @Test
     fun `PainterAccessorsGenerator generates expected package when subpackage is specified`() {
-        val configs = PerGroupCodegenConfigs(
-            prefix = "ic_",
-            generateAsListFunction = false,
-            subpackage = "foundation.icon",
-        )
         val drawableFileNames = listOf(
             "ic_kotlin.xml",
         )
         val fileSpec = PainterAccessorsGenerator.buildFileSpec(
             packageName = "com.example",
             containerName = "KSIcons",
-            configs = configs,
+            drawablePrefix = "ic_",
+            generateAsListFunction = false,
+            subpackage = "foundation.icon",
             drawableFileNames = drawableFileNames,
         )
 
@@ -145,18 +136,15 @@ class PainterAccessorsGeneratorTest {
 
     @Test
     fun `PainterAccessorsGenerator normalizes subpackage name`() {
-        val configs = PerGroupCodegenConfigs(
-            prefix = "ic_",
-            generateAsListFunction = false,
-            subpackage = " .Foundation..Icon. ",
-        )
         val drawableFileNames = listOf(
             "ic_kotlin.xml",
         )
         val fileSpec = PainterAccessorsGenerator.buildFileSpec(
             packageName = "com.example",
             containerName = "KSIcons",
-            configs = configs,
+            drawablePrefix = "ic_",
+            generateAsListFunction = false,
+            subpackage = " .Foundation..Icon. ",
             drawableFileNames = drawableFileNames,
         )
 

@@ -13,7 +13,9 @@ internal object PainterAccessorsGenerator {
     fun buildFileSpec(
         packageName: String,
         containerName: String,
-        configs: PerGroupCodegenConfigs,
+        drawablePrefix: String,
+        generateAsListFunction: Boolean,
+        subpackage: String?,
         drawableFileNames: List<String>,
     ): FileSpec {
         val rClass = ClassName(packageName, "R")
@@ -21,7 +23,7 @@ internal object PainterAccessorsGenerator {
         val properties = drawableFileNames.map { fileName ->
             val resourceName = fileName.substringBeforeLast('.')
             val propertyName = resourceName
-                .removePrefix(configs.prefix)
+                .removePrefix(drawablePrefix)
                 .toPascalCase()
             PropertySpec.builder(propertyName, painterClass)
                 .getter(
@@ -36,7 +38,7 @@ internal object PainterAccessorsGenerator {
         val objectBuilder = TypeSpec.objectBuilder(containerName)
             .addProperties(properties)
 
-        if (configs.generateAsListFunction) {
+        if (generateAsListFunction) {
             val asListFun = FunSpec.builder("asList")
                 .addAnnotation(composableAnnotation)
                 .returns(List::class.asClassName().parameterizedBy(painterClass))
@@ -50,7 +52,7 @@ internal object PainterAccessorsGenerator {
 
         val finalPackageName = buildString {
             append(packageName)
-            val normalizedSubpackage = configs.subpackage?.normalizeSubpackage()
+            val normalizedSubpackage = subpackage?.normalizeSubpackage()
             if (!normalizedSubpackage.isNullOrEmpty()) {
                 append(".")
                 append(normalizedSubpackage)

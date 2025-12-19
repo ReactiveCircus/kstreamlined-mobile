@@ -25,15 +25,7 @@ public class V2PGradlePlugin : Plugin<Project> {
                     ) {
                         it.packageName.set(variant.namespace)
                         it.resourceDirectories.setFrom(resSources.static)
-                        it.codegenOptionsMap.set(
-                            v2pExtension.groupsOfCodegenOptions.mapValues { (_, options) ->
-                                PerGroupCodegenConfigs(
-                                    prefix = options.prefix.get(),
-                                    generateAsListFunction = options.generateAsListFunction.get(),
-                                    subpackage = options.subpackage.orNull,
-                                )
-                            },
-                        )
+                        it.codegenOptionsMap.set(v2pExtension.codegenOptionsMap)
                         it.outputDir.set(layout.buildDirectory.dir("generated/source/v2p/${variant.name}"))
                     }
                     kotlinSources.addGeneratedSourceDirectory(

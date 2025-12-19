@@ -8,12 +8,12 @@ import org.gradle.api.provider.Property
 import org.gradle.api.tasks.CacheableTask
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputFiles
+import org.gradle.api.tasks.Nested
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.PathSensitive
 import org.gradle.api.tasks.PathSensitivity
 import org.gradle.api.tasks.TaskAction
 import org.gradle.work.NormalizeLineEndings
-import java.io.Serializable
 
 @CacheableTask
 internal abstract class GeneratePainterAccessors : DefaultTask() {
@@ -25,8 +25,8 @@ internal abstract class GeneratePainterAccessors : DefaultTask() {
     @get:NormalizeLineEndings
     abstract val resourceDirectories: ConfigurableFileCollection
 
-    @get:Input
-    abstract val codegenOptionsMap: MapProperty<String, PerGroupCodegenConfigs>
+    @get:Nested
+    abstract val codegenOptionsMap: MapProperty<String, V2PCodegenOptions>
 
     @get:OutputDirectory
     abstract val outputDir: DirectoryProperty
@@ -44,23 +44,15 @@ internal abstract class GeneratePainterAccessors : DefaultTask() {
             .sorted()
 
         codegenOptionsMap.get().forEach { (containerName, configs) ->
+            val prefix = configs.prefix.get()
             PainterAccessorsGenerator.buildFileSpec(
                 packageName = packageName.get(),
                 containerName = containerName,
-                configs = configs,
-                drawableFileNames = drawableFileNames.filter { it.startsWith(configs.prefix) },
+                drawablePrefix = prefix,
+                generateAsListFunction = configs.generateAsListFunction.get(),
+                subpackage = configs.subpackage.orNull,
+                drawableFileNames = drawableFileNames.filter { it.startsWith(prefix) },
             ).writeTo(outputDir.get().asFile)
         }
-    }
-}
-
-internal class PerGroupCodegenConfigs(
-    val prefix: String,
-    val generateAsListFunction: Boolean,
-    val subpackage: String?,
-) : Serializable {
-    companion object {
-        @Suppress("unused")
-        private const val serialVersionUID: Long = 1L
     }
 }
