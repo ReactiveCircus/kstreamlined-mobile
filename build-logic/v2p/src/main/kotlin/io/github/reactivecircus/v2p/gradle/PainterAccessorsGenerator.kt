@@ -48,13 +48,14 @@ internal object PainterAccessorsGenerator {
             objectBuilder.addFunction(asListFun)
         }
 
-        val finalPackageName = normalizePackageName(
-            if (configs.subpackage.isNullOrEmpty()) {
-                packageName
-            } else {
-                "$packageName.${configs.subpackage}"
-            },
-        )
+        val finalPackageName = buildString {
+            append(packageName)
+            val normalizedSubpackage = configs.subpackage?.normalizeSubpackage()
+            if (!normalizedSubpackage.isNullOrEmpty()) {
+                append(".")
+                append(normalizedSubpackage)
+            }
+        }
 
         return FileSpec.builder(finalPackageName, containerName)
             .addFileComment("AUTO-GENERATED FILE. DO NOT MODIFY.")
@@ -62,11 +63,11 @@ internal object PainterAccessorsGenerator {
             .build()
     }
 
-    private fun normalizePackageName(packageName: String): String {
-        return packageName.trim()
+    private fun String.normalizeSubpackage(): String {
+        return trim()
             .split('.')
-            .filter { it.isNotBlank() }
-            .joinToString(".") { it.trim().lowercase() }
+            .filter { it.isNotEmpty() }
+            .joinToString(".") { it.lowercase() }
     }
 
     private fun String.toPascalCase(): String {
