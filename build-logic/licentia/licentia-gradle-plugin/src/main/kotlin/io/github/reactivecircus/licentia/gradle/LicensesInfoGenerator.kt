@@ -16,7 +16,7 @@ import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 
 internal object LicensesInfoGenerator {
-    fun buildAllLicensesInfoFileSpec(
+    fun buildFileSpec(
         packageName: String,
         artifactsJson: String,
     ): FileSpec {

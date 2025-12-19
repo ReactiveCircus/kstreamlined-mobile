@@ -34,7 +34,7 @@ internal fun OpenSourceLicensesTile(
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Icon(
-                painter = KSIcons.License,
+                painter = KSIcons.BookmarkStacks,
                 contentDescription = null,
                 modifier = Modifier.padding(start = 12.dp),
             )
