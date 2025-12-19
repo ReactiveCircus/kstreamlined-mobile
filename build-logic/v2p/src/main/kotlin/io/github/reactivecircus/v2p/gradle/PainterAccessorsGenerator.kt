@@ -48,10 +48,25 @@ internal object PainterAccessorsGenerator {
             objectBuilder.addFunction(asListFun)
         }
 
-        return FileSpec.builder(packageName, containerName)
+        val finalPackageName = normalizePackageName(
+            if (configs.subpackage.isNullOrEmpty()) {
+                packageName
+            } else {
+                "$packageName.${configs.subpackage}"
+            },
+        )
+
+        return FileSpec.builder(finalPackageName, containerName)
             .addFileComment("AUTO-GENERATED FILE. DO NOT MODIFY.")
             .addType(objectBuilder.build())
             .build()
+    }
+
+    private fun normalizePackageName(packageName: String): String {
+        return packageName.trim()
+            .split('.')
+            .filter { it.isNotBlank() }
+            .joinToString(".") { it.trim().lowercase() }
     }
 
     private fun String.toPascalCase(): String {
@@ -60,7 +75,7 @@ internal object PainterAccessorsGenerator {
             .joinToString("") { it.replaceFirstChar { char -> char.uppercase() } }
     }
 
-    val painterResource = MemberName("androidx.compose.ui.res", "painterResource")
-    val painterClass = ClassName("androidx.compose.ui.graphics.painter", "Painter")
-    val composableAnnotation = ClassName("androidx.compose.runtime", "Composable")
+    private val painterResource: MemberName = MemberName("androidx.compose.ui.res", "painterResource")
+    private val painterClass: ClassName = ClassName("androidx.compose.ui.graphics.painter", "Painter")
+    private val composableAnnotation: ClassName = ClassName("androidx.compose.runtime", "Composable")
 }

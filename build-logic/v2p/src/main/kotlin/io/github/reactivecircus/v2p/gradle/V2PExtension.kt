@@ -13,6 +13,7 @@ public interface V2PExtension {
     public abstract class CodegenOptions @Inject constructor(objects: ObjectFactory) {
         public val prefix: Property<String> = objects.property(String::class.java)
         public val generateAsListFunction: Property<Boolean> = objects.property(Boolean::class.java).convention(false)
+        public val subpackage: Property<String> = objects.property(String::class.java)
     }
 }
 

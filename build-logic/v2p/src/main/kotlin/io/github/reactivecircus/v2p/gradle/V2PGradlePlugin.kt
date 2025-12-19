@@ -30,6 +30,7 @@ public class V2PGradlePlugin : Plugin<Project> {
                                 PerGroupCodegenConfigs(
                                     prefix = options.prefix.get(),
                                     generateAsListFunction = options.generateAsListFunction.get(),
+                                    subpackage = options.subpackage.orNull,
                                 )
                             },
                         )

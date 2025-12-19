@@ -9,6 +9,7 @@ class PainterAccessorsGeneratorTest {
         val configs = PerGroupCodegenConfigs(
             prefix = "ic_",
             generateAsListFunction = false,
+            subpackage = null,
         )
         val drawableFileNames = listOf(
             "ic_arrow_down.xml",
@@ -55,6 +56,7 @@ class PainterAccessorsGeneratorTest {
         val configs = PerGroupCodegenConfigs(
             prefix = "ic_",
             generateAsListFunction = true,
+            subpackage = null,
         )
         val drawableFileNames = listOf(
             "ic_arrow_down.xml",
@@ -100,6 +102,82 @@ class PainterAccessorsGeneratorTest {
             |
         """.trimMargin()
 
+        assertEquals(expectedOutput, fileSpec.toString())
+    }
+
+    @Test
+    fun `PainterAccessorsGenerator generates expected package when subpackage is specified`() {
+        val configs = PerGroupCodegenConfigs(
+            prefix = "ic_",
+            generateAsListFunction = false,
+            subpackage = "foundation.icon",
+        )
+        val drawableFileNames = listOf(
+            "ic_kotlin.xml",
+        )
+        val fileSpec = PainterAccessorsGenerator.buildFileSpec(
+            packageName = "com.example",
+            containerName = "KSIcons",
+            configs = configs,
+            drawableFileNames = drawableFileNames,
+        )
+
+        val expectedOutput = """
+            |// AUTO-GENERATED FILE. DO NOT MODIFY.
+            |package com.example.foundation.icon
+            |
+            |import androidx.compose.runtime.Composable
+            |import androidx.compose.ui.graphics.painter.Painter
+            |import androidx.compose.ui.res.painterResource
+            |import com.example.R
+            |
+            |public object KSIcons {
+            |  public val Kotlin: Painter
+            |    @Composable
+            |    get() = painterResource(R.drawable.ic_kotlin)
+            |}
+            |
+        """.trimMargin()
+
+        assertEquals("com.example.foundation.icon", fileSpec.packageName)
+        assertEquals(expectedOutput, fileSpec.toString())
+    }
+
+    @Test
+    fun `PainterAccessorsGenerator normalizes subpackage name`() {
+        val configs = PerGroupCodegenConfigs(
+            prefix = "ic_",
+            generateAsListFunction = false,
+            subpackage = " .Foundation..Icon. ",
+        )
+        val drawableFileNames = listOf(
+            "ic_kotlin.xml",
+        )
+        val fileSpec = PainterAccessorsGenerator.buildFileSpec(
+            packageName = "com.example",
+            containerName = "KSIcons",
+            configs = configs,
+            drawableFileNames = drawableFileNames,
+        )
+
+        val expectedOutput = """
+            |// AUTO-GENERATED FILE. DO NOT MODIFY.
+            |package com.example.foundation.icon
+            |
+            |import androidx.compose.runtime.Composable
+            |import androidx.compose.ui.graphics.painter.Painter
+            |import androidx.compose.ui.res.painterResource
+            |import com.example.R
+            |
+            |public object KSIcons {
+            |  public val Kotlin: Painter
+            |    @Composable
+            |    get() = painterResource(R.drawable.ic_kotlin)
+            |}
+            |
+        """.trimMargin()
+
+        assertEquals("com.example.foundation.icon", fileSpec.packageName)
         assertEquals(expectedOutput, fileSpec.toString())
     }
 }

@@ -34,7 +34,11 @@ public interface AndroidCoreLibraryExtension {
     /**
      * Enable generating type-safe Compose `Painter` accessors from vector drawables.
      */
-    public fun generatePaintersFromDrawables(containerName: String, drawablePrefix: String)
+    public fun generatePaintersFromDrawables(
+        containerName: String,
+        drawablePrefix: String,
+        subpackage: String? = null,
+    )
 
     /**
      * Enable Hilt by adding the `hilt-compiler` using KSP and adding the `hilt-android` runtime dependency.
@@ -83,6 +87,8 @@ internal abstract class AndroidCoreLibraryExtensionImpl @Inject constructor(
 
     private var v2pDrawablePrefix: String? = null
 
+    private var v2pSubpackage: String? = null
+
     private var unitTestsEnabled: Boolean = false
 
     private var screenshotTestsEnabled: Boolean = false
@@ -105,9 +111,14 @@ internal abstract class AndroidCoreLibraryExtensionImpl @Inject constructor(
         serializationEnabled = true
     }
 
-    override fun generatePaintersFromDrawables(containerName: String, drawablePrefix: String) {
+    override fun generatePaintersFromDrawables(
+        containerName: String,
+        drawablePrefix: String,
+        subpackage: String?,
+    ) {
         v2pContainerName = containerName
         v2pDrawablePrefix = drawablePrefix
+        v2pSubpackage = subpackage
     }
 
     override fun unitTests() {
@@ -161,6 +172,7 @@ internal abstract class AndroidCoreLibraryExtensionImpl @Inject constructor(
                 extension.generate(v2pContainerName!!) {
                     it.prefix.set(v2pDrawablePrefix)
                     it.generateAsListFunction.set(true)
+                    it.subpackage.set(v2pSubpackage)
                 }
                 extension.runCodegenOnSync("release")
             }

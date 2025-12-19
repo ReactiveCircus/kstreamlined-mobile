@@ -57,6 +57,7 @@ internal abstract class GeneratePainterAccessors : DefaultTask() {
 internal class PerGroupCodegenConfigs(
     val prefix: String,
     val generateAsListFunction: Boolean,
+    val subpackage: String?,
 ) : Serializable {
     companion object {
         @Suppress("unused")
