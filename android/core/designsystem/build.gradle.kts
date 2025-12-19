@@ -9,6 +9,7 @@ kstreamlined {
         generatePaintersFromDrawables(
             containerName = "KSIcons",
             drawablePrefix = "ic_",
+            subpackage = "foundation.icon",
         )
         screenshotTests()
 
