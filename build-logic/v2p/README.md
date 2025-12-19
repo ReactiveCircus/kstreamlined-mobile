@@ -17,7 +17,7 @@ res/
 │  ├─ ic_settings.xml
 ```
 
-The plugin can generate type-safe APIs for these drawables:
+The plugin can generate type-safe APIs for accessing these drawables as Compose `Painter`s:
 
 ```kt
 object KSIcons {
