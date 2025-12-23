@@ -1,9 +1,9 @@
 package io.github.reactivecircus.aabpublisher
 
+import com.android.build.api.artifact.SingleArtifact
 import com.android.build.api.variant.ApplicationAndroidComponentsExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.internal.extensions.stdlib.capitalized
 
 public class AabPublisherGradlePlugin : Plugin<Project> {
     override fun apply(target: Project): Unit = with(target) {
@@ -15,11 +15,12 @@ public class AabPublisherGradlePlugin : Plugin<Project> {
                 extension.onVariants { variant ->
                     if (!variant.name.equals(aabPublisherExtension.variant.get(), ignoreCase = true)) return@onVariants
                     tasks.register(
-                        "publish${variant.name.capitalized()}BundleToGooglePlay",
+                        "publishBundleToGooglePlay",
                         PublishBundleToGooglePlay::class.java,
                     ) {
                         it.group = "AAB Publisher"
-                        it.description = "Publishes the Android App Bundle to Google Play for the ${variant.name} variant."
+                        it.description = getTaskDescription(variant.name)
+                        it.bundle.set(variant.artifacts.get(SingleArtifact.BUNDLE))
                     }
                 }
             }
@@ -31,4 +32,7 @@ public class AabPublisherGradlePlugin : Plugin<Project> {
             }
         }
     }
+
+    private fun getTaskDescription(variantName: String): String =
+        "Publishes the Android App Bundle to Google Play for the $variantName variant."
 }

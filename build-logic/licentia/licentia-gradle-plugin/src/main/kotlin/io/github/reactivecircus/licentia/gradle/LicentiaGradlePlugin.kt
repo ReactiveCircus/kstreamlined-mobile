@@ -26,7 +26,7 @@ public class LicentiaGradlePlugin : Plugin<Project> {
                             GenerateLicensesInfoSource::class.java,
                         ) { task ->
                             task.group = "Licentia"
-                            task.description = "Generates `LicencesInfo` implementation from Licensee plugin's Json report for the ${variant.name} variant."
+                            task.description = getTaskDescription(variant.name)
                             task.packageName.set(variant.namespace.map { "$it.licentia" })
                             task.artifactsJsonFile.set(
                                 tasks.withType(LicenseeTask::class.java)
@@ -61,4 +61,7 @@ public class LicentiaGradlePlugin : Plugin<Project> {
             }
         }
     }
+
+    private fun getTaskDescription(variantName: String): String =
+        "Generates `LicencesInfo` implementation from Licensee plugin's Json report for the $variantName variant."
 }

@@ -24,7 +24,7 @@ public class V2PGradlePlugin : Plugin<Project> {
                         GeneratePainterAccessors::class.java,
                     ) {
                         it.group = "V2P"
-                        it.description = "Generates type-safe Compose `Painter` accessors from vector drawables for the ${variant.name} variant."
+                        it.description = getTaskDescription(variant.name)
                         it.packageName.set(variant.namespace)
                         it.resourceDirectories.setFrom(resSources.static)
                         it.codegenOptionsMap.set(v2pExtension.codegenOptionsMap)
@@ -50,4 +50,7 @@ public class V2PGradlePlugin : Plugin<Project> {
             }
         }
     }
+
+    private fun getTaskDescription(variantName: String): String =
+        "Generates type-safe Compose `Painter` accessors from vector drawables for the $variantName variant."
 }
