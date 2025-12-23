@@ -26,11 +26,6 @@ internal abstract class GenerateLicensesInfoSource : DefaultTask() {
     @get:OutputDirectory
     abstract val outputDir: DirectoryProperty
 
-    init {
-        group = "Licentia"
-        description = "Generates `LicencesInfo` implementation from Licensee plugin's Json report."
-    }
-
     @TaskAction
     fun execute() {
         LicensesInfoGenerator.buildFileSpec(
