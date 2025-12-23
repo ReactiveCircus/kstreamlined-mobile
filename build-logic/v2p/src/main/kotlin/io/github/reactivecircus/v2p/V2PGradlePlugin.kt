@@ -23,6 +23,8 @@ public class V2PGradlePlugin : Plugin<Project> {
                         "generateComposePainterAccessors${variant.name.capitalized()}",
                         GeneratePainterAccessors::class.java,
                     ) {
+                        it.group = "V2P"
+                        it.description = "Generates type-safe Compose `Painter` accessors from vector drawables for the ${variant.name} variant."
                         it.packageName.set(variant.namespace)
                         it.resourceDirectories.setFrom(resSources.static)
                         it.codegenOptionsMap.set(v2pExtension.codegenOptionsMap)

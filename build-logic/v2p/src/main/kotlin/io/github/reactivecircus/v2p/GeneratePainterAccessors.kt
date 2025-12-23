@@ -31,11 +31,6 @@ internal abstract class GeneratePainterAccessors : DefaultTask() {
     @get:OutputDirectory
     abstract val outputDir: DirectoryProperty
 
-    init {
-        group = "V2P"
-        description = "Generates type-safe Compose `Painter` accessors from vector drawables."
-    }
-
     @TaskAction
     fun execute() {
         val drawableFileNames = resourceDirectories.asFileTree
