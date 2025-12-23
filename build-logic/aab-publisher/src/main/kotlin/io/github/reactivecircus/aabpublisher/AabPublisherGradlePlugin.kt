@@ -21,6 +21,8 @@ public class AabPublisherGradlePlugin : Plugin<Project> {
                         it.group = "AAB Publisher"
                         it.description = getTaskDescription(variant.name)
                         it.bundle.set(variant.artifacts.get(SingleArtifact.BUNDLE))
+                        it.serviceAccountCredentials.set(aabPublisherExtension.serviceAccountCredentials)
+                        it.applicationId.set(variant.applicationId)
                     }
                 }
             }
@@ -34,5 +36,5 @@ public class AabPublisherGradlePlugin : Plugin<Project> {
     }
 
     private fun getTaskDescription(variantName: String): String =
-        "Publishes the Android App Bundle to Google Play for the $variantName variant."
+        "Publishes the Android App Bundle to Google Play (internal testing) for the $variantName variant."
 }
