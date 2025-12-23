@@ -54,7 +54,7 @@ internal abstract class PublishBundleToGooglePlay : DefaultTask() {
         if (versionCode != null) {
             logger.lifecycle("Uploaded bundle with version code: {}", versionCode)
 
-            // publish to internal testing track and makes it the active version
+            // publish to internal testing track and makes it active
             editManager.publishArtifacts(
                 versionCodes = listOf(versionCode),
                 didPreviousBuildSkipCommit = false,
