@@ -1,4 +1,4 @@
-package io.github.reactivecircus.v2p.gradle
+package io.github.reactivecircus.v2p
 
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec

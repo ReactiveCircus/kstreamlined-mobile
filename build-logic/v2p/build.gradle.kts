@@ -12,7 +12,7 @@ gradlePlugin {
     plugins {
         register("v2p") {
             id = "io.github.reactivecircus.v2p"
-            implementationClass = "io.github.reactivecircus.v2p.gradle.V2PGradlePlugin"
+            implementationClass = "io.github.reactivecircus.v2p.V2PGradlePlugin"
         }
     }
 }

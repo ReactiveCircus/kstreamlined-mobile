@@ -14,7 +14,7 @@ import io.github.reactivecircus.kstreamlined.gradle.internal.configurePowerAsser
 import io.github.reactivecircus.kstreamlined.gradle.internal.configureScreenshotTest
 import io.github.reactivecircus.kstreamlined.gradle.internal.configureTest
 import io.github.reactivecircus.kstreamlined.gradle.internal.libs
-import io.github.reactivecircus.v2p.gradle.V2PExtension
+import io.github.reactivecircus.v2p.V2PExtension
 import org.gradle.api.Action
 import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi

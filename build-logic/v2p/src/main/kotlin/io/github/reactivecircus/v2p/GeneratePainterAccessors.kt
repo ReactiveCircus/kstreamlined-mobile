@@ -1,4 +1,4 @@
-package io.github.reactivecircus.v2p.gradle
+package io.github.reactivecircus.v2p
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.ConfigurableFileCollection

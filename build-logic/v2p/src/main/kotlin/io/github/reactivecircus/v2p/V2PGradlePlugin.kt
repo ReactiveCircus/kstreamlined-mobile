@@ -1,4 +1,4 @@
-package io.github.reactivecircus.v2p.gradle
+package io.github.reactivecircus.v2p
 
 import com.android.build.api.variant.LibraryAndroidComponentsExtension
 import org.gradle.api.Plugin
