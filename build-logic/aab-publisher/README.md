@@ -28,3 +28,9 @@ To publish the bundle to Google Play:
 ```
 
 The task will upload the Android App Bundle (AAB) file for the configured build variant to Google Play's Internal Testing track.
+
+To specify a pre-existing bundle directory instead of building the AAB on the fly: 
+
+```bash
+./gradlew publishBundleToGooglePlay -PartifactDir=path/to/bundle/directory
+```
