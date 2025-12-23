@@ -11,12 +11,12 @@ import com.android.build.api.variant.ApplicationAndroidComponentsExtension
 import com.android.build.api.variant.BuildConfigField
 import com.android.build.api.variant.ResValue
 import com.android.build.api.variant.Variant
-import com.github.triplet.gradle.play.PlayPublisherExtension
 import com.google.firebase.appdistribution.gradle.AppDistributionExtension
 import com.google.firebase.appdistribution.gradle.tasks.UploadDistributionTask
 import com.google.firebase.crashlytics.buildtools.gradle.CrashlyticsExtension
 import com.google.firebase.perf.plugin.FirebasePerfExtension
 import com.google.gms.googleservices.GoogleServicesPlugin
+import io.github.reactivecircus.aabpublisher.AabPublisherExtension
 import io.github.reactivecircus.appversioning.AppVersioningExtension
 import io.github.reactivecircus.kstreamlined.gradle.internal.configureAndroidApplicationExtension
 import io.github.reactivecircus.kstreamlined.gradle.internal.configureAndroidApplicationVariants
@@ -30,7 +30,6 @@ import io.github.reactivecircus.kstreamlined.gradle.internal.configureTest
 import io.github.reactivecircus.kstreamlined.gradle.internal.libs
 import isCiBuild
 import org.gradle.api.Action
-import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.Project
 import org.gradle.api.model.ObjectFactory
 import org.gradle.api.plugins.BasePluginExtension
@@ -370,7 +369,7 @@ internal abstract class AndroidAppExtensionImpl @Inject constructor(
 
         versioningConfig?.let(::configureAppVersioning)
 
-        playPublishingServiceAccountCredentials?.let(::configurePlayPublishing)
+        playPublishingServiceAccountCredentials?.let(::configureAabPublisher)
 
         if (googleServicesEnabled) {
             configureGoogleServices()
@@ -533,20 +532,11 @@ internal abstract class AndroidAppExtensionImpl @Inject constructor(
         }
     }
 
-    private fun configurePlayPublishing(serviceAccountCredentials: File) = with(project) {
-        pluginManager.apply("com.github.triplet.play")
-        extensions.configure(PlayPublisherExtension::class.java) {
-            it.enabled.set(false) // only enable for prodRelease variant
+    private fun configureAabPublisher(serviceAccountCredentials: File) = with(project) {
+        pluginManager.apply("io.github.reactivecircus.aab-publisher")
+        extensions.configure(AabPublisherExtension::class.java) {
+            it.variant.set("prodRelease") // publish prodRelease variant
             it.serviceAccountCredentials.set(serviceAccountCredentials)
-            it.defaultToAppBundles.set(true)
-        }
-        extensions.configure(ApplicationExtension::class.java) { extension ->
-            (extension as ExtensionAware).extensions
-                .configure<NamedDomainObjectContainer<PlayPublisherExtension>>("playConfigs") { container ->
-                    container.register(ProductFlavors.Prod) {
-                        it.enabled.set(true)
-                    }
-                }
         }
     }
 

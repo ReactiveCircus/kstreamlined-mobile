@@ -2,12 +2,6 @@ import java.time.Instant
 
 plugins {
     id("kstreamlined")
-    id("io.github.reactivecircus.aab-publisher")
-}
-
-aabPublisher {
-    variant.set("prodRelease")
-    serviceAccountCredentials.set(rootDir.resolve("android/secrets/play-publishing.json"))
 }
 
 kstreamlined {

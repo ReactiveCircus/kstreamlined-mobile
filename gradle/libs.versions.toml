@@ -14,7 +14,7 @@ apollo-mockserver = "0.3.1"
 googleServices = "4.4.4"
 invert = "0.0.8"
 detekt = "2.0.0-alpha.1"
-playPublisher = "3.13.0"
+androidPublisher = "3.13.0"
 skie = "0.10.8"
 kotlinpoet = "2.2.0"
 leakcanary = "2.14"
@@ -84,11 +84,10 @@ plugin-firebasePerf = { module = "com.google.firebase:perf-plugin", version.ref 
 plugin-appDistribution = { module = "com.google.firebase:firebase-appdistribution-gradle", version.ref = "firebase-appDistributionPlugin" }
 plugin-detekt = { module = "dev.detekt:detekt-gradle-plugin", version.ref = "detekt" }
 plugin-detektKtlintWrapper = { module = "dev.detekt:detekt-rules-ktlint-wrapper", version.ref = "detekt" }
-plugin-playPublisher = { module = "com.github.triplet.gradle:play-publisher", version.ref = "playPublisher" }
 plugin-skie = { module = "co.touchlab.skie:co.touchlab.skie.gradle.plugin", version.ref = "skie" }
 plugin-sqldelight = { module = "app.cash.sqldelight:app.cash.sqldelight.gradle.plugin", version.ref = "sqldelight" }
 plugin-baselineprofile = { module = "androidx.baselineprofile:androidx.baselineprofile.gradle.plugin", version.ref = "androidx-benchmark" }
-androidPublisher = { module = "com.github.triplet.gradle:android-publisher", version.ref = "playPublisher" }
+androidPublisher = { module = "com.github.triplet.gradle:android-publisher", version.ref = "androidPublisher" }
 kotlinpoet = { module = "com.squareup:kotlinpoet", version.ref = "kotlinpoet" }
 leakcanary-android = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanary" }
 leakcanary-plumber = { module = "com.squareup.leakcanary:plumber-android", version.ref = "leakcanary" }

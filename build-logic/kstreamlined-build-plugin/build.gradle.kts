@@ -49,6 +49,7 @@ dependencies {
     // TODO: remove once https://github.com/gradle/gradle/issues/15383#issuecomment-779893192 is fixed
     implementation(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
 
+    implementation(project(":aab-publisher"))
     implementation(project(":chameleon:chameleon-gradle-plugin"))
     implementation(project(":licentia:licentia-gradle-plugin"))
     implementation(project(":v2p"))
@@ -77,7 +78,6 @@ dependencies {
     implementation(libs.plugin.firebasePerf)
     implementation(libs.plugin.crashlytics)
     implementation(libs.plugin.appDistribution)
-    implementation(libs.plugin.playPublisher)
     implementation(libs.plugin.skie)
     implementation(libs.plugin.sqldelight)
     implementation(libs.plugin.baselineprofile)
