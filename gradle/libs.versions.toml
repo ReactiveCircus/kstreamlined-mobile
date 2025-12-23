@@ -88,6 +88,7 @@ plugin-playPublisher = { module = "com.github.triplet.gradle:play-publisher", ve
 plugin-skie = { module = "co.touchlab.skie:co.touchlab.skie.gradle.plugin", version.ref = "skie" }
 plugin-sqldelight = { module = "app.cash.sqldelight:app.cash.sqldelight.gradle.plugin", version.ref = "sqldelight" }
 plugin-baselineprofile = { module = "androidx.baselineprofile:androidx.baselineprofile.gradle.plugin", version.ref = "androidx-benchmark" }
+androidPublisher = { module = "com.github.triplet.gradle:android-publisher", version.ref = "playPublisher" }
 kotlinpoet = { module = "com.squareup:kotlinpoet", version.ref = "kotlinpoet" }
 leakcanary-android = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanary" }
 leakcanary-plumber = { module = "com.squareup.leakcanary:plumber-android", version.ref = "leakcanary" }

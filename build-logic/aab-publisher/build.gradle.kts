@@ -50,4 +50,5 @@ dependencies {
     detektPlugins(libs.plugin.detektKtlintWrapper)
 
     compileOnly(libs.plugin.agp)
+    implementation(libs.androidPublisher)
 }
