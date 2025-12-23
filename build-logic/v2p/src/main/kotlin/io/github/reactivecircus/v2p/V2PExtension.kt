@@ -39,8 +39,8 @@ public interface V2PCodegenOptions {
     @get:Input
     public val generateAsListFunction: Property<Boolean>
 
-    @get:Input
     @get:Optional
+    @get:Input
     public val subpackage: Property<String>
 }
 

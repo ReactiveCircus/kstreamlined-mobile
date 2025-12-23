@@ -7,22 +7,30 @@ import com.github.triplet.gradle.androidpublisher.PlayPublisher
 import com.github.triplet.gradle.androidpublisher.ReleaseStatus
 import com.github.triplet.gradle.androidpublisher.ResolutionStrategy
 import org.gradle.api.DefaultTask
+import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputFile
+import org.gradle.api.tasks.Internal
+import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.PathSensitive
 import org.gradle.api.tasks.PathSensitivity
 import org.gradle.api.tasks.TaskAction
 import org.gradle.work.DisableCachingByDefault
 import org.gradle.work.NormalizeLineEndings
+import java.io.File
 
 @DisableCachingByDefault
 internal abstract class PublishBundleToGooglePlay : DefaultTask() {
+    @get:Optional
     @get:InputFile
     @get:PathSensitive(PathSensitivity.RELATIVE)
     @get:NormalizeLineEndings
     abstract val bundle: RegularFileProperty
+
+    @get:Internal
+    abstract val artifactDir: DirectoryProperty
 
     @get:InputFile
     @get:PathSensitive(PathSensitivity.RELATIVE)
@@ -34,7 +42,7 @@ internal abstract class PublishBundleToGooglePlay : DefaultTask() {
 
     @TaskAction
     fun execute() {
-        val bundleFile = bundle.asFile.get()
+        val bundleFile = findBundleFile()
         val credentialsFile = serviceAccountCredentials.asFile.get()
         val appId = applicationId.get()
 
@@ -88,5 +96,22 @@ internal abstract class PublishBundleToGooglePlay : DefaultTask() {
                 }
             }
         }
+    }
+
+    private fun findBundleFile(): File = if (artifactDir.isPresent) {
+        val dir = artifactDir.get().asFile
+        require(dir.exists() && dir.isDirectory) {
+            "Artifact directory does not exist or is not a directory: $dir"
+        }
+        val aabFiles = dir.listFiles { file -> file.extension == "aab" } ?: emptyArray()
+        require(aabFiles.isNotEmpty()) {
+            "No AAB file found in artifact directory: $dir"
+        }
+        require(aabFiles.size == 1) {
+            "Multiple AAB files found in artifact directory: $dir. Expected exactly one."
+        }
+        aabFiles.first()
+    } else {
+        bundle.asFile.get()
     }
 }

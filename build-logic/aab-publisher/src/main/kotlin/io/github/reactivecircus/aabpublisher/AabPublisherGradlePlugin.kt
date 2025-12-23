@@ -14,13 +14,18 @@ public class AabPublisherGradlePlugin : Plugin<Project> {
             extensions.configure(ApplicationAndroidComponentsExtension::class.java) { extension ->
                 extension.onVariants { variant ->
                     if (!variant.name.equals(aabPublisherExtension.variant.get(), ignoreCase = true)) return@onVariants
+                    val artifactDirPath = providers.gradleProperty("artifactDir")
                     tasks.register(
                         "publishBundleToGooglePlay",
                         PublishBundleToGooglePlay::class.java,
                     ) {
                         it.group = "AAB Publisher"
                         it.description = getTaskDescription(variant.name)
-                        it.bundle.set(variant.artifacts.get(SingleArtifact.BUNDLE))
+                        if (artifactDirPath.isPresent) {
+                            it.artifactDir.set(rootProject.layout.projectDirectory.dir(artifactDirPath))
+                        } else {
+                            it.bundle.set(variant.artifacts.get(SingleArtifact.BUNDLE))
+                        }
                         it.serviceAccountCredentials.set(aabPublisherExtension.serviceAccountCredentials)
                         it.applicationId.set(variant.applicationId)
                     }

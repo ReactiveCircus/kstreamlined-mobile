@@ -261,7 +261,7 @@ jobs:
           cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
 
       - name: Publish release App Bundle to Play Store
-        run: ./gradlew publishBundleToGooglePlay
+        run: ./gradlew publishBundleToGooglePlay -PartifactDir android/app/build/outputs/bundle/prodRelease
 
       - name: Cleanup secrets
         if: always()
