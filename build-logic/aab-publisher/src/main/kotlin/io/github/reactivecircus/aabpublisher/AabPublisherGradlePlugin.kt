@@ -22,7 +22,8 @@ public class AabPublisherGradlePlugin : Plugin<Project> {
                         it.group = "AAB Publisher"
                         it.description = getTaskDescription(variant.name)
                         if (artifactDirPath.isPresent) {
-                            it.artifactDir.set(rootProject.layout.projectDirectory.dir(artifactDirPath))
+                            @Suppress("UnstableApiUsage")
+                            it.artifactDir.set(isolated.rootProject.projectDirectory.dir(artifactDirPath))
                         } else {
                             it.bundle.set(variant.artifacts.get(SingleArtifact.BUNDLE))
                         }

@@ -61,8 +61,6 @@ internal abstract class PublishBundleToGooglePlay : DefaultTask() {
         val versionCode = editManager.uploadBundle(bundleFile, ResolutionStrategy.FAIL)
         if (versionCode != null) {
             logger.lifecycle("Uploaded bundle with version code: {}", versionCode)
-
-            // publish to internal testing track and makes it active
             editManager.publishArtifacts(
                 versionCodes = listOf(versionCode),
                 didPreviousBuildSkipCommit = false,
