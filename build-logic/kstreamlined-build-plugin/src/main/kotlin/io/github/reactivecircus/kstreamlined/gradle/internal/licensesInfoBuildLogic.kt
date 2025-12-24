@@ -11,7 +11,6 @@ import org.gradle.api.Project
 internal fun Project.configureLicensesInfoGeneration(variantForCodegenOnSync: String) {
     pluginManager.apply("app.cash.licensee")
     extensions.configure(LicenseeExtension::class.java) {
-        it.bundleAndroidAsset
         it.allow("Apache-2.0")
         it.allow("MIT")
         it.allow("BSD-3-Clause")
