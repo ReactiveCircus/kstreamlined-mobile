@@ -114,7 +114,6 @@ internal abstract class AndroidFeatureLibraryExtensionImpl @Inject constructor(
             add("implementation", libs.androidx.compose.foundation)
             add("implementation", libs.androidx.compose.ui.tooling)
             add("implementation", libs.androidx.lifecycle.runtimeCompose)
-            add("implementation", libs.androidx.lifecycle.viewmodelCompose)
             add("implementation", libs.androidx.hilt.lifecycleViewmodelCompose)
             add("implementation", libs.androidx.tracing)
             add("implementation", libs.coil.compose)

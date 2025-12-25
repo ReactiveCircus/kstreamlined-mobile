@@ -116,6 +116,7 @@ kstreamlined {
             releaseImplementation(libs.firebase.perf)
             implementation(libs.firebase.crashlytics)
             implementation(libs.androidx.activity.compose)
+            implementation(libs.androidx.lifecycle.navigation3)
             implementation(libs.androidx.navigation3.runtime)
             implementation(libs.androidx.navigation3.ui)
             implementation(libs.androidx.coreSplashscreen)
