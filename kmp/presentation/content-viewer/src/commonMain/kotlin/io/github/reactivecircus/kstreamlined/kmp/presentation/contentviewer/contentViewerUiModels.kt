@@ -14,6 +14,4 @@ public sealed interface ContentViewerUiEvent {
     public data class LoadContent(val id: String) : ContentViewerUiEvent
 
     public data object ToggleSavedForLater : ContentViewerUiEvent
-
-    public data object Reset : ContentViewerUiEvent
 }

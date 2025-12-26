@@ -76,9 +76,7 @@ public fun SharedTransitionScope.KotlinWeeklyIssueScreen(
 
     DisposableEffect(id) {
         eventSink(KotlinWeeklyIssueUiEvent.LoadIssue(id))
-        onDispose {
-            eventSink(KotlinWeeklyIssueUiEvent.Reset)
-        }
+        onDispose { }
     }
 
     val context = LocalContext.current

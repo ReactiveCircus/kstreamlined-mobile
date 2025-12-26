@@ -72,9 +72,7 @@ public fun SharedTransitionScope.ContentViewerScreen(
 
     DisposableEffect(id) {
         eventSink(ContentViewerUiEvent.LoadContent(id))
-        onDispose {
-            eventSink(ContentViewerUiEvent.Reset)
-        }
+        onDispose { }
     }
 
     Column(

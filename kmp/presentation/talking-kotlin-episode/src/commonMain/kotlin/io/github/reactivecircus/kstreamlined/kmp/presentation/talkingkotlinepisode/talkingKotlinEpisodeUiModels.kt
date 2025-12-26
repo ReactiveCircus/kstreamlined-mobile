@@ -22,6 +22,4 @@ public sealed interface TalkingKotlinEpisodeUiEvent {
     public data class SaveStartPosition(val startPositionMillis: Long) : TalkingKotlinEpisodeUiEvent
 
     public data object TogglePlayPause : TalkingKotlinEpisodeUiEvent
-
-    public data object Reset : TalkingKotlinEpisodeUiEvent
 }

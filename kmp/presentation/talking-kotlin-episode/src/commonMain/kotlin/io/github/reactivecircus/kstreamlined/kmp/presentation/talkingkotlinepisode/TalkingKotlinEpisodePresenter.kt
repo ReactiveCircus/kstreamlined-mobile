@@ -75,11 +75,6 @@ public class TalkingKotlinEpisodePresenter(
                         uiState = currentUiState.copy(isPlaying = !currentUiState.isPlaying)
                     }
                 }
-
-                // TODO remove once ViewModel is scoped properly
-                is TalkingKotlinEpisodeUiEvent.Reset -> {
-                    itemId = null
-                }
             }
         }
         return uiState

@@ -63,12 +63,6 @@ public class KotlinWeeklyIssuePresenter(
                         feedDataSource.removeSavedFeedItem(state.id)
                     }
                 }
-
-                // TODO remove once ViewModel is scoped properly
-                KotlinWeeklyIssueUiEvent.Reset -> {
-                    itemId = null
-                    uiState = KotlinWeeklyIssueUiState.Loading
-                }
             }
         }
         return uiState

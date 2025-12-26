@@ -35,7 +35,9 @@
                 |layoutDirection|locale|mcc|mnc|navigation|orientation|screenLayout
                 |screenSize|smallestScreenSize|touchscreen|uiMode
                 |resourcesUnused"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="adjustResize"
+            android:enableOnBackInvokedCallback="false"
+            tools:targetApi="33">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

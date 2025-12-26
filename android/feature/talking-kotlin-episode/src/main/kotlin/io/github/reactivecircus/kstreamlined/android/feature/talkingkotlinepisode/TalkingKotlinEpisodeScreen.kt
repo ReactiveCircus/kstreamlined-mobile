@@ -82,9 +82,7 @@ public fun SharedTransitionScope.TalkingKotlinEpisodeScreen(
 
     DisposableEffect(id) {
         eventSink(TalkingKotlinEpisodeUiEvent.LoadEpisode(id))
-        onDispose {
-            eventSink(TalkingKotlinEpisodeUiEvent.Reset)
-        }
+        onDispose { }
     }
 
     val context = LocalContext.current

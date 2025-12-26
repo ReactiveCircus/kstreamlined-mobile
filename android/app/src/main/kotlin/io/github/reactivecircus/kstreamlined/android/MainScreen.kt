@@ -143,7 +143,7 @@ fun SharedTransitionScope.MainScreen(
             }
         }
 
-        BackHandler(enabled = pagerState.currentPage != MainNavRoute.Home.ordinal) {
+        BackHandler(enabled = selectedPage != MainNavRoute.Home) {
             onSelectPage(MainNavRoute.Home)
         }
     }
