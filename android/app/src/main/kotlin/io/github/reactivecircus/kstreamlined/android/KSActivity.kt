@@ -32,7 +32,6 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.rememberNavBackStack
 import dagger.hilt.android.AndroidEntryPoint
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
@@ -44,7 +43,6 @@ import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisod
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.settings.datasource.SettingsDataSource
 import io.github.reactivecircus.kstreamlined.kmp.settings.model.AppSettings
-import kotlinx.serialization.Serializable
 import javax.inject.Inject
 
 @OptIn(ExperimentalSharedTransitionApi::class)
@@ -70,8 +68,8 @@ class KSActivity : ComponentActivity() {
             ) {
                 NavigationBarStyleEffect(theme)
 
-                val backStack = rememberNavBackStack(NavDestination.Main)
-                var selectedNavItem by rememberSerializable { mutableStateOf(NavItemKey.Home) }
+                val backStack = rememberNavBackStack(NavRoute.Main)
+                var selectedPage by rememberSerializable { mutableStateOf(MainNavRoute.Home) }
 
                 val dpCacheWindow = LazyLayoutCacheWindow(ahead = 300.dp, behind = 300.dp)
                 val homeListState = rememberLazyListState(cacheWindow = dpCacheWindow)
@@ -90,18 +88,18 @@ class KSActivity : ComponentActivity() {
                         label = "NavTransition",
                     ) {
                         when (it) {
-                            is NavDestination.Main -> {
+                            is NavRoute.Main -> {
                                 MainScreen(
                                     animatedVisibilityScope = this@AnimatedContent,
-                                    selectedNavItem = selectedNavItem,
-                                    onSelectedNavItemChanged = { item -> selectedNavItem = item },
+                                    selectedPage = selectedPage,
+                                    onSelectPage = { page -> selectedPage = page },
                                     homeListState = homeListState,
                                     savedListState = savedListState,
                                     onViewItem = { item, origin ->
                                         backStack.add(
                                             when (item) {
                                                 is FeedItem.KotlinWeekly -> {
-                                                    NavDestination.KotlinWeeklyIssue(
+                                                    NavRoute.KotlinWeeklyIssue(
                                                         boundsKey = "Bounds/$origin/${item.id}",
                                                         topBarBoundsKey = "Bounds/$origin/TopBar",
                                                         titleElementKey = "Element/$origin/TopBar/Title",
@@ -111,7 +109,7 @@ class KSActivity : ComponentActivity() {
                                                 }
 
                                                 is FeedItem.TalkingKotlin -> {
-                                                    NavDestination.TalkingKotlinEpisode(
+                                                    NavRoute.TalkingKotlinEpisode(
                                                         boundsKey = "Bounds/$origin/${item.id}",
                                                         topBarBoundsKey = "Bounds/$origin/TopBar",
                                                         playerElementKey = "Element/$origin/${item.id}/player",
@@ -120,7 +118,7 @@ class KSActivity : ComponentActivity() {
                                                 }
 
                                                 else -> {
-                                                    NavDestination.ContentViewer(
+                                                    NavRoute.ContentViewer(
                                                         boundsKey = "Bounds/$origin/${item.id}",
                                                         topBarBoundsKey = "Bounds/$origin/TopBar",
                                                         saveButtonElementKey = "Element/$origin/${item.id}/saveButton",
@@ -132,7 +130,7 @@ class KSActivity : ComponentActivity() {
                                     },
                                     onOpenSettings = { origin ->
                                         backStack.add(
-                                            NavDestination.Settings(
+                                            NavRoute.Settings(
                                                 topBarBoundsKey = "Bounds/$origin/TopBar",
                                                 titleElementKey = "Element/$origin/TopBar/Title",
                                             ),
@@ -141,7 +139,7 @@ class KSActivity : ComponentActivity() {
                                 )
                             }
 
-                            is NavDestination.ContentViewer -> {
+                            is NavRoute.ContentViewer -> {
                                 ContentViewerScreen(
                                     animatedVisibilityScope = this@AnimatedContent,
                                     boundsKey = it.boundsKey,
@@ -154,7 +152,7 @@ class KSActivity : ComponentActivity() {
                                 )
                             }
 
-                            is NavDestination.KotlinWeeklyIssue -> {
+                            is NavRoute.KotlinWeeklyIssue -> {
                                 KotlinWeeklyIssueScreen(
                                     animatedVisibilityScope = this@AnimatedContent,
                                     boundsKey = it.boundsKey,
@@ -168,7 +166,7 @@ class KSActivity : ComponentActivity() {
                                 )
                             }
 
-                            is NavDestination.TalkingKotlinEpisode -> {
+                            is NavRoute.TalkingKotlinEpisode -> {
                                 TalkingKotlinEpisodeScreen(
                                     animatedVisibilityScope = this@AnimatedContent,
                                     boundsKey = it.boundsKey,
@@ -181,14 +179,14 @@ class KSActivity : ComponentActivity() {
                                 )
                             }
 
-                            is NavDestination.Settings -> {
+                            is NavRoute.Settings -> {
                                 SettingsScreen(
                                     animatedVisibilityScope = this@AnimatedContent,
                                     topBarBoundsKey = it.topBarBoundsKey,
                                     titleElementKey = it.titleElementKey,
                                     onOpenLicenses = {
                                         backStack.add(
-                                            NavDestination.Licenses(
+                                            NavRoute.Licenses(
                                                 boundsKey = "Bounds/LicensesTile",
                                             ),
                                         )
@@ -199,7 +197,7 @@ class KSActivity : ComponentActivity() {
                                 )
                             }
 
-                            is NavDestination.Licenses -> {
+                            is NavRoute.Licenses -> {
                                 LicensesScreen(
                                     animatedVisibilityScope = this@AnimatedContent,
                                     boundsKey = it.boundsKey,
@@ -248,43 +246,4 @@ private fun ComponentActivity.NavigationBarStyleEffect(theme: AppSettings.Theme)
         }
         onDispose { }
     }
-}
-
-private sealed interface NavDestination : NavKey {
-    @Serializable
-    data object Main : NavDestination
-
-    @Serializable
-    data class ContentViewer(
-        val boundsKey: String,
-        val topBarBoundsKey: String,
-        val saveButtonElementKey: String,
-        val id: String,
-    ) : NavDestination
-
-    @Serializable
-    data class KotlinWeeklyIssue(
-        val boundsKey: String,
-        val topBarBoundsKey: String,
-        val titleElementKey: String,
-        val id: String,
-        val issueNumber: Int,
-    ) : NavDestination
-
-    @Serializable
-    data class TalkingKotlinEpisode(
-        val boundsKey: String,
-        val topBarBoundsKey: String,
-        val playerElementKey: String,
-        val id: String,
-    ) : NavDestination
-
-    @Serializable
-    data class Settings(
-        val topBarBoundsKey: String,
-        val titleElementKey: String,
-    ) : NavDestination
-
-    @Serializable
-    data class Licenses(val boundsKey: String) : NavDestination
 }
