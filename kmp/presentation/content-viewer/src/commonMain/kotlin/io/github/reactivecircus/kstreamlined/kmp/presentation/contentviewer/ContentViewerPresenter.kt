@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 
 public class ContentViewerPresenter(
+    private val id: String,
     private val feedDataSource: FeedDataSource,
     scope: CoroutineScope,
     recompositionMode: RecompositionMode,
@@ -22,27 +23,20 @@ public class ContentViewerPresenter(
     @Composable
     override fun present(): ContentViewerUiState {
         var uiState by remember { mutableStateOf<ContentViewerUiState>(ContentViewerUiState.Initializing) }
-        var itemId by remember { mutableStateOf<String?>(null) }
-        LaunchedEffect(itemId) {
-            itemId?.let { id ->
-                feedDataSource.streamFeedItemById(id)
-                    .onStart { uiState = ContentViewerUiState.Initializing }
-                    .onEach { item ->
-                        uiState = if (item != null) {
-                            ContentViewerUiState.Content(item)
-                        } else {
-                            ContentViewerUiState.NotFound
-                        }
+        LaunchedEffect(Unit) {
+            feedDataSource.streamFeedItemById(id)
+                .onStart { uiState = ContentViewerUiState.Initializing }
+                .onEach { item ->
+                    uiState = if (item != null) {
+                        ContentViewerUiState.Content(item)
+                    } else {
+                        ContentViewerUiState.NotFound
                     }
-                    .collect()
-            }
+                }
+                .collect()
         }
         CollectEvent { event ->
             when (event) {
-                is ContentViewerUiEvent.LoadContent -> {
-                    itemId = event.id
-                }
-
                 is ContentViewerUiEvent.ToggleSavedForLater -> {
                     val item = (uiState as? ContentViewerUiState.Content)?.item
                         ?: return@CollectEvent
@@ -51,12 +45,6 @@ public class ContentViewerPresenter(
                     } else {
                         feedDataSource.removeSavedFeedItem(item.id)
                     }
-                }
-
-                // TODO remove once ViewModel is scoped properly
-                is ContentViewerUiEvent.Reset -> {
-                    itemId = null
-                    uiState = ContentViewerUiState.Initializing
                 }
             }
         }

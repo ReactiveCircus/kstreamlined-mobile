@@ -84,7 +84,6 @@ class KotlinWeeklyIssueScreenTest {
             KotlinWeeklyIssueScreen(
                 topBarBoundsKey = "",
                 titleElementKey = "",
-                id = "1",
                 title = "Issue #448",
                 onNavigateUp = {},
                 onShareButtonClick = {},

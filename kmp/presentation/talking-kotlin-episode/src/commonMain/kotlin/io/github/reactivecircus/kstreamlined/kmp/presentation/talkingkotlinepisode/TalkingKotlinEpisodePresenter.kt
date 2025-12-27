@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 
 public class TalkingKotlinEpisodePresenter(
+    private val id: String,
     private val feedDataSource: FeedDataSource,
     scope: CoroutineScope,
     recompositionMode: RecompositionMode,
@@ -25,31 +26,24 @@ public class TalkingKotlinEpisodePresenter(
         var uiState by remember {
             mutableStateOf<TalkingKotlinEpisodeUiState>(TalkingKotlinEpisodeUiState.Initializing)
         }
-        var itemId by remember { mutableStateOf<String?>(null) }
-        LaunchedEffect(itemId) {
-            itemId?.let { id ->
-                feedDataSource.streamFeedItemById(id)
-                    .onStart { uiState = TalkingKotlinEpisodeUiState.Initializing }
-                    .onEach { item ->
-                        val talkingKotlinItem = item as? FeedItem.TalkingKotlin
-                        uiState = if (talkingKotlinItem != null) {
-                            TalkingKotlinEpisodeUiState.Content(
-                                episode = talkingKotlinItem.asPresentationModel(),
-                                isPlaying = false,
-                            )
-                        } else {
-                            TalkingKotlinEpisodeUiState.NotFound
-                        }
+        LaunchedEffect(Unit) {
+            feedDataSource.streamFeedItemById(id)
+                .onStart { uiState = TalkingKotlinEpisodeUiState.Initializing }
+                .onEach { item ->
+                    val talkingKotlinItem = item as? FeedItem.TalkingKotlin
+                    uiState = if (talkingKotlinItem != null) {
+                        TalkingKotlinEpisodeUiState.Content(
+                            episode = talkingKotlinItem.asPresentationModel(),
+                            isPlaying = false,
+                        )
+                    } else {
+                        TalkingKotlinEpisodeUiState.NotFound
                     }
-                    .collect()
-            }
+                }
+                .collect()
         }
         CollectEvent { event ->
             when (event) {
-                is TalkingKotlinEpisodeUiEvent.LoadEpisode -> {
-                    itemId = event.id
-                }
-
                 is TalkingKotlinEpisodeUiEvent.ToggleSavedForLater -> {
                     val episode = (uiState as? TalkingKotlinEpisodeUiState.Content)?.episode
                         ?: return@CollectEvent
@@ -74,11 +68,6 @@ public class TalkingKotlinEpisodePresenter(
                     if (currentUiState is TalkingKotlinEpisodeUiState.Content) {
                         uiState = currentUiState.copy(isPlaying = !currentUiState.isPlaying)
                     }
-                }
-
-                // TODO remove once ViewModel is scoped properly
-                is TalkingKotlinEpisodeUiEvent.Reset -> {
-                    itemId = null
                 }
             }
         }

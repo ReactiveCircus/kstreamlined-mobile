@@ -33,7 +33,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -70,16 +69,11 @@ public fun SharedTransitionScope.KotlinWeeklyIssueScreen(
     onNavigateUp: () -> Unit,
     modifier: Modifier = Modifier,
 ): Unit = trace("Screen:KotlinWeeklyIssue") {
-    val viewModel = hiltViewModel<KotlinWeeklyIssueViewModel>()
+    val viewModel = hiltViewModel<KotlinWeeklyIssueViewModel, KotlinWeeklyIssueViewModel.Factory>(
+        creationCallback = { it.create(id) },
+    )
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val eventSink = viewModel.eventSink
-
-    DisposableEffect(id) {
-        eventSink(KotlinWeeklyIssueUiEvent.LoadIssue(id))
-        onDispose {
-            eventSink(KotlinWeeklyIssueUiEvent.Reset)
-        }
-    }
 
     val context = LocalContext.current
     val title = stringResource(id = R.string.title_kotlin_weekly_issue, issueNumber)
@@ -87,7 +81,6 @@ public fun SharedTransitionScope.KotlinWeeklyIssueScreen(
         animatedVisibilityScope = animatedVisibilityScope,
         topBarBoundsKey = topBarBoundsKey,
         titleElementKey = titleElementKey,
-        id = id,
         title = title,
         onNavigateUp = onNavigateUp,
         onShareButtonClick = { url ->
@@ -109,7 +102,6 @@ public fun SharedTransitionScope.KotlinWeeklyIssueScreen(
 internal fun SharedTransitionScope.KotlinWeeklyIssueScreen(
     topBarBoundsKey: String,
     titleElementKey: String,
-    id: String,
     title: String,
     onNavigateUp: () -> Unit,
     onShareButtonClick: (String) -> Unit,
@@ -179,7 +171,7 @@ internal fun SharedTransitionScope.KotlinWeeklyIssueScreen(
 
                     is KotlinWeeklyIssueUiState.Error -> {
                         ErrorUi(
-                            onRetry = { eventSink(KotlinWeeklyIssueUiEvent.LoadIssue(id)) },
+                            onRetry = { eventSink(KotlinWeeklyIssueUiEvent.Refresh) },
                             modifier = Modifier.padding(24.dp),
                         )
                     }

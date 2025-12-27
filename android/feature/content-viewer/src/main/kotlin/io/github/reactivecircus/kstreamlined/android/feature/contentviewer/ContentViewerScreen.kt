@@ -30,7 +30,6 @@ import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -66,16 +65,11 @@ public fun SharedTransitionScope.ContentViewerScreen(
     onNavigateUp: () -> Unit,
     modifier: Modifier = Modifier,
 ): Unit = trace("Screen:ContentViewer") {
-    val viewModel = hiltViewModel<ContentViewerViewModel>()
+    val viewModel = hiltViewModel<ContentViewerViewModel, ContentViewerViewModel.Factory>(
+        creationCallback = { it.create(id) },
+    )
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val eventSink = viewModel.eventSink
-
-    DisposableEffect(id) {
-        eventSink(ContentViewerUiEvent.LoadContent(id))
-        onDispose {
-            eventSink(ContentViewerUiEvent.Reset)
-        }
-    }
 
     Column(
         modifier = modifier

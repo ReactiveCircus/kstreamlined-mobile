@@ -41,51 +41,51 @@ import kotlin.math.absoluteValue
 @Composable
 fun SharedTransitionScope.MainScreen(
     animatedVisibilityScope: AnimatedVisibilityScope,
-    selectedNavItem: NavItemKey,
-    onSelectedNavItemChanged: (NavItemKey) -> Unit,
+    selectedPage: MainNavRoute,
+    onSelectPage: (MainNavRoute) -> Unit,
     homeListState: LazyListState,
     savedListState: LazyListState,
-    onViewItem: (item: FeedItem, origin: NavItemKey) -> Unit,
-    onOpenSettings: (origin: NavItemKey) -> Unit,
+    onViewItem: (item: FeedItem, origin: MainNavRoute) -> Unit,
+    onOpenSettings: (origin: MainNavRoute) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Box(modifier = modifier.fillMaxSize()) {
         val pagerState = rememberPagerState(
-            initialPage = selectedNavItem.ordinal,
-            pageCount = { NavItemKey.entries.size },
+            initialPage = selectedPage.ordinal,
+            pageCount = { MainNavRoute.entries.size },
         )
         HorizontalPager(
             state = pagerState,
             modifier = Modifier.fillMaxSize(),
-            beyondViewportPageCount = NavItemKey.entries.size,
+            beyondViewportPageCount = MainNavRoute.entries.size,
             userScrollEnabled = false,
         ) {
             when (it) {
-                NavItemKey.Home.ordinal -> {
+                MainNavRoute.Home.ordinal -> {
                     HomeScreen(
                         animatedVisibilityScope = animatedVisibilityScope,
                         listState = homeListState,
-                        onViewItem = { item -> onViewItem(item, NavItemKey.Home) },
-                        onOpenSettings = { onOpenSettings(NavItemKey.Home) },
+                        onViewItem = { item -> onViewItem(item, MainNavRoute.Home) },
+                        onOpenSettings = { onOpenSettings(MainNavRoute.Home) },
                         modifier = Modifier.pagerScaleTransition(it, pagerState),
                     )
                 }
 
-                NavItemKey.Saved.ordinal -> {
+                MainNavRoute.Saved.ordinal -> {
                     SavedForLaterScreen(
                         animatedVisibilityScope = animatedVisibilityScope,
                         listState = savedListState,
-                        onViewItem = { item -> onViewItem(item, NavItemKey.Saved) },
-                        onOpenSettings = { onOpenSettings(NavItemKey.Saved) },
+                        onViewItem = { item -> onViewItem(item, MainNavRoute.Saved) },
+                        onOpenSettings = { onOpenSettings(MainNavRoute.Saved) },
                         modifier = Modifier.pagerScaleTransition(it, pagerState),
                     )
                 }
             }
         }
 
-        LaunchedEffect(selectedNavItem) {
+        LaunchedEffect(selectedPage) {
             pagerState.animateScrollToPage(
-                page = selectedNavItem.ordinal,
+                page = selectedPage.ordinal,
                 animationSpec = tween(
                     durationMillis = 400,
                     easing = EaseInOutQuart,
@@ -112,12 +112,12 @@ fun SharedTransitionScope.MainScreen(
                     ),
             ) {
                 NavigationIslandItem(
-                    selected = selectedNavItem == NavItemKey.Home,
+                    selected = selectedPage == MainNavRoute.Home,
                     icon = KSIcons.Kotlin,
                     contentDescription = "Home",
                     onClick = {
-                        if (pagerState.currentPage != NavItemKey.Home.ordinal) {
-                            onSelectedNavItemChanged(NavItemKey.Home)
+                        if (pagerState.currentPage != MainNavRoute.Home.ordinal) {
+                            onSelectPage(MainNavRoute.Home)
                         } else {
                             coroutineScope.launch {
                                 homeListState.animateScrollToItem(0)
@@ -127,12 +127,12 @@ fun SharedTransitionScope.MainScreen(
                 )
                 NavigationIslandDivider()
                 NavigationIslandItem(
-                    selected = selectedNavItem == NavItemKey.Saved,
+                    selected = selectedPage == MainNavRoute.Saved,
                     icon = KSIcons.Bookmarks,
                     contentDescription = "Saved",
                     onClick = {
-                        if (pagerState.currentPage != NavItemKey.Saved.ordinal) {
-                            onSelectedNavItemChanged(NavItemKey.Saved)
+                        if (pagerState.currentPage != MainNavRoute.Saved.ordinal) {
+                            onSelectPage(MainNavRoute.Saved)
                         } else {
                             coroutineScope.launch {
                                 savedListState.animateScrollToItem(0)
@@ -143,8 +143,8 @@ fun SharedTransitionScope.MainScreen(
             }
         }
 
-        BackHandler(enabled = pagerState.currentPage != NavItemKey.Home.ordinal) {
-            onSelectedNavItemChanged(NavItemKey.Home)
+        BackHandler(enabled = selectedPage != MainNavRoute.Home) {
+            onSelectPage(MainNavRoute.Home)
         }
     }
 }
@@ -159,9 +159,4 @@ private fun Modifier.pagerScaleTransition(page: Int, pagerState: PagerState) = g
         scaleX = scale
         scaleY = scale
     }
-}
-
-enum class NavItemKey {
-    Home,
-    Saved,
 }

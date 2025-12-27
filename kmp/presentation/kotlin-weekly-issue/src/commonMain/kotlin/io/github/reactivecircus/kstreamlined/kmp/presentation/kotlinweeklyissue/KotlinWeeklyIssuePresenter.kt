@@ -3,6 +3,7 @@ package io.github.reactivecircus.kstreamlined.kmp.presentation.kotlinweeklyissue
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -18,6 +19,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 
 public class KotlinWeeklyIssuePresenter(
+    private val id: String,
     private val feedDataSource: FeedDataSource,
     scope: CoroutineScope,
     recompositionMode: RecompositionMode,
@@ -26,34 +28,31 @@ public class KotlinWeeklyIssuePresenter(
     @Composable
     override fun present(): KotlinWeeklyIssueUiState {
         var uiState by remember { mutableStateOf<KotlinWeeklyIssueUiState>(KotlinWeeklyIssueUiState.Loading) }
-        var itemId by remember { mutableStateOf<String?>(null) }
-        LaunchedEffect(itemId) {
-            itemId?.let { id ->
-                feedDataSource.streamFeedItemById(id)
-                    .onStart { uiState = KotlinWeeklyIssueUiState.Loading }
-                    .mapLatest { item ->
-                        item ?: error("Feed item not found")
-                        item to feedDataSource.loadKotlinWeeklyIssue(item.contentUrl)
-                    }
-                    .onEach { (item, issue) ->
-                        uiState = KotlinWeeklyIssueUiState.Content(
-                            id = item.id,
-                            contentUrl = item.contentUrl,
-                            issueItems = issue.groupBy { it.group },
-                            savedForLater = item.savedForLater,
-                        )
-                    }
-                    .catch {
-                        uiState = KotlinWeeklyIssueUiState.Error
-                        itemId = null
-                    }
-                    .collect()
-            }
+        var loadCount by remember { mutableIntStateOf(0) }
+        LaunchedEffect(loadCount) {
+            feedDataSource.streamFeedItemById(id)
+                .onStart { uiState = KotlinWeeklyIssueUiState.Loading }
+                .mapLatest { item ->
+                    item ?: error("Feed item not found")
+                    item to feedDataSource.loadKotlinWeeklyIssue(item.contentUrl)
+                }
+                .onEach { (item, issue) ->
+                    uiState = KotlinWeeklyIssueUiState.Content(
+                        id = item.id,
+                        contentUrl = item.contentUrl,
+                        issueItems = issue.groupBy { it.group },
+                        savedForLater = item.savedForLater,
+                    )
+                }
+                .catch {
+                    uiState = KotlinWeeklyIssueUiState.Error
+                }
+                .collect()
         }
         CollectEvent { event ->
             when (event) {
-                is KotlinWeeklyIssueUiEvent.LoadIssue -> {
-                    itemId = event.id
+                is KotlinWeeklyIssueUiEvent.Refresh -> {
+                    loadCount++
                 }
                 is KotlinWeeklyIssueUiEvent.ToggleSavedForLater -> {
                     val state = uiState as? KotlinWeeklyIssueUiState.Content ?: return@CollectEvent
@@ -62,12 +61,6 @@ public class KotlinWeeklyIssuePresenter(
                     } else {
                         feedDataSource.removeSavedFeedItem(state.id)
                     }
-                }
-
-                // TODO remove once ViewModel is scoped properly
-                KotlinWeeklyIssueUiEvent.Reset -> {
-                    itemId = null
-                    uiState = KotlinWeeklyIssueUiState.Loading
                 }
             }
         }
