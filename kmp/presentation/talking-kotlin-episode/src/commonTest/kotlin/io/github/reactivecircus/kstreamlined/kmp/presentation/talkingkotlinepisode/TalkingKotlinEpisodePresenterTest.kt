@@ -67,7 +67,8 @@ class TalkingKotlinEpisodePresenterTest {
         )
     }
 
-    private val presenter = TalkingKotlinEpisodePresenter(
+    private fun presenter(id: String = item.id) = TalkingKotlinEpisodePresenter(
+        id = id,
         feedDataSource = FeedDataSource(
             feedService = feedService,
             db = db,
@@ -78,16 +79,14 @@ class TalkingKotlinEpisodePresenterTest {
     )
 
     @Test
-    fun `presenter emits Content state when LoadEpisode event is dispatched and item exists`() =
+    fun `presenter emits Content state when initialized and item exists`() =
         testScope.runTest {
-            presenter.states.test {
+            presenter().states.test {
                 db.transaction {
                     db.insertFeedItems(listOf(dummyFeedItem))
                 }
 
                 assertEquals(TalkingKotlinEpisodeUiState.Initializing, awaitItem())
-
-                presenter.eventSink(TalkingKotlinEpisodeUiEvent.LoadEpisode(dummyFeedItem.id))
 
                 assertEquals(
                     TalkingKotlinEpisodeUiState.Content(
@@ -100,12 +99,10 @@ class TalkingKotlinEpisodePresenterTest {
         }
 
     @Test
-    fun `presenter emits NotFound state when LoadContent event is dispatched and item does not exist`() =
+    fun `presenter emits NotFound state when initialized and item does not exist`() =
         testScope.runTest {
-            presenter.states.test {
+            presenter("unknown-id").states.test {
                 assertEquals(TalkingKotlinEpisodeUiState.Initializing, awaitItem())
-
-                presenter.eventSink(TalkingKotlinEpisodeUiEvent.LoadEpisode("id"))
 
                 assertEquals(TalkingKotlinEpisodeUiState.NotFound, awaitItem())
             }
@@ -114,14 +111,13 @@ class TalkingKotlinEpisodePresenterTest {
     @Test
     fun `presenter emits Content state with updated savedForLater value when ToggleSavedForLater event is dispatched`() =
         testScope.runTest {
+            val presenter = presenter()
             presenter.states.test {
                 db.transaction {
                     db.insertFeedItems(listOf(dummyFeedItem))
                 }
 
                 assertEquals(TalkingKotlinEpisodeUiState.Initializing, awaitItem())
-
-                presenter.eventSink(TalkingKotlinEpisodeUiEvent.LoadEpisode(dummyFeedItem.id))
 
                 assertEquals(
                     TalkingKotlinEpisodeUiState.Content(
@@ -156,14 +152,13 @@ class TalkingKotlinEpisodePresenterTest {
     @Test
     fun `presenter emits Content state with updated startPositionMillis when SaveStartPosition event is dispatched`() =
         testScope.runTest {
+            val presenter = presenter()
             presenter.states.test {
                 db.transaction {
                     db.insertFeedItems(listOf(dummyFeedItem))
                 }
 
                 assertEquals(TalkingKotlinEpisodeUiState.Initializing, awaitItem())
-
-                presenter.eventSink(TalkingKotlinEpisodeUiEvent.LoadEpisode(dummyFeedItem.id))
 
                 assertEquals(
                     TalkingKotlinEpisodeUiState.Content(
@@ -188,14 +183,13 @@ class TalkingKotlinEpisodePresenterTest {
     @Test
     fun `presenter emits Content state with updated isPlaying value when TogglePlayPause event is dispatched`() =
         testScope.runTest {
+            val presenter = presenter()
             presenter.states.test {
                 db.transaction {
                     db.insertFeedItems(listOf(dummyFeedItem))
                 }
 
                 assertEquals(TalkingKotlinEpisodeUiState.Initializing, awaitItem())
-
-                presenter.eventSink(TalkingKotlinEpisodeUiEvent.LoadEpisode(dummyFeedItem.id))
 
                 assertEquals(
                     TalkingKotlinEpisodeUiState.Content(

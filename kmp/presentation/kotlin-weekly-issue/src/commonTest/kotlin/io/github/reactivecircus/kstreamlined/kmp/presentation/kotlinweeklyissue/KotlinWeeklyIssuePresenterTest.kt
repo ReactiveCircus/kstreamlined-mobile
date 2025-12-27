@@ -72,7 +72,8 @@ class KotlinWeeklyIssuePresenterTest {
         )
     }
 
-    private val presenter = KotlinWeeklyIssuePresenter(
+    private fun presenter(id: String = item.id) = KotlinWeeklyIssuePresenter(
+        id = id,
         feedDataSource = FeedDataSource(
             feedService = feedService,
             db = db,
@@ -83,9 +84,9 @@ class KotlinWeeklyIssuePresenterTest {
     )
 
     @Test
-    fun `presenter emits Content state when LoadIssue event is dispatched and loading issue succeeds`() =
+    fun `presenter emits Content state when initialized and loading issue succeeds`() =
         testScope.runTest {
-            presenter.states.test {
+            presenter().states.test {
                 db.transaction {
                     db.insertFeedItems(listOf(dummyFeedItem))
                 }
@@ -93,8 +94,6 @@ class KotlinWeeklyIssuePresenterTest {
                 assertEquals(KotlinWeeklyIssueUiState.Loading, awaitItem())
 
                 feedService.nextKotlinWeeklyIssueResponse = { FakeKotlinWeeklyIssueEntries }
-
-                presenter.eventSink(KotlinWeeklyIssueUiEvent.LoadIssue(dummyFeedItem.id))
 
                 assertEquals(
                     KotlinWeeklyIssueUiState.Content(
@@ -109,9 +108,9 @@ class KotlinWeeklyIssuePresenterTest {
         }
 
     @Test
-    fun `presenter emits Error state when LoadIssue event is dispatched and loading issue fails`() =
+    fun `presenter emits Error state when initialized and loading issue fails`() =
         testScope.runTest {
-            presenter.states.test {
+            presenter().states.test {
                 db.transaction {
                     db.insertFeedItems(listOf(dummyFeedItem))
                 }
@@ -122,19 +121,15 @@ class KotlinWeeklyIssuePresenterTest {
                     error("Failed to fetch Kotlin Weekly issue")
                 }
 
-                presenter.eventSink(KotlinWeeklyIssueUiEvent.LoadIssue(dummyFeedItem.id))
-
                 assertEquals(KotlinWeeklyIssueUiState.Error, awaitItem())
             }
         }
 
     @Test
-    fun `presenter emits Error state when LoadIssue event is dispatched and item does not exist`() =
+    fun `presenter emits Error state when item does not exist for the given id`() =
         testScope.runTest {
-            presenter.states.test {
+            presenter(id = "unknown-id").states.test {
                 assertEquals(KotlinWeeklyIssueUiState.Loading, awaitItem())
-
-                presenter.eventSink(KotlinWeeklyIssueUiEvent.LoadIssue("id"))
 
                 assertEquals(KotlinWeeklyIssueUiState.Error, awaitItem())
             }
@@ -143,6 +138,7 @@ class KotlinWeeklyIssuePresenterTest {
     @Test
     fun `presenter emits Content state when current state is Error and loading issue again succeeds`() =
         testScope.runTest {
+            val presenter = presenter()
             presenter.states.test {
                 db.transaction {
                     db.insertFeedItems(listOf(dummyFeedItem))
@@ -154,13 +150,11 @@ class KotlinWeeklyIssuePresenterTest {
                     error("Failed to fetch Kotlin Weekly issue")
                 }
 
-                presenter.eventSink(KotlinWeeklyIssueUiEvent.LoadIssue(dummyFeedItem.id))
-
                 assertEquals(KotlinWeeklyIssueUiState.Error, awaitItem())
 
                 feedService.nextKotlinWeeklyIssueResponse = { FakeKotlinWeeklyIssueEntries }
 
-                presenter.eventSink(KotlinWeeklyIssueUiEvent.LoadIssue(dummyFeedItem.id))
+                presenter.eventSink(KotlinWeeklyIssueUiEvent.Refresh)
 
                 assertEquals(
                     KotlinWeeklyIssueUiState.Content(
@@ -177,14 +171,13 @@ class KotlinWeeklyIssuePresenterTest {
     @Test
     fun `presenter emits Content state with updated savedForLater value when ToggleSavedForLater event is dispatched`() =
         testScope.runTest {
+            val presenter = presenter()
             presenter.states.test {
                 db.transaction {
                     db.insertFeedItems(listOf(dummyFeedItem))
                 }
 
                 assertEquals(KotlinWeeklyIssueUiState.Loading, awaitItem())
-
-                presenter.eventSink(KotlinWeeklyIssueUiEvent.LoadIssue(dummyFeedItem.id))
 
                 assertEquals(
                     KotlinWeeklyIssueUiState.Content(

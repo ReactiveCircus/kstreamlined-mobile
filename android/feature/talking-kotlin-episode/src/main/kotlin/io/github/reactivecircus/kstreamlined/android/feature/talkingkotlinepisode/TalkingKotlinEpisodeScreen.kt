@@ -27,7 +27,6 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -76,14 +75,11 @@ public fun SharedTransitionScope.TalkingKotlinEpisodeScreen(
     onNavigateUp: () -> Unit,
     modifier: Modifier = Modifier,
 ): Unit = trace("Screen:TalkingKotlinEpisode") {
-    val viewModel = hiltViewModel<TalkingKotlinEpisodeViewModel>()
+    val viewModel = hiltViewModel<TalkingKotlinEpisodeViewModel, TalkingKotlinEpisodeViewModel.Factory>(
+        creationCallback = { it.create(id) },
+    )
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val eventSink = viewModel.eventSink
-
-    DisposableEffect(id) {
-        eventSink(TalkingKotlinEpisodeUiEvent.LoadEpisode(id))
-        onDispose { }
-    }
 
     val context = LocalContext.current
     TalkingKotlinEpisodeScreen(
