@@ -9,17 +9,23 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.layout.LazyLayoutCacheWindow
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSerializable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
@@ -35,17 +41,19 @@ import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
 import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SharedTransitionScope.MainScreen(
     animatedVisibilityScope: AnimatedVisibilityScope,
-    selectedPage: MainPagerItem,
-    onSelectPage: (MainPagerItem) -> Unit,
-    homeListState: LazyListState,
-    savedListState: LazyListState,
     onViewItem: (item: FeedItem, origin: MainPagerItem) -> Unit,
     onOpenSettings: (origin: MainPagerItem) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val dpCacheWindow = LazyLayoutCacheWindow(ahead = 300.dp, behind = 300.dp)
+    val homeListState = rememberLazyListState(cacheWindow = dpCacheWindow)
+    val savedListState = rememberLazyListState(cacheWindow = dpCacheWindow)
+    var selectedPage by rememberSerializable { mutableStateOf(MainPagerItem.Home) }
+
     Box(modifier = modifier.fillMaxSize()) {
         val pagerState = rememberPagerState(
             initialPage = selectedPage.ordinal,
@@ -114,7 +122,7 @@ fun SharedTransitionScope.MainScreen(
                     contentDescription = "Home",
                     onClick = {
                         if (pagerState.currentPage != MainPagerItem.Home.ordinal) {
-                            onSelectPage(MainPagerItem.Home)
+                            selectedPage = MainPagerItem.Home
                         } else {
                             coroutineScope.launch {
                                 homeListState.animateScrollToItem(0)
@@ -129,7 +137,7 @@ fun SharedTransitionScope.MainScreen(
                     contentDescription = "Saved",
                     onClick = {
                         if (pagerState.currentPage != MainPagerItem.Saved.ordinal) {
-                            onSelectPage(MainPagerItem.Saved)
+                            selectedPage = MainPagerItem.Saved
                         } else {
                             coroutineScope.launch {
                                 savedListState.animateScrollToItem(0)
@@ -141,7 +149,7 @@ fun SharedTransitionScope.MainScreen(
         }
 
         BackHandler(enabled = selectedPage != MainPagerItem.Home) {
-            onSelectPage(MainPagerItem.Home)
+            selectedPage = MainPagerItem.Home
         }
     }
 }
