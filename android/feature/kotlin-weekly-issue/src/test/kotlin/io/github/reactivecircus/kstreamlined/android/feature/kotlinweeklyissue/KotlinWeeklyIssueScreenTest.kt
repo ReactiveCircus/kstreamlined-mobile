@@ -1,6 +1,5 @@
 package io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue
 
-import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.runtime.Composable
 import app.cash.burst.Burst
@@ -77,7 +76,6 @@ class KotlinWeeklyIssueScreenTest {
         }
     }
 
-    @OptIn(ExperimentalSharedTransitionApi::class)
     @Composable
     fun KotlinWeeklyIssueScreenSnapshot(uiState: KotlinWeeklyIssueUiState) {
         SharedTransitionLayout {

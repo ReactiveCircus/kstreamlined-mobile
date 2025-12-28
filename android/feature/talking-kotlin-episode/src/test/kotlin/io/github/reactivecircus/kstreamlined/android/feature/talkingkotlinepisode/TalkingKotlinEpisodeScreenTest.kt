@@ -1,6 +1,5 @@
 package io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode
 
-import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.runtime.Composable
 import app.cash.burst.Burst
@@ -50,7 +49,6 @@ class TalkingKotlinEpisodeScreenTest {
         }
     }
 
-    @OptIn(ExperimentalSharedTransitionApi::class)
     @Composable
     fun TalkingKotlinEpisodeScreenSnapshot(uiState: TalkingKotlinEpisodeUiState) {
         SharedTransitionLayout {

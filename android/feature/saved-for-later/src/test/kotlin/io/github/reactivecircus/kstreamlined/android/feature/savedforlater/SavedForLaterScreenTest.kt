@@ -3,7 +3,6 @@ package io.github.reactivecircus.kstreamlined.android.feature.savedforlater
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
-import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
@@ -95,7 +94,6 @@ class SavedForLaterScreenTest {
         }
     }
 
-    @OptIn(ExperimentalSharedTransitionApi::class)
     @Composable
     fun SavedForLaterScreenSnapshot(uiState: SavedForLaterUiState) {
         SharedTransitionLayout {

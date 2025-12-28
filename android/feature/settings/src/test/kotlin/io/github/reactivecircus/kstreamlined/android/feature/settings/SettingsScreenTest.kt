@@ -3,7 +3,6 @@ package io.github.reactivecircus.kstreamlined.android.feature.settings
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
-import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.runtime.Composable
 import app.cash.burst.Burst
@@ -36,7 +35,6 @@ class SettingsScreenTest {
         }
     }
 
-    @OptIn(ExperimentalSharedTransitionApi::class)
     @Composable
     fun SettingsScreenSnapshot(uiState: SettingsUiState) {
         SharedTransitionLayout {

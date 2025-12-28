@@ -3,7 +3,6 @@ package io.github.reactivecircus.kstreamlined.android.feature.licenses
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
-import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.runtime.Composable
 import app.cash.burst.Burst
@@ -79,7 +78,6 @@ class LicensesScreenTest {
         }
     }
 
-    @OptIn(ExperimentalSharedTransitionApi::class)
     @Composable
     internal fun LicensesScreenSnapshot(uiState: LicensesUiState) {
         SharedTransitionLayout {
