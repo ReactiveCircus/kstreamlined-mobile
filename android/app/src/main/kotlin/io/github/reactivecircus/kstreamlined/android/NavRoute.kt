@@ -5,9 +5,6 @@ import kotlinx.serialization.Serializable
 
 sealed interface NavRoute : NavKey {
     @Serializable
-    data object Main : NavRoute
-
-    @Serializable
     data class ContentViewer(
         val boundsKey: String,
         val topBarBoundsKey: String,
@@ -40,9 +37,4 @@ sealed interface NavRoute : NavKey {
 
     @Serializable
     data class Licenses(val boundsKey: String) : NavRoute
-}
-
-enum class MainNavRoute {
-    Home,
-    Saved,
 }

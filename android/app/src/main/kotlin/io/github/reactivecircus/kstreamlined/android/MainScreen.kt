@@ -1,10 +1,7 @@
-@file:OptIn(ExperimentalSharedTransitionApi::class)
-
 package io.github.reactivecircus.kstreamlined.android
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibilityScope
-import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.animation.core.EaseInOutQuart
 import androidx.compose.animation.core.LinearOutSlowInEasing
@@ -41,42 +38,42 @@ import kotlin.math.absoluteValue
 @Composable
 fun SharedTransitionScope.MainScreen(
     animatedVisibilityScope: AnimatedVisibilityScope,
-    selectedPage: MainNavRoute,
-    onSelectPage: (MainNavRoute) -> Unit,
+    selectedPage: MainPagerItem,
+    onSelectPage: (MainPagerItem) -> Unit,
     homeListState: LazyListState,
     savedListState: LazyListState,
-    onViewItem: (item: FeedItem, origin: MainNavRoute) -> Unit,
-    onOpenSettings: (origin: MainNavRoute) -> Unit,
+    onViewItem: (item: FeedItem, origin: MainPagerItem) -> Unit,
+    onOpenSettings: (origin: MainPagerItem) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Box(modifier = modifier.fillMaxSize()) {
         val pagerState = rememberPagerState(
             initialPage = selectedPage.ordinal,
-            pageCount = { MainNavRoute.entries.size },
+            pageCount = { MainPagerItem.entries.size },
         )
         HorizontalPager(
             state = pagerState,
             modifier = Modifier.fillMaxSize(),
-            beyondViewportPageCount = MainNavRoute.entries.size,
+            beyondViewportPageCount = MainPagerItem.entries.size,
             userScrollEnabled = false,
         ) {
             when (it) {
-                MainNavRoute.Home.ordinal -> {
+                MainPagerItem.Home.ordinal -> {
                     HomeScreen(
                         animatedVisibilityScope = animatedVisibilityScope,
                         listState = homeListState,
-                        onViewItem = { item -> onViewItem(item, MainNavRoute.Home) },
-                        onOpenSettings = { onOpenSettings(MainNavRoute.Home) },
+                        onViewItem = { item -> onViewItem(item, MainPagerItem.Home) },
+                        onOpenSettings = { onOpenSettings(MainPagerItem.Home) },
                         modifier = Modifier.pagerScaleTransition(it, pagerState),
                     )
                 }
 
-                MainNavRoute.Saved.ordinal -> {
+                MainPagerItem.Saved.ordinal -> {
                     SavedForLaterScreen(
                         animatedVisibilityScope = animatedVisibilityScope,
                         listState = savedListState,
-                        onViewItem = { item -> onViewItem(item, MainNavRoute.Saved) },
-                        onOpenSettings = { onOpenSettings(MainNavRoute.Saved) },
+                        onViewItem = { item -> onViewItem(item, MainPagerItem.Saved) },
+                        onOpenSettings = { onOpenSettings(MainPagerItem.Saved) },
                         modifier = Modifier.pagerScaleTransition(it, pagerState),
                     )
                 }
@@ -112,12 +109,12 @@ fun SharedTransitionScope.MainScreen(
                     ),
             ) {
                 NavigationIslandItem(
-                    selected = selectedPage == MainNavRoute.Home,
+                    selected = selectedPage == MainPagerItem.Home,
                     icon = KSIcons.Kotlin,
                     contentDescription = "Home",
                     onClick = {
-                        if (pagerState.currentPage != MainNavRoute.Home.ordinal) {
-                            onSelectPage(MainNavRoute.Home)
+                        if (pagerState.currentPage != MainPagerItem.Home.ordinal) {
+                            onSelectPage(MainPagerItem.Home)
                         } else {
                             coroutineScope.launch {
                                 homeListState.animateScrollToItem(0)
@@ -127,12 +124,12 @@ fun SharedTransitionScope.MainScreen(
                 )
                 NavigationIslandDivider()
                 NavigationIslandItem(
-                    selected = selectedPage == MainNavRoute.Saved,
+                    selected = selectedPage == MainPagerItem.Saved,
                     icon = KSIcons.Bookmarks,
                     contentDescription = "Saved",
                     onClick = {
-                        if (pagerState.currentPage != MainNavRoute.Saved.ordinal) {
-                            onSelectPage(MainNavRoute.Saved)
+                        if (pagerState.currentPage != MainPagerItem.Saved.ordinal) {
+                            onSelectPage(MainPagerItem.Saved)
                         } else {
                             coroutineScope.launch {
                                 savedListState.animateScrollToItem(0)
@@ -143,8 +140,8 @@ fun SharedTransitionScope.MainScreen(
             }
         }
 
-        BackHandler(enabled = selectedPage != MainNavRoute.Home) {
-            onSelectPage(MainNavRoute.Home)
+        BackHandler(enabled = selectedPage != MainPagerItem.Home) {
+            onSelectPage(MainPagerItem.Home)
         }
     }
 }
