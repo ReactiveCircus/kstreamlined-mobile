@@ -40,11 +40,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation3.runtime.NavBackStack
+import androidx.navigation3.runtime.NavKey
 import androidx.tracing.trace
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.FilledIconButton
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Surface
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Text
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.TopNavBar
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.TopNavBarSharedTransitionKeys
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.icon.KSIcons
 import io.github.reactivecircus.kstreamlined.android.core.ui.feed.KotlinBlogCard
@@ -55,6 +58,7 @@ import io.github.reactivecircus.kstreamlined.android.core.ui.pattern.ErrorUi
 import io.github.reactivecircus.kstreamlined.android.core.ui.pattern.TransientErrorBanner
 import io.github.reactivecircus.kstreamlined.android.feature.home.component.FeedFilterChip
 import io.github.reactivecircus.kstreamlined.android.feature.home.component.SyncButton
+import io.github.reactivecircus.kstreamlined.android.feature.settings.api.SettingsRoute
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.toDisplayable
 import io.github.reactivecircus.kstreamlined.kmp.presentation.home.HomeFeedItem
@@ -65,9 +69,9 @@ import kotlinx.coroutines.delay
 @Composable
 public fun SharedTransitionScope.HomeScreen(
     animatedVisibilityScope: AnimatedVisibilityScope,
+    backStack: NavBackStack<NavKey>,
     listState: LazyListState,
     onViewItem: (FeedItem) -> Unit,
-    onOpenSettings: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val viewModel = hiltViewModel<HomeViewModel>()
@@ -77,7 +81,9 @@ public fun SharedTransitionScope.HomeScreen(
         animatedVisibilityScope = animatedVisibilityScope,
         listState = listState,
         onViewItem = onViewItem,
-        onOpenSettings = onOpenSettings,
+        onOpenSettings = {
+            backStack.add(SettingsRoute(origin = SharedTransitionOrigin))
+        },
         uiState = uiState,
         eventSink = eventSink,
         modifier = modifier,
@@ -103,8 +109,8 @@ internal fun SharedTransitionScope.HomeScreen(
     ) {
         TopNavBar(
             animatedVisibilityScope = animatedVisibilityScope,
-            boundsKey = "Bounds/Home/TopBar",
-            titleElementKey = "Element/Home/TopBar/Title",
+            boundsKey = TopNavBarSharedTransitionKeys.bounds(SharedTransitionOrigin),
+            titleElementKey = TopNavBarSharedTransitionKeys.titleElement(SharedTransitionOrigin),
             title = stringResource(id = R.string.title_home),
             contentPadding = WindowInsets.statusBars.asPaddingValues(),
             actions = {
@@ -164,6 +170,8 @@ internal fun SharedTransitionScope.HomeScreen(
         }
     }
 }
+
+private const val SharedTransitionOrigin = "Home"
 
 @Composable
 private fun SharedTransitionScope.ContentUi(

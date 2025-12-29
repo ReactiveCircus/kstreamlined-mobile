@@ -31,6 +31,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
+import androidx.navigation3.runtime.NavBackStack
+import androidx.navigation3.runtime.NavKey
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.NavigationIsland
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.NavigationIslandDivider
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.NavigationIslandItem
@@ -45,8 +47,8 @@ import kotlin.math.absoluteValue
 @Composable
 fun SharedTransitionScope.MainScreen(
     animatedVisibilityScope: AnimatedVisibilityScope,
+    backStack: NavBackStack<NavKey>,
     onViewItem: (item: FeedItem, origin: MainPagerItem) -> Unit,
-    onOpenSettings: (origin: MainPagerItem) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val dpCacheWindow = LazyLayoutCacheWindow(ahead = 300.dp, behind = 300.dp)
@@ -69,9 +71,9 @@ fun SharedTransitionScope.MainScreen(
                 MainPagerItem.Home.ordinal -> {
                     HomeScreen(
                         animatedVisibilityScope = animatedVisibilityScope,
+                        backStack = backStack,
                         listState = homeListState,
                         onViewItem = { item -> onViewItem(item, MainPagerItem.Home) },
-                        onOpenSettings = { onOpenSettings(MainPagerItem.Home) },
                         modifier = Modifier.pagerScaleTransition(it, pagerState),
                     )
                 }
@@ -79,9 +81,9 @@ fun SharedTransitionScope.MainScreen(
                 MainPagerItem.Saved.ordinal -> {
                     SavedForLaterScreen(
                         animatedVisibilityScope = animatedVisibilityScope,
+                        backStack = backStack,
                         listState = savedListState,
                         onViewItem = { item -> onViewItem(item, MainPagerItem.Saved) },
-                        onOpenSettings = { onOpenSettings(MainPagerItem.Saved) },
                         modifier = Modifier.pagerScaleTransition(it, pagerState),
                     )
                 }

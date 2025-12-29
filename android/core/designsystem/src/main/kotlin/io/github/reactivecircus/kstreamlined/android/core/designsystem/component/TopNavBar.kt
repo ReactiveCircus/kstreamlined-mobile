@@ -107,6 +107,12 @@ public fun SharedTransitionScope.TopNavBar(
     }
 }
 
+public object TopNavBarSharedTransitionKeys {
+    public fun bounds(origin: String): String = "Bounds/$origin/TopBar"
+
+    public fun titleElement(origin: String): String = "Element/$origin/TopBar/Title"
+}
+
 @Composable
 private fun SharedTransitionScope.GradientTitle(
     animatedVisibilityScope: AnimatedVisibilityScope?,

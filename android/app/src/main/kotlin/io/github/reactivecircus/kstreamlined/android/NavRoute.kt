@@ -28,10 +28,4 @@ sealed interface NavRoute : NavKey {
         val playerElementKey: String,
         val id: String,
     ) : NavRoute
-
-    @Serializable
-    data class Settings(
-        val topBarBoundsKey: String,
-        val titleElementKey: String,
-    ) : NavRoute
 }

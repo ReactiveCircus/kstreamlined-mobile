@@ -14,6 +14,7 @@ fun EntryProviderScope<NavKey>.mainEntry(
     entry<MainRoute> {
         MainScreen(
             animatedVisibilityScope = LocalNavAnimatedContentScope.current,
+            backStack = backStack,
             onViewItem = { item, origin ->
                 backStack.add(
                     when (item) {
@@ -45,14 +46,6 @@ fun EntryProviderScope<NavKey>.mainEntry(
                             )
                         }
                     },
-                )
-            },
-            onOpenSettings = { origin ->
-                backStack.add(
-                    NavRoute.Settings(
-                        topBarBoundsKey = "Bounds/$origin/TopBar",
-                        titleElementKey = "Element/$origin/TopBar/Title",
-                    ),
                 )
             },
         )

@@ -31,8 +31,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation3.runtime.NavBackStack
+import androidx.navigation3.runtime.NavKey
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.FilledIconButton
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.TopNavBar
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.TopNavBarSharedTransitionKeys
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.icon.KSIcons
 import io.github.reactivecircus.kstreamlined.android.core.ui.feed.KotlinBlogCard
@@ -40,6 +43,7 @@ import io.github.reactivecircus.kstreamlined.android.core.ui.feed.KotlinWeeklyCa
 import io.github.reactivecircus.kstreamlined.android.core.ui.feed.KotlinYouTubeCard
 import io.github.reactivecircus.kstreamlined.android.core.ui.feed.TalkingKotlinCard
 import io.github.reactivecircus.kstreamlined.android.core.ui.pattern.EmptyUi
+import io.github.reactivecircus.kstreamlined.android.feature.settings.api.SettingsRoute
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.DisplayableFeedItem
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.toDisplayable
@@ -49,9 +53,9 @@ import io.github.reactivecircus.kstreamlined.kmp.presentation.savedforlater.Save
 @Composable
 public fun SharedTransitionScope.SavedForLaterScreen(
     animatedVisibilityScope: AnimatedVisibilityScope,
+    backStack: NavBackStack<NavKey>,
     listState: LazyListState,
     onViewItem: (FeedItem) -> Unit,
-    onOpenSettings: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val viewModel = hiltViewModel<SavedForLaterViewModel>()
@@ -61,7 +65,9 @@ public fun SharedTransitionScope.SavedForLaterScreen(
         animatedVisibilityScope = animatedVisibilityScope,
         listState = listState,
         onViewItem = onViewItem,
-        onOpenSettings = onOpenSettings,
+        onOpenSettings = {
+            backStack.add(SettingsRoute(origin = SharedTransitionOrigin))
+        },
         uiState = uiState,
         eventSink = eventSink,
         modifier = modifier,
@@ -86,8 +92,8 @@ internal fun SharedTransitionScope.SavedForLaterScreen(
     ) {
         TopNavBar(
             animatedVisibilityScope = animatedVisibilityScope,
-            boundsKey = "Bounds/Saved/TopBar",
-            titleElementKey = "Element/Saved/TopBar/Title",
+            boundsKey = TopNavBarSharedTransitionKeys.bounds(SharedTransitionOrigin),
+            titleElementKey = TopNavBarSharedTransitionKeys.titleElement(SharedTransitionOrigin),
             title = stringResource(id = R.string.title_saved_for_later),
             contentPadding = WindowInsets.statusBars.asPaddingValues(),
             actions = {
@@ -123,6 +129,8 @@ internal fun SharedTransitionScope.SavedForLaterScreen(
         }
     }
 }
+
+private const val SharedTransitionOrigin = "SavedForLater"
 
 @Suppress("MaxLineLength")
 @Composable

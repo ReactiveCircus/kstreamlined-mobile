@@ -7,8 +7,6 @@ import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.ui.LocalNavAnimatedContentScope
 import io.github.reactivecircus.kstreamlined.android.feature.contentviewer.ContentViewerScreen
 import io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue.KotlinWeeklyIssueScreen
-import io.github.reactivecircus.kstreamlined.android.feature.licenses.api.LicensesRoute
-import io.github.reactivecircus.kstreamlined.android.feature.settings.SettingsScreen
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.TalkingKotlinEpisodeScreen
 
 fun EntryProviderScope<NavKey>.otherEntries(
@@ -47,19 +45,6 @@ fun EntryProviderScope<NavKey>.otherEntries(
             topBarBoundsKey = it.topBarBoundsKey,
             playerElementKey = it.playerElementKey,
             id = it.id,
-            onNavigateUp = {
-                backStack.removeLastOrNull()
-            },
-        )
-    }
-    entry<NavRoute.Settings> {
-        SettingsScreen(
-            animatedVisibilityScope = LocalNavAnimatedContentScope.current,
-            topBarBoundsKey = it.topBarBoundsKey,
-            titleElementKey = it.titleElementKey,
-            onOpenLicenses = {
-                backStack.add(LicensesRoute)
-            },
             onNavigateUp = {
                 backStack.removeLastOrNull()
             },

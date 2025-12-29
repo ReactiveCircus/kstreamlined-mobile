@@ -110,7 +110,8 @@ kstreamlined {
             implementation(project(":feature:licenses:api"))
             implementation(project(":feature:licenses:impl"))
             implementation(project(":feature:saved-for-later"))
-            implementation(project(":feature:settings"))
+            implementation(project(":feature:settings:api"))
+            implementation(project(":feature:settings:impl"))
             implementation(project(":feature:talking-kotlin-episode"))
             implementation(project(":core:scheduled-work"))
 
