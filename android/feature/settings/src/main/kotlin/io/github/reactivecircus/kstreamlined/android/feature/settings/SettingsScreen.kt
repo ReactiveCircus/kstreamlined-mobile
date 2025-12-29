@@ -43,6 +43,7 @@ import io.github.reactivecircus.kstreamlined.android.core.designsystem.component
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.rememberModalBottomSheetState
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.icon.KSIcons
+import io.github.reactivecircus.kstreamlined.android.feature.licenses.api.LicensesSharedTransitionKeys
 import io.github.reactivecircus.kstreamlined.android.feature.settings.component.about.OpenSourceLicensesTile
 import io.github.reactivecircus.kstreamlined.android.feature.settings.component.about.SourceCodeTile
 import io.github.reactivecircus.kstreamlined.android.feature.settings.component.about.VersionTile
@@ -232,7 +233,7 @@ private fun SharedTransitionScope.ContentUi(
             OpenSourceLicensesTile(
                 onClick = onOpenLicenses,
                 modifier = Modifier.sharedBounds(
-                    sharedContentState = rememberSharedContentState(key = "Bounds/LicensesTile"),
+                    sharedContentState = rememberSharedContentState(key = LicensesSharedTransitionKeys.Bounds),
                     animatedVisibilityScope = animatedVisibilityScope,
                 ),
             )

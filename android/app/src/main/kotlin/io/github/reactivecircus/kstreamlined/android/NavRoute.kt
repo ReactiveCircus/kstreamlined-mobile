@@ -34,7 +34,4 @@ sealed interface NavRoute : NavKey {
         val topBarBoundsKey: String,
         val titleElementKey: String,
     ) : NavRoute
-
-    @Serializable
-    data class Licenses(val boundsKey: String) : NavRoute
 }
