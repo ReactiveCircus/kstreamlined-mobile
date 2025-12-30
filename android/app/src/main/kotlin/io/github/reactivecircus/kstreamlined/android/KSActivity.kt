@@ -34,6 +34,7 @@ import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundatio
 import io.github.reactivecircus.kstreamlined.android.feature.contentviewer.impl.contentViewerEntry
 import io.github.reactivecircus.kstreamlined.android.feature.licenses.impl.licensesEntry
 import io.github.reactivecircus.kstreamlined.android.feature.settings.impl.settingsEntry
+import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.impl.talkingKotlinEpisodeEntry
 import io.github.reactivecircus.kstreamlined.kmp.settings.datasource.SettingsDataSource
 import io.github.reactivecircus.kstreamlined.kmp.settings.model.AppSettings
 import javax.inject.Inject
@@ -83,6 +84,10 @@ class KSActivity : ComponentActivity() {
                                 backStack = backStack,
                             )
                             contentViewerEntry(
+                                sharedTransitionScope = this@SharedTransitionLayout,
+                                backStack = backStack,
+                            )
+                            talkingKotlinEpisodeEntry(
                                 sharedTransitionScope = this@SharedTransitionLayout,
                                 backStack = backStack,
                             )

@@ -12,12 +12,4 @@ sealed interface NavRoute : NavKey {
         val id: String,
         val issueNumber: Int,
     ) : NavRoute
-
-    @Serializable
-    data class TalkingKotlinEpisode(
-        val boundsKey: String,
-        val topBarBoundsKey: String,
-        val playerElementKey: String,
-        val id: String,
-    ) : NavRoute
 }

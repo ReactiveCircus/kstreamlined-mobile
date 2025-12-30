@@ -8,6 +8,7 @@ kstreamlined {
 
         dependencies {
             implementation(project(":feature:content-viewer:api"))
+            implementation(project(":feature:talking-kotlin-episode:api"))
             implementation(project(":feature:settings:api"))
             implementation(project(":core:ui:feed"))
             implementation(project(":core:ui:pattern"))

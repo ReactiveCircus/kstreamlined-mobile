@@ -29,12 +29,7 @@ fun EntryProviderScope<NavKey>.mainEntry(
                         }
 
                         is FeedItem.TalkingKotlin -> {
-                            NavRoute.TalkingKotlinEpisode(
-                                boundsKey = "Bounds/$origin/${item.id}",
-                                topBarBoundsKey = "Bounds/$origin/TopBar",
-                                playerElementKey = "Element/$origin/${item.id}/player",
-                                id = item.id,
-                            )
+                            TODO()
                         }
 
                         else -> {
