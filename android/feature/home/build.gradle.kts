@@ -7,6 +7,7 @@ kstreamlined {
         screenshotTests()
 
         dependencies {
+            implementation(project(":feature:content-viewer:api"))
             implementation(project(":feature:settings:api"))
             implementation(project(":core:ui:feed"))
             implementation(project(":core:ui:pattern"))

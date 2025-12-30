@@ -31,6 +31,7 @@ import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import dagger.hilt.android.AndroidEntryPoint
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
+import io.github.reactivecircus.kstreamlined.android.feature.contentviewer.impl.contentViewerEntry
 import io.github.reactivecircus.kstreamlined.android.feature.licenses.impl.licensesEntry
 import io.github.reactivecircus.kstreamlined.android.feature.settings.impl.settingsEntry
 import io.github.reactivecircus.kstreamlined.kmp.settings.datasource.SettingsDataSource
@@ -78,6 +79,10 @@ class KSActivity : ComponentActivity() {
                                 backStack = backStack,
                             )
                             otherEntries(
+                                sharedTransitionScope = this@SharedTransitionLayout,
+                                backStack = backStack,
+                            )
+                            contentViewerEntry(
                                 sharedTransitionScope = this@SharedTransitionLayout,
                                 backStack = backStack,
                             )

@@ -1,4 +1,4 @@
-package io.github.reactivecircus.kstreamlined.android.feature.contentviewer
+package io.github.reactivecircus.kstreamlined.android.feature.contentviewer.impl
 
 import androidx.compose.ui.platform.AndroidUiDispatcher
 import androidx.lifecycle.ViewModel

@@ -73,7 +73,6 @@ fun SharedTransitionScope.MainScreen(
                         animatedVisibilityScope = animatedVisibilityScope,
                         backStack = backStack,
                         listState = homeListState,
-                        onViewItem = { item -> onViewItem(item, MainPagerItem.Home) },
                         modifier = Modifier.pagerScaleTransition(it, pagerState),
                     )
                 }
@@ -83,7 +82,6 @@ fun SharedTransitionScope.MainScreen(
                         animatedVisibilityScope = animatedVisibilityScope,
                         backStack = backStack,
                         listState = savedListState,
-                        onViewItem = { item -> onViewItem(item, MainPagerItem.Saved) },
                         modifier = Modifier.pagerScaleTransition(it, pagerState),
                     )
                 }

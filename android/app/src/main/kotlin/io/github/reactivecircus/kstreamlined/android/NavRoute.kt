@@ -5,14 +5,6 @@ import kotlinx.serialization.Serializable
 
 sealed interface NavRoute : NavKey {
     @Serializable
-    data class ContentViewer(
-        val boundsKey: String,
-        val topBarBoundsKey: String,
-        val saveButtonElementKey: String,
-        val id: String,
-    ) : NavRoute
-
-    @Serializable
     data class KotlinWeeklyIssue(
         val boundsKey: String,
         val topBarBoundsKey: String,

@@ -1,4 +1,4 @@
-package io.github.reactivecircus.kstreamlined.android.feature.contentviewer
+package io.github.reactivecircus.kstreamlined.android.feature.contentviewer.impl
 
 import android.content.ActivityNotFoundException
 import android.content.Intent

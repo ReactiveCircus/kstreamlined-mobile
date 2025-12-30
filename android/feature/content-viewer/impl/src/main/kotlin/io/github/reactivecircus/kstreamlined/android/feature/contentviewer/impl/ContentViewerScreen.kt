@@ -1,4 +1,4 @@
-package io.github.reactivecircus.kstreamlined.android.feature.contentviewer
+package io.github.reactivecircus.kstreamlined.android.feature.contentviewer.impl
 
 import android.annotation.SuppressLint
 import android.webkit.WebSettings
@@ -53,7 +53,7 @@ import io.github.reactivecircus.kstreamlined.kmp.presentation.contentviewer.Cont
 import kotlinx.coroutines.delay
 
 @Composable
-public fun SharedTransitionScope.ContentViewerScreen(
+internal fun SharedTransitionScope.ContentViewerScreen(
     animatedVisibilityScope: AnimatedVisibilityScope,
     boundsKey: String,
     topBarBoundsKey: String,

@@ -56,6 +56,8 @@ import io.github.reactivecircus.kstreamlined.android.core.ui.feed.KotlinYouTubeC
 import io.github.reactivecircus.kstreamlined.android.core.ui.feed.TalkingKotlinCard
 import io.github.reactivecircus.kstreamlined.android.core.ui.pattern.ErrorUi
 import io.github.reactivecircus.kstreamlined.android.core.ui.pattern.TransientErrorBanner
+import io.github.reactivecircus.kstreamlined.android.feature.contentviewer.api.ContentViewerRoute
+import io.github.reactivecircus.kstreamlined.android.feature.contentviewer.api.ContentViewerSharedTransitionKeys
 import io.github.reactivecircus.kstreamlined.android.feature.home.component.FeedFilterChip
 import io.github.reactivecircus.kstreamlined.android.feature.home.component.SyncButton
 import io.github.reactivecircus.kstreamlined.android.feature.settings.api.SettingsRoute
@@ -71,7 +73,6 @@ public fun SharedTransitionScope.HomeScreen(
     animatedVisibilityScope: AnimatedVisibilityScope,
     backStack: NavBackStack<NavKey>,
     listState: LazyListState,
-    onViewItem: (FeedItem) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val viewModel = hiltViewModel<HomeViewModel>()
@@ -80,7 +81,21 @@ public fun SharedTransitionScope.HomeScreen(
     HomeScreen(
         animatedVisibilityScope = animatedVisibilityScope,
         listState = listState,
-        onViewItem = onViewItem,
+        onViewItem = { item ->
+            backStack.add(
+                when (item) {
+                    is FeedItem.KotlinWeekly -> {
+                        TODO()
+                    }
+                    is FeedItem.TalkingKotlin -> {
+                        TODO()
+                    }
+                    else -> {
+                        ContentViewerRoute(origin = SharedTransitionOrigin, id = item.id)
+                    }
+                },
+            )
+        },
         onOpenSettings = {
             backStack.add(SettingsRoute(origin = SharedTransitionOrigin))
         },
@@ -233,11 +248,19 @@ private fun SharedTransitionScope.ContentUi(
                                     modifier = Modifier
                                         .animateItem()
                                         .sharedBounds(
-                                            rememberSharedContentState(key = "Bounds/Home/${item.id}"),
+                                            sharedContentState = rememberSharedContentState(
+                                                key = ContentViewerSharedTransitionKeys.bounds(
+                                                    origin = SharedTransitionOrigin,
+                                                    id = item.id,
+                                                ),
+                                            ),
                                             animatedVisibilityScope = animatedVisibilityScope,
                                         ),
                                     animatedVisibilityScope = animatedVisibilityScope,
-                                    saveButtonElementKey = "Element/Home/${item.id}/saveButton",
+                                    saveButtonElementKey = ContentViewerSharedTransitionKeys.saveButtonElement(
+                                        origin = SharedTransitionOrigin,
+                                        id = item.id,
+                                    ),
                                 )
                             }
 
@@ -267,11 +290,19 @@ private fun SharedTransitionScope.ContentUi(
                                     modifier = Modifier
                                         .animateItem()
                                         .sharedBounds(
-                                            rememberSharedContentState(key = "Bounds/Home/${item.id}"),
+                                            sharedContentState = rememberSharedContentState(
+                                                key = ContentViewerSharedTransitionKeys.bounds(
+                                                    origin = SharedTransitionOrigin,
+                                                    id = item.id,
+                                                ),
+                                            ),
                                             animatedVisibilityScope = animatedVisibilityScope,
                                         ),
                                     animatedVisibilityScope = animatedVisibilityScope,
-                                    saveButtonElementKey = "Element/Home/${item.id}/saveButton",
+                                    saveButtonElementKey = ContentViewerSharedTransitionKeys.saveButtonElement(
+                                        origin = SharedTransitionOrigin,
+                                        id = item.id,
+                                    ),
                                 )
                             }
 

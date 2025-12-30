@@ -43,6 +43,8 @@ import io.github.reactivecircus.kstreamlined.android.core.ui.feed.KotlinWeeklyCa
 import io.github.reactivecircus.kstreamlined.android.core.ui.feed.KotlinYouTubeCard
 import io.github.reactivecircus.kstreamlined.android.core.ui.feed.TalkingKotlinCard
 import io.github.reactivecircus.kstreamlined.android.core.ui.pattern.EmptyUi
+import io.github.reactivecircus.kstreamlined.android.feature.contentviewer.api.ContentViewerRoute
+import io.github.reactivecircus.kstreamlined.android.feature.contentviewer.api.ContentViewerSharedTransitionKeys
 import io.github.reactivecircus.kstreamlined.android.feature.settings.api.SettingsRoute
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.DisplayableFeedItem
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
@@ -55,7 +57,6 @@ public fun SharedTransitionScope.SavedForLaterScreen(
     animatedVisibilityScope: AnimatedVisibilityScope,
     backStack: NavBackStack<NavKey>,
     listState: LazyListState,
-    onViewItem: (FeedItem) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val viewModel = hiltViewModel<SavedForLaterViewModel>()
@@ -64,7 +65,21 @@ public fun SharedTransitionScope.SavedForLaterScreen(
     SavedForLaterScreen(
         animatedVisibilityScope = animatedVisibilityScope,
         listState = listState,
-        onViewItem = onViewItem,
+        onViewItem = { item ->
+            backStack.add(
+                when (item) {
+                    is FeedItem.KotlinWeekly -> {
+                        TODO()
+                    }
+                    is FeedItem.TalkingKotlin -> {
+                        TODO()
+                    }
+                    else -> {
+                        ContentViewerRoute(origin = SharedTransitionOrigin, id = item.id)
+                    }
+                },
+            )
+        },
         onOpenSettings = {
             backStack.add(SettingsRoute(origin = SharedTransitionOrigin))
         },
@@ -163,11 +178,19 @@ private fun SharedTransitionScope.ContentUi(
                         modifier = Modifier
                             .animateItem()
                             .sharedBounds(
-                                sharedContentState = rememberSharedContentState(key = "Bounds/Saved/${item.id}"),
+                                sharedContentState = rememberSharedContentState(
+                                    key = ContentViewerSharedTransitionKeys.bounds(
+                                        origin = SharedTransitionOrigin,
+                                        id = item.id,
+                                    ),
+                                ),
                                 animatedVisibilityScope = animatedVisibilityScope,
                             ),
                         animatedVisibilityScope = animatedVisibilityScope,
-                        saveButtonElementKey = "Element/Saved/${item.id}/saveButton",
+                        saveButtonElementKey = ContentViewerSharedTransitionKeys.saveButtonElement(
+                            origin = SharedTransitionOrigin,
+                            id = item.id,
+                        ),
                     )
                 }
 
@@ -193,11 +216,19 @@ private fun SharedTransitionScope.ContentUi(
                         modifier = Modifier
                             .animateItem()
                             .sharedBounds(
-                                sharedContentState = rememberSharedContentState(key = "Bounds/Saved/${item.id}"),
+                                sharedContentState = rememberSharedContentState(
+                                    key = ContentViewerSharedTransitionKeys.bounds(
+                                        origin = SharedTransitionOrigin,
+                                        id = item.id,
+                                    ),
+                                ),
                                 animatedVisibilityScope = animatedVisibilityScope,
                             ),
                         animatedVisibilityScope = animatedVisibilityScope,
-                        saveButtonElementKey = "Element/Saved/${item.id}/saveButton",
+                        saveButtonElementKey = ContentViewerSharedTransitionKeys.saveButtonElement(
+                            origin = SharedTransitionOrigin,
+                            id = item.id,
+                        ),
                     )
                 }
 

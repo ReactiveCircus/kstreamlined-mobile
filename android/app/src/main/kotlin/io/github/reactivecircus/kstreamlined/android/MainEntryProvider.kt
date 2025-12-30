@@ -38,12 +38,7 @@ fun EntryProviderScope<NavKey>.mainEntry(
                         }
 
                         else -> {
-                            NavRoute.ContentViewer(
-                                boundsKey = "Bounds/$origin/${item.id}",
-                                topBarBoundsKey = "Bounds/$origin/TopBar",
-                                saveButtonElementKey = "Element/$origin/${item.id}/saveButton",
-                                id = item.id,
-                            )
+                            TODO()
                         }
                     },
                 )
