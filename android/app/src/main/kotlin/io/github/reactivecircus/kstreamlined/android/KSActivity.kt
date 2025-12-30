@@ -32,6 +32,7 @@ import androidx.navigation3.ui.NavDisplay
 import dagger.hilt.android.AndroidEntryPoint
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.feature.contentviewer.impl.contentViewerEntry
+import io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue.impl.kotlinWeeklyIssueEntry
 import io.github.reactivecircus.kstreamlined.android.feature.licenses.impl.licensesEntry
 import io.github.reactivecircus.kstreamlined.android.feature.settings.impl.settingsEntry
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.impl.talkingKotlinEpisodeEntry
@@ -79,11 +80,11 @@ class KSActivity : ComponentActivity() {
                                 sharedTransitionScope = this@SharedTransitionLayout,
                                 backStack = backStack,
                             )
-                            otherEntries(
+                            contentViewerEntry(
                                 sharedTransitionScope = this@SharedTransitionLayout,
                                 backStack = backStack,
                             )
-                            contentViewerEntry(
+                            kotlinWeeklyIssueEntry(
                                 sharedTransitionScope = this@SharedTransitionLayout,
                                 backStack = backStack,
                             )

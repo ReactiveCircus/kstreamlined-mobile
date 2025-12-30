@@ -39,7 +39,6 @@ import io.github.reactivecircus.kstreamlined.android.core.designsystem.component
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.icon.KSIcons
 import io.github.reactivecircus.kstreamlined.android.feature.home.HomeScreen
 import io.github.reactivecircus.kstreamlined.android.feature.savedforlater.SavedForLaterScreen
-import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
 import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
 
@@ -48,7 +47,6 @@ import kotlin.math.absoluteValue
 fun SharedTransitionScope.MainScreen(
     animatedVisibilityScope: AnimatedVisibilityScope,
     backStack: NavBackStack<NavKey>,
-    onViewItem: (item: FeedItem, origin: MainPagerItem) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val dpCacheWindow = LazyLayoutCacheWindow(ahead = 300.dp, behind = 300.dp)

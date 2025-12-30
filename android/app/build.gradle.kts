@@ -106,7 +106,7 @@ kstreamlined {
             implementation(project(":core:designsystem"))
             implementation(project(":feature:content-viewer:impl"))
             implementation(project(":feature:home"))
-            implementation(project(":feature:kotlin-weekly-issue"))
+            implementation(project(":feature:kotlin-weekly-issue:impl"))
             implementation(project(":feature:licenses:impl"))
             implementation(project(":feature:saved-for-later"))
             implementation(project(":feature:settings:impl"))

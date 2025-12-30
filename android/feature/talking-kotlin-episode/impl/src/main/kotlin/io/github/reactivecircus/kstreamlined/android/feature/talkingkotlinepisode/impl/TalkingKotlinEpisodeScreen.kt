@@ -63,7 +63,7 @@ import io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepiso
 import io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepisode.TalkingKotlinEpisodeUiState
 
 @Composable
-public fun SharedTransitionScope.TalkingKotlinEpisodeScreen(
+internal fun SharedTransitionScope.TalkingKotlinEpisodeScreen(
     animatedVisibilityScope: AnimatedVisibilityScope,
     topBarBoundsKey: String,
     boundsKey: String,

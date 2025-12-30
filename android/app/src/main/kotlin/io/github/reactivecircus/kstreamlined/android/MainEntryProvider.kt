@@ -5,7 +5,6 @@ import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.ui.LocalNavAnimatedContentScope
-import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
 
 fun EntryProviderScope<NavKey>.mainEntry(
     sharedTransitionScope: SharedTransitionScope,
@@ -15,29 +14,6 @@ fun EntryProviderScope<NavKey>.mainEntry(
         MainScreen(
             animatedVisibilityScope = LocalNavAnimatedContentScope.current,
             backStack = backStack,
-            onViewItem = { item, origin ->
-                backStack.add(
-                    when (item) {
-                        is FeedItem.KotlinWeekly -> {
-                            NavRoute.KotlinWeeklyIssue(
-                                boundsKey = "Bounds/$origin/${item.id}",
-                                topBarBoundsKey = "Bounds/$origin/TopBar",
-                                titleElementKey = "Element/$origin/TopBar/Title",
-                                id = item.id,
-                                issueNumber = item.issueNumber,
-                            )
-                        }
-
-                        is FeedItem.TalkingKotlin -> {
-                            TODO()
-                        }
-
-                        else -> {
-                            TODO()
-                        }
-                    },
-                )
-            },
         )
     }
 }

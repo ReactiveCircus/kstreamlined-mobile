@@ -8,7 +8,6 @@ import io.github.reactivecircus.chameleon.runtime.Chameleon
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Surface
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.core.screenshottesting.tester.SnapshotTester
-import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.impl.component.SeekBar
 import org.junit.Rule
 import org.junit.Test
 

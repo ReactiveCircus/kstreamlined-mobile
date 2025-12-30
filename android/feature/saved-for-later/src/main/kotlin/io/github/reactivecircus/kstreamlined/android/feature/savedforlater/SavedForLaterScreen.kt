@@ -43,10 +43,13 @@ import io.github.reactivecircus.kstreamlined.android.core.ui.feed.KotlinWeeklyCa
 import io.github.reactivecircus.kstreamlined.android.core.ui.feed.KotlinYouTubeCard
 import io.github.reactivecircus.kstreamlined.android.core.ui.feed.TalkingKotlinCard
 import io.github.reactivecircus.kstreamlined.android.core.ui.pattern.EmptyUi
+import io.github.reactivecircus.kstreamlined.android.feature.contentviewer.api.ContentViewerRoute
 import io.github.reactivecircus.kstreamlined.android.feature.contentviewer.api.ContentViewerSharedTransitionKeys
+import io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue.api.KotlinWeeklyIssueRoute
+import io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue.api.KotlinWeeklyIssueSharedTransitionKeys
+import io.github.reactivecircus.kstreamlined.android.feature.settings.api.SettingsRoute
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.api.TalkingKotlinEpisodeRoute
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.api.TalkingKotlinEpisodeSharedTransitionKeys
-import io.github.reactivecircus.kstreamlined.android.feature.settings.api.SettingsRoute
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.DisplayableFeedItem
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.toDisplayable
@@ -70,13 +73,23 @@ public fun SharedTransitionScope.SavedForLaterScreen(
             backStack.add(
                 when (item) {
                     is FeedItem.KotlinWeekly -> {
-                        TODO()
+                        KotlinWeeklyIssueRoute(
+                            origin = SharedTransitionOrigin,
+                            id = item.id,
+                            issueNumber = item.issueNumber,
+                        )
                     }
                     is FeedItem.TalkingKotlin -> {
-                        TalkingKotlinEpisodeRoute(origin = SharedTransitionOrigin, id = item.id)
+                        TalkingKotlinEpisodeRoute(
+                            origin = SharedTransitionOrigin,
+                            id = item.id,
+                        )
                     }
                     else -> {
-                        TalkingKotlinEpisodeRoute(origin = SharedTransitionOrigin, id = item.id)
+                        ContentViewerRoute(
+                            origin = SharedTransitionOrigin,
+                            id = item.id,
+                        )
                     }
                 },
             )
@@ -203,7 +216,12 @@ private fun SharedTransitionScope.ContentUi(
                         modifier = Modifier
                             .animateItem()
                             .sharedBounds(
-                                sharedContentState = rememberSharedContentState(key = "Bounds/Saved/${item.id}"),
+                                sharedContentState = rememberSharedContentState(
+                                    key = KotlinWeeklyIssueSharedTransitionKeys.bounds(
+                                        origin = SharedTransitionOrigin,
+                                        id = item.id,
+                                    ),
+                                ),
                                 animatedVisibilityScope = animatedVisibilityScope,
                             ),
                     )
