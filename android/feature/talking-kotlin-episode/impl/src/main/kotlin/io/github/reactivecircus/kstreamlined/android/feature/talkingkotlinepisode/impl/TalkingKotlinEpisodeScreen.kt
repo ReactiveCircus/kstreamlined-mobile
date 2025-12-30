@@ -71,7 +71,7 @@ internal fun SharedTransitionScope.TalkingKotlinEpisodeScreen(
     id: String,
     onNavigateUp: () -> Unit,
     modifier: Modifier = Modifier,
-): Unit = trace("Screen:TalkingKotlinEpisode") {
+) = trace("Screen:TalkingKotlinEpisode") {
     val viewModel = hiltViewModel<TalkingKotlinEpisodeViewModel, TalkingKotlinEpisodeViewModel.Factory>(
         creationCallback = { it.create(id) },
     )

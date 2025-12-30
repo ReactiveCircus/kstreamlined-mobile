@@ -61,7 +61,7 @@ internal fun SharedTransitionScope.ContentViewerScreen(
     id: String,
     onNavigateUp: () -> Unit,
     modifier: Modifier = Modifier,
-): Unit = trace("Screen:ContentViewer") {
+) = trace("Screen:ContentViewer") {
     val viewModel = hiltViewModel<ContentViewerViewModel, ContentViewerViewModel.Factory>(
         creationCallback = { it.create(id) },
     )

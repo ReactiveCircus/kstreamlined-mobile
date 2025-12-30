@@ -65,7 +65,7 @@ internal fun SharedTransitionScope.KotlinWeeklyIssueScreen(
     issueNumber: Int,
     onNavigateUp: () -> Unit,
     modifier: Modifier = Modifier,
-): Unit = trace("Screen:KotlinWeeklyIssue") {
+) = trace("Screen:KotlinWeeklyIssue") {
     val viewModel = hiltViewModel<KotlinWeeklyIssueViewModel, KotlinWeeklyIssueViewModel.Factory>(
         creationCallback = { it.create(id) },
     )
