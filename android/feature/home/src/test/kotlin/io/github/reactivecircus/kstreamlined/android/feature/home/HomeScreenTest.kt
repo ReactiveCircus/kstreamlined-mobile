@@ -3,7 +3,6 @@ package io.github.reactivecircus.kstreamlined.android.feature.home
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
-import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
@@ -104,7 +103,6 @@ class HomeScreenTest {
         }
     }
 
-    @OptIn(ExperimentalSharedTransitionApi::class)
     @Composable
     fun HomeScreenSnapshot(uiState: HomeUiState) {
         SharedTransitionLayout {

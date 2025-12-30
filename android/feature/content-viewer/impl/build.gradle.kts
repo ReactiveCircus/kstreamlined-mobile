@@ -1,0 +1,17 @@
+plugins {
+    id("kstreamlined")
+}
+
+kstreamlined {
+    androidFeatureLibrary("io.github.reactivecircus.kstreamlined.android.feature.contentviewer.impl") {
+        dependencies {
+            implementation(project(":feature:content-viewer:api"))
+            implementation(project(":core:launcher"))
+            implementation(project(":core:ui:pattern"))
+            implementation(project(":kmp:feed-datasource"))
+            implementation(project(":kmp:presentation:content-viewer"))
+            implementation(libs.androidx.core)
+            implementation(libs.androidx.activity.compose)
+        }
+    }
+}

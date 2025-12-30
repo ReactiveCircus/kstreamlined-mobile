@@ -50,6 +50,7 @@ public class SyncScheduler @Inject constructor(
         )
     }
 
+    @Suppress("ConstPropertyName")
     private companion object {
         const val WorkName = "sync-feeds"
         val InitialDelay = 10.minutes

@@ -1,0 +1,35 @@
+package io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.impl.component
+
+import androidx.compose.foundation.layout.padding
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import app.cash.burst.Burst
+import io.github.reactivecircus.chameleon.runtime.Chameleon
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Surface
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
+import io.github.reactivecircus.kstreamlined.android.core.screenshottesting.tester.SnapshotTester
+import org.junit.Rule
+import org.junit.Test
+
+@Burst
+@Chameleon
+class SeekBarTest {
+    @get:Rule
+    val snapshotTester = SnapshotTester()
+
+    @Test
+    fun snapshot_SeekBar() {
+        snapshotTester.snapshot(addSurface = false) {
+            Surface(
+                color = KSTheme.colorScheme.tertiary,
+            ) {
+                SeekBar(
+                    modifier = Modifier.padding(8.dp),
+                    positionMillis = 1200_000,
+                    durationMillis = 3000_000,
+                    onPositionChangeFinished = {},
+                )
+            }
+        }
+    }
+}

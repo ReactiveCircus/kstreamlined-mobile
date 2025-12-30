@@ -1,9 +1,6 @@
-@file:OptIn(ExperimentalSharedTransitionApi::class)
-
 package io.github.reactivecircus.kstreamlined.android.core.designsystem.component
 
 import androidx.compose.animation.AnimatedVisibilityScope
-import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.animation.SharedTransitionScope.ResizeMode.Companion.scaleToBounds
@@ -108,6 +105,12 @@ public fun SharedTransitionScope.TopNavBar(
             }
         }
     }
+}
+
+public object TopNavBarSharedTransitionKeys {
+    public fun bounds(origin: String): String = "Bounds/$origin/TopBar"
+
+    public fun titleElement(origin: String): String = "Element/$origin/TopBar/Title"
 }
 
 @Composable
