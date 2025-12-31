@@ -3,7 +3,6 @@ package io.github.reactivecircus.kstreamlined.android.feature.contentviewer.impl
 import androidx.compose.ui.platform.AndroidUiDispatcher
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import app.cash.molecule.RecompositionMode
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -24,7 +23,6 @@ internal class ContentViewerViewModel @AssistedInject constructor(
         id = id,
         feedDataSource = feedDataSource,
         scope = CoroutineScope(viewModelScope.coroutineContext + AndroidUiDispatcher.Main),
-        recompositionMode = RecompositionMode.ContextClock,
     )
     val uiState: StateFlow<ContentViewerUiState> = presenter.states
     val eventSink: (ContentViewerUiEvent) -> Unit = presenter.eventSink

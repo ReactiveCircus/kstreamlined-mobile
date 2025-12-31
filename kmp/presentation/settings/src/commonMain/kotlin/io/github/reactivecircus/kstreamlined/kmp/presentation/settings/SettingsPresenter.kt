@@ -18,7 +18,7 @@ public class SettingsPresenter(
     private val settingsDataSource: SettingsDataSource,
     private val appInfo: AppInfo,
     scope: CoroutineScope,
-    recompositionMode: RecompositionMode,
+    recompositionMode: RecompositionMode = RecompositionMode.ContextClock,
 ) : Presenter<SettingsUiEvent, SettingsUiState>(scope, recompositionMode) {
     @Composable
     override fun present(): SettingsUiState {

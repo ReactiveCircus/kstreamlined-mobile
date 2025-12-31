@@ -24,7 +24,6 @@ internal class LicensesViewModel @Inject constructor(
     private val presenter = LicensesPresenter(
         licensesInfo = licensesInfo,
         scope = CoroutineScope(viewModelScope.coroutineContext + AndroidUiDispatcher.Main),
-        recompositionMode = RecompositionMode.ContextClock,
     )
     val uiState: StateFlow<LicensesUiState> = presenter.states
 }
@@ -32,7 +31,7 @@ internal class LicensesViewModel @Inject constructor(
 internal class LicensesPresenter(
     private val licensesInfo: LicensesInfo,
     scope: CoroutineScope,
-    recompositionMode: RecompositionMode,
+    recompositionMode: RecompositionMode = RecompositionMode.ContextClock,
 ) : Presenter<LicensesUiEvent, LicensesUiState>(scope, recompositionMode) {
     @Composable
     override fun present(): LicensesUiState {

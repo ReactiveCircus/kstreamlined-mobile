@@ -18,7 +18,7 @@ public class ContentViewerPresenter(
     private val id: String,
     private val feedDataSource: FeedDataSource,
     scope: CoroutineScope,
-    recompositionMode: RecompositionMode,
+    recompositionMode: RecompositionMode = RecompositionMode.ContextClock,
 ) : Presenter<ContentViewerUiEvent, ContentViewerUiState>(scope, recompositionMode) {
     @Composable
     override fun present(): ContentViewerUiState {

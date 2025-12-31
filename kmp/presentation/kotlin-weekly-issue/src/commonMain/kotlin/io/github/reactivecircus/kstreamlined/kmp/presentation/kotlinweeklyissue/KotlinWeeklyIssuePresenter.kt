@@ -22,7 +22,7 @@ public class KotlinWeeklyIssuePresenter(
     private val id: String,
     private val feedDataSource: FeedDataSource,
     scope: CoroutineScope,
-    recompositionMode: RecompositionMode,
+    recompositionMode: RecompositionMode = RecompositionMode.ContextClock,
 ) : Presenter<KotlinWeeklyIssueUiEvent, KotlinWeeklyIssueUiState>(scope, recompositionMode) {
     @OptIn(ExperimentalCoroutinesApi::class)
     @Composable

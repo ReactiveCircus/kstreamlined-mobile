@@ -14,7 +14,7 @@ import kotlinx.coroutines.CoroutineScope
 public class SavedForLaterPresenter(
     private val feedDataSource: FeedDataSource,
     scope: CoroutineScope,
-    recompositionMode: RecompositionMode,
+    recompositionMode: RecompositionMode = RecompositionMode.ContextClock,
 ) : Presenter<SavedForLaterUiEvent, SavedForLaterUiState>(scope, recompositionMode) {
     @Composable
     override fun present(): SavedForLaterUiState {

@@ -19,7 +19,7 @@ public class TalkingKotlinEpisodePresenter(
     private val id: String,
     private val feedDataSource: FeedDataSource,
     scope: CoroutineScope,
-    recompositionMode: RecompositionMode,
+    recompositionMode: RecompositionMode = RecompositionMode.ContextClock,
 ) : Presenter<TalkingKotlinEpisodeUiEvent, TalkingKotlinEpisodeUiState>(scope, recompositionMode) {
     @Composable
     override fun present(): TalkingKotlinEpisodeUiState {

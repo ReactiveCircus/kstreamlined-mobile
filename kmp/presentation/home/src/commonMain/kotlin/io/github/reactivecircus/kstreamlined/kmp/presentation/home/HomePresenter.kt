@@ -20,7 +20,7 @@ public class HomePresenter(
     private val feedSyncEngine: FeedSyncEngine,
     private val feedDataSource: FeedDataSource,
     scope: CoroutineScope,
-    recompositionMode: RecompositionMode,
+    recompositionMode: RecompositionMode = RecompositionMode.ContextClock,
 ) : Presenter<HomeUiEvent, HomeUiState>(scope, recompositionMode) {
     @Composable
     override fun present(): HomeUiState {
