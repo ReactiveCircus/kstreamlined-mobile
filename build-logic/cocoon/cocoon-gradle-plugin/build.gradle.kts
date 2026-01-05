@@ -9,6 +9,8 @@ plugins {
     alias(libs.plugins.detekt)
 }
 
+group = project.property("GROUP") as String
+
 gradlePlugin {
     plugins {
         register("cocoon") {
@@ -19,18 +21,15 @@ gradlePlugin {
 }
 
 kotlin {
+    compilerOptions {
+        jvmTarget = JvmTarget.JVM_17
+    }
     explicitApi()
 }
 
-tasks.withType<KotlinCompile>().configureEach {
-    compilerOptions {
-        jvmTarget.set(JvmTarget.JVM_11)
-    }
-}
-
-tasks.withType<JavaCompile>().configureEach {
-    sourceCompatibility = JavaVersion.VERSION_11.toString()
-    targetCompatibility = JavaVersion.VERSION_11.toString()
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
 detekt {
@@ -41,11 +40,11 @@ detekt {
 }
 
 tasks.withType<Detekt>().configureEach {
-    jvmTarget = JvmTarget.JVM_11.target
+    jvmTarget = JvmTarget.JVM_17.target
     reports {
-        xml.required.set(false)
+        checkstyle.required.set(false)
         sarif.required.set(false)
-        md.required.set(false)
+        markdown.required.set(false)
     }
 }
 

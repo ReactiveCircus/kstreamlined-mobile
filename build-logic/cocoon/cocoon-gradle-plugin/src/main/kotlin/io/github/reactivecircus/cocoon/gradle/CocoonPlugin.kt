@@ -8,7 +8,10 @@ import org.jetbrains.kotlin.gradle.plugin.SubpluginArtifact
 import org.jetbrains.kotlin.gradle.plugin.SubpluginOption
 
 public class CocoonPlugin : KotlinCompilerPluginSupportPlugin {
+    private var version: String? = null
+
     override fun apply(target: Project) {
+        version = target.version as String
         target.extensions.create("cocoon", CocoonExtension::class.java)
     }
 
@@ -35,7 +38,7 @@ public class CocoonPlugin : KotlinCompilerPluginSupportPlugin {
         return SubpluginArtifact(
             groupId = "io.github.reactivecircus.cocoon",
             artifactId = "cocoon-compiler-plugin",
-            version = "0.1.0",
+            version = version,
         )
     }
 

@@ -7,7 +7,9 @@ import org.jetbrains.kotlin.config.CommonConfigurationKeys
 import org.jetbrains.kotlin.config.CompilerConfiguration
 
 public class CocoonCompilerPluginRegistrar : CompilerPluginRegistrar() {
-    override val supportsK2: Boolean = true
+    override val pluginId: String get() = "io.github.reactivecircus.cocoon.compiler"
+
+    override val supportsK2: Boolean get() = true
 
     override fun ExtensionStorage.registerExtensions(configuration: CompilerConfiguration) {
         val annotationString = requireNotNull(
