@@ -1,5 +1,3 @@
-import com.android.build.api.dsl.SettingsExtension
-
 pluginManagement {
     repositories {
         google {
@@ -147,7 +145,7 @@ develocity {
     }
 }
 
-settings.extensions.configure<SettingsExtension> {
+android {
     execution {
         profiles {
             create("local") {

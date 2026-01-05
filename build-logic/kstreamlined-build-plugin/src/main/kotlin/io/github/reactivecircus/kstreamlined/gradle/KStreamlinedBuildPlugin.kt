@@ -27,7 +27,6 @@ internal class KStreamlinedBuildPlugin : Plugin<Project> {
 
         // register task for cleaning the build directory in the root project
         target.tasks.register("clean", Delete::class.java) {
-            @Suppress("UnstableApiUsage")
             it.delete(target.isolated.rootProject.projectDirectory.file("build"))
         }
     }
