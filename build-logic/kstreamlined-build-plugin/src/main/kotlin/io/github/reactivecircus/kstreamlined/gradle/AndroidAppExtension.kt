@@ -351,7 +351,7 @@ internal abstract class AndroidAppExtensionImpl @Inject constructor(
         }
 
         extensions.configure(ApplicationAndroidComponentsExtension::class.java) { extension ->
-            extension.configureAndroidApplicationVariants(project)
+            extension.configureAndroidApplicationVariants(project, unitTestsEnabled)
 
             extension.onVariants { variant ->
                 buildConfigsCallback?.let { callback ->

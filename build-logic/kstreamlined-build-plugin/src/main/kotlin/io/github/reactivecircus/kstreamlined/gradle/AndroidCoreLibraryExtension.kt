@@ -155,7 +155,7 @@ internal abstract class AndroidCoreLibraryExtensionImpl @Inject constructor(
         }
 
         extensions.configure(LibraryAndroidComponentsExtension::class.java) {
-            it.configureAndroidLibraryVariants()
+            it.configureAndroidLibraryVariants(unitTestsEnabled)
         }
 
         if (composeEnabled) {
