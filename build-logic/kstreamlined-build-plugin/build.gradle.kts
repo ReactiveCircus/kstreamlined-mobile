@@ -71,6 +71,7 @@ dependencies {
     implementation(libs.plugin.burst)
     implementation(libs.plugin.licensee)
     implementation(libs.plugin.paparazzi)
+    implementation(libs.plugin.metro)
     implementation(libs.plugin.hilt)
     implementation(libs.plugin.apollo)
     implementation(libs.plugin.invert)

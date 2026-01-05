@@ -89,6 +89,7 @@ kstreamlined {
         consumeBaselineProfile(":benchmark")
         generateLicensesInfo()
         compose()
+        metro()
         hilt()
         serialization()
 

@@ -18,6 +18,7 @@ androidPublisher = "3.13.0"
 skie = "0.10.8"
 kotlinpoet = "2.2.0"
 leakcanary = "2.14"
+metro = "0.9.3"
 hilt = "2.57.2"
 kotlinx-coroutines = "1.10.2"
 kotlinx-datetime = "0.7.1"
@@ -75,6 +76,7 @@ plugin-appVersioning = { module = "io.github.reactivecircus.appversioning:app-ve
 plugin-paparazzi = { module = "app.cash.paparazzi:paparazzi-gradle-plugin", version.ref = "paparazzi" }
 plugin-burst = { module = "app.cash.burst:burst-gradle-plugin", version.ref = "burst" }
 plugin-licensee = { module = "app.cash.licensee:licensee-gradle-plugin", version.ref = "licensee" }
+plugin-metro = { module = "dev.zacsweers.metro:dev.zacsweers.metro.gradle.plugin", version.ref = "metro" }
 plugin-hilt = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt" }
 plugin-apollo = { module = "com.apollographql.apollo:apollo-gradle-plugin", version.ref = "apollo" }
 plugin-invert = { module = "com.squareup.invert:com.squareup.invert.gradle.plugin", version.ref = "invert" }

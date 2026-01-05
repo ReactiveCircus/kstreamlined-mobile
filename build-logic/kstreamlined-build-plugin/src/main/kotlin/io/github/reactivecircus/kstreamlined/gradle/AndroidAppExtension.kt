@@ -25,6 +25,7 @@ import io.github.reactivecircus.kstreamlined.gradle.internal.configureCompose
 import io.github.reactivecircus.kstreamlined.gradle.internal.configureDetekt
 import io.github.reactivecircus.kstreamlined.gradle.internal.configureKsp
 import io.github.reactivecircus.kstreamlined.gradle.internal.configureLicensesInfoGeneration
+import io.github.reactivecircus.kstreamlined.gradle.internal.configureMetro
 import io.github.reactivecircus.kstreamlined.gradle.internal.configurePowerAssert
 import io.github.reactivecircus.kstreamlined.gradle.internal.configureTest
 import io.github.reactivecircus.kstreamlined.gradle.internal.libs
@@ -106,6 +107,11 @@ public interface AndroidAppExtension {
      * Enable Compose.
      */
     public fun compose()
+
+    /**
+     * Enable Metro.
+     */
+    public fun metro()
 
     /**
      * Enable Hilt by adding the `hilt-compiler` using KSP and adding the `hilt-android` runtime dependency.
@@ -220,6 +226,8 @@ internal abstract class AndroidAppExtensionImpl @Inject constructor(
 
     private var composeEnabled: Boolean = false
 
+    private var metroEnabled: Boolean = false
+
     private var hiltEnabled: Boolean = false
 
     private var serializationEnabled: Boolean = false
@@ -276,6 +284,10 @@ internal abstract class AndroidAppExtensionImpl @Inject constructor(
 
     override fun compose() {
         composeEnabled = true
+    }
+
+    override fun metro() {
+        metroEnabled = true
     }
 
     override fun hilt() {
@@ -393,6 +405,10 @@ internal abstract class AndroidAppExtensionImpl @Inject constructor(
                 androidTargetEnabled = true,
                 iosTargetEnabled = false,
             )
+        }
+
+        if (metroEnabled) {
+            configureMetro()
         }
 
         if (hiltEnabled) {
