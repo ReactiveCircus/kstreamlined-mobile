@@ -96,7 +96,7 @@ internal abstract class AndroidFeatureLibraryExtensionImpl @Inject constructor(
         }
 
         extensions.configure(LibraryAndroidComponentsExtension::class.java) {
-            it.configureAndroidLibraryVariants()
+            it.configureAndroidLibraryVariants(enableUnitTests = unitTestsEnabled)
         }
 
         configureCompose(

@@ -97,22 +97,25 @@ internal fun KotlinMultiplatformAndroidLibraryExtension.configureKmpAndroidLibra
 /**
  * Configure the Library Component based on build variants.
  */
-internal fun LibraryAndroidComponentsExtension.configureAndroidLibraryVariants() {
+internal fun LibraryAndroidComponentsExtension.configureAndroidLibraryVariants(enableUnitTests: Boolean) {
     beforeVariants {
         // only enable release build variant for the Android library project
         // note that this will also disable unit tests and Android tests by default
         it.enable = it.buildType == "release"
+        (it as HasUnitTestBuilder).enableUnitTest = enableUnitTests
     }
 }
 
 /**
  * Configure the Application Component based on build variants.
  */
-internal fun ApplicationAndroidComponentsExtension.configureAndroidApplicationVariants(project: Project) {
+internal fun ApplicationAndroidComponentsExtension.configureAndroidApplicationVariants(
+    project: Project,
+    unitTestsEnabled: Boolean,
+) {
     beforeVariants {
         it.enable = project.shouldEnableVariant(it.name)
-        // disable unit tests by default
-        (it as HasUnitTestBuilder).enableUnitTest = false
+        (it as HasUnitTestBuilder).enableUnitTest = unitTestsEnabled
 
         // disable android tests by default
         it.androidTest.enable = false
