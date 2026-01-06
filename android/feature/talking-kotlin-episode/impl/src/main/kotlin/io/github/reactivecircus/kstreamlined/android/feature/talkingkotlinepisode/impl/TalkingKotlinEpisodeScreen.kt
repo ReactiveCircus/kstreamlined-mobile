@@ -24,6 +24,7 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.remember
@@ -60,6 +61,7 @@ import io.github.reactivecircus.kstreamlined.android.core.launcher.openCustomTab
 import io.github.reactivecircus.kstreamlined.android.core.launcher.openShareSheet
 import io.github.reactivecircus.kstreamlined.android.core.ui.pattern.ItemNotFoundUi
 import io.github.reactivecircus.kstreamlined.android.core.ui.util.linkify
+import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.api.TalkingKotlinEpisodeRoute
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.impl.component.PlayPauseButton
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.impl.component.PodcastPlayer
 import io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepisode.TalkingKotlinEpisode
@@ -89,10 +91,7 @@ internal fun SharedTransitionScope.TalkingKotlinEpisodeScreen(
         animatedVisibilityScope = animatedVisibilityScope,
         topBarBoundsKey = topBarBoundsKey,
         playerElementKey = playerElementKey,
-        onNavigateUp = {
-            eventSink(TalkingKotlinEpisodeUiEvent.SaveStartPosition(playerPosition))
-            backStack.removeLastOrNull()
-        },
+        onNavigateUp = backStack::removeLastOrNull,
         onShareButtonClick = { title, url ->
             context.openShareSheet(title, url)
         },
@@ -105,6 +104,14 @@ internal fun SharedTransitionScope.TalkingKotlinEpisodeScreen(
             animatedVisibilityScope = animatedVisibilityScope,
         ),
     )
+
+    // save playback position when navigating away
+    val topEntry = backStack.lastOrNull()
+    LaunchedEffect(topEntry) {
+        if (topEntry !is TalkingKotlinEpisodeRoute) {
+            eventSink(TalkingKotlinEpisodeUiEvent.SaveStartPosition(playerPosition))
+        }
+    }
 }
 
 @Composable
