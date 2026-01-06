@@ -16,6 +16,7 @@ public fun EntryProviderScope<NavKey>.kotlinWeeklyIssueEntry(
     entry<KotlinWeeklyIssueRoute> {
         KotlinWeeklyIssueScreen(
             animatedVisibilityScope = LocalNavAnimatedContentScope.current,
+            backStack = backStack,
             boundsKey = KotlinWeeklyIssueSharedTransitionKeys.bounds(
                 origin = it.origin,
                 id = it.id,
@@ -24,9 +25,6 @@ public fun EntryProviderScope<NavKey>.kotlinWeeklyIssueEntry(
             titleElementKey = TopNavBarSharedTransitionKeys.titleElement(it.origin),
             id = it.id,
             issueNumber = it.issueNumber,
-            onNavigateUp = {
-                backStack.removeLastOrNull()
-            },
         )
     }
 }

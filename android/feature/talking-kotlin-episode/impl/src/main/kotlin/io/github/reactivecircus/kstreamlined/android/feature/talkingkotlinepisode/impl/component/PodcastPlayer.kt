@@ -16,12 +16,13 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.retain.RetainedEffect
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -48,7 +49,7 @@ internal fun PodcastPlayer(
     episode: TalkingKotlinEpisode,
     isPlaying: Boolean,
     onPlayPauseButtonClick: () -> Unit,
-    onSaveStartPosition: (Long) -> Unit,
+    onPlayerPositionChange: (Long) -> Unit,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp),
 ) {
@@ -67,14 +68,14 @@ internal fun PodcastPlayer(
         },
     )
 
-    DisposableEffect(Unit) {
+    RetainedEffect(player) {
         player.seekTo(episode.startPositionMillis)
-        onDispose {
-            onSaveStartPosition(playerPositionMillis.toLong())
+        onRetire {
             player.release()
         }
     }
 
+    // sync player state with UI
     LaunchedEffect(isPlaying) {
         if (isPlaying) {
             player.play()
@@ -90,6 +91,14 @@ internal fun PodcastPlayer(
         } else {
             player.pause()
         }
+    }
+
+    // report latest player position
+    LaunchedEffect(Unit) {
+        snapshotFlow { playerPositionMillis }
+            .collect {
+                onPlayerPositionChange(it.toLong())
+            }
     }
 
     PodcastPlayerUi(

@@ -39,6 +39,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation3.runtime.NavBackStack
+import androidx.navigation3.runtime.NavKey
 import androidx.tracing.trace
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.FilledIconButton
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.LargeIconButton
@@ -55,11 +57,11 @@ import kotlinx.coroutines.delay
 @Composable
 internal fun SharedTransitionScope.ContentViewerScreen(
     animatedVisibilityScope: AnimatedVisibilityScope,
+    backStack: NavBackStack<NavKey>,
     boundsKey: String,
     topBarBoundsKey: String,
     saveButtonElementKey: String,
     id: String,
-    onNavigateUp: () -> Unit,
     modifier: Modifier = Modifier,
 ) = trace("Screen:ContentViewer") {
     val viewModel = hiltViewModel<ContentViewerViewModel, ContentViewerViewModel.Factory>(
@@ -88,7 +90,7 @@ internal fun SharedTransitionScope.ContentViewerScreen(
                 LargeIconButton(
                     KSIcons.Close,
                     contentDescription = null,
-                    onClick = onNavigateUp,
+                    onClick = backStack::removeLastOrNull,
                 )
             },
             actions = {

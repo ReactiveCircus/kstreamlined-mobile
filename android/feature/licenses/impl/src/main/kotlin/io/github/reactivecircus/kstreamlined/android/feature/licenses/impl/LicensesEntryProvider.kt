@@ -14,9 +14,7 @@ public fun EntryProviderScope<NavKey>.licensesEntry(
     entry<LicensesRoute> {
         LicensesScreen(
             animatedVisibilityScope = LocalNavAnimatedContentScope.current,
-            onNavigateUp = {
-                backStack.removeLastOrNull()
-            },
+            backStack = backStack,
         )
     }
 }

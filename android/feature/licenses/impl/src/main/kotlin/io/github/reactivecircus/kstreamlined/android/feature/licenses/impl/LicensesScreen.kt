@@ -23,6 +23,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.zIndex
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation3.runtime.NavBackStack
+import androidx.navigation3.runtime.NavKey
 import androidx.tracing.trace
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.LargeIconButton
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.TopNavBar
@@ -34,14 +36,14 @@ import io.github.reactivecircus.kstreamlined.android.feature.licenses.impl.compo
 @Composable
 internal fun SharedTransitionScope.LicensesScreen(
     animatedVisibilityScope: AnimatedVisibilityScope,
-    onNavigateUp: () -> Unit,
+    backStack: NavBackStack<NavKey>,
     modifier: Modifier = Modifier,
 ) = trace("Screen:Licenses") {
     val viewModel = hiltViewModel<LicensesViewModel>()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     LicensesScreen(
-        onNavigateUp = onNavigateUp,
+        onNavigateUp = backStack::removeLastOrNull,
         uiState = uiState,
         modifier = modifier.sharedBounds(
             sharedContentState = rememberSharedContentState(key = LicensesSharedTransitionKeys.Bounds),

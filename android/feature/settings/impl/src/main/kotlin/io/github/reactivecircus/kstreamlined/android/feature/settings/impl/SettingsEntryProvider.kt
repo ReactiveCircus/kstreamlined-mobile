@@ -6,7 +6,6 @@ import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.ui.LocalNavAnimatedContentScope
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.TopNavBarSharedTransitionKeys
-import io.github.reactivecircus.kstreamlined.android.feature.licenses.api.LicensesRoute
 import io.github.reactivecircus.kstreamlined.android.feature.settings.api.SettingsRoute
 
 public fun EntryProviderScope<NavKey>.settingsEntry(
@@ -16,14 +15,9 @@ public fun EntryProviderScope<NavKey>.settingsEntry(
     entry<SettingsRoute> {
         SettingsScreen(
             animatedVisibilityScope = LocalNavAnimatedContentScope.current,
+            backStack = backStack,
             topBarBoundsKey = TopNavBarSharedTransitionKeys.bounds(it.origin),
             titleElementKey = TopNavBarSharedTransitionKeys.titleElement(it.origin),
-            onOpenLicenses = {
-                backStack.add(LicensesRoute)
-            },
-            onNavigateUp = {
-                backStack.removeLastOrNull()
-            },
         )
     }
 }

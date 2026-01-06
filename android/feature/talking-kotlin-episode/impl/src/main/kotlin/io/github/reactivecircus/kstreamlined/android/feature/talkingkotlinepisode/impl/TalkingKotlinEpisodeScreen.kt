@@ -25,7 +25,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -41,6 +43,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation3.runtime.NavBackStack
+import androidx.navigation3.runtime.NavKey
 import androidx.tracing.trace
 import coil3.compose.AsyncImage
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.FilledIconButton
@@ -65,11 +69,11 @@ import io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepiso
 @Composable
 internal fun SharedTransitionScope.TalkingKotlinEpisodeScreen(
     animatedVisibilityScope: AnimatedVisibilityScope,
+    backStack: NavBackStack<NavKey>,
     topBarBoundsKey: String,
     boundsKey: String,
     playerElementKey: String,
     id: String,
-    onNavigateUp: () -> Unit,
     modifier: Modifier = Modifier,
 ) = trace("Screen:TalkingKotlinEpisode") {
     val viewModel = hiltViewModel<TalkingKotlinEpisodeViewModel, TalkingKotlinEpisodeViewModel.Factory>(
@@ -79,15 +83,21 @@ internal fun SharedTransitionScope.TalkingKotlinEpisodeScreen(
     val eventSink = viewModel.eventSink
 
     val context = LocalContext.current
+    var playerPosition by remember { mutableLongStateOf(0L) }
+
     TalkingKotlinEpisodeScreen(
         animatedVisibilityScope = animatedVisibilityScope,
         topBarBoundsKey = topBarBoundsKey,
         playerElementKey = playerElementKey,
-        onNavigateUp = onNavigateUp,
+        onNavigateUp = {
+            eventSink(TalkingKotlinEpisodeUiEvent.SaveStartPosition(playerPosition))
+            backStack.removeLastOrNull()
+        },
         onShareButtonClick = { title, url ->
             context.openShareSheet(title, url)
         },
         onOpenLink = context::openCustomTab,
+        onPlayerPositionChange = { playerPosition = it },
         uiState = uiState,
         eventSink = eventSink,
         modifier = modifier.sharedBounds(
@@ -104,6 +114,7 @@ internal fun SharedTransitionScope.TalkingKotlinEpisodeScreen(
     onNavigateUp: () -> Unit,
     onShareButtonClick: (title: String, url: String) -> Unit,
     onOpenLink: (url: String) -> Unit,
+    onPlayerPositionChange: (Long) -> Unit,
     uiState: TalkingKotlinEpisodeUiState,
     eventSink: (TalkingKotlinEpisodeUiEvent) -> Unit,
     modifier: Modifier = Modifier,
@@ -171,6 +182,7 @@ internal fun SharedTransitionScope.TalkingKotlinEpisodeScreen(
                         eventSink = eventSink,
                         isPlaying = uiState.isPlaying,
                         onOpenLink = onOpenLink,
+                        onPlayerPositionChange = onPlayerPositionChange,
                     )
                 }
             }
@@ -186,6 +198,7 @@ private fun SharedTransitionScope.ContentUi(
     eventSink: (TalkingKotlinEpisodeUiEvent) -> Unit,
     isPlaying: Boolean,
     onOpenLink: (url: String) -> Unit,
+    onPlayerPositionChange: (Long) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -292,9 +305,7 @@ private fun SharedTransitionScope.ContentUi(
             episode = episode,
             isPlaying = isPlaying,
             onPlayPauseButtonClick = { eventSink(TalkingKotlinEpisodeUiEvent.TogglePlayPause) },
-            onSaveStartPosition = { startPositionMillis ->
-                eventSink(TalkingKotlinEpisodeUiEvent.SaveStartPosition(startPositionMillis))
-            },
+            onPlayerPositionChange = onPlayerPositionChange,
             contentPadding = WindowInsets.navigationBars.asPaddingValues(),
             modifier = if (animatedVisibilityScope != null) {
                 Modifier.sharedElement(

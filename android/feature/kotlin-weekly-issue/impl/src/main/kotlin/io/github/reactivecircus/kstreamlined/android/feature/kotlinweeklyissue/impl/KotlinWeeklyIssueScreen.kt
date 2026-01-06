@@ -39,6 +39,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation3.runtime.NavBackStack
+import androidx.navigation3.runtime.NavKey
 import androidx.tracing.trace
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.FilledIconButton
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.LargeIconButton
@@ -58,12 +60,12 @@ import io.github.reactivecircus.kstreamlined.kmp.presentation.kotlinweeklyissue.
 @Composable
 internal fun SharedTransitionScope.KotlinWeeklyIssueScreen(
     animatedVisibilityScope: AnimatedVisibilityScope,
+    backStack: NavBackStack<NavKey>,
     boundsKey: String,
     topBarBoundsKey: String,
     titleElementKey: String,
     id: String,
     issueNumber: Int,
-    onNavigateUp: () -> Unit,
     modifier: Modifier = Modifier,
 ) = trace("Screen:KotlinWeeklyIssue") {
     val viewModel = hiltViewModel<KotlinWeeklyIssueViewModel, KotlinWeeklyIssueViewModel.Factory>(
@@ -79,7 +81,7 @@ internal fun SharedTransitionScope.KotlinWeeklyIssueScreen(
         topBarBoundsKey = topBarBoundsKey,
         titleElementKey = titleElementKey,
         title = title,
-        onNavigateUp = onNavigateUp,
+        onNavigateUp = backStack::removeLastOrNull,
         onShareButtonClick = { url ->
             context.openShareSheet(title, url)
         },
