@@ -16,6 +16,7 @@ public fun EntryProviderScope<NavKey>.talkingKotlinEpisodeEntry(
     entry<TalkingKotlinEpisodeRoute> {
         TalkingKotlinEpisodeScreen(
             animatedVisibilityScope = LocalNavAnimatedContentScope.current,
+            backStack = backStack,
             boundsKey = TalkingKotlinEpisodeSharedTransitionKeys.bounds(
                 origin = it.origin,
                 id = it.id,
@@ -26,9 +27,6 @@ public fun EntryProviderScope<NavKey>.talkingKotlinEpisodeEntry(
                 id = it.id,
             ),
             id = it.id,
-            onNavigateUp = {
-                backStack.removeLastOrNull()
-            },
         )
     }
 }

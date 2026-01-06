@@ -58,6 +58,7 @@ class TalkingKotlinEpisodeScreenTest {
                 onNavigateUp = {},
                 onShareButtonClick = { _, _ -> },
                 onOpenLink = {},
+                onPlayerPositionChange = {},
                 uiState = uiState,
                 eventSink = {},
             )

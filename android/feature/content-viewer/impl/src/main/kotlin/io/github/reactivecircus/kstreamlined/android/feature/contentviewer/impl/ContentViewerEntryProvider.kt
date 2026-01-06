@@ -16,6 +16,7 @@ public fun EntryProviderScope<NavKey>.contentViewerEntry(
     entry<ContentViewerRoute> {
         ContentViewerScreen(
             animatedVisibilityScope = LocalNavAnimatedContentScope.current,
+            backStack = backStack,
             boundsKey = ContentViewerSharedTransitionKeys.bounds(
                 origin = it.origin,
                 id = it.id,
@@ -26,9 +27,6 @@ public fun EntryProviderScope<NavKey>.contentViewerEntry(
                 id = it.id,
             ),
             id = it.id,
-            onNavigateUp = {
-                backStack.removeLastOrNull()
-            },
         )
     }
 }
