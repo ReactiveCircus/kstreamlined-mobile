@@ -33,11 +33,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
 import androidx.tracing.trace
+import dev.zacsweers.metrox.viewmodel.metroViewModel
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.LargeIconButton
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.ModalBottomSheet
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Text
@@ -66,7 +66,7 @@ internal fun SharedTransitionScope.SettingsScreen(
     titleElementKey: String,
     modifier: Modifier = Modifier,
 ) = trace("Screen:Settings") {
-    val viewModel = hiltViewModel<SettingsViewModel>()
+    val viewModel = metroViewModel<SettingsViewModel>()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val eventSink = viewModel.eventSink
 

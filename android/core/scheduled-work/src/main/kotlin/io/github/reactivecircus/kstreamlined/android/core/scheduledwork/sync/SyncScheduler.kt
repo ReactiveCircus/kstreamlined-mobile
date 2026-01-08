@@ -6,10 +6,9 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
-import dagger.hilt.android.qualifiers.ApplicationContext
+import dev.zacsweers.metro.Inject
 import io.github.reactivecircus.kstreamlined.kmp.settings.datasource.SettingsDataSource
 import kotlinx.coroutines.flow.collectLatest
-import javax.inject.Inject
 import kotlin.concurrent.atomics.AtomicBoolean
 import kotlin.concurrent.atomics.ExperimentalAtomicApi
 import kotlin.time.Duration
@@ -17,8 +16,9 @@ import kotlin.time.Duration.Companion.minutes
 import kotlin.time.toJavaDuration
 
 @OptIn(ExperimentalAtomicApi::class)
-public class SyncScheduler @Inject constructor(
-    @param:ApplicationContext private val context: Context,
+@Inject
+public class SyncScheduler(
+    private val context: Context,
     private val settingsDataSource: SettingsDataSource,
 ) {
     private val initialized = AtomicBoolean(false)

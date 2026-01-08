@@ -37,11 +37,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
 import androidx.tracing.trace
+import dev.zacsweers.metrox.viewmodel.assistedMetroViewModel
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.FilledIconButton
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.LargeIconButton
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Surface
@@ -68,9 +68,9 @@ internal fun SharedTransitionScope.KotlinWeeklyIssueScreen(
     issueNumber: Int,
     modifier: Modifier = Modifier,
 ) = trace("Screen:KotlinWeeklyIssue") {
-    val viewModel = hiltViewModel<KotlinWeeklyIssueViewModel, KotlinWeeklyIssueViewModel.Factory>(
-        creationCallback = { it.create(id) },
-    )
+    val viewModel = assistedMetroViewModel<KotlinWeeklyIssueViewModel, KotlinWeeklyIssueViewModel.Factory> {
+        create(id)
+    }
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val eventSink = viewModel.eventSink
 

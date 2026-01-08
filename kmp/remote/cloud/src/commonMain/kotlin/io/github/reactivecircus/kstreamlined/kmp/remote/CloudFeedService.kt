@@ -5,6 +5,10 @@ import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.Optional
 import com.apollographql.apollo.cache.normalized.FetchPolicy
 import com.apollographql.apollo.cache.normalized.fetchPolicy
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.ContributesBinding
+import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.SingleIn
 import io.github.reactivecircus.kstreamlined.graphql.FeedEntriesQuery
 import io.github.reactivecircus.kstreamlined.graphql.FeedEntriesWithSourcesQuery
 import io.github.reactivecircus.kstreamlined.graphql.FeedSourcesQuery
@@ -15,6 +19,9 @@ import io.github.reactivecircus.kstreamlined.kmp.remote.model.FeedEntry
 import io.github.reactivecircus.kstreamlined.kmp.remote.model.FeedSource
 import io.github.reactivecircus.kstreamlined.kmp.remote.model.KotlinWeeklyIssueEntry
 
+@SingleIn(AppScope::class)
+@ContributesBinding(AppScope::class)
+@Inject
 public class CloudFeedService(private val apolloClient: ApolloClient) : FeedService {
     override suspend fun fetchFeedOrigins(): List<FeedSource> {
         return runCatching {

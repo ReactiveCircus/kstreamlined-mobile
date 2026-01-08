@@ -21,11 +21,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.zIndex
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
 import androidx.tracing.trace
+import dev.zacsweers.metrox.viewmodel.metroViewModel
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.LargeIconButton
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.TopNavBar
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
@@ -39,7 +39,7 @@ internal fun SharedTransitionScope.LicensesScreen(
     backStack: NavBackStack<NavKey>,
     modifier: Modifier = Modifier,
 ) = trace("Screen:Licenses") {
-    val viewModel = hiltViewModel<LicensesViewModel>()
+    val viewModel = metroViewModel<LicensesViewModel>()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     LicensesScreen(

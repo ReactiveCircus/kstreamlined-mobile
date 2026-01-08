@@ -3,10 +3,13 @@ package io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue.
 import androidx.compose.ui.platform.AndroidUiDispatcher
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
-import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.Assisted
+import dev.zacsweers.metro.AssistedFactory
+import dev.zacsweers.metro.AssistedInject
+import dev.zacsweers.metro.ContributesIntoMap
+import dev.zacsweers.metrox.viewmodel.ManualViewModelAssistedFactory
+import dev.zacsweers.metrox.viewmodel.ManualViewModelAssistedFactoryKey
 import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.FeedDataSource
 import io.github.reactivecircus.kstreamlined.kmp.presentation.kotlinweeklyissue.KotlinWeeklyIssuePresenter
 import io.github.reactivecircus.kstreamlined.kmp.presentation.kotlinweeklyissue.KotlinWeeklyIssueUiEvent
@@ -14,8 +17,8 @@ import io.github.reactivecircus.kstreamlined.kmp.presentation.kotlinweeklyissue.
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.StateFlow
 
-@HiltViewModel(assistedFactory = KotlinWeeklyIssueViewModel.Factory::class)
-internal class KotlinWeeklyIssueViewModel @AssistedInject constructor(
+@AssistedInject
+public class KotlinWeeklyIssueViewModel(
     @Assisted id: String,
     feedDataSource: FeedDataSource,
 ) : ViewModel() {
@@ -24,11 +27,13 @@ internal class KotlinWeeklyIssueViewModel @AssistedInject constructor(
         feedDataSource = feedDataSource,
         scope = CoroutineScope(viewModelScope.coroutineContext + AndroidUiDispatcher.Main),
     )
-    val uiState: StateFlow<KotlinWeeklyIssueUiState> = presenter.states
-    val eventSink: (KotlinWeeklyIssueUiEvent) -> Unit = presenter.eventSink
+    internal val uiState: StateFlow<KotlinWeeklyIssueUiState> = presenter.states
+    internal val eventSink: (KotlinWeeklyIssueUiEvent) -> Unit = presenter.eventSink
 
     @AssistedFactory
-    interface Factory {
-        fun create(id: String): KotlinWeeklyIssueViewModel
+    @ManualViewModelAssistedFactoryKey(Factory::class)
+    @ContributesIntoMap(AppScope::class)
+    public fun interface Factory : ManualViewModelAssistedFactory {
+        public fun create(id: String): KotlinWeeklyIssueViewModel
     }
 }

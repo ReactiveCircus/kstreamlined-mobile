@@ -10,6 +10,7 @@ kstreamlined {
             ios()
             android("io.github.reactivecircus.kstreamlined.kmp.networkmonitor.runtime")
         }
+        metro()
 
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         dependencies {

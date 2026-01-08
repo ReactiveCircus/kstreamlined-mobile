@@ -90,7 +90,6 @@ kstreamlined {
         generateLicensesInfo()
         compose()
         metro()
-        hilt()
         serialization()
 
         dependencies {
@@ -127,6 +126,7 @@ kstreamlined {
             implementation(libs.androidx.profileinstaller)
             implementation(libs.androidx.tracing)
             implementation(libs.androidx.work.runtime)
+            implementation(libs.metrox.viewmodelCompose)
             implementation(libs.okhttp)
             implementation(libs.coil.compose)
             implementation(libs.coil.svg)

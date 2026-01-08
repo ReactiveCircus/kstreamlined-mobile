@@ -6,30 +6,13 @@ import coil3.ImageLoader
 import coil3.PlatformContext
 import coil3.SingletonImageLoader
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import dagger.Lazy
-import dagger.hilt.android.HiltAndroidApp
-import io.github.reactivecircus.kstreamlined.android.core.scheduledwork.KSWorkerFactory
-import io.github.reactivecircus.kstreamlined.android.core.scheduledwork.sync.SyncScheduler
-import io.github.reactivecircus.kstreamlined.android.di.AppCoroutineScope
-import kotlinx.coroutines.CoroutineScope
+import dev.zacsweers.metro.createGraphFactory
+import io.github.reactivecircus.kstreamlined.android.di.AppGraph
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltAndroidApp
 open class KSApp : Application(), SingletonImageLoader.Factory, Configuration.Provider {
-    @Inject
-    lateinit var imageLoader: Lazy<ImageLoader>
-
-    @Inject
-    lateinit var workerFactory: Lazy<KSWorkerFactory>
-
-    @Inject
-    lateinit var syncScheduler: SyncScheduler
-
-    @Inject
-    @AppCoroutineScope
-    lateinit var appCoroutineScope: CoroutineScope
+    val appGraph by lazy { createGraphFactory<AppGraph.Factory>().create(this) }
 
     override fun onCreate() {
         super.onCreate()
@@ -42,14 +25,16 @@ open class KSApp : Application(), SingletonImageLoader.Factory, Configuration.Pr
 
         initializeKermit()
 
-        appCoroutineScope.launch(Dispatchers.Main.immediate) { syncScheduler.initialize() }
+        appGraph.appCoroutineScope.launch(Dispatchers.Main.immediate) {
+            appGraph.syncScheduler.initialize()
+        }
     }
 
-    override fun newImageLoader(context: PlatformContext): ImageLoader = imageLoader.get()
+    override fun newImageLoader(context: PlatformContext): ImageLoader = appGraph.imageLoader.value
 
     override val workManagerConfiguration: Configuration
         get() = Configuration.Builder()
-            .setWorkerFactory(workerFactory.get())
+            .setWorkerFactory(appGraph.workerFactory.value)
             .build()
 
     protected open fun initializeKermit() {

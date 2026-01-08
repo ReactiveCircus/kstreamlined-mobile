@@ -11,7 +11,6 @@ import org.gradle.api.Project
 internal fun Project.configureMetro() {
     pluginManager.apply("dev.zacsweers.metro")
     extensions.configure(MetroPluginExtension::class.java) {
-        it.generateAssistedFactories.set(true)
         if (providers.gradleProperty("enableMetroCompilerReports").orNull == "true") {
             it.reportsDestination.set(layout.buildDirectory.dir("metro_reports"))
         }

@@ -6,34 +6,21 @@ import com.apollographql.apollo.api.http.HttpMethod
 import com.apollographql.apollo.cache.normalized.store
 import com.apollographql.apollo.network.http.ApolloClientAwarenessInterceptor
 import com.apollographql.apollo.network.okHttpCallFactory
-import dagger.Lazy
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.Provides
+import dev.zacsweers.metro.SingleIn
 import io.github.reactivecircus.kstreamlined.android.BuildConfig
-import io.github.reactivecircus.kstreamlined.kmp.remote.CloudFeedService
-import io.github.reactivecircus.kstreamlined.kmp.remote.FeedService
 import io.github.reactivecircus.kstreamlined.kmp.remote.apollo.ApolloClientConfigs
 import okhttp3.Call
-import javax.inject.Singleton
 
-@Module
-@InstallIn(SingletonComponent::class)
-object CloudRemoteModule {
+interface NetworkProviders {
+    @SingleIn(AppScope::class)
     @Provides
-    @Singleton
-    fun feedService(apolloClient: ApolloClient): FeedService {
-        return CloudFeedService(apolloClient)
-    }
-
-    @Provides
-    @Singleton
     fun apolloClient(
         okHttpCallFactory: Lazy<Call.Factory>,
     ): ApolloClient = trace("ApolloClient") {
         return ApolloClient.Builder()
-            .okHttpCallFactory { okHttpCallFactory.get() }
+            .okHttpCallFactory { okHttpCallFactory.value }
             .serverUrl(BuildConfig.API_ENDPOINT)
             .autoPersistedQueries(httpMethodForHashedQueries = HttpMethod.Post)
             .addHttpInterceptor(

@@ -10,22 +10,26 @@ import androidx.compose.ui.platform.AndroidUiDispatcher
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.cash.molecule.RecompositionMode
-import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.ContributesIntoMap
+import dev.zacsweers.metro.Inject
+import dev.zacsweers.metrox.viewmodel.ViewModelKey
 import io.github.reactivecircus.kstreamlined.kmp.presentation.common.Presenter
 import io.github.reactivecircus.licentia.runtime.LicensesInfo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.StateFlow
-import javax.inject.Inject
 
-@HiltViewModel
-internal class LicensesViewModel @Inject constructor(
+@Inject
+@ViewModelKey(LicensesViewModel::class)
+@ContributesIntoMap(AppScope::class)
+public class LicensesViewModel(
     licensesInfo: LicensesInfo,
 ) : ViewModel() {
     private val presenter = LicensesPresenter(
         licensesInfo = licensesInfo,
         scope = CoroutineScope(viewModelScope.coroutineContext + AndroidUiDispatcher.Main),
     )
-    val uiState: StateFlow<LicensesUiState> = presenter.states
+    internal val uiState: StateFlow<LicensesUiState> = presenter.states
 }
 
 internal class LicensesPresenter(

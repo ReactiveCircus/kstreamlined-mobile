@@ -10,6 +10,7 @@ kstreamlined {
             jvm()
             ios()
         }
+        metro()
         unitTests()
 
         @OptIn(ExperimentalKotlinGradlePluginApi::class)

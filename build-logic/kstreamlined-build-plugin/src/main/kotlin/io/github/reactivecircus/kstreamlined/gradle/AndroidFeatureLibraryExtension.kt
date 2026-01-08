@@ -9,7 +9,7 @@ import io.github.reactivecircus.kstreamlined.gradle.internal.configureAndroidLib
 import io.github.reactivecircus.kstreamlined.gradle.internal.configureBuiltInKotlin
 import io.github.reactivecircus.kstreamlined.gradle.internal.configureCompose
 import io.github.reactivecircus.kstreamlined.gradle.internal.configureDetekt
-import io.github.reactivecircus.kstreamlined.gradle.internal.configureKsp
+import io.github.reactivecircus.kstreamlined.gradle.internal.configureMetro
 import io.github.reactivecircus.kstreamlined.gradle.internal.configurePowerAssert
 import io.github.reactivecircus.kstreamlined.gradle.internal.configureScreenshotTest
 import io.github.reactivecircus.kstreamlined.gradle.internal.configureTest
@@ -99,24 +99,22 @@ internal abstract class AndroidFeatureLibraryExtensionImpl @Inject constructor(
             it.configureAndroidLibraryVariants(unitTestsEnabled)
         }
 
+        configureMetro()
+
         configureCompose(
             jvmTargetEnabled = false,
             androidTargetEnabled = true,
             iosTargetEnabled = false,
         )
 
-        configureKsp()
-
         with(dependencies) {
             add("implementation", project(":core:designsystem"))
-            add("ksp", libs.hilt.compiler)
-            add("implementation", libs.hilt.android)
             add("implementation", libs.androidx.compose.foundation)
             add("implementation", libs.androidx.compose.ui.tooling)
             add("implementation", libs.androidx.lifecycle.runtimeCompose)
             add("implementation", libs.androidx.navigation3.ui)
-            add("implementation", libs.androidx.hilt.lifecycleViewmodelCompose)
             add("implementation", libs.androidx.tracing)
+            add("implementation", libs.metrox.viewmodelCompose)
             add("implementation", libs.coil.compose)
             add("implementation", libs.kermit)
             add("implementation", libs.kotlinx.coroutines.core)
