@@ -3,12 +3,10 @@ package io.github.reactivecircus.kstreamlined.kmp.remote
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesBinding
 import dev.zacsweers.metro.Inject
-import dev.zacsweers.metro.SingleIn
 import io.github.reactivecircus.kstreamlined.kmp.remote.model.FeedEntry
 import io.github.reactivecircus.kstreamlined.kmp.remote.model.FeedSource
 import io.github.reactivecircus.kstreamlined.kmp.remote.model.KotlinWeeklyIssueEntry
 
-@SingleIn(AppScope::class)
 @ContributesBinding(AppScope::class)
 @Inject
 public class MockFeedService : FeedService {

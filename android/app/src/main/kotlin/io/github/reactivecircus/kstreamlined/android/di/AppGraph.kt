@@ -111,14 +111,12 @@ interface AppGraph : ViewModelGraph, NetworkProviders {
         appCoroutineScope: CoroutineScope,
     ): SettingsDataSource = SettingsDataSource(dataStore = createAppSettingsDataStore(context))
 
-    @SingleIn(AppScope::class)
     @Provides
     fun provideAppInfo(): AppInfo = AppInfo(
         versionName = BuildConfig.VERSION_NAME,
         sourceCodeUrl = BuildConfig.SOURCE_CODE_URL,
     )
 
-    @SingleIn(AppScope::class)
     @Provides
     fun provideLicensesInfo(): LicensesInfo = AllLicensesInfo
 
