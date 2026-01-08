@@ -12,6 +12,7 @@ import io.github.reactivecircus.kstreamlined.gradle.internal.configureDetekt
 import io.github.reactivecircus.kstreamlined.gradle.internal.configureKmpTargets
 import io.github.reactivecircus.kstreamlined.gradle.internal.configureKmpTest
 import io.github.reactivecircus.kstreamlined.gradle.internal.configureKotlin
+import io.github.reactivecircus.kstreamlined.gradle.internal.configureMetro
 import io.github.reactivecircus.kstreamlined.gradle.internal.configurePowerAssert
 import org.gradle.api.Action
 import org.gradle.api.Project
@@ -36,6 +37,11 @@ public interface KmpLibraryExtension {
      * Enable Compose.
      */
     public fun compose()
+
+    /**
+     * Enable Metro.
+     */
+    public fun metro()
 
     /**
      * Enable kotlinx.serialization by applying the `org.jetbrains.kotlin.plugin.serialization` plugin.
@@ -129,6 +135,8 @@ internal abstract class KmpLibraryExtensionImpl @Inject constructor(
 
     private var composeEnabled: Boolean = false
 
+    private var metroEnabled: Boolean = false
+
     private var serializationEnabled: Boolean = false
 
     private val apolloServiceConfigs: MutableMap<String, Action<Service>> = mutableMapOf()
@@ -159,6 +167,10 @@ internal abstract class KmpLibraryExtensionImpl @Inject constructor(
 
     override fun compose() {
         composeEnabled = true
+    }
+
+    override fun metro() {
+        metroEnabled = true
     }
 
     override fun serialization() {
@@ -214,6 +226,7 @@ internal abstract class KmpLibraryExtensionImpl @Inject constructor(
         iosTestDependenciesBlock = action
     }
 
+    @Suppress("CyclomaticComplexMethod")
     override fun evaluate() = with(targetsOptions) {
         if (!jvmEnabled && !androidEnabled && !iosEnabled) {
             error(
@@ -260,6 +273,10 @@ internal abstract class KmpLibraryExtensionImpl @Inject constructor(
                     androidTargetEnabled = androidEnabled,
                     iosTargetEnabled = iosEnabled,
                 )
+            }
+
+            if (this@KmpLibraryExtensionImpl.metroEnabled) {
+                configureMetro()
             }
 
             if (this@KmpLibraryExtensionImpl.serializationEnabled) {

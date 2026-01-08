@@ -23,8 +23,8 @@ import io.github.reactivecircus.kstreamlined.gradle.internal.configureAndroidApp
 import io.github.reactivecircus.kstreamlined.gradle.internal.configureBuiltInKotlin
 import io.github.reactivecircus.kstreamlined.gradle.internal.configureCompose
 import io.github.reactivecircus.kstreamlined.gradle.internal.configureDetekt
-import io.github.reactivecircus.kstreamlined.gradle.internal.configureKsp
 import io.github.reactivecircus.kstreamlined.gradle.internal.configureLicensesInfoGeneration
+import io.github.reactivecircus.kstreamlined.gradle.internal.configureMetro
 import io.github.reactivecircus.kstreamlined.gradle.internal.configurePowerAssert
 import io.github.reactivecircus.kstreamlined.gradle.internal.configureTest
 import io.github.reactivecircus.kstreamlined.gradle.internal.libs
@@ -108,9 +108,9 @@ public interface AndroidAppExtension {
     public fun compose()
 
     /**
-     * Enable Hilt by adding the `hilt-compiler` using KSP and adding the `hilt-android` runtime dependency.
+     * Enable Metro.
      */
-    public fun hilt()
+    public fun metro()
 
     /**
      * Enable kotlinx.serialization by applying the `org.jetbrains.kotlin.plugin.serialization` plugin.
@@ -220,7 +220,7 @@ internal abstract class AndroidAppExtensionImpl @Inject constructor(
 
     private var composeEnabled: Boolean = false
 
-    private var hiltEnabled: Boolean = false
+    private var metroEnabled: Boolean = false
 
     private var serializationEnabled: Boolean = false
 
@@ -278,8 +278,8 @@ internal abstract class AndroidAppExtensionImpl @Inject constructor(
         composeEnabled = true
     }
 
-    override fun hilt() {
-        hiltEnabled = true
+    override fun metro() {
+        metroEnabled = true
     }
 
     override fun serialization() {
@@ -395,13 +395,8 @@ internal abstract class AndroidAppExtensionImpl @Inject constructor(
             )
         }
 
-        if (hiltEnabled) {
-            pluginManager.apply("com.google.dagger.hilt.android")
-            configureKsp()
-            with(dependencies) {
-                add("ksp", libs.hilt.compiler)
-                add("implementation", libs.hilt.android)
-            }
+        if (metroEnabled) {
+            configureMetro()
         }
 
         if (serializationEnabled) {

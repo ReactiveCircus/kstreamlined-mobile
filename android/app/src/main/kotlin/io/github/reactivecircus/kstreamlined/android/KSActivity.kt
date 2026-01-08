@@ -11,6 +11,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.ReadOnlyComposable
@@ -29,21 +30,17 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
-import dagger.hilt.android.AndroidEntryPoint
+import dev.zacsweers.metrox.viewmodel.LocalMetroViewModelFactory
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.feature.contentviewer.impl.contentViewerEntry
 import io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue.impl.kotlinWeeklyIssueEntry
 import io.github.reactivecircus.kstreamlined.android.feature.licenses.impl.licensesEntry
 import io.github.reactivecircus.kstreamlined.android.feature.settings.impl.settingsEntry
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.impl.talkingKotlinEpisodeEntry
-import io.github.reactivecircus.kstreamlined.kmp.settings.datasource.SettingsDataSource
 import io.github.reactivecircus.kstreamlined.kmp.settings.model.AppSettings
-import javax.inject.Inject
 
-@AndroidEntryPoint
 class KSActivity : ComponentActivity() {
-    @Inject
-    lateinit var settingsDataSource: SettingsDataSource
+    private val appGraph by lazy { (application as KSApp).appGraph }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
@@ -53,7 +50,7 @@ class KSActivity : ComponentActivity() {
         setContent {
             var theme by rememberSaveable { mutableStateOf(AppSettings.Theme.System) }
             LaunchedEffect(Unit) {
-                settingsDataSource.appSettings.collect { theme = it.theme }
+                appGraph.settingsDataSource.appSettings.collect { theme = it.theme }
             }
 
             KSTheme(
@@ -61,47 +58,51 @@ class KSActivity : ComponentActivity() {
             ) {
                 NavigationBarStyleEffect(theme)
 
-                val backStack = rememberNavBackStack(MainRoute)
+                CompositionLocalProvider(
+                    LocalMetroViewModelFactory provides appGraph.metroViewModelFactory,
+                ) {
+                    val backStack = rememberNavBackStack(MainRoute)
 
-                SharedTransitionLayout {
-                    NavDisplay(
-                        backStack = backStack,
-                        modifier = Modifier.fillMaxSize()
-                            .background(KSTheme.colorScheme.background)
-                            .semantics { testTagsAsResourceId = true },
-                        contentAlignment = Alignment.Center,
-                        entryDecorators = listOf(
-                            rememberSaveableStateHolderNavEntryDecorator(),
-                            rememberViewModelStoreNavEntryDecorator(),
-                        ),
-                        sharedTransitionScope = this,
-                        entryProvider = entryProvider {
-                            mainEntry(
-                                sharedTransitionScope = this@SharedTransitionLayout,
-                                backStack = backStack,
-                            )
-                            contentViewerEntry(
-                                sharedTransitionScope = this@SharedTransitionLayout,
-                                backStack = backStack,
-                            )
-                            kotlinWeeklyIssueEntry(
-                                sharedTransitionScope = this@SharedTransitionLayout,
-                                backStack = backStack,
-                            )
-                            talkingKotlinEpisodeEntry(
-                                sharedTransitionScope = this@SharedTransitionLayout,
-                                backStack = backStack,
-                            )
-                            settingsEntry(
-                                sharedTransitionScope = this@SharedTransitionLayout,
-                                backStack = backStack,
-                            )
-                            licensesEntry(
-                                sharedTransitionScope = this@SharedTransitionLayout,
-                                backStack = backStack,
-                            )
-                        },
-                    )
+                    SharedTransitionLayout {
+                        NavDisplay(
+                            backStack = backStack,
+                            modifier = Modifier.fillMaxSize()
+                                .background(KSTheme.colorScheme.background)
+                                .semantics { testTagsAsResourceId = true },
+                            contentAlignment = Alignment.Center,
+                            entryDecorators = listOf(
+                                rememberSaveableStateHolderNavEntryDecorator(),
+                                rememberViewModelStoreNavEntryDecorator(),
+                            ),
+                            sharedTransitionScope = this,
+                            entryProvider = entryProvider {
+                                mainEntry(
+                                    sharedTransitionScope = this@SharedTransitionLayout,
+                                    backStack = backStack,
+                                )
+                                contentViewerEntry(
+                                    sharedTransitionScope = this@SharedTransitionLayout,
+                                    backStack = backStack,
+                                )
+                                kotlinWeeklyIssueEntry(
+                                    sharedTransitionScope = this@SharedTransitionLayout,
+                                    backStack = backStack,
+                                )
+                                talkingKotlinEpisodeEntry(
+                                    sharedTransitionScope = this@SharedTransitionLayout,
+                                    backStack = backStack,
+                                )
+                                settingsEntry(
+                                    sharedTransitionScope = this@SharedTransitionLayout,
+                                    backStack = backStack,
+                                )
+                                licensesEntry(
+                                    sharedTransitionScope = this@SharedTransitionLayout,
+                                    backStack = backStack,
+                                )
+                            },
+                        )
+                    }
                 }
             }
         }

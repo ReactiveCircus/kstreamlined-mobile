@@ -3,6 +3,10 @@ package io.github.reactivecircus.kstreamlined.kmp.feed.sync
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
 import co.touchlab.kermit.Logger
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.ContributesBinding
+import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.SingleIn
 import io.github.reactivecircus.kstreamlined.kmp.database.KStreamlinedDatabase
 import io.github.reactivecircus.kstreamlined.kmp.database.SyncResourceType
 import io.github.reactivecircus.kstreamlined.kmp.feed.sync.mapper.asNetworkModels
@@ -33,6 +37,9 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlin.coroutines.cancellation.CancellationException
 import kotlin.time.Clock
 
+@SingleIn(AppScope::class)
+@ContributesBinding(AppScope::class)
+@Inject
 public class FeedSyncEngineImpl(
     private val feedService: FeedService,
     private val db: KStreamlinedDatabase,

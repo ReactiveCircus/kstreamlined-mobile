@@ -29,10 +29,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
+import dev.zacsweers.metrox.viewmodel.metroViewModel
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.FilledIconButton
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.TopNavBar
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.TopNavBarSharedTransitionKeys
@@ -63,9 +63,9 @@ public fun SharedTransitionScope.SavedForLaterScreen(
     listState: LazyListState,
     modifier: Modifier = Modifier,
 ) {
-    val viewModel = hiltViewModel<SavedForLaterViewModel>()
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val eventSink = viewModel.eventSink
+    val presenter = metroViewModel<SavedForLaterViewModel>().presenter
+    val uiState by presenter.states.collectAsStateWithLifecycle()
+    val eventSink = presenter.eventSink
     SavedForLaterScreen(
         animatedVisibilityScope = animatedVisibilityScope,
         listState = listState,

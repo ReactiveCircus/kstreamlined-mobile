@@ -3,6 +3,9 @@ package io.github.reactivecircus.kstreamlined.kmp.feed.datasource
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
 import app.cash.sqldelight.coroutines.mapToOneOrNull
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.SingleIn
 import io.github.reactivecircus.kstreamlined.kmp.database.KStreamlinedDatabase
 import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.mapper.asExternalModel
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
@@ -17,6 +20,8 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 
+@SingleIn(AppScope::class)
+@Inject
 public class FeedDataSource(
     private val feedService: FeedService,
     private val db: KStreamlinedDatabase,

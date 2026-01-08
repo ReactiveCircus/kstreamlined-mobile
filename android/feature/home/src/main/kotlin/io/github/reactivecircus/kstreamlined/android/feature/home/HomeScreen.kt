@@ -38,11 +38,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
 import androidx.tracing.trace
+import dev.zacsweers.metrox.viewmodel.metroViewModel
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.FilledIconButton
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Surface
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Text
@@ -79,9 +79,9 @@ public fun SharedTransitionScope.HomeScreen(
     listState: LazyListState,
     modifier: Modifier = Modifier,
 ) {
-    val viewModel = hiltViewModel<HomeViewModel>()
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val eventSink = viewModel.eventSink
+    val presenter = metroViewModel<HomeViewModel>().presenter
+    val uiState by presenter.states.collectAsStateWithLifecycle()
+    val eventSink = presenter.eventSink
     HomeScreen(
         animatedVisibilityScope = animatedVisibilityScope,
         listState = listState,

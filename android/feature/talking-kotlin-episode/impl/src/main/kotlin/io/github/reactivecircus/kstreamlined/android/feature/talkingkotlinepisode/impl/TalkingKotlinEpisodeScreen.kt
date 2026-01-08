@@ -42,12 +42,12 @@ import androidx.compose.ui.text.fromHtml
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
 import androidx.tracing.trace
 import coil3.compose.AsyncImage
+import dev.zacsweers.metrox.viewmodel.assistedMetroViewModel
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.FilledIconButton
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.HorizontalDivider
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Icon
@@ -78,11 +78,11 @@ internal fun SharedTransitionScope.TalkingKotlinEpisodeScreen(
     id: String,
     modifier: Modifier = Modifier,
 ) = trace("Screen:TalkingKotlinEpisode") {
-    val viewModel = hiltViewModel<TalkingKotlinEpisodeViewModel, TalkingKotlinEpisodeViewModel.Factory>(
-        creationCallback = { it.create(id) },
-    )
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val eventSink = viewModel.eventSink
+    val presenter = assistedMetroViewModel<TalkingKotlinEpisodeViewModel, TalkingKotlinEpisodeViewModel.Factory> {
+        create(id)
+    }.presenter
+    val uiState by presenter.states.collectAsStateWithLifecycle()
+    val eventSink = presenter.eventSink
 
     val context = LocalContext.current
     var playerPosition by remember { mutableLongStateOf(0L) }

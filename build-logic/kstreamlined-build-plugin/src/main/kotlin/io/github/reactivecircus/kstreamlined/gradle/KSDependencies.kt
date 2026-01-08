@@ -1,5 +1,3 @@
-@file:Suppress("UnstableApiUsage")
-
 package io.github.reactivecircus.kstreamlined.gradle
 
 import com.android.build.api.dsl.AndroidSourceSet
@@ -83,6 +81,7 @@ internal inline fun <reified S : Named, reified D : KSDependencies> Project.conf
     dependenciesBlock.execute(dependencies)
 }
 
+@Suppress("UnstableApiUsage")
 private fun DependencyCollector.wireWith(
     project: Project,
     configurationName: String,

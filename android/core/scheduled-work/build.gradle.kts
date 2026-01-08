@@ -4,7 +4,7 @@ plugins {
 
 kstreamlined {
     androidCoreLibrary("io.github.reactivecircus.kstreamlined.android.core.scheduledwork") {
-        hilt()
+        metro()
         unitTests()
 
         dependencies {

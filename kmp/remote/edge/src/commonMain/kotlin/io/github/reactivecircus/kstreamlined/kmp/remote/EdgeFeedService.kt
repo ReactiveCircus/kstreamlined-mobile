@@ -1,9 +1,14 @@
 package io.github.reactivecircus.kstreamlined.kmp.remote
 
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.ContributesBinding
+import dev.zacsweers.metro.Inject
 import io.github.reactivecircus.kstreamlined.kmp.remote.model.FeedEntry
 import io.github.reactivecircus.kstreamlined.kmp.remote.model.FeedSource
 import io.github.reactivecircus.kstreamlined.kmp.remote.model.KotlinWeeklyIssueEntry
 
+@ContributesBinding(AppScope::class)
+@Inject
 public class EdgeFeedService : FeedService {
     override suspend fun fetchFeedOrigins(): List<FeedSource> {
         TODO()

@@ -10,6 +10,7 @@ kstreamlined {
             jvm()
             ios()
         }
+        metro()
 
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         dependencies {

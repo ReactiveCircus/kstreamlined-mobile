@@ -37,11 +37,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
 import androidx.tracing.trace
+import dev.zacsweers.metrox.viewmodel.assistedMetroViewModel
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.FilledIconButton
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.LargeIconButton
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.LoadingIndicator
@@ -64,11 +64,11 @@ internal fun SharedTransitionScope.ContentViewerScreen(
     id: String,
     modifier: Modifier = Modifier,
 ) = trace("Screen:ContentViewer") {
-    val viewModel = hiltViewModel<ContentViewerViewModel, ContentViewerViewModel.Factory>(
-        creationCallback = { it.create(id) },
-    )
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val eventSink = viewModel.eventSink
+    val presenter = assistedMetroViewModel<ContentViewerViewModel, ContentViewerViewModel.Factory> {
+        create(id)
+    }.presenter
+    val uiState by presenter.states.collectAsStateWithLifecycle()
+    val eventSink = presenter.eventSink
 
     Column(
         modifier = modifier

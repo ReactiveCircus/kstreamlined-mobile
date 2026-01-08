@@ -9,7 +9,7 @@ import io.github.reactivecircus.kstreamlined.gradle.internal.configureAndroidLib
 import io.github.reactivecircus.kstreamlined.gradle.internal.configureBuiltInKotlin
 import io.github.reactivecircus.kstreamlined.gradle.internal.configureCompose
 import io.github.reactivecircus.kstreamlined.gradle.internal.configureDetekt
-import io.github.reactivecircus.kstreamlined.gradle.internal.configureKsp
+import io.github.reactivecircus.kstreamlined.gradle.internal.configureMetro
 import io.github.reactivecircus.kstreamlined.gradle.internal.configurePowerAssert
 import io.github.reactivecircus.kstreamlined.gradle.internal.configureScreenshotTest
 import io.github.reactivecircus.kstreamlined.gradle.internal.configureTest
@@ -41,9 +41,9 @@ public interface AndroidCoreLibraryExtension {
     )
 
     /**
-     * Enable Hilt by adding the `hilt-compiler` using KSP and adding the `hilt-android` runtime dependency.
+     * Enable Metro.
      */
-    public fun hilt()
+    public fun metro()
 
     /**
      * Enable Android resources.
@@ -77,7 +77,7 @@ internal abstract class AndroidCoreLibraryExtensionImpl @Inject constructor(
 ) : AndroidCoreLibraryExtension, TopLevelExtension {
     private var composeEnabled: Boolean = false
 
-    private var hiltEnabled: Boolean = false
+    private var metroEnabled: Boolean = false
 
     private var androidResourcesEnabled: Boolean = false
 
@@ -99,8 +99,8 @@ internal abstract class AndroidCoreLibraryExtensionImpl @Inject constructor(
         composeEnabled = true
     }
 
-    override fun hilt() {
-        hiltEnabled = true
+    override fun metro() {
+        metroEnabled = true
     }
 
     override fun androidResources() {
@@ -178,12 +178,8 @@ internal abstract class AndroidCoreLibraryExtensionImpl @Inject constructor(
             }
         }
 
-        if (hiltEnabled) {
-            configureKsp()
-            with(dependencies) {
-                add("ksp", libs.hilt.compiler)
-                add("implementation", libs.hilt.android)
-            }
+        if (metroEnabled) {
+            configureMetro()
         }
 
         if (serializationEnabled) {

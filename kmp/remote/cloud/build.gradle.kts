@@ -11,6 +11,7 @@ kstreamlined {
             jvm()
             ios()
         }
+        metro()
         @OptIn(ApolloExperimental::class)
         apolloService("kstreamlined") {
             packageName.set("io.github.reactivecircus.kstreamlined.graphql")
