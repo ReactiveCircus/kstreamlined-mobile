@@ -17,7 +17,6 @@ import dev.zacsweers.metrox.viewmodel.ViewModelKey
 import io.github.reactivecircus.kstreamlined.kmp.presentation.common.Presenter
 import io.github.reactivecircus.licentia.runtime.LicensesInfo
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.StateFlow
 
 @Inject
 @ViewModelKey(LicensesViewModel::class)
@@ -25,11 +24,10 @@ import kotlinx.coroutines.flow.StateFlow
 public class LicensesViewModel(
     licensesInfo: LicensesInfo,
 ) : ViewModel() {
-    private val presenter = LicensesPresenter(
+    internal val presenter = LicensesPresenter(
         licensesInfo = licensesInfo,
         scope = CoroutineScope(viewModelScope.coroutineContext + AndroidUiDispatcher.Main),
     )
-    internal val uiState: StateFlow<LicensesUiState> = presenter.states
 }
 
 internal class LicensesPresenter(

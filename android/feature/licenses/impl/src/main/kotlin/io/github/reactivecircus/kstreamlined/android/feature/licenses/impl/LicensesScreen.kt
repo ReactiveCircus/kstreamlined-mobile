@@ -39,8 +39,8 @@ internal fun SharedTransitionScope.LicensesScreen(
     backStack: NavBackStack<NavKey>,
     modifier: Modifier = Modifier,
 ) = trace("Screen:Licenses") {
-    val viewModel = metroViewModel<LicensesViewModel>()
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val presenter = metroViewModel<LicensesViewModel>().presenter
+    val uiState by presenter.states.collectAsStateWithLifecycle()
 
     LicensesScreen(
         onNavigateUp = backStack::removeLastOrNull,

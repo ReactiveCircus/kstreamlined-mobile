@@ -10,10 +10,7 @@ import dev.zacsweers.metrox.viewmodel.ViewModelKey
 import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.FeedDataSource
 import io.github.reactivecircus.kstreamlined.kmp.feed.sync.FeedSyncEngine
 import io.github.reactivecircus.kstreamlined.kmp.presentation.home.HomePresenter
-import io.github.reactivecircus.kstreamlined.kmp.presentation.home.HomeUiEvent
-import io.github.reactivecircus.kstreamlined.kmp.presentation.home.HomeUiState
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.StateFlow
 
 @Inject
 @ViewModelKey(HomeViewModel::class)
@@ -22,11 +19,9 @@ public class HomeViewModel(
     feedSyncEngine: FeedSyncEngine,
     feedDataSource: FeedDataSource,
 ) : ViewModel() {
-    private val presenter = HomePresenter(
+    internal val presenter = HomePresenter(
         feedSyncEngine = feedSyncEngine,
         feedDataSource = feedDataSource,
         scope = CoroutineScope(viewModelScope.coroutineContext + AndroidUiDispatcher.Main),
     )
-    internal val uiState: StateFlow<HomeUiState> = presenter.states
-    internal val eventSink: (HomeUiEvent) -> Unit = presenter.eventSink
 }

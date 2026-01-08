@@ -66,9 +66,9 @@ internal fun SharedTransitionScope.SettingsScreen(
     titleElementKey: String,
     modifier: Modifier = Modifier,
 ) = trace("Screen:Settings") {
-    val viewModel = metroViewModel<SettingsViewModel>()
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val eventSink = viewModel.eventSink
+    val presenter = metroViewModel<SettingsViewModel>().presenter
+    val uiState by presenter.states.collectAsStateWithLifecycle()
+    val eventSink = presenter.eventSink
 
     SettingsScreen(
         animatedVisibilityScope = animatedVisibilityScope,

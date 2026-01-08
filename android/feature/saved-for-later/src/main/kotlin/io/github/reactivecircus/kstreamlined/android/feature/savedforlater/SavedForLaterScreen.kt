@@ -63,9 +63,9 @@ public fun SharedTransitionScope.SavedForLaterScreen(
     listState: LazyListState,
     modifier: Modifier = Modifier,
 ) {
-    val viewModel = metroViewModel<SavedForLaterViewModel>()
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val eventSink = viewModel.eventSink
+    val presenter = metroViewModel<SavedForLaterViewModel>().presenter
+    val uiState by presenter.states.collectAsStateWithLifecycle()
+    val eventSink = presenter.eventSink
     SavedForLaterScreen(
         animatedVisibilityScope = animatedVisibilityScope,
         listState = listState,

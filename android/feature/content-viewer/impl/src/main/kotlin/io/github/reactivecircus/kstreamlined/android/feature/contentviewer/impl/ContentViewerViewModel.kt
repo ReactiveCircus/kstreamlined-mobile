@@ -12,23 +12,18 @@ import dev.zacsweers.metrox.viewmodel.ManualViewModelAssistedFactory
 import dev.zacsweers.metrox.viewmodel.ManualViewModelAssistedFactoryKey
 import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.FeedDataSource
 import io.github.reactivecircus.kstreamlined.kmp.presentation.contentviewer.ContentViewerPresenter
-import io.github.reactivecircus.kstreamlined.kmp.presentation.contentviewer.ContentViewerUiEvent
-import io.github.reactivecircus.kstreamlined.kmp.presentation.contentviewer.ContentViewerUiState
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.StateFlow
 
 @AssistedInject
 public class ContentViewerViewModel(
     @Assisted id: String,
     feedDataSource: FeedDataSource,
 ) : ViewModel() {
-    private val presenter = ContentViewerPresenter(
+    internal val presenter = ContentViewerPresenter(
         id = id,
         feedDataSource = feedDataSource,
         scope = CoroutineScope(viewModelScope.coroutineContext + AndroidUiDispatcher.Main),
     )
-    internal val uiState: StateFlow<ContentViewerUiState> = presenter.states
-    internal val eventSink: (ContentViewerUiEvent) -> Unit = presenter.eventSink
 
     @AssistedFactory
     @ManualViewModelAssistedFactoryKey(Factory::class)

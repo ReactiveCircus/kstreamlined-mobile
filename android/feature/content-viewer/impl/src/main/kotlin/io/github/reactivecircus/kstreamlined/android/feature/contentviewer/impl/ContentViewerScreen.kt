@@ -64,11 +64,11 @@ internal fun SharedTransitionScope.ContentViewerScreen(
     id: String,
     modifier: Modifier = Modifier,
 ) = trace("Screen:ContentViewer") {
-    val viewModel = assistedMetroViewModel<ContentViewerViewModel, ContentViewerViewModel.Factory> {
+    val presenter = assistedMetroViewModel<ContentViewerViewModel, ContentViewerViewModel.Factory> {
         create(id)
-    }
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val eventSink = viewModel.eventSink
+    }.presenter
+    val uiState by presenter.states.collectAsStateWithLifecycle()
+    val eventSink = presenter.eventSink
 
     Column(
         modifier = modifier

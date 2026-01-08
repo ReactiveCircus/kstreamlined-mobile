@@ -9,10 +9,7 @@ import dev.zacsweers.metro.Inject
 import dev.zacsweers.metrox.viewmodel.ViewModelKey
 import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.FeedDataSource
 import io.github.reactivecircus.kstreamlined.kmp.presentation.savedforlater.SavedForLaterPresenter
-import io.github.reactivecircus.kstreamlined.kmp.presentation.savedforlater.SavedForLaterUiEvent
-import io.github.reactivecircus.kstreamlined.kmp.presentation.savedforlater.SavedForLaterUiState
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.StateFlow
 
 @Inject
 @ViewModelKey(SavedForLaterViewModel::class)
@@ -20,10 +17,8 @@ import kotlinx.coroutines.flow.StateFlow
 public class SavedForLaterViewModel(
     feedDataSource: FeedDataSource,
 ) : ViewModel() {
-    private val presenter = SavedForLaterPresenter(
+    internal val presenter = SavedForLaterPresenter(
         feedDataSource = feedDataSource,
         scope = CoroutineScope(viewModelScope.coroutineContext + AndroidUiDispatcher.Main),
     )
-    internal val uiState: StateFlow<SavedForLaterUiState> = presenter.states
-    internal val eventSink: (SavedForLaterUiEvent) -> Unit = presenter.eventSink
 }

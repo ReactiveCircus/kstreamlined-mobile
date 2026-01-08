@@ -78,11 +78,11 @@ internal fun SharedTransitionScope.TalkingKotlinEpisodeScreen(
     id: String,
     modifier: Modifier = Modifier,
 ) = trace("Screen:TalkingKotlinEpisode") {
-    val viewModel = assistedMetroViewModel<TalkingKotlinEpisodeViewModel, TalkingKotlinEpisodeViewModel.Factory> {
+    val presenter = assistedMetroViewModel<TalkingKotlinEpisodeViewModel, TalkingKotlinEpisodeViewModel.Factory> {
         create(id)
-    }
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val eventSink = viewModel.eventSink
+    }.presenter
+    val uiState by presenter.states.collectAsStateWithLifecycle()
+    val eventSink = presenter.eventSink
 
     val context = LocalContext.current
     var playerPosition by remember { mutableLongStateOf(0L) }

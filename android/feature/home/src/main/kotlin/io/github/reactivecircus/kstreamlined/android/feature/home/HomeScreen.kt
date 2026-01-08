@@ -79,9 +79,9 @@ public fun SharedTransitionScope.HomeScreen(
     listState: LazyListState,
     modifier: Modifier = Modifier,
 ) {
-    val viewModel = metroViewModel<HomeViewModel>()
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val eventSink = viewModel.eventSink
+    val presenter = metroViewModel<HomeViewModel>().presenter
+    val uiState by presenter.states.collectAsStateWithLifecycle()
+    val eventSink = presenter.eventSink
     HomeScreen(
         animatedVisibilityScope = animatedVisibilityScope,
         listState = listState,

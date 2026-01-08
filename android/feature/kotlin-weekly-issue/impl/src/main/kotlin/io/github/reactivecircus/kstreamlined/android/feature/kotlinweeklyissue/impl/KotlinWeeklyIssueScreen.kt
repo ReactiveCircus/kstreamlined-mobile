@@ -68,11 +68,11 @@ internal fun SharedTransitionScope.KotlinWeeklyIssueScreen(
     issueNumber: Int,
     modifier: Modifier = Modifier,
 ) = trace("Screen:KotlinWeeklyIssue") {
-    val viewModel = assistedMetroViewModel<KotlinWeeklyIssueViewModel, KotlinWeeklyIssueViewModel.Factory> {
+    val presenter = assistedMetroViewModel<KotlinWeeklyIssueViewModel, KotlinWeeklyIssueViewModel.Factory> {
         create(id)
-    }
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val eventSink = viewModel.eventSink
+    }.presenter
+    val uiState by presenter.states.collectAsStateWithLifecycle()
+    val eventSink = presenter.eventSink
 
     val context = LocalContext.current
     val title = stringResource(id = R.string.title_kotlin_weekly_issue, issueNumber)
