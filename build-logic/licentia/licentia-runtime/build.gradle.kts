@@ -16,11 +16,7 @@ kotlin {
         }
     }
     iosArm64()
-    if (providers.systemProperty("os.arch").orNull == "aarch64") {
-        iosSimulatorArm64()
-    } else {
-        iosX64()
-    }
+    iosSimulatorArm64()
     explicitApi()
 }
 

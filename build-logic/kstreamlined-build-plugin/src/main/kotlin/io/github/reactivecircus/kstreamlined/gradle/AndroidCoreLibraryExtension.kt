@@ -6,9 +6,9 @@ import com.android.build.api.dsl.LibraryExtension
 import com.android.build.api.variant.LibraryAndroidComponentsExtension
 import io.github.reactivecircus.kstreamlined.gradle.internal.configureAndroidLibraryExtension
 import io.github.reactivecircus.kstreamlined.gradle.internal.configureAndroidLibraryVariants
-import io.github.reactivecircus.kstreamlined.gradle.internal.configureBuiltInKotlin
 import io.github.reactivecircus.kstreamlined.gradle.internal.configureCompose
 import io.github.reactivecircus.kstreamlined.gradle.internal.configureDetekt
+import io.github.reactivecircus.kstreamlined.gradle.internal.configureKotlin
 import io.github.reactivecircus.kstreamlined.gradle.internal.configureMetro
 import io.github.reactivecircus.kstreamlined.gradle.internal.configurePowerAssert
 import io.github.reactivecircus.kstreamlined.gradle.internal.configureScreenshotTest
@@ -137,7 +137,7 @@ internal abstract class AndroidCoreLibraryExtensionImpl @Inject constructor(
         pluginManager.apply("com.android.library")
 
         extensions.configure(KotlinBaseExtension::class.java) {
-            it.configureBuiltInKotlin(this)
+            it.configureKotlin(this)
         }
 
         extensions.configure(LibraryExtension::class.java) {

@@ -8,8 +8,8 @@ import com.android.build.api.dsl.ManagedVirtualDevice
 import com.android.build.api.dsl.TestExtension
 import com.android.build.api.variant.TestAndroidComponentsExtension
 import io.github.reactivecircus.kstreamlined.gradle.internal.configureAndroidTestExtension
-import io.github.reactivecircus.kstreamlined.gradle.internal.configureBuiltInKotlin
 import io.github.reactivecircus.kstreamlined.gradle.internal.configureDetekt
+import io.github.reactivecircus.kstreamlined.gradle.internal.configureKotlin
 import io.github.reactivecircus.kstreamlined.gradle.internal.libs
 import org.gradle.api.Action
 import org.gradle.api.Project
@@ -70,7 +70,7 @@ internal abstract class AndroidBenchmarkExtensionImpl @Inject constructor(
         pluginManager.apply("com.android.test")
 
         extensions.configure(KotlinBaseExtension::class.java) {
-            it.configureBuiltInKotlin(this, enableExplicitApi = false)
+            it.configureKotlin(this, enableExplicitApi = false)
         }
 
         extensions.configure(TestExtension::class.java) {
