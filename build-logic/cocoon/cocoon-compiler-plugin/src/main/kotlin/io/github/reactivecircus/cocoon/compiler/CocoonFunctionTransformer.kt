@@ -47,7 +47,7 @@ internal class CocoonFunctionTransformer(
             startOffset = originalBody.startOffset,
             endOffset = originalBody.endOffset,
         ).apply {
-            val wrappingFunction = pluginContext.referenceFunctions(wrappingFunction).single()
+            val wrappingFunction = pluginContext.finderForBuiltins().findFunctions(wrappingFunction).single()
             val irBuilder = DeclarationIrBuilder(pluginContext, declaration.symbol)
 
             // TODO move up and check early:

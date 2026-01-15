@@ -14,11 +14,11 @@ internal class CocoonIrGenerationExtension(
     private val messageCollector: MessageCollector,
 ) : IrGenerationExtension {
     override fun generate(moduleFragment: IrModuleFragment, pluginContext: IrPluginContext) {
-        if (pluginContext.referenceClass(annotationName) == null) {
+        if (pluginContext.finderForBuiltins().findClass(annotationName) == null) {
             messageCollector.report(CompilerMessageSeverity.ERROR, "Could not find annotation class <$annotationName>.")
             return
         }
-        if (pluginContext.referenceFunctions(wrappingFunctionName).isEmpty()) {
+        if (pluginContext.finderForBuiltins().findFunctions(wrappingFunctionName).isEmpty()) {
             messageCollector.report(
                 CompilerMessageSeverity.ERROR,
                 "Could not find wrapping function <$wrappingFunctionName>.",
