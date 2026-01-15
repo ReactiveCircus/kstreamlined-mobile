@@ -26,7 +26,7 @@ internal class ChameleonSymbols private constructor(
             snapshotFunctionId: CallableId,
             themeVariantEnumId: ClassId,
         ): ChameleonSymbols? {
-            val chameleonAnnotation = pluginContext.referenceClass(chameleonAnnotationId)
+            val chameleonAnnotation = pluginContext.finderForBuiltins().findClass(chameleonAnnotationId)
             if (chameleonAnnotation == null) {
                 messageCollector.report(
                     CompilerMessageSeverity.ERROR,
@@ -35,7 +35,7 @@ internal class ChameleonSymbols private constructor(
                 return null
             }
 
-            val snapshotFunction = pluginContext.referenceFunctions(snapshotFunctionId).singleOrNull()
+            val snapshotFunction = pluginContext.finderForBuiltins().findFunctions(snapshotFunctionId).singleOrNull()
             if (snapshotFunction == null) {
                 messageCollector.report(
                     CompilerMessageSeverity.ERROR,
@@ -44,7 +44,7 @@ internal class ChameleonSymbols private constructor(
                 return null
             }
 
-            val themeVariantEnum = pluginContext.referenceClass(themeVariantEnumId)
+            val themeVariantEnum = pluginContext.finderForBuiltins().findClass(themeVariantEnumId)
             if (themeVariantEnum == null) {
                 messageCollector.report(
                     CompilerMessageSeverity.ERROR,
