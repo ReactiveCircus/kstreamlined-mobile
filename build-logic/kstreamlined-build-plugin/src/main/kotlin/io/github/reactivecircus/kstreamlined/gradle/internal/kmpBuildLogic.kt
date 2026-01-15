@@ -29,11 +29,7 @@ internal fun KotlinMultiplatformExtension.configureKmpTargets(
 
     if (config.iosTargetEnabled) {
         iosArm64()
-        if (project.isAppleSilicon) {
-            iosSimulatorArm64()
-        } else {
-            iosX64()
-        }
+        iosSimulatorArm64()
     }
 }
 
@@ -65,6 +61,3 @@ internal fun KotlinMultiplatformExtension.configureKmpTest(project: Project) {
     }
     project.configureTest()
 }
-
-private val Project.isAppleSilicon: Boolean
-    get() = providers.systemProperty("os.arch").orNull == "aarch64"

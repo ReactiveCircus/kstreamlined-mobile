@@ -2,7 +2,7 @@ import dev.detekt.gradle.Detekt
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    alias(libs.plugins.kotlin.multiplatform)
+    alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.lint)
     alias(libs.plugins.detekt)
 }
@@ -10,16 +10,8 @@ plugins {
 group = project.property("GROUP") as String
 
 kotlin {
-    jvm {
-        compilerOptions {
-            jvmTarget = JvmTarget.JVM_17
-        }
-    }
-    iosArm64()
-    if (providers.systemProperty("os.arch").orNull == "aarch64") {
-        iosSimulatorArm64()
-    } else {
-        iosX64()
+    compilerOptions {
+        jvmTarget = JvmTarget.JVM_17
     }
     explicitApi()
 }

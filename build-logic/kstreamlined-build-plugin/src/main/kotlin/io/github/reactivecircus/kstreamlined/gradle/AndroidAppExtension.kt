@@ -20,9 +20,9 @@ import io.github.reactivecircus.aabpublisher.AabPublisherExtension
 import io.github.reactivecircus.appversioning.AppVersioningExtension
 import io.github.reactivecircus.kstreamlined.gradle.internal.configureAndroidApplicationExtension
 import io.github.reactivecircus.kstreamlined.gradle.internal.configureAndroidApplicationVariants
-import io.github.reactivecircus.kstreamlined.gradle.internal.configureBuiltInKotlin
 import io.github.reactivecircus.kstreamlined.gradle.internal.configureCompose
 import io.github.reactivecircus.kstreamlined.gradle.internal.configureDetekt
+import io.github.reactivecircus.kstreamlined.gradle.internal.configureKotlin
 import io.github.reactivecircus.kstreamlined.gradle.internal.configureLicensesInfoGeneration
 import io.github.reactivecircus.kstreamlined.gradle.internal.configureMetro
 import io.github.reactivecircus.kstreamlined.gradle.internal.configurePowerAssert
@@ -315,7 +315,7 @@ internal abstract class AndroidAppExtensionImpl @Inject constructor(
         pluginManager.apply("com.android.application")
 
         extensions.configure(KotlinBaseExtension::class.java) {
-            it.configureBuiltInKotlin(this, enableExplicitApi = false)
+            it.configureKotlin(this, enableExplicitApi = false)
         }
 
         extensions.configure(ApplicationExtension::class.java) {

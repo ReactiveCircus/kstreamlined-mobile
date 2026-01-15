@@ -6,38 +6,13 @@ import org.gradle.api.tasks.compile.JavaCompile
 import org.jetbrains.kotlin.gradle.dsl.JvmDefaultMode
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinBaseExtension
-import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
 /**
  * Configure Kotlin compiler options, language settings, JVM compatibility for the [target].
  */
-internal fun KotlinProjectExtension.configureKotlin(
-    target: Project,
-) {
-    sourceSets.configureEach {
-        it.languageSettings {
-            progressiveMode = true
-            optIn("kotlin.time.ExperimentalTime")
-            optIn("kotlin.experimental.ExperimentalObjCName")
-            enableLanguageFeature("BreakContinueInInlineLambdas")
-            enableLanguageFeature("ContextParameters")
-            enableLanguageFeature("DataClassCopyRespectsConstructorVisibility")
-            enableLanguageFeature("ExplicitBackingFields")
-            enableLanguageFeature("MultiDollarInterpolation")
-            enableLanguageFeature("NestedTypeAliases")
-            enableLanguageFeature("WhenGuards")
-        }
-    }
-    target.configureJvmCompatibility()
-    explicitApi()
-}
-
-/**
- * Same as [configureKotlin] above but for Android Gradle Plugin's built-in Kotlin.
- */
-internal fun KotlinBaseExtension.configureBuiltInKotlin(
+internal fun KotlinBaseExtension.configureKotlin(
     target: Project,
     enableExplicitApi: Boolean = true,
 ) {
@@ -49,13 +24,13 @@ internal fun KotlinBaseExtension.configureBuiltInKotlin(
                 "kotlin.experimental.ExperimentalObjCName",
             )
             freeCompilerArgs.addAll(
-                "-XXLanguage:+BreakContinueInInlineLambdas",
-                "-XXLanguage:+ContextParameters",
-                "-XXLanguage:+DataClassCopyRespectsConstructorVisibility",
-                "-XXLanguage:+ExplicitBackingFields",
-                "-XXLanguage:+MultiDollarInterpolation",
-                "-XXLanguage:+NestedTypeAliases",
-                "-XXLanguage:+WhenGuards",
+                "-Xnon-local-break-continue",
+                "-Xcontext-parameters",
+                "-Xconsistent-data-class-copy-visibility",
+                "-Xexplicit-backing-fields",
+                "-Xmulti-dollar-interpolation",
+                "-Xnested-type-aliases",
+                "-Xwhen-guards",
             )
         }
     }
