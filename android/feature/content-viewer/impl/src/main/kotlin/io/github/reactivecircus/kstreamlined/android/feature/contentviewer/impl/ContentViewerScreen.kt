@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.webkit.WebSettings
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.fadeIn
@@ -40,50 +39,56 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.ui.LocalNavAnimatedContentScope
 import androidx.tracing.trace
 import dev.zacsweers.metrox.viewmodel.assistedMetroViewModel
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.FilledIconButton
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.LargeIconButton
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.LoadingIndicator
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.TopNavBar
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.TopNavBarSharedTransitionKeys
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.icon.KSIcons
 import io.github.reactivecircus.kstreamlined.android.core.launcher.openShareSheet
 import io.github.reactivecircus.kstreamlined.android.core.ui.pattern.ItemNotFoundUi
+import io.github.reactivecircus.kstreamlined.android.feature.contentviewer.api.ContentViewerRoute
+import io.github.reactivecircus.kstreamlined.android.feature.contentviewer.api.ContentViewerSharedTransitionKeys
 import io.github.reactivecircus.kstreamlined.kmp.presentation.contentviewer.ContentViewerUiEvent
 import io.github.reactivecircus.kstreamlined.kmp.presentation.contentviewer.ContentViewerUiState
 import kotlinx.coroutines.delay
 
 @Composable
 internal fun SharedTransitionScope.ContentViewerScreen(
-    animatedVisibilityScope: AnimatedVisibilityScope,
     backStack: NavBackStack<NavKey>,
-    boundsKey: String,
-    topBarBoundsKey: String,
-    saveButtonElementKey: String,
-    id: String,
-    modifier: Modifier = Modifier,
+    route: ContentViewerRoute,
 ) = trace("Screen:ContentViewer") {
     val presenter = assistedMetroViewModel<ContentViewerViewModel, ContentViewerViewModel.Factory> {
-        create(id)
+        create(route.id)
     }.presenter
     val uiState by presenter.states.collectAsStateWithLifecycle()
     val eventSink = presenter.eventSink
 
+    val animatedVisibilityScope = LocalNavAnimatedContentScope.current
+
     Column(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxSize()
             .windowInsetsPadding(WindowInsets.navigationBars.only(WindowInsetsSides.Horizontal))
             .background(KSTheme.colorScheme.background)
             .sharedBounds(
-                sharedContentState = rememberSharedContentState(key = boundsKey),
+                sharedContentState = rememberSharedContentState(
+                    key = ContentViewerSharedTransitionKeys.bounds(
+                        origin = route.origin,
+                        id = route.id,
+                    ),
+                ),
                 animatedVisibilityScope = animatedVisibilityScope,
             ),
     ) {
         val context = LocalContext.current
         TopNavBar(
             animatedVisibilityScope = animatedVisibilityScope,
-            boundsKey = topBarBoundsKey,
+            boundsKey = TopNavBarSharedTransitionKeys.bounds(route.origin),
             title = "",
             contentPadding = WindowInsets.statusBars.asPaddingValues(),
             navigationIcon = {
@@ -113,7 +118,12 @@ internal fun SharedTransitionScope.ContentViewerScreen(
                         contentDescription = null,
                         onClick = { eventSink(ContentViewerUiEvent.ToggleSavedForLater) },
                         modifier = Modifier.sharedElement(
-                            sharedContentState = rememberSharedContentState(key = saveButtonElementKey),
+                            sharedContentState = rememberSharedContentState(
+                                key = ContentViewerSharedTransitionKeys.saveButtonElement(
+                                    origin = route.origin,
+                                    id = route.id,
+                                ),
+                            ),
                             animatedVisibilityScope = animatedVisibilityScope,
                             zIndexInOverlay = 1f,
                         ),

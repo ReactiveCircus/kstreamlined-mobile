@@ -1,7 +1,6 @@
 package io.github.reactivecircus.kstreamlined.android
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.animation.core.EaseInOutQuart
 import androidx.compose.animation.core.LinearOutSlowInEasing
@@ -33,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.ui.LocalNavAnimatedContentScope
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.NavigationIsland
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.NavigationIslandDivider
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.NavigationIslandItem
@@ -45,16 +45,16 @@ import kotlin.math.absoluteValue
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SharedTransitionScope.MainScreen(
-    animatedVisibilityScope: AnimatedVisibilityScope,
     backStack: NavBackStack<NavKey>,
-    modifier: Modifier = Modifier,
 ) {
     val dpCacheWindow = LazyLayoutCacheWindow(ahead = 300.dp, behind = 300.dp)
     val homeListState = rememberLazyListState(cacheWindow = dpCacheWindow)
     val savedListState = rememberLazyListState(cacheWindow = dpCacheWindow)
     var selectedPage by rememberSerializable { mutableStateOf(MainPagerItem.Home) }
 
-    Box(modifier = modifier.fillMaxSize()) {
+    val animatedVisibilityScope = LocalNavAnimatedContentScope.current
+
+    Box(modifier = Modifier.fillMaxSize()) {
         val pagerState = rememberPagerState(
             initialPage = selectedPage.ordinal,
             pageCount = { MainPagerItem.entries.size },

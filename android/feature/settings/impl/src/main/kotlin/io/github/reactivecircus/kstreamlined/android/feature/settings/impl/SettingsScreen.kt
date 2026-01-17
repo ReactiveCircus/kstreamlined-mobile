@@ -36,17 +36,20 @@ import androidx.compose.ui.zIndex
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.ui.LocalNavAnimatedContentScope
 import androidx.tracing.trace
 import dev.zacsweers.metrox.viewmodel.metroViewModel
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.LargeIconButton
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.ModalBottomSheet
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Text
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.TopNavBar
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.TopNavBarSharedTransitionKeys
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.rememberModalBottomSheetState
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.icon.KSIcons
 import io.github.reactivecircus.kstreamlined.android.feature.licenses.api.LicensesRoute
 import io.github.reactivecircus.kstreamlined.android.feature.licenses.api.LicensesSharedTransitionKeys
+import io.github.reactivecircus.kstreamlined.android.feature.settings.api.SettingsRoute
 import io.github.reactivecircus.kstreamlined.android.feature.settings.impl.component.about.OpenSourceLicensesTile
 import io.github.reactivecircus.kstreamlined.android.feature.settings.impl.component.about.SourceCodeTile
 import io.github.reactivecircus.kstreamlined.android.feature.settings.impl.component.about.VersionTile
@@ -60,25 +63,21 @@ import kotlinx.coroutines.launch
 
 @Composable
 internal fun SharedTransitionScope.SettingsScreen(
-    animatedVisibilityScope: AnimatedVisibilityScope,
     backStack: NavBackStack<NavKey>,
-    topBarBoundsKey: String,
-    titleElementKey: String,
-    modifier: Modifier = Modifier,
+    route: SettingsRoute,
 ) = trace("Screen:Settings") {
     val presenter = metroViewModel<SettingsViewModel>().presenter
     val uiState by presenter.states.collectAsStateWithLifecycle()
     val eventSink = presenter.eventSink
 
     SettingsScreen(
-        animatedVisibilityScope = animatedVisibilityScope,
-        topBarBoundsKey = topBarBoundsKey,
-        titleElementKey = titleElementKey,
+        animatedVisibilityScope = LocalNavAnimatedContentScope.current,
+        topBarBoundsKey = TopNavBarSharedTransitionKeys.bounds(route.origin),
+        titleElementKey = TopNavBarSharedTransitionKeys.titleElement(route.origin),
         onOpenLicenses = { backStack.add(LicensesRoute) },
         onNavigateUp = backStack::removeLastOrNull,
         uiState = uiState,
         eventSink = eventSink,
-        modifier = modifier,
     )
 }
 

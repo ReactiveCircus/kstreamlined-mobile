@@ -45,6 +45,7 @@ import androidx.compose.ui.zIndex
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.ui.LocalNavAnimatedContentScope
 import androidx.tracing.trace
 import coil3.compose.AsyncImage
 import dev.zacsweers.metrox.viewmodel.assistedMetroViewModel
@@ -55,6 +56,7 @@ import io.github.reactivecircus.kstreamlined.android.core.designsystem.component
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Surface
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Text
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.TopNavBar
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.TopNavBarSharedTransitionKeys
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.icon.KSIcons
 import io.github.reactivecircus.kstreamlined.android.core.launcher.openCustomTab
@@ -62,6 +64,7 @@ import io.github.reactivecircus.kstreamlined.android.core.launcher.openShareShee
 import io.github.reactivecircus.kstreamlined.android.core.ui.pattern.ItemNotFoundUi
 import io.github.reactivecircus.kstreamlined.android.core.ui.util.linkify
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.api.TalkingKotlinEpisodeRoute
+import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.api.TalkingKotlinEpisodeSharedTransitionKeys
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.impl.component.PlayPauseButton
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.impl.component.PodcastPlayer
 import io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepisode.TalkingKotlinEpisode
@@ -70,16 +73,11 @@ import io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepiso
 
 @Composable
 internal fun SharedTransitionScope.TalkingKotlinEpisodeScreen(
-    animatedVisibilityScope: AnimatedVisibilityScope,
     backStack: NavBackStack<NavKey>,
-    topBarBoundsKey: String,
-    boundsKey: String,
-    playerElementKey: String,
-    id: String,
-    modifier: Modifier = Modifier,
+    route: TalkingKotlinEpisodeRoute,
 ) = trace("Screen:TalkingKotlinEpisode") {
     val presenter = assistedMetroViewModel<TalkingKotlinEpisodeViewModel, TalkingKotlinEpisodeViewModel.Factory> {
-        create(id)
+        create(route.id)
     }.presenter
     val uiState by presenter.states.collectAsStateWithLifecycle()
     val eventSink = presenter.eventSink
@@ -87,10 +85,15 @@ internal fun SharedTransitionScope.TalkingKotlinEpisodeScreen(
     val context = LocalContext.current
     var playerPosition by remember { mutableLongStateOf(0L) }
 
+    val animatedVisibilityScope = LocalNavAnimatedContentScope.current
+
     TalkingKotlinEpisodeScreen(
         animatedVisibilityScope = animatedVisibilityScope,
-        topBarBoundsKey = topBarBoundsKey,
-        playerElementKey = playerElementKey,
+        topBarBoundsKey = TopNavBarSharedTransitionKeys.bounds(route.origin),
+        playerElementKey = TalkingKotlinEpisodeSharedTransitionKeys.playerElement(
+            origin = route.origin,
+            id = route.id,
+        ),
         onNavigateUp = backStack::removeLastOrNull,
         onShareButtonClick = { title, url ->
             context.openShareSheet(title, url)
@@ -99,8 +102,13 @@ internal fun SharedTransitionScope.TalkingKotlinEpisodeScreen(
         onPlayerPositionChange = { playerPosition = it },
         uiState = uiState,
         eventSink = eventSink,
-        modifier = modifier.sharedBounds(
-            sharedContentState = rememberSharedContentState(key = boundsKey),
+        modifier = Modifier.sharedBounds(
+            sharedContentState = rememberSharedContentState(
+                key = TalkingKotlinEpisodeSharedTransitionKeys.bounds(
+                    origin = route.origin,
+                    id = route.id,
+                ),
+            ),
             animatedVisibilityScope = animatedVisibilityScope,
         ),
     )
