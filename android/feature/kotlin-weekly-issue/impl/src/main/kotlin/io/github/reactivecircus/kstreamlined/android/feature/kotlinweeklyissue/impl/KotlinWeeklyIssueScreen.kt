@@ -40,17 +40,21 @@ import androidx.compose.ui.zIndex
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.ui.LocalNavAnimatedContentScope
 import androidx.tracing.trace
 import dev.zacsweers.metrox.viewmodel.assistedMetroViewModel
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.FilledIconButton
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.LargeIconButton
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Surface
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.TopNavBar
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.TopNavBarSharedTransitionKeys
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.icon.KSIcons
 import io.github.reactivecircus.kstreamlined.android.core.launcher.openCustomTab
 import io.github.reactivecircus.kstreamlined.android.core.launcher.openShareSheet
 import io.github.reactivecircus.kstreamlined.android.core.ui.pattern.ErrorUi
+import io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue.api.KotlinWeeklyIssueRoute
+import io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue.api.KotlinWeeklyIssueSharedTransitionKeys
 import io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue.impl.component.IssueGroupUi
 import io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue.impl.component.IssueItemUi
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.KotlinWeeklyIssueItem
@@ -59,27 +63,24 @@ import io.github.reactivecircus.kstreamlined.kmp.presentation.kotlinweeklyissue.
 
 @Composable
 internal fun SharedTransitionScope.KotlinWeeklyIssueScreen(
-    animatedVisibilityScope: AnimatedVisibilityScope,
     backStack: NavBackStack<NavKey>,
-    boundsKey: String,
-    topBarBoundsKey: String,
-    titleElementKey: String,
-    id: String,
-    issueNumber: Int,
-    modifier: Modifier = Modifier,
+    route: KotlinWeeklyIssueRoute,
 ) = trace("Screen:KotlinWeeklyIssue") {
     val presenter = assistedMetroViewModel<KotlinWeeklyIssueViewModel, KotlinWeeklyIssueViewModel.Factory> {
-        create(id)
+        create(route.id)
     }.presenter
     val uiState by presenter.states.collectAsStateWithLifecycle()
     val eventSink = presenter.eventSink
 
     val context = LocalContext.current
-    val title = stringResource(id = R.string.title_kotlin_weekly_issue, issueNumber)
+    val title = stringResource(id = R.string.title_kotlin_weekly_issue, route.issueNumber)
+
+    val animatedVisibilityScope = LocalNavAnimatedContentScope.current
+
     KotlinWeeklyIssueScreen(
         animatedVisibilityScope = animatedVisibilityScope,
-        topBarBoundsKey = topBarBoundsKey,
-        titleElementKey = titleElementKey,
+        topBarBoundsKey = TopNavBarSharedTransitionKeys.bounds(route.origin),
+        titleElementKey = TopNavBarSharedTransitionKeys.titleElement(route.origin),
         title = title,
         onNavigateUp = backStack::removeLastOrNull,
         onShareButtonClick = { url ->
@@ -90,8 +91,13 @@ internal fun SharedTransitionScope.KotlinWeeklyIssueScreen(
         },
         uiState = uiState,
         eventSink = eventSink,
-        modifier = modifier.sharedBounds(
-            sharedContentState = rememberSharedContentState(key = boundsKey),
+        modifier = Modifier.sharedBounds(
+            sharedContentState = rememberSharedContentState(
+                key = KotlinWeeklyIssueSharedTransitionKeys.bounds(
+                    origin = route.origin,
+                    id = route.id,
+                ),
+            ),
             animatedVisibilityScope = animatedVisibilityScope,
         ),
     )

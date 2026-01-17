@@ -4,29 +4,14 @@ import androidx.compose.animation.SharedTransitionScope
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
-import androidx.navigation3.ui.LocalNavAnimatedContentScope
-import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.TopNavBarSharedTransitionKeys
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.api.TalkingKotlinEpisodeRoute
-import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.api.TalkingKotlinEpisodeSharedTransitionKeys
 
-public fun EntryProviderScope<NavKey>.talkingKotlinEpisodeEntry(
-    sharedTransitionScope: SharedTransitionScope,
+context(entryProviderScope: EntryProviderScope<NavKey>, sharedTransitionScope: SharedTransitionScope)
+public fun talkingKotlinEpisodeEntry(
     backStack: NavBackStack<NavKey>,
-): Unit = with(sharedTransitionScope) {
-    entry<TalkingKotlinEpisodeRoute> {
-        TalkingKotlinEpisodeScreen(
-            animatedVisibilityScope = LocalNavAnimatedContentScope.current,
-            backStack = backStack,
-            boundsKey = TalkingKotlinEpisodeSharedTransitionKeys.bounds(
-                origin = it.origin,
-                id = it.id,
-            ),
-            topBarBoundsKey = TopNavBarSharedTransitionKeys.bounds(it.origin),
-            playerElementKey = TalkingKotlinEpisodeSharedTransitionKeys.playerElement(
-                origin = it.origin,
-                id = it.id,
-            ),
-            id = it.id,
-        )
-    }
+): Unit = entryProviderScope.entry<TalkingKotlinEpisodeRoute> {
+    sharedTransitionScope.TalkingKotlinEpisodeScreen(
+        backStack = backStack,
+        route = it,
+    )
 }

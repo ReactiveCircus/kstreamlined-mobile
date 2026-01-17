@@ -76,30 +76,12 @@ class KSActivity : ComponentActivity() {
                             ),
                             sharedTransitionScope = this,
                             entryProvider = entryProvider {
-                                mainEntry(
-                                    sharedTransitionScope = this@SharedTransitionLayout,
-                                    backStack = backStack,
-                                )
-                                contentViewerEntry(
-                                    sharedTransitionScope = this@SharedTransitionLayout,
-                                    backStack = backStack,
-                                )
-                                kotlinWeeklyIssueEntry(
-                                    sharedTransitionScope = this@SharedTransitionLayout,
-                                    backStack = backStack,
-                                )
-                                talkingKotlinEpisodeEntry(
-                                    sharedTransitionScope = this@SharedTransitionLayout,
-                                    backStack = backStack,
-                                )
-                                settingsEntry(
-                                    sharedTransitionScope = this@SharedTransitionLayout,
-                                    backStack = backStack,
-                                )
-                                licensesEntry(
-                                    sharedTransitionScope = this@SharedTransitionLayout,
-                                    backStack = backStack,
-                                )
+                                mainEntry(backStack)
+                                contentViewerEntry(backStack)
+                                kotlinWeeklyIssueEntry(backStack)
+                                talkingKotlinEpisodeEntry(backStack)
+                                settingsEntry(backStack)
+                                licensesEntry(backStack)
                             },
                         )
                     }

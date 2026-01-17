@@ -1,7 +1,6 @@
 package io.github.reactivecircus.kstreamlined.android.feature.licenses.impl
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -24,6 +23,7 @@ import androidx.compose.ui.zIndex
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.ui.LocalNavAnimatedContentScope
 import androidx.tracing.trace
 import dev.zacsweers.metrox.viewmodel.metroViewModel
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.LargeIconButton
@@ -35,9 +35,7 @@ import io.github.reactivecircus.kstreamlined.android.feature.licenses.impl.compo
 
 @Composable
 internal fun SharedTransitionScope.LicensesScreen(
-    animatedVisibilityScope: AnimatedVisibilityScope,
     backStack: NavBackStack<NavKey>,
-    modifier: Modifier = Modifier,
 ) = trace("Screen:Licenses") {
     val presenter = metroViewModel<LicensesViewModel>().presenter
     val uiState by presenter.states.collectAsStateWithLifecycle()
@@ -45,9 +43,9 @@ internal fun SharedTransitionScope.LicensesScreen(
     LicensesScreen(
         onNavigateUp = backStack::removeLastOrNull,
         uiState = uiState,
-        modifier = modifier.sharedBounds(
+        modifier = Modifier.sharedBounds(
             sharedContentState = rememberSharedContentState(key = LicensesSharedTransitionKeys.Bounds),
-            animatedVisibilityScope = animatedVisibilityScope,
+            animatedVisibilityScope = LocalNavAnimatedContentScope.current,
         ),
     )
 }
