@@ -101,6 +101,7 @@ includeAndroidProjects(
     ":feature:talking-kotlin-episode:impl",
     ":core:designsystem",
     ":core:launcher",
+    ":core:navigation",
     ":core:scheduled-work",
     ":core:screenshot-testing:tester",
     ":core:screenshot-testing:paparazzi",

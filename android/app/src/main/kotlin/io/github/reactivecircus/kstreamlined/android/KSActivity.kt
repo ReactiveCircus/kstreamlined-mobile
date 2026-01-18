@@ -32,11 +32,6 @@ import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import dev.zacsweers.metrox.viewmodel.LocalMetroViewModelFactory
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
-import io.github.reactivecircus.kstreamlined.android.feature.contentviewer.impl.contentViewerEntry
-import io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue.impl.kotlinWeeklyIssueEntry
-import io.github.reactivecircus.kstreamlined.android.feature.licenses.impl.licensesEntry
-import io.github.reactivecircus.kstreamlined.android.feature.settings.impl.settingsEntry
-import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.impl.talkingKotlinEpisodeEntry
 import io.github.reactivecircus.kstreamlined.kmp.settings.model.AppSettings
 
 class KSActivity : ComponentActivity() {
@@ -76,12 +71,7 @@ class KSActivity : ComponentActivity() {
                             ),
                             sharedTransitionScope = this,
                             entryProvider = entryProvider {
-                                mainEntry(backStack)
-                                contentViewerEntry(backStack)
-                                kotlinWeeklyIssueEntry(backStack)
-                                talkingKotlinEpisodeEntry(backStack)
-                                settingsEntry(backStack)
-                                licensesEntry(backStack)
+                                appGraph.navEntryInstallers.forEach { it.install(backStack) }
                             },
                         )
                     }

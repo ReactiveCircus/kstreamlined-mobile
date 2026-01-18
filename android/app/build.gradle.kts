@@ -104,6 +104,7 @@ kstreamlined {
             devImplementation(project(":kmp:remote:cloud"))
             prodImplementation(project(":kmp:remote:cloud"))
             implementation(project(":core:designsystem"))
+            implementation(project(":core:navigation"))
             implementation(project(":feature:content-viewer:impl"))
             implementation(project(":feature:home"))
             implementation(project(":feature:kotlin-weekly-issue:impl"))
