@@ -1,3 +1,52 @@
+FILE fqName:<root> fileName:/BasicManualTemp.kt
+  CLASS CLASS name:FooScreen_NavEntryInstaller modality:FINAL visibility:public superTypes:[io.github.reactivecircus.routebinding.runtime.NavEntryInstaller]
+    annotations:
+      Inject
+      ContributesIntoSet(scope = CLASS_REFERENCE 'CLASS INTERFACE name:AppScope modality:ABSTRACT visibility:public superTypes:[kotlin.Any]' type=kotlin.reflect.KClass<dev.zacsweers.metro.AppScope>)
+    thisReceiver: VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> type:<root>.FooScreen_NavEntryInstaller
+    CONSTRUCTOR visibility:public returnType:<root>.FooScreen_NavEntryInstaller [primary]
+      BLOCK_BODY
+        DELEGATING_CONSTRUCTOR_CALL 'public constructor <init> () declared in kotlin.Any'
+        INSTANCE_INITIALIZER_CALL classDescriptor='CLASS CLASS name:FooScreen_NavEntryInstaller modality:FINAL visibility:public superTypes:[io.github.reactivecircus.routebinding.runtime.NavEntryInstaller]' type=kotlin.Unit
+    FUN FAKE_OVERRIDE name:equals visibility:public modality:OPEN returnType:kotlin.Boolean [fake_override,operator]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      VALUE_PARAMETER kind:Regular name:other index:1 type:kotlin.Any?
+      overridden:
+        public open fun equals (other: kotlin.Any?): kotlin.Boolean declared in io.github.reactivecircus.routebinding.runtime.NavEntryInstaller
+    FUN FAKE_OVERRIDE name:hashCode visibility:public modality:OPEN returnType:kotlin.Int [fake_override]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      overridden:
+        public open fun hashCode (): kotlin.Int declared in io.github.reactivecircus.routebinding.runtime.NavEntryInstaller
+    FUN FAKE_OVERRIDE name:toString visibility:public modality:OPEN returnType:kotlin.String [fake_override]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      overridden:
+        public open fun toString (): kotlin.String declared in io.github.reactivecircus.routebinding.runtime.NavEntryInstaller
+    FUN name:install visibility:public modality:OPEN returnType:kotlin.Unit
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:<root>.FooScreen_NavEntryInstaller
+      VALUE_PARAMETER kind:Context name:entryProviderScope index:1 type:androidx.navigation3.runtime.EntryProviderScope<androidx.navigation3.runtime.NavKey>
+      VALUE_PARAMETER kind:Context name:sharedTransitionScope index:2 type:androidx.compose.animation.SharedTransitionScope
+      VALUE_PARAMETER kind:Regular name:backStack index:3 type:androidx.navigation3.runtime.NavBackStack<androidx.navigation3.runtime.NavKey>
+      overridden:
+        public abstract fun install (entryProviderScope: androidx.navigation3.runtime.EntryProviderScope<androidx.navigation3.runtime.NavKey>, sharedTransitionScope: androidx.compose.animation.SharedTransitionScope, backStack: androidx.navigation3.runtime.NavBackStack<androidx.navigation3.runtime.NavKey>): kotlin.Unit declared in io.github.reactivecircus.routebinding.runtime.NavEntryInstaller
+      BLOCK_BODY
+        CALL 'public final fun entry <K> (content: @[Composable] kotlin.Function1<K of androidx.navigation3.runtime.EntryProviderScope.entry, kotlin.Unit>): kotlin.Unit declared in androidx.navigation3.runtime.EntryProviderScope' type=kotlin.Unit origin=null
+          TYPE_ARG K: <root>.DummyRoute
+          ARG <this>: GET_VAR 'entryProviderScope: androidx.navigation3.runtime.EntryProviderScope<androidx.navigation3.runtime.NavKey> declared in <root>.FooScreen_NavEntryInstaller.install' type=androidx.navigation3.runtime.EntryProviderScope<androidx.navigation3.runtime.NavKey> origin=null
+          ARG content: FUN_EXPR type=kotlin.Function1<<root>.DummyRoute, kotlin.Unit> origin=LAMBDA
+            FUN LOCAL_FUNCTION_FOR_LAMBDA name:<anonymous> visibility:local modality:FINAL returnType:kotlin.Unit
+              VALUE_PARAMETER kind:Regular name:it index:0 type:<root>.DummyRoute
+              BLOCK_BODY
+                CALL 'public final fun FooScreen (<this>: androidx.compose.animation.SharedTransitionScope, backStack: androidx.navigation3.runtime.NavBackStack<androidx.navigation3.runtime.NavKey>, route: <root>.DummyRoute): kotlin.Unit declared in <root>' type=kotlin.Unit origin=null
+                  ARG <this>: GET_VAR 'sharedTransitionScope: androidx.compose.animation.SharedTransitionScope declared in <root>.FooScreen_NavEntryInstaller.install' type=androidx.compose.animation.SharedTransitionScope origin=null
+                  ARG backStack: GET_VAR 'backStack: androidx.navigation3.runtime.NavBackStack<androidx.navigation3.runtime.NavKey> declared in <root>.FooScreen_NavEntryInstaller.install' type=androidx.navigation3.runtime.NavBackStack<androidx.navigation3.runtime.NavKey> origin=null
+                  ARG route: GET_VAR 'it: <root>.DummyRoute declared in <root>.FooScreen_NavEntryInstaller.install.<anonymous>' type=<root>.DummyRoute origin=null
+  FUN name:FooScreen visibility:public modality:FINAL returnType:kotlin.Unit
+    VALUE_PARAMETER kind:ExtensionReceiver name:<this> index:0 type:androidx.compose.animation.SharedTransitionScope
+    VALUE_PARAMETER kind:Regular name:backStack index:1 type:androidx.navigation3.runtime.NavBackStack<androidx.navigation3.runtime.NavKey>
+    VALUE_PARAMETER kind:Regular name:route index:2 type:<root>.DummyRoute
+    annotations:
+      Composable
+    BLOCK_BODY
 FILE fqName:androidx.compose.runtime fileName:/Composable.kt
   CLASS ANNOTATION_CLASS name:Composable modality:OPEN visibility:public superTypes:[kotlin.Annotation]
     annotations:
@@ -127,13 +176,6 @@ FILE fqName:androidx.compose.animation fileName:/SharedTransitionScope.kt
       VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
       overridden:
         public open fun toString (): kotlin.String declared in kotlin.Any
-FILE fqName:<root> fileName:/WithBackStackParamOnly.kt
-  FUN name:FooScreen visibility:public modality:FINAL returnType:kotlin.Unit
-    VALUE_PARAMETER kind:Regular name:backStack index:0 type:androidx.navigation3.runtime.NavBackStack<androidx.navigation3.runtime.NavKey>
-    annotations:
-      RouteBinding(route = CLASS_REFERENCE 'CLASS CLASS name:DummyRoute modality:FINAL visibility:public [data] superTypes:[androidx.navigation3.runtime.NavKey]' type=kotlin.reflect.KClass<<root>.DummyRoute>)
-      Composable
-    BLOCK_BODY
 FILE fqName:dev.zacsweers.metro fileName:/metroAnnotations.kt
   CLASS ANNOTATION_CLASS name:ContributesIntoSet modality:OPEN visibility:public superTypes:[kotlin.Annotation]
     annotations:

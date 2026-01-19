@@ -27,6 +27,12 @@ public class IrDumpTestGenerated extends AbstractIrDumpTest {
   }
 
   @Test
+  @TestMetadata("BasicManualTemp.kt")
+  public void testBasicManualTemp() {
+    runTest("routebinding/routebinding-compiler-plugin/src/test/data/dump/ir/BasicManualTemp.kt");
+  }
+
+  @Test
   @TestMetadata("Minimal.kt")
   public void testMinimal() {
     runTest("routebinding/routebinding-compiler-plugin/src/test/data/dump/ir/Minimal.kt");

@@ -1,0 +1,22 @@
+@Inject
+@ContributesIntoSet(scope = AppScope::class)
+class FooScreen_NavEntryInstaller : NavEntryInstaller {
+  constructor() /* primary */ {
+    super/*Any*/()
+    /* <init>() */
+
+  }
+
+  context(entryProviderScope: EntryProviderScope<NavKey>, sharedTransitionScope: SharedTransitionScope)
+  override fun install(backStack: NavBackStack<NavKey>) {
+    entryProviderScope.entry<DummyRoute>(content = local fun <anonymous>(it: DummyRoute) {
+      FooScreen(/* <this> = sharedTransitionScope, */ backStack = backStack, route = it)
+    }
+)
+  }
+
+}
+
+@Composable
+fun SharedTransitionScope.FooScreen(backStack: NavBackStack<NavKey>, route: DummyRoute) {
+}

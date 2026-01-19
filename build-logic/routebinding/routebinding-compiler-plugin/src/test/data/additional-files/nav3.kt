@@ -7,5 +7,5 @@ interface NavKey
 class NavBackStack<T : NavKey>
 
 class EntryProviderScope<T : Any> {
-    fun <K : T> EntryProviderScope<T>.entry(content: @Composable (K) -> Unit) {}
+    inline fun <reified K : T> entry(noinline content: @Composable (K) -> Unit) {}
 }

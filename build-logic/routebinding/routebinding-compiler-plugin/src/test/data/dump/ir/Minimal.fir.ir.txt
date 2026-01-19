@@ -22,12 +22,40 @@ FILE fqName:androidx.compose.runtime fileName:/Composable.kt
       overridden:
         public open fun toString (): kotlin.String declared in kotlin.Annotation
 FILE fqName:<root> fileName:/DummyRoute.kt
-  CLASS OBJECT name:DummyRoute modality:FINAL visibility:public [data] superTypes:[androidx.navigation3.runtime.NavKey]
+  CLASS CLASS name:DummyRoute modality:FINAL visibility:public [data] superTypes:[androidx.navigation3.runtime.NavKey]
     thisReceiver: VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> type:<root>.DummyRoute
-    CONSTRUCTOR visibility:private returnType:<root>.DummyRoute [primary]
+    PROPERTY name:id visibility:public modality:FINAL [val]
+      FIELD PROPERTY_BACKING_FIELD name:id type:kotlin.Int visibility:private [final]
+        EXPRESSION_BODY
+          GET_VAR 'id: kotlin.Int declared in <root>.DummyRoute.<init>' type=kotlin.Int origin=INITIALIZE_PROPERTY_FROM_PARAMETER
+      FUN DEFAULT_PROPERTY_ACCESSOR name:<get-id> visibility:public modality:FINAL returnType:kotlin.Int
+        VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:<root>.DummyRoute
+        correspondingProperty: PROPERTY name:id visibility:public modality:FINAL [val]
+        BLOCK_BODY
+          RETURN type=kotlin.Nothing from='public final fun <get-id> (): kotlin.Int declared in <root>.DummyRoute'
+            GET_FIELD 'FIELD PROPERTY_BACKING_FIELD name:id type:kotlin.Int visibility:private [final]' type=kotlin.Int origin=null
+              receiver: GET_VAR '<this>: <root>.DummyRoute declared in <root>.DummyRoute.<get-id>' type=<root>.DummyRoute origin=null
+    CONSTRUCTOR visibility:public returnType:<root>.DummyRoute [primary]
+      VALUE_PARAMETER kind:Regular name:id index:0 type:kotlin.Int
       BLOCK_BODY
         DELEGATING_CONSTRUCTOR_CALL 'public constructor <init> () declared in kotlin.Any'
-        INSTANCE_INITIALIZER_CALL classDescriptor='CLASS OBJECT name:DummyRoute modality:FINAL visibility:public [data] superTypes:[androidx.navigation3.runtime.NavKey]' type=kotlin.Unit
+        INSTANCE_INITIALIZER_CALL classDescriptor='CLASS CLASS name:DummyRoute modality:FINAL visibility:public [data] superTypes:[androidx.navigation3.runtime.NavKey]' type=kotlin.Unit
+    FUN GENERATED_DATA_CLASS_MEMBER name:component1 visibility:public modality:FINAL returnType:kotlin.Int [operator]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:<root>.DummyRoute
+      BLOCK_BODY
+        RETURN type=kotlin.Nothing from='public final fun component1 (): kotlin.Int declared in <root>.DummyRoute'
+          GET_FIELD 'FIELD PROPERTY_BACKING_FIELD name:id type:kotlin.Int visibility:private [final]' type=kotlin.Int origin=null
+            receiver: GET_VAR '<this>: <root>.DummyRoute declared in <root>.DummyRoute.component1' type=<root>.DummyRoute origin=null
+    FUN GENERATED_DATA_CLASS_MEMBER name:copy visibility:public modality:FINAL returnType:<root>.DummyRoute
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:<root>.DummyRoute
+      VALUE_PARAMETER kind:Regular name:id index:1 type:kotlin.Int
+        EXPRESSION_BODY
+          GET_FIELD 'FIELD PROPERTY_BACKING_FIELD name:id type:kotlin.Int visibility:private [final]' type=kotlin.Int origin=null
+            receiver: GET_VAR '<this>: <root>.DummyRoute declared in <root>.DummyRoute.copy' type=<root>.DummyRoute origin=null
+      BLOCK_BODY
+        RETURN type=kotlin.Nothing from='public final fun copy (id: kotlin.Int): <root>.DummyRoute declared in <root>.DummyRoute'
+          CONSTRUCTOR_CALL 'public constructor <init> (id: kotlin.Int) declared in <root>.DummyRoute' type=<root>.DummyRoute origin=null
+            ARG id: GET_VAR 'id: kotlin.Int declared in <root>.DummyRoute.copy' type=kotlin.Int origin=null
     FUN GENERATED_DATA_CLASS_MEMBER name:equals visibility:public modality:OPEN returnType:kotlin.Boolean [operator]
       VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:<root>.DummyRoute
       VALUE_PARAMETER kind:Regular name:other index:1 type:kotlin.Any?
@@ -50,6 +78,16 @@ FILE fqName:<root> fileName:/DummyRoute.kt
         VAR IR_TEMPORARY_VARIABLE name:tmp_0 type:<root>.DummyRoute [val]
           TYPE_OP type=<root>.DummyRoute origin=IMPLICIT_CAST typeOperand=<root>.DummyRoute
             GET_VAR 'other: kotlin.Any? declared in <root>.DummyRoute.equals' type=kotlin.Any? origin=null
+        WHEN type=kotlin.Unit origin=null
+          BRANCH
+            if: CALL 'public final fun not (): kotlin.Boolean declared in kotlin.Boolean' type=kotlin.Boolean origin=EXCLEQ
+              ARG <this>: CALL 'public final fun EQEQ (arg0: kotlin.Any?, arg1: kotlin.Any?): kotlin.Boolean declared in kotlin.internal.ir' type=kotlin.Boolean origin=EXCLEQ
+                ARG arg0: GET_FIELD 'FIELD PROPERTY_BACKING_FIELD name:id type:kotlin.Int visibility:private [final]' type=kotlin.Int origin=null
+                  receiver: GET_VAR '<this>: <root>.DummyRoute declared in <root>.DummyRoute.equals' type=<root>.DummyRoute origin=null
+                ARG arg1: GET_FIELD 'FIELD PROPERTY_BACKING_FIELD name:id type:kotlin.Int visibility:private [final]' type=kotlin.Int origin=null
+                  receiver: GET_VAR 'val tmp_0: <root>.DummyRoute declared in <root>.DummyRoute.equals' type=<root>.DummyRoute origin=null
+            then: RETURN type=kotlin.Nothing from='public open fun equals (other: kotlin.Any?): kotlin.Boolean declared in <root>.DummyRoute'
+              CONST Boolean type=kotlin.Boolean value=false
         RETURN type=kotlin.Nothing from='public open fun equals (other: kotlin.Any?): kotlin.Boolean declared in <root>.DummyRoute'
           CONST Boolean type=kotlin.Boolean value=true
     FUN GENERATED_DATA_CLASS_MEMBER name:hashCode visibility:public modality:OPEN returnType:kotlin.Int
@@ -58,18 +96,25 @@ FILE fqName:<root> fileName:/DummyRoute.kt
         public open fun hashCode (): kotlin.Int declared in androidx.navigation3.runtime.NavKey
       BLOCK_BODY
         RETURN type=kotlin.Nothing from='public open fun hashCode (): kotlin.Int declared in <root>.DummyRoute'
-          CONST Int type=kotlin.Int value=987906721
+          CALL 'public open fun hashCode (): kotlin.Int declared in kotlin.Int' type=kotlin.Int origin=null
+            ARG <this>: GET_FIELD 'FIELD PROPERTY_BACKING_FIELD name:id type:kotlin.Int visibility:private [final]' type=kotlin.Int origin=null
+              receiver: GET_VAR '<this>: <root>.DummyRoute declared in <root>.DummyRoute.hashCode' type=<root>.DummyRoute origin=null
     FUN GENERATED_DATA_CLASS_MEMBER name:toString visibility:public modality:OPEN returnType:kotlin.String
       VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:<root>.DummyRoute
       overridden:
         public open fun toString (): kotlin.String declared in androidx.navigation3.runtime.NavKey
       BLOCK_BODY
         RETURN type=kotlin.Nothing from='public open fun toString (): kotlin.String declared in <root>.DummyRoute'
-          CONST String type=kotlin.String value="DummyRoute"
+          STRING_CONCATENATION type=kotlin.String
+            CONST String type=kotlin.String value="DummyRoute("
+            CONST String type=kotlin.String value="id="
+            GET_FIELD 'FIELD PROPERTY_BACKING_FIELD name:id type:kotlin.Int visibility:private [final]' type=kotlin.Int origin=null
+              receiver: GET_VAR '<this>: <root>.DummyRoute declared in <root>.DummyRoute.toString' type=<root>.DummyRoute origin=null
+            CONST String type=kotlin.String value=")"
 FILE fqName:<root> fileName:/Minimal.kt
   FUN name:FooScreen visibility:public modality:FINAL returnType:kotlin.Unit
     annotations:
-      RouteBinding(route = CLASS_REFERENCE 'CLASS OBJECT name:DummyRoute modality:FINAL visibility:public [data] superTypes:[androidx.navigation3.runtime.NavKey]' type=kotlin.reflect.KClass<<root>.DummyRoute>)
+      RouteBinding(route = CLASS_REFERENCE 'CLASS CLASS name:DummyRoute modality:FINAL visibility:public [data] superTypes:[androidx.navigation3.runtime.NavKey]' type=kotlin.reflect.KClass<<root>.DummyRoute>)
       Composable
     BLOCK_BODY
 FILE fqName:androidx.compose.animation fileName:/SharedTransitionScope.kt
@@ -181,11 +226,10 @@ FILE fqName:androidx.navigation3.runtime fileName:/nav3.kt
       VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
       overridden:
         public open fun toString (): kotlin.String declared in kotlin.Any
-    FUN name:entry visibility:public modality:FINAL returnType:kotlin.Unit
-      TYPE_PARAMETER name:K index:0 variance: superTypes:[T of androidx.navigation3.runtime.EntryProviderScope] reified:false
+    FUN name:entry visibility:public modality:FINAL returnType:kotlin.Unit [inline]
+      TYPE_PARAMETER name:K index:0 variance: superTypes:[T of androidx.navigation3.runtime.EntryProviderScope] reified:true
       VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:androidx.navigation3.runtime.EntryProviderScope<T of androidx.navigation3.runtime.EntryProviderScope>
-      VALUE_PARAMETER kind:ExtensionReceiver name:<this> index:1 type:androidx.navigation3.runtime.EntryProviderScope<T of androidx.navigation3.runtime.EntryProviderScope>
-      VALUE_PARAMETER kind:Regular name:content index:2 type:@[Composable] kotlin.Function1<K of androidx.navigation3.runtime.EntryProviderScope.entry, kotlin.Unit>
+      VALUE_PARAMETER kind:Regular name:content index:1 type:@[Composable] kotlin.Function1<K of androidx.navigation3.runtime.EntryProviderScope.entry, kotlin.Unit> [noinline]
       BLOCK_BODY
   CLASS CLASS name:NavBackStack modality:FINAL visibility:public superTypes:[kotlin.Any]
     thisReceiver: VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> type:androidx.navigation3.runtime.NavBackStack<T of androidx.navigation3.runtime.NavBackStack>
