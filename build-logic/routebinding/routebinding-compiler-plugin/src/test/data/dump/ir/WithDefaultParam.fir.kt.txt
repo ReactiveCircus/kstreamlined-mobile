@@ -1,0 +1,4 @@
+@RouteBinding(route = DummyRoute::class)
+@Composable
+fun SharedTransitionScope.FooScreen(backStack: NavBackStack<NavKey>, route: DummyRoute, title: String = "Title") {
+}

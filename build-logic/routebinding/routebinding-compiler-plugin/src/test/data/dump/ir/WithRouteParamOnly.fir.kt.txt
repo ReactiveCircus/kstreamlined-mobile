@@ -1,0 +1,4 @@
+@RouteBinding(route = DummyRoute::class)
+@Composable
+fun FooScreen(route: DummyRoute) {
+}
