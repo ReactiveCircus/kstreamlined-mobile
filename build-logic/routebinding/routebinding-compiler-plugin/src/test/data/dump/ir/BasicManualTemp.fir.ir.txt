@@ -44,6 +44,7 @@ FILE fqName:<root> fileName:/BasicManualTemp.kt
     VALUE_PARAMETER kind:Regular name:backStack index:1 type:androidx.navigation3.runtime.NavBackStack<androidx.navigation3.runtime.NavKey>
     VALUE_PARAMETER kind:Regular name:route index:2 type:<root>.DummyRoute
     annotations:
+      RouteBinding(route = CLASS_REFERENCE 'CLASS CLASS name:DummyRoute modality:FINAL visibility:public [data] superTypes:[androidx.navigation3.runtime.NavKey]' type=kotlin.reflect.KClass<<root>.DummyRoute>)
       Composable
     BLOCK_BODY
 FILE fqName:androidx.compose.runtime fileName:/Composable.kt

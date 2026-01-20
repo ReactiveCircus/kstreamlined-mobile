@@ -10,6 +10,7 @@ import dev.zacsweers.metro.ContributesIntoSet
 import dev.zacsweers.metro.AppScope
 import io.github.reactivecircus.routebinding.runtime.RouteBinding
 
+@RouteBinding(DummyRoute::class)
 @Composable
 fun SharedTransitionScope.FooScreen(
     backStack: NavBackStack<NavKey>,
