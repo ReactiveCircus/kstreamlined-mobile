@@ -33,7 +33,6 @@ private class RouteBindingExtensionRegistrarConfigurator(
     ) {
         IrGenerationExtension.registerExtension(
             RouteBindingIrGenerationExtension(
-                routeBindingAnnotationId = RouteBinding.ANNOTATION_ID,
                 messageCollector = configuration.get(
                     CommonConfigurationKeys.MESSAGE_COLLECTOR_KEY,
                     MessageCollector.NONE,
