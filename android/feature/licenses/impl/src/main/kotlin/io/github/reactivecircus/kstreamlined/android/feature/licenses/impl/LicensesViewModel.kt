@@ -12,13 +12,11 @@ import androidx.lifecycle.viewModelScope
 import app.cash.molecule.RecompositionMode
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoMap
-import dev.zacsweers.metro.Inject
 import dev.zacsweers.metrox.viewmodel.ViewModelKey
 import io.github.reactivecircus.kstreamlined.kmp.presentation.common.Presenter
 import io.github.reactivecircus.licentia.runtime.LicensesInfo
 import kotlinx.coroutines.CoroutineScope
 
-@Inject
 @ViewModelKey(LicensesViewModel::class)
 @ContributesIntoMap(AppScope::class)
 public class LicensesViewModel(

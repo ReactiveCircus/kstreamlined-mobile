@@ -5,14 +5,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoMap
-import dev.zacsweers.metro.Inject
 import dev.zacsweers.metrox.viewmodel.ViewModelKey
 import io.github.reactivecircus.kstreamlined.kmp.appinfo.AppInfo
 import io.github.reactivecircus.kstreamlined.kmp.presentation.settings.SettingsPresenter
 import io.github.reactivecircus.kstreamlined.kmp.settings.datasource.SettingsDataSource
 import kotlinx.coroutines.CoroutineScope
 
-@Inject
 @ViewModelKey(SettingsViewModel::class)
 @ContributesIntoMap(AppScope::class)
 public class SettingsViewModel(

@@ -5,14 +5,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoMap
-import dev.zacsweers.metro.Inject
 import dev.zacsweers.metrox.viewmodel.ViewModelKey
 import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.FeedDataSource
 import io.github.reactivecircus.kstreamlined.kmp.feed.sync.FeedSyncEngine
 import io.github.reactivecircus.kstreamlined.kmp.presentation.home.HomePresenter
 import kotlinx.coroutines.CoroutineScope
 
-@Inject
 @ViewModelKey(HomeViewModel::class)
 @ContributesIntoMap(AppScope::class)
 public class HomeViewModel(
