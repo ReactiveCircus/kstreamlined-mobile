@@ -1,4 +1,3 @@
-@Inject
 @ContributesIntoSet(scope = AppScope::class)
 class FooScreen_NavEntryInstaller : NavEntryInstaller {
   constructor() /* primary */ {

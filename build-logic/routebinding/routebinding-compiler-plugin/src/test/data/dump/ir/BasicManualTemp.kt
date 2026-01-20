@@ -6,7 +6,6 @@ import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.EntryProviderScope
 import io.github.reactivecircus.routebinding.runtime.NavEntryInstaller
-import dev.zacsweers.metro.Inject
 import dev.zacsweers.metro.ContributesIntoSet
 import dev.zacsweers.metro.AppScope
 import io.github.reactivecircus.routebinding.runtime.RouteBinding
@@ -18,7 +17,6 @@ fun SharedTransitionScope.FooScreen(
 ) {
 }
 
-@Inject
 @ContributesIntoSet(AppScope::class)
 class FooScreen_NavEntryInstaller : NavEntryInstaller {
     context(entryProviderScope: EntryProviderScope<NavKey>, sharedTransitionScope: SharedTransitionScope)
