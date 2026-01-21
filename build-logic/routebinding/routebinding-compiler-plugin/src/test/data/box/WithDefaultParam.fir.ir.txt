@@ -136,6 +136,26 @@ FILE fqName:<root> fileName:/WithDefaultParam.kt
       BLOCK_BODY
         DELEGATING_CONSTRUCTOR_CALL 'public constructor <init> () declared in kotlin.Any'
         INSTANCE_INITIALIZER_CALL classDescriptor='CLASS CLASS name:FooScreen_NavEntryInstaller modality:FINAL visibility:public superTypes:[io.github.reactivecircus.routebinding.runtime.NavEntryInstaller]' type=kotlin.Unit
+    FUN FAKE_OVERRIDE name:equals visibility:public modality:OPEN returnType:kotlin.Boolean [fake_override,operator]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      VALUE_PARAMETER kind:Regular name:other index:1 type:kotlin.Any?
+      overridden:
+        public open fun equals (other: kotlin.Any?): kotlin.Boolean declared in io.github.reactivecircus.routebinding.runtime.NavEntryInstaller
+    FUN FAKE_OVERRIDE name:hashCode visibility:public modality:OPEN returnType:kotlin.Int [fake_override]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      overridden:
+        public open fun hashCode (): kotlin.Int declared in io.github.reactivecircus.routebinding.runtime.NavEntryInstaller
+    FUN FAKE_OVERRIDE name:install visibility:public modality:ABSTRACT returnType:kotlin.Unit [fake_override]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:io.github.reactivecircus.routebinding.runtime.NavEntryInstaller
+      VALUE_PARAMETER kind:Context name:entryProviderScope index:1 type:androidx.navigation3.runtime.EntryProviderScope<androidx.navigation3.runtime.NavKey>
+      VALUE_PARAMETER kind:Context name:sharedTransitionScope index:2 type:androidx.compose.animation.SharedTransitionScope
+      VALUE_PARAMETER kind:Regular name:backStack index:3 type:androidx.navigation3.runtime.NavBackStack<androidx.navigation3.runtime.NavKey>
+      overridden:
+        public abstract fun install (entryProviderScope: androidx.navigation3.runtime.EntryProviderScope<androidx.navigation3.runtime.NavKey>, sharedTransitionScope: androidx.compose.animation.SharedTransitionScope, backStack: androidx.navigation3.runtime.NavBackStack<androidx.navigation3.runtime.NavKey>): kotlin.Unit declared in io.github.reactivecircus.routebinding.runtime.NavEntryInstaller
+    FUN FAKE_OVERRIDE name:toString visibility:public modality:OPEN returnType:kotlin.String [fake_override]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      overridden:
+        public open fun toString (): kotlin.String declared in io.github.reactivecircus.routebinding.runtime.NavEntryInstaller
   FUN name:FooScreen visibility:public modality:FINAL returnType:kotlin.Unit
     VALUE_PARAMETER kind:ExtensionReceiver name:<this> index:0 type:androidx.compose.animation.SharedTransitionScope
     VALUE_PARAMETER kind:Regular name:backStack index:1 type:androidx.navigation3.runtime.NavBackStack<androidx.navigation3.runtime.NavKey>
