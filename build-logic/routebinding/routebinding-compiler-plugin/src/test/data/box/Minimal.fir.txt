@@ -1,0 +1,6 @@
+FILE: Minimal.kt
+    @R|io/github/reactivecircus/routebinding/runtime/RouteBinding|(route = <getClass>(Q|DummyRoute|)) @R|androidx/compose/runtime/Composable|() public final fun FooScreen(): R|kotlin/Unit| {
+    }
+    public final fun box(): R|kotlin/String| {
+        ^box String(OK)
+    }

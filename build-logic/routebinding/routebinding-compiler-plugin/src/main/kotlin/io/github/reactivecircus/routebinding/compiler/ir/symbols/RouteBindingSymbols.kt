@@ -23,7 +23,7 @@ internal class RouteBindingSymbols private constructor(
             if (routeBindingAnnotation == null) {
                 messageCollector.report(
                     CompilerMessageSeverity.ERROR,
-                    "Could not find annotation class <$routeBindingAnnotation>.",
+                    "Could not find annotation class <$routeBindingAnnotationId>.",
                 )
                 return null
             }
@@ -31,7 +31,7 @@ internal class RouteBindingSymbols private constructor(
             if (navEntryInstallerInterface == null) {
                 messageCollector.report(
                     CompilerMessageSeverity.ERROR,
-                    "Could not find interface <$navEntryInstallerInterface>.",
+                    "Could not find interface <$navEntryInstallerClassId>.",
                 )
                 return null
             }

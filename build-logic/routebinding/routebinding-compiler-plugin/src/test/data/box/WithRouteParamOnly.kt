@@ -7,3 +7,7 @@ fun FooScreen(
     route: DummyRoute,
 ) {
 }
+
+fun box(): String {
+    return "OK"
+}

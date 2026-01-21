@@ -9,6 +9,9 @@ import io.github.reactivecircus.routebinding.runtime.RouteBinding
 fun SharedTransitionScope.FooScreen(
     backStack: NavBackStack<NavKey>,
     route: DummyRoute,
-    title: String = "Title",
 ) {
+}
+
+fun box(): String {
+    return "OK"
 }

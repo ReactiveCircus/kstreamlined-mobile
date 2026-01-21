@@ -1,0 +1,6 @@
+FILE: Basic.kt
+    @R|io/github/reactivecircus/routebinding/runtime/RouteBinding|(route = <getClass>(Q|DummyRoute|)) @R|androidx/compose/runtime/Composable|() public final fun R|androidx/compose/animation/SharedTransitionScope|.FooScreen(backStack: R|androidx/navigation3/runtime/NavBackStack<androidx/navigation3/runtime/NavKey>|, route: R|DummyRoute|): R|kotlin/Unit| {
+    }
+    public final fun box(): R|kotlin/String| {
+        ^box String(OK)
+    }

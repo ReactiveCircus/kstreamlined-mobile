@@ -25,7 +25,7 @@ internal class Nav3Symbols private constructor(
             if (navKeyInterface == null) {
                 messageCollector.report(
                     CompilerMessageSeverity.ERROR,
-                    "Could not find interface <$navKeyInterface>.",
+                    "Could not find interface <$navKeyClassId>.",
                 )
                 return null
             }
@@ -33,7 +33,7 @@ internal class Nav3Symbols private constructor(
             if (navBackStackClass == null) {
                 messageCollector.report(
                     CompilerMessageSeverity.ERROR,
-                    "Could not find class <$navBackStackClass>.",
+                    "Could not find class <$navBackStackClassId>.",
                 )
                 return null
             }
@@ -41,7 +41,7 @@ internal class Nav3Symbols private constructor(
             if (entryProviderScopeClass == null) {
                 messageCollector.report(
                     CompilerMessageSeverity.ERROR,
-                    "Could not find class <$entryProviderScopeClass>.",
+                    "Could not find class <$entryProviderScopeClassId>.",
                 )
                 return null
             }

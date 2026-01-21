@@ -5,3 +5,7 @@ import androidx.compose.runtime.Composable
 @Composable
 fun FooScreen() {
 }
+
+fun box(): String {
+    return "OK"
+}

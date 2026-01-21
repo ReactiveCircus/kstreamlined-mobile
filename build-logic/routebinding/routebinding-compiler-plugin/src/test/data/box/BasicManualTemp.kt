@@ -30,3 +30,7 @@ class FooScreen_NavEntryInstaller : NavEntryInstaller {
         }
     }
 }
+
+fun box(): String {
+    return "OK"
+}

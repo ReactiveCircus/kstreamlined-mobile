@@ -2,19 +2,18 @@ package io.github.reactivecircus.routebinding.compiler
 
 import org.jetbrains.kotlin.config.JvmTarget
 import org.jetbrains.kotlin.test.builders.TestConfigurationBuilder
+import org.jetbrains.kotlin.test.directives.CodegenTestDirectives.DUMP_IR
 import org.jetbrains.kotlin.test.directives.CodegenTestDirectives.IGNORE_DEXING
 import org.jetbrains.kotlin.test.directives.ConfigurationDirectives.WITH_STDLIB
-import org.jetbrains.kotlin.test.directives.DiagnosticsDirectives.RENDER_DIAGNOSTICS_FULL_TEXT
 import org.jetbrains.kotlin.test.directives.FirDiagnosticsDirectives.DISABLE_GENERATED_FIR_TAGS
+import org.jetbrains.kotlin.test.directives.FirDiagnosticsDirectives.FIR_DUMP
 import org.jetbrains.kotlin.test.directives.JvmEnvironmentConfigurationDirectives.FULL_JDK
 import org.jetbrains.kotlin.test.directives.JvmEnvironmentConfigurationDirectives.JVM_TARGET
-import org.jetbrains.kotlin.test.directives.TestPhaseDirectives.RUN_PIPELINE_TILL
-import org.jetbrains.kotlin.test.runners.AbstractPhasedJvmDiagnosticLightTreeTest
+import org.jetbrains.kotlin.test.runners.codegen.AbstractFirLightTreeBlackBoxCodegenTest
 import org.jetbrains.kotlin.test.services.EnvironmentBasedStandardLibrariesPathProvider
 import org.jetbrains.kotlin.test.services.KotlinStandardLibrariesPathProvider
-import org.jetbrains.kotlin.test.services.TestPhase
 
-open class AbstractFirDiagnosticTest : AbstractPhasedJvmDiagnosticLightTreeTest() {
+open class AbstractBoxTest : AbstractFirLightTreeBlackBoxCodegenTest() {
     override fun createKotlinStandardLibrariesPathProvider(): KotlinStandardLibrariesPathProvider {
         return EnvironmentBasedStandardLibrariesPathProvider
     }
@@ -32,8 +31,8 @@ open class AbstractFirDiagnosticTest : AbstractPhasedJvmDiagnosticLightTreeTest(
             +IGNORE_DEXING // Avoids loading R8 from the classpath.
             +DISABLE_GENERATED_FIR_TAGS
 
-            +RENDER_DIAGNOSTICS_FULL_TEXT
-            RUN_PIPELINE_TILL.with(TestPhase.FRONTEND)
+            +FIR_DUMP
+            +DUMP_IR
         }
     }
 }

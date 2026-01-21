@@ -23,7 +23,7 @@ internal class MetroSymbols private constructor(
             if (appScopeAnnotation == null) {
                 messageCollector.report(
                     CompilerMessageSeverity.ERROR,
-                    "Could not find annotation class <$appScopeAnnotation>.",
+                    "Could not find annotation class <$appScopeAnnotationId>.",
                 )
                 return null
             }
@@ -33,7 +33,7 @@ internal class MetroSymbols private constructor(
             if (contributesIntoSetAnnotation == null) {
                 messageCollector.report(
                     CompilerMessageSeverity.ERROR,
-                    "Could not find annotation class <$contributesIntoSetAnnotation>.",
+                    "Could not find annotation class <$contributesIntoSetAnnotationId>.",
                 )
                 return null
             }

@@ -23,7 +23,7 @@ internal class ComposeSymbols private constructor(
             if (composableAnnotation == null) {
                 messageCollector.report(
                     CompilerMessageSeverity.ERROR,
-                    "Could not find annotation class <$composableAnnotation>.",
+                    "Could not find annotation class <$composableAnnotationId>.",
                 )
                 return null
             }
@@ -33,7 +33,7 @@ internal class ComposeSymbols private constructor(
             if (sharedTransitionScopeInterface == null) {
                 messageCollector.report(
                     CompilerMessageSeverity.ERROR,
-                    "Could not find interface <$sharedTransitionScopeInterface>.",
+                    "Could not find interface <$sharedTransitionScopeClassId>.",
                 )
                 return null
             }

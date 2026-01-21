@@ -1,4 +1,12 @@
 FILE fqName:<root> fileName:/Basic.kt
+  CLASS CLASS name:FooScreen_NavEntryInstaller modality:FINAL visibility:public superTypes:[io.github.reactivecircus.routebinding.runtime.NavEntryInstaller]
+    annotations:
+      ContributesIntoSet(scope = CLASS_REFERENCE 'CLASS INTERFACE name:AppScope modality:ABSTRACT visibility:public superTypes:[kotlin.Any]' type=kotlin.reflect.KClass<dev.zacsweers.metro.AppScope>)
+    thisReceiver: VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> type:<root>.FooScreen_NavEntryInstaller
+    CONSTRUCTOR visibility:public returnType:<root>.FooScreen_NavEntryInstaller [primary]
+      BLOCK_BODY
+        DELEGATING_CONSTRUCTOR_CALL 'public constructor <init> () declared in kotlin.Any'
+        INSTANCE_INITIALIZER_CALL classDescriptor='CLASS CLASS name:FooScreen_NavEntryInstaller modality:FINAL visibility:public superTypes:[io.github.reactivecircus.routebinding.runtime.NavEntryInstaller]' type=kotlin.Unit
   FUN name:FooScreen visibility:public modality:FINAL returnType:kotlin.Unit
     VALUE_PARAMETER kind:ExtensionReceiver name:<this> index:0 type:androidx.compose.animation.SharedTransitionScope
     VALUE_PARAMETER kind:Regular name:backStack index:1 type:androidx.navigation3.runtime.NavBackStack<androidx.navigation3.runtime.NavKey>
@@ -7,6 +15,10 @@ FILE fqName:<root> fileName:/Basic.kt
       RouteBinding(route = CLASS_REFERENCE 'CLASS CLASS name:DummyRoute modality:FINAL visibility:public [data] superTypes:[androidx.navigation3.runtime.NavKey]' type=kotlin.reflect.KClass<<root>.DummyRoute>)
       Composable
     BLOCK_BODY
+  FUN name:box visibility:public modality:FINAL returnType:kotlin.String
+    BLOCK_BODY
+      RETURN type=kotlin.Nothing from='public final fun box (): kotlin.String declared in <root>'
+        CONST String type=kotlin.String value="OK"
 FILE fqName:androidx.compose.runtime fileName:/Composable.kt
   CLASS ANNOTATION_CLASS name:Composable modality:OPEN visibility:public superTypes:[kotlin.Annotation]
     annotations:

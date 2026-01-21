@@ -8,9 +8,8 @@ fun main() {
             testDataRoot = "routebinding/routebinding-compiler-plugin/src/test/data",
             testsRoot = "routebinding/routebinding-compiler-plugin/src/test/java",
         ) {
-            testClass<AbstractFirDiagnosticTest> { model("diagnostic/fir") }
-            testClass<AbstractIrDumpTest> { model("dump/ir") }
-            testClass<AbstractIrDiagnosticTest> { model("diagnostic/ir") }
+            testClass<AbstractBoxTest> { model("box") }
+            testClass<AbstractDiagnosticTest> { model("diagnostic") }
         }
     }
 }
