@@ -131,8 +131,8 @@ private fun CommonExtension.configureCommonAndroidExtension(project: Project) {
     testOptions.animationsDisabled = true
 
     with(compileOptions) {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 
     lint.configureLintOptions(project)
