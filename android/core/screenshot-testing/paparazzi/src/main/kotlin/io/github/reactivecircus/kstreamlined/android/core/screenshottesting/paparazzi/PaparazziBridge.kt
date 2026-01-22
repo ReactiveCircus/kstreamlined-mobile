@@ -90,7 +90,7 @@ public abstract class PaparazziBridge(
             if (isVerifying) {
                 SnapshotVerifier(maxPercentDifference)
             } else {
-                HtmlReportWriter()
+                HtmlReportWriter(maxPercentDifference = maxPercentDifference)
             }
     }
 }

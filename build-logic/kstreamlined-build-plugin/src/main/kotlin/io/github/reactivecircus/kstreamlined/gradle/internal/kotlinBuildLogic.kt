@@ -43,12 +43,12 @@ internal fun KotlinBaseExtension.configureKotlin(
 private fun Project.configureJvmCompatibility() {
     tasks.withType(KotlinJvmCompile::class.java).configureEach {
         it.compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_17)
+            jvmTarget.set(JvmTarget.JVM_21)
             jvmDefault.set(JvmDefaultMode.NO_COMPATIBILITY)
         }
     }
     tasks.withType(JavaCompile::class.java).configureEach {
-        it.sourceCompatibility = JavaVersion.VERSION_17.toString()
-        it.targetCompatibility = JavaVersion.VERSION_17.toString()
+        it.sourceCompatibility = JavaVersion.VERSION_21.toString()
+        it.targetCompatibility = JavaVersion.VERSION_21.toString()
     }
 }

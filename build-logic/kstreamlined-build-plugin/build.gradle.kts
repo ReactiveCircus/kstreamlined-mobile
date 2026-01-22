@@ -19,14 +19,14 @@ gradlePlugin {
 
 kotlin {
     compilerOptions {
-        jvmTarget.set(JvmTarget.JVM_17)
+        jvmTarget.set(JvmTarget.JVM_21)
     }
     explicitApi()
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
 }
 
 detekt {
@@ -37,7 +37,7 @@ detekt {
 }
 
 tasks.withType(Detekt::class.java).configureEach {
-    jvmTarget = JvmTarget.JVM_17.target
+    jvmTarget = JvmTarget.JVM_21.target
     reports {
         checkstyle.required.set(false)
         sarif.required.set(false)

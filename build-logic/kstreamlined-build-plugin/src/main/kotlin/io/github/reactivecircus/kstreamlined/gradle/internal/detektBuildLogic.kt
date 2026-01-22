@@ -24,7 +24,7 @@ internal fun Project.configureDetekt() {
             it.parallel.set(true)
         }
         tasks.withType(Detekt::class.java).configureEach {
-            it.jvmTarget.set(JvmTarget.JVM_17.target)
+            it.jvmTarget.set(JvmTarget.JVM_21.target)
             it.reports { report ->
                 report.checkstyle.required.set(false)
                 report.sarif.required.set(false)
