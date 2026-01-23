@@ -51,8 +51,7 @@ public class RouteBindingGradlePlugin : KotlinCompilerPluginSupportPlugin {
         )
     }
 
-    override fun isApplicable(kotlinCompilation: KotlinCompilation<*>): Boolean =
-        kotlinCompilation.name.contains("test", ignoreCase = true)
+    override fun isApplicable(kotlinCompilation: KotlinCompilation<*>): Boolean = true
 }
 
 private const val RouteBindingCompilerPluginId = "io.github.reactivecircus.routebinding.compiler"

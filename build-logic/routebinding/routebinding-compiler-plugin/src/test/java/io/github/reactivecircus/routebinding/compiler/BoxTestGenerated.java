@@ -33,9 +33,9 @@ public class BoxTestGenerated extends AbstractBoxTest {
   }
 
   @Test
-  @TestMetadata("Minimal.kt")
-  public void testMinimal() {
-    runTest("routebinding/routebinding-compiler-plugin/src/test/data/box/Minimal.kt");
+  @TestMetadata("NoReceiverAndParams.kt")
+  public void testNoReceiverAndParams() {
+    runTest("routebinding/routebinding-compiler-plugin/src/test/data/box/NoReceiverAndParams.kt");
   }
 
   @Test

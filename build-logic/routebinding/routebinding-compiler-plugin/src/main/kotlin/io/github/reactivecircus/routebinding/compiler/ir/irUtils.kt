@@ -27,7 +27,7 @@ private fun IrConstructor.createDefaultConstructorBody(context: IrPluginContext)
     val superClassConstructor = parentClass.superClass?.primaryConstructor
         ?: context.irBuiltIns.anyClass.owner.primaryConstructor
         ?: return null
-    return DeclarationIrBuilder(context, symbol, symbol.owner.startOffset, symbol.owner.endOffset).irBlockBody {
+    return DeclarationIrBuilder(context, symbol).irBlockBody {
         +irDelegatingConstructorCall(superClassConstructor)
         +IrInstanceInitializerCallImpl(
             startOffset = UNDEFINED_OFFSET,

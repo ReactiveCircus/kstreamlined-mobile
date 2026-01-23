@@ -2,6 +2,7 @@
 
 package io.github.reactivecircus.routebinding.compiler.ir
 
+import io.github.reactivecircus.routebinding.compiler.ClassIds
 import io.github.reactivecircus.routebinding.compiler.ir.symbols.ComposeSymbols
 import io.github.reactivecircus.routebinding.compiler.ir.symbols.MetroSymbols
 import io.github.reactivecircus.routebinding.compiler.ir.symbols.Nav3Symbols
@@ -14,28 +15,43 @@ import org.jetbrains.kotlin.descriptors.DescriptorVisibilities
 import org.jetbrains.kotlin.descriptors.Modality
 import org.jetbrains.kotlin.ir.IrStatement
 import org.jetbrains.kotlin.ir.UNDEFINED_OFFSET
+import org.jetbrains.kotlin.ir.builders.IrBlockBodyBuilder
 import org.jetbrains.kotlin.ir.builders.declarations.addFunction
+import org.jetbrains.kotlin.ir.builders.declarations.addValueParameter
 import org.jetbrains.kotlin.ir.builders.declarations.buildClass
+import org.jetbrains.kotlin.ir.builders.declarations.buildFun
 import org.jetbrains.kotlin.ir.builders.declarations.buildValueParameter
 import org.jetbrains.kotlin.ir.builders.irBlockBody
+import org.jetbrains.kotlin.ir.builders.irCallWithSubstitutedType
+import org.jetbrains.kotlin.ir.builders.irGet
 import org.jetbrains.kotlin.ir.declarations.IrClass
 import org.jetbrains.kotlin.ir.declarations.IrDeclarationOrigin
 import org.jetbrains.kotlin.ir.declarations.IrFile
 import org.jetbrains.kotlin.ir.declarations.IrFunction
 import org.jetbrains.kotlin.ir.declarations.IrParameterKind
+import org.jetbrains.kotlin.ir.declarations.IrSimpleFunction
 import org.jetbrains.kotlin.ir.expressions.IrAnnotation
+import org.jetbrains.kotlin.ir.expressions.IrClassReference
+import org.jetbrains.kotlin.ir.expressions.IrExpression
+import org.jetbrains.kotlin.ir.expressions.IrStatementOrigin
 import org.jetbrains.kotlin.ir.expressions.impl.IrAnnotationImpl
 import org.jetbrains.kotlin.ir.expressions.impl.IrClassReferenceImpl
+import org.jetbrains.kotlin.ir.expressions.impl.IrFunctionExpressionImpl
 import org.jetbrains.kotlin.ir.expressions.impl.fromSymbolOwner
+import org.jetbrains.kotlin.ir.interpreter.getAnnotation
+import org.jetbrains.kotlin.ir.types.IrType
 import org.jetbrains.kotlin.ir.types.IrTypeSystemContextImpl
-import org.jetbrains.kotlin.ir.types.createType
 import org.jetbrains.kotlin.ir.types.defaultType
+import org.jetbrains.kotlin.ir.types.getClass
 import org.jetbrains.kotlin.ir.types.typeWith
 import org.jetbrains.kotlin.ir.util.addChild
 import org.jetbrains.kotlin.ir.util.addFakeOverrides
+import org.jetbrains.kotlin.ir.util.classId
 import org.jetbrains.kotlin.ir.util.constructors
+import org.jetbrains.kotlin.ir.util.copyFunctionSignatureFrom
 import org.jetbrains.kotlin.ir.util.createThisReceiverParameter
 import org.jetbrains.kotlin.ir.util.defaultType
+import org.jetbrains.kotlin.ir.util.dump
 import org.jetbrains.kotlin.ir.util.hasAnnotation
 import org.jetbrains.kotlin.name.Name
 import org.jetbrains.kotlin.name.SpecialNames
@@ -48,7 +64,6 @@ internal class RouteBindingFunctionTransformer(
     private val metroSymbols: MetroSymbols,
 ) : IrElementTransformerVoidWithContext() {
     override fun visitFunctionNew(declaration: IrFunction): IrStatement {
-        // skip transform if function isn't annotated with @RouteBinding
         if (!declaration.hasAnnotation(routeBindingSymbols.routeBindingAnnotation)) {
             return super.visitFunctionNew(declaration)
         }
@@ -60,7 +75,7 @@ internal class RouteBindingFunctionTransformer(
     }
 
     private fun IrFunction.createNavEntryInstallerClass(file: IrFile): IrClass {
-        return pluginContext.irFactory.buildClass {
+        return factory.buildClass {
             startOffset = UNDEFINED_OFFSET
             endOffset = UNDEFINED_OFFSET
             origin = IrDeclarationOrigin.DEFINED
@@ -74,7 +89,7 @@ internal class RouteBindingFunctionTransformer(
             annotations += createMetroAnnotation()
             createThisReceiverParameter()
             createDefaultConstructor(pluginContext)
-            addInstallFunction()
+            createInstallFunction(navEntryContentFunction = this@createNavEntryInstallerClass)
             addFakeOverrides(IrTypeSystemContextImpl(pluginContext.irBuiltIns))
         }
     }
@@ -95,47 +110,71 @@ internal class RouteBindingFunctionTransformer(
         }
     }
 
-    private fun IrClass.addInstallFunction() = addFunction {
+    private fun IrClass.createInstallFunction(navEntryContentFunction: IrFunction) = addFunction {
         name = Name.identifier("install")
-        visibility = DescriptorVisibilities.PUBLIC
         modality = Modality.OPEN
-        returnType = pluginContext.irBuiltIns.unitType
     }.apply {
+        overriddenSymbols = listOf(routeBindingSymbols.installFunction)
+        copyFunctionSignatureFrom(routeBindingSymbols.installFunction.owner)
         parameters = listOf(
             buildValueParameter(this) {
                 name = SpecialNames.THIS
-                type = this@addInstallFunction.defaultType
+                type = this@createInstallFunction.defaultType
                 kind = IrParameterKind.DispatchReceiver
             },
-            buildValueParameter(this) {
-                name = Name.identifier("entryProviderScope")
-                type = nav3Symbols.entryProviderScopeClass.createType(
-                    hasQuestionMark = false,
-                    arguments = listOf(nav3Symbols.navKeyInterface.defaultType),
-                )
-                kind = IrParameterKind.Context
-            },
-            buildValueParameter(this) {
-                name = Name.identifier("sharedTransitionScope")
-                type = composeSymbols.sharedTransitionScopeInterface.defaultType
-                kind = IrParameterKind.Context
-            },
-            buildValueParameter(this) {
-                name = Name.identifier("backStack")
-                type = nav3Symbols.navBackStackClass.createType(
-                    hasQuestionMark = false,
-                    arguments = listOf(nav3Symbols.navKeyInterface.defaultType),
-                )
-                kind = IrParameterKind.Regular
-            },
-        )
-        overriddenSymbols = listOf(routeBindingSymbols.installFunction)
-        body = DeclarationIrBuilder(
-            generatorContext = pluginContext,
-            symbol = symbol,
-            startOffset = symbol.owner.startOffset,
-            endOffset = symbol.owner.endOffset,
-        ).irBlockBody {
+        ) + parameters.dropWhile { it.kind == IrParameterKind.DispatchReceiver }
+        body = DeclarationIrBuilder(pluginContext, symbol).irBlockBody {
+            createInstallFunctionBody(navEntryContentFunction = navEntryContentFunction, installFunction = this@apply)
         }
+    }
+
+    private fun IrBlockBodyBuilder.createInstallFunctionBody(
+        navEntryContentFunction: IrFunction,
+        installFunction: IrFunction,
+    ) {
+        val routeKClass = navEntryContentFunction.getAnnotation(
+            ClassIds.RouteBinding.Annotation.asSingleFqName(),
+        ).arguments.first() as IrClassReference
+        val routeType = routeKClass.symbol.defaultType
+        val entryFunction = nav3Symbols.entryFunction
+
+        +irCallWithSubstitutedType(entryFunction, listOf(routeType)).apply {
+            val sharedTransitionScopeParam = installFunction.parameters.first {
+                it.type.getClass()?.classId == ClassIds.Nav3.EntryProviderScope
+            }
+            dispatchReceiver = irGet(sharedTransitionScopeParam)
+
+            val entryFunctionParams = entryFunction.owner.parameters
+            val lambdaExpression = pluginContext.createLambdaIrFunctionExpression(
+                lambdaReturnType = entryFunctionParams.last().type,
+            ) {
+                parent = installFunction
+                addValueParameter(name = "it", type = routeType)
+                body = DeclarationIrBuilder(pluginContext, symbol).irBlockBody {
+
+                }
+            }
+            arguments[entryFunctionParams.size - 1] = lambdaExpression
+        }
+    }
+
+    private fun IrPluginContext.createLambdaIrFunctionExpression(
+        lambdaReturnType: IrType,
+        block: IrSimpleFunction.() -> Unit = {},
+    ): IrExpression {
+        val lambda = irFactory.buildFun {
+            name = SpecialNames.ANONYMOUS
+            origin = IrDeclarationOrigin.LOCAL_FUNCTION_FOR_LAMBDA
+            visibility = DescriptorVisibilities.LOCAL
+            returnType = lambdaReturnType
+        }.apply(block)
+
+        return IrFunctionExpressionImpl(
+            startOffset = UNDEFINED_OFFSET,
+            endOffset = UNDEFINED_OFFSET,
+            type = lambda.returnType,
+            function = lambda,
+            origin = IrStatementOrigin.LAMBDA,
+        )
     }
 }
