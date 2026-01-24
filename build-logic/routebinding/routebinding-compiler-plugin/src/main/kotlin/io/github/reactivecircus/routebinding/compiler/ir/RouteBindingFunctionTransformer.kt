@@ -68,8 +68,8 @@ internal class RouteBindingFunctionTransformer(
             return super.visitFunctionNew(declaration)
         }
 
-        val navEntryInstallerClass = declaration.createNavEntryInstallerClass(currentFile)
-        currentFile.addChild(navEntryInstallerClass)
+//        val navEntryInstallerClass = declaration.createNavEntryInstallerClass(currentFile)
+//        currentFile.addChild(navEntryInstallerClass)
 
         return super.visitFunctionNew(declaration)
     }

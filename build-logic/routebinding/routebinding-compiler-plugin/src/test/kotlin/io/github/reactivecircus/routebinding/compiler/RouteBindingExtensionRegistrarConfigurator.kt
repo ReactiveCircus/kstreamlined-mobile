@@ -1,5 +1,6 @@
 package io.github.reactivecircus.routebinding.compiler
 
+import io.github.reactivecircus.routebinding.compiler.fir.RouteBindingFirExtensionRegistrar
 import io.github.reactivecircus.routebinding.compiler.ir.RouteBindingIrGenerationExtension
 import org.jetbrains.kotlin.backend.common.extensions.IrGenerationExtension
 import org.jetbrains.kotlin.cli.common.messages.MessageCollector
@@ -7,6 +8,7 @@ import org.jetbrains.kotlin.cli.jvm.config.addJvmClasspathRoots
 import org.jetbrains.kotlin.compiler.plugin.CompilerPluginRegistrar
 import org.jetbrains.kotlin.config.CommonConfigurationKeys
 import org.jetbrains.kotlin.config.CompilerConfiguration
+import org.jetbrains.kotlin.fir.extensions.FirExtensionRegistrarAdapter
 import org.jetbrains.kotlin.test.builders.TestConfigurationBuilder
 import org.jetbrains.kotlin.test.model.TestModule
 import org.jetbrains.kotlin.test.services.EnvironmentConfigurator
@@ -31,6 +33,8 @@ private class RouteBindingExtensionRegistrarConfigurator(
         module: TestModule,
         configuration: CompilerConfiguration,
     ) {
+        FirExtensionRegistrarAdapter.registerExtension(RouteBindingFirExtensionRegistrar)
+
         IrGenerationExtension.registerExtension(
             RouteBindingIrGenerationExtension(
                 messageCollector = configuration.get(
