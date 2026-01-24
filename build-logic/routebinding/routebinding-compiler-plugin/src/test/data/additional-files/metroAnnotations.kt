@@ -5,3 +5,4 @@ package dev.zacsweers.metro
 annotation class ContributesIntoSet(val scope: kotlin.reflect.KClass<*>)
 
 interface AppScope
+
