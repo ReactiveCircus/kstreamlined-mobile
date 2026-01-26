@@ -1,3 +1,3 @@
-//package dev.zacsweers.metro.internal
-//
-//interface Factory<T>
+package dev.zacsweers.metro.internal
+
+interface Factory<T>

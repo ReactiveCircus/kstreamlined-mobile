@@ -147,10 +147,6 @@ FILE fqName:<root> fileName:/FooScreen_NavEntryInstaller.kt
         VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
         overridden:
           public open fun hashCode (): kotlin.Int declared in dev.zacsweers.metro.internal.Factory
-      FUN FAKE_OVERRIDE name:invoke visibility:public modality:ABSTRACT returnType:<root>.FooScreen_NavEntryInstaller [fake_override,operator]
-        VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:dev.zacsweers.metro.Provider<<root>.FooScreen_NavEntryInstaller>
-        overridden:
-          public abstract fun invoke (): T of dev.zacsweers.metro.internal.Factory declared in dev.zacsweers.metro.internal.Factory
       FUN FAKE_OVERRIDE name:toString visibility:public modality:OPEN returnType:kotlin.String [fake_override]
         VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
         overridden:
@@ -256,7 +252,23 @@ FILE fqName:dev.zacsweers.metro fileName:/metroAnnotations.kt
       VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
       overridden:
         public open fun toString (): kotlin.String declared in kotlin.Any
-FILE fqName:<root> fileName:/metroInternal.kt
+FILE fqName:dev.zacsweers.metro.internal fileName:/metroInternal.kt
+  CLASS INTERFACE name:Factory modality:ABSTRACT visibility:public superTypes:[kotlin.Any]
+    thisReceiver: VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> type:dev.zacsweers.metro.internal.Factory<T of dev.zacsweers.metro.internal.Factory>
+    TYPE_PARAMETER name:T index:0 variance: superTypes:[kotlin.Any?] reified:false
+    FUN FAKE_OVERRIDE name:equals visibility:public modality:OPEN returnType:kotlin.Boolean [fake_override,operator]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      VALUE_PARAMETER kind:Regular name:other index:1 type:kotlin.Any?
+      overridden:
+        public open fun equals (other: kotlin.Any?): kotlin.Boolean declared in kotlin.Any
+    FUN FAKE_OVERRIDE name:hashCode visibility:public modality:OPEN returnType:kotlin.Int [fake_override]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      overridden:
+        public open fun hashCode (): kotlin.Int declared in kotlin.Any
+    FUN FAKE_OVERRIDE name:toString visibility:public modality:OPEN returnType:kotlin.String [fake_override]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      overridden:
+        public open fun toString (): kotlin.String declared in kotlin.Any
 FILE fqName:androidx.navigation3.runtime fileName:/nav3.kt
   CLASS CLASS name:EntryProviderScope modality:FINAL visibility:public superTypes:[kotlin.Any]
     thisReceiver: VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> type:androidx.navigation3.runtime.EntryProviderScope<T of androidx.navigation3.runtime.EntryProviderScope>
