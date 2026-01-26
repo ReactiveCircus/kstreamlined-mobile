@@ -24,9 +24,4 @@ internal object ClassIds {
         val ContributesIntoSet = ClassId.fromString("dev/zacsweers/metro/ContributesIntoSet")
         val Factory = ClassId.fromString("dev/zacsweers/metro/internal/Factory")
     }
-
-    object Kotlin {
-        val Deprecated = ClassId.fromString("kotlin/Deprecated")
-        val DeprecationLevel = ClassId.fromString("kotlin/DeprecationLevel")
-    }
 }

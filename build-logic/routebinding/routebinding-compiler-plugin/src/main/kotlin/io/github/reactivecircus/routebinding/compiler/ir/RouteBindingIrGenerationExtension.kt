@@ -44,7 +44,7 @@ internal class RouteBindingIrGenerationExtension(
         if (routeBindingSymbols == null || composeSymbols == null || nav3Symbols == null || metroSymbols == null) return
 
         moduleFragment.transform(
-            RouteBindingFunctionTransformer(
+            RouteBindingClassTransformer(
                 pluginContext,
                 routeBindingSymbols,
                 composeSymbols,

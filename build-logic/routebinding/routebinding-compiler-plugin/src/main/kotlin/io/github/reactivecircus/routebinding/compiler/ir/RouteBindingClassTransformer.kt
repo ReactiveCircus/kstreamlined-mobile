@@ -1,5 +1,3 @@
-@file:Suppress("ReturnCount")
-
 package io.github.reactivecircus.routebinding.compiler.ir
 
 import io.github.reactivecircus.routebinding.compiler.ClassIds
@@ -10,121 +8,76 @@ import io.github.reactivecircus.routebinding.compiler.ir.symbols.RouteBindingSym
 import org.jetbrains.kotlin.backend.common.IrElementTransformerVoidWithContext
 import org.jetbrains.kotlin.backend.common.extensions.IrPluginContext
 import org.jetbrains.kotlin.backend.common.lower.DeclarationIrBuilder
-import org.jetbrains.kotlin.descriptors.ClassKind
 import org.jetbrains.kotlin.descriptors.DescriptorVisibilities
-import org.jetbrains.kotlin.descriptors.Modality
 import org.jetbrains.kotlin.ir.IrStatement
 import org.jetbrains.kotlin.ir.UNDEFINED_OFFSET
 import org.jetbrains.kotlin.ir.builders.IrBlockBodyBuilder
-import org.jetbrains.kotlin.ir.builders.declarations.addFunction
 import org.jetbrains.kotlin.ir.builders.declarations.addValueParameter
-import org.jetbrains.kotlin.ir.builders.declarations.buildClass
 import org.jetbrains.kotlin.ir.builders.declarations.buildFun
-import org.jetbrains.kotlin.ir.builders.declarations.buildValueParameter
 import org.jetbrains.kotlin.ir.builders.irBlockBody
+import org.jetbrains.kotlin.ir.builders.irCallConstructor
 import org.jetbrains.kotlin.ir.builders.irCallWithSubstitutedType
+import org.jetbrains.kotlin.ir.builders.irDelegatingConstructorCall
 import org.jetbrains.kotlin.ir.builders.irGet
+import org.jetbrains.kotlin.ir.builders.irGetObject
+import org.jetbrains.kotlin.ir.builders.irReturn
+import org.jetbrains.kotlin.ir.builders.irUnit
 import org.jetbrains.kotlin.ir.declarations.IrClass
 import org.jetbrains.kotlin.ir.declarations.IrDeclarationOrigin
-import org.jetbrains.kotlin.ir.declarations.IrFile
 import org.jetbrains.kotlin.ir.declarations.IrFunction
-import org.jetbrains.kotlin.ir.declarations.IrParameterKind
 import org.jetbrains.kotlin.ir.declarations.IrSimpleFunction
-import org.jetbrains.kotlin.ir.expressions.IrAnnotation
 import org.jetbrains.kotlin.ir.expressions.IrClassReference
 import org.jetbrains.kotlin.ir.expressions.IrExpression
 import org.jetbrains.kotlin.ir.expressions.IrStatementOrigin
-import org.jetbrains.kotlin.ir.expressions.impl.IrAnnotationImpl
-import org.jetbrains.kotlin.ir.expressions.impl.IrClassReferenceImpl
 import org.jetbrains.kotlin.ir.expressions.impl.IrFunctionExpressionImpl
-import org.jetbrains.kotlin.ir.expressions.impl.fromSymbolOwner
 import org.jetbrains.kotlin.ir.interpreter.getAnnotation
 import org.jetbrains.kotlin.ir.types.IrType
-import org.jetbrains.kotlin.ir.types.IrTypeSystemContextImpl
 import org.jetbrains.kotlin.ir.types.defaultType
 import org.jetbrains.kotlin.ir.types.getClass
-import org.jetbrains.kotlin.ir.types.typeWith
-import org.jetbrains.kotlin.ir.util.addChild
-import org.jetbrains.kotlin.ir.util.addFakeOverrides
 import org.jetbrains.kotlin.ir.util.classId
 import org.jetbrains.kotlin.ir.util.constructors
-import org.jetbrains.kotlin.ir.util.copyFunctionSignatureFrom
-import org.jetbrains.kotlin.ir.util.createThisReceiverParameter
-import org.jetbrains.kotlin.ir.util.defaultType
-import org.jetbrains.kotlin.ir.util.dump
+import org.jetbrains.kotlin.ir.util.file
+import org.jetbrains.kotlin.ir.util.functions
 import org.jetbrains.kotlin.ir.util.hasAnnotation
-import org.jetbrains.kotlin.name.Name
+import org.jetbrains.kotlin.ir.util.nestedClasses
+import org.jetbrains.kotlin.ir.util.simpleFunctions
 import org.jetbrains.kotlin.name.SpecialNames
 
-internal class RouteBindingFunctionTransformer(
+internal class RouteBindingClassTransformer(
     private val pluginContext: IrPluginContext,
     private val routeBindingSymbols: RouteBindingSymbols,
     private val composeSymbols: ComposeSymbols,
     private val nav3Symbols: Nav3Symbols,
     private val metroSymbols: MetroSymbols,
 ) : IrElementTransformerVoidWithContext() {
-    override fun visitFunctionNew(declaration: IrFunction): IrStatement {
-        if (!declaration.hasAnnotation(routeBindingSymbols.routeBindingAnnotation)) {
-            return super.visitFunctionNew(declaration)
+    override fun visitClassNew(declaration: IrClass): IrStatement {
+        if (declaration.origin == RouteBindingOrigins.NavEntryInstallerClassDeclaration) {
+            transformNavEntryInstallerClass(declaration)
         }
-
-//        val navEntryInstallerClass = declaration.createNavEntryInstallerClass(currentFile)
-//        currentFile.addChild(navEntryInstallerClass)
-
-        return super.visitFunctionNew(declaration)
+        return super.visitClassNew(declaration)
     }
 
-    private fun IrFunction.createNavEntryInstallerClass(file: IrFile): IrClass {
-        return factory.buildClass {
-            startOffset = UNDEFINED_OFFSET
-            endOffset = UNDEFINED_OFFSET
-            origin = IrDeclarationOrigin.DEFINED
-            name = Name.identifier("${this@createNavEntryInstallerClass.name.asString()}_NavEntryInstaller")
-            kind = ClassKind.CLASS
-            modality = Modality.FINAL
-            visibility = DescriptorVisibilities.PUBLIC
-        }.apply {
-            parent = file
-            superTypes = listOf(routeBindingSymbols.navEntryInstallerInterface.defaultType)
-            annotations += createMetroAnnotation()
-            createThisReceiverParameter()
-            createDefaultConstructor(pluginContext)
-            createInstallFunction(navEntryContentFunction = this@createNavEntryInstallerClass)
-            addFakeOverrides(IrTypeSystemContextImpl(pluginContext.irBuiltIns))
+    private fun transformNavEntryInstallerClass(irClass: IrClass) {
+        irClass.constructors.forEach { constructor ->
+            constructor.body = DeclarationIrBuilder(pluginContext, constructor.symbol).irBlockBody {
+                +irDelegatingConstructorCall(pluginContext.irBuiltIns.anyClass.owner.constructors.single())
+            }
         }
-    }
 
-    private fun createMetroAnnotation(): IrAnnotation {
-        return IrAnnotationImpl.fromSymbolOwner(
-            type = metroSymbols.contributesIntoSetAnnotation.defaultType,
-            constructorSymbol = metroSymbols.contributesIntoSetAnnotation.owner.constructors.first().symbol,
-        ).also {
-            val appScopeClassSymbol = metroSymbols.appScopeAnnotation
-            it.arguments[0] = IrClassReferenceImpl(
-                startOffset = UNDEFINED_OFFSET,
-                endOffset = UNDEFINED_OFFSET,
-                type = pluginContext.irBuiltIns.kClassClass.typeWith(appScopeClassSymbol.defaultType),
-                symbol = appScopeClassSymbol,
-                classType = appScopeClassSymbol.defaultType,
-            )
+        val installFunction = irClass.functions.first {
+            it.origin == RouteBindingOrigins.InstallFunction
         }
-    }
 
-    private fun IrClass.createInstallFunction(navEntryContentFunction: IrFunction) = addFunction {
-        name = Name.identifier("install")
-        modality = Modality.OPEN
-    }.apply {
-        overriddenSymbols = listOf(routeBindingSymbols.installFunction)
-        copyFunctionSignatureFrom(routeBindingSymbols.installFunction.owner)
-        parameters = listOf(
-            buildValueParameter(this) {
-                name = SpecialNames.THIS
-                type = this@createInstallFunction.defaultType
-                kind = IrParameterKind.DispatchReceiver
-            },
-        ) + parameters.dropWhile { it.kind == IrParameterKind.DispatchReceiver }
-        body = DeclarationIrBuilder(pluginContext, symbol).irBlockBody {
-            createInstallFunctionBody(navEntryContentFunction = navEntryContentFunction, installFunction = this@apply)
+        // TODO implement actual body that calls the original @RouteBinding function
+        installFunction.body = DeclarationIrBuilder(pluginContext, installFunction.symbol).irBlockBody {
+            +irUnit()
+        }
+
+        val metroFactoryClass = irClass.nestedClasses.find {
+            it.origin == RouteBindingOrigins.MetroFallbacks.MetroFactoryClass
+        }
+        if (metroFactoryClass != null) {
+            transformMetroFactoryClass(factoryClass = metroFactoryClass, parent = irClass)
         }
     }
 
@@ -151,7 +104,7 @@ internal class RouteBindingFunctionTransformer(
                 parent = installFunction
                 addValueParameter(name = "it", type = routeType)
                 body = DeclarationIrBuilder(pluginContext, symbol).irBlockBody {
-
+                    // TODO
                 }
             }
             arguments[entryFunctionParams.size - 1] = lambdaExpression
@@ -176,5 +129,37 @@ internal class RouteBindingFunctionTransformer(
             function = lambda,
             origin = IrStatementOrigin.LAMBDA,
         )
+    }
+
+    /**
+     * Add function bodies to synthetic MetroFactory class generated in FIR.
+     * This only runs when Metro compiler is not on the classpath, i.e. during compiler tests.
+     */
+    private fun transformMetroFactoryClass(factoryClass: IrClass, parent: IrClass) {
+        val createFunction = factoryClass.functions.single {
+            it.origin == RouteBindingOrigins.MetroFallbacks.MetroFactoryCreateFunction
+        }
+        createFunction.body = DeclarationIrBuilder(pluginContext, createFunction.symbol).irBlockBody {
+            +irReturn(irGetObject(factoryClass.symbol))
+        }
+
+        val newInstanceFunction = factoryClass.functions.single {
+            it.origin == RouteBindingOrigins.MetroFallbacks.MetroFactoryNewInstanceFunction
+        }
+        newInstanceFunction.body = DeclarationIrBuilder(pluginContext, newInstanceFunction.symbol).irBlockBody {
+            val parentConstructor = parent.constructors.first()
+            +irReturn(irCallConstructor(parentConstructor.symbol, emptyList()))
+        }
+    }
+
+    /**
+     * Find the original @RouteBinding annotated function in the same file
+     */
+    private fun IrClass.findOriginalRouteBindingFunction(functionName: String): IrSimpleFunction? {
+        return file.simpleFunctions()
+            .find { function ->
+                function.name.asString() == functionName &&
+                    function.hasAnnotation(routeBindingSymbols.routeBindingAnnotation)
+            }
     }
 }

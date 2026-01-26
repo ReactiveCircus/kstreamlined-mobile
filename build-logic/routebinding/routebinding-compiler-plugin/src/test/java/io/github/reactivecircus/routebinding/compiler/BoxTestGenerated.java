@@ -33,12 +33,6 @@ public class BoxTestGenerated extends AbstractBoxTest {
   }
 
   @Test
-  @TestMetadata("FirExperiment.kt")
-  public void testFirExperiment() {
-    runTest("routebinding/routebinding-compiler-plugin/src/test/data/box/FirExperiment.kt");
-  }
-
-  @Test
   @TestMetadata("NoReceiverAndParams.kt")
   public void testNoReceiverAndParams() {
     runTest("routebinding/routebinding-compiler-plugin/src/test/data/box/NoReceiverAndParams.kt");
