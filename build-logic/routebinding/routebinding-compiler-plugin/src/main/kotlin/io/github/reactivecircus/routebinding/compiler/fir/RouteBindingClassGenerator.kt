@@ -36,7 +36,6 @@ import org.jetbrains.kotlin.fir.symbols.impl.FirConstructorSymbol
 import org.jetbrains.kotlin.fir.symbols.impl.FirNamedFunctionSymbol
 import org.jetbrains.kotlin.fir.symbols.impl.FirRegularClassSymbol
 import org.jetbrains.kotlin.fir.toFirResolvedTypeRef
-import org.jetbrains.kotlin.fir.types.ConeKotlinType
 import org.jetbrains.kotlin.fir.types.builder.buildResolvedTypeRef
 import org.jetbrains.kotlin.fir.types.constructClassLikeType
 import org.jetbrains.kotlin.name.CallableId
@@ -104,15 +103,9 @@ internal class RouteBindingClassGenerator(session: FirSession) : FirDeclarationG
         argumentMapping = buildAnnotationArgumentMapping {
             mapping[Name.identifier("scope")] = buildGetClassCall {
                 val appScopeSymbol = session.symbolProvider.getClassLikeSymbolByClassId(ClassIds.Metro.AppScope)!!
-                val appScopeConeType = appScopeSymbol.classId.constructClassLikeType(
-                    typeArguments = emptyArray(),
-                    isMarkedNullable = false,
-                )
+                val appScopeConeType = appScopeSymbol.classId.constructClassLikeType()
                 val kClassSymbol = session.symbolProvider.getClassLikeSymbolByClassId(StandardClassIds.KClass)!!
-                val kClassType = kClassSymbol.classId.constructClassLikeType(
-                    typeArguments = arrayOf(appScopeConeType),
-                    isMarkedNullable = false,
-                )
+                val kClassType = kClassSymbol.classId.constructClassLikeType(arrayOf(appScopeConeType))
                 coneTypeOrNull = kClassType
                 argumentList = buildArgumentList {
                     arguments += buildResolvedQualifier {
@@ -198,7 +191,7 @@ internal class RouteBindingClassGenerator(session: FirSession) : FirDeclarationG
         ) {
             val outerClassId = classId.outerClassId!!
             val outerClassType = outerClassId.createConeType(session)
-            val factoryType = ClassIds.Metro.Factory.constructConeTypeWith(outerClassType)
+            val factoryType = ClassIds.Metro.Factory.constructClassLikeType(arrayOf(outerClassType))
 
             return when (callableId.callableName.asString()) {
                 "create" -> listOf(
@@ -226,9 +219,9 @@ internal class RouteBindingClassGenerator(session: FirSession) : FirDeclarationG
 
     private fun generateInstallFunction(classSymbol: FirClassSymbol<*>): FirNamedFunctionSymbol {
         val navKeyType = ClassIds.Nav3.NavKey.createConeType(session)
-        val entryProviderScopeType = ClassIds.Nav3.EntryProviderScope.constructConeTypeWith(navKeyType)
+        val entryProviderScopeType = ClassIds.Nav3.EntryProviderScope.constructClassLikeType(arrayOf(navKeyType))
         val sharedTransitionScopeType = ClassIds.Compose.SharedTransitionScope.createConeType(session)
-        val navBackStackType = ClassIds.Nav3.NavBackStack.constructConeTypeWith(navKeyType)
+        val navBackStackType = ClassIds.Nav3.NavBackStack.constructClassLikeType(arrayOf(navKeyType))
         val unitType = session.builtinTypes.unitType.coneType
 
         return createMemberFunction(
@@ -244,10 +237,6 @@ internal class RouteBindingClassGenerator(session: FirSession) : FirDeclarationG
                 isOverride = true
             }
         }.symbol
-    }
-
-    private fun ClassId.constructConeTypeWith(vararg typeArguments: ConeKotlinType): ConeKotlinType {
-        return constructClassLikeType(typeArguments, isMarkedNullable = false)
     }
 
     override fun getNestedClassifiersNames(
@@ -270,7 +259,7 @@ internal class RouteBindingClassGenerator(session: FirSession) : FirDeclarationG
         }
 
         val ownerType = owner.defaultType()
-        val factoryType = ClassIds.Metro.Factory.constructConeTypeWith(ownerType)
+        val factoryType = ClassIds.Metro.Factory.constructClassLikeType(arrayOf(ownerType))
 
         return createNestedClass(
             owner = owner,
