@@ -11,6 +11,7 @@ import org.jetbrains.kotlin.fir.caches.FirCache
 import org.jetbrains.kotlin.fir.caches.firCachesFactory
 import org.jetbrains.kotlin.fir.caches.getValue
 import org.jetbrains.kotlin.fir.declarations.FirDeclarationOrigin
+import org.jetbrains.kotlin.fir.declarations.declaredFunctions
 import org.jetbrains.kotlin.fir.declarations.getDeprecationsProvider
 import org.jetbrains.kotlin.fir.deserialization.toQualifiedPropertyAccessExpression
 import org.jetbrains.kotlin.fir.expressions.FirAnnotation
@@ -107,9 +108,11 @@ internal class RouteBindingClassGenerator(session: FirSession) : FirDeclarationG
         }
         argumentMapping = buildAnnotationArgumentMapping {
             mapping[Name.identifier("scope")] = buildGetClassCall {
-                val appScopeSymbol = session.symbolProvider.getClassLikeSymbolByClassId(ClassIds.Metro.AppScope)!!
+                val appScopeSymbol = session.symbolProvider
+                    .getClassLikeSymbolByClassId(ClassIds.Metro.AppScope) as FirRegularClassSymbol
                 val appScopeConeType = appScopeSymbol.classId.constructClassLikeType()
-                val kClassSymbol = session.symbolProvider.getClassLikeSymbolByClassId(StandardClassIds.KClass)!!
+                val kClassSymbol = session.symbolProvider
+                    .getClassLikeSymbolByClassId(StandardClassIds.KClass) as FirRegularClassSymbol
                 val kClassType = kClassSymbol.classId.constructClassLikeType(arrayOf(appScopeConeType))
                 coneTypeOrNull = kClassType
                 argumentList = buildArgumentList {
@@ -217,21 +220,23 @@ internal class RouteBindingClassGenerator(session: FirSession) : FirDeclarationG
     }
 
     private fun generateInstallFunction(classSymbol: FirClassSymbol<*>): FirNamedFunctionSymbol {
-        val navKeyType = ClassIds.Nav3.NavKey.createConeType(session)
-        val entryProviderScopeType = ClassIds.Nav3.EntryProviderScope.constructClassLikeType(arrayOf(navKeyType))
-        val sharedTransitionScopeType = ClassIds.Compose.SharedTransitionScope.createConeType(session)
-        val navBackStackType = ClassIds.Nav3.NavBackStack.constructClassLikeType(arrayOf(navKeyType))
-        val unitType = session.builtinTypes.unitType.coneType
+        val navEntryInstallerSymbol = session.symbolProvider
+            .getClassLikeSymbolByClassId(ClassIds.RouteBinding.NavEntryInstaller) as FirRegularClassSymbol
+        val installFunctionSymbol = navEntryInstallerSymbol.declaredFunctions(session)
+            .first { it.name == Name.identifier("install") }
 
         return createMemberFunction(
             owner = classSymbol,
             key = RouteBindingKeys.InstallFunctionDeclaration,
             name = Name.identifier("install"),
-            returnType = unitType,
+            returnType = installFunctionSymbol.resolvedReturnType,
         ) {
-            contextReceiver(entryProviderScopeType)
-            contextReceiver(sharedTransitionScopeType)
-            valueParameter(Name.identifier("backStack"), navBackStackType)
+            installFunctionSymbol.contextParameterSymbols.forEach {
+                contextReceiver(it.resolvedReturnType)
+            }
+            installFunctionSymbol.valueParameterSymbols.forEach {
+                valueParameter(it.name, it.resolvedReturnType)
+            }
             status {
                 isOverride = true
             }
