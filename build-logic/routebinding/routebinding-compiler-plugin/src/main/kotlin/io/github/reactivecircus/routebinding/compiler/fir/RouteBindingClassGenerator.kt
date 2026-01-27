@@ -3,9 +3,14 @@
 package io.github.reactivecircus.routebinding.compiler.fir
 
 import io.github.reactivecircus.routebinding.compiler.ClassIds
+import org.jetbrains.kotlin.GeneratedDeclarationKey
 import org.jetbrains.kotlin.descriptors.ClassKind
 import org.jetbrains.kotlin.descriptors.Visibilities
 import org.jetbrains.kotlin.fir.FirSession
+import org.jetbrains.kotlin.fir.caches.FirCache
+import org.jetbrains.kotlin.fir.caches.firCachesFactory
+import org.jetbrains.kotlin.fir.caches.getValue
+import org.jetbrains.kotlin.fir.declarations.FirDeclarationOrigin
 import org.jetbrains.kotlin.fir.declarations.getDeprecationsProvider
 import org.jetbrains.kotlin.fir.deserialization.toQualifiedPropertyAccessExpression
 import org.jetbrains.kotlin.fir.expressions.FirAnnotation
@@ -30,6 +35,7 @@ import org.jetbrains.kotlin.fir.plugin.createNestedClass
 import org.jetbrains.kotlin.fir.plugin.createTopLevelClass
 import org.jetbrains.kotlin.fir.resolve.defaultType
 import org.jetbrains.kotlin.fir.resolve.providers.symbolProvider
+import org.jetbrains.kotlin.fir.symbols.FirBasedSymbol
 import org.jetbrains.kotlin.fir.symbols.impl.FirClassLikeSymbol
 import org.jetbrains.kotlin.fir.symbols.impl.FirClassSymbol
 import org.jetbrains.kotlin.fir.symbols.impl.FirConstructorSymbol
@@ -62,10 +68,11 @@ internal class RouteBindingClassGenerator(session: FirSession) : FirDeclarationG
         annotated(ClassIds.RouteBinding.Annotation.asSingleFqName())
     }
 
-    private val matchedFunctions by lazy {
-        session.predicateBasedProvider.getSymbolsByPredicate(hasRouteBindingAnnotation)
-            .filterIsInstance<FirNamedFunctionSymbol>()
-    }
+    private val matchedFunctions: FirCache<Unit, List<FirNamedFunctionSymbol>, Nothing?> =
+        session.firCachesFactory.createCache { _, _ ->
+            session.predicateBasedProvider.getSymbolsByPredicate(hasRouteBindingAnnotation)
+                .filterIsInstance<FirNamedFunctionSymbol>()
+        }
 
     override fun FirDeclarationPredicateRegistrar.registerPredicates() {
         register(hasRouteBindingAnnotation)
@@ -73,18 +80,16 @@ internal class RouteBindingClassGenerator(session: FirSession) : FirDeclarationG
 
     @ExperimentalTopLevelDeclarationsGenerationApi
     override fun getTopLevelClassIds(): Set<ClassId> {
-        return matchedFunctions.map { function ->
+        return matchedFunctions.getValue(Unit).map { function ->
             val packageFqName = function.callableId.packageName
-            val className = Name.identifier("${function.name.asString()}$NavEntryInstallerSuffix")
+            val classNameSuffix = ClassIds.RouteBinding.NavEntryInstaller.shortClassName.asString()
+            val className = Name.identifier("${function.name.asString()}_$classNameSuffix")
             ClassId(packageFqName, className)
         }.toSet()
     }
 
     @ExperimentalTopLevelDeclarationsGenerationApi
     override fun generateTopLevelClassLikeDeclaration(classId: ClassId): FirClassLikeSymbol<*>? {
-        if (!classId.shortClassName.asString().endsWith(NavEntryInstallerSuffix)) {
-            return null
-        }
         return createTopLevelClass(
             classId = classId,
             key = RouteBindingKeys.NavEntryInstallerClassDeclaration,
@@ -121,15 +126,12 @@ internal class RouteBindingClassGenerator(session: FirSession) : FirDeclarationG
     }
 
     override fun getCallableNamesForClass(classSymbol: FirClassSymbol<*>, context: MemberGenerationContext): Set<Name> {
-        val classId = classSymbol.classId
         // for <NavEntryContent>_NavEntryInstaller class
-        if (classId.shortClassName.asString().endsWith(NavEntryInstallerSuffix) && classId.outerClassId == null) {
+        if (classSymbol.hasOrigin(RouteBindingKeys.NavEntryInstallerClassDeclaration)) {
             return setOf(SpecialNames.INIT, Name.identifier("install"))
         }
         // for nested MetroFactory object
-        if (classId.shortClassName == MetroFactoryName &&
-            classId.outerClassId?.shortClassName?.asString()?.endsWith(NavEntryInstallerSuffix) == true
-        ) {
+        if (classSymbol.hasOrigin(RouteBindingKeys.MetroFactoryClassDeclaration)) {
             return setOf(SpecialNames.INIT, Name.identifier("create"), Name.identifier("newInstance"))
         }
         return emptySet()
@@ -137,10 +139,9 @@ internal class RouteBindingClassGenerator(session: FirSession) : FirDeclarationG
 
     override fun generateConstructors(context: MemberGenerationContext): List<FirConstructorSymbol> {
         val classSymbol = context.owner
-        val classId = classSymbol.classId
 
         // for <NavEntryContent>_NavEntryInstaller class
-        if (classId.shortClassName.asString().endsWith(NavEntryInstallerSuffix) && classId.outerClassId == null) {
+        if (classSymbol.hasOrigin(RouteBindingKeys.NavEntryInstallerClassDeclaration)) {
             return listOf(
                 createConstructor(
                     owner = classSymbol,
@@ -152,9 +153,7 @@ internal class RouteBindingClassGenerator(session: FirSession) : FirDeclarationG
         }
 
         // for nested MetroFactory object
-        if (classId.shortClassName == MetroFactoryName &&
-            classId.outerClassId?.shortClassName?.asString()?.endsWith(NavEntryInstallerSuffix) == true
-        ) {
+        if (classSymbol.hasOrigin(RouteBindingKeys.MetroFactoryClassDeclaration)) {
             return listOf(
                 createConstructor(
                     owner = classSymbol,
@@ -178,7 +177,7 @@ internal class RouteBindingClassGenerator(session: FirSession) : FirDeclarationG
         val classId = classSymbol.classId
 
         // install function
-        if (classId.shortClassName.asString().endsWith(NavEntryInstallerSuffix) && classId.outerClassId == null) {
+        if (classSymbol.hasOrigin(RouteBindingKeys.NavEntryInstallerClassDeclaration)) {
             if (callableId.callableName.asString() != "install") {
                 return emptyList()
             }
@@ -186,9 +185,7 @@ internal class RouteBindingClassGenerator(session: FirSession) : FirDeclarationG
         }
 
         // create and newInstance functions in MetroFactory
-        if (classId.shortClassName == MetroFactoryName &&
-            classId.outerClassId?.shortClassName?.asString()?.endsWith(NavEntryInstallerSuffix) == true
-        ) {
+        if (classSymbol.hasOrigin(RouteBindingKeys.MetroFactoryClassDeclaration)) {
             val outerClassId = classId.outerClassId!!
             val outerClassType = outerClassId.createConeType(session)
             val factoryType = ClassIds.Metro.Factory.constructClassLikeType(arrayOf(outerClassType))
@@ -202,6 +199,7 @@ internal class RouteBindingClassGenerator(session: FirSession) : FirDeclarationG
                         returnType = factoryType,
                     ).symbol,
                 )
+
                 "newInstance" -> listOf(
                     createMemberFunction(
                         owner = classSymbol,
@@ -210,6 +208,7 @@ internal class RouteBindingClassGenerator(session: FirSession) : FirDeclarationG
                         returnType = outerClassType,
                     ).symbol,
                 )
+
                 else -> emptyList()
             }
         }
@@ -243,7 +242,7 @@ internal class RouteBindingClassGenerator(session: FirSession) : FirDeclarationG
         classSymbol: FirClassSymbol<*>,
         context: NestedClassGenerationContext,
     ): Set<Name> {
-        if (!classSymbol.classId.shortClassName.asString().endsWith(NavEntryInstallerSuffix)) {
+        if (!classSymbol.hasOrigin(RouteBindingKeys.NavEntryInstallerClassDeclaration)) {
             return emptySet()
         }
         return setOf(MetroFactoryName)
@@ -254,7 +253,7 @@ internal class RouteBindingClassGenerator(session: FirSession) : FirDeclarationG
         name: Name,
         context: NestedClassGenerationContext,
     ): FirClassLikeSymbol<*>? {
-        if (name != MetroFactoryName || !owner.classId.shortClassName.asString().endsWith(NavEntryInstallerSuffix)) {
+        if (name != MetroFactoryName || !owner.hasOrigin(RouteBindingKeys.NavEntryInstallerClassDeclaration)) {
             return null
         }
 
@@ -294,9 +293,12 @@ internal class RouteBindingClassGenerator(session: FirSession) : FirDeclarationG
         }
     }
 
+    private fun FirBasedSymbol<*>.hasOrigin(key: GeneratedDeclarationKey): Boolean {
+        val origin = origin
+        return origin is FirDeclarationOrigin.Plugin && origin.key == key
+    }
+
     companion object {
-        // TODO better way to identify the class being generated?
-        private const val NavEntryInstallerSuffix = "_NavEntryInstaller"
         private val MetroFactoryName = Name.identifier("MetroFactory")
     }
 }
