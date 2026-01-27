@@ -485,9 +485,13 @@ internal class WebViewNavigator(private val coroutineScope: CoroutineScope) {
         navigationEvents.collect { event ->
             when (event) {
                 is NavigationEvent.Back -> goBack()
+
                 is NavigationEvent.Forward -> goForward()
+
                 is NavigationEvent.Reload -> reload()
+
                 is NavigationEvent.StopLoading -> stopLoading()
+
                 is NavigationEvent.LoadHtml -> loadDataWithBaseURL(
                     event.baseUrl,
                     event.html,

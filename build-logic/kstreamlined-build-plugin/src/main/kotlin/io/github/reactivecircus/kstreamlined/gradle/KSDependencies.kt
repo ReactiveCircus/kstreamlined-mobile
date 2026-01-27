@@ -50,6 +50,7 @@ internal inline fun <reified S : Named, reified D : KSDependencies> Project.conf
             dependencies.implementation.wireWith(this, main.implementationConfigurationName)
             dependencies.testImplementation.wireWith(this, test.implementationConfigurationName)
         }
+
         AndroidSourceSet::class -> {
             val main = sourceSets.getByName("main") as AndroidSourceSet
             dependencies.api.wireWith(this, main.apiConfigurationName)

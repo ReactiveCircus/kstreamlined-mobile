@@ -54,6 +54,7 @@ public class KotlinWeeklyIssuePresenter(
                 is KotlinWeeklyIssueUiEvent.Refresh -> {
                     loadCount++
                 }
+
                 is KotlinWeeklyIssueUiEvent.ToggleSavedForLater -> {
                     val state = uiState as? KotlinWeeklyIssueUiState.Content ?: return@CollectEvent
                     if (!state.savedForLater) {

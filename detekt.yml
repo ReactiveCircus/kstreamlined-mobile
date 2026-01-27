@@ -21,6 +21,8 @@ ktlint:
     active: false
   MaximumLineLength:
     active: false
+  MixedConditionOperators:
+    active: false
   MultilineExpressionWrapping:
     active: false
   PropertyName:

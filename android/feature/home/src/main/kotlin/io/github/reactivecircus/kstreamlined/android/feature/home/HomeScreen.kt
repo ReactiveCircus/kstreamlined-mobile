@@ -95,12 +95,14 @@ public fun SharedTransitionScope.HomeScreen(
                             issueNumber = item.issueNumber,
                         )
                     }
+
                     is FeedItem.TalkingKotlin -> {
                         TalkingKotlinEpisodeRoute(
                             origin = SharedTransitionOrigin,
                             id = item.id,
                         )
                     }
+
                     else -> {
                         ContentViewerRoute(
                             origin = SharedTransitionOrigin,

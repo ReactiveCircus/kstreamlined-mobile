@@ -79,12 +79,14 @@ public fun SharedTransitionScope.SavedForLaterScreen(
                             issueNumber = item.issueNumber,
                         )
                     }
+
                     is FeedItem.TalkingKotlin -> {
                         TalkingKotlinEpisodeRoute(
                             origin = SharedTransitionOrigin,
                             id = item.id,
                         )
                     }
+
                     else -> {
                         ContentViewerRoute(
                             origin = SharedTransitionOrigin,
