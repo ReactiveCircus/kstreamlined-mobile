@@ -8,14 +8,7 @@ internal object ClassIds {
         val NavEntryInstaller = ClassId.fromString("io/github/reactivecircus/routebinding/runtime/NavEntryInstaller")
     }
 
-    object Compose {
-        val Composable = ClassId.fromString("androidx/compose/runtime/Composable")
-        val SharedTransitionScope = ClassId.fromString("androidx/compose/animation/SharedTransitionScope")
-    }
-
     object Nav3 {
-        val NavKey = ClassId.fromString("androidx/navigation3/runtime/NavKey")
-        val NavBackStack = ClassId.fromString("androidx/navigation3/runtime/NavBackStack")
         val EntryProviderScope = ClassId.fromString("androidx/navigation3/runtime/EntryProviderScope")
     }
 

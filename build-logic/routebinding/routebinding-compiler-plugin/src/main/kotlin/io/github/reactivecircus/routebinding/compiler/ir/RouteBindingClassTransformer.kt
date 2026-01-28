@@ -1,10 +1,7 @@
 package io.github.reactivecircus.routebinding.compiler.ir
 
 import io.github.reactivecircus.routebinding.compiler.ClassIds
-import io.github.reactivecircus.routebinding.compiler.ir.symbols.ComposeSymbols
-import io.github.reactivecircus.routebinding.compiler.ir.symbols.MetroSymbols
 import io.github.reactivecircus.routebinding.compiler.ir.symbols.Nav3Symbols
-import io.github.reactivecircus.routebinding.compiler.ir.symbols.RouteBindingSymbols
 import org.jetbrains.kotlin.backend.common.IrElementTransformerVoidWithContext
 import org.jetbrains.kotlin.backend.common.extensions.IrPluginContext
 import org.jetbrains.kotlin.backend.common.lower.DeclarationIrBuilder
@@ -47,10 +44,7 @@ import org.jetbrains.kotlin.name.SpecialNames
 
 internal class RouteBindingClassTransformer(
     private val pluginContext: IrPluginContext,
-    private val routeBindingSymbols: RouteBindingSymbols,
-    private val composeSymbols: ComposeSymbols,
     private val nav3Symbols: Nav3Symbols,
-    private val metroSymbols: MetroSymbols,
     routeBindingFunctions: Sequence<IrSimpleFunction>,
 ) : IrElementTransformerVoidWithContext() {
     // generated NavEntryInstaller class -> source function mappings
