@@ -9,6 +9,8 @@ import org.jetbrains.kotlin.backend.common.extensions.IrGenerationExtension
 import org.jetbrains.kotlin.backend.common.extensions.IrPluginContext
 import org.jetbrains.kotlin.cli.common.messages.MessageCollector
 import org.jetbrains.kotlin.ir.declarations.IrModuleFragment
+import org.jetbrains.kotlin.ir.declarations.IrSimpleFunction
+import org.jetbrains.kotlin.ir.util.hasAnnotation
 
 internal class RouteBindingIrGenerationExtension(
     private val messageCollector: MessageCollector,
@@ -43,6 +45,13 @@ internal class RouteBindingIrGenerationExtension(
         @Suppress("ComplexCondition")
         if (routeBindingSymbols == null || composeSymbols == null || nav3Symbols == null || metroSymbols == null) return
 
+        val routeBindingFunctions = moduleFragment.files.asSequence()
+            .flatMap { it.declarations }
+            .filterIsInstance<IrSimpleFunction>()
+            .filter { it.hasAnnotation(routeBindingSymbols.routeBindingAnnotation) }
+
+        if (routeBindingFunctions.none()) return
+
         moduleFragment.transform(
             RouteBindingClassTransformer(
                 pluginContext,
@@ -50,6 +59,7 @@ internal class RouteBindingIrGenerationExtension(
                 composeSymbols,
                 nav3Symbols,
                 metroSymbols,
+                routeBindingFunctions,
             ),
             null,
         )

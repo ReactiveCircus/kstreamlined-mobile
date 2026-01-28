@@ -15,13 +15,13 @@ import org.jetbrains.kotlin.ir.builders.IrBlockBodyBuilder
 import org.jetbrains.kotlin.ir.builders.declarations.addValueParameter
 import org.jetbrains.kotlin.ir.builders.declarations.buildFun
 import org.jetbrains.kotlin.ir.builders.irBlockBody
+import org.jetbrains.kotlin.ir.builders.irCall
 import org.jetbrains.kotlin.ir.builders.irCallConstructor
 import org.jetbrains.kotlin.ir.builders.irCallWithSubstitutedType
 import org.jetbrains.kotlin.ir.builders.irDelegatingConstructorCall
 import org.jetbrains.kotlin.ir.builders.irGet
 import org.jetbrains.kotlin.ir.builders.irGetObject
 import org.jetbrains.kotlin.ir.builders.irReturn
-import org.jetbrains.kotlin.ir.builders.irUnit
 import org.jetbrains.kotlin.ir.declarations.IrClass
 import org.jetbrains.kotlin.ir.declarations.IrDeclarationOrigin
 import org.jetbrains.kotlin.ir.declarations.IrFunction
@@ -35,12 +35,14 @@ import org.jetbrains.kotlin.ir.types.IrType
 import org.jetbrains.kotlin.ir.types.defaultType
 import org.jetbrains.kotlin.ir.types.getClass
 import org.jetbrains.kotlin.ir.util.classId
+import org.jetbrains.kotlin.ir.util.classIdOrFail
 import org.jetbrains.kotlin.ir.util.constructors
-import org.jetbrains.kotlin.ir.util.file
 import org.jetbrains.kotlin.ir.util.functions
-import org.jetbrains.kotlin.ir.util.hasAnnotation
+import org.jetbrains.kotlin.ir.util.getPackageFragment
+import org.jetbrains.kotlin.ir.util.hasDefaultValue
 import org.jetbrains.kotlin.ir.util.nestedClasses
-import org.jetbrains.kotlin.ir.util.simpleFunctions
+import org.jetbrains.kotlin.name.ClassId
+import org.jetbrains.kotlin.name.Name
 import org.jetbrains.kotlin.name.SpecialNames
 
 internal class RouteBindingClassTransformer(
@@ -49,15 +51,27 @@ internal class RouteBindingClassTransformer(
     private val composeSymbols: ComposeSymbols,
     private val nav3Symbols: Nav3Symbols,
     private val metroSymbols: MetroSymbols,
+    routeBindingFunctions: Sequence<IrSimpleFunction>,
 ) : IrElementTransformerVoidWithContext() {
+    // generated NavEntryInstaller class -> source function mappings
+    private val sourceFunctionsMap: Map<ClassId, IrSimpleFunction> = routeBindingFunctions
+        .associateBy { function ->
+            val classNameSuffix = ClassIds.RouteBinding.NavEntryInstaller.shortClassName.asString()
+            ClassId(
+                function.getPackageFragment().packageFqName,
+                Name.identifier("${function.name.asString()}_$classNameSuffix"),
+            )
+        }
+
     override fun visitClassNew(declaration: IrClass): IrStatement {
         if (declaration.origin == RouteBindingOrigins.NavEntryInstallerClassDeclaration) {
-            transformNavEntryInstallerClass(declaration)
+            val sourceFunction = sourceFunctionsMap.getValue(declaration.classIdOrFail)
+            transformNavEntryInstallerClass(irClass = declaration, sourceFunction = sourceFunction)
         }
         return super.visitClassNew(declaration)
     }
 
-    private fun transformNavEntryInstallerClass(irClass: IrClass) {
+    private fun transformNavEntryInstallerClass(irClass: IrClass, sourceFunction: IrSimpleFunction) {
         irClass.constructors.forEach { constructor ->
             constructor.body = DeclarationIrBuilder(pluginContext, constructor.symbol).irBlockBody {
                 +irDelegatingConstructorCall(pluginContext.irBuiltIns.anyClass.owner.constructors.single())
@@ -68,9 +82,11 @@ internal class RouteBindingClassTransformer(
             it.origin == RouteBindingOrigins.InstallFunction
         }
 
-        // TODO implement actual body that calls the original @RouteBinding function
         installFunction.body = DeclarationIrBuilder(pluginContext, installFunction.symbol).irBlockBody {
-            +irUnit()
+            createInstallFunctionBody(
+                sourceFunction = sourceFunction,
+                installFunction = installFunction,
+            )
         }
 
         val metroFactoryClass = irClass.nestedClasses.find {
@@ -82,29 +98,38 @@ internal class RouteBindingClassTransformer(
     }
 
     private fun IrBlockBodyBuilder.createInstallFunctionBody(
-        navEntryContentFunction: IrFunction,
+        sourceFunction: IrFunction,
         installFunction: IrFunction,
     ) {
-        val routeKClass = navEntryContentFunction.getAnnotation(
+        val routeKClass = sourceFunction.getAnnotation(
             ClassIds.RouteBinding.Annotation.asSingleFqName(),
         ).arguments.first() as IrClassReference
         val routeType = routeKClass.symbol.defaultType
         val entryFunction = nav3Symbols.entryFunction
 
         +irCallWithSubstitutedType(entryFunction, listOf(routeType)).apply {
-            val sharedTransitionScopeParam = installFunction.parameters.first {
+            val entryProviderScopeParam = installFunction.parameters.first {
                 it.type.getClass()?.classId == ClassIds.Nav3.EntryProviderScope
             }
-            dispatchReceiver = irGet(sharedTransitionScopeParam)
+            dispatchReceiver = irGet(entryProviderScopeParam)
 
             val entryFunctionParams = entryFunction.owner.parameters
             val lambdaExpression = pluginContext.createLambdaIrFunctionExpression(
                 lambdaReturnType = entryFunctionParams.last().type,
             ) {
                 parent = installFunction
-                addValueParameter(name = "it", type = routeType)
+                val itParam = addValueParameter(name = "it", type = routeType)
                 body = DeclarationIrBuilder(pluginContext, symbol).irBlockBody {
-                    // TODO
+                    +irCall(sourceFunction.symbol).apply {
+                        sourceFunction.parameters.forEachIndexed { index, parameter ->
+                            if (parameter.hasDefaultValue()) return@forEachIndexed
+                            if (parameter.type == routeType) {
+                                arguments[index] = irGet(itParam)
+                            } else {
+                                arguments[index] = irGet(installFunction.parameters.first { it.type == parameter.type })
+                            }
+                        }
+                    }
                 }
             }
             arguments[entryFunctionParams.size - 1] = lambdaExpression
@@ -150,16 +175,5 @@ internal class RouteBindingClassTransformer(
             val parentConstructor = parent.constructors.first()
             +irReturn(irCallConstructor(parentConstructor.symbol, emptyList()))
         }
-    }
-
-    /**
-     * Find the original @RouteBinding annotated function in the same file
-     */
-    private fun IrClass.findOriginalRouteBindingFunction(functionName: String): IrSimpleFunction? {
-        return file.simpleFunctions()
-            .find { function ->
-                function.name.asString() == functionName &&
-                    function.hasAnnotation(routeBindingSymbols.routeBindingAnnotation)
-            }
     }
 }

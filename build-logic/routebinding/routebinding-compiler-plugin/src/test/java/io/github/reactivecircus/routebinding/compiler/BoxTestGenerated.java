@@ -27,9 +27,9 @@ public class BoxTestGenerated extends AbstractBoxTest {
   }
 
   @Test
-  @TestMetadata("BasicManualTemp.kt")
-  public void testBasicManualTemp() {
-    runTest("routebinding/routebinding-compiler-plugin/src/test/data/box/BasicManualTemp.kt");
+  @TestMetadata("Multiple.kt")
+  public void testMultiple() {
+    runTest("routebinding/routebinding-compiler-plugin/src/test/data/box/Multiple.kt");
   }
 
   @Test
@@ -54,5 +54,17 @@ public class BoxTestGenerated extends AbstractBoxTest {
   @TestMetadata("WithRouteParamOnly.kt")
   public void testWithRouteParamOnly() {
     runTest("routebinding/routebinding-compiler-plugin/src/test/data/box/WithRouteParamOnly.kt");
+  }
+
+  @Test
+  @TestMetadata("WithSharedTransitionScopeAsContextParam.kt")
+  public void testWithSharedTransitionScopeAsContextParam() {
+    runTest("routebinding/routebinding-compiler-plugin/src/test/data/box/WithSharedTransitionScopeAsContextParam.kt");
+  }
+
+  @Test
+  @TestMetadata("WithSharedTransitionScopeAsRegularParam.kt")
+  public void testWithSharedTransitionScopeAsRegularParam() {
+    runTest("routebinding/routebinding-compiler-plugin/src/test/data/box/WithSharedTransitionScopeAsRegularParam.kt");
   }
 }
