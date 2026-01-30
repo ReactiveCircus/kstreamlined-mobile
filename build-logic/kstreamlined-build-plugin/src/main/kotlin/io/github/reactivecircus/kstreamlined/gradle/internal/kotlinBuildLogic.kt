@@ -24,13 +24,9 @@ internal fun KotlinBaseExtension.configureKotlin(
                 "kotlin.experimental.ExperimentalObjCName",
             )
             freeCompilerArgs.addAll(
-                "-Xnon-local-break-continue",
                 "-Xcontext-parameters",
                 "-Xconsistent-data-class-copy-visibility",
                 "-Xexplicit-backing-fields",
-                "-Xmulti-dollar-interpolation",
-                "-Xnested-type-aliases",
-                "-Xwhen-guards",
             )
         }
     }
