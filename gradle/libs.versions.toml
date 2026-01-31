@@ -1,6 +1,6 @@
 [versions]
 kotlin = "2.3.20-Beta2"
-androidGradlePlugin = "9.1.0-alpha06"
+androidGradlePlugin = "9.1.0-alpha07"
 gradle-develocityPlugin = "4.3.1"
 gradle-toolchainsResolverPlugin = "1.0.0"
 appVersioning = "1.5.0"
