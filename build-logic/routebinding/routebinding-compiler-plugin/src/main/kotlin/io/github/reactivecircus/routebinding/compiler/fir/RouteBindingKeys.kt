@@ -9,6 +9,14 @@ internal object RouteBindingKeys {
 
     data object InstallFunctionDeclaration : GeneratedDeclarationKey()
 
+    data object BindingMirrorClassDeclaration : GeneratedDeclarationKey()
+
+    data object ContributionHint : GeneratedDeclarationKey()
+
+    val MetroContributionClassDeclaration: GeneratedDeclarationKey by lazy {
+        getMetroKeyOrFallback("MetroContributionClassDeclaration", MetroFallbacks.MetroContributionClassDeclaration)
+    }
+
     val MetroFactoryClassDeclaration: GeneratedDeclarationKey by lazy {
         getMetroKeyOrFallback("InjectConstructorFactoryClassDeclaration", MetroFallbacks.MetroFactoryClassDeclaration)
     }
@@ -22,11 +30,13 @@ internal object RouteBindingKeys {
     }
 
     object MetroFallbacks {
-        object MetroFactoryClassDeclaration : GeneratedDeclarationKey()
+        data object MetroContributionClassDeclaration : GeneratedDeclarationKey()
 
-        object MetroFactoryCreateFunction : GeneratedDeclarationKey()
+        data object MetroFactoryClassDeclaration : GeneratedDeclarationKey()
 
-        object MetroFactoryNewInstanceFunction : GeneratedDeclarationKey()
+        data object MetroFactoryCreateFunction : GeneratedDeclarationKey()
+
+        data object MetroFactoryNewInstanceFunction : GeneratedDeclarationKey()
     }
 }
 
