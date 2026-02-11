@@ -12,10 +12,6 @@ internal object RouteBindingOrigins {
         RouteBindingKeys.InstallFunctionDeclaration,
     )
 
-    val ContributionHint = IrDeclarationOrigin.GeneratedByPlugin(
-        RouteBindingKeys.ContributionHint,
-    )
-
     /**
      * Fallback MetroFactory origins when Metro compiler is not on the classpath.
      * These are only used by RouteBinding IR to generate `MetroFactory`'s function bodies during compiler tests.

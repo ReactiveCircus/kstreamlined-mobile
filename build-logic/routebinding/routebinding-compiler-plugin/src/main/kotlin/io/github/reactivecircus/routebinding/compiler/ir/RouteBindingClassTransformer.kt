@@ -42,7 +42,7 @@ import org.jetbrains.kotlin.name.ClassId
 import org.jetbrains.kotlin.name.Name
 import org.jetbrains.kotlin.name.SpecialNames
 
-internal class NavEntryInstallerClassTransformer(
+internal class RouteBindingClassTransformer(
     private val pluginContext: IrPluginContext,
     private val nav3Symbols: Nav3Symbols,
     routeBindingFunctions: Sequence<IrSimpleFunction>,
@@ -101,8 +101,6 @@ internal class NavEntryInstallerClassTransformer(
         val routeType = routeKClass.symbol.defaultType
         val entryFunction = nav3Symbols.entryFunction
 
-        // TODO investigate why the following causes runtime crash:
-        //  java.lang.VerifyError: Verifier rejected class io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.impl.TalkingKotlinEpisodeScreen_NavEntryInstaller$$ExternalSyntheticLambda0: java.lang.Object io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.impl.TalkingKotlinEpisodeScreen_NavEntryInstaller$$ExternalSyntheticLambda0.invoke(java.lang.Object, java.lang.Object, java.lang.Object) failed to verify: java.lang.Object io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.impl.TalkingKotlinEpisodeScreen_NavEntryInstaller$$ExternalSyntheticLambda0.invoke(java.lang.Object, java.lang.Object, java.lang.Object): [0xC] register v3 has type Reference java.lang.Object but expected Reference: io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.api.TalkingKotlinEpisodeRoute (declaration of 'io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.impl.TalkingKotlinEpisodeScreen_NavEntryInstaller$$ExternalSyntheticLambda0' appears in /data/app/~~0UcmCu8jDQGX8N8_ZVr8Fg==/io.github.reactivecircus.kstreamlined.dev-mLSl3MjImjN-ugmPyH46Hg==/base.apk!classes11.dex)
         +irCallWithSubstitutedType(entryFunction, listOf(routeType)).apply {
             val entryProviderScopeParam = installFunction.parameters.first {
                 it.type.getClass()?.classId == ClassIds.Nav3.EntryProviderScope

@@ -5,11 +5,11 @@ package io.github.reactivecircus.routebinding.compiler.fir
 import io.github.reactivecircus.routebinding.compiler.ClassIds
 import org.jetbrains.kotlin.GeneratedDeclarationKey
 import org.jetbrains.kotlin.descriptors.ClassKind
-import org.jetbrains.kotlin.descriptors.Modality
 import org.jetbrains.kotlin.descriptors.Visibilities
 import org.jetbrains.kotlin.fir.FirSession
 import org.jetbrains.kotlin.fir.caches.FirCache
 import org.jetbrains.kotlin.fir.caches.firCachesFactory
+import org.jetbrains.kotlin.fir.caches.getValue
 import org.jetbrains.kotlin.fir.declarations.FirDeclarationOrigin
 import org.jetbrains.kotlin.fir.declarations.declaredFunctions
 import org.jetbrains.kotlin.fir.declarations.getDeprecationsProvider
@@ -64,12 +64,12 @@ import org.jetbrains.kotlin.types.ConstantValueKind
  * This won't be required once Metro moves factory generation to IR.
  */
 @Suppress("TooManyFunctions")
-internal class NavEntryInstallerClassGenerator(session: FirSession) : FirDeclarationGenerationExtension(session) {
+internal class RouteBindingClassGenerator(session: FirSession) : FirDeclarationGenerationExtension(session) {
     private val hasRouteBindingAnnotation = LookupPredicate.create {
         annotated(ClassIds.RouteBinding.Annotation.asSingleFqName())
     }
 
-    private val matchedFunctions: FirCache<Unit, List<FirNamedFunctionSymbol>, Unit> =
+    private val matchedFunctions: FirCache<Unit, List<FirNamedFunctionSymbol>, Nothing?> =
         session.firCachesFactory.createCache { _, _ ->
             session.predicateBasedProvider.getSymbolsByPredicate(hasRouteBindingAnnotation)
                 .filterIsInstance<FirNamedFunctionSymbol>()
@@ -81,7 +81,7 @@ internal class NavEntryInstallerClassGenerator(session: FirSession) : FirDeclara
 
     @ExperimentalTopLevelDeclarationsGenerationApi
     override fun getTopLevelClassIds(): Set<ClassId> {
-        return matchedFunctions.getValue(Unit, Unit).map { function ->
+        return matchedFunctions.getValue(Unit).map { function ->
             val packageFqName = function.callableId.packageName
             val classNameSuffix = ClassIds.RouteBinding.NavEntryInstaller.shortClassName.asString()
             val className = Name.identifier("${function.name.asString()}_$classNameSuffix")
@@ -107,54 +107,37 @@ internal class NavEntryInstallerClassGenerator(session: FirSession) : FirDeclara
             coneType = ClassIds.Metro.ContributesIntoSet.createConeType(session)
         }
         argumentMapping = buildAnnotationArgumentMapping {
-            mapping[Name.identifier("scope")] = buildAppScopeGetClassCall()
-        }
-    }
-
-    private fun buildMetroContributionAnnotation(): FirAnnotation = buildAnnotation {
-        annotationTypeRef = buildResolvedTypeRef {
-            coneType = ClassIds.Metro.MetroContribution.createConeType(session)
-        }
-        argumentMapping = buildAnnotationArgumentMapping {
-            mapping[Name.identifier("scope")] = buildAppScopeGetClassCall()
-        }
-    }
-
-    private fun buildAppScopeGetClassCall() = buildGetClassCall {
-        val appScopeSymbol = session.symbolProvider
-            .getClassLikeSymbolByClassId(ClassIds.Metro.AppScope) as FirRegularClassSymbol
-        val appScopeConeType = appScopeSymbol.classId.constructClassLikeType()
-        val kClassSymbol = session.symbolProvider
-            .getClassLikeSymbolByClassId(StandardClassIds.KClass) as FirRegularClassSymbol
-        val kClassType = kClassSymbol.classId.constructClassLikeType(arrayOf(appScopeConeType))
-        coneTypeOrNull = kClassType
-        argumentList = buildArgumentList {
-            arguments += buildResolvedQualifier {
-                coneTypeOrNull = appScopeConeType
-                symbol = appScopeSymbol
-                packageFqName = ClassIds.Metro.AppScope.packageFqName
-                relativeClassFqName = ClassIds.Metro.AppScope.relativeClassName
-                resolvedToCompanionObject = false
+            mapping[Name.identifier("scope")] = buildGetClassCall {
+                val appScopeSymbol = session.symbolProvider
+                    .getClassLikeSymbolByClassId(ClassIds.Metro.AppScope) as FirRegularClassSymbol
+                val appScopeConeType = appScopeSymbol.classId.constructClassLikeType()
+                val kClassSymbol = session.symbolProvider
+                    .getClassLikeSymbolByClassId(StandardClassIds.KClass) as FirRegularClassSymbol
+                val kClassType = kClassSymbol.classId.constructClassLikeType(arrayOf(appScopeConeType))
+                coneTypeOrNull = kClassType
+                argumentList = buildArgumentList {
+                    arguments += buildResolvedQualifier {
+                        coneTypeOrNull = appScopeConeType
+                        symbol = appScopeSymbol
+                        packageFqName = ClassIds.Metro.AppScope.packageFqName
+                        relativeClassFqName = ClassIds.Metro.AppScope.relativeClassName
+                        resolvedToCompanionObject = false
+                    }
+                }
             }
         }
     }
 
     override fun getCallableNamesForClass(classSymbol: FirClassSymbol<*>, context: MemberGenerationContext): Set<Name> {
-        return when {
-            // for <NavEntryContent>_NavEntryInstaller class
-            classSymbol.hasOrigin(RouteBindingKeys.NavEntryInstallerClassDeclaration) ->
-                setOf(SpecialNames.INIT, Name.identifier("install"))
-
-            // for nested MetroFactory object
-            classSymbol.hasOrigin(RouteBindingKeys.MetroFactoryClassDeclaration) ->
-                setOf(SpecialNames.INIT, Name.identifier("create"), Name.identifier("newInstance"))
-
-            // for nested BindsMirror class
-            classSymbol.hasOrigin(RouteBindingKeys.BindingMirrorClassDeclaration) ->
-                setOf(SpecialNames.INIT)
-
-            else -> emptySet()
+        // for <NavEntryContent>_NavEntryInstaller class
+        if (classSymbol.hasOrigin(RouteBindingKeys.NavEntryInstallerClassDeclaration)) {
+            return setOf(SpecialNames.INIT, Name.identifier("install"))
         }
+        // for nested MetroFactory object
+        if (classSymbol.hasOrigin(RouteBindingKeys.MetroFactoryClassDeclaration)) {
+            return setOf(SpecialNames.INIT, Name.identifier("create"), Name.identifier("newInstance"))
+        }
+        return emptySet()
     }
 
     override fun generateConstructors(context: MemberGenerationContext): List<FirConstructorSymbol> {
@@ -174,19 +157,6 @@ internal class NavEntryInstallerClassGenerator(session: FirSession) : FirDeclara
 
         // for nested MetroFactory object
         if (classSymbol.hasOrigin(RouteBindingKeys.MetroFactoryClassDeclaration)) {
-            return listOf(
-                createConstructor(
-                    owner = classSymbol,
-                    key = RouteBindingKeys.Default,
-                    isPrimary = true,
-                    generateDelegatedNoArgConstructorCall = true,
-                    config = { visibility = Visibilities.Private },
-                ).symbol,
-            )
-        }
-
-        // for nested BindsMirror class inside MetroContributionToAppScope
-        if (classSymbol.hasOrigin(RouteBindingKeys.BindingMirrorClassDeclaration)) {
             return listOf(
                 createConstructor(
                     owner = classSymbol,
@@ -277,15 +247,10 @@ internal class NavEntryInstallerClassGenerator(session: FirSession) : FirDeclara
         classSymbol: FirClassSymbol<*>,
         context: NestedClassGenerationContext,
     ): Set<Name> {
-        return when {
-            classSymbol.hasOrigin(RouteBindingKeys.NavEntryInstallerClassDeclaration) ->
-                setOf(MetroFactoryName, MetroContributionToAppScopeName)
-
-            classSymbol.hasOrigin(RouteBindingKeys.MetroContributionClassDeclaration) ->
-                setOf(BindsMirrorName)
-
-            else -> emptySet()
+        if (!classSymbol.hasOrigin(RouteBindingKeys.NavEntryInstallerClassDeclaration)) {
+            return emptySet()
         }
+        return setOf(MetroFactoryName)
     }
 
     override fun generateNestedClassLikeDeclaration(
@@ -293,56 +258,24 @@ internal class NavEntryInstallerClassGenerator(session: FirSession) : FirDeclara
         name: Name,
         context: NestedClassGenerationContext,
     ): FirClassLikeSymbol<*>? {
-        if (owner.hasOrigin(RouteBindingKeys.NavEntryInstallerClassDeclaration)) {
-            if (name == MetroFactoryName) {
-                val ownerType = owner.defaultType()
-                val factoryType = ClassIds.Metro.Factory.constructClassLikeType(arrayOf(ownerType))
-
-                return createNestedClass(
-                    owner = owner,
-                    key = RouteBindingKeys.MetroFactoryClassDeclaration,
-                    name = MetroFactoryName,
-                    classKind = ClassKind.OBJECT,
-                ) {
-                    superType(factoryType)
-                }.apply {
-                    replaceAnnotations(annotations + buildDeprecatedAnnotation())
-                    replaceDeprecationsProvider(getDeprecationsProvider(session))
-                }.symbol
-            }
-
-            if (name == MetroContributionToAppScopeName) {
-                return createNestedClass(
-                    owner = owner,
-                    key = RouteBindingKeys.MetroContributionClassDeclaration,
-                    name = MetroContributionToAppScopeName,
-                    classKind = ClassKind.INTERFACE,
-                ) {
-                    modality = Modality.ABSTRACT
-                }.apply {
-                    val metroContributionAnnotation = buildMetroContributionAnnotation()
-                    replaceAnnotations(annotations + buildDeprecatedAnnotation() + metroContributionAnnotation)
-                    replaceDeprecationsProvider(getDeprecationsProvider(session))
-                }.symbol
-            }
+        if (name != MetroFactoryName || !owner.hasOrigin(RouteBindingKeys.NavEntryInstallerClassDeclaration)) {
+            return null
         }
 
-        if (owner.hasOrigin(RouteBindingKeys.MetroContributionClassDeclaration) && name == BindsMirrorName) {
-            return createNestedClass(
-                owner = owner,
-                key = RouteBindingKeys.BindingMirrorClassDeclaration,
-                name = BindsMirrorName,
-                classKind = ClassKind.CLASS,
-            ) {
-                modality = Modality.ABSTRACT
-                // private primary constructor is handled via Default key + Visibilities.Private
-            }.apply {
-                replaceAnnotations(annotations + buildDeprecatedAnnotation())
-                replaceDeprecationsProvider(getDeprecationsProvider(session))
-            }.symbol
-        }
+        val ownerType = owner.defaultType()
+        val factoryType = ClassIds.Metro.Factory.constructClassLikeType(arrayOf(ownerType))
 
-        return null
+        return createNestedClass(
+            owner = owner,
+            key = RouteBindingKeys.MetroFactoryClassDeclaration,
+            name = MetroFactoryName,
+            classKind = ClassKind.OBJECT,
+        ) {
+            superType(factoryType)
+        }.apply {
+            replaceAnnotations(annotations + buildDeprecatedAnnotation())
+            replaceDeprecationsProvider(getDeprecationsProvider(session))
+        }.symbol
     }
 
     private fun buildDeprecatedAnnotation(): FirAnnotation = buildAnnotation {
@@ -372,7 +305,5 @@ internal class NavEntryInstallerClassGenerator(session: FirSession) : FirDeclara
 
     companion object {
         private val MetroFactoryName = Name.identifier("MetroFactory")
-        private val MetroContributionToAppScopeName = Name.identifier("MetroContributionToAppScope")
-        private val BindsMirrorName = Name.identifier("BindsMirror")
     }
 }
