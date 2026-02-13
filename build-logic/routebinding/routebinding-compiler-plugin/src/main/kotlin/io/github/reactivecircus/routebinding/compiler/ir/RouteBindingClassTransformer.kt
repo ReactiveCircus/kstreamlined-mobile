@@ -13,12 +13,9 @@ import org.jetbrains.kotlin.ir.builders.declarations.addValueParameter
 import org.jetbrains.kotlin.ir.builders.declarations.buildFun
 import org.jetbrains.kotlin.ir.builders.irBlockBody
 import org.jetbrains.kotlin.ir.builders.irCall
-import org.jetbrains.kotlin.ir.builders.irCallConstructor
 import org.jetbrains.kotlin.ir.builders.irCallWithSubstitutedType
 import org.jetbrains.kotlin.ir.builders.irDelegatingConstructorCall
 import org.jetbrains.kotlin.ir.builders.irGet
-import org.jetbrains.kotlin.ir.builders.irGetObject
-import org.jetbrains.kotlin.ir.builders.irReturn
 import org.jetbrains.kotlin.ir.declarations.IrClass
 import org.jetbrains.kotlin.ir.declarations.IrDeclarationOrigin
 import org.jetbrains.kotlin.ir.declarations.IrFunction
@@ -37,7 +34,6 @@ import org.jetbrains.kotlin.ir.util.constructors
 import org.jetbrains.kotlin.ir.util.functions
 import org.jetbrains.kotlin.ir.util.getPackageFragment
 import org.jetbrains.kotlin.ir.util.hasDefaultValue
-import org.jetbrains.kotlin.ir.util.nestedClasses
 import org.jetbrains.kotlin.name.ClassId
 import org.jetbrains.kotlin.name.Name
 import org.jetbrains.kotlin.name.SpecialNames
@@ -81,13 +77,6 @@ internal class RouteBindingClassTransformer(
                 sourceFunction = sourceFunction,
                 installFunction = installFunction,
             )
-        }
-
-        val metroFactoryClass = irClass.nestedClasses.find {
-            it.origin == RouteBindingOrigins.MetroFallbacks.MetroFactoryClass
-        }
-        if (metroFactoryClass != null) {
-            transformMetroFactoryClass(factoryClass = metroFactoryClass, parent = irClass)
         }
     }
 
@@ -148,26 +137,5 @@ internal class RouteBindingClassTransformer(
             function = lambda,
             origin = IrStatementOrigin.LAMBDA,
         )
-    }
-
-    /**
-     * Add function bodies to synthetic MetroFactory class generated in FIR.
-     * This only runs when Metro compiler is not on the classpath, i.e. during compiler tests.
-     */
-    private fun transformMetroFactoryClass(factoryClass: IrClass, parent: IrClass) {
-        val createFunction = factoryClass.functions.single {
-            it.origin == RouteBindingOrigins.MetroFallbacks.MetroFactoryCreateFunction
-        }
-        createFunction.body = DeclarationIrBuilder(pluginContext, createFunction.symbol).irBlockBody {
-            +irReturn(irGetObject(factoryClass.symbol))
-        }
-
-        val newInstanceFunction = factoryClass.functions.single {
-            it.origin == RouteBindingOrigins.MetroFallbacks.MetroFactoryNewInstanceFunction
-        }
-        newInstanceFunction.body = DeclarationIrBuilder(pluginContext, newInstanceFunction.symbol).irBlockBody {
-            val parentConstructor = parent.constructors.first()
-            +irReturn(irCallConstructor(parentConstructor.symbol, emptyList()))
-        }
     }
 }

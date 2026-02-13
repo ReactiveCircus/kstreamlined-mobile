@@ -90,6 +90,7 @@ androidPublisher = { module = "com.github.triplet.gradle:android-publisher", ver
 kotlinpoet = { module = "com.squareup:kotlinpoet", version.ref = "kotlinpoet" }
 leakcanary-android = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanary" }
 leakcanary-plumber = { module = "com.squareup.leakcanary:plumber-android", version.ref = "leakcanary" }
+metro-compiler = { module = "dev.zacsweers.metro:compiler", version.ref = "metro" }
 metro-runtime = { module = "dev.zacsweers.metro:runtime", version.ref = "metro" }
 metrox-viewmodelCompose = { module = "dev.zacsweers.metro:metrox-viewmodel-compose", version.ref = "metro"}
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }

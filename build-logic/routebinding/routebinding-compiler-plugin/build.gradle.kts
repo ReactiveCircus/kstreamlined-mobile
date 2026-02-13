@@ -24,6 +24,7 @@ dependencies {
 
     compileOnly(kotlin("compiler"))
     compileOnly(kotlin("stdlib"))
+    implementation(libs.metro.compiler)
 
     testImplementation(kotlin("test-junit5"))
     testImplementation(kotlin("compiler-internal-test-framework"))

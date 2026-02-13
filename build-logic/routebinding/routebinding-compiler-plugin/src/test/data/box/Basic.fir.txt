@@ -13,15 +13,4 @@ FILE: /FooScreen_NavEntryInstaller.kt
             super<R|kotlin/Any|>()
         }
 
-        @R|kotlin/Deprecated|(message = String(This synthesized declaration should not be used directly), level = Q|kotlin/DeprecationLevel|.R|kotlin/DeprecationLevel.HIDDEN|) public final object MetroFactory : R|dev/zacsweers/metro/internal/Factory<FooScreen_NavEntryInstaller>| {
-            public final fun create(): R|dev/zacsweers/metro/internal/Factory<FooScreen_NavEntryInstaller>|
-
-            public final fun newInstance(): R|FooScreen_NavEntryInstaller|
-
-            private constructor(): R|FooScreen_NavEntryInstaller.MetroFactory| {
-                super<R|kotlin/Any|>()
-            }
-
-        }
-
     }

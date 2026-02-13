@@ -130,38 +130,7 @@ FILE fqName:<root> fileName:/FooScreen_NavEntryInstaller.kt
       Deprecated(message = "This synthesized declaration should not be used directly", replaceWith = <null>, level = GET_ENUM 'ENUM_ENTRY IR_EXTERNAL_DECLARATION_STUB name:HIDDEN' type=kotlin.DeprecationLevel)
       ContributesIntoSet(scope = CLASS_REFERENCE 'CLASS INTERFACE name:AppScope modality:ABSTRACT visibility:public superTypes:[kotlin.Any]' type=kotlin.reflect.KClass<dev.zacsweers.metro.AppScope>)
     thisReceiver: VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> type:<root>.FooScreen_NavEntryInstaller
-    CLASS GENERATED[io.github.reactivecircus.routebinding.compiler.fir.RouteBindingKeys.MetroFallbacks.MetroFactoryClassDeclaration] OBJECT name:MetroFactory modality:FINAL visibility:public superTypes:[dev.zacsweers.metro.internal.Factory<<root>.FooScreen_NavEntryInstaller>]
-      annotations:
-        Deprecated(message = "This synthesized declaration should not be used directly", replaceWith = <null>, level = GET_ENUM 'ENUM_ENTRY IR_EXTERNAL_DECLARATION_STUB name:HIDDEN' type=kotlin.DeprecationLevel)
-      thisReceiver: VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> type:<root>.FooScreen_NavEntryInstaller.MetroFactory
-      CONSTRUCTOR GENERATED[io.github.reactivecircus.routebinding.compiler.fir.RouteBindingKeys.Default] visibility:private returnType:<root>.FooScreen_NavEntryInstaller.MetroFactory [primary]
-        BLOCK_BODY
-          DELEGATING_CONSTRUCTOR_CALL 'public constructor <init> () declared in kotlin.Any'
-          INSTANCE_INITIALIZER_CALL classDescriptor='CLASS GENERATED[io.github.reactivecircus.routebinding.compiler.fir.RouteBindingKeys.MetroFallbacks.MetroFactoryClassDeclaration] OBJECT name:MetroFactory modality:FINAL visibility:public superTypes:[dev.zacsweers.metro.internal.Factory<<root>.FooScreen_NavEntryInstaller>]' type=kotlin.Unit
-      FUN FAKE_OVERRIDE name:equals visibility:public modality:OPEN returnType:kotlin.Boolean [fake_override,operator]
-        VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
-        VALUE_PARAMETER kind:Regular name:other index:1 type:kotlin.Any?
-        overridden:
-          public open fun equals (other: kotlin.Any?): kotlin.Boolean declared in dev.zacsweers.metro.internal.Factory
-      FUN FAKE_OVERRIDE name:hashCode visibility:public modality:OPEN returnType:kotlin.Int [fake_override]
-        VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
-        overridden:
-          public open fun hashCode (): kotlin.Int declared in dev.zacsweers.metro.internal.Factory
-      FUN FAKE_OVERRIDE name:toString visibility:public modality:OPEN returnType:kotlin.String [fake_override]
-        VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
-        overridden:
-          public open fun toString (): kotlin.String declared in dev.zacsweers.metro.internal.Factory
-      FUN GENERATED[io.github.reactivecircus.routebinding.compiler.fir.RouteBindingKeys.MetroFallbacks.MetroFactoryCreateFunction] name:create visibility:public modality:FINAL returnType:dev.zacsweers.metro.internal.Factory<<root>.FooScreen_NavEntryInstaller>
-        VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:<root>.FooScreen_NavEntryInstaller.MetroFactory
-        BLOCK_BODY
-          RETURN type=kotlin.Nothing from='public final fun create (): dev.zacsweers.metro.internal.Factory<<root>.FooScreen_NavEntryInstaller> declared in <root>.FooScreen_NavEntryInstaller.MetroFactory'
-            GET_OBJECT 'CLASS GENERATED[io.github.reactivecircus.routebinding.compiler.fir.RouteBindingKeys.MetroFallbacks.MetroFactoryClassDeclaration] OBJECT name:MetroFactory modality:FINAL visibility:public superTypes:[dev.zacsweers.metro.internal.Factory<<root>.FooScreen_NavEntryInstaller>]' type=<root>.FooScreen_NavEntryInstaller.MetroFactory
-      FUN GENERATED[io.github.reactivecircus.routebinding.compiler.fir.RouteBindingKeys.MetroFallbacks.MetroFactoryNewInstanceFunction] name:newInstance visibility:public modality:FINAL returnType:<root>.FooScreen_NavEntryInstaller
-        VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:<root>.FooScreen_NavEntryInstaller.MetroFactory
-        BLOCK_BODY
-          RETURN type=kotlin.Nothing from='public final fun newInstance (): <root>.FooScreen_NavEntryInstaller declared in <root>.FooScreen_NavEntryInstaller.MetroFactory'
-            CONSTRUCTOR_CALL 'public constructor <init> () declared in <root>.FooScreen_NavEntryInstaller' type=<root>.FooScreen_NavEntryInstaller origin=null
-    CONSTRUCTOR GENERATED[io.github.reactivecircus.routebinding.compiler.fir.RouteBindingKeys.Default] visibility:public returnType:<root>.FooScreen_NavEntryInstaller [primary]
+    CONSTRUCTOR GENERATED[io.github.reactivecircus.routebinding.compiler.fir.RouteBindingKeys.NavEntryInstallerClassDeclaration] visibility:public returnType:<root>.FooScreen_NavEntryInstaller [primary]
       BLOCK_BODY
         DELEGATING_CONSTRUCTOR_CALL 'public constructor <init> () declared in kotlin.Any'
     FUN FAKE_OVERRIDE name:equals visibility:public modality:OPEN returnType:kotlin.Boolean [fake_override,operator]
