@@ -1,11 +1,11 @@
 [versions]
-kotlin = "2.3.20-Beta2"
+kotlin = "2.3.20-RC"
 androidGradlePlugin = "9.1.0-alpha07"
 gradle-develocityPlugin = "4.3.1"
 gradle-toolchainsResolverPlugin = "1.0.0"
 appVersioning = "1.5.0"
 paparazzi = "2.0.0-alpha04"
-burst = "2.12.0-beta1"
+burst = "2.12.0-beta2"
 licensee = "1.14.1"
 apollo = "5.0.0-alpha.4"
 apollo-adapters = "0.7.0"
