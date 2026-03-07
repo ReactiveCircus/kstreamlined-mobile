@@ -46,8 +46,7 @@ public class FeedSyncEngineImpl(
     syncEngineDispatcher: CoroutineDispatcher = Dispatchers.IO,
     private val clock: Clock = Clock.System,
 ) : FeedSyncEngine {
-    // TODO remove `final` once migrated to 2.3.20
-    final override val syncState: StateFlow<SyncState>
+    override val syncState: StateFlow<SyncState>
         field = MutableStateFlow<SyncState>(SyncState.Idle)
 
     private val manualSyncTrigger = Channel<SyncRequest>()

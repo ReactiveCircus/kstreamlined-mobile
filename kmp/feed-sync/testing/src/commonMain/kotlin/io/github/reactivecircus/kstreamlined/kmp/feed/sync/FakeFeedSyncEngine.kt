@@ -7,8 +7,7 @@ import kotlinx.coroutines.flow.StateFlow
 public class FakeFeedSyncEngine : FeedSyncEngine {
     public val recordedSyncs: Turbine<RecordedSync> = Turbine()
 
-    // TODO remove `final` once migrated to 2.3.20
-    final override val syncState: StateFlow<SyncState>
+    override val syncState: StateFlow<SyncState>
         field = MutableStateFlow<SyncState>(SyncState.Idle)
 
     public fun emitSyncState(newState: SyncState) {

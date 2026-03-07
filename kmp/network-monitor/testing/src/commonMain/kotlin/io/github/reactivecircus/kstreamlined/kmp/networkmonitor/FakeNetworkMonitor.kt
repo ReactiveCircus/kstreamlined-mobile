@@ -4,8 +4,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 public class FakeNetworkMonitor : NetworkMonitor {
-    // TODO remove `final` once migrated to 2.3.20
-    final override val networkState: StateFlow<NetworkState>
+    override val networkState: StateFlow<NetworkState>
         field = MutableStateFlow(NetworkState.Unknown)
 
     public fun emitNetworkState(newState: NetworkState) {
