@@ -27,7 +27,11 @@ public class SnapshotTester(
         this.description = description
         return object : Statement() {
             override fun evaluate() {
-                base.evaluate()
+                try {
+                    base.evaluate()
+                } finally {
+                    tearDown()
+                }
             }
         }
     }

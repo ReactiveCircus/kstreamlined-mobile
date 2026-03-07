@@ -38,6 +38,12 @@ dependencyResolutionManagement {
             }
         }
         mavenCentral()
+        // TODO remove once upgraded Paparazzi to 2.0.0-alpha05
+        maven("https://central.sonatype.com/repository/maven-snapshots/") {
+            content {
+                includeGroup("app.cash.paparazzi")
+            }
+        }
     }
 
     versionCatalogs {

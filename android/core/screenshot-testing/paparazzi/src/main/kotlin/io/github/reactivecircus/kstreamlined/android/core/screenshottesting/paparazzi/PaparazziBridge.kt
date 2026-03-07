@@ -48,13 +48,9 @@ public abstract class PaparazziBridge(
         )
         sdk.setup()
         prepare(testName)
-        try {
-            createFrameHandler().use { handler ->
-                frameHandler = handler
-                sdk.snapshot(content)
-            }
-        } finally {
-            close()
+        createFrameHandler().use { handler ->
+            frameHandler = handler
+            sdk.snapshot(content)
         }
     }
 
@@ -63,7 +59,7 @@ public abstract class PaparazziBridge(
         sdk.prepare()
     }
 
-    private fun close() {
+    protected fun tearDown() {
         testName = null
         sdk.teardown()
         snapshotHandler.close()
