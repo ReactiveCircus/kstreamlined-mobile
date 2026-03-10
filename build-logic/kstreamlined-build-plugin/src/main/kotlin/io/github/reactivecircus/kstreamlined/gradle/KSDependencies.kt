@@ -43,7 +43,7 @@ internal inline fun <reified S : Named, reified D : KSDependencies> Project.conf
 ) {
     val dependencies = project.objects.newInstance(D::class.java)
 
-    when  {
+    when {
         typeOf<S>().isSubtypeOf(typeOf<KotlinSourceSet>()) -> {
             val main = sourceSets.getByName("main") as KotlinSourceSet
             val test = sourceSets.getByName("test") as KotlinSourceSet
