@@ -8,6 +8,8 @@ import org.gradle.api.Project
 import org.gradle.api.artifacts.dsl.Dependencies
 import org.gradle.api.artifacts.dsl.DependencyCollector
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
+import kotlin.reflect.full.isSubtypeOf
+import kotlin.reflect.typeOf
 
 public sealed interface KSDependencies : Dependencies {
     public val implementation: DependencyCollector
@@ -41,8 +43,8 @@ internal inline fun <reified S : Named, reified D : KSDependencies> Project.conf
 ) {
     val dependencies = project.objects.newInstance(D::class.java)
 
-    when (S::class) {
-        KotlinSourceSet::class -> {
+    when  {
+        typeOf<S>().isSubtypeOf(typeOf<KotlinSourceSet>()) -> {
             val main = sourceSets.getByName("main") as KotlinSourceSet
             val test = sourceSets.getByName("test") as KotlinSourceSet
             require(dependencies is KSDependencies.Jvm)
@@ -51,7 +53,7 @@ internal inline fun <reified S : Named, reified D : KSDependencies> Project.conf
             dependencies.testImplementation.wireWith(this, test.implementationConfigurationName)
         }
 
-        AndroidSourceSet::class -> {
+        typeOf<S>().isSubtypeOf(typeOf<AndroidSourceSet>()) -> {
             val main = sourceSets.getByName("main") as AndroidSourceSet
             dependencies.api.wireWith(this, main.apiConfigurationName)
             dependencies.implementation.wireWith(this, main.implementationConfigurationName)
