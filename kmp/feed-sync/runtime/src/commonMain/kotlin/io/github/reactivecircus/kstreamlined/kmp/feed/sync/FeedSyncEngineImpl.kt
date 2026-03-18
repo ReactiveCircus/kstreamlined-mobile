@@ -100,14 +100,14 @@ public class FeedSyncEngineImpl(
     }
 
     private suspend fun performSync(syncDecision: SyncDecision) = coroutineScope {
-        val (shouldSyncSources, shouldSyncItems) = syncDecision
+        val (shouldSyncSources = shouldSyncFeedSources, shouldSyncItems = shouldSyncFeedItems) = syncDecision
 
         val feedSources: List<FeedSource>?
         val feedEntries: List<FeedEntry>?
 
         if (shouldSyncSources && shouldSyncItems) {
             // fetch both feed sources and feed items in a single request
-            val (entries, sources) = feedService.fetchFeedEntriesAndOrigins()
+            val (entries = first, sources = second) = feedService.fetchFeedEntriesAndOrigins()
             feedEntries = entries
             feedSources = sources
         } else if (shouldSyncSources) {

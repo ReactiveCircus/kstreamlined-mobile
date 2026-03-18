@@ -9,14 +9,15 @@ import io.github.reactivecircus.kstreamlined.kmp.remote.model.FeedSource
 internal fun FeedEntry.toDbModel(
     currentFeedItems: List<FeedItemEntity>,
 ): FeedItemEntity {
-    val (podcastDescriptionFormat, podcastDescriptionPlainText) = if (this is FeedEntry.TalkingKotlin) {
-        val parsed = tryParseHtml(summary)
-        val summaryFormat = if (parsed != null) ContentFormat.Html else ContentFormat.Text
-        val summaryPlainText = parsed?.text()
-        summaryFormat to summaryPlainText
-    } else {
-        null to null
-    }
+    val (podcastDescriptionFormat = first, podcastDescriptionPlainText = second) =
+        if (this is FeedEntry.TalkingKotlin) {
+            val parsed = tryParseHtml(summary)
+            val summaryFormat = if (parsed != null) ContentFormat.Html else ContentFormat.Text
+            val summaryPlainText = parsed?.text()
+            summaryFormat to summaryPlainText
+        } else {
+            null to null
+        }
     return FeedItemEntity(
         id = id,
         feed_origin_key = when (this) {

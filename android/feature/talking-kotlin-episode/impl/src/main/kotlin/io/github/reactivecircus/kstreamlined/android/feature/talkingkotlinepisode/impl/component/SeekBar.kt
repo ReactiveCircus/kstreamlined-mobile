@@ -153,7 +153,10 @@ internal fun SeekBar(
                 IntOffset(0, timeLabelsOffsetPx.roundToInt())
             },
         ) {
-            val (playedProgress, remainingProgress) = playbackProgressLabels(currentPositionMillis, durationMillis)
+            val (playedProgress = first, remainingProgress = second) = playbackProgressLabels(
+                currentPositionMillis,
+                durationMillis,
+            )
             Text(
                 text = playedProgress,
                 style = KSTheme.typography.labelSmall,

@@ -204,7 +204,7 @@ private fun ContentUi(
         modifier = modifier,
         contentPadding = WindowInsets.navigationBars.asPaddingValues(),
     ) {
-        groupedItems.forEach { (group, items) ->
+        groupedItems.forEach { (group = key, items = value) ->
             stickyHeader {
                 IssueGroupUi(group = group)
             }

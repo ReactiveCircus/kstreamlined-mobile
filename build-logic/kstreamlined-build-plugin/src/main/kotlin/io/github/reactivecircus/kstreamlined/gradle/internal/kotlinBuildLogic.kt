@@ -27,6 +27,7 @@ internal fun KotlinBaseExtension.configureKotlin(
                 "-Xcontext-parameters",
                 "-Xconsistent-data-class-copy-visibility",
                 "-Xexplicit-backing-fields",
+                "-Xname-based-destructuring=complete",
             )
         }
     }

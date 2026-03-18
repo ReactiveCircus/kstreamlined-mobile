@@ -72,7 +72,7 @@ interface AppGraph : ViewModelGraph, NetworkProviders {
 
     @SingleIn(AppScope::class)
     @Provides
-    fun proviedOkHttpCallFactory(): Call.Factory = trace("KSOkHttpClient") {
+    fun provideOkHttpCallFactory(): Call.Factory = trace("KSOkHttpClient") {
         val callTimeout = BuildConfig.NETWORK_TIMEOUT_SECONDS
             .toDuration(DurationUnit.SECONDS)
             .toJavaDuration()

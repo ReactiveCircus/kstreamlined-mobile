@@ -252,7 +252,7 @@ private fun SharedTransitionScope.ContentUi(
                     }
 
                     is HomeFeedItem.Item -> {
-                        val (item, displayablePublishTime) = it.displayableFeedItem
+                        val (item = value, displayablePublishTime) = it.displayableFeedItem
                         when (item) {
                             is FeedItem.KotlinBlog -> {
                                 KotlinBlogCard(

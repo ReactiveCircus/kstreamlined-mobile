@@ -184,7 +184,7 @@ private fun SharedTransitionScope.ContentUi(
             key = { it.value.id },
             contentType = { it.value::class.simpleName },
         ) {
-            val (item, displayablePublishTime) = it
+            val (item = value, displayablePublishTime) = it
             when (item) {
                 is FeedItem.KotlinBlog -> {
                     KotlinBlogCard(

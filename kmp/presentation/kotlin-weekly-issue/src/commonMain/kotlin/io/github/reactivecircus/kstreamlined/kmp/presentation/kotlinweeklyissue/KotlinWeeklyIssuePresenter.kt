@@ -36,7 +36,7 @@ public class KotlinWeeklyIssuePresenter(
                     item ?: error("Feed item not found")
                     item to feedDataSource.loadKotlinWeeklyIssue(item.contentUrl)
                 }
-                .onEach { (item, issue) ->
+                .onEach { (item = first, issue = second) ->
                     uiState = KotlinWeeklyIssueUiState.Content(
                         id = item.id,
                         contentUrl = item.contentUrl,
