@@ -5,13 +5,11 @@ import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.runtime.Composable
-import app.cash.burst.Burst
 import io.github.reactivecircus.chameleon.runtime.Chameleon
 import io.github.reactivecircus.kstreamlined.android.core.screenshottesting.tester.SnapshotTester
 import org.junit.Rule
 import kotlin.test.Test
 
-@Burst
 @Chameleon
 class LicensesScreenTest {
     @get:Rule

@@ -3,7 +3,6 @@ package io.github.reactivecircus.kstreamlined.android.core.designsystem.componen
 import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import app.cash.burst.Burst
 import io.github.reactivecircus.chameleon.runtime.Chameleon
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.icon.KSIcons
@@ -11,7 +10,6 @@ import io.github.reactivecircus.kstreamlined.android.core.screenshottesting.test
 import org.junit.Rule
 import org.junit.Test
 
-@Burst
 @Chameleon
 class TopNavBarTest {
     @get:Rule

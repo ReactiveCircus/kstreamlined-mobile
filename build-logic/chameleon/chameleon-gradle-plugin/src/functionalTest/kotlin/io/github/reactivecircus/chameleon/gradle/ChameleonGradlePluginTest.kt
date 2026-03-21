@@ -20,11 +20,9 @@ class ChameleonGradlePluginTest {
                     """
                         package test
                         
-                        import app.cash.burst.Burst
                         import io.github.reactivecircus.chameleon.runtime.Chameleon
                         import kotlin.test.Test
                         
-                        @Burst
                         @Chameleon
                         class SampleTest {
                             private val snapshotTester = SnapshotTester()
@@ -66,11 +64,9 @@ class ChameleonGradlePluginTest {
                     """
                         package test
                         
-                        import app.cash.burst.Burst
                         import io.github.reactivecircus.chameleon.runtime.Chameleon
                         import kotlin.test.Test
                         
-                        @Burst
                         @Chameleon
                         class SampleTest {
                             private val snapshotTester = SnapshotTester()
@@ -90,7 +86,7 @@ class ChameleonGradlePluginTest {
                     .build(),
                 SnapshotTesterSource,
             ),
-            applyBurstGradlePluginFirst = true,
+            applyBurstGradlePluginBeforeChameleon = true,
         ).build()
 
         val result = build(project.rootDir, ":test")
@@ -113,11 +109,9 @@ class ChameleonGradlePluginTest {
                     """
                         package test
                         
-                        import app.cash.burst.Burst
                         import io.github.reactivecircus.chameleon.runtime.Chameleon
                         import kotlin.test.Test
                         
-                        @Burst
                         @Chameleon
                         class SampleTest {
                             private val snapshotTester = SnapshotTester()
@@ -152,16 +146,18 @@ class ChameleonGradlePluginTest {
     }
 
     @Test
-    fun `build fails when missing Burst annotation`() {
+    fun `build fails with redundant Burst annotation`() {
         val project = TestFixture(
             sources = listOf(
                 Source.kotlin(
                     """
                         package test
                         
+                        import app.cash.burst.Burst
                         import io.github.reactivecircus.chameleon.runtime.Chameleon
                         import kotlin.test.Test
                         
+                        @Burst
                         @Chameleon
                         class SampleTest {
                             private val snapshotTester = SnapshotTester()
@@ -182,7 +178,48 @@ class ChameleonGradlePluginTest {
 
         val result = buildAndFail(project.rootDir, ":test")
 
-        assertContains(result.output, "Classes annotated with `@Chameleon` must also be annotated with `@Burst`.")
+        assertContains(result.output, "Classes annotated with `@Chameleon` must not be annotated with `@Burst`.")
+    }
+
+    @Test
+    fun `build fails when missing Burst plugin`() {
+        val project = TestFixture(
+            sources = listOf(
+                Source.kotlin(
+                    """
+                        package test
+                        
+                        import io.github.reactivecircus.chameleon.runtime.Chameleon
+                        import kotlin.test.Test
+                        
+                        @Chameleon
+                        class SampleTest {
+                            private val snapshotTester = SnapshotTester()
+                        
+                            @Test
+                            fun test() {
+                                snapshotTester.snapshot()
+                            }
+                        }
+                    """.trimIndent(),
+                )
+                    .withPath(
+                        packagePath = "test",
+                        className = "SampleTest",
+                    )
+                    .withSourceSet("test")
+                    .build(),
+                SnapshotTesterSource,
+            ),
+            applyBurstGradlePlugin = false,
+        ).build()
+
+        val result = buildAndFail(project.rootDir, ":test")
+
+        assertContains(
+            result.output,
+            "Could not find annotation class <app/cash/burst/Burst>. Please make sure the `app.cash.burst` plugin has been applied to the project.",
+        )
     }
 
     @Test

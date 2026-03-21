@@ -1,10 +1,32 @@
-FILE fqName:<root> fileName:/NoSnapshotFunctionCalls.kt
+FILE fqName:<root> fileName:/ExistingThemeVariantProperty.kt
   CLASS CLASS name:ComponentTest modality:FINAL visibility:public superTypes:[kotlin.Any]
     annotations:
-      Burst
       Chameleon
     thisReceiver: VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> type:<root>.ComponentTest
+    PROPERTY name:themeVariant visibility:public modality:FINAL [val]
+      FIELD PROPERTY_BACKING_FIELD name:themeVariant type:<root>.ThemeVariant visibility:private [final]
+        EXPRESSION_BODY
+          GET_VAR 'themeVariant: <root>.ThemeVariant declared in <root>.ComponentTest.<init>' type=<root>.ThemeVariant origin=INITIALIZE_PROPERTY_FROM_PARAMETER
+      FUN DEFAULT_PROPERTY_ACCESSOR name:<get-themeVariant> visibility:public modality:FINAL returnType:<root>.ThemeVariant
+        VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:<root>.ComponentTest
+        correspondingProperty: PROPERTY name:themeVariant visibility:public modality:FINAL [val]
+        BLOCK_BODY
+          RETURN type=kotlin.Nothing from='public final fun <get-themeVariant> (): <root>.ThemeVariant declared in <root>.ComponentTest'
+            GET_FIELD 'FIELD PROPERTY_BACKING_FIELD name:themeVariant type:<root>.ThemeVariant visibility:private [final]' type=<root>.ThemeVariant origin=null
+              receiver: GET_VAR '<this>: <root>.ComponentTest declared in <root>.ComponentTest.<get-themeVariant>' type=<root>.ComponentTest origin=null
+    PROPERTY name:snapshotTester visibility:public modality:FINAL [val]
+      FIELD PROPERTY_BACKING_FIELD name:snapshotTester type:<root>.SnapshotTester visibility:private [final]
+        EXPRESSION_BODY
+          CONSTRUCTOR_CALL 'public constructor <init> () declared in <root>.SnapshotTester' type=<root>.SnapshotTester origin=null
+      FUN DEFAULT_PROPERTY_ACCESSOR name:<get-snapshotTester> visibility:public modality:FINAL returnType:<root>.SnapshotTester
+        VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:<root>.ComponentTest
+        correspondingProperty: PROPERTY name:snapshotTester visibility:public modality:FINAL [val]
+        BLOCK_BODY
+          RETURN type=kotlin.Nothing from='public final fun <get-snapshotTester> (): <root>.SnapshotTester declared in <root>.ComponentTest'
+            GET_FIELD 'FIELD PROPERTY_BACKING_FIELD name:snapshotTester type:<root>.SnapshotTester visibility:private [final]' type=<root>.SnapshotTester origin=null
+              receiver: GET_VAR '<this>: <root>.ComponentTest declared in <root>.ComponentTest.<get-snapshotTester>' type=<root>.ComponentTest origin=null
     CONSTRUCTOR visibility:public returnType:<root>.ComponentTest [primary]
+      VALUE_PARAMETER kind:Regular name:themeVariant index:0 type:<root>.ThemeVariant
       BLOCK_BODY
         DELEGATING_CONSTRUCTOR_CALL 'public constructor <init> () declared in kotlin.Any'
         INSTANCE_INITIALIZER_CALL classDescriptor='CLASS CLASS name:ComponentTest modality:FINAL visibility:public superTypes:[kotlin.Any]' type=kotlin.Unit
@@ -21,14 +43,28 @@ FILE fqName:<root> fileName:/NoSnapshotFunctionCalls.kt
       VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
       overridden:
         public open fun toString (): kotlin.String declared in kotlin.Any
-    FUN name:foo visibility:public modality:FINAL returnType:kotlin.Unit
+    FUN name:snapshot_Component visibility:public modality:FINAL returnType:kotlin.Unit
       VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:<root>.ComponentTest
       annotations:
         Test
       BLOCK_BODY
-        CALL 'public final fun Foo (): kotlin.Unit declared in <root>' type=kotlin.Unit origin=null
-  FUN name:Foo visibility:public modality:FINAL returnType:kotlin.Unit
+        CALL 'public final fun snapshot (addSurface: kotlin.Boolean, themeVariant: <root>.ThemeVariant, content: @[Composable] kotlin.Function0<kotlin.Unit>): kotlin.Unit declared in <root>.SnapshotTester' type=kotlin.Unit origin=null
+          ARG <this>: CALL 'public final fun <get-snapshotTester> (): <root>.SnapshotTester declared in <root>.ComponentTest' type=<root>.SnapshotTester origin=GET_PROPERTY
+            ARG <this>: GET_VAR '<this>: <root>.ComponentTest declared in <root>.ComponentTest.snapshot_Component' type=<root>.ComponentTest origin=IMPLICIT_ARGUMENT
+          ARG themeVariant: CALL 'public final fun <get-themeVariant> (): <root>.ThemeVariant declared in <root>.ComponentTest' type=<root>.ThemeVariant origin=GET_PROPERTY
+            ARG <this>: GET_VAR '<this>: <root>.ComponentTest declared in <root>.ComponentTest.snapshot_Component' type=<root>.ComponentTest origin=IMPLICIT_ARGUMENT
+          ARG content: FUN_EXPR type=kotlin.Function0<kotlin.Unit> origin=LAMBDA
+            FUN LOCAL_FUNCTION_FOR_LAMBDA name:<anonymous> visibility:local modality:FINAL returnType:kotlin.Unit
+              BLOCK_BODY
+                CALL 'public final fun Component (): kotlin.Unit declared in <root>' type=kotlin.Unit origin=null
+  FUN name:Component visibility:public modality:FINAL returnType:kotlin.Unit
+    annotations:
+      Composable
     BLOCK_BODY
+  FUN name:box visibility:public modality:FINAL returnType:kotlin.String
+    BLOCK_BODY
+      RETURN type=kotlin.Nothing from='public final fun box (): kotlin.String declared in <root>'
+        CONST String type=kotlin.String value="OK"
 FILE fqName:<root> fileName:/SnapshotTester.kt
   CLASS CLASS name:SnapshotTester modality:FINAL visibility:public superTypes:[kotlin.Any]
     thisReceiver: VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> type:<root>.SnapshotTester

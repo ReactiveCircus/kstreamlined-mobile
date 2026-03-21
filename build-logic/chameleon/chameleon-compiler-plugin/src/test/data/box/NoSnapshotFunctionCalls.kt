@@ -1,10 +1,8 @@
 // SNAPSHOT_FUNCTION: /SnapshotTester.snapshot
 // THEME_VARIANT_ENUM: /ThemeVariant
 
-import app.cash.burst.Burst
 import io.github.reactivecircus.chameleon.runtime.Chameleon
 
-@Burst
 @Chameleon
 class ComponentTest {
 
@@ -16,3 +14,7 @@ class ComponentTest {
 }
 
 fun Foo() {}
+
+fun box(): String {
+    return "OK"
+}

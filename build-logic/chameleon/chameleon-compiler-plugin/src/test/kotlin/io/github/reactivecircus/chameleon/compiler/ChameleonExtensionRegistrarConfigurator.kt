@@ -42,7 +42,7 @@ private class ChameleonExtensionRegistrarConfigurator(
 
         IrGenerationExtension.registerExtension(
             ChameleonIrGenerationExtension(
-                chameleonAnnotationId = Chameleon.ANNOTATION_ID,
+                chameleonAnnotationId = ClassIds.Chameleon.Annotation,
                 snapshotFunctionId = snapshotFunctionString.toMemberCallableId(),
                 themeVariantEnumId = ClassId.fromString(themeVariantEnumString),
                 messageCollector = configuration.get(

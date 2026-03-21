@@ -9,14 +9,12 @@ import androidx.compose.material3.rememberStandardBottomSheetState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import app.cash.burst.Burst
 import io.github.reactivecircus.chameleon.runtime.Chameleon
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.core.screenshottesting.tester.SnapshotTester
 import org.junit.Rule
 import org.junit.Test
 
-@Burst
 @Chameleon
 class ModalBottomSheetTest {
     @get:Rule

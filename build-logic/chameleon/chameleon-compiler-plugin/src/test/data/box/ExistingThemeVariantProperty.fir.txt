@@ -1,0 +1,25 @@
+FILE: ExistingThemeVariantProperty.kt
+    @R|io/github/reactivecircus/chameleon/runtime/Chameleon|() public final class ComponentTest : R|kotlin/Any| {
+        public constructor(themeVariant: R|ThemeVariant|): R|ComponentTest| {
+            super<R|kotlin/Any|>()
+        }
+
+        public final val themeVariant: R|ThemeVariant| = R|<local>/themeVariant|
+            public get(): R|ThemeVariant|
+
+        public final val snapshotTester: R|SnapshotTester| = R|/SnapshotTester.SnapshotTester|()
+            public get(): R|SnapshotTester|
+
+        @R|Test|() public final fun snapshot_Component(): R|kotlin/Unit| {
+            this@R|/ComponentTest|.R|/ComponentTest.snapshotTester|.R|/SnapshotTester.snapshot|(this@R|/ComponentTest|.R|/ComponentTest.themeVariant|, <L> = snapshot@fun <anonymous>(): R|kotlin/Unit| <inline=NoInline>  {
+                R|/Component|()
+            }
+            )
+        }
+
+    }
+    @R|Composable|() public final fun Component(): R|kotlin/Unit| {
+    }
+    public final fun box(): R|kotlin/String| {
+        ^box String(OK)
+    }

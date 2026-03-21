@@ -22,6 +22,7 @@ import org.jetbrains.kotlin.ir.expressions.IrCall
 import org.jetbrains.kotlin.ir.expressions.IrExpression
 import org.jetbrains.kotlin.ir.expressions.IrStatementOrigin
 import org.jetbrains.kotlin.ir.expressions.impl.IrCallImpl
+import org.jetbrains.kotlin.ir.expressions.impl.IrConstructorCallImpl
 import org.jetbrains.kotlin.ir.expressions.impl.IrGetValueImpl
 import org.jetbrains.kotlin.ir.types.defaultType
 import org.jetbrains.kotlin.ir.types.getClass
@@ -36,6 +37,7 @@ import org.jetbrains.kotlin.name.Name
 internal class ChameleonClassTransformer(
     private val pluginContext: IrPluginContext,
     private val chameleonSymbols: ChameleonSymbols,
+    private val burstSymbols: BurstSymbols,
 ) : IrElementTransformerVoidWithContext() {
     override fun visitClassNew(declaration: IrClass): IrStatement {
         // skip transform if class isn't annotated with chameleon annotation
@@ -43,6 +45,18 @@ internal class ChameleonClassTransformer(
 
         // skip transform if class already has theme variant property
         if (declaration.findThemeVariantProperty() != null) return super.visitClassNew(declaration)
+
+        // annotate the class with @Burst
+        val burstClass = burstSymbols.burstAnnotation
+        val burstConstructor = burstClass.owner.primaryConstructor
+        declaration.annotations += IrConstructorCallImpl(
+            startOffset = UNDEFINED_OFFSET,
+            endOffset = UNDEFINED_OFFSET,
+            type = burstClass.defaultType,
+            symbol = burstConstructor!!.symbol,
+            typeArgumentsCount = 0,
+            constructorTypeArgumentsCount = 0,
+        )
 
         declaration.transform(
             transformer = SnapshotCallTransformer(

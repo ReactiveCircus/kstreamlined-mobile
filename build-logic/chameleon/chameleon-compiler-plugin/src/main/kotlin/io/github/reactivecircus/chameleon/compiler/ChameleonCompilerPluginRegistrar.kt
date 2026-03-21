@@ -11,7 +11,7 @@ import org.jetbrains.kotlin.fir.extensions.FirExtensionRegistrarAdapter
 import org.jetbrains.kotlin.name.ClassId
 
 public class ChameleonCompilerPluginRegistrar : CompilerPluginRegistrar() {
-    override val pluginId: String get() = Chameleon.PLUGIN_ID
+    override val pluginId: String get() = ChameleonPluginId
 
     override val supportsK2: Boolean get() = true
 
@@ -35,7 +35,7 @@ public class ChameleonCompilerPluginRegistrar : CompilerPluginRegistrar() {
 
         IrGenerationExtension.registerExtension(
             extension = ChameleonIrGenerationExtension(
-                chameleonAnnotationId = Chameleon.ANNOTATION_ID,
+                chameleonAnnotationId = ClassIds.Chameleon.Annotation,
                 snapshotFunctionId = snapshotFunctionCallableId,
                 themeVariantEnumId = themeVariantClassId,
                 messageCollector = messageCollector,

@@ -1,0 +1,16 @@
+FILE: NoSnapshotFunctionCalls.kt
+    @R|io/github/reactivecircus/chameleon/runtime/Chameleon|() public final class ComponentTest : R|kotlin/Any| {
+        public constructor(): R|ComponentTest| {
+            super<R|kotlin/Any|>()
+        }
+
+        @R|Test|() public final fun foo(): R|kotlin/Unit| {
+            R|/Foo|()
+        }
+
+    }
+    public final fun Foo(): R|kotlin/Unit| {
+    }
+    public final fun box(): R|kotlin/String| {
+        ^box String(OK)
+    }

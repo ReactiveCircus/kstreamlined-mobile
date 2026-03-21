@@ -93,8 +93,8 @@ FILE fqName:<root> fileName:/SnapshotTester.kt
 FILE fqName:<root> fileName:/ThemeVariantArgumentProvided.kt
   CLASS CLASS name:ComponentTest modality:FINAL visibility:public superTypes:[kotlin.Any]
     annotations:
-      Burst
       Chameleon
+      Burst
     thisReceiver: VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> type:<root>.ComponentTest
     PROPERTY name:snapshotTester visibility:public modality:FINAL [val]
       FIELD PROPERTY_BACKING_FIELD name:snapshotTester type:<root>.SnapshotTester visibility:private [final]
@@ -142,6 +142,10 @@ FILE fqName:<root> fileName:/ThemeVariantArgumentProvided.kt
     annotations:
       Composable
     BLOCK_BODY
+  FUN name:box visibility:public modality:FINAL returnType:kotlin.String
+    BLOCK_BODY
+      RETURN type=kotlin.Nothing from='public final fun box (): kotlin.String declared in <root>'
+        CONST String type=kotlin.String value="OK"
 FILE fqName:<root> fileName:/stubs.kt
   CLASS ANNOTATION_CLASS name:Composable modality:OPEN visibility:public superTypes:[kotlin.Annotation]
     annotations:

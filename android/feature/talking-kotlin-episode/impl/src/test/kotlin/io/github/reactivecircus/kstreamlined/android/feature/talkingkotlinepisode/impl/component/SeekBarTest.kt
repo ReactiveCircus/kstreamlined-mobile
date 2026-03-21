@@ -3,7 +3,6 @@ package io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepiso
 import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import app.cash.burst.Burst
 import io.github.reactivecircus.chameleon.runtime.Chameleon
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Surface
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
@@ -11,7 +10,6 @@ import io.github.reactivecircus.kstreamlined.android.core.screenshottesting.test
 import org.junit.Rule
 import org.junit.Test
 
-@Burst
 @Chameleon
 class SeekBarTest {
     @get:Rule
