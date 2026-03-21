@@ -1,5 +1,6 @@
 package io.github.reactivecircus.chameleon.compiler.ir
 
+import io.github.reactivecircus.chameleon.compiler.ClassIds
 import org.jetbrains.kotlin.backend.common.extensions.IrGenerationExtension
 import org.jetbrains.kotlin.backend.common.extensions.IrPluginContext
 import org.jetbrains.kotlin.cli.common.messages.MessageCollector
@@ -21,11 +22,17 @@ internal class ChameleonIrGenerationExtension(
             snapshotFunctionId,
             themeVariantEnumId,
         )
-        if (chameleonSymbols == null) return
+        val burstSymbols = BurstSymbols.create(
+            pluginContext,
+            messageCollector,
+            ClassIds.Burst.Annotation,
+        )
+        if (chameleonSymbols == null || burstSymbols == null) return
         moduleFragment.transform(
             ChameleonClassTransformer(
                 pluginContext,
                 chameleonSymbols,
+                burstSymbols,
             ),
             null,
         )

@@ -6,13 +6,12 @@ import io.github.reactivecircus.chameleon.runtime.Chameleon
 
 @Burst
 @Chameleon
-class ComponentTest {
+class <!REDUNDANT_BURST_ANNOTATION!>ComponentTest<!> {
     val snapshotTester = SnapshotTester()
 
     @Test
-    fun snapshot_Component_Dark() {
-        // do not transform when `ThemeVariant` argument is already provided
-        snapshotTester.snapshot(addSurface = false, themeVariant = ThemeVariant.Dark) {
+    fun snapshot_Component() {
+        snapshotTester.snapshot {
             Component()
         }
     }

@@ -6,7 +6,6 @@ import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
-import app.cash.burst.Burst
 import io.github.reactivecircus.chameleon.runtime.Chameleon
 import io.github.reactivecircus.kstreamlined.android.core.screenshottesting.tester.SnapshotTester
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.DisplayableFeedItem
@@ -16,7 +15,6 @@ import org.junit.Rule
 import org.junit.Test
 import kotlin.time.Instant
 
-@Burst
 @Chameleon
 class SavedForLaterScreenTest {
     @get:Rule

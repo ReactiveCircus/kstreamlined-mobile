@@ -11,7 +11,8 @@ class TestFixture(
     private val sources: List<Source>,
     private val snapshotFunction: String = "test/SnapshotTester.snapshot",
     private val themeVariantEnum: String = "test/ThemeVariant",
-    private val applyBurstGradlePluginFirst: Boolean = false,
+    private val applyBurstGradlePlugin: Boolean = true,
+    private val applyBurstGradlePluginBeforeChameleon: Boolean = false,
 ) : AbstractGradleProject() {
     fun build(): GradleProject {
         return newGradleProjectBuilder(GradleProject.DslKind.KOTLIN)
@@ -21,12 +22,20 @@ class TestFixture(
                     plugins(
                         buildList {
                             add(Plugins.KotlinJvm)
-                            if (applyBurstGradlePluginFirst) {
-                                add(Plugins.Burst)
-                                add(Plugins.Chameleon)
-                            } else {
-                                add(Plugins.Chameleon)
-                                add(Plugins.Burst)
+                            when {
+                                !applyBurstGradlePlugin -> {
+                                    add(Plugins.Chameleon)
+                                }
+
+                                applyBurstGradlePluginBeforeChameleon -> {
+                                    add(Plugins.Burst)
+                                    add(Plugins.Chameleon)
+                                }
+
+                                else -> {
+                                    add(Plugins.Chameleon)
+                                    add(Plugins.Burst)
+                                }
                             }
                         },
                     )

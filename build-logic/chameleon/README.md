@@ -9,10 +9,9 @@ When a test class is annotated with `@Chameleon`, the compiler plugin performs I
 - Add a `themeVariant: ThemeVariant` (enum) property to the class as a constructor parameter
 - Assign the value of the `themeVariant` property to the `themeVariant` parameter of all `snapshot` function calls in the class
 
-Before the IR transform: 
+Before the IR transform:
 
 ```kt
-@Burst
 @Chameleon
 class SampleTest {
     @get:Rule
@@ -30,7 +29,7 @@ class SampleTest {
 After the transform, the IR equivalent of the following will be produced:
 
 ```kt
-@Burst
+@Burst // added during IR transform
 @Chameleon
 class SampleTest(
     private val themeVariant: ThemeVariant // added during IR transform
@@ -90,13 +89,11 @@ enum class ThemeVariant {
 
 ## Usage
 
-Annotate the snapshot test class with both `@Burst` and `@Chameleon`:
+Annotate the snapshot test class `@Chameleon`:
 
 ```kt
-import app.cash.burst.Burst
 import io.github.reactivecircus.chameleon.runtime.Chameleon
 
-@Burst
 @Chameleon
 class ButtonTest {
     val snapshotTester = SnapshotTester()

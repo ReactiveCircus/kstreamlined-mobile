@@ -4,12 +4,14 @@
 import io.github.reactivecircus.chameleon.runtime.Chameleon
 
 @Chameleon
-class <!MISSING_BURST_ANNOTATION!>ComponentTest<!> {
+class ComponentTest(
+    val themeVariant: ThemeVariant, // do not transform when a `ThemeVariant` property is already present
+) {
     val snapshotTester = SnapshotTester()
 
     @Test
     fun snapshot_Component() {
-        snapshotTester.snapshot {
+        snapshotTester.snapshot(themeVariant = themeVariant) {
             Component()
         }
     }
@@ -17,3 +19,7 @@ class <!MISSING_BURST_ANNOTATION!>ComponentTest<!> {
 
 @Composable
 fun Component() {}
+
+fun box(): String {
+    return "OK"
+}

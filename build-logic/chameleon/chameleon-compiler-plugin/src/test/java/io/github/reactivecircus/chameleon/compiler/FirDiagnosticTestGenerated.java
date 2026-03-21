@@ -21,8 +21,8 @@ public class FirDiagnosticTestGenerated extends AbstractFirDiagnosticTest {
   }
 
   @Test
-  @TestMetadata("MissingBurstAnnotation.kt")
-  public void testMissingBurstAnnotation() {
-    runTest("chameleon/chameleon-compiler-plugin/src/test/data/diagnostic/fir/MissingBurstAnnotation.kt");
+  @TestMetadata("RedundantBurstAnnotation.kt")
+  public void testRedundantBurstAnnotation() {
+    runTest("chameleon/chameleon-compiler-plugin/src/test/data/diagnostic/fir/RedundantBurstAnnotation.kt");
   }
 }

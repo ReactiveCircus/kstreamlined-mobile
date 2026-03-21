@@ -1,13 +1,11 @@
 package io.github.reactivecircus.kstreamlined.android.feature.licenses.impl.component
 
-import app.cash.burst.Burst
 import io.github.reactivecircus.chameleon.runtime.Chameleon
 import io.github.reactivecircus.kstreamlined.android.core.screenshottesting.tester.SnapshotTester
 import io.github.reactivecircus.kstreamlined.android.feature.licenses.impl.ArtifactLicenseItem
 import org.junit.Rule
 import kotlin.test.Test
 
-@Burst
 @Chameleon
 class ArtifactLicenseRowTest {
     @get:Rule
