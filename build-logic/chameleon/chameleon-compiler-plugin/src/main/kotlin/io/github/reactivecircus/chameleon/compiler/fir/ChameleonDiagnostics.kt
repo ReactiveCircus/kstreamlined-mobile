@@ -20,6 +20,6 @@ internal object ChameleonDiagnostics : KtDiagnosticsContainer() {
 
 private object ChameleonErrors : BaseDiagnosticRendererFactory() {
     override val MAP: KtDiagnosticFactoryToRendererMap by KtDiagnosticFactoryToRendererMap("Chameleon") {
-        it.put(REDUNDANT_BURST_ANNOTATION, "Classes annotated with `@Chameleon` must not be annotated with `@Burst`.")
+        it.put(REDUNDANT_BURST_ANNOTATION, "`@Burst` annotation is redundant on classes annotated with `@Chameleon`.")
     }
 }

@@ -4,9 +4,9 @@
 import app.cash.burst.Burst
 import io.github.reactivecircus.chameleon.runtime.Chameleon
 
-@Burst
+<!REDUNDANT_BURST_ANNOTATION!>@Burst<!>
 @Chameleon
-class <!REDUNDANT_BURST_ANNOTATION!>ComponentTest<!> {
+class ComponentTest {
     val snapshotTester = SnapshotTester()
 
     @Test
