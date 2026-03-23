@@ -178,7 +178,7 @@ class ChameleonGradlePluginTest {
 
         val result = buildAndFail(project.rootDir, ":test")
 
-        assertContains(result.output, "Classes annotated with `@Chameleon` must not be annotated with `@Burst`.")
+        assertContains(result.output, "`@Burst` annotation is redundant on classes annotated with `@Chameleon`.")
     }
 
     @Test
