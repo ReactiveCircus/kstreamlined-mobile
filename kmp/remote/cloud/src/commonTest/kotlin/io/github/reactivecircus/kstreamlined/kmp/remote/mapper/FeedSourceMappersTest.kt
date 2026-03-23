@@ -21,6 +21,7 @@ class FeedSourceMappersTest {
         FeedSource.Key.entries.forEach { key ->
             val apolloKey = key.asApolloModel()
             val apolloFeedSource = FeedSourceItem(
+                __typename = "FeedSource",
                 key = apolloKey,
                 title = "Title for $key",
                 description = "Description for $key",
@@ -39,6 +40,7 @@ class FeedSourceMappersTest {
     @Test
     fun `returns null when mapping unknown FeedSourceItem to FeedSource`() {
         val apolloFeedSource = FeedSourceItem(
+            __typename = "FeedSource",
             key = FeedSourceKey.UNKNOWN__,
             title = "Unknown feed source title",
             description = "Unknown feed source description",

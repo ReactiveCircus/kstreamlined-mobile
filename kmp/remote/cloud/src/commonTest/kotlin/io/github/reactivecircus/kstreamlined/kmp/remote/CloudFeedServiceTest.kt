@@ -2,11 +2,13 @@ package io.github.reactivecircus.kstreamlined.kmp.remote
 
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.toResponseJson
-import com.apollographql.apollo.cache.normalized.api.MemoryCacheFactory
-import com.apollographql.apollo.cache.normalized.normalizedCache
 import com.apollographql.apollo.exception.ApolloHttpException
 import com.apollographql.apollo.exception.CacheMissException
 import com.apollographql.apollo.exception.NoDataException
+import com.apollographql.cache.normalized.api.FieldPolicyCacheResolver
+import com.apollographql.cache.normalized.api.TypePolicyCacheKeyGenerator
+import com.apollographql.cache.normalized.memory.MemoryCacheFactory
+import com.apollographql.cache.normalized.normalizedCache
 import com.apollographql.mockserver.MockServer
 import com.apollographql.mockserver.enqueueError
 import com.apollographql.mockserver.enqueueString
@@ -20,6 +22,7 @@ import io.github.reactivecircus.kstreamlined.graphql.builder.buildKotlinBlog
 import io.github.reactivecircus.kstreamlined.graphql.builder.buildKotlinWeeklyIssueEntry
 import io.github.reactivecircus.kstreamlined.graphql.builder.buildKotlinYouTube
 import io.github.reactivecircus.kstreamlined.graphql.builder.resolver.DefaultFakeResolver
+import io.github.reactivecircus.kstreamlined.graphql.cache.Cache
 import io.github.reactivecircus.kstreamlined.graphql.type.KotlinWeeklyIssueEntryGroup
 import io.github.reactivecircus.kstreamlined.kmp.remote.mapper.asExternalModel
 import kotlinx.coroutines.runBlocking
@@ -80,7 +83,15 @@ class CloudFeedServiceTest {
         cloudFeedService = CloudFeedService(
             apolloClient = ApolloClient.Builder()
                 .serverUrl(mockServer.url())
-                .normalizedCache(MemoryCacheFactory())
+                .normalizedCache(
+                    normalizedCacheFactory = MemoryCacheFactory(),
+                    cacheKeyGenerator = TypePolicyCacheKeyGenerator(
+                        typePolicies = Cache.typePolicies,
+                    ),
+                    cacheResolver = FieldPolicyCacheResolver(
+                        fieldPolicies = Cache.fieldPolicies,
+                    ),
+                )
                 .build(),
         )
     }

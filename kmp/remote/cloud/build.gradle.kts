@@ -28,6 +28,8 @@ kstreamlined {
                 targetName = "kotlin.time.Instant",
                 expression = "com.apollographql.adapter.core.KotlinInstantAdapter",
             )
+            plugin(libs.apollo.normalizedCache.compilerPlugin)
+            pluginArgument("com.apollographql.cache.packageName", packageName.get())
         }
         unitTests()
 

@@ -3,8 +3,8 @@ package io.github.reactivecircus.kstreamlined.kmp.remote
 import co.touchlab.kermit.Logger
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.Optional
-import com.apollographql.apollo.cache.normalized.FetchPolicy
-import com.apollographql.apollo.cache.normalized.fetchPolicy
+import com.apollographql.cache.normalized.FetchPolicy
+import com.apollographql.cache.normalized.fetchPolicy
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesBinding
 import io.github.reactivecircus.kstreamlined.graphql.FeedEntriesQuery

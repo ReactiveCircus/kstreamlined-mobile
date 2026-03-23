@@ -8,6 +8,7 @@ paparazzi = "2.0.0-SNAPSHOT"
 burst = "2.12.0"
 licensee = "1.14.1"
 apollo = "5.0.0-alpha.6"
+apollo-normalized-cache = "1.0.0"
 apollo-adapters = "0.7.0"
 apollo-mockserver = "0.3.1"
 googleServices = "4.4.4"
@@ -130,7 +131,8 @@ coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" 
 coil-network = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coil" }
 coil-svg = { module = "io.coil-kt.coil3:coil-svg", version.ref = "coil" }
 apollo-runtime = { module = "com.apollographql.apollo:apollo-runtime", version.ref = "apollo" }
-apollo-normalizedCache = { module = "com.apollographql.apollo:apollo-normalized-cache", version.ref = "apollo" }
+apollo-normalizedCache = { module = "com.apollographql.cache:normalized-cache", version.ref = "apollo-normalized-cache" }
+apollo-normalizedCache-compilerPlugin = { module = "com.apollographql.cache:normalized-cache-apollo-compiler-plugin", version.ref = "apollo-normalized-cache" }
 apollo-adapters-core = { module = "com.apollographql.adapters:apollo-adapters-core", version.ref = "apollo-adapters" }
 apollo-mockserver = { module = "com.apollographql.mockserver:apollo-mockserver", version.ref = "apollo-mockserver" }
 sqldelight-coroutinesExtensions = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqldelight" }
