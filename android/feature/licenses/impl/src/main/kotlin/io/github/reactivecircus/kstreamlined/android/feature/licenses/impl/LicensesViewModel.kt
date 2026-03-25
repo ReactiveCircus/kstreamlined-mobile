@@ -17,7 +17,7 @@ import io.github.reactivecircus.kstreamlined.kmp.presentation.common.Presenter
 import io.github.reactivecircus.licentia.runtime.LicensesInfo
 import kotlinx.coroutines.CoroutineScope
 
-@ViewModelKey(LicensesViewModel::class)
+@ViewModelKey
 @ContributesIntoMap(AppScope::class)
 public class LicensesViewModel(
     licensesInfo: LicensesInfo,

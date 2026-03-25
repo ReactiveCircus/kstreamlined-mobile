@@ -10,7 +10,7 @@ import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.FeedDataSource
 import io.github.reactivecircus.kstreamlined.kmp.presentation.savedforlater.SavedForLaterPresenter
 import kotlinx.coroutines.CoroutineScope
 
-@ViewModelKey(SavedForLaterViewModel::class)
+@ViewModelKey
 @ContributesIntoMap(AppScope::class)
 public class SavedForLaterViewModel(
     feedDataSource: FeedDataSource,

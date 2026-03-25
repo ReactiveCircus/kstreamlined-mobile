@@ -11,7 +11,7 @@ import io.github.reactivecircus.kstreamlined.kmp.feed.sync.FeedSyncEngine
 import io.github.reactivecircus.kstreamlined.kmp.presentation.home.HomePresenter
 import kotlinx.coroutines.CoroutineScope
 
-@ViewModelKey(HomeViewModel::class)
+@ViewModelKey
 @ContributesIntoMap(AppScope::class)
 public class HomeViewModel(
     feedSyncEngine: FeedSyncEngine,

@@ -26,7 +26,7 @@ public class TalkingKotlinEpisodeViewModel(
     )
 
     @AssistedFactory
-    @ManualViewModelAssistedFactoryKey(Factory::class)
+    @ManualViewModelAssistedFactoryKey
     @ContributesIntoMap(AppScope::class)
     public fun interface Factory : ManualViewModelAssistedFactory {
         public fun create(id: String): TalkingKotlinEpisodeViewModel

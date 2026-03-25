@@ -11,7 +11,7 @@ import io.github.reactivecircus.kstreamlined.kmp.presentation.settings.SettingsP
 import io.github.reactivecircus.kstreamlined.kmp.settings.datasource.SettingsDataSource
 import kotlinx.coroutines.CoroutineScope
 
-@ViewModelKey(SettingsViewModel::class)
+@ViewModelKey
 @ContributesIntoMap(AppScope::class)
 public class SettingsViewModel(
     settingsDataSource: SettingsDataSource,
