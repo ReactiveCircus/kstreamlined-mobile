@@ -23,7 +23,7 @@ open class AbstractBoxTest : AbstractFirLightTreeBlackBoxCodegenTest() {
         configurePlugin()
 
         defaultDirectives {
-            JVM_TARGET.with(JvmTarget.JVM_17)
+            JVM_TARGET.with(JvmTarget.JVM_21)
             +FULL_JDK
             +WITH_STDLIB
 
