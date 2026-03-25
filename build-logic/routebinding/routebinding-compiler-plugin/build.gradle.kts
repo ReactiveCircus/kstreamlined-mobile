@@ -41,7 +41,7 @@ dependencies {
 
 kotlin {
     compilerOptions {
-        jvmTarget = JvmTarget.JVM_17
+        jvmTarget = JvmTarget.JVM_21
         optIn.add("org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi")
         optIn.add("org.jetbrains.kotlin.ir.symbols.UnsafeDuringIrConstructionAPI")
         freeCompilerArgs.addAll("-Xcontext-parameters")
@@ -50,8 +50,8 @@ kotlin {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
 }
 
 tasks.register<JavaExec>("generateTests") {
@@ -109,7 +109,7 @@ detekt {
 }
 
 tasks.withType<Detekt>().configureEach {
-    jvmTarget = JvmTarget.JVM_17.target
+    jvmTarget = JvmTarget.JVM_21.target
     reports {
         checkstyle.required.set(false)
         sarif.required.set(false)
