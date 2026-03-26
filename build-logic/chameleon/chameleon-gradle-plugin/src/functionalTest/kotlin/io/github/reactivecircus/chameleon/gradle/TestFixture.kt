@@ -41,14 +41,14 @@ class TestFixture(
                     )
                     withKotlin(
                         buildString {
-                            appendLine("chameleon {")
                             appendLine(
                                 """
-                                    snapshotFunction.set("$snapshotFunction")
-                                    themeVariantEnum.set("$themeVariantEnum")
-                                """.trimIndent(),
+                                |chameleon {
+                                |    snapshotFunction.set("$snapshotFunction")
+                                |    themeVariantEnum.set("$themeVariantEnum")
+                                |}
+                                """.trimMargin(),
                             )
-                            appendLine("}")
                         },
                     )
                     dependencies(
@@ -77,19 +77,19 @@ private object Plugins {
 
 val SnapshotTesterSource = Source.kotlin(
     """
-    package test
-
-    class SnapshotTester {
-        fun snapshot(
-            themeVariant: ThemeVariant = ThemeVariant.Light,
-        ) {}
-    }
-
-    enum class ThemeVariant {
-        Light,
-        Dark,
-    }
-    """.trimIndent(),
+    |package test
+    |
+    |class SnapshotTester {
+    |    fun snapshot(
+    |        themeVariant: ThemeVariant = ThemeVariant.Light,
+    |    ) {}
+    |}
+    |
+    |enum class ThemeVariant {
+    |    Light,
+    |    Dark,
+    |}
+    """.trimMargin(),
 )
     .withPath(packagePath = "test", className = "SnapshotTester")
     .withSourceSet("test")

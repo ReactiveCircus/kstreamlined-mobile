@@ -18,12 +18,12 @@ class HtmlContentParserTest {
         assertNotNull(
             tryParseHtml(
                 """
-                    <p>This is a paragraph with a <a href="https://example.com">link</a> and a list:</p>
-                    <ul>
-                        <li>First item</li>
-                        <li>Second item with <b>bold</b> text</li>
-                    </ul>
-                """.trimIndent(),
+                |<p>This is a paragraph with a <a href="https://example.com">link</a> and a list:</p>
+                |<ul>
+                |    <li>First item</li>
+                |    <li>Second item with <b>bold</b> text</li>
+                |</ul>
+                """.trimMargin(),
             ),
         )
         assertNotNull(tryParseHtml("<p>This is &quot;quoted&quot; text with &amp; ampersand</p>"))
@@ -31,12 +31,12 @@ class HtmlContentParserTest {
         assertNotNull(
             tryParseHtml(
                 """
-                    Some plain text at the start
-                    <p>Followed by HTML content</p>
-                    <ul>
-                        <li>With a list</li>
-                    </ul>
-                """.trimIndent(),
+                |Some plain text at the start
+                |<p>Followed by HTML content</p>
+                |<ul>
+                |    <li>With a list</li>
+                |</ul>
+                """.trimMargin(),
             ),
         )
     }

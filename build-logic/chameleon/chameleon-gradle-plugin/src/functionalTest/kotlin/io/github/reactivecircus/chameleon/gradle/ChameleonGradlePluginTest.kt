@@ -18,21 +18,21 @@ class ChameleonGradlePluginTest {
             sources = listOf(
                 Source.kotlin(
                     """
-                        package test
-                        
-                        import io.github.reactivecircus.chameleon.runtime.Chameleon
-                        import kotlin.test.Test
-                        
-                        @Chameleon
-                        class SampleTest {
-                            private val snapshotTester = SnapshotTester()
-                        
-                            @Test
-                            fun test() {
-                                snapshotTester.snapshot()
-                            }
-                        }
-                    """.trimIndent(),
+                    |package test
+                    |
+                    |import io.github.reactivecircus.chameleon.runtime.Chameleon
+                    |import kotlin.test.Test
+                    |
+                    |@Chameleon
+                    |class SampleTest {
+                    |    private val snapshotTester = SnapshotTester()
+                    |
+                    |    @Test
+                    |    fun test() {
+                    |        snapshotTester.snapshot()
+                    |    }
+                    |}
+                    """.trimMargin(),
                 )
                     .withPath(
                         packagePath = "test",
@@ -62,21 +62,21 @@ class ChameleonGradlePluginTest {
             sources = listOf(
                 Source.kotlin(
                     """
-                        package test
-                        
-                        import io.github.reactivecircus.chameleon.runtime.Chameleon
-                        import kotlin.test.Test
-                        
-                        @Chameleon
-                        class SampleTest {
-                            private val snapshotTester = SnapshotTester()
-                        
-                            @Test
-                            fun test() {
-                                snapshotTester.snapshot()
-                            }
-                        }
-                    """.trimIndent(),
+                    |package test
+                    |
+                    |import io.github.reactivecircus.chameleon.runtime.Chameleon
+                    |import kotlin.test.Test
+                    |
+                    |@Chameleon
+                    |class SampleTest {
+                    |    private val snapshotTester = SnapshotTester()
+                    |
+                    |    @Test
+                    |    fun test() {
+                    |        snapshotTester.snapshot()
+                    |    }
+                    |}
+                    """.trimMargin(),
                 )
                     .withPath(
                         packagePath = "test",
@@ -107,21 +107,21 @@ class ChameleonGradlePluginTest {
             sources = listOf(
                 Source.kotlin(
                     """
-                        package test
-                        
-                        import io.github.reactivecircus.chameleon.runtime.Chameleon
-                        import kotlin.test.Test
-                        
-                        @Chameleon
-                        class SampleTest {
-                            private val snapshotTester = SnapshotTester()
-                        
-                            @Test
-                            fun test() {
-                                snapshotTester.snapshot(themeVariant = ThemeVariant.Dark)
-                            }
-                        }
-                    """.trimIndent(),
+                    |package test
+                    |
+                    |import io.github.reactivecircus.chameleon.runtime.Chameleon
+                    |import kotlin.test.Test
+                    |
+                    |@Chameleon
+                    |class SampleTest {
+                    |    private val snapshotTester = SnapshotTester()
+                    |
+                    |    @Test
+                    |    fun test() {
+                    |        snapshotTester.snapshot(themeVariant = ThemeVariant.Dark)
+                    |    }
+                    |}
+                    """.trimMargin(),
                 )
                     .withPath(
                         packagePath = "test",
@@ -151,23 +151,23 @@ class ChameleonGradlePluginTest {
             sources = listOf(
                 Source.kotlin(
                     """
-                        package test
-                        
-                        import app.cash.burst.Burst
-                        import io.github.reactivecircus.chameleon.runtime.Chameleon
-                        import kotlin.test.Test
-                        
-                        @Burst
-                        @Chameleon
-                        class SampleTest {
-                            private val snapshotTester = SnapshotTester()
-                        
-                            @Test
-                            fun test() {
-                                snapshotTester.snapshot()
-                            }
-                        }
-                    """.trimIndent(),
+                    |package test
+                    |
+                    |import app.cash.burst.Burst
+                    |import io.github.reactivecircus.chameleon.runtime.Chameleon
+                    |import kotlin.test.Test
+                    |
+                    |@Burst
+                    |@Chameleon
+                    |class SampleTest {
+                    |    private val snapshotTester = SnapshotTester()
+                    |
+                    |    @Test
+                    |    fun test() {
+                    |        snapshotTester.snapshot()
+                    |    }
+                    |}
+                    """.trimMargin(),
                 )
                     .withPath(packagePath = "test", className = "SampleTest")
                     .withSourceSet("test")
@@ -187,21 +187,21 @@ class ChameleonGradlePluginTest {
             sources = listOf(
                 Source.kotlin(
                     """
-                        package test
-                        
-                        import io.github.reactivecircus.chameleon.runtime.Chameleon
-                        import kotlin.test.Test
-                        
-                        @Chameleon
-                        class SampleTest {
-                            private val snapshotTester = SnapshotTester()
-                        
-                            @Test
-                            fun test() {
-                                snapshotTester.snapshot()
-                            }
-                        }
-                    """.trimIndent(),
+                    |package test
+                    |
+                    |import io.github.reactivecircus.chameleon.runtime.Chameleon
+                    |import kotlin.test.Test
+                    |
+                    |@Chameleon
+                    |class SampleTest {
+                    |    private val snapshotTester = SnapshotTester()
+                    |
+                    |    @Test
+                    |    fun test() {
+                    |        snapshotTester.snapshot()
+                    |    }
+                    |}
+                    """.trimMargin(),
                 )
                     .withPath(
                         packagePath = "test",
@@ -252,16 +252,16 @@ class ChameleonGradlePluginTest {
             sources = listOf(
                 Source.kotlin(
                     """
-                    package test
-                    
-                    class SnapshotTester {
-                        fun snapshot(
-                            themeVariant: ThemeVariant,
-                        ) {}
-                    }
-                    
-                    class ThemeVariant
-                    """.trimIndent(),
+                    |package test
+                    |
+                    |class SnapshotTester {
+                    |    fun snapshot(
+                    |        themeVariant: ThemeVariant,
+                    |    ) {}
+                    |}
+                    |
+                    |class ThemeVariant
+                    """.trimMargin(),
                 )
                     .withPath(packagePath = "test", className = "SnapshotTester")
                     .withSourceSet("test")
@@ -280,17 +280,17 @@ class ChameleonGradlePluginTest {
             sources = listOf(
                 Source.kotlin(
                     """
-                    package test
-                    
-                    class SnapshotTester {
-                        fun snapshot() {}
-                    }
-                    
-                    enum class ThemeVariant {
-                        Light,
-                        Dark,
-                    }
-                    """.trimIndent(),
+                    |package test
+                    |
+                    |class SnapshotTester {
+                    |    fun snapshot() {}
+                    |}
+                    |
+                    |enum class ThemeVariant {
+                    |    Light,
+                    |    Dark,
+                    |}
+                    """.trimMargin(),
                 )
                     .withPath(packagePath = "test", className = "SnapshotTester")
                     .withSourceSet("test")
