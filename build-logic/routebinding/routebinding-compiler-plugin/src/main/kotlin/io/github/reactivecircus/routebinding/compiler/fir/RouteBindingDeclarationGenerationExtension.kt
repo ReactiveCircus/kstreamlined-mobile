@@ -54,13 +54,7 @@ internal class RouteBindingDeclarationGenerationExtension(
     }
 
     private val navEntryInstallerClassIds: List<ClassId> by lazy {
-        sourceFunctions.map { function ->
-            // TODO move FirNamedFunctionSymbol -> ClassId to generate to RouteBindingFunctionToClassMapping
-            val packageFqName = function.callableId.packageName
-            val classNameSuffix = ClassIds.RouteBinding.NavEntryInstaller.shortClassName.asString()
-            val className = Name.identifier("${function.name.asString()}_$classNameSuffix")
-            ClassId(packageFqName, className)
-        }
+        sourceFunctions.map { RouteBindingClassIdGenerator.generateNavInstallerClassId(it) }
     }
 
     override fun FirDeclarationPredicateRegistrar.registerPredicates() {

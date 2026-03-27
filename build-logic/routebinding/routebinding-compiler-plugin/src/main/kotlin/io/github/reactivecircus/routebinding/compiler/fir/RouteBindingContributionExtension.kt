@@ -13,7 +13,6 @@ import org.jetbrains.kotlin.fir.resolve.providers.symbolProvider
 import org.jetbrains.kotlin.fir.symbols.impl.FirNamedFunctionSymbol
 import org.jetbrains.kotlin.fir.symbols.impl.FirRegularClassSymbol
 import org.jetbrains.kotlin.name.ClassId
-import org.jetbrains.kotlin.name.Name
 
 internal class RouteBindingContributionExtension(
     private val session: FirSession,
@@ -26,13 +25,7 @@ internal class RouteBindingContributionExtension(
         session.predicateBasedProvider
             .getSymbolsByPredicate(hasRouteBindingAnnotation)
             .filterIsInstance<FirNamedFunctionSymbol>()
-            .map { function ->
-                // TODO move FirNamedFunctionSymbol -> ClassId to generate to RouteBindingFunctionToClassMapping
-                val packageFqName = function.callableId.packageName
-                val classNameSuffix = ClassIds.RouteBinding.NavEntryInstaller.shortClassName.asString()
-                val className = Name.identifier("${function.name.asString()}_$classNameSuffix")
-                ClassId(packageFqName, className)
-            }
+            .map { RouteBindingClassIdGenerator.generateNavInstallerClassId(it) }
     }
 
     override fun FirDeclarationPredicateRegistrar.registerPredicates() {
