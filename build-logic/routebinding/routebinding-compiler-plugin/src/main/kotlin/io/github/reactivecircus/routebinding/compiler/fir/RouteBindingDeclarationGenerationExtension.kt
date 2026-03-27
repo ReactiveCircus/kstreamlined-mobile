@@ -67,6 +67,15 @@ internal class RouteBindingDeclarationGenerationExtension(
         register(hasRouteBindingAnnotation)
     }
 
+    override fun getContributionHints(): List<ContributionHint> {
+        return navEntryInstallerClassIds.map { classId ->
+            ContributionHint(
+                contributingClassId = classId,
+                scope = ClassIds.Metro.AppScope,
+            )
+        }
+    }
+
     @ExperimentalTopLevelDeclarationsGenerationApi
     override fun getTopLevelClassIds(): Set<ClassId> = navEntryInstallerClassIds.toSet()
 
