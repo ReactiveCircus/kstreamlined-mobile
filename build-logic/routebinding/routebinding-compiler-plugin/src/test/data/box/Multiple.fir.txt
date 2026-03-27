@@ -21,13 +21,12 @@ FILE: /FooScreen_NavEntryInstaller.kt
             super<R|kotlin/Any|>()
         }
 
-        @R|kotlin/Deprecated|(message = String(This synthesized declaration should not be used directly), level = Q|kotlin/DeprecationLevel|.R|kotlin/DeprecationLevel.HIDDEN|) public final object MetroFactory : R|dev/zacsweers/metro/internal/Factory<FooScreen_NavEntryInstaller>| {
-            public final fun create(): R|dev/zacsweers/metro/internal/Factory<FooScreen_NavEntryInstaller>|
+        @R|kotlin/Deprecated|(message = String(This synthesized declaration should not be used directly), level = Q|kotlin/DeprecationLevel|.R|kotlin/DeprecationLevel.HIDDEN|) @R|dev/zacsweers/metro/internal/MetroContribution|(scope = <getClass>(Q|dev/zacsweers/metro/AppScope|)) public abstract interface MetroContributionToDevzacsweersmetroappScopeoxd1AHI : R|kotlin/Any| {
+            @R|kotlin/Deprecated|(message = String(This synthesized declaration should not be used directly), level = Q|kotlin/DeprecationLevel|.R|kotlin/DeprecationLevel.HIDDEN|) public abstract class BindsMirror : R|kotlin/Any| {
+                private constructor(): R|FooScreen_NavEntryInstaller.MetroContributionToDevzacsweersmetroappScopeoxd1AHI.BindsMirror| {
+                    super<R|kotlin/Any|>()
+                }
 
-            public final fun newInstance(): R|FooScreen_NavEntryInstaller|
-
-            private constructor(): R|FooScreen_NavEntryInstaller.MetroFactory| {
-                super<R|kotlin/Any|>()
             }
 
         }
@@ -42,15 +41,22 @@ FILE: /BarScreen_NavEntryInstaller.kt
             super<R|kotlin/Any|>()
         }
 
-        @R|kotlin/Deprecated|(message = String(This synthesized declaration should not be used directly), level = Q|kotlin/DeprecationLevel|.R|kotlin/DeprecationLevel.HIDDEN|) public final object MetroFactory : R|dev/zacsweers/metro/internal/Factory<BarScreen_NavEntryInstaller>| {
-            public final fun create(): R|dev/zacsweers/metro/internal/Factory<BarScreen_NavEntryInstaller>|
+        @R|kotlin/Deprecated|(message = String(This synthesized declaration should not be used directly), level = Q|kotlin/DeprecationLevel|.R|kotlin/DeprecationLevel.HIDDEN|) @R|dev/zacsweers/metro/internal/MetroContribution|(scope = <getClass>(Q|dev/zacsweers/metro/AppScope|)) public abstract interface MetroContributionToDevzacsweersmetroappScopeoxd1AHI : R|kotlin/Any| {
+            @R|kotlin/Deprecated|(message = String(This synthesized declaration should not be used directly), level = Q|kotlin/DeprecationLevel|.R|kotlin/DeprecationLevel.HIDDEN|) public abstract class BindsMirror : R|kotlin/Any| {
+                private constructor(): R|BarScreen_NavEntryInstaller.MetroContributionToDevzacsweersmetroappScopeoxd1AHI.BindsMirror| {
+                    super<R|kotlin/Any|>()
+                }
 
-            public final fun newInstance(): R|BarScreen_NavEntryInstaller|
-
-            private constructor(): R|BarScreen_NavEntryInstaller.MetroFactory| {
-                super<R|kotlin/Any|>()
             }
 
         }
 
     }
+FILE: metro/hints/barScreen_NavEntryInstallerAppScope.kt
+    package metro.hints
+
+    @R|kotlin/Deprecated|(message = String(This synthesized declaration should not be used directly), level = Q|kotlin/DeprecationLevel|.R|kotlin/DeprecationLevel.HIDDEN|) public final fun AppScope(contributed: R|BarScreen_NavEntryInstaller|): R|kotlin/Unit|
+FILE: metro/hints/fooScreen_NavEntryInstallerAppScope.kt
+    package metro.hints
+
+    @R|kotlin/Deprecated|(message = String(This synthesized declaration should not be used directly), level = Q|kotlin/DeprecationLevel|.R|kotlin/DeprecationLevel.HIDDEN|) public final fun AppScope(contributed: R|FooScreen_NavEntryInstaller|): R|kotlin/Unit|

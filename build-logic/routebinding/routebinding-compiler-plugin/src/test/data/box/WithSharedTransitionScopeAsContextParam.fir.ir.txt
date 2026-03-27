@@ -115,40 +115,67 @@ FILE fqName:<root> fileName:/FooScreen_NavEntryInstaller.kt
   CLASS GENERATED[io.github.reactivecircus.routebinding.compiler.fir.RouteBindingKeys.NavEntryInstallerClassDeclaration] CLASS name:FooScreen_NavEntryInstaller modality:FINAL visibility:public superTypes:[io.github.reactivecircus.routebinding.runtime.NavEntryInstaller]
     annotations:
       Deprecated(message = "This synthesized declaration should not be used directly", replaceWith = <null>, level = GET_ENUM 'ENUM_ENTRY IR_EXTERNAL_DECLARATION_STUB name:HIDDEN' type=kotlin.DeprecationLevel)
-      ContributesIntoSet(scope = CLASS_REFERENCE 'CLASS INTERFACE name:AppScope modality:ABSTRACT visibility:public superTypes:[kotlin.Any]' type=kotlin.reflect.KClass<dev.zacsweers.metro.AppScope>)
+      ContributesIntoSet(scope = CLASS_REFERENCE 'CLASS IR_EXTERNAL_DECLARATION_STUB CLASS name:AppScope modality:ABSTRACT visibility:public superTypes:[kotlin.Any]' type=kotlin.reflect.KClass<dev.zacsweers.metro.AppScope>, binding = <null>, replaces = <null>)
     thisReceiver: VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> type:<root>.FooScreen_NavEntryInstaller
-    CLASS GENERATED[io.github.reactivecircus.routebinding.compiler.fir.RouteBindingKeys.MetroFallbacks.MetroFactoryClassDeclaration] OBJECT name:MetroFactory modality:FINAL visibility:public superTypes:[dev.zacsweers.metro.internal.Factory<<root>.FooScreen_NavEntryInstaller>]
+    CLASS GENERATED[dev.zacsweers.metro.compiler.fir.Keys.MetroContributionClassDeclaration] INTERFACE name:MetroContributionToDevzacsweersmetroappScopeoxd1AHI modality:ABSTRACT visibility:public superTypes:[kotlin.Any]
       annotations:
         Deprecated(message = "This synthesized declaration should not be used directly", replaceWith = <null>, level = GET_ENUM 'ENUM_ENTRY IR_EXTERNAL_DECLARATION_STUB name:HIDDEN' type=kotlin.DeprecationLevel)
-      thisReceiver: VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> type:<root>.FooScreen_NavEntryInstaller.MetroFactory
-      CONSTRUCTOR GENERATED[io.github.reactivecircus.routebinding.compiler.fir.RouteBindingKeys.Default] visibility:private returnType:<root>.FooScreen_NavEntryInstaller.MetroFactory [primary]
-        BLOCK_BODY
-          DELEGATING_CONSTRUCTOR_CALL 'public constructor <init> () declared in kotlin.Any'
-          INSTANCE_INITIALIZER_CALL classDescriptor='CLASS GENERATED[io.github.reactivecircus.routebinding.compiler.fir.RouteBindingKeys.MetroFallbacks.MetroFactoryClassDeclaration] OBJECT name:MetroFactory modality:FINAL visibility:public superTypes:[dev.zacsweers.metro.internal.Factory<<root>.FooScreen_NavEntryInstaller>]' type=kotlin.Unit
+        MetroContribution(scope = CLASS_REFERENCE 'CLASS IR_EXTERNAL_DECLARATION_STUB CLASS name:AppScope modality:ABSTRACT visibility:public superTypes:[kotlin.Any]' type=kotlin.reflect.KClass<dev.zacsweers.metro.AppScope>)
+      thisReceiver: VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> type:<root>.FooScreen_NavEntryInstaller.MetroContributionToDevzacsweersmetroappScopeoxd1AHI
+      CLASS GENERATED[dev.zacsweers.metro.compiler.fir.Keys.BindingMirrorClassDeclaration] CLASS name:BindsMirror modality:ABSTRACT visibility:public superTypes:[kotlin.Any]
+        annotations:
+          Deprecated(message = "This synthesized declaration should not be used directly", replaceWith = <null>, level = GET_ENUM 'ENUM_ENTRY IR_EXTERNAL_DECLARATION_STUB name:HIDDEN' type=kotlin.DeprecationLevel)
+          ComptimeOnly
+        thisReceiver: VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> type:<root>.FooScreen_NavEntryInstaller.MetroContributionToDevzacsweersmetroappScopeoxd1AHI.BindsMirror
+        CONSTRUCTOR GENERATED[dev.zacsweers.metro.compiler.fir.Keys.Default] visibility:private returnType:<root>.FooScreen_NavEntryInstaller.MetroContributionToDevzacsweersmetroappScopeoxd1AHI.BindsMirror [primary]
+          BLOCK_BODY
+            DELEGATING_CONSTRUCTOR_CALL 'public constructor <init> () declared in kotlin.Any'
+            INSTANCE_INITIALIZER_CALL classDescriptor='CLASS GENERATED[dev.zacsweers.metro.compiler.fir.Keys.BindingMirrorClassDeclaration] CLASS name:BindsMirror modality:ABSTRACT visibility:public superTypes:[kotlin.Any]' type=kotlin.Unit
+        FUN FAKE_OVERRIDE name:equals visibility:public modality:OPEN returnType:kotlin.Boolean [fake_override,operator]
+          VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+          VALUE_PARAMETER kind:Regular name:other index:1 type:kotlin.Any?
+          overridden:
+            public open fun equals (other: kotlin.Any?): kotlin.Boolean declared in kotlin.Any
+        FUN FAKE_OVERRIDE name:hashCode visibility:public modality:OPEN returnType:kotlin.Int [fake_override]
+          VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+          overridden:
+            public open fun hashCode (): kotlin.Int declared in kotlin.Any
+        FUN FAKE_OVERRIDE name:toString visibility:public modality:OPEN returnType:kotlin.String [fake_override]
+          VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+          overridden:
+            public open fun toString (): kotlin.String declared in kotlin.Any
+        FUN GENERATED[dev.zacsweers.metro.compiler.fir.Keys.Default] name:bindIntoSetAsNavEntryInstaller_intoset visibility:public modality:ABSTRACT returnType:io.github.reactivecircus.routebinding.runtime.NavEntryInstaller
+          VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> index:0 type:<root>.FooScreen_NavEntryInstaller.MetroContributionToDevzacsweersmetroappScopeoxd1AHI
+          VALUE_PARAMETER kind:Regular name:instance index:1 type:<root>.FooScreen_NavEntryInstaller
+          annotations:
+            Binds
+            IntoSet
+            CallableMetadata(callableName = "bindIntoSetAsNavEntryInstaller", propertyName = "", startOffset = -1, endOffset = -1, newInstanceName = <null>)
       FUN FAKE_OVERRIDE name:equals visibility:public modality:OPEN returnType:kotlin.Boolean [fake_override,operator]
         VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
         VALUE_PARAMETER kind:Regular name:other index:1 type:kotlin.Any?
         overridden:
-          public open fun equals (other: kotlin.Any?): kotlin.Boolean declared in dev.zacsweers.metro.internal.Factory
+          public open fun equals (other: kotlin.Any?): kotlin.Boolean declared in kotlin.Any
       FUN FAKE_OVERRIDE name:hashCode visibility:public modality:OPEN returnType:kotlin.Int [fake_override]
         VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
         overridden:
-          public open fun hashCode (): kotlin.Int declared in dev.zacsweers.metro.internal.Factory
+          public open fun hashCode (): kotlin.Int declared in kotlin.Any
       FUN FAKE_OVERRIDE name:toString visibility:public modality:OPEN returnType:kotlin.String [fake_override]
         VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
         overridden:
-          public open fun toString (): kotlin.String declared in dev.zacsweers.metro.internal.Factory
-      FUN GENERATED[io.github.reactivecircus.routebinding.compiler.fir.RouteBindingKeys.MetroFallbacks.MetroFactoryCreateFunction] name:create visibility:public modality:FINAL returnType:dev.zacsweers.metro.internal.Factory<<root>.FooScreen_NavEntryInstaller>
-        VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:<root>.FooScreen_NavEntryInstaller.MetroFactory
+          public open fun toString (): kotlin.String declared in kotlin.Any
+      FUN name:bindIntoSetAsNavEntryInstaller visibility:public modality:ABSTRACT returnType:io.github.reactivecircus.routebinding.runtime.NavEntryInstaller
+        VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> index:0 type:<root>.FooScreen_NavEntryInstaller.MetroContributionToDevzacsweersmetroappScopeoxd1AHI
+        VALUE_PARAMETER kind:Regular name:instance index:1 type:<root>.FooScreen_NavEntryInstaller
+        annotations:
+          IntoSet
+          Binds
+          ComptimeOnly
         BLOCK_BODY
-          RETURN type=kotlin.Nothing from='public final fun create (): dev.zacsweers.metro.internal.Factory<<root>.FooScreen_NavEntryInstaller> declared in <root>.FooScreen_NavEntryInstaller.MetroFactory'
-            GET_OBJECT 'CLASS GENERATED[io.github.reactivecircus.routebinding.compiler.fir.RouteBindingKeys.MetroFallbacks.MetroFactoryClassDeclaration] OBJECT name:MetroFactory modality:FINAL visibility:public superTypes:[dev.zacsweers.metro.internal.Factory<<root>.FooScreen_NavEntryInstaller>]' type=<root>.FooScreen_NavEntryInstaller.MetroFactory
-      FUN GENERATED[io.github.reactivecircus.routebinding.compiler.fir.RouteBindingKeys.MetroFallbacks.MetroFactoryNewInstanceFunction] name:newInstance visibility:public modality:FINAL returnType:<root>.FooScreen_NavEntryInstaller
-        VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:<root>.FooScreen_NavEntryInstaller.MetroFactory
-        BLOCK_BODY
-          RETURN type=kotlin.Nothing from='public final fun newInstance (): <root>.FooScreen_NavEntryInstaller declared in <root>.FooScreen_NavEntryInstaller.MetroFactory'
-            CONSTRUCTOR_CALL 'public constructor <init> () declared in <root>.FooScreen_NavEntryInstaller' type=<root>.FooScreen_NavEntryInstaller origin=null
-    CONSTRUCTOR GENERATED[io.github.reactivecircus.routebinding.compiler.fir.RouteBindingKeys.Default] visibility:public returnType:<root>.FooScreen_NavEntryInstaller [primary]
+          RETURN type=kotlin.Nothing from='public abstract fun bindIntoSetAsNavEntryInstaller (instance: <root>.FooScreen_NavEntryInstaller): io.github.reactivecircus.routebinding.runtime.NavEntryInstaller declared in <root>.FooScreen_NavEntryInstaller.MetroContributionToDevzacsweersmetroappScopeoxd1AHI'
+            CALL 'public final fun error (message: kotlin.Any): kotlin.Nothing declared in kotlin' type=kotlin.Nothing origin=null
+              ARG message: CONST String type=kotlin.String value="Never called"
+    CONSTRUCTOR GENERATED[io.github.reactivecircus.routebinding.compiler.fir.RouteBindingKeys.NavEntryInstallerClassDeclaration] visibility:public returnType:<root>.FooScreen_NavEntryInstaller [primary]
       BLOCK_BODY
         DELEGATING_CONSTRUCTOR_CALL 'public constructor <init> () declared in kotlin.Any'
     FUN FAKE_OVERRIDE name:equals visibility:public modality:OPEN returnType:kotlin.Boolean [fake_override,operator]
@@ -212,73 +239,6 @@ FILE fqName:<root> fileName:/WithSharedTransitionScopeAsContextParam.kt
     BLOCK_BODY
       RETURN type=kotlin.Nothing from='public final fun box (): kotlin.String declared in <root>'
         CONST String type=kotlin.String value="OK"
-FILE fqName:dev.zacsweers.metro fileName:/metroAnnotations.kt
-  CLASS ANNOTATION_CLASS name:ContributesIntoSet modality:OPEN visibility:public superTypes:[kotlin.Annotation]
-    annotations:
-      Target(allowedTargets = [GET_ENUM 'ENUM_ENTRY IR_EXTERNAL_DECLARATION_STUB name:CLASS' type=kotlin.annotation.AnnotationTarget] type=kotlin.Array<out kotlin.annotation.AnnotationTarget> varargElementType=kotlin.annotation.AnnotationTarget)
-      Retention(value = GET_ENUM 'ENUM_ENTRY IR_EXTERNAL_DECLARATION_STUB name:RUNTIME' type=kotlin.annotation.AnnotationRetention)
-    thisReceiver: VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> type:dev.zacsweers.metro.ContributesIntoSet
-    PROPERTY name:scope visibility:public modality:FINAL [val]
-      FIELD PROPERTY_BACKING_FIELD name:scope type:kotlin.reflect.KClass<*> visibility:private [final]
-        EXPRESSION_BODY
-          GET_VAR 'scope: kotlin.reflect.KClass<*> declared in dev.zacsweers.metro.ContributesIntoSet.<init>' type=kotlin.reflect.KClass<*> origin=INITIALIZE_PROPERTY_FROM_PARAMETER
-      FUN DEFAULT_PROPERTY_ACCESSOR name:<get-scope> visibility:public modality:FINAL returnType:kotlin.reflect.KClass<*>
-        VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:dev.zacsweers.metro.ContributesIntoSet
-        correspondingProperty: PROPERTY name:scope visibility:public modality:FINAL [val]
-        BLOCK_BODY
-          RETURN type=kotlin.Nothing from='public final fun <get-scope> (): kotlin.reflect.KClass<*> declared in dev.zacsweers.metro.ContributesIntoSet'
-            GET_FIELD 'FIELD PROPERTY_BACKING_FIELD name:scope type:kotlin.reflect.KClass<*> visibility:private [final]' type=kotlin.reflect.KClass<*> origin=null
-              receiver: GET_VAR '<this>: dev.zacsweers.metro.ContributesIntoSet declared in dev.zacsweers.metro.ContributesIntoSet.<get-scope>' type=dev.zacsweers.metro.ContributesIntoSet origin=null
-    CONSTRUCTOR visibility:public returnType:dev.zacsweers.metro.ContributesIntoSet [primary]
-      VALUE_PARAMETER kind:Regular name:scope index:0 type:kotlin.reflect.KClass<*>
-      BLOCK_BODY
-        DELEGATING_CONSTRUCTOR_CALL 'public constructor <init> () declared in kotlin.Any'
-        INSTANCE_INITIALIZER_CALL classDescriptor='CLASS ANNOTATION_CLASS name:ContributesIntoSet modality:OPEN visibility:public superTypes:[kotlin.Annotation]' type=kotlin.Unit
-    FUN FAKE_OVERRIDE name:equals visibility:public modality:OPEN returnType:kotlin.Boolean [fake_override,operator]
-      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
-      VALUE_PARAMETER kind:Regular name:other index:1 type:kotlin.Any?
-      overridden:
-        public open fun equals (other: kotlin.Any?): kotlin.Boolean declared in kotlin.Annotation
-    FUN FAKE_OVERRIDE name:hashCode visibility:public modality:OPEN returnType:kotlin.Int [fake_override]
-      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
-      overridden:
-        public open fun hashCode (): kotlin.Int declared in kotlin.Annotation
-    FUN FAKE_OVERRIDE name:toString visibility:public modality:OPEN returnType:kotlin.String [fake_override]
-      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
-      overridden:
-        public open fun toString (): kotlin.String declared in kotlin.Annotation
-  CLASS INTERFACE name:AppScope modality:ABSTRACT visibility:public superTypes:[kotlin.Any]
-    thisReceiver: VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> type:dev.zacsweers.metro.AppScope
-    FUN FAKE_OVERRIDE name:equals visibility:public modality:OPEN returnType:kotlin.Boolean [fake_override,operator]
-      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
-      VALUE_PARAMETER kind:Regular name:other index:1 type:kotlin.Any?
-      overridden:
-        public open fun equals (other: kotlin.Any?): kotlin.Boolean declared in kotlin.Any
-    FUN FAKE_OVERRIDE name:hashCode visibility:public modality:OPEN returnType:kotlin.Int [fake_override]
-      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
-      overridden:
-        public open fun hashCode (): kotlin.Int declared in kotlin.Any
-    FUN FAKE_OVERRIDE name:toString visibility:public modality:OPEN returnType:kotlin.String [fake_override]
-      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
-      overridden:
-        public open fun toString (): kotlin.String declared in kotlin.Any
-FILE fqName:dev.zacsweers.metro.internal fileName:/metroInternal.kt
-  CLASS INTERFACE name:Factory modality:ABSTRACT visibility:public superTypes:[kotlin.Any]
-    thisReceiver: VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> type:dev.zacsweers.metro.internal.Factory<T of dev.zacsweers.metro.internal.Factory>
-    TYPE_PARAMETER name:T index:0 variance: superTypes:[kotlin.Any?] reified:false
-    FUN FAKE_OVERRIDE name:equals visibility:public modality:OPEN returnType:kotlin.Boolean [fake_override,operator]
-      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
-      VALUE_PARAMETER kind:Regular name:other index:1 type:kotlin.Any?
-      overridden:
-        public open fun equals (other: kotlin.Any?): kotlin.Boolean declared in kotlin.Any
-    FUN FAKE_OVERRIDE name:hashCode visibility:public modality:OPEN returnType:kotlin.Int [fake_override]
-      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
-      overridden:
-        public open fun hashCode (): kotlin.Int declared in kotlin.Any
-    FUN FAKE_OVERRIDE name:toString visibility:public modality:OPEN returnType:kotlin.String [fake_override]
-      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
-      overridden:
-        public open fun toString (): kotlin.String declared in kotlin.Any
 FILE fqName:androidx.navigation3.runtime fileName:/nav3.kt
   CLASS CLASS name:EntryProviderScope modality:FINAL visibility:public superTypes:[kotlin.Any]
     thisReceiver: VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> type:androidx.navigation3.runtime.EntryProviderScope<T of androidx.navigation3.runtime.EntryProviderScope>
@@ -370,3 +330,12 @@ FILE fqName:androidx.navigation3.runtime fileName:/nav3.kt
       VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
       overridden:
         public open fun toString (): kotlin.String declared in kotlin.Any
+FILE fqName:metro.hints fileName:metro/hints/fooScreen_NavEntryInstallerAppScope.kt
+  FUN GENERATED[dev.zacsweers.metro.compiler.fir.Keys.ContributionHint] name:AppScope visibility:public modality:FINAL returnType:kotlin.Unit
+    VALUE_PARAMETER GENERATED[dev.zacsweers.metro.compiler.fir.Keys.ContributionHint] kind:Regular name:contributed index:0 type:<root>.FooScreen_NavEntryInstaller
+    annotations:
+      Deprecated(message = "This synthesized declaration should not be used directly", replaceWith = <null>, level = GET_ENUM 'ENUM_ENTRY IR_EXTERNAL_DECLARATION_STUB name:HIDDEN' type=kotlin.DeprecationLevel)
+    BLOCK_BODY
+      RETURN type=kotlin.Nothing from='public final fun AppScope (contributed: <root>.FooScreen_NavEntryInstaller): kotlin.Unit declared in metro.hints'
+        CALL 'public final fun error (message: kotlin.Any): kotlin.Nothing declared in kotlin' type=kotlin.Nothing origin=null
+          ARG message: CONST String type=kotlin.String value="Never called"

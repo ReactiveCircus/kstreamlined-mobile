@@ -24,14 +24,15 @@ dependencies {
 
     compileOnly(kotlin("compiler"))
     compileOnly(kotlin("stdlib"))
-    implementation(libs.metro.compiler)
-
-    testImplementation(kotlin("test-junit5"))
-    testImplementation(kotlin("compiler-internal-test-framework"))
-    testImplementation(kotlin("compiler"))
+    compileOnly(libs.metro.compiler)
 
     routeBindingRuntimeClasspath(project(":routebinding:routebinding-runtime"))
     metroRuntimeClasspath(libs.metro.runtime)
+
+    testImplementation(libs.metro.compiler)
+    testImplementation(kotlin("test-junit5"))
+    testImplementation(kotlin("compiler-internal-test-framework"))
+    testImplementation(kotlin("compiler"))
 
     // Dependencies required to run the internal test framework.
     testRuntimeOnly(kotlin("reflect"))

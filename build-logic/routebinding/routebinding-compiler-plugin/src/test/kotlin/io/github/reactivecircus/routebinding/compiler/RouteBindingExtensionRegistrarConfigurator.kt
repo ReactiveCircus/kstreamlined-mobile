@@ -1,16 +1,10 @@
 package io.github.reactivecircus.routebinding.compiler
 
-import io.github.reactivecircus.routebinding.compiler.fir.RouteBindingDeclarationGenerationExtension
-import io.github.reactivecircus.routebinding.compiler.fir.RouteBindingFirExtensionRegistrar
-import io.github.reactivecircus.routebinding.compiler.ir.RouteBindingIrGenerationExtension
-import org.jetbrains.kotlin.backend.common.extensions.IrGenerationExtension
-import org.jetbrains.kotlin.cli.common.messages.MessageCollector
+import dev.zacsweers.metro.compiler.MetroCommandLineProcessor
+import dev.zacsweers.metro.compiler.MetroCompilerPluginRegistrar
 import org.jetbrains.kotlin.cli.jvm.config.addJvmClasspathRoots
 import org.jetbrains.kotlin.compiler.plugin.CompilerPluginRegistrar
-import org.jetbrains.kotlin.config.CommonConfigurationKeys
 import org.jetbrains.kotlin.config.CompilerConfiguration
-import org.jetbrains.kotlin.fir.extensions.FirExtensionRegistrar
-import org.jetbrains.kotlin.fir.extensions.FirExtensionRegistrarAdapter
 import org.jetbrains.kotlin.test.builders.TestConfigurationBuilder
 import org.jetbrains.kotlin.test.model.TestModule
 import org.jetbrains.kotlin.test.services.EnvironmentConfigurator
@@ -31,27 +25,21 @@ fun TestConfigurationBuilder.configurePlugin() {
 private class RouteBindingExtensionRegistrarConfigurator(
     testServices: TestServices,
 ) : EnvironmentConfigurator(testServices) {
+    private val metroCliProcessor = MetroCommandLineProcessor()
+    private val metroRegistrar = MetroCompilerPluginRegistrar()
+    private val routeBindingRegistrar = RouteBindingCompilerPluginRegistrar()
+
     override fun CompilerPluginRegistrar.ExtensionStorage.registerCompilerExtensions(
         module: TestModule,
         configuration: CompilerConfiguration,
     ) {
-        FirExtensionRegistrarAdapter.registerExtension(RouteBindingFirExtensionRegistrar)
-        FirExtensionRegistrarAdapter.registerExtension(TestRouteBindingFirExtensionRegistrar)
+        // configure and register Metro compiler plugin
+        val option = metroCliProcessor.pluginOptions.first { it.optionName == "generate-contribution-hints-in-fir" }
+        metroCliProcessor.processOption(option, "true", configuration)
+        with(metroRegistrar) { registerExtensions(configuration) }
 
-        IrGenerationExtension.registerExtension(
-            RouteBindingIrGenerationExtension(
-                messageCollector = configuration.get(
-                    CommonConfigurationKeys.MESSAGE_COLLECTOR_KEY,
-                    MessageCollector.NONE,
-                ),
-            ),
-        )
-    }
-}
-
-private object TestRouteBindingFirExtensionRegistrar : FirExtensionRegistrar() {
-    override fun ExtensionRegistrarContext.configurePlugin() {
-        +::RouteBindingDeclarationGenerationExtension
+        // register RouteBinding compiler plugin
+        with(routeBindingRegistrar) { registerExtensions(configuration) }
     }
 }
 
