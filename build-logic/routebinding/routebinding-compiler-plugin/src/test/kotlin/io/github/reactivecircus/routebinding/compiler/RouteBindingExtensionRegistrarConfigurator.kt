@@ -1,5 +1,6 @@
 package io.github.reactivecircus.routebinding.compiler
 
+import androidx.compose.compiler.plugins.kotlin.ComposePluginRegistrar
 import dev.zacsweers.metro.compiler.MetroCommandLineProcessor
 import dev.zacsweers.metro.compiler.MetroCompilerPluginRegistrar
 import org.jetbrains.kotlin.cli.jvm.config.addJvmClasspathRoots
@@ -17,9 +18,11 @@ fun TestConfigurationBuilder.configurePlugin() {
         ::RouteBindingExtensionRegistrarConfigurator,
         ::RouteBindingRuntimeEnvironmentConfigurator,
     )
+    useDirectives(RouteBindingDirectives)
     useCustomRuntimeClasspathProviders(::RouteBindingRuntimeClassPathProvider)
     useAdditionalSourceProviders(::AdditionalFilesProvider)
     configureMetroRuntime()
+    configureComposeRuntime()
 }
 
 private class RouteBindingExtensionRegistrarConfigurator(
@@ -27,19 +30,26 @@ private class RouteBindingExtensionRegistrarConfigurator(
 ) : EnvironmentConfigurator(testServices) {
     private val metroCliProcessor = MetroCommandLineProcessor()
     private val metroRegistrar = MetroCompilerPluginRegistrar()
+    private val composeRegistrar = ComposePluginRegistrar()
     private val routeBindingRegistrar = RouteBindingCompilerPluginRegistrar()
 
     override fun CompilerPluginRegistrar.ExtensionStorage.registerCompilerExtensions(
         module: TestModule,
         configuration: CompilerConfiguration,
     ) {
+        // register RouteBinding compiler plugin
+        with(routeBindingRegistrar) { registerExtensions(configuration) }
+
         // configure and register Metro compiler plugin
         val option = metroCliProcessor.pluginOptions.first { it.optionName == "generate-contribution-hints-in-fir" }
         metroCliProcessor.processOption(option, "true", configuration)
         with(metroRegistrar) { registerExtensions(configuration) }
 
-        // register RouteBinding compiler plugin
-        with(routeBindingRegistrar) { registerExtensions(configuration) }
+        // register Compose compiler plugin if enabled from directive
+        val enableComposeCompiler = RouteBindingDirectives.ENABLE_COMPOSE_COMPILER in module.directives
+        if (enableComposeCompiler) {
+            with(composeRegistrar) { registerExtensions(configuration) }
+        }
     }
 }
 

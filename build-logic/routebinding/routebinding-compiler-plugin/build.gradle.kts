@@ -17,6 +17,7 @@ idea {
 
 val routeBindingRuntimeClasspath: Configuration by configurations.creating { isTransitive = false }
 val metroRuntimeClasspath: Configuration by configurations.creating { isTransitive = false }
+val composeRuntimeClasspath: Configuration by configurations.creating { isTransitive = false }
 
 dependencies {
     // enable Ktlint formatting
@@ -28,8 +29,10 @@ dependencies {
 
     routeBindingRuntimeClasspath(project(":routebinding:routebinding-runtime"))
     metroRuntimeClasspath(libs.metro.runtime)
+    composeRuntimeClasspath(libs.androidx.compose.runtime)
 
     testImplementation(libs.metro.compiler)
+    testImplementation(libs.composeCompiler)
     testImplementation(kotlin("test-junit5"))
     testImplementation(kotlin("compiler-internal-test-framework"))
     testImplementation(kotlin("compiler"))
@@ -80,6 +83,7 @@ tasks.withType<Test> {
 
     systemProperty("routeBindingRuntime.classpath", routeBindingRuntimeClasspath.asPath)
     systemProperty("metroRuntime.classpath", metroRuntimeClasspath.asPath)
+    systemProperty("composeRuntime.classpath", composeRuntimeClasspath.asPath)
 
     // Properties required to run the internal test framework.
     setLibraryProperty("org.jetbrains.kotlin.test.kotlin-stdlib", "kotlin-stdlib")
