@@ -1,0 +1,40 @@
+name: "setup-tcmalloc"
+description: "An action to download, install, and cache tcmalloc on Linux runners. Vendored from kaeawc/setup-tcmalloc@v0.0.1 with updated cache actions."
+
+runs:
+  using: "composite"
+  steps:
+    - name: "Restore tcmalloc"
+      if: runner.os == 'Linux'
+      id: cache-tcmalloc
+      uses: actions/cache/restore@v5
+      with:
+        path: /tmp/libtcmalloc_minimal.so.4
+        key: v7-${{ runner.os }}-tcmalloc
+
+    - name: "Relocate tcmalloc to expected directory"
+      if: ${{ runner.os == 'Linux' && steps.cache-tcmalloc.outputs.cache-hit == 'true' }}
+      shell: bash
+      run: |
+        mkdir -p /usr/lib/x86_64-linux-gnu
+        sudo cp /tmp/libtcmalloc_minimal.so.4 /usr/lib/x86_64-linux-gnu/
+
+    - name: "Download & install tcmalloc"
+      if: ${{ runner.os == 'Linux' && steps.cache-tcmalloc.outputs.cache-hit != 'true' }}
+      shell: bash
+      run: sudo apt-get install -y google-perftools
+
+    - name: "Configure LD_PRELOAD"
+      if: runner.os == 'Linux'
+      shell: bash
+      run: |
+        echo 'LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libtcmalloc_minimal.so.4' >> $GITHUB_ENV
+        mkdir -p /tmp
+        cp /usr/lib/x86_64-linux-gnu/libtcmalloc_minimal.so.4 /tmp/
+
+    - name: "Save tcmalloc"
+      uses: actions/cache/save@v5
+      if: ${{ runner.os == 'Linux' && steps.cache-tcmalloc.outputs.cache-hit != 'true' }}
+      with:
+        path: /tmp/libtcmalloc_minimal.so.4
+        key: v7-${{ runner.os }}-tcmalloc
