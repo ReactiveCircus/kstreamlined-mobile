@@ -33,9 +33,9 @@ public class BoxTestGenerated extends AbstractBoxTest {
   }
 
   @Test
-  @TestMetadata("MultipleFunctionsInSingleCompilation.kt")
-  public void testMultipleFunctionsInSingleCompilation() {
-    runTest("routebinding/routebinding-compiler-plugin/src/test/data/box/MultipleFunctionsInSingleCompilation.kt");
+  @TestMetadata("MultipleBindingsInSingleCompilation.kt")
+  public void testMultipleBindingsInSingleCompilation() {
+    runTest("routebinding/routebinding-compiler-plugin/src/test/data/box/MultipleBindingsInSingleCompilation.kt");
   }
 
   @Test
@@ -45,9 +45,9 @@ public class BoxTestGenerated extends AbstractBoxTest {
   }
 
   @Test
-  @TestMetadata("SingleFunction.kt")
-  public void testSingleFunction() {
-    runTest("routebinding/routebinding-compiler-plugin/src/test/data/box/SingleFunction.kt");
+  @TestMetadata("SingleBinding.kt")
+  public void testSingleBinding() {
+    runTest("routebinding/routebinding-compiler-plugin/src/test/data/box/SingleBinding.kt");
   }
 
   @Test

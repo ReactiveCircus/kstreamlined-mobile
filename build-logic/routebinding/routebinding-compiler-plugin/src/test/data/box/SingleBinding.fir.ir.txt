@@ -293,7 +293,7 @@ FILE fqName:androidx.compose.animation fileName:/SharedTransitionScope.kt
       VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
       overridden:
         public open fun toString (): kotlin.String declared in kotlin.Any
-FILE fqName:<root> fileName:/SingleFunction.kt
+FILE fqName:<root> fileName:/SingleBinding.kt
   CLASS INTERFACE name:AppGraph modality:ABSTRACT visibility:public superTypes:[kotlin.Any; <root>.DummyScreen_NavEntryInstaller.MetroContributionToDevzacsweersmetroappScopeoxd1AHI]
     annotations:
       DependencyGraph(scope = CLASS_REFERENCE 'CLASS IR_EXTERNAL_DECLARATION_STUB CLASS name:AppScope modality:ABSTRACT visibility:public superTypes:[kotlin.Any]' type=kotlin.reflect.KClass<dev.zacsweers.metro.AppScope>, additionalScopes = <null>, excludes = <null>, bindingContainers = <null>)
@@ -416,12 +416,12 @@ FILE fqName:<root> fileName:/SingleFunction.kt
     annotations:
       RouteBinding(route = CLASS_REFERENCE 'CLASS CLASS name:DummyRoute modality:FINAL visibility:public [data] superTypes:[androidx.navigation3.runtime.NavKey]' type=kotlin.reflect.KClass<<root>.DummyRoute>)
       Composable
-      FunctionKeyMeta(key = -1947969479, startOffset = 552, endOffset = 656)
+      FunctionKeyMeta(key = 1376188728, startOffset = 552, endOffset = 656)
     BLOCK_BODY
       SET_VAR '$composer: androidx.compose.runtime.Composer? declared in <root>.DummyScreen' type=kotlin.Unit origin=null
         CALL 'public abstract fun startRestartGroup (key: kotlin.Int): androidx.compose.runtime.Composer declared in androidx.compose.runtime.Composer' type=androidx.compose.runtime.Composer origin=null
           ARG <this>: GET_VAR '$composer: androidx.compose.runtime.Composer? declared in <root>.DummyScreen' type=androidx.compose.runtime.Composer? origin=null
-          ARG key: CONST Int type=kotlin.Int value=-1947969479
+          ARG key: CONST Int type=kotlin.Int value=1376188728
       WHEN type=kotlin.Unit origin=IF
         BRANCH
           if: CALL 'public abstract fun shouldExecute (parametersChanged: kotlin.Boolean, flags: kotlin.Int): kotlin.Boolean declared in androidx.compose.runtime.Composer' type=kotlin.Boolean origin=null
@@ -440,10 +440,10 @@ FILE fqName:<root> fileName:/SingleFunction.kt
               BRANCH
                 if: CALL 'public final fun isTraceInProgress (): kotlin.Boolean declared in androidx.compose.runtime' type=kotlin.Boolean origin=null
                 then: CALL 'public final fun traceEventStart (key: kotlin.Int, dirty1: kotlin.Int, dirty2: kotlin.Int, info: kotlin.String): kotlin.Unit declared in androidx.compose.runtime' type=kotlin.Unit origin=null
-                  ARG key: CONST Int type=kotlin.Int value=-1947969479
+                  ARG key: CONST Int type=kotlin.Int value=1376188728
                   ARG dirty1: GET_VAR '$changed: kotlin.Int declared in <root>.DummyScreen' type=kotlin.Int origin=null
                   ARG dirty2: CONST Int type=kotlin.Int value=-1
-                  ARG info: CONST String type=kotlin.String value="DummyScreen (SingleFunction.kt:18)"
+                  ARG info: CONST String type=kotlin.String value="DummyScreen (SingleBinding.kt:18)"
             WHEN type=kotlin.Unit origin=IF
               BRANCH
                 if: CALL 'public final fun isTraceInProgress (): kotlin.Boolean declared in androidx.compose.runtime' type=kotlin.Boolean origin=null

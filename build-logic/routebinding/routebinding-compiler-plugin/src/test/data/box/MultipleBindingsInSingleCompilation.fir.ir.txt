@@ -277,7 +277,7 @@ FILE fqName:<root> fileName:/FirstScreen_NavEntryInstaller.kt
                     then: CALL 'public final fun traceEventEnd (): kotlin.Unit declared in androidx.compose.runtime' type=kotlin.Unit origin=null
                 CALL 'public abstract fun endReplaceGroup (): kotlin.Unit declared in androidx.compose.runtime.Composer' type=kotlin.Unit origin=null
                   ARG <this>: GET_VAR '$composer: androidx.compose.runtime.Composer? declared in <root>.FirstScreen_NavEntryInstaller.install.<anonymous>' type=androidx.compose.runtime.Composer? origin=null
-FILE fqName:<root> fileName:/MultipleFunctionsInSingleCompilation.kt
+FILE fqName:<root> fileName:/MultipleBindingsInSingleCompilation.kt
   CLASS INTERFACE name:AppGraph modality:ABSTRACT visibility:public superTypes:[kotlin.Any; <root>.FirstScreen_NavEntryInstaller.MetroContributionToDevzacsweersmetroappScopeoxd1AHI; <root>.SecondScreen_NavEntryInstaller.MetroContributionToDevzacsweersmetroappScopeoxd1AHI]
     annotations:
       DependencyGraph(scope = CLASS_REFERENCE 'CLASS IR_EXTERNAL_DECLARATION_STUB CLASS name:AppScope modality:ABSTRACT visibility:public superTypes:[kotlin.Any]' type=kotlin.reflect.KClass<dev.zacsweers.metro.AppScope>, additionalScopes = <null>, excludes = <null>, bindingContainers = <null>)
@@ -528,12 +528,12 @@ FILE fqName:<root> fileName:/MultipleFunctionsInSingleCompilation.kt
     annotations:
       RouteBinding(route = CLASS_REFERENCE 'CLASS OBJECT name:FirstRoute modality:FINAL visibility:public [data] superTypes:[androidx.navigation3.runtime.NavKey]' type=kotlin.reflect.KClass<<root>.FirstRoute>)
       Composable
-      FunctionKeyMeta(key = 211246030, startOffset = 552, endOffset = 656)
+      FunctionKeyMeta(key = 2064782557, startOffset = 552, endOffset = 656)
     BLOCK_BODY
       SET_VAR '$composer: androidx.compose.runtime.Composer? declared in <root>.FirstScreen' type=kotlin.Unit origin=null
         CALL 'public abstract fun startRestartGroup (key: kotlin.Int): androidx.compose.runtime.Composer declared in androidx.compose.runtime.Composer' type=androidx.compose.runtime.Composer origin=null
           ARG <this>: GET_VAR '$composer: androidx.compose.runtime.Composer? declared in <root>.FirstScreen' type=androidx.compose.runtime.Composer? origin=null
-          ARG key: CONST Int type=kotlin.Int value=211246030
+          ARG key: CONST Int type=kotlin.Int value=2064782557
       WHEN type=kotlin.Unit origin=IF
         BRANCH
           if: CALL 'public abstract fun shouldExecute (parametersChanged: kotlin.Boolean, flags: kotlin.Int): kotlin.Boolean declared in androidx.compose.runtime.Composer' type=kotlin.Boolean origin=null
@@ -552,10 +552,10 @@ FILE fqName:<root> fileName:/MultipleFunctionsInSingleCompilation.kt
               BRANCH
                 if: CALL 'public final fun isTraceInProgress (): kotlin.Boolean declared in androidx.compose.runtime' type=kotlin.Boolean origin=null
                 then: CALL 'public final fun traceEventStart (key: kotlin.Int, dirty1: kotlin.Int, dirty2: kotlin.Int, info: kotlin.String): kotlin.Unit declared in androidx.compose.runtime' type=kotlin.Unit origin=null
-                  ARG key: CONST Int type=kotlin.Int value=211246030
+                  ARG key: CONST Int type=kotlin.Int value=2064782557
                   ARG dirty1: GET_VAR '$changed: kotlin.Int declared in <root>.FirstScreen' type=kotlin.Int origin=null
                   ARG dirty2: CONST Int type=kotlin.Int value=-1
-                  ARG info: CONST String type=kotlin.String value="FirstScreen (MultipleFunctionsInSingleCompilation.kt:18)"
+                  ARG info: CONST String type=kotlin.String value="FirstScreen (MultipleBindingsInSingleCompilation.kt:18)"
             WHEN type=kotlin.Unit origin=IF
               BRANCH
                 if: CALL 'public final fun isTraceInProgress (): kotlin.Boolean declared in androidx.compose.runtime' type=kotlin.Boolean origin=null
@@ -603,12 +603,12 @@ FILE fqName:<root> fileName:/MultipleFunctionsInSingleCompilation.kt
     annotations:
       RouteBinding(route = CLASS_REFERENCE 'CLASS OBJECT name:SecondRoute modality:FINAL visibility:public [data] superTypes:[androidx.navigation3.runtime.NavKey]' type=kotlin.reflect.KClass<<root>.SecondRoute>)
       Composable
-      FunctionKeyMeta(key = -1454396902, startOffset = 704, endOffset = 810)
+      FunctionKeyMeta(key = -1036989167, startOffset = 704, endOffset = 810)
     BLOCK_BODY
       SET_VAR '$composer: androidx.compose.runtime.Composer? declared in <root>.SecondScreen' type=kotlin.Unit origin=null
         CALL 'public abstract fun startRestartGroup (key: kotlin.Int): androidx.compose.runtime.Composer declared in androidx.compose.runtime.Composer' type=androidx.compose.runtime.Composer origin=null
           ARG <this>: GET_VAR '$composer: androidx.compose.runtime.Composer? declared in <root>.SecondScreen' type=androidx.compose.runtime.Composer? origin=null
-          ARG key: CONST Int type=kotlin.Int value=-1454396902
+          ARG key: CONST Int type=kotlin.Int value=-1036989167
       WHEN type=kotlin.Unit origin=IF
         BRANCH
           if: CALL 'public abstract fun shouldExecute (parametersChanged: kotlin.Boolean, flags: kotlin.Int): kotlin.Boolean declared in androidx.compose.runtime.Composer' type=kotlin.Boolean origin=null
@@ -627,10 +627,10 @@ FILE fqName:<root> fileName:/MultipleFunctionsInSingleCompilation.kt
               BRANCH
                 if: CALL 'public final fun isTraceInProgress (): kotlin.Boolean declared in androidx.compose.runtime' type=kotlin.Boolean origin=null
                 then: CALL 'public final fun traceEventStart (key: kotlin.Int, dirty1: kotlin.Int, dirty2: kotlin.Int, info: kotlin.String): kotlin.Unit declared in androidx.compose.runtime' type=kotlin.Unit origin=null
-                  ARG key: CONST Int type=kotlin.Int value=-1454396902
+                  ARG key: CONST Int type=kotlin.Int value=-1036989167
                   ARG dirty1: GET_VAR '$changed: kotlin.Int declared in <root>.SecondScreen' type=kotlin.Int origin=null
                   ARG dirty2: CONST Int type=kotlin.Int value=-1
-                  ARG info: CONST String type=kotlin.String value="SecondScreen (MultipleFunctionsInSingleCompilation.kt:26)"
+                  ARG info: CONST String type=kotlin.String value="SecondScreen (MultipleBindingsInSingleCompilation.kt:26)"
             WHEN type=kotlin.Unit origin=IF
               BRANCH
                 if: CALL 'public final fun isTraceInProgress (): kotlin.Boolean declared in androidx.compose.runtime' type=kotlin.Boolean origin=null

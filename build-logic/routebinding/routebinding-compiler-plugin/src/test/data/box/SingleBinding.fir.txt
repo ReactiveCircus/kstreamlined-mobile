@@ -1,4 +1,4 @@
-FILE: SingleFunction.kt
+FILE: SingleBinding.kt
     @R|io/github/reactivecircus/routebinding/runtime/RouteBinding|(route = <getClass>(Q|DummyRoute|)) @R|androidx/compose/runtime/Composable|() public final fun R|androidx/compose/animation/SharedTransitionScope|.DummyScreen(backStack: R|androidx/navigation3/runtime/NavBackStack<androidx/navigation3/runtime/NavKey>|, route: R|DummyRoute|): R|kotlin/Unit| {
     }
     @R|dev/zacsweers/metro/DependencyGraph|(scope = <getClass>(Q|dev/zacsweers/metro/AppScope|)) public abstract interface AppGraph : R|kotlin/Any|, R|DummyScreen_NavEntryInstaller.MetroContributionToDevzacsweersmetroappScopeoxd1AHI| {
