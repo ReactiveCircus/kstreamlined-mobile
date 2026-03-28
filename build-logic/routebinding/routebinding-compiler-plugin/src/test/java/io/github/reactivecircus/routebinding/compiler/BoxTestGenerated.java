@@ -33,9 +33,21 @@ public class BoxTestGenerated extends AbstractBoxTest {
   }
 
   @Test
+  @TestMetadata("MultipleFunctionsInSingleCompilation.kt")
+  public void testMultipleFunctionsInSingleCompilation() {
+    runTest("routebinding/routebinding-compiler-plugin/src/test/data/box/MultipleFunctionsInSingleCompilation.kt");
+  }
+
+  @Test
   @TestMetadata("NoReceiverAndParams.kt")
   public void testNoReceiverAndParams() {
     runTest("routebinding/routebinding-compiler-plugin/src/test/data/box/NoReceiverAndParams.kt");
+  }
+
+  @Test
+  @TestMetadata("SingleFunction.kt")
+  public void testSingleFunction() {
+    runTest("routebinding/routebinding-compiler-plugin/src/test/data/box/SingleFunction.kt");
   }
 
   @Test

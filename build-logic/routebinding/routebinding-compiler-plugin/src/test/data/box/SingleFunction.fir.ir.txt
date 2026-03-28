@@ -1,0 +1,620 @@
+FILE fqName:<root> fileName:/DummyRoute.kt
+  CLASS CLASS name:DummyRoute modality:FINAL visibility:public [data] superTypes:[androidx.navigation3.runtime.NavKey]
+    annotations:
+      StabilityInferred(parameters = 1)
+    thisReceiver: VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> type:<root>.DummyRoute
+    PROPERTY name:id visibility:public modality:FINAL [val]
+      FIELD PROPERTY_BACKING_FIELD name:id type:kotlin.Int visibility:private [final]
+        EXPRESSION_BODY
+          GET_VAR 'id: kotlin.Int declared in <root>.DummyRoute.<init>' type=kotlin.Int origin=INITIALIZE_PROPERTY_FROM_PARAMETER
+      FUN DEFAULT_PROPERTY_ACCESSOR name:<get-id> visibility:public modality:FINAL returnType:kotlin.Int
+        VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:<root>.DummyRoute
+        correspondingProperty: PROPERTY name:id visibility:public modality:FINAL [val]
+        BLOCK_BODY
+          RETURN type=kotlin.Nothing from='public final fun <get-id> (): kotlin.Int declared in <root>.DummyRoute'
+            GET_FIELD 'FIELD PROPERTY_BACKING_FIELD name:id type:kotlin.Int visibility:private [final]' type=kotlin.Int origin=null
+              receiver: GET_VAR '<this>: <root>.DummyRoute declared in <root>.DummyRoute.<get-id>' type=<root>.DummyRoute origin=null
+    FIELD name:$stable type:kotlin.Int visibility:public [final,static]
+      EXPRESSION_BODY
+        CONST Int type=kotlin.Int value=0
+    CONSTRUCTOR visibility:public returnType:<root>.DummyRoute [primary]
+      VALUE_PARAMETER kind:Regular name:id index:0 type:kotlin.Int
+      BLOCK_BODY
+        DELEGATING_CONSTRUCTOR_CALL 'public constructor <init> () declared in kotlin.Any'
+        INSTANCE_INITIALIZER_CALL classDescriptor='CLASS CLASS name:DummyRoute modality:FINAL visibility:public [data] superTypes:[androidx.navigation3.runtime.NavKey]' type=kotlin.Unit
+    FUN GENERATED_DATA_CLASS_MEMBER name:component1 visibility:public modality:FINAL returnType:kotlin.Int [operator]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:<root>.DummyRoute
+      BLOCK_BODY
+        RETURN type=kotlin.Nothing from='public final fun component1 (): kotlin.Int declared in <root>.DummyRoute'
+          GET_FIELD 'FIELD PROPERTY_BACKING_FIELD name:id type:kotlin.Int visibility:private [final]' type=kotlin.Int origin=null
+            receiver: GET_VAR '<this>: <root>.DummyRoute declared in <root>.DummyRoute.component1' type=<root>.DummyRoute origin=null
+    FUN GENERATED_DATA_CLASS_MEMBER name:copy visibility:public modality:FINAL returnType:<root>.DummyRoute
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:<root>.DummyRoute
+      VALUE_PARAMETER kind:Regular name:id index:1 type:kotlin.Int
+        EXPRESSION_BODY
+          GET_FIELD 'FIELD PROPERTY_BACKING_FIELD name:id type:kotlin.Int visibility:private [final]' type=kotlin.Int origin=null
+            receiver: GET_VAR '<this>: <root>.DummyRoute declared in <root>.DummyRoute.copy' type=<root>.DummyRoute origin=null
+      BLOCK_BODY
+        RETURN type=kotlin.Nothing from='public final fun copy (id: kotlin.Int): <root>.DummyRoute declared in <root>.DummyRoute'
+          CONSTRUCTOR_CALL 'public constructor <init> (id: kotlin.Int) declared in <root>.DummyRoute' type=<root>.DummyRoute origin=null
+            ARG id: GET_VAR 'id: kotlin.Int declared in <root>.DummyRoute.copy' type=kotlin.Int origin=null
+    FUN GENERATED_DATA_CLASS_MEMBER name:equals visibility:public modality:OPEN returnType:kotlin.Boolean [operator]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:<root>.DummyRoute
+      VALUE_PARAMETER kind:Regular name:other index:1 type:kotlin.Any?
+      overridden:
+        public open fun equals (other: kotlin.Any?): kotlin.Boolean declared in androidx.navigation3.runtime.NavKey
+      BLOCK_BODY
+        WHEN type=kotlin.Unit origin=null
+          BRANCH
+            if: CALL 'public final fun EQEQEQ (arg0: kotlin.Any?, arg1: kotlin.Any?): kotlin.Boolean declared in kotlin.internal.ir' type=kotlin.Boolean origin=EQEQEQ
+              ARG arg0: GET_VAR '<this>: <root>.DummyRoute declared in <root>.DummyRoute.equals' type=<root>.DummyRoute origin=null
+              ARG arg1: GET_VAR 'other: kotlin.Any? declared in <root>.DummyRoute.equals' type=kotlin.Any? origin=null
+            then: RETURN type=kotlin.Nothing from='public open fun equals (other: kotlin.Any?): kotlin.Boolean declared in <root>.DummyRoute'
+              CONST Boolean type=kotlin.Boolean value=true
+        WHEN type=kotlin.Unit origin=null
+          BRANCH
+            if: TYPE_OP type=kotlin.Boolean origin=NOT_INSTANCEOF typeOperand=<root>.DummyRoute
+              GET_VAR 'other: kotlin.Any? declared in <root>.DummyRoute.equals' type=kotlin.Any? origin=null
+            then: RETURN type=kotlin.Nothing from='public open fun equals (other: kotlin.Any?): kotlin.Boolean declared in <root>.DummyRoute'
+              CONST Boolean type=kotlin.Boolean value=false
+        VAR IR_TEMPORARY_VARIABLE name:tmp_0 type:<root>.DummyRoute [val]
+          TYPE_OP type=<root>.DummyRoute origin=IMPLICIT_CAST typeOperand=<root>.DummyRoute
+            GET_VAR 'other: kotlin.Any? declared in <root>.DummyRoute.equals' type=kotlin.Any? origin=null
+        WHEN type=kotlin.Unit origin=null
+          BRANCH
+            if: CALL 'public final fun not (): kotlin.Boolean declared in kotlin.Boolean' type=kotlin.Boolean origin=EXCLEQ
+              ARG <this>: CALL 'public final fun EQEQ (arg0: kotlin.Any?, arg1: kotlin.Any?): kotlin.Boolean declared in kotlin.internal.ir' type=kotlin.Boolean origin=EXCLEQ
+                ARG arg0: GET_FIELD 'FIELD PROPERTY_BACKING_FIELD name:id type:kotlin.Int visibility:private [final]' type=kotlin.Int origin=null
+                  receiver: GET_VAR '<this>: <root>.DummyRoute declared in <root>.DummyRoute.equals' type=<root>.DummyRoute origin=null
+                ARG arg1: GET_FIELD 'FIELD PROPERTY_BACKING_FIELD name:id type:kotlin.Int visibility:private [final]' type=kotlin.Int origin=null
+                  receiver: GET_VAR 'val tmp_0: <root>.DummyRoute declared in <root>.DummyRoute.equals' type=<root>.DummyRoute origin=null
+            then: RETURN type=kotlin.Nothing from='public open fun equals (other: kotlin.Any?): kotlin.Boolean declared in <root>.DummyRoute'
+              CONST Boolean type=kotlin.Boolean value=false
+        RETURN type=kotlin.Nothing from='public open fun equals (other: kotlin.Any?): kotlin.Boolean declared in <root>.DummyRoute'
+          CONST Boolean type=kotlin.Boolean value=true
+    FUN GENERATED_DATA_CLASS_MEMBER name:hashCode visibility:public modality:OPEN returnType:kotlin.Int
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:<root>.DummyRoute
+      overridden:
+        public open fun hashCode (): kotlin.Int declared in androidx.navigation3.runtime.NavKey
+      BLOCK_BODY
+        RETURN type=kotlin.Nothing from='public open fun hashCode (): kotlin.Int declared in <root>.DummyRoute'
+          CALL 'public open fun hashCode (): kotlin.Int declared in kotlin.Int' type=kotlin.Int origin=null
+            ARG <this>: GET_FIELD 'FIELD PROPERTY_BACKING_FIELD name:id type:kotlin.Int visibility:private [final]' type=kotlin.Int origin=null
+              receiver: GET_VAR '<this>: <root>.DummyRoute declared in <root>.DummyRoute.hashCode' type=<root>.DummyRoute origin=null
+    FUN GENERATED_DATA_CLASS_MEMBER name:toString visibility:public modality:OPEN returnType:kotlin.String
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:<root>.DummyRoute
+      overridden:
+        public open fun toString (): kotlin.String declared in androidx.navigation3.runtime.NavKey
+      BLOCK_BODY
+        RETURN type=kotlin.Nothing from='public open fun toString (): kotlin.String declared in <root>.DummyRoute'
+          STRING_CONCATENATION type=kotlin.String
+            CONST String type=kotlin.String value="DummyRoute("
+            CONST String type=kotlin.String value="id="
+            GET_FIELD 'FIELD PROPERTY_BACKING_FIELD name:id type:kotlin.Int visibility:private [final]' type=kotlin.Int origin=null
+              receiver: GET_VAR '<this>: <root>.DummyRoute declared in <root>.DummyRoute.toString' type=<root>.DummyRoute origin=null
+            CONST String type=kotlin.String value=")"
+FILE fqName:<root> fileName:/DummyScreen_NavEntryInstaller.kt
+  CLASS GENERATED[io.github.reactivecircus.routebinding.compiler.fir.RouteBindingKeys.NavEntryInstallerClassDeclaration] CLASS name:DummyScreen_NavEntryInstaller modality:FINAL visibility:public superTypes:[io.github.reactivecircus.routebinding.runtime.NavEntryInstaller]
+    annotations:
+      Deprecated(message = "This synthesized declaration should not be used directly", replaceWith = <null>, level = GET_ENUM 'ENUM_ENTRY IR_EXTERNAL_DECLARATION_STUB name:HIDDEN' type=kotlin.DeprecationLevel)
+      ContributesIntoSet(scope = CLASS_REFERENCE 'CLASS IR_EXTERNAL_DECLARATION_STUB CLASS name:AppScope modality:ABSTRACT visibility:public superTypes:[kotlin.Any]' type=kotlin.reflect.KClass<dev.zacsweers.metro.AppScope>, binding = <null>, replaces = <null>)
+      StabilityInferred(parameters = 1)
+    thisReceiver: VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> type:<root>.DummyScreen_NavEntryInstaller
+    FIELD name:$stable type:kotlin.Int visibility:public [final,static]
+      EXPRESSION_BODY
+        CONST Int type=kotlin.Int value=0
+    CLASS GENERATED[dev.zacsweers.metro.compiler.fir.Keys.InjectConstructorFactoryClassDeclaration] OBJECT name:MetroFactory modality:FINAL visibility:public superTypes:[kotlin.Any; dev.zacsweers.metro.internal.Factory<<root>.DummyScreen_NavEntryInstaller>]
+      annotations:
+        Deprecated(message = "This synthesized declaration should not be used directly", replaceWith = <null>, level = GET_ENUM 'ENUM_ENTRY IR_EXTERNAL_DECLARATION_STUB name:HIDDEN' type=kotlin.DeprecationLevel)
+        StabilityInferred(parameters = 1)
+      thisReceiver: VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> type:<root>.DummyScreen_NavEntryInstaller.MetroFactory
+      FIELD name:$stable type:kotlin.Int visibility:public [final,static]
+        EXPRESSION_BODY
+          CONST Int type=kotlin.Int value=0
+      CONSTRUCTOR GENERATED[dev.zacsweers.metro.compiler.fir.Keys.Default] visibility:private returnType:<root>.DummyScreen_NavEntryInstaller.MetroFactory [primary]
+        BLOCK_BODY
+          DELEGATING_CONSTRUCTOR_CALL 'public constructor <init> () declared in kotlin.Any'
+          INSTANCE_INITIALIZER_CALL classDescriptor='CLASS GENERATED[dev.zacsweers.metro.compiler.fir.Keys.InjectConstructorFactoryClassDeclaration] OBJECT name:MetroFactory modality:FINAL visibility:public superTypes:[kotlin.Any; dev.zacsweers.metro.internal.Factory<<root>.DummyScreen_NavEntryInstaller>]' type=kotlin.Unit
+      FUN FAKE_OVERRIDE name:equals visibility:public modality:OPEN returnType:kotlin.Boolean [fake_override,operator]
+        VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+        VALUE_PARAMETER kind:Regular name:other index:1 type:kotlin.Any?
+        overridden:
+          public open fun equals (other: kotlin.Any?): kotlin.Boolean declared in kotlin.Any
+      FUN FAKE_OVERRIDE name:hashCode visibility:public modality:OPEN returnType:kotlin.Int [fake_override]
+        VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+        overridden:
+          public open fun hashCode (): kotlin.Int declared in kotlin.Any
+      FUN FAKE_OVERRIDE name:toString visibility:public modality:OPEN returnType:kotlin.String [fake_override]
+        VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+        overridden:
+          public open fun toString (): kotlin.String declared in kotlin.Any
+      FUN GENERATED[dev.zacsweers.metro.compiler.fir.Keys.FactoryCreateFunction] name:create visibility:public modality:FINAL returnType:dev.zacsweers.metro.internal.Factory<<root>.DummyScreen_NavEntryInstaller>
+        VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> index:0 type:<root>.DummyScreen_NavEntryInstaller.MetroFactory
+        BLOCK_BODY
+          RETURN type=kotlin.Nothing from='public final fun create (): dev.zacsweers.metro.internal.Factory<<root>.DummyScreen_NavEntryInstaller> declared in <root>.DummyScreen_NavEntryInstaller.MetroFactory'
+            GET_OBJECT 'CLASS GENERATED[dev.zacsweers.metro.compiler.fir.Keys.InjectConstructorFactoryClassDeclaration] OBJECT name:MetroFactory modality:FINAL visibility:public superTypes:[kotlin.Any; dev.zacsweers.metro.internal.Factory<<root>.DummyScreen_NavEntryInstaller>]' type=<root>.DummyScreen_NavEntryInstaller.MetroFactory
+      FUN GENERATED[dev.zacsweers.metro.compiler.fir.Keys.FactoryNewInstanceFunction] name:newInstance visibility:public modality:FINAL returnType:<root>.DummyScreen_NavEntryInstaller
+        VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> index:0 type:<root>.DummyScreen_NavEntryInstaller.MetroFactory
+        BLOCK_BODY
+          RETURN type=kotlin.Nothing from='public final fun newInstance (): <root>.DummyScreen_NavEntryInstaller declared in <root>.DummyScreen_NavEntryInstaller.MetroFactory'
+            CONSTRUCTOR_CALL 'public constructor <init> () declared in <root>.DummyScreen_NavEntryInstaller' type=<root>.DummyScreen_NavEntryInstaller origin=null
+      FUN name:invoke visibility:public modality:FINAL returnType:<root>.DummyScreen_NavEntryInstaller [operator]
+        VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> index:0 type:<root>.DummyScreen_NavEntryInstaller.MetroFactory
+        overridden:
+          public abstract fun invoke (): T of dev.zacsweers.metro.Provider declared in dev.zacsweers.metro.Provider
+        BLOCK_BODY
+          RETURN type=kotlin.Nothing from='public final fun invoke (): <root>.DummyScreen_NavEntryInstaller declared in <root>.DummyScreen_NavEntryInstaller.MetroFactory'
+            CALL 'public final fun newInstance (): <root>.DummyScreen_NavEntryInstaller declared in <root>.DummyScreen_NavEntryInstaller.MetroFactory' type=<root>.DummyScreen_NavEntryInstaller origin=null
+              ARG <this>: GET_OBJECT 'CLASS GENERATED[dev.zacsweers.metro.compiler.fir.Keys.InjectConstructorFactoryClassDeclaration] OBJECT name:MetroFactory modality:FINAL visibility:public superTypes:[kotlin.Any; dev.zacsweers.metro.internal.Factory<<root>.DummyScreen_NavEntryInstaller>]' type=<root>.DummyScreen_NavEntryInstaller.MetroFactory
+      FUN name:mirrorFunction visibility:public modality:FINAL returnType:<root>.DummyScreen_NavEntryInstaller
+        VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> index:0 type:<root>.DummyScreen_NavEntryInstaller.MetroFactory
+        BLOCK_BODY
+          RETURN type=kotlin.Nothing from='public final fun mirrorFunction (): <root>.DummyScreen_NavEntryInstaller declared in <root>.DummyScreen_NavEntryInstaller.MetroFactory'
+            CALL 'public final fun error (message: kotlin.Any): kotlin.Nothing declared in kotlin' type=kotlin.Nothing origin=null
+              ARG message: CONST String type=kotlin.String value="Never called"
+    CLASS GENERATED[dev.zacsweers.metro.compiler.fir.Keys.MetroContributionClassDeclaration] INTERFACE name:MetroContributionToDevzacsweersmetroappScopeoxd1AHI modality:ABSTRACT visibility:public superTypes:[kotlin.Any]
+      annotations:
+        Deprecated(message = "This synthesized declaration should not be used directly", replaceWith = <null>, level = GET_ENUM 'ENUM_ENTRY IR_EXTERNAL_DECLARATION_STUB name:HIDDEN' type=kotlin.DeprecationLevel)
+        MetroContribution(scope = CLASS_REFERENCE 'CLASS IR_EXTERNAL_DECLARATION_STUB CLASS name:AppScope modality:ABSTRACT visibility:public superTypes:[kotlin.Any]' type=kotlin.reflect.KClass<dev.zacsweers.metro.AppScope>)
+      thisReceiver: VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> type:<root>.DummyScreen_NavEntryInstaller.MetroContributionToDevzacsweersmetroappScopeoxd1AHI
+      CLASS GENERATED[dev.zacsweers.metro.compiler.fir.Keys.BindingMirrorClassDeclaration] CLASS name:BindsMirror modality:ABSTRACT visibility:public superTypes:[kotlin.Any]
+        annotations:
+          Deprecated(message = "This synthesized declaration should not be used directly", replaceWith = <null>, level = GET_ENUM 'ENUM_ENTRY IR_EXTERNAL_DECLARATION_STUB name:HIDDEN' type=kotlin.DeprecationLevel)
+          ComptimeOnly
+          StabilityInferred(parameters = 1)
+        thisReceiver: VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> type:<root>.DummyScreen_NavEntryInstaller.MetroContributionToDevzacsweersmetroappScopeoxd1AHI.BindsMirror
+        FIELD name:$stable type:kotlin.Int visibility:public [final,static]
+          EXPRESSION_BODY
+            CONST Int type=kotlin.Int value=0
+        CONSTRUCTOR GENERATED[dev.zacsweers.metro.compiler.fir.Keys.Default] visibility:private returnType:<root>.DummyScreen_NavEntryInstaller.MetroContributionToDevzacsweersmetroappScopeoxd1AHI.BindsMirror [primary]
+          BLOCK_BODY
+            DELEGATING_CONSTRUCTOR_CALL 'public constructor <init> () declared in kotlin.Any'
+            INSTANCE_INITIALIZER_CALL classDescriptor='CLASS GENERATED[dev.zacsweers.metro.compiler.fir.Keys.BindingMirrorClassDeclaration] CLASS name:BindsMirror modality:ABSTRACT visibility:public superTypes:[kotlin.Any]' type=kotlin.Unit
+        FUN FAKE_OVERRIDE name:equals visibility:public modality:OPEN returnType:kotlin.Boolean [fake_override,operator]
+          VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+          VALUE_PARAMETER kind:Regular name:other index:1 type:kotlin.Any?
+          overridden:
+            public open fun equals (other: kotlin.Any?): kotlin.Boolean declared in kotlin.Any
+        FUN FAKE_OVERRIDE name:hashCode visibility:public modality:OPEN returnType:kotlin.Int [fake_override]
+          VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+          overridden:
+            public open fun hashCode (): kotlin.Int declared in kotlin.Any
+        FUN FAKE_OVERRIDE name:toString visibility:public modality:OPEN returnType:kotlin.String [fake_override]
+          VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+          overridden:
+            public open fun toString (): kotlin.String declared in kotlin.Any
+        FUN GENERATED[dev.zacsweers.metro.compiler.fir.Keys.Default] name:bindIntoSetAsNavEntryInstaller_intoset visibility:public modality:ABSTRACT returnType:io.github.reactivecircus.routebinding.runtime.NavEntryInstaller
+          VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> index:0 type:<root>.DummyScreen_NavEntryInstaller.MetroContributionToDevzacsweersmetroappScopeoxd1AHI
+          VALUE_PARAMETER kind:Regular name:instance index:1 type:<root>.DummyScreen_NavEntryInstaller
+          annotations:
+            Binds
+            IntoSet
+            CallableMetadata(callableName = "bindIntoSetAsNavEntryInstaller", propertyName = "", startOffset = -1, endOffset = -1, newInstanceName = <null>)
+      FUN FAKE_OVERRIDE name:equals visibility:public modality:OPEN returnType:kotlin.Boolean [fake_override,operator]
+        VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+        VALUE_PARAMETER kind:Regular name:other index:1 type:kotlin.Any?
+        overridden:
+          public open fun equals (other: kotlin.Any?): kotlin.Boolean declared in kotlin.Any
+      FUN FAKE_OVERRIDE name:hashCode visibility:public modality:OPEN returnType:kotlin.Int [fake_override]
+        VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+        overridden:
+          public open fun hashCode (): kotlin.Int declared in kotlin.Any
+      FUN FAKE_OVERRIDE name:toString visibility:public modality:OPEN returnType:kotlin.String [fake_override]
+        VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+        overridden:
+          public open fun toString (): kotlin.String declared in kotlin.Any
+      FUN name:bindIntoSetAsNavEntryInstaller visibility:public modality:ABSTRACT returnType:io.github.reactivecircus.routebinding.runtime.NavEntryInstaller
+        VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> index:0 type:<root>.DummyScreen_NavEntryInstaller.MetroContributionToDevzacsweersmetroappScopeoxd1AHI
+        VALUE_PARAMETER kind:Regular name:instance index:1 type:<root>.DummyScreen_NavEntryInstaller
+        annotations:
+          IntoSet
+          Binds
+          ComptimeOnly
+        BLOCK_BODY
+          RETURN type=kotlin.Nothing from='public abstract fun bindIntoSetAsNavEntryInstaller (instance: <root>.DummyScreen_NavEntryInstaller): io.github.reactivecircus.routebinding.runtime.NavEntryInstaller declared in <root>.DummyScreen_NavEntryInstaller.MetroContributionToDevzacsweersmetroappScopeoxd1AHI'
+            CALL 'public final fun error (message: kotlin.Any): kotlin.Nothing declared in kotlin' type=kotlin.Nothing origin=null
+              ARG message: CONST String type=kotlin.String value="Never called"
+    CONSTRUCTOR GENERATED[io.github.reactivecircus.routebinding.compiler.fir.RouteBindingKeys.NavEntryInstallerClassDeclaration] visibility:public returnType:<root>.DummyScreen_NavEntryInstaller [primary]
+      BLOCK_BODY
+        DELEGATING_CONSTRUCTOR_CALL 'public constructor <init> () declared in kotlin.Any'
+    FUN FAKE_OVERRIDE name:equals visibility:public modality:OPEN returnType:kotlin.Boolean [fake_override,operator]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      VALUE_PARAMETER kind:Regular name:other index:1 type:kotlin.Any?
+      overridden:
+        public open fun equals (other: kotlin.Any?): kotlin.Boolean declared in io.github.reactivecircus.routebinding.runtime.NavEntryInstaller
+    FUN FAKE_OVERRIDE name:hashCode visibility:public modality:OPEN returnType:kotlin.Int [fake_override]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      overridden:
+        public open fun hashCode (): kotlin.Int declared in io.github.reactivecircus.routebinding.runtime.NavEntryInstaller
+    FUN FAKE_OVERRIDE name:toString visibility:public modality:OPEN returnType:kotlin.String [fake_override]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      overridden:
+        public open fun toString (): kotlin.String declared in io.github.reactivecircus.routebinding.runtime.NavEntryInstaller
+    FUN GENERATED[io.github.reactivecircus.routebinding.compiler.fir.RouteBindingKeys.InstallFunctionDeclaration] name:install visibility:public modality:FINAL returnType:kotlin.Unit
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:<root>.DummyScreen_NavEntryInstaller
+      VALUE_PARAMETER GENERATED[io.github.reactivecircus.routebinding.compiler.fir.RouteBindingKeys.InstallFunctionDeclaration] kind:Context name:<unused var> index:1 type:androidx.navigation3.runtime.EntryProviderScope<androidx.navigation3.runtime.NavKey>
+      VALUE_PARAMETER GENERATED[io.github.reactivecircus.routebinding.compiler.fir.RouteBindingKeys.InstallFunctionDeclaration] kind:Context name:<unused var> index:2 type:androidx.compose.animation.SharedTransitionScope
+      VALUE_PARAMETER GENERATED[io.github.reactivecircus.routebinding.compiler.fir.RouteBindingKeys.InstallFunctionDeclaration] kind:Regular name:backStack index:3 type:androidx.navigation3.runtime.NavBackStack<androidx.navigation3.runtime.NavKey>
+      overridden:
+        public abstract fun install (entryProviderScope: androidx.navigation3.runtime.EntryProviderScope<androidx.navigation3.runtime.NavKey>, sharedTransitionScope: androidx.compose.animation.SharedTransitionScope, backStack: androidx.navigation3.runtime.NavBackStack<androidx.navigation3.runtime.NavKey>): kotlin.Unit declared in io.github.reactivecircus.routebinding.runtime.NavEntryInstaller
+      BLOCK_BODY
+        CALL 'public final fun entry <K> (clazzContentKey: kotlin.Function1<@[ParameterName(name = "key")] @[JvmSuppressWildcards(suppress = <null>)] K of androidx.navigation3.runtime.EntryProviderScope.entry, kotlin.Any>, metadata: kotlin.collections.Map<kotlin.String, kotlin.Any>, content: kotlin.Function3<K of androidx.navigation3.runtime.EntryProviderScope.entry, androidx.compose.runtime.Composer, kotlin.Int, kotlin.Unit>): kotlin.Unit declared in androidx.navigation3.runtime.EntryProviderScope' type=kotlin.Unit origin=null
+          TYPE_ARG K: <root>.DummyRoute
+          ARG <this>: GET_VAR '<unused var>(index:1): androidx.navigation3.runtime.EntryProviderScope<androidx.navigation3.runtime.NavKey> declared in <root>.DummyScreen_NavEntryInstaller.install' type=androidx.navigation3.runtime.EntryProviderScope<androidx.navigation3.runtime.NavKey> origin=null
+          ARG content: FUN_EXPR type=kotlin.Function3<K of androidx.navigation3.runtime.EntryProviderScope.entry, androidx.compose.runtime.Composer, kotlin.Int, kotlin.Unit> origin=LAMBDA
+            FUN LOCAL_FUNCTION_FOR_LAMBDA name:<anonymous> visibility:local modality:FINAL returnType:kotlin.Function3<K of androidx.navigation3.runtime.EntryProviderScope.entry, androidx.compose.runtime.Composer, kotlin.Int, kotlin.Unit>
+              VALUE_PARAMETER kind:Regular name:it index:0 type:<root>.DummyRoute
+              VALUE_PARAMETER kind:Regular name:$composer index:1 type:androidx.compose.runtime.Composer? [assignable]
+              VALUE_PARAMETER kind:Regular name:$changed index:2 type:kotlin.Int
+              annotations:
+                Composable
+                FunctionKeyMeta(key = -1464289268, startOffset = -1, endOffset = -1)
+              BLOCK_BODY
+                CALL 'public abstract fun startReplaceGroup (key: kotlin.Int): kotlin.Unit declared in androidx.compose.runtime.Composer' type=kotlin.Unit origin=null
+                  ARG <this>: GET_VAR '$composer: androidx.compose.runtime.Composer? declared in <root>.DummyScreen_NavEntryInstaller.install.<anonymous>' type=androidx.compose.runtime.Composer? origin=null
+                  ARG key: CONST Int type=kotlin.Int value=-1464289268
+                WHEN type=kotlin.Unit origin=IF
+                  BRANCH
+                    if: CALL 'public final fun isTraceInProgress (): kotlin.Boolean declared in androidx.compose.runtime' type=kotlin.Boolean origin=null
+                    then: CALL 'public final fun traceEventStart (key: kotlin.Int, dirty1: kotlin.Int, dirty2: kotlin.Int, info: kotlin.String): kotlin.Unit declared in androidx.compose.runtime' type=kotlin.Unit origin=null
+                      ARG key: CONST Int type=kotlin.Int value=-1464289268
+                      ARG dirty1: GET_VAR '$changed: kotlin.Int declared in <root>.DummyScreen_NavEntryInstaller.install.<anonymous>' type=kotlin.Int origin=null
+                      ARG dirty2: CONST Int type=kotlin.Int value=-1
+                      ARG info: CONST String type=kotlin.String value="DummyScreen_NavEntryInstaller.install.<anonymous> (DummyScreen_NavEntryInstaller.kt:-1)"
+                CALL 'public final fun DummyScreen (<this>: androidx.compose.animation.SharedTransitionScope, backStack: androidx.navigation3.runtime.NavBackStack<androidx.navigation3.runtime.NavKey>, route: <root>.DummyRoute, $composer: androidx.compose.runtime.Composer?, $changed: kotlin.Int): kotlin.Unit declared in <root>' type=kotlin.Unit origin=null
+                  ARG <this>: GET_VAR '<unused var>(index:2): androidx.compose.animation.SharedTransitionScope declared in <root>.DummyScreen_NavEntryInstaller.install' type=androidx.compose.animation.SharedTransitionScope origin=null
+                  ARG backStack: GET_VAR 'backStack: androidx.navigation3.runtime.NavBackStack<androidx.navigation3.runtime.NavKey> declared in <root>.DummyScreen_NavEntryInstaller.install' type=androidx.navigation3.runtime.NavBackStack<androidx.navigation3.runtime.NavKey> origin=null
+                  ARG route: GET_VAR 'it: <root>.DummyRoute declared in <root>.DummyScreen_NavEntryInstaller.install.<anonymous>' type=<root>.DummyRoute origin=null
+                  ARG $composer: GET_VAR '$composer: androidx.compose.runtime.Composer? declared in <root>.DummyScreen_NavEntryInstaller.install.<anonymous>' type=androidx.compose.runtime.Composer? origin=null
+                  ARG $changed: CALL 'public final fun and (other: kotlin.Int): kotlin.Int declared in kotlin.Int' type=kotlin.Int origin=null
+                    ARG <this>: CONST Int type=kotlin.Int value=896
+                    ARG other: CALL 'public final fun shl (bitCount: kotlin.Int): kotlin.Int declared in kotlin.Int' type=kotlin.Int origin=null
+                      ARG <this>: GET_VAR '$changed: kotlin.Int declared in <root>.DummyScreen_NavEntryInstaller.install.<anonymous>' type=kotlin.Int origin=null
+                      ARG bitCount: CONST Int type=kotlin.Int value=6
+                WHEN type=kotlin.Unit origin=IF
+                  BRANCH
+                    if: CALL 'public final fun isTraceInProgress (): kotlin.Boolean declared in androidx.compose.runtime' type=kotlin.Boolean origin=null
+                    then: CALL 'public final fun traceEventEnd (): kotlin.Unit declared in androidx.compose.runtime' type=kotlin.Unit origin=null
+                CALL 'public abstract fun endReplaceGroup (): kotlin.Unit declared in androidx.compose.runtime.Composer' type=kotlin.Unit origin=null
+                  ARG <this>: GET_VAR '$composer: androidx.compose.runtime.Composer? declared in <root>.DummyScreen_NavEntryInstaller.install.<anonymous>' type=androidx.compose.runtime.Composer? origin=null
+FILE fqName:androidx.compose.animation fileName:/SharedTransitionScope.kt
+  CLASS INTERFACE name:SharedTransitionScope modality:ABSTRACT visibility:public superTypes:[kotlin.Any]
+    thisReceiver: VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> type:androidx.compose.animation.SharedTransitionScope
+    FUN FAKE_OVERRIDE name:equals visibility:public modality:OPEN returnType:kotlin.Boolean [fake_override,operator]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      VALUE_PARAMETER kind:Regular name:other index:1 type:kotlin.Any?
+      overridden:
+        public open fun equals (other: kotlin.Any?): kotlin.Boolean declared in kotlin.Any
+    FUN FAKE_OVERRIDE name:hashCode visibility:public modality:OPEN returnType:kotlin.Int [fake_override]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      overridden:
+        public open fun hashCode (): kotlin.Int declared in kotlin.Any
+    FUN FAKE_OVERRIDE name:toString visibility:public modality:OPEN returnType:kotlin.String [fake_override]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      overridden:
+        public open fun toString (): kotlin.String declared in kotlin.Any
+FILE fqName:<root> fileName:/SingleFunction.kt
+  CLASS INTERFACE name:AppGraph modality:ABSTRACT visibility:public superTypes:[kotlin.Any; <root>.DummyScreen_NavEntryInstaller.MetroContributionToDevzacsweersmetroappScopeoxd1AHI]
+    annotations:
+      DependencyGraph(scope = CLASS_REFERENCE 'CLASS IR_EXTERNAL_DECLARATION_STUB CLASS name:AppScope modality:ABSTRACT visibility:public superTypes:[kotlin.Any]' type=kotlin.reflect.KClass<dev.zacsweers.metro.AppScope>, additionalScopes = <null>, excludes = <null>, bindingContainers = <null>)
+    thisReceiver: VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> type:<root>.AppGraph
+    CLASS GENERATED[dev.zacsweers.metro.compiler.fir.Keys.GraphImplClassDeclaration] CLASS name:Impl modality:FINAL visibility:public superTypes:[<root>.AppGraph]
+      annotations:
+        Deprecated(message = "This synthesized declaration should not be used directly", replaceWith = <null>, level = GET_ENUM 'ENUM_ENTRY IR_EXTERNAL_DECLARATION_STUB name:HIDDEN' type=kotlin.DeprecationLevel)
+        MetroImplMarker
+        StabilityInferred(parameters = 1)
+      thisReceiver: VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> type:<root>.AppGraph.Impl
+      FIELD name:$stable type:kotlin.Int visibility:public [final,static]
+        EXPRESSION_BODY
+          CONST Int type=kotlin.Int value=0
+      CONSTRUCTOR GENERATED[dev.zacsweers.metro.compiler.fir.Keys.Default] visibility:private returnType:<root>.AppGraph.Impl [primary]
+        BLOCK_BODY
+          DELEGATING_CONSTRUCTOR_CALL 'public constructor <init> () declared in kotlin.Any'
+          INSTANCE_INITIALIZER_CALL classDescriptor='CLASS GENERATED[dev.zacsweers.metro.compiler.fir.Keys.GraphImplClassDeclaration] CLASS name:Impl modality:FINAL visibility:public superTypes:[<root>.AppGraph]' type=kotlin.Unit
+      FUN FAKE_OVERRIDE name:bindIntoSetAsNavEntryInstaller visibility:public modality:ABSTRACT returnType:io.github.reactivecircus.routebinding.runtime.NavEntryInstaller [fake_override]
+        VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:<root>.DummyScreen_NavEntryInstaller.MetroContributionToDevzacsweersmetroappScopeoxd1AHI
+        VALUE_PARAMETER kind:Regular name:instance index:1 type:<root>.DummyScreen_NavEntryInstaller
+        annotations:
+          IntoSet
+          Binds
+        overridden:
+          public abstract fun bindIntoSetAsNavEntryInstaller (instance: <root>.DummyScreen_NavEntryInstaller): io.github.reactivecircus.routebinding.runtime.NavEntryInstaller declared in <root>.AppGraph
+      FUN FAKE_OVERRIDE name:equals visibility:public modality:OPEN returnType:kotlin.Boolean [fake_override,operator]
+        VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+        VALUE_PARAMETER kind:Regular name:other index:1 type:kotlin.Any?
+        overridden:
+          public open fun equals (other: kotlin.Any?): kotlin.Boolean declared in <root>.AppGraph
+      FUN FAKE_OVERRIDE name:hashCode visibility:public modality:OPEN returnType:kotlin.Int [fake_override]
+        VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+        overridden:
+          public open fun hashCode (): kotlin.Int declared in <root>.AppGraph
+      FUN FAKE_OVERRIDE name:toString visibility:public modality:OPEN returnType:kotlin.String [fake_override]
+        VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+        overridden:
+          public open fun toString (): kotlin.String declared in <root>.AppGraph
+      PROPERTY name:installers visibility:public modality:FINAL [val]
+        overridden:
+          public abstract installers: kotlin.collections.Set<io.github.reactivecircus.routebinding.runtime.NavEntryInstaller> declared in <root>.AppGraph
+        FUN name:<get-installers> visibility:public modality:FINAL returnType:kotlin.collections.Set<io.github.reactivecircus.routebinding.runtime.NavEntryInstaller>
+          VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> index:0 type:<root>.AppGraph.Impl
+          correspondingProperty: PROPERTY name:installers visibility:public modality:FINAL [val]
+          overridden:
+            public abstract fun <get-installers> (): kotlin.collections.Set<io.github.reactivecircus.routebinding.runtime.NavEntryInstaller> declared in <root>.AppGraph
+          BLOCK_BODY
+            RETURN type=kotlin.Nothing from='public final fun <get-installers> (): kotlin.collections.Set<io.github.reactivecircus.routebinding.runtime.NavEntryInstaller> declared in <root>.AppGraph.Impl'
+              CALL 'private final fun <get-setOfNavEntryInstaller> (): kotlin.collections.Set<io.github.reactivecircus.routebinding.runtime.NavEntryInstaller> declared in <root>.AppGraph.Impl' type=kotlin.collections.Set<io.github.reactivecircus.routebinding.runtime.NavEntryInstaller> origin=null
+                ARG <this>: GET_VAR '<this>: <root>.AppGraph.Impl declared in <root>.AppGraph.Impl.<get-installers>' type=<root>.AppGraph.Impl origin=null
+      PROPERTY name:setOfNavEntryInstaller visibility:private modality:FINAL [val]
+        FUN name:<get-setOfNavEntryInstaller> visibility:private modality:FINAL returnType:kotlin.collections.Set<io.github.reactivecircus.routebinding.runtime.NavEntryInstaller>
+          VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> index:0 type:<root>.AppGraph.Impl
+          correspondingProperty: PROPERTY name:setOfNavEntryInstaller visibility:private modality:FINAL [val]
+          BLOCK_BODY
+            RETURN type=kotlin.Nothing from='private final fun <get-setOfNavEntryInstaller> (): kotlin.collections.Set<io.github.reactivecircus.routebinding.runtime.NavEntryInstaller> declared in <root>.AppGraph.Impl'
+              CALL 'public final fun setOf <T> (element: T of kotlin.collections.setOf): kotlin.collections.Set<T of kotlin.collections.setOf> declared in kotlin.collections' type=kotlin.collections.Set<io.github.reactivecircus.routebinding.runtime.NavEntryInstaller> origin=null
+                TYPE_ARG T: io.github.reactivecircus.routebinding.runtime.NavEntryInstaller
+                ARG element: CONSTRUCTOR_CALL 'public constructor <init> () declared in <root>.DummyScreen_NavEntryInstaller' type=<root>.DummyScreen_NavEntryInstaller origin=null
+    CLASS GENERATED[dev.zacsweers.metro.compiler.fir.Keys.MetroGraphCreatorsObjectDeclaration] OBJECT name:Companion modality:FINAL visibility:public [companion] superTypes:[kotlin.Any]
+      thisReceiver: VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> type:<root>.AppGraph.Companion
+      CONSTRUCTOR GENERATED[dev.zacsweers.metro.compiler.fir.Keys.Default] visibility:private returnType:<root>.AppGraph.Companion [primary]
+        BLOCK_BODY
+          DELEGATING_CONSTRUCTOR_CALL 'public constructor <init> () declared in kotlin.Any'
+          INSTANCE_INITIALIZER_CALL classDescriptor='CLASS GENERATED[dev.zacsweers.metro.compiler.fir.Keys.MetroGraphCreatorsObjectDeclaration] OBJECT name:Companion modality:FINAL visibility:public [companion] superTypes:[kotlin.Any]' type=kotlin.Unit
+      FUN FAKE_OVERRIDE name:equals visibility:public modality:OPEN returnType:kotlin.Boolean [fake_override,operator]
+        VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+        VALUE_PARAMETER kind:Regular name:other index:1 type:kotlin.Any?
+        overridden:
+          public open fun equals (other: kotlin.Any?): kotlin.Boolean declared in kotlin.Any
+      FUN FAKE_OVERRIDE name:hashCode visibility:public modality:OPEN returnType:kotlin.Int [fake_override]
+        VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+        overridden:
+          public open fun hashCode (): kotlin.Int declared in kotlin.Any
+      FUN FAKE_OVERRIDE name:toString visibility:public modality:OPEN returnType:kotlin.String [fake_override]
+        VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+        overridden:
+          public open fun toString (): kotlin.String declared in kotlin.Any
+      FUN GENERATED[dev.zacsweers.metro.compiler.fir.Keys.MetroGraphCreatorsObjectInvokeDeclaration] name:invoke visibility:public modality:FINAL returnType:<root>.AppGraph [operator]
+        VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:<root>.AppGraph.Companion
+        annotations:
+          GraphFactoryInvokeFunctionMarker
+        BLOCK_BODY
+          RETURN type=kotlin.Nothing from='public final fun invoke (): <root>.AppGraph declared in <root>.AppGraph.Companion'
+            CONSTRUCTOR_CALL 'private constructor <init> () declared in <root>.AppGraph.Impl' type=<root>.AppGraph.Impl origin=null
+    FUN FAKE_OVERRIDE name:bindIntoSetAsNavEntryInstaller visibility:public modality:ABSTRACT returnType:io.github.reactivecircus.routebinding.runtime.NavEntryInstaller [fake_override]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:<root>.DummyScreen_NavEntryInstaller.MetroContributionToDevzacsweersmetroappScopeoxd1AHI
+      VALUE_PARAMETER kind:Regular name:instance index:1 type:<root>.DummyScreen_NavEntryInstaller
+      annotations:
+        IntoSet
+        Binds
+      overridden:
+        public abstract fun bindIntoSetAsNavEntryInstaller (instance: <root>.DummyScreen_NavEntryInstaller): io.github.reactivecircus.routebinding.runtime.NavEntryInstaller declared in <root>.DummyScreen_NavEntryInstaller.MetroContributionToDevzacsweersmetroappScopeoxd1AHI
+    FUN FAKE_OVERRIDE name:equals visibility:public modality:OPEN returnType:kotlin.Boolean [fake_override,operator]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      VALUE_PARAMETER kind:Regular name:other index:1 type:kotlin.Any?
+      overridden:
+        public open fun equals (other: kotlin.Any?): kotlin.Boolean declared in kotlin.Any
+        public open fun equals (other: kotlin.Any?): kotlin.Boolean declared in <root>.DummyScreen_NavEntryInstaller.MetroContributionToDevzacsweersmetroappScopeoxd1AHI
+    FUN FAKE_OVERRIDE name:hashCode visibility:public modality:OPEN returnType:kotlin.Int [fake_override]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      overridden:
+        public open fun hashCode (): kotlin.Int declared in kotlin.Any
+        public open fun hashCode (): kotlin.Int declared in <root>.DummyScreen_NavEntryInstaller.MetroContributionToDevzacsweersmetroappScopeoxd1AHI
+    FUN FAKE_OVERRIDE name:toString visibility:public modality:OPEN returnType:kotlin.String [fake_override]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      overridden:
+        public open fun toString (): kotlin.String declared in kotlin.Any
+        public open fun toString (): kotlin.String declared in <root>.DummyScreen_NavEntryInstaller.MetroContributionToDevzacsweersmetroappScopeoxd1AHI
+    PROPERTY name:installers visibility:public modality:ABSTRACT [val]
+      FUN DEFAULT_PROPERTY_ACCESSOR name:<get-installers> visibility:public modality:ABSTRACT returnType:kotlin.collections.Set<io.github.reactivecircus.routebinding.runtime.NavEntryInstaller>
+        VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:<root>.AppGraph
+        correspondingProperty: PROPERTY name:installers visibility:public modality:ABSTRACT [val]
+  FUN name:DummyScreen visibility:public modality:FINAL returnType:kotlin.Unit
+    VALUE_PARAMETER kind:ExtensionReceiver name:<this> index:0 type:androidx.compose.animation.SharedTransitionScope
+    VALUE_PARAMETER kind:Regular name:backStack index:1 type:androidx.navigation3.runtime.NavBackStack<androidx.navigation3.runtime.NavKey>
+    VALUE_PARAMETER kind:Regular name:route index:2 type:<root>.DummyRoute
+    VALUE_PARAMETER kind:Regular name:$composer index:3 type:androidx.compose.runtime.Composer? [assignable]
+    VALUE_PARAMETER kind:Regular name:$changed index:4 type:kotlin.Int
+    annotations:
+      RouteBinding(route = CLASS_REFERENCE 'CLASS CLASS name:DummyRoute modality:FINAL visibility:public [data] superTypes:[androidx.navigation3.runtime.NavKey]' type=kotlin.reflect.KClass<<root>.DummyRoute>)
+      Composable
+      FunctionKeyMeta(key = -1947969479, startOffset = 552, endOffset = 656)
+    BLOCK_BODY
+      SET_VAR '$composer: androidx.compose.runtime.Composer? declared in <root>.DummyScreen' type=kotlin.Unit origin=null
+        CALL 'public abstract fun startRestartGroup (key: kotlin.Int): androidx.compose.runtime.Composer declared in androidx.compose.runtime.Composer' type=androidx.compose.runtime.Composer origin=null
+          ARG <this>: GET_VAR '$composer: androidx.compose.runtime.Composer? declared in <root>.DummyScreen' type=androidx.compose.runtime.Composer? origin=null
+          ARG key: CONST Int type=kotlin.Int value=-1947969479
+      WHEN type=kotlin.Unit origin=IF
+        BRANCH
+          if: CALL 'public abstract fun shouldExecute (parametersChanged: kotlin.Boolean, flags: kotlin.Int): kotlin.Boolean declared in androidx.compose.runtime.Composer' type=kotlin.Boolean origin=null
+            ARG <this>: GET_VAR '$composer: androidx.compose.runtime.Composer? declared in <root>.DummyScreen' type=androidx.compose.runtime.Composer? origin=null
+            ARG parametersChanged: CALL 'public final fun not (): kotlin.Boolean declared in kotlin.Boolean' type=kotlin.Boolean origin=null
+              ARG <this>: CALL 'public final fun EQEQ (arg0: kotlin.Any?, arg1: kotlin.Any?): kotlin.Boolean declared in kotlin.internal.ir' type=kotlin.Boolean origin=null
+                ARG arg0: CALL 'public final fun and (other: kotlin.Int): kotlin.Int declared in kotlin.Int' type=kotlin.Int origin=null
+                  ARG <this>: GET_VAR '$changed: kotlin.Int declared in <root>.DummyScreen' type=kotlin.Int origin=null
+                  ARG other: CONST Int type=kotlin.Int value=1
+                ARG arg1: CONST Int type=kotlin.Int value=0
+            ARG flags: CALL 'public final fun and (other: kotlin.Int): kotlin.Int declared in kotlin.Int' type=kotlin.Int origin=null
+              ARG <this>: GET_VAR '$changed: kotlin.Int declared in <root>.DummyScreen' type=kotlin.Int origin=null
+              ARG other: CONST Int type=kotlin.Int value=1
+          then: BLOCK type=kotlin.Unit origin=null
+            WHEN type=kotlin.Unit origin=IF
+              BRANCH
+                if: CALL 'public final fun isTraceInProgress (): kotlin.Boolean declared in androidx.compose.runtime' type=kotlin.Boolean origin=null
+                then: CALL 'public final fun traceEventStart (key: kotlin.Int, dirty1: kotlin.Int, dirty2: kotlin.Int, info: kotlin.String): kotlin.Unit declared in androidx.compose.runtime' type=kotlin.Unit origin=null
+                  ARG key: CONST Int type=kotlin.Int value=-1947969479
+                  ARG dirty1: GET_VAR '$changed: kotlin.Int declared in <root>.DummyScreen' type=kotlin.Int origin=null
+                  ARG dirty2: CONST Int type=kotlin.Int value=-1
+                  ARG info: CONST String type=kotlin.String value="DummyScreen (SingleFunction.kt:18)"
+            WHEN type=kotlin.Unit origin=IF
+              BRANCH
+                if: CALL 'public final fun isTraceInProgress (): kotlin.Boolean declared in androidx.compose.runtime' type=kotlin.Boolean origin=null
+                then: CALL 'public final fun traceEventEnd (): kotlin.Unit declared in androidx.compose.runtime' type=kotlin.Unit origin=null
+        BRANCH
+          if: CONST Boolean type=kotlin.Boolean value=true
+          then: CALL 'public abstract fun skipToGroupEnd (): kotlin.Unit declared in androidx.compose.runtime.Composer' type=kotlin.Unit origin=null
+            ARG <this>: GET_VAR '$composer: androidx.compose.runtime.Composer? declared in <root>.DummyScreen' type=androidx.compose.runtime.Composer? origin=null
+      BLOCK type=kotlin.Unit origin=null
+        BLOCK type=kotlin.Unit origin=SAFE_CALL
+          VAR IR_TEMPORARY_VARIABLE name:tmp_0 type:androidx.compose.runtime.ScopeUpdateScope? [val]
+            CALL 'public abstract fun endRestartGroup (): androidx.compose.runtime.ScopeUpdateScope? declared in androidx.compose.runtime.Composer' type=androidx.compose.runtime.ScopeUpdateScope? origin=null
+              ARG <this>: GET_VAR '$composer: androidx.compose.runtime.Composer? declared in <root>.DummyScreen' type=androidx.compose.runtime.Composer? origin=null
+          WHEN type=kotlin.Unit origin=IF
+            BRANCH
+              if: CALL 'public final fun EQEQ (arg0: kotlin.Any?, arg1: kotlin.Any?): kotlin.Boolean declared in kotlin.internal.ir' type=kotlin.Boolean origin=null
+                ARG arg0: GET_VAR 'val tmp_0: androidx.compose.runtime.ScopeUpdateScope? declared in <root>.DummyScreen' type=androidx.compose.runtime.ScopeUpdateScope? origin=null
+                ARG arg1: CONST Null type=kotlin.Any? value=null
+              then: CONST Null type=kotlin.Any? value=null
+            BRANCH
+              if: CONST Boolean type=kotlin.Boolean value=true
+              then: CALL 'public abstract fun updateScope (block: kotlin.Function2<androidx.compose.runtime.Composer, kotlin.Int, kotlin.Unit>): kotlin.Unit declared in androidx.compose.runtime.ScopeUpdateScope' type=kotlin.Unit origin=null
+                ARG <this>: GET_VAR 'val tmp_0: androidx.compose.runtime.ScopeUpdateScope? declared in <root>.DummyScreen' type=androidx.compose.runtime.ScopeUpdateScope? origin=null
+                ARG block: FUN_EXPR type=kotlin.Function2<androidx.compose.runtime.Composer?, kotlin.Int, kotlin.Unit> origin=LAMBDA
+                  FUN LOCAL_FUNCTION_FOR_LAMBDA name:<anonymous> visibility:local modality:FINAL returnType:kotlin.Unit
+                    VALUE_PARAMETER kind:Regular name:$composer index:0 type:androidx.compose.runtime.Composer?
+                    VALUE_PARAMETER kind:Regular name:$force index:1 type:kotlin.Int
+                    BLOCK_BODY
+                      RETURN type=kotlin.Nothing from='local final fun <anonymous> ($composer: androidx.compose.runtime.Composer?, $force: kotlin.Int): kotlin.Unit declared in <root>.DummyScreen'
+                        CALL 'public final fun DummyScreen (<this>: androidx.compose.animation.SharedTransitionScope, backStack: androidx.navigation3.runtime.NavBackStack<androidx.navigation3.runtime.NavKey>, route: <root>.DummyRoute, $composer: androidx.compose.runtime.Composer?, $changed: kotlin.Int): kotlin.Unit declared in <root>' type=kotlin.Unit origin=null
+                          ARG <this>: GET_VAR '<this>: androidx.compose.animation.SharedTransitionScope declared in <root>.DummyScreen' type=androidx.compose.animation.SharedTransitionScope origin=null
+                          ARG backStack: GET_VAR 'backStack: androidx.navigation3.runtime.NavBackStack<androidx.navigation3.runtime.NavKey> declared in <root>.DummyScreen' type=androidx.navigation3.runtime.NavBackStack<androidx.navigation3.runtime.NavKey> origin=null
+                          ARG route: GET_VAR 'route: <root>.DummyRoute declared in <root>.DummyScreen' type=<root>.DummyRoute origin=null
+                          ARG $composer: GET_VAR '$composer: androidx.compose.runtime.Composer? declared in <root>.DummyScreen.<anonymous>' type=androidx.compose.runtime.Composer? origin=null
+                          ARG $changed: CALL 'internal final fun updateChangedFlags (flags: kotlin.Int): kotlin.Int declared in androidx.compose.runtime' type=kotlin.Int origin=null
+                            ARG flags: CALL 'public final fun or (other: kotlin.Int): kotlin.Int declared in kotlin.Int' type=kotlin.Int origin=null
+                              ARG <this>: GET_VAR '$changed: kotlin.Int declared in <root>.DummyScreen' type=kotlin.Int origin=null
+                              ARG other: CONST Int type=kotlin.Int value=1
+  FUN name:box visibility:public modality:FINAL returnType:kotlin.String
+    BLOCK_BODY
+      VAR name:graph type:<root>.AppGraph [val]
+        CALL 'public final fun invoke (): <root>.AppGraph declared in <root>.AppGraph.Companion' type=<root>.AppGraph origin=null
+          ARG <this>: GET_OBJECT 'CLASS GENERATED[dev.zacsweers.metro.compiler.fir.Keys.MetroGraphCreatorsObjectDeclaration] OBJECT name:Companion modality:FINAL visibility:public [companion] superTypes:[kotlin.Any]' type=<root>.AppGraph.Companion
+      CALL 'public final fun assertEquals <T> (expected: T of kotlin.test.assertEquals, actual: T of kotlin.test.assertEquals, message: kotlin.String?): kotlin.Unit declared in kotlin.test' type=kotlin.Unit origin=null
+        TYPE_ARG T: kotlin.collections.List<kotlin.String>
+        ARG expected: CALL 'public final fun listOf <T> (element: T of kotlin.collections.listOf): kotlin.collections.List<T of kotlin.collections.listOf> declared in kotlin.collections' type=kotlin.collections.List<kotlin.String> origin=null
+          TYPE_ARG T: kotlin.String
+          ARG element: CONST String type=kotlin.String value="DummyScreen_NavEntryInstaller"
+        ARG actual: CALL 'public final fun map <T, R> (<this>: kotlin.collections.Iterable<T of kotlin.collections.map>, transform: kotlin.Function1<T of kotlin.collections.map, R of kotlin.collections.map>): kotlin.collections.List<R of kotlin.collections.map> declared in kotlin.collections' type=kotlin.collections.List<@[FlexibleNullability] kotlin.String?> origin=null
+          TYPE_ARG T: io.github.reactivecircus.routebinding.runtime.NavEntryInstaller
+          TYPE_ARG R: @[FlexibleNullability] kotlin.String?
+          ARG <this>: CALL 'public abstract fun <get-installers> (): kotlin.collections.Set<io.github.reactivecircus.routebinding.runtime.NavEntryInstaller> declared in <root>.AppGraph' type=kotlin.collections.Set<io.github.reactivecircus.routebinding.runtime.NavEntryInstaller> origin=GET_PROPERTY
+            ARG <this>: GET_VAR 'val graph: <root>.AppGraph declared in <root>.box' type=<root>.AppGraph origin=null
+          ARG transform: FUN_EXPR type=kotlin.Function1<io.github.reactivecircus.routebinding.runtime.NavEntryInstaller, @[FlexibleNullability] kotlin.String?> origin=LAMBDA
+            FUN LOCAL_FUNCTION_FOR_LAMBDA name:<anonymous> visibility:local modality:FINAL returnType:@[FlexibleNullability] kotlin.String?
+              VALUE_PARAMETER kind:Regular name:it index:0 type:io.github.reactivecircus.routebinding.runtime.NavEntryInstaller
+              BLOCK_BODY
+                RETURN type=kotlin.Nothing from='local final fun <anonymous> (it: io.github.reactivecircus.routebinding.runtime.NavEntryInstaller): @[FlexibleNullability] kotlin.String? declared in <root>.box'
+                  CALL 'public open fun getCanonicalName (): @[FlexibleNullability] kotlin.String? declared in java.lang.Class' type=@[FlexibleNullability] kotlin.String? origin=GET_PROPERTY
+                    ARG <this>: CALL 'public final fun <get-javaClass> <T> (<this>: T of kotlin.jvm.<get-javaClass>): java.lang.Class<T of kotlin.jvm.<get-javaClass>> declared in kotlin.jvm' type=java.lang.Class<io.github.reactivecircus.routebinding.runtime.NavEntryInstaller> origin=GET_PROPERTY
+                      TYPE_ARG T: io.github.reactivecircus.routebinding.runtime.NavEntryInstaller
+                      ARG <this>: GET_VAR 'it: io.github.reactivecircus.routebinding.runtime.NavEntryInstaller declared in <root>.box.<anonymous>' type=io.github.reactivecircus.routebinding.runtime.NavEntryInstaller origin=null
+      RETURN type=kotlin.Nothing from='public final fun box (): kotlin.String declared in <root>'
+        CONST String type=kotlin.String value="OK"
+FILE fqName:androidx.navigation3.runtime fileName:/nav3.kt
+  CLASS CLASS name:EntryProviderScope modality:FINAL visibility:public superTypes:[kotlin.Any]
+    annotations:
+      StabilityInferred(parameters = 2)
+    thisReceiver: VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> type:androidx.navigation3.runtime.EntryProviderScope<T of androidx.navigation3.runtime.EntryProviderScope>
+    TYPE_PARAMETER name:T index:0 variance: superTypes:[kotlin.Any] reified:false
+    FIELD name:$stable type:kotlin.Int visibility:public [final,static]
+      EXPRESSION_BODY
+        CONST Int type=kotlin.Int value=0
+    CONSTRUCTOR visibility:public returnType:androidx.navigation3.runtime.EntryProviderScope<T of androidx.navigation3.runtime.EntryProviderScope> [primary]
+      BLOCK_BODY
+        DELEGATING_CONSTRUCTOR_CALL 'public constructor <init> () declared in kotlin.Any'
+        INSTANCE_INITIALIZER_CALL classDescriptor='CLASS CLASS name:EntryProviderScope modality:FINAL visibility:public superTypes:[kotlin.Any]' type=kotlin.Unit
+    FUN FAKE_OVERRIDE name:equals visibility:public modality:OPEN returnType:kotlin.Boolean [fake_override,operator]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      VALUE_PARAMETER kind:Regular name:other index:1 type:kotlin.Any?
+      overridden:
+        public open fun equals (other: kotlin.Any?): kotlin.Boolean declared in kotlin.Any
+    FUN FAKE_OVERRIDE name:hashCode visibility:public modality:OPEN returnType:kotlin.Int [fake_override]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      overridden:
+        public open fun hashCode (): kotlin.Int declared in kotlin.Any
+    FUN FAKE_OVERRIDE name:toString visibility:public modality:OPEN returnType:kotlin.String [fake_override]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      overridden:
+        public open fun toString (): kotlin.String declared in kotlin.Any
+    FUN name:entry visibility:public modality:FINAL returnType:kotlin.Unit
+      TYPE_PARAMETER name:K index:0 variance: superTypes:[T of androidx.navigation3.runtime.EntryProviderScope] reified:false
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:androidx.navigation3.runtime.EntryProviderScope<T of androidx.navigation3.runtime.EntryProviderScope>
+      VALUE_PARAMETER kind:ExtensionReceiver name:<this> index:1 type:androidx.navigation3.runtime.EntryProviderScope<T of androidx.navigation3.runtime.EntryProviderScope>
+      VALUE_PARAMETER kind:Regular name:key index:2 type:K of androidx.navigation3.runtime.EntryProviderScope.entry
+      VALUE_PARAMETER kind:Regular name:contentKey index:3 type:kotlin.Any
+        EXPRESSION_BODY
+          CALL 'public open fun toString (): kotlin.String declared in kotlin.Any' type=kotlin.String origin=null
+            ARG <this>: GET_VAR 'key: K of androidx.navigation3.runtime.EntryProviderScope.entry declared in androidx.navigation3.runtime.EntryProviderScope.entry' type=K of androidx.navigation3.runtime.EntryProviderScope.entry origin=null
+      VALUE_PARAMETER kind:Regular name:metadata index:4 type:kotlin.collections.Map<kotlin.String, kotlin.Any>
+        EXPRESSION_BODY
+          CALL 'public final fun emptyMap <K, V> (): kotlin.collections.Map<K of kotlin.collections.emptyMap, V of kotlin.collections.emptyMap> declared in kotlin.collections' type=kotlin.collections.Map<kotlin.String, kotlin.Any> origin=null
+            TYPE_ARG K: kotlin.String
+            TYPE_ARG V: kotlin.Any
+      VALUE_PARAMETER kind:Regular name:content index:5 type:kotlin.Function3<K of androidx.navigation3.runtime.EntryProviderScope.entry, androidx.compose.runtime.Composer, kotlin.Int, kotlin.Unit>
+      BLOCK_BODY
+    FUN name:entry visibility:public modality:FINAL returnType:kotlin.Unit [inline]
+      TYPE_PARAMETER name:K index:0 variance: superTypes:[T of androidx.navigation3.runtime.EntryProviderScope] reified:true
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:androidx.navigation3.runtime.EntryProviderScope<T of androidx.navigation3.runtime.EntryProviderScope>
+      VALUE_PARAMETER kind:Regular name:clazzContentKey index:1 type:kotlin.Function1<@[ParameterName(name = "key")] @[JvmSuppressWildcards(suppress = <null>)] K of androidx.navigation3.runtime.EntryProviderScope.entry, kotlin.Any> [noinline]
+        EXPRESSION_BODY
+          FUN_EXPR type=kotlin.Function1<@[JvmSuppressWildcards(suppress = <null>)] K of androidx.navigation3.runtime.EntryProviderScope.entry, kotlin.Any> origin=LAMBDA
+            FUN LOCAL_FUNCTION_FOR_LAMBDA name:<anonymous> visibility:local modality:FINAL returnType:kotlin.Any
+              VALUE_PARAMETER kind:Regular name:it index:0 type:@[JvmSuppressWildcards(suppress = <null>)] K of androidx.navigation3.runtime.EntryProviderScope.entry
+              BLOCK_BODY
+                RETURN type=kotlin.Nothing from='local final fun <anonymous> (it: @[JvmSuppressWildcards(suppress = <null>)] K of androidx.navigation3.runtime.EntryProviderScope.entry): kotlin.Any declared in androidx.navigation3.runtime.EntryProviderScope.entry'
+                  CALL 'public open fun toString (): kotlin.String declared in kotlin.Any' type=kotlin.String origin=null
+                    ARG <this>: GET_VAR 'it: @[JvmSuppressWildcards(suppress = <null>)] K of androidx.navigation3.runtime.EntryProviderScope.entry declared in androidx.navigation3.runtime.EntryProviderScope.entry.<anonymous>' type=@[JvmSuppressWildcards(suppress = <null>)] K of androidx.navigation3.runtime.EntryProviderScope.entry origin=null
+      VALUE_PARAMETER kind:Regular name:metadata index:2 type:kotlin.collections.Map<kotlin.String, kotlin.Any>
+        EXPRESSION_BODY
+          CALL 'public final fun emptyMap <K, V> (): kotlin.collections.Map<K of kotlin.collections.emptyMap, V of kotlin.collections.emptyMap> declared in kotlin.collections' type=kotlin.collections.Map<kotlin.String, kotlin.Any> origin=null
+            TYPE_ARG K: kotlin.String
+            TYPE_ARG V: kotlin.Any
+      VALUE_PARAMETER kind:Regular name:content index:3 type:kotlin.Function3<K of androidx.navigation3.runtime.EntryProviderScope.entry, androidx.compose.runtime.Composer, kotlin.Int, kotlin.Unit> [noinline]
+      BLOCK_BODY
+  CLASS CLASS name:NavBackStack modality:FINAL visibility:public superTypes:[kotlin.Any]
+    annotations:
+      StabilityInferred(parameters = 2)
+    thisReceiver: VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> type:androidx.navigation3.runtime.NavBackStack<T of androidx.navigation3.runtime.NavBackStack>
+    TYPE_PARAMETER name:T index:0 variance: superTypes:[androidx.navigation3.runtime.NavKey] reified:false
+    FIELD name:$stable type:kotlin.Int visibility:public [final,static]
+      EXPRESSION_BODY
+        CONST Int type=kotlin.Int value=0
+    CONSTRUCTOR visibility:public returnType:androidx.navigation3.runtime.NavBackStack<T of androidx.navigation3.runtime.NavBackStack> [primary]
+      BLOCK_BODY
+        DELEGATING_CONSTRUCTOR_CALL 'public constructor <init> () declared in kotlin.Any'
+        INSTANCE_INITIALIZER_CALL classDescriptor='CLASS CLASS name:NavBackStack modality:FINAL visibility:public superTypes:[kotlin.Any]' type=kotlin.Unit
+    FUN FAKE_OVERRIDE name:equals visibility:public modality:OPEN returnType:kotlin.Boolean [fake_override,operator]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      VALUE_PARAMETER kind:Regular name:other index:1 type:kotlin.Any?
+      overridden:
+        public open fun equals (other: kotlin.Any?): kotlin.Boolean declared in kotlin.Any
+    FUN FAKE_OVERRIDE name:hashCode visibility:public modality:OPEN returnType:kotlin.Int [fake_override]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      overridden:
+        public open fun hashCode (): kotlin.Int declared in kotlin.Any
+    FUN FAKE_OVERRIDE name:toString visibility:public modality:OPEN returnType:kotlin.String [fake_override]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      overridden:
+        public open fun toString (): kotlin.String declared in kotlin.Any
+  CLASS INTERFACE name:NavKey modality:ABSTRACT visibility:public superTypes:[kotlin.Any]
+    thisReceiver: VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> type:androidx.navigation3.runtime.NavKey
+    FUN FAKE_OVERRIDE name:equals visibility:public modality:OPEN returnType:kotlin.Boolean [fake_override,operator]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      VALUE_PARAMETER kind:Regular name:other index:1 type:kotlin.Any?
+      overridden:
+        public open fun equals (other: kotlin.Any?): kotlin.Boolean declared in kotlin.Any
+    FUN FAKE_OVERRIDE name:hashCode visibility:public modality:OPEN returnType:kotlin.Int [fake_override]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      overridden:
+        public open fun hashCode (): kotlin.Int declared in kotlin.Any
+    FUN FAKE_OVERRIDE name:toString visibility:public modality:OPEN returnType:kotlin.String [fake_override]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      overridden:
+        public open fun toString (): kotlin.String declared in kotlin.Any
+FILE fqName:metro.hints fileName:metro/hints/dummyScreen_NavEntryInstallerAppScope.kt
+  FUN GENERATED[dev.zacsweers.metro.compiler.fir.Keys.ContributionHint] name:AppScope visibility:public modality:FINAL returnType:kotlin.Unit
+    VALUE_PARAMETER GENERATED[dev.zacsweers.metro.compiler.fir.Keys.ContributionHint] kind:Regular name:contributed index:0 type:<root>.DummyScreen_NavEntryInstaller
+    annotations:
+      Deprecated(message = "This synthesized declaration should not be used directly", replaceWith = <null>, level = GET_ENUM 'ENUM_ENTRY IR_EXTERNAL_DECLARATION_STUB name:HIDDEN' type=kotlin.DeprecationLevel)
+    BLOCK_BODY
+      RETURN type=kotlin.Nothing from='public final fun AppScope (contributed: <root>.DummyScreen_NavEntryInstaller): kotlin.Unit declared in metro.hints'
+        CALL 'public final fun error (message: kotlin.Any): kotlin.Nothing declared in kotlin' type=kotlin.Nothing origin=null
+          ARG message: CONST String type=kotlin.String value="Never called"
