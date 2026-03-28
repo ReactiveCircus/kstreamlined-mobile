@@ -24,8 +24,8 @@ FILE: SingleBinding.kt
     }
     public final fun box(): R|kotlin/String| {
         lval graph: R|AppGraph| = R|dev/zacsweers/metro/createGraph|<R|AppGraph|>()
-        R|kotlin/test/assertEquals|<R|kotlin/collections/List<kotlin/String>|>(R|kotlin/collections/listOf|<R|kotlin/String|>(String(DummyScreen_NavEntryInstaller)), R|<local>/graph|.R|/AppGraph.installers|.R|kotlin/collections/map|<R|io/github/reactivecircus/routebinding/runtime/NavEntryInstaller|, R|kotlin/String!|>(<L> = map@fun <anonymous>(it: R|io/github/reactivecircus/routebinding/runtime/NavEntryInstaller|): R|kotlin/String!| <inline=Inline, kind=UNKNOWN>  {
-            ^ R|<local>/it|.R|kotlin/jvm/javaClass|<R|io/github/reactivecircus/routebinding/runtime/NavEntryInstaller|>.R|java/lang/Class.canonicalName|
+        R|kotlin/test/assertEquals|<R|kotlin/collections/List<kotlin/String?>|>(R|kotlin/collections/listOf|<R|kotlin/String|>(String(DummyScreen_NavEntryInstaller)), R|<local>/graph|.R|/AppGraph.installers|.R|kotlin/collections/map|<R|io/github/reactivecircus/routebinding/runtime/NavEntryInstaller|, R|kotlin/String?|>(<L> = map@fun <anonymous>(it: R|io/github/reactivecircus/routebinding/runtime/NavEntryInstaller|): R|kotlin/String?| <inline=Inline, kind=UNKNOWN>  {
+            ^ <getClass>(R|<local>/it|).R|SubstitutionOverride<kotlin/reflect/KClass.qualifiedName: R|kotlin/String?|>|
         }
         ))
         ^box String(OK)

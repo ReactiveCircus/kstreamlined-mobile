@@ -28,7 +28,7 @@ fun box(): String {
     val graph = createGraph<AppGraph>()
     assertEquals(
         listOf("DummyScreen_NavEntryInstaller"),
-        graph.installers.map { it.javaClass.canonicalName },
+        graph.installers.map { it::class.qualifiedName },
     )
     return "OK"
 }

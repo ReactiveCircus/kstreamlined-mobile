@@ -83,7 +83,7 @@ internal class RouteBindingDeclarationGenerationExtension(
                 .getClassLikeSymbolByClassId(ClassIds.RouteBinding.NavEntryInstaller) as FirRegularClassSymbol
             superType(navEntryInstallerSymbol.defaultType().toFirResolvedTypeRef().coneType)
         }.apply {
-            replaceAnnotations(annotations + buildDeprecatedAnnotation() + buildContributesIntoSetAnnotation())
+            replaceAnnotations(annotations + buildDeprecatedHiddenAnnotation() + buildContributesIntoSetAnnotation())
             replaceDeprecationsProvider(getDeprecationsProvider(session))
         }.symbol
     }
@@ -170,7 +170,7 @@ internal class RouteBindingDeclarationGenerationExtension(
         }.symbol
     }
 
-    private fun buildDeprecatedAnnotation(): FirAnnotation = buildAnnotation {
+    private fun buildDeprecatedHiddenAnnotation(): FirAnnotation = buildAnnotation {
         val deprecatedAnnotation = session.symbolProvider
             .getClassLikeSymbolByClassId(StandardClassIds.Annotations.Deprecated) as FirRegularClassSymbol
 

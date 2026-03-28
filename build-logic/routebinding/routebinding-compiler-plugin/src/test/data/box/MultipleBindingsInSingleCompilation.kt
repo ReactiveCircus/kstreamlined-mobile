@@ -43,7 +43,7 @@ fun box(): String {
             "FirstScreen_NavEntryInstaller",
             "SecondScreen_NavEntryInstaller",
         ),
-        graph.installers.map { it.javaClass.canonicalName },
+        graph.installers.map { it::class.qualifiedName },
     )
     return "OK"
 }

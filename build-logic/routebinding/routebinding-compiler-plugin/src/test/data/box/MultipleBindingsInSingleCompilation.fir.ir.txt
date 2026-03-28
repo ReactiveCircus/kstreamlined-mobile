@@ -675,26 +675,25 @@ FILE fqName:<root> fileName:/MultipleBindingsInSingleCompilation.kt
         CALL 'public final fun invoke (): <root>.AppGraph declared in <root>.AppGraph.Companion' type=<root>.AppGraph origin=null
           ARG <this>: GET_OBJECT 'CLASS GENERATED[dev.zacsweers.metro.compiler.fir.Keys.MetroGraphCreatorsObjectDeclaration] OBJECT name:Companion modality:FINAL visibility:public [companion] superTypes:[kotlin.Any]' type=<root>.AppGraph.Companion
       CALL 'public final fun assertEquals <T> (expected: T of kotlin.test.assertEquals, actual: T of kotlin.test.assertEquals, message: kotlin.String?): kotlin.Unit declared in kotlin.test' type=kotlin.Unit origin=null
-        TYPE_ARG T: kotlin.collections.List<kotlin.String>
+        TYPE_ARG T: kotlin.collections.List<kotlin.String?>
         ARG expected: CALL 'public final fun listOf <T> (vararg elements: T of kotlin.collections.listOf): kotlin.collections.List<T of kotlin.collections.listOf> declared in kotlin.collections' type=kotlin.collections.List<kotlin.String> origin=null
           TYPE_ARG T: kotlin.String
           ARG elements: VARARG type=kotlin.Array<out kotlin.String> varargElementType=kotlin.String
             CONST String type=kotlin.String value="FirstScreen_NavEntryInstaller"
             CONST String type=kotlin.String value="SecondScreen_NavEntryInstaller"
-        ARG actual: CALL 'public final fun map <T, R> (<this>: kotlin.collections.Iterable<T of kotlin.collections.map>, transform: kotlin.Function1<T of kotlin.collections.map, R of kotlin.collections.map>): kotlin.collections.List<R of kotlin.collections.map> declared in kotlin.collections' type=kotlin.collections.List<@[FlexibleNullability] kotlin.String?> origin=null
+        ARG actual: CALL 'public final fun map <T, R> (<this>: kotlin.collections.Iterable<T of kotlin.collections.map>, transform: kotlin.Function1<T of kotlin.collections.map, R of kotlin.collections.map>): kotlin.collections.List<R of kotlin.collections.map> declared in kotlin.collections' type=kotlin.collections.List<kotlin.String?> origin=null
           TYPE_ARG T: io.github.reactivecircus.routebinding.runtime.NavEntryInstaller
-          TYPE_ARG R: @[FlexibleNullability] kotlin.String?
+          TYPE_ARG R: kotlin.String?
           ARG <this>: CALL 'public abstract fun <get-installers> (): kotlin.collections.Set<io.github.reactivecircus.routebinding.runtime.NavEntryInstaller> declared in <root>.AppGraph' type=kotlin.collections.Set<io.github.reactivecircus.routebinding.runtime.NavEntryInstaller> origin=GET_PROPERTY
             ARG <this>: GET_VAR 'val graph: <root>.AppGraph declared in <root>.box' type=<root>.AppGraph origin=null
-          ARG transform: FUN_EXPR type=kotlin.Function1<io.github.reactivecircus.routebinding.runtime.NavEntryInstaller, @[FlexibleNullability] kotlin.String?> origin=LAMBDA
-            FUN LOCAL_FUNCTION_FOR_LAMBDA name:<anonymous> visibility:local modality:FINAL returnType:@[FlexibleNullability] kotlin.String?
+          ARG transform: FUN_EXPR type=kotlin.Function1<io.github.reactivecircus.routebinding.runtime.NavEntryInstaller, kotlin.String?> origin=LAMBDA
+            FUN LOCAL_FUNCTION_FOR_LAMBDA name:<anonymous> visibility:local modality:FINAL returnType:kotlin.String?
               VALUE_PARAMETER kind:Regular name:it index:0 type:io.github.reactivecircus.routebinding.runtime.NavEntryInstaller
               BLOCK_BODY
-                RETURN type=kotlin.Nothing from='local final fun <anonymous> (it: io.github.reactivecircus.routebinding.runtime.NavEntryInstaller): @[FlexibleNullability] kotlin.String? declared in <root>.box'
-                  CALL 'public open fun getCanonicalName (): @[FlexibleNullability] kotlin.String? declared in java.lang.Class' type=@[FlexibleNullability] kotlin.String? origin=GET_PROPERTY
-                    ARG <this>: CALL 'public final fun <get-javaClass> <T> (<this>: T of kotlin.jvm.<get-javaClass>): java.lang.Class<T of kotlin.jvm.<get-javaClass>> declared in kotlin.jvm' type=java.lang.Class<io.github.reactivecircus.routebinding.runtime.NavEntryInstaller> origin=GET_PROPERTY
-                      TYPE_ARG T: io.github.reactivecircus.routebinding.runtime.NavEntryInstaller
-                      ARG <this>: GET_VAR 'it: io.github.reactivecircus.routebinding.runtime.NavEntryInstaller declared in <root>.box.<anonymous>' type=io.github.reactivecircus.routebinding.runtime.NavEntryInstaller origin=null
+                RETURN type=kotlin.Nothing from='local final fun <anonymous> (it: io.github.reactivecircus.routebinding.runtime.NavEntryInstaller): kotlin.String? declared in <root>.box'
+                  CALL 'public abstract fun <get-qualifiedName> (): kotlin.String? declared in kotlin.reflect.KClass' type=kotlin.String? origin=GET_PROPERTY
+                    ARG <this>: GET_CLASS type=kotlin.reflect.KClass<out io.github.reactivecircus.routebinding.runtime.NavEntryInstaller>
+                      GET_VAR 'it: io.github.reactivecircus.routebinding.runtime.NavEntryInstaller declared in <root>.box.<anonymous>' type=io.github.reactivecircus.routebinding.runtime.NavEntryInstaller origin=null
       RETURN type=kotlin.Nothing from='public final fun box (): kotlin.String declared in <root>'
         CONST String type=kotlin.String value="OK"
 FILE fqName:<root> fileName:/SecondScreen_NavEntryInstaller.kt
