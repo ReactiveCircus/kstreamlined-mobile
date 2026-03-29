@@ -8,6 +8,7 @@ import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.runtime.Composable
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
+import DummyRoute
 import io.github.reactivecircus.routebinding.runtime.RouteBinding
 
 @RouteBinding(DummyRoute::class)
@@ -17,8 +18,6 @@ fun SharedTransitionScope.DummyScreen(
     route: DummyRoute,
 ) {
 }
-
-data object DummyRoute : NavKey
 
 // FILE: file2.kt
 
@@ -28,6 +27,7 @@ import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.runtime.Composable
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
+import DummyRoute
 import io.github.reactivecircus.routebinding.runtime.RouteBinding
 
 @RouteBinding(DummyRoute::class)
@@ -37,8 +37,6 @@ fun SharedTransitionScope.DummyScreen(
     route: DummyRoute,
 ) {
 }
-
-data object DummyRoute : NavKey
 
 // FILE: main.kt
 
