@@ -25,7 +25,7 @@ internal class RouteBindingContributionExtension(
         session.predicateBasedProvider
             .getSymbolsByPredicate(hasRouteBindingAnnotation)
             .filterIsInstance<FirNamedFunctionSymbol>()
-            .map { RouteBindingClassIdGenerator.generateNavInstallerClassId(it) }
+            .map { generateNavEntryInstallerClassId(it) }
     }
 
     override fun FirDeclarationPredicateRegistrar.registerPredicates() {
@@ -41,7 +41,8 @@ internal class RouteBindingContributionExtension(
             )
 
             val metroContributionSymbol = session.symbolProvider
-                .getClassLikeSymbolByClassId(metroContributionClassId) as? FirRegularClassSymbol ?: return@mapNotNull null
+                .getClassLikeSymbolByClassId(metroContributionClassId) as? FirRegularClassSymbol
+                ?: return@mapNotNull null
 
             MetroContributionExtension.Contribution(
                 supertype = metroContributionSymbol.defaultType(),

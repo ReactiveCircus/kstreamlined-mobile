@@ -54,8 +54,10 @@ internal class RouteBindingDeclarationGenerationExtension(
     }
 
     private val navEntryInstallerClassIds: List<ClassId> by lazy {
-        sourceFunctions.map { RouteBindingClassIdGenerator.generateNavInstallerClassId(it) }
+        sourceFunctions.map { generateNavEntryInstallerClassId(it) }
     }
+
+    private val installFunctionName = Name.identifier("install")
 
     override fun FirDeclarationPredicateRegistrar.registerPredicates() {
         register(hasRouteBindingAnnotation)
@@ -120,7 +122,7 @@ internal class RouteBindingDeclarationGenerationExtension(
     override fun getCallableNamesForClass(classSymbol: FirClassSymbol<*>, context: MemberGenerationContext): Set<Name> {
         val classSymbol = context.owner
         if (navEntryInstallerClassIds.none { it == classSymbol.classId }) return emptySet()
-        return setOf(SpecialNames.INIT, Name.identifier("install"))
+        return setOf(SpecialNames.INIT, installFunctionName)
     }
 
     override fun generateConstructors(context: MemberGenerationContext): List<FirConstructorSymbol> {
@@ -141,21 +143,23 @@ internal class RouteBindingDeclarationGenerationExtension(
         context: MemberGenerationContext?,
     ): List<FirNamedFunctionSymbol> {
         val classSymbol = context?.owner ?: return emptyList()
-        if (navEntryInstallerClassIds.none { it == classSymbol.classId }) return emptyList()
-        if (callableId.callableName.asString() != "install") return emptyList()
-        return listOf(generateInstallFunction(classSymbol))
+        return when {
+            navEntryInstallerClassIds.none { it == classSymbol.classId } -> emptyList()
+            callableId.callableName != installFunctionName -> emptyList()
+            else -> listOf(generateInstallFunction(classSymbol))
+        }
     }
 
     private fun generateInstallFunction(classSymbol: FirClassSymbol<*>): FirNamedFunctionSymbol {
         val navEntryInstallerSymbol = session.symbolProvider
             .getClassLikeSymbolByClassId(ClassIds.RouteBinding.NavEntryInstaller) as FirRegularClassSymbol
         val installFunctionSymbol = navEntryInstallerSymbol.declaredFunctions(session)
-            .first { it.name == Name.identifier("install") }
+            .first { it.name == installFunctionName }
 
         return createMemberFunction(
             owner = classSymbol,
             key = RouteBindingKeys.InstallFunctionDeclaration,
-            name = Name.identifier("install"),
+            name = installFunctionName,
             returnType = installFunctionSymbol.resolvedReturnType,
         ) {
             installFunctionSymbol.contextParameterSymbols.forEach {

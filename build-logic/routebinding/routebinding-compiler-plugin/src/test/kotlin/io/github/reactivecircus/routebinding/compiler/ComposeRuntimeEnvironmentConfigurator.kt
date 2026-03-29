@@ -19,7 +19,9 @@ private val ComposeRuntimeClasspath =
     System.getProperty("composeRuntime.classpath")?.split(File.pathSeparator)?.map(::File)
         ?: error("Unable to get a valid classpath from 'composeRuntime.classpath' property")
 
-private class ComposeRuntimeEnvironmentConfigurator(testServices: TestServices) : EnvironmentConfigurator(testServices) {
+private class ComposeRuntimeEnvironmentConfigurator(
+    testServices: TestServices,
+) : EnvironmentConfigurator(testServices) {
     override fun CompilerPluginRegistrar.ExtensionStorage.registerCompilerExtensions(
         module: TestModule,
         configuration: CompilerConfiguration,
