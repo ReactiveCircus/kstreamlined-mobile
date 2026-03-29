@@ -27,14 +27,14 @@ fun SharedTransitionScope.SecondScreen(
 ) {
 }
 
+data object FirstRoute : NavKey
+
+data object SecondRoute : NavKey
+
 @DependencyGraph(AppScope::class)
 interface AppGraph {
     val installers: Set<NavEntryInstaller>
 }
-
-data object FirstRoute : NavKey
-
-data object SecondRoute : NavKey
 
 fun box(): String {
     val graph = createGraph<AppGraph>()
@@ -43,7 +43,7 @@ fun box(): String {
             "FirstScreen_NavEntryInstaller",
             "SecondScreen_NavEntryInstaller",
         ),
-        graph.installers.map { it::class.qualifiedName },
+        graph.installers.mapNotNull { it::class.qualifiedName }.sorted(),
     )
     return "OK"
 }
