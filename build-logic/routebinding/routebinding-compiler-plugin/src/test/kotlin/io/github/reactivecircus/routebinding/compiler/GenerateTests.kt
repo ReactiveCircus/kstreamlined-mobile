@@ -10,6 +10,7 @@ fun main() {
         ) {
             testClass<AbstractBoxTest> { model("box") }
             testClass<AbstractDiagnosticTest> { model("diagnostic") }
+            testClass<AbstractDumpTest> { model("dump") }
         }
     }
 }

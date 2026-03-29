@@ -21,62 +21,14 @@ public class BoxTestGenerated extends AbstractBoxTest {
   }
 
   @Test
-  @TestMetadata("Basic.kt")
-  public void testBasic() {
-    runTest("routebinding/routebinding-compiler-plugin/src/test/data/box/Basic.kt");
-  }
-
-  @Test
-  @TestMetadata("Multiple.kt")
-  public void testMultiple() {
-    runTest("routebinding/routebinding-compiler-plugin/src/test/data/box/Multiple.kt");
-  }
-
-  @Test
   @TestMetadata("MultipleBindingsInSingleCompilation.kt")
   public void testMultipleBindingsInSingleCompilation() {
     runTest("routebinding/routebinding-compiler-plugin/src/test/data/box/MultipleBindingsInSingleCompilation.kt");
   }
 
   @Test
-  @TestMetadata("NoReceiverAndParams.kt")
-  public void testNoReceiverAndParams() {
-    runTest("routebinding/routebinding-compiler-plugin/src/test/data/box/NoReceiverAndParams.kt");
-  }
-
-  @Test
   @TestMetadata("SingleBinding.kt")
   public void testSingleBinding() {
     runTest("routebinding/routebinding-compiler-plugin/src/test/data/box/SingleBinding.kt");
-  }
-
-  @Test
-  @TestMetadata("WithBackStackParamOnly.kt")
-  public void testWithBackStackParamOnly() {
-    runTest("routebinding/routebinding-compiler-plugin/src/test/data/box/WithBackStackParamOnly.kt");
-  }
-
-  @Test
-  @TestMetadata("WithDefaultParam.kt")
-  public void testWithDefaultParam() {
-    runTest("routebinding/routebinding-compiler-plugin/src/test/data/box/WithDefaultParam.kt");
-  }
-
-  @Test
-  @TestMetadata("WithRouteParamOnly.kt")
-  public void testWithRouteParamOnly() {
-    runTest("routebinding/routebinding-compiler-plugin/src/test/data/box/WithRouteParamOnly.kt");
-  }
-
-  @Test
-  @TestMetadata("WithSharedTransitionScopeAsContextParam.kt")
-  public void testWithSharedTransitionScopeAsContextParam() {
-    runTest("routebinding/routebinding-compiler-plugin/src/test/data/box/WithSharedTransitionScopeAsContextParam.kt");
-  }
-
-  @Test
-  @TestMetadata("WithSharedTransitionScopeAsRegularParam.kt")
-  public void testWithSharedTransitionScopeAsRegularParam() {
-    runTest("routebinding/routebinding-compiler-plugin/src/test/data/box/WithSharedTransitionScopeAsRegularParam.kt");
   }
 }
