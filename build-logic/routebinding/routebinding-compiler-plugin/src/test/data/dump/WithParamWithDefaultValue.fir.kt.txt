@@ -71,7 +71,7 @@ class FooScreen_NavEntryInstaller : NavEntryInstaller {
 
 }
 
-// FILE: WithDefaultParam.kt
+// FILE: WithParamWithDefaultValue.kt
 
 @RouteBinding(route = DummyRoute::class)
 @Composable

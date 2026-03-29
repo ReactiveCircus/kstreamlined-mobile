@@ -21,9 +21,15 @@ public class BoxTestGenerated extends AbstractBoxTest {
   }
 
   @Test
-  @TestMetadata("MixedWithManualBinding.kt")
-  public void testMixedWithManualBinding() {
-    runTest("routebinding/routebinding-compiler-plugin/src/test/data/box/MixedWithManualBinding.kt");
+  @TestMetadata("BindingFunctionSignatures.kt")
+  public void testBindingFunctionSignatures() {
+    runTest("routebinding/routebinding-compiler-plugin/src/test/data/box/BindingFunctionSignatures.kt");
+  }
+
+  @Test
+  @TestMetadata("ManualBinding.kt")
+  public void testManualBinding() {
+    runTest("routebinding/routebinding-compiler-plugin/src/test/data/box/ManualBinding.kt");
   }
 
   @Test
@@ -39,9 +45,9 @@ public class BoxTestGenerated extends AbstractBoxTest {
   }
 
   @Test
-  @TestMetadata("SameFunctionNameInDifferentPackages.kt")
-  public void testSameFunctionNameInDifferentPackages() {
-    runTest("routebinding/routebinding-compiler-plugin/src/test/data/box/SameFunctionNameInDifferentPackages.kt");
+  @TestMetadata("SameBindingFunctionNameInDifferentPackages.kt")
+  public void testSameBindingFunctionNameInDifferentPackages() {
+    runTest("routebinding/routebinding-compiler-plugin/src/test/data/box/SameBindingFunctionNameInDifferentPackages.kt");
   }
 
   @Test

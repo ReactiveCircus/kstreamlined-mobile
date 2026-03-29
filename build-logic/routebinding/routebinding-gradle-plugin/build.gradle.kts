@@ -6,7 +6,6 @@ plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.lint)
     alias(libs.plugins.detekt)
-    alias(libs.plugins.testkit)
 }
 
 group = project.property("GROUP") as String
@@ -48,20 +47,9 @@ tasks.withType<Detekt>().configureEach {
     }
 }
 
-tasks.withType<Test> {
-    systemProperty("io.github.reactivecircus.routebinding.gradle.test.kotlin-version", libs.versions.kotlin.get())
-    systemProperty("io.github.reactivecircus.routebinding.gradle.test.metro-version", libs.versions.metro.get())
-}
-
-gradleTestKitSupport {
-    withSupportLibrary()
-}
-
 dependencies {
     // enable Ktlint formatting
     detektPlugins(libs.plugin.detektKtlintWrapper)
 
     compileOnly(libs.plugin.kotlin)
-
-    functionalTestImplementation(libs.kotlin.test.junit)
 }

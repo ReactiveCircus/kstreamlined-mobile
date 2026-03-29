@@ -39,9 +39,9 @@ public class DumpTestGenerated extends AbstractDumpTest {
   }
 
   @Test
-  @TestMetadata("WithDefaultParam.kt")
-  public void testWithDefaultParam() {
-    runTest("routebinding/routebinding-compiler-plugin/src/test/data/dump/WithDefaultParam.kt");
+  @TestMetadata("WithParamWithDefaultValue.kt")
+  public void testWithParamWithDefaultValue() {
+    runTest("routebinding/routebinding-compiler-plugin/src/test/data/dump/WithParamWithDefaultValue.kt");
   }
 
   @Test
