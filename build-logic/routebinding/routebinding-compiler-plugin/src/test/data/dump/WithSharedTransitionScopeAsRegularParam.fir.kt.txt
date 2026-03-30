@@ -63,7 +63,7 @@ class FooScreen_NavEntryInstaller : NavEntryInstaller {
 
   context(<unused var>: EntryProviderScope<NavKey>, <unused var>: SharedTransitionScope)
   override fun install(backStack: NavBackStack<NavKey>) {
-    <unused var>.entry<DummyRoute>(content = local fun <anonymous>(it: DummyRoute): @Composable Function1<K, Unit> {
+    <unused var>.entry<DummyRoute>(content = local fun <anonymous>(it: DummyRoute) {
       FooScreen(sharedTransitionScope = <unused var>, backStack = backStack)
     }
 )

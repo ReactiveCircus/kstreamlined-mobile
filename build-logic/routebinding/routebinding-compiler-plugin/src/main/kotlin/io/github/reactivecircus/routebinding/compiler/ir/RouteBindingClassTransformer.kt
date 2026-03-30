@@ -26,8 +26,10 @@ import org.jetbrains.kotlin.ir.expressions.IrStatementOrigin
 import org.jetbrains.kotlin.ir.expressions.impl.IrFunctionExpressionImpl
 import org.jetbrains.kotlin.ir.interpreter.getAnnotation
 import org.jetbrains.kotlin.ir.types.IrType
+import org.jetbrains.kotlin.ir.types.IrTypeSubstitutor
 import org.jetbrains.kotlin.ir.types.defaultType
 import org.jetbrains.kotlin.ir.types.getClass
+import org.jetbrains.kotlin.ir.types.impl.makeTypeProjection
 import org.jetbrains.kotlin.ir.util.classId
 import org.jetbrains.kotlin.ir.util.classIdOrFail
 import org.jetbrains.kotlin.ir.util.constructors
@@ -37,6 +39,7 @@ import org.jetbrains.kotlin.ir.util.hasDefaultValue
 import org.jetbrains.kotlin.name.ClassId
 import org.jetbrains.kotlin.name.Name
 import org.jetbrains.kotlin.name.SpecialNames
+import org.jetbrains.kotlin.types.Variance
 
 internal class RouteBindingClassTransformer(
     private val pluginContext: IrPluginContext,
@@ -97,8 +100,14 @@ internal class RouteBindingClassTransformer(
             dispatchReceiver = irGet(entryProviderScopeParam)
 
             val entryFunctionParams = entryFunction.owner.parameters
+            val contentParamType = entryFunctionParams.last().type
+            val lambdaFunctionType = IrTypeSubstitutor(
+                typeParameters = entryFunction.owner.typeParameters.map { it.symbol },
+                typeArguments = listOf(makeTypeProjection(routeType, Variance.INVARIANT)),
+            ).substitute(contentParamType)
+
             val lambdaExpression = pluginContext.createLambdaIrFunctionExpression(
-                lambdaReturnType = entryFunctionParams.last().type,
+                lambdaFunctionType = lambdaFunctionType,
             ) {
                 parent = installFunction
                 val itParam = addValueParameter(name = "it", type = routeType)
@@ -120,20 +129,20 @@ internal class RouteBindingClassTransformer(
     }
 
     private fun IrPluginContext.createLambdaIrFunctionExpression(
-        lambdaReturnType: IrType,
+        lambdaFunctionType: IrType,
         block: IrSimpleFunction.() -> Unit = {},
     ): IrExpression {
         val lambda = irFactory.buildFun {
             name = SpecialNames.ANONYMOUS
             origin = IrDeclarationOrigin.LOCAL_FUNCTION_FOR_LAMBDA
             visibility = DescriptorVisibilities.LOCAL
-            returnType = lambdaReturnType
+            returnType = irBuiltIns.unitType
         }.apply(block)
 
         return IrFunctionExpressionImpl(
             startOffset = UNDEFINED_OFFSET,
             endOffset = UNDEFINED_OFFSET,
-            type = lambda.returnType,
+            type = lambdaFunctionType,
             function = lambda,
             origin = IrStatementOrigin.LAMBDA,
         )
