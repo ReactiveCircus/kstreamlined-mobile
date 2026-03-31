@@ -57,8 +57,8 @@ public class DumpTestGenerated extends AbstractDumpTest {
   }
 
   @Test
-  @TestMetadata("WithSharedTransitionScopeAsRegularParam.kt")
-  public void testWithSharedTransitionScopeAsRegularParam() {
-    runTest("routebinding/routebinding-compiler-plugin/src/test/data/dump/WithSharedTransitionScopeAsRegularParam.kt");
+  @TestMetadata("WithSharedTransitionScopeAsValueParam.kt")
+  public void testWithSharedTransitionScopeAsValueParam() {
+    runTest("routebinding/routebinding-compiler-plugin/src/test/data/dump/WithSharedTransitionScopeAsValueParam.kt");
   }
 }

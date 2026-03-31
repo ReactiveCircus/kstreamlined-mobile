@@ -71,7 +71,7 @@ class FooScreen_NavEntryInstaller : NavEntryInstaller {
 
 }
 
-// FILE: WithSharedTransitionScopeAsRegularParam.kt
+// FILE: WithSharedTransitionScopeAsValueParam.kt
 
 @RouteBinding(route = DummyRoute::class)
 @Composable

@@ -43,7 +43,7 @@ fun Screen4(
 ) {
 }
 
-// SharedTransitionScope as regular param
+// SharedTransitionScope as value param
 @RouteBinding(DummyRoute::class)
 @Composable
 fun Screen5(
