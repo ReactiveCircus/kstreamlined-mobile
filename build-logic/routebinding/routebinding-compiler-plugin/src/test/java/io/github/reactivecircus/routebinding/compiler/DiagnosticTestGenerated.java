@@ -19,4 +19,28 @@ public class DiagnosticTestGenerated extends AbstractDiagnosticTest {
   public void testAllFilesPresentInDiagnostic() {
     KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("routebinding/routebinding-compiler-plugin/src/test/data/diagnostic"), Pattern.compile("^(.+)\\.kt$"), null, true);
   }
+
+  @Test
+  @TestMetadata("NonComposableFunction.kt")
+  public void testNonComposableFunction() {
+    runTest("routebinding/routebinding-compiler-plugin/src/test/data/diagnostic/NonComposableFunction.kt");
+  }
+
+  @Test
+  @TestMetadata("NonTopLevelFunction.kt")
+  public void testNonTopLevelFunction() {
+    runTest("routebinding/routebinding-compiler-plugin/src/test/data/diagnostic/NonTopLevelFunction.kt");
+  }
+
+  @Test
+  @TestMetadata("PrivateFunction.kt")
+  public void testPrivateFunction() {
+    runTest("routebinding/routebinding-compiler-plugin/src/test/data/diagnostic/PrivateFunction.kt");
+  }
+
+  @Test
+  @TestMetadata("PublicFunction.kt")
+  public void testPublicFunction() {
+    runTest("routebinding/routebinding-compiler-plugin/src/test/data/diagnostic/PublicFunction.kt");
+  }
 }

@@ -1,0 +1,1 @@
+/PublicFunction.kt:(187,193): warning: `@RouteBinding` function `DummyScreen` does not need to be visible to other modules. Consider changing its visibility to internal.

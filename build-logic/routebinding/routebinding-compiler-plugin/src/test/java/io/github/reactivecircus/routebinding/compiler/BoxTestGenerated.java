@@ -28,7 +28,7 @@ public class BoxTestGenerated extends AbstractBoxTest {
 
   @Test
   @TestMetadata("InstallFunctionCall.kt")
-  public void testInstallFunctionBehavior() {
+  public void testInstallFunctionCall() {
     runTest("routebinding/routebinding-compiler-plugin/src/test/data/box/InstallFunctionCall.kt");
   }
 
