@@ -1,4 +1,4 @@
-@file:Suppress("MaxLineLength", "ReturnCount")
+@file:Suppress("MaxLineLength")
 
 package io.github.reactivecircus.chameleon.compiler.ir
 

@@ -1,5 +1,3 @@
-@file:Suppress("ReturnCount")
-
 package io.github.reactivecircus.chameleon.compiler.ir
 
 import io.github.reactivecircus.chameleon.compiler.addDefaultGetterWithSameVisibility

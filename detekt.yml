@@ -44,6 +44,8 @@ style:
     ignorePropertyDeclaration: true
   MaxLineLength:
     excludes: ['**/test/**', '**/*Test/**']
+  ReturnCount:
+    active: false
   UnusedPrivateFunction:
     ignoreAnnotated:
       - Preview
