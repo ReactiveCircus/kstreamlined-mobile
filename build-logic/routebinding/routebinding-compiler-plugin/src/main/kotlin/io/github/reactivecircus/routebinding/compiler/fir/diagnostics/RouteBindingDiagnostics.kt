@@ -83,15 +83,15 @@ private object RouteBindingRendererFactory : BaseDiagnosticRendererFactory() {
 }
 
 private fun getSupportedTypesSuffix(isValueParameter: Boolean) = buildString {
-    appendLine(
+    append(
         """
         |Supported types are:
-        |- `SharedTransitionScope`
-        |- `NavBackStack<NavKey>`
-        |- subtype of `NavKey`
+        | • `SharedTransitionScope`
+        | • `NavBackStack<NavKey>`
+        | • subtype of `NavKey`
         """.trimMargin(),
     )
     if (isValueParameter) {
-        appendLine("- anything with a default value")
+        append("\n • anything with a default value")
     }
 }
