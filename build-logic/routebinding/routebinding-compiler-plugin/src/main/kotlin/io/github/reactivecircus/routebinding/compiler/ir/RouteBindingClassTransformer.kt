@@ -118,7 +118,9 @@ internal class RouteBindingClassTransformer(
                             if (parameter.type == routeType) {
                                 arguments[index] = irGet(itParam)
                             } else {
-                                arguments[index] = irGet(installFunction.parameters.first { it.type == parameter.type })
+                                arguments[index] = irGet(
+                                    installFunction.parameters.single { it.type == parameter.type },
+                                )
                             }
                         }
                     }

@@ -21,6 +21,12 @@ public class DiagnosticTestGenerated extends AbstractDiagnosticTest {
   }
 
   @Test
+  @TestMetadata("DuplicateParameterType.kt")
+  public void testDuplicateParameterType() {
+    runTest("routebinding/routebinding-compiler-plugin/src/test/data/diagnostic/DuplicateParameterType.kt");
+  }
+
+  @Test
   @TestMetadata("NonComposableFunction.kt")
   public void testNonComposableFunction() {
     runTest("routebinding/routebinding-compiler-plugin/src/test/data/diagnostic/NonComposableFunction.kt");

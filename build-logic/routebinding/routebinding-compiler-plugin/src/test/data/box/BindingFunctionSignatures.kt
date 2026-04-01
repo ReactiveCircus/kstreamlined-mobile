@@ -57,7 +57,7 @@ fun Screen5(
 @RouteBinding(DummyRoute::class)
 @Composable
 context(sharedTransitionScope: SharedTransitionScope)
-fun SharedTransitionScope.Screen6(
+fun Screen6(
     backStack: NavBackStack<NavKey>,
     route: DummyRoute,
 ) {
@@ -67,7 +67,7 @@ fun SharedTransitionScope.Screen6(
 @RouteBinding(DummyRoute::class)
 @Composable
 context(sharedTransitionScope: SharedTransitionScope, backStack: NavBackStack<NavKey>, route: DummyRoute)
-fun SharedTransitionScope.Screen7() {
+fun Screen7() {
 }
 
 // param with default value

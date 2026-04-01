@@ -27,6 +27,8 @@ internal object RouteBindingDiagnostics : KtDiagnosticsContainer() {
     val UNSUPPORTED_VALUE_PARAMETER_TYPE by error3<KtElement, String, String, String>(DEFAULT)
     val UNSUPPORTED_CONTEXT_PARAMETER_TYPE by error3<KtElement, String, String, String>(DEFAULT)
 
+    val DUPLICATE_PARAMETER_TYPE by error2<KtElement, String, String>(DEFAULT)
+
     override fun getRendererFactory(): BaseDiagnosticRendererFactory {
         return RouteBindingRendererFactory
     }
@@ -76,6 +78,13 @@ private object RouteBindingRendererFactory : BaseDiagnosticRendererFactory() {
             "Context parameter `{1}` of `@RouteBinding` function `{0}` has unsupported type `{2}`. " +
                 getSupportedTypesSuffix(isValueParameter = false),
             CommonRenderers.STRING,
+            CommonRenderers.STRING,
+            CommonRenderers.STRING,
+        )
+        it.put(
+            RouteBindingDiagnostics.DUPLICATE_PARAMETER_TYPE,
+            "`@RouteBinding` function `{0}` has multiple parameters of type `{1}`." +
+                " Only one parameter per supported type is allowed.",
             CommonRenderers.STRING,
             CommonRenderers.STRING,
         )

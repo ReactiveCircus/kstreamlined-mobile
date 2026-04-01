@@ -1,0 +1,5 @@
+/DuplicateParameterType.kt:(486,505): error: `@RouteBinding` function `DuplicateNavKeySubtype` has multiple parameters of type `NavKey`. Only one parameter per supported type is allowed.
+
+/DuplicateParameterType.kt:(726,771): error: `@RouteBinding` function `DuplicateSharedTransitionScope` has multiple parameters of type `SharedTransitionScope`. Only one parameter per supported type is allowed.
+
+/DuplicateParameterType.kt:(947,979): error: `@RouteBinding` function `DuplicateNavBackStack` has multiple parameters of type `NavBackStack<NavKey>`. Only one parameter per supported type is allowed.
