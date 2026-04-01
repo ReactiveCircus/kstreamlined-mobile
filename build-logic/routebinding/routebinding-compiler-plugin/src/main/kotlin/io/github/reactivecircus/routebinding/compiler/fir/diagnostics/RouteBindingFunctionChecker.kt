@@ -12,6 +12,8 @@ import org.jetbrains.kotlin.fir.declarations.hasAnnotation
 import org.jetbrains.kotlin.fir.declarations.utils.effectiveVisibility
 import org.jetbrains.kotlin.fir.declarations.utils.nameOrSpecialName
 import org.jetbrains.kotlin.fir.resolve.getContainingClass
+import org.jetbrains.kotlin.fir.types.coneType
+import org.jetbrains.kotlin.fir.types.renderReadable
 
 // TODO move to FirSimpleFunctionChecker / FirNamedFunction once Studio bundles Kotlin 2.3.20+.
 internal object RouteBindingFunctionChecker : FirFunctionChecker(MppCheckerKind.Common) {
@@ -50,6 +52,19 @@ internal object RouteBindingFunctionChecker : FirFunctionChecker(MppCheckerKind.
                 RouteBindingDiagnostics.FUNCTION_CAN_BE_INTERNAL,
                 declaration.nameOrSpecialName.asString(),
             )
+        }
+
+        val receiverParam = declaration.receiverParameter
+        if (receiverParam != null) {
+            val receiverType = receiverParam.typeRef.coneType
+            if (!receiverType.isSupportedRouteBindingType(context.session)) {
+                reporter.reportOn(
+                    receiverParam.source,
+                    RouteBindingDiagnostics.UNSUPPORTED_RECEIVER_TYPE,
+                    declaration.nameOrSpecialName.asString(),
+                    receiverType.renderReadable(),
+                )
+            }
         }
     }
 }

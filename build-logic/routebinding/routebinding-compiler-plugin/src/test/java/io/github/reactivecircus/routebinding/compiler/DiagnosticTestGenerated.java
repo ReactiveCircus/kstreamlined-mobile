@@ -43,4 +43,22 @@ public class DiagnosticTestGenerated extends AbstractDiagnosticTest {
   public void testPublicFunction() {
     runTest("routebinding/routebinding-compiler-plugin/src/test/data/diagnostic/PublicFunction.kt");
   }
+
+  @Test
+  @TestMetadata("UnsupportedContextParameter.kt")
+  public void testUnsupportedContextParameter() {
+    runTest("routebinding/routebinding-compiler-plugin/src/test/data/diagnostic/UnsupportedContextParameter.kt");
+  }
+
+  @Test
+  @TestMetadata("UnsupportedReceiverType.kt")
+  public void testUnsupportedReceiverType() {
+    runTest("routebinding/routebinding-compiler-plugin/src/test/data/diagnostic/UnsupportedReceiverType.kt");
+  }
+
+  @Test
+  @TestMetadata("UnsupportedValueParameter.kt")
+  public void testUnsupportedValueParameter() {
+    runTest("routebinding/routebinding-compiler-plugin/src/test/data/diagnostic/UnsupportedValueParameter.kt");
+  }
 }

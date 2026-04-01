@@ -10,10 +10,13 @@ internal object ClassIds {
 
     object Compose {
         val Composable = ClassId.fromString("androidx/compose/runtime/Composable")
+        val SharedTransitionScope = ClassId.fromString("androidx/compose/animation/SharedTransitionScope")
     }
 
     object Nav3 {
         val EntryProviderScope = ClassId.fromString("androidx/navigation3/runtime/EntryProviderScope")
+        val NavBackStack = ClassId.fromString("androidx/navigation3/runtime/NavBackStack")
+        val NavKey = ClassId.fromString("androidx/navigation3/runtime/NavKey")
     }
 
     object Metro {
