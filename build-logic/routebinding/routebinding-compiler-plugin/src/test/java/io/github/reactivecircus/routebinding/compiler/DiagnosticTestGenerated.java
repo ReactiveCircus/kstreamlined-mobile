@@ -51,6 +51,12 @@ public class DiagnosticTestGenerated extends AbstractDiagnosticTest {
   }
 
   @Test
+  @TestMetadata("RouteParameterTypeMismatch.kt")
+  public void testRouteParameterTypeMismatch() {
+    runTest("routebinding/routebinding-compiler-plugin/src/test/data/diagnostic/RouteParameterTypeMismatch.kt");
+  }
+
+  @Test
   @TestMetadata("UnsupportedContextParameter.kt")
   public void testUnsupportedContextParameter() {
     runTest("routebinding/routebinding-compiler-plugin/src/test/data/diagnostic/UnsupportedContextParameter.kt");

@@ -29,6 +29,8 @@ internal object RouteBindingDiagnostics : KtDiagnosticsContainer() {
 
     val DUPLICATE_PARAMETER_TYPE by error2<KtElement, String, String>(DEFAULT)
 
+    val ROUTE_PARAMETER_TYPE_MISMATCH by error3<KtElement, String, String, String>(DEFAULT)
+
     override fun getRendererFactory(): BaseDiagnosticRendererFactory {
         return RouteBindingRendererFactory
     }
@@ -85,6 +87,13 @@ private object RouteBindingRendererFactory : BaseDiagnosticRendererFactory() {
             RouteBindingDiagnostics.DUPLICATE_PARAMETER_TYPE,
             "`@RouteBinding` function `{0}` has multiple parameters of type `{1}`." +
                 " Only one parameter per supported type is allowed.",
+            CommonRenderers.STRING,
+            CommonRenderers.STRING,
+        )
+        it.put(
+            RouteBindingDiagnostics.ROUTE_PARAMETER_TYPE_MISMATCH,
+            "Parameter type `{2}` does not match `@RouteBinding` route type `{1}` in function `{0}`.",
+            CommonRenderers.STRING,
             CommonRenderers.STRING,
             CommonRenderers.STRING,
         )
