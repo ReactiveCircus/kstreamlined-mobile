@@ -2,6 +2,7 @@ package io.github.reactivecircus.routebinding.compiler.fir
 
 import dev.zacsweers.metro.compiler.MetroOptions
 import dev.zacsweers.metro.compiler.api.fir.MetroFirDeclarationGenerationExtension
+import dev.zacsweers.metro.compiler.compat.CompatContext
 import io.github.reactivecircus.routebinding.compiler.ClassIds
 import org.jetbrains.kotlin.fir.FirSession
 import org.jetbrains.kotlin.fir.declarations.declaredFunctions
@@ -198,6 +199,7 @@ internal class RouteBindingDeclarationGenerationExtension(
         override fun create(
             session: FirSession,
             options: MetroOptions,
+            compatContext: CompatContext,
         ): MetroFirDeclarationGenerationExtension = RouteBindingDeclarationGenerationExtension(session)
     }
 }

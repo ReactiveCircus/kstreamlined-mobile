@@ -3,6 +3,8 @@ package io.github.reactivecircus.routebinding.compiler.fir
 import dev.zacsweers.metro.compiler.MetroOptions
 import dev.zacsweers.metro.compiler.api.fir.MetroContributionExtension
 import dev.zacsweers.metro.compiler.api.fir.MetroContributions
+import dev.zacsweers.metro.compiler.compat.CompatContext
+import dev.zacsweers.metro.compiler.fir.MetroFirTypeResolver
 import io.github.reactivecircus.routebinding.compiler.ClassIds
 import org.jetbrains.kotlin.fir.FirSession
 import org.jetbrains.kotlin.fir.extensions.FirDeclarationPredicateRegistrar
@@ -32,7 +34,10 @@ internal class RouteBindingContributionExtension(
         register(hasRouteBindingAnnotation)
     }
 
-    override fun getContributions(scopeClassId: ClassId): List<MetroContributionExtension.Contribution> {
+    override fun getContributions(
+        scopeClassId: ClassId,
+        typeResolverFactory: MetroFirTypeResolver.Factory,
+    ): List<MetroContributionExtension.Contribution> {
         if (scopeClassId != ClassIds.Metro.AppScope) return emptyList()
         return navEntryInstallerClassIds.mapNotNull { classId ->
             val metroContributionClassId = MetroContributions.metroContributionClassId(
@@ -56,6 +61,7 @@ internal class RouteBindingContributionExtension(
         override fun create(
             session: FirSession,
             options: MetroOptions,
+            compatContext: CompatContext,
         ): MetroContributionExtension = RouteBindingContributionExtension(session)
     }
 }
