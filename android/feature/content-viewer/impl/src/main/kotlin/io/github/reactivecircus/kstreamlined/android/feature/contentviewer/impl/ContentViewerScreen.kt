@@ -55,8 +55,10 @@ import io.github.reactivecircus.kstreamlined.android.feature.contentviewer.api.C
 import io.github.reactivecircus.kstreamlined.android.feature.contentviewer.api.ContentViewerSharedTransitionKeys
 import io.github.reactivecircus.kstreamlined.kmp.presentation.contentviewer.ContentViewerUiEvent
 import io.github.reactivecircus.kstreamlined.kmp.presentation.contentviewer.ContentViewerUiState
+import io.github.reactivecircus.routebinding.runtime.RouteBinding
 import kotlinx.coroutines.delay
 
+@RouteBinding(ContentViewerRoute::class)
 @Composable
 internal fun SharedTransitionScope.ContentViewerScreen(
     backStack: NavBackStack<NavKey>,

@@ -59,13 +59,15 @@ import io.github.reactivecircus.kstreamlined.android.feature.settings.impl.compo
 import io.github.reactivecircus.kstreamlined.android.feature.settings.impl.component.theme.ThemeSelector
 import io.github.reactivecircus.kstreamlined.kmp.presentation.settings.SettingsUiEvent
 import io.github.reactivecircus.kstreamlined.kmp.presentation.settings.SettingsUiState
+import io.github.reactivecircus.routebinding.runtime.RouteBinding
 import kotlinx.coroutines.launch
 
+@RouteBinding(SettingsRoute::class)
 @Composable
 internal fun SharedTransitionScope.SettingsScreen(
     backStack: NavBackStack<NavKey>,
     route: SettingsRoute,
-) = trace("Screen:Settings") {
+) : Unit = trace("Screen:Settings") {
     val presenter = metroViewModel<SettingsViewModel>().presenter
     val uiState by presenter.states.collectAsStateWithLifecycle()
     val eventSink = presenter.eventSink

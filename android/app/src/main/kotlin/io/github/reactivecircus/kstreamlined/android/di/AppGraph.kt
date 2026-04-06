@@ -16,7 +16,6 @@ import dev.zacsweers.metro.Provides
 import dev.zacsweers.metro.SingleIn
 import dev.zacsweers.metrox.viewmodel.ViewModelGraph
 import io.github.reactivecircus.kstreamlined.android.BuildConfig
-import io.github.reactivecircus.kstreamlined.android.core.navigation.NavEntryInstaller
 import io.github.reactivecircus.kstreamlined.android.core.scheduledwork.KSWorkerFactory
 import io.github.reactivecircus.kstreamlined.android.core.scheduledwork.sync.SyncScheduler
 import io.github.reactivecircus.kstreamlined.android.licentia.AllLicensesInfo
@@ -28,6 +27,7 @@ import io.github.reactivecircus.kstreamlined.kmp.database.LastSyncMetadata
 import io.github.reactivecircus.kstreamlined.kmp.settings.datasource.SettingsDataSource
 import io.github.reactivecircus.kstreamlined.kmp.settings.datasource.datastore.createAppSettingsDataStore
 import io.github.reactivecircus.licentia.runtime.LicensesInfo
+import io.github.reactivecircus.routebinding.runtime.NavEntryInstaller
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob

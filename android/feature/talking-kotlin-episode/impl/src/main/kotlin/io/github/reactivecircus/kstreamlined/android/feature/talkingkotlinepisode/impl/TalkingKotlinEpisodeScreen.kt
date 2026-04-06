@@ -70,7 +70,9 @@ import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisod
 import io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepisode.TalkingKotlinEpisode
 import io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepisode.TalkingKotlinEpisodeUiEvent
 import io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepisode.TalkingKotlinEpisodeUiState
+import io.github.reactivecircus.routebinding.runtime.RouteBinding
 
+@RouteBinding(TalkingKotlinEpisodeRoute::class)
 @Composable
 internal fun SharedTransitionScope.TalkingKotlinEpisodeScreen(
     backStack: NavBackStack<NavKey>,

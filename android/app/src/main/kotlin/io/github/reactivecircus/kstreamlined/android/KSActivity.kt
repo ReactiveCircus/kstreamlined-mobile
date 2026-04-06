@@ -71,7 +71,9 @@ class KSActivity : ComponentActivity() {
                             ),
                             sharedTransitionScope = this,
                             entryProvider = entryProvider {
-                                appGraph.navEntryInstallers.forEach { it.install(backStack) }
+                                appGraph.navEntryInstallers.forEach {
+                                    it.install(backStack)
+                                }
                             },
                         )
                     }

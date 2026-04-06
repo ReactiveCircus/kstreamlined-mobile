@@ -113,6 +113,11 @@ public interface AndroidAppExtension {
     public fun metro()
 
     /**
+     * Enable RouteBinding by applying the `io.github.reactivecircus.routebinding` plugin.
+     */
+    public fun routeBinding()
+
+    /**
      * Enable kotlinx.serialization by applying the `org.jetbrains.kotlin.plugin.serialization` plugin.
      */
     public fun serialization()
@@ -222,6 +227,8 @@ internal abstract class AndroidAppExtensionImpl @Inject constructor(
 
     private var metroEnabled: Boolean = false
 
+    private var routeBindingEnabled: Boolean = false
+
     private var serializationEnabled: Boolean = false
 
     private var unitTestsEnabled: Boolean = false
@@ -280,6 +287,10 @@ internal abstract class AndroidAppExtensionImpl @Inject constructor(
 
     override fun metro() {
         metroEnabled = true
+    }
+
+    override fun routeBinding() {
+        routeBindingEnabled = true
     }
 
     override fun serialization() {
@@ -397,6 +408,10 @@ internal abstract class AndroidAppExtensionImpl @Inject constructor(
 
         if (metroEnabled) {
             configureMetro()
+        }
+
+        if (routeBindingEnabled) {
+            pluginManager.apply("io.github.reactivecircus.routebinding")
         }
 
         if (serializationEnabled) {
