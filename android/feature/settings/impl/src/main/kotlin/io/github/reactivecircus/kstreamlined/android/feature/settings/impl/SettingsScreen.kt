@@ -67,7 +67,7 @@ import kotlinx.coroutines.launch
 internal fun SharedTransitionScope.SettingsScreen(
     backStack: NavBackStack<NavKey>,
     route: SettingsRoute,
-) : Unit = trace("Screen:Settings") {
+): Unit = trace("Screen:Settings") {
     val presenter = metroViewModel<SettingsViewModel>().presenter
     val uiState by presenter.states.collectAsStateWithLifecycle()
     val eventSink = presenter.eventSink
