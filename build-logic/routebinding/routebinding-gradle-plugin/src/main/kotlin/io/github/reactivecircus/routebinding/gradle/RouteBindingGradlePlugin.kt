@@ -13,7 +13,6 @@ public class RouteBindingGradlePlugin : KotlinCompilerPluginSupportPlugin {
 
     override fun apply(target: Project) {
         version = target.version as String
-        target.extensions.create("routeBinding", RouteBindingExtension::class.java)
     }
 
     override fun applyToCompilation(kotlinCompilation: KotlinCompilation<*>): Provider<List<SubpluginOption>> {
