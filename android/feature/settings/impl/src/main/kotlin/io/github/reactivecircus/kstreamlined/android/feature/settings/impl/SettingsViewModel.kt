@@ -13,7 +13,7 @@ import kotlinx.coroutines.CoroutineScope
 
 @ViewModelKey
 @ContributesIntoMap(AppScope::class)
-public class SettingsViewModel(
+internal class SettingsViewModel(
     settingsDataSource: SettingsDataSource,
     appInfo: AppInfo,
 ) : ViewModel() {

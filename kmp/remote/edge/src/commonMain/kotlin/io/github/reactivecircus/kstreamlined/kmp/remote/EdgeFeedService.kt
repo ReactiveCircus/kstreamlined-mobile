@@ -7,7 +7,7 @@ import io.github.reactivecircus.kstreamlined.kmp.remote.model.FeedSource
 import io.github.reactivecircus.kstreamlined.kmp.remote.model.KotlinWeeklyIssueEntry
 
 @ContributesBinding(AppScope::class)
-public class EdgeFeedService : FeedService {
+internal class EdgeFeedService : FeedService {
     override suspend fun fetchFeedOrigins(): List<FeedSource> {
         TODO()
     }

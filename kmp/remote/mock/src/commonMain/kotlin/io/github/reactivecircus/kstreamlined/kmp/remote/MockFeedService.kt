@@ -7,7 +7,7 @@ import io.github.reactivecircus.kstreamlined.kmp.remote.model.FeedSource
 import io.github.reactivecircus.kstreamlined.kmp.remote.model.KotlinWeeklyIssueEntry
 
 @ContributesBinding(AppScope::class)
-public class MockFeedService : FeedService {
+internal class MockFeedService : FeedService {
     override suspend fun fetchFeedOrigins(): List<FeedSource> = MockFeedSources
 
     override suspend fun fetchFeedEntries(filters: List<FeedSource.Key>?): List<FeedEntry> {

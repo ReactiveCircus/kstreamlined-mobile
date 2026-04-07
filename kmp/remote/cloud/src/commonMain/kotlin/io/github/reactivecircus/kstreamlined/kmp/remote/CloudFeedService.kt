@@ -18,7 +18,7 @@ import io.github.reactivecircus.kstreamlined.kmp.remote.model.FeedSource
 import io.github.reactivecircus.kstreamlined.kmp.remote.model.KotlinWeeklyIssueEntry
 
 @ContributesBinding(AppScope::class)
-public class CloudFeedService(private val apolloClient: ApolloClient) : FeedService {
+internal class CloudFeedService(private val apolloClient: ApolloClient) : FeedService {
     override suspend fun fetchFeedOrigins(): List<FeedSource> {
         return runCatching {
             apolloClient.query(FeedSourcesQuery())

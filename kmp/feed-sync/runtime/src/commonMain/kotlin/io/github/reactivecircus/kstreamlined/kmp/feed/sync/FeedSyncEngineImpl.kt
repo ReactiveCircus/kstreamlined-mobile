@@ -38,7 +38,7 @@ import kotlin.time.Clock
 
 @SingleIn(AppScope::class)
 @ContributesBinding(AppScope::class)
-public class FeedSyncEngineImpl(
+internal class FeedSyncEngineImpl(
     private val feedService: FeedService,
     private val db: KStreamlinedDatabase,
     networkMonitor: NetworkMonitor,

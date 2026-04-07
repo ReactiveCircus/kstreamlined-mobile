@@ -13,7 +13,7 @@ import kotlinx.coroutines.CoroutineScope
 
 @ViewModelKey
 @ContributesIntoMap(AppScope::class)
-public class HomeViewModel(
+internal class HomeViewModel(
     feedSyncEngine: FeedSyncEngine,
     feedDataSource: FeedDataSource,
 ) : ViewModel() {

@@ -19,7 +19,7 @@ import kotlinx.coroutines.CoroutineScope
 
 @ViewModelKey
 @ContributesIntoMap(AppScope::class)
-public class LicensesViewModel(
+internal class LicensesViewModel(
     licensesInfo: LicensesInfo,
 ) : ViewModel() {
     internal val presenter = LicensesPresenter(
