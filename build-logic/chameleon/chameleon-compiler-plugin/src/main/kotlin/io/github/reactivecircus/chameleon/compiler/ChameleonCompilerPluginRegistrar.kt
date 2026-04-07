@@ -17,19 +17,16 @@ public class ChameleonCompilerPluginRegistrar : CompilerPluginRegistrar() {
 
     override fun ExtensionStorage.registerExtensions(configuration: CompilerConfiguration) {
         val snapshotFunctionString = requireNotNull(
-            configuration.get(ChameleonCommandLineProcessor.CompilerOptions.SnapshotFunction),
+            configuration[ChameleonCommandLineProcessor.CompilerOptions.SnapshotFunction],
         )
         val snapshotFunctionCallableId = snapshotFunctionString.toMemberCallableId()
 
         val themeVariantEnumString = requireNotNull(
-            configuration.get(ChameleonCommandLineProcessor.CompilerOptions.ThemeVariantEnum),
+            configuration[ChameleonCommandLineProcessor.CompilerOptions.ThemeVariantEnum],
         )
         val themeVariantClassId = ClassId.fromString(themeVariantEnumString)
 
-        val messageCollector = configuration.get(
-            CommonConfigurationKeys.MESSAGE_COLLECTOR_KEY,
-            MessageCollector.NONE,
-        )
+        val messageCollector = configuration[CommonConfigurationKeys.MESSAGE_COLLECTOR_KEY, MessageCollector.NONE]
 
         FirExtensionRegistrarAdapter.registerExtension(ChameleonFirExtensionRegistrar)
 
