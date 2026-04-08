@@ -41,14 +41,16 @@ private class RouteBindingExtensionRegistrarConfigurator(
         with(routeBindingRegistrar) { registerExtensions(configuration) }
 
         // configure and register Metro compiler plugin
-        val generateContributionHintsInFir = metroCliProcessor.pluginOptions.first {
-            it.optionName == "generate-contribution-hints-in-fir"
-        }
-        metroCliProcessor.processOption(generateContributionHintsInFir, "true", configuration)
-        val contributesAsInject = metroCliProcessor.pluginOptions.first {
-            it.optionName == "contributes-as-inject"
-        }
-        metroCliProcessor.processOption(contributesAsInject, "true", configuration)
+        metroCliProcessor.processOption(
+            option = metroCliOptionByName("generate-contribution-hints-in-fir"),
+            value = "true",
+            configuration = configuration,
+        )
+        metroCliProcessor.processOption(
+            option = metroCliOptionByName("contributes-as-inject"),
+            value = "true",
+            configuration = configuration,
+        )
         with(metroRegistrar) { registerExtensions(configuration) }
 
         // register Compose compiler plugin if enabled from directive
@@ -56,6 +58,10 @@ private class RouteBindingExtensionRegistrarConfigurator(
         if (enableComposeCompiler) {
             with(composeRegistrar) { registerExtensions(configuration) }
         }
+    }
+
+    private fun metroCliOptionByName(optionName: String) = metroCliProcessor.pluginOptions.first {
+        it.optionName == optionName
     }
 }
 

@@ -6,7 +6,7 @@ import io.github.reactivecircus.routebinding.runtime.RouteBinding
 
 @RouteBinding(DummyRoute::class)
 @Composable
-fun SharedTransitionScope.FooScreen(
+internal fun SharedTransitionScope.FooScreen(
     backStack: NavBackStack<NavKey>,
     route: DummyRoute,
     title: String = "Title",

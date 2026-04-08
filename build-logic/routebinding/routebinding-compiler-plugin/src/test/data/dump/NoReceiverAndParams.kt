@@ -3,7 +3,7 @@ import androidx.compose.runtime.Composable
 
 @RouteBinding(DummyRoute::class)
 @Composable
-fun FooScreen() {
+internal fun FooScreen() {
 }
 
 fun box(): String {

@@ -13,7 +13,7 @@ import kotlin.test.assertEquals
 
 @RouteBinding(DummyRoute::class)
 @Composable
-fun SharedTransitionScope.DummyScreen(
+internal fun SharedTransitionScope.DummyScreen(
     backStack: NavBackStack<NavKey>,
     route: DummyRoute,
 ) {

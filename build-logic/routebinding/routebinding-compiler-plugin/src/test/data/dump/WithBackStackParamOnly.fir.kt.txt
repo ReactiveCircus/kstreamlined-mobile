@@ -75,7 +75,7 @@ class FooScreen_NavEntryInstaller : NavEntryInstaller {
 
 @RouteBinding(route = DummyRoute::class)
 @Composable
-fun FooScreen(backStack: NavBackStack<NavKey>) {
+internal fun FooScreen(backStack: NavBackStack<NavKey>) {
 }
 
 fun box(): String {

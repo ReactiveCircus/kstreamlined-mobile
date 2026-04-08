@@ -53,7 +53,7 @@ import kotlin.test.assertEquals
 
 @RouteBinding(MainRoute::class)
 @Composable
-fun SharedTransitionScope.MainScreen(
+internal fun SharedTransitionScope.MainScreen(
     backStack: NavBackStack<NavKey>,
     route: MainRoute,
 ) {

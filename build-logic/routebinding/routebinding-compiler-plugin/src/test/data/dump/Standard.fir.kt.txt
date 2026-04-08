@@ -75,7 +75,7 @@ class FooScreen_NavEntryInstaller : NavEntryInstaller {
 
 @RouteBinding(route = DummyRoute::class)
 @Composable
-fun SharedTransitionScope.FooScreen(backStack: NavBackStack<NavKey>, route: DummyRoute) {
+internal fun SharedTransitionScope.FooScreen(backStack: NavBackStack<NavKey>, route: DummyRoute) {
 }
 
 fun box(): String {

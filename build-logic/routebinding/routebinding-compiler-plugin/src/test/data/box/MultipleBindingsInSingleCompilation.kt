@@ -13,7 +13,7 @@ import kotlin.test.assertEquals
 
 @RouteBinding(FirstRoute::class)
 @Composable
-fun SharedTransitionScope.FirstScreen(
+internal fun SharedTransitionScope.FirstScreen(
     backStack: NavBackStack<NavKey>,
     route: FirstRoute,
 ) {
@@ -21,7 +21,7 @@ fun SharedTransitionScope.FirstScreen(
 
 @RouteBinding(SecondRoute::class)
 @Composable
-fun SharedTransitionScope.SecondScreen(
+internal fun SharedTransitionScope.SecondScreen(
     backStack: NavBackStack<NavKey>,
     route: SecondRoute,
 ) {

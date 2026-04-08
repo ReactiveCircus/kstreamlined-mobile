@@ -14,7 +14,7 @@ import kotlin.test.assertEquals
 // standard
 @RouteBinding(DummyRoute::class)
 @Composable
-fun SharedTransitionScope.Screen1(
+internal fun SharedTransitionScope.Screen1(
     backStack: NavBackStack<NavKey>,
     route: DummyRoute,
 ) {
@@ -23,13 +23,13 @@ fun SharedTransitionScope.Screen1(
 // no receiver or params
 @RouteBinding(DummyRoute::class)
 @Composable
-fun Screen2() {
+internal fun Screen2() {
 }
 
 // backstack only
 @RouteBinding(DummyRoute::class)
 @Composable
-fun Screen3(
+internal fun Screen3(
     backStack: NavBackStack<NavKey>,
 ) {
 }
@@ -37,7 +37,7 @@ fun Screen3(
 // route only
 @RouteBinding(DummyRoute::class)
 @Composable
-fun Screen4(
+internal fun Screen4(
     route: DummyRoute,
 ) {
 }
@@ -45,7 +45,7 @@ fun Screen4(
 // SharedTransitionScope as value param
 @RouteBinding(DummyRoute::class)
 @Composable
-fun Screen5(
+internal fun Screen5(
     sharedTransitionScope: SharedTransitionScope,
     backStack: NavBackStack<NavKey>,
     route: DummyRoute,
@@ -56,7 +56,7 @@ fun Screen5(
 @RouteBinding(DummyRoute::class)
 @Composable
 context(sharedTransitionScope: SharedTransitionScope)
-fun Screen6(
+internal fun Screen6(
     backStack: NavBackStack<NavKey>,
     route: DummyRoute,
 ) {
@@ -66,13 +66,13 @@ fun Screen6(
 @RouteBinding(DummyRoute::class)
 @Composable
 context(sharedTransitionScope: SharedTransitionScope, backStack: NavBackStack<NavKey>, route: DummyRoute)
-fun Screen7() {
+internal fun Screen7() {
 }
 
 // param with default value
 @RouteBinding(DummyRoute::class)
 @Composable
-fun SharedTransitionScope.Screen8(
+internal fun SharedTransitionScope.Screen8(
     backStack: NavBackStack<NavKey>,
     route: DummyRoute,
     title: String = "Title",
