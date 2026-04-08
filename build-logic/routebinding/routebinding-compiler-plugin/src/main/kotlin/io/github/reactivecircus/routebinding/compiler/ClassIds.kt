@@ -22,6 +22,5 @@ internal object ClassIds {
     object Metro {
         val AppScope = ClassId.fromString("dev/zacsweers/metro/AppScope")
         val ContributesIntoSet = ClassId.fromString("dev/zacsweers/metro/ContributesIntoSet")
-        val Factory = ClassId.fromString("dev/zacsweers/metro/internal/Factory")
     }
 }

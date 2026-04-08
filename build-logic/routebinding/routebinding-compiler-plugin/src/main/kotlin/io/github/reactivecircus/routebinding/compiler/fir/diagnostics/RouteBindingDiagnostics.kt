@@ -18,17 +18,13 @@ import org.jetbrains.kotlin.psi.KtElement
 
 internal object RouteBindingDiagnostics : KtDiagnosticsContainer() {
     val FUNCTION_MUST_BE_TOP_LEVEL by error1<KtElement, String>(NAME_IDENTIFIER)
-
     val FUNCTION_MUST_BE_COMPOSABLE by error1<KtElement, String>(NAME_IDENTIFIER)
     val FUNCTION_CANNOT_BE_PRIVATE by error1<KtElement, String>(VISIBILITY_MODIFIER)
     val FUNCTION_CAN_BE_INTERNAL by warning1<KtElement, String>(VISIBILITY_MODIFIER)
-
     val UNSUPPORTED_RECEIVER_TYPE by error2<KtElement, String, String>(FUNCTION_TYPE_RECEIVER)
     val UNSUPPORTED_VALUE_PARAMETER_TYPE by error3<KtElement, String, String, String>(DEFAULT)
     val UNSUPPORTED_CONTEXT_PARAMETER_TYPE by error3<KtElement, String, String, String>(DEFAULT)
-
     val DUPLICATE_PARAMETER_TYPE by error2<KtElement, String, String>(DEFAULT)
-
     val ROUTE_PARAMETER_TYPE_MISMATCH by error3<KtElement, String, String, String>(DEFAULT)
 
     override fun getRendererFactory(): BaseDiagnosticRendererFactory {
