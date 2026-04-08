@@ -1,5 +1,4 @@
 // ENABLE_COMPOSE_COMPILER
-// LANGUAGE: +ContextParameters
 
 import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.runtime.Composable

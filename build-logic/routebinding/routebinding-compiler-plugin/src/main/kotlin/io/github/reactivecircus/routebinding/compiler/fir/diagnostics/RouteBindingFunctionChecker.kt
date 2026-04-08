@@ -76,7 +76,7 @@ internal object RouteBindingFunctionChecker : FirFunctionChecker(MppCheckerKind.
 
         val annotationRouteType = declaration
             .getAnnotationByClassId(ClassIds.RouteBinding.Annotation, session)
-            ?.getKClassArgument(routeArgName, session)
+            ?.getKClassArgument(routeArgName)
 
         val receiverParam = declaration.receiverParameter
         if (receiverParam != null) {
@@ -106,7 +106,7 @@ internal object RouteBindingFunctionChecker : FirFunctionChecker(MppCheckerKind.
         }
     }
 
-    context(context: CheckerContext, reporter: DiagnosticReporter)
+    context(_: CheckerContext, reporter: DiagnosticReporter)
     private fun checkContextParameter(
         param: FirValueParameter,
         functionName: String,
@@ -142,7 +142,7 @@ internal object RouteBindingFunctionChecker : FirFunctionChecker(MppCheckerKind.
         }
     }
 
-    context(context: CheckerContext, reporter: DiagnosticReporter)
+    context(_: CheckerContext, reporter: DiagnosticReporter)
     private fun checkValueParameter(
         param: FirValueParameter,
         functionName: String,

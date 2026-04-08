@@ -1,4 +1,3 @@
-// LANGUAGE: +ContextParameters
 import androidx.compose.runtime.Composable
 import androidx.navigation3.runtime.NavKey
 import io.github.reactivecircus.routebinding.runtime.RouteBinding

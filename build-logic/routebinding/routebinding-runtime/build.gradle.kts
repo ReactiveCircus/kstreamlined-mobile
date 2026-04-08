@@ -12,7 +12,6 @@ group = project.property("GROUP") as String
 kotlin {
     compilerOptions {
         jvmTarget = JvmTarget.JVM_17
-        freeCompilerArgs.addAll("-Xcontext-parameters")
     }
     explicitApi()
 }

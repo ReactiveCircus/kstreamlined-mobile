@@ -15,10 +15,7 @@ public class RouteBindingCompilerPluginRegistrar : CompilerPluginRegistrar() {
     override val supportsK2: Boolean get() = true
 
     override fun ExtensionStorage.registerExtensions(configuration: CompilerConfiguration) {
-        val messageCollector = configuration.get(
-            CommonConfigurationKeys.MESSAGE_COLLECTOR_KEY,
-            MessageCollector.NONE,
-        )
+        val messageCollector = configuration[CommonConfigurationKeys.MESSAGE_COLLECTOR_KEY, MessageCollector.NONE]
 
         FirExtensionRegistrarAdapter.registerExtension(RouteBindingFirExtensionRegistrar)
 

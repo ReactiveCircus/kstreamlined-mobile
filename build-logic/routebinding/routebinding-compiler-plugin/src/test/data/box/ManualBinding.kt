@@ -1,5 +1,4 @@
 // ENABLE_COMPOSE_COMPILER
-// LANGUAGE: +ContextParameters
 
 // FILE: manual.kt
 

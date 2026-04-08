@@ -1,5 +1,3 @@
-// LANGUAGE: +ContextParameters
-
 import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.runtime.Composable
 import androidx.navigation3.runtime.NavBackStack
