@@ -162,7 +162,7 @@ private fun Packaging.configurePackagingOptions() {
 @Suppress("ConstPropertyName")
 private object AndroidSdk {
     const val MinSdk = 26
-    const val TargetSdk = 36
-    const val CompileSdk = 36
-    const val BuildTools = "36.0.0"
+    const val TargetSdk = 37
+    const val CompileSdk = 37
+    const val BuildTools = "37.0.0"
 }
