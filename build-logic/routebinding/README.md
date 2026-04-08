@@ -1,7 +1,7 @@
 RouteBinding
 ============
 
-A Kotlin compiler plugin that automates multi-module navigation entry aggregation (Nav3) using [Metro](https://github.com/ZacSweers/metro)'s multibinding.
+A Kotlin compiler plugin that generates Nav3 entry and Composable function bindings aggregated across modules using [Metro](https://github.com/ZacSweers/metro)'s multibinding.
 
 ## How It Works
 
