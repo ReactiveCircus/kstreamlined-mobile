@@ -13,7 +13,7 @@ import io.github.reactivecircus.routebinding.runtime.RouteBinding
 
 @RouteBinding(DummyRoute::class)
 @Composable
-fun SharedTransitionScope.DummyScreen(
+internal fun SharedTransitionScope.DummyScreen(
     backStack: NavBackStack<NavKey>,
     route: DummyRoute,
 ) {
@@ -32,7 +32,7 @@ import io.github.reactivecircus.routebinding.runtime.RouteBinding
 
 @RouteBinding(DummyRoute::class)
 @Composable
-fun SharedTransitionScope.DummyScreen(
+internal fun SharedTransitionScope.DummyScreen(
     backStack: NavBackStack<NavKey>,
     route: DummyRoute,
 ) {

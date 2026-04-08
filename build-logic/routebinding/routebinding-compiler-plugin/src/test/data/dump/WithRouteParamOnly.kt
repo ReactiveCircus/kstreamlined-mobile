@@ -3,7 +3,7 @@ import io.github.reactivecircus.routebinding.runtime.RouteBinding
 
 @RouteBinding(DummyRoute::class)
 @Composable
-fun FooScreen(
+internal fun FooScreen(
     route: DummyRoute,
 ) {
 }

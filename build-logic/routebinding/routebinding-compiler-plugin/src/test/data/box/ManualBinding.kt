@@ -12,7 +12,7 @@ import dev.zacsweers.metro.ContributesIntoSet
 import io.github.reactivecircus.routebinding.runtime.NavEntryInstaller
 
 @Composable
-fun SharedTransitionScope.AScreen(
+internal fun SharedTransitionScope.AScreen(
     backStack: NavBackStack<NavKey>,
     route: ARoute,
 ) {
@@ -48,7 +48,7 @@ import kotlin.test.assertEquals
 
 @RouteBinding(BRoute::class)
 @Composable
-fun SharedTransitionScope.BScreen(
+internal fun SharedTransitionScope.BScreen(
     backStack: NavBackStack<NavKey>,
     route: BRoute,
 ) {

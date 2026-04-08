@@ -14,7 +14,7 @@ import kotlin.test.assertEquals
 
 @RouteBinding(DummyRoute::class)
 @Composable
-fun SharedTransitionScope.TestScreen(
+internal fun SharedTransitionScope.TestScreen(
     backStack: NavBackStack<NavKey>,
     route: DummyRoute,
 ) {
