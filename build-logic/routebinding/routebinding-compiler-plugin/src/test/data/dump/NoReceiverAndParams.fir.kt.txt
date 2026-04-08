@@ -1,0 +1,91 @@
+// FILE: FooScreen_NavEntryInstaller.kt
+
+@Deprecated(message = "This synthesized declaration should not be used directly", level = DeprecationLevel.HIDDEN)
+@ContributesIntoSet(scope = AppScope::class)
+class FooScreen_NavEntryInstaller : NavEntryInstaller {
+  @Deprecated(message = "This synthesized declaration should not be used directly", level = DeprecationLevel.HIDDEN)
+  object MetroFactory : Factory<FooScreen_NavEntryInstaller> {
+    private constructor() /* primary */ {
+      super/*Any*/()
+      /* <init>() */
+
+    }
+
+    fun create(): Factory<FooScreen_NavEntryInstaller> {
+      return MetroFactory
+    }
+
+    fun newInstance(): FooScreen_NavEntryInstaller {
+      return FooScreen_NavEntryInstaller()
+    }
+
+    override operator fun invoke(): FooScreen_NavEntryInstaller {
+      return MetroFactory.newInstance()
+    }
+
+    fun mirrorFunction(): FooScreen_NavEntryInstaller {
+      return error(message = "Never called")
+    }
+
+  }
+
+  @Deprecated(message = "This synthesized declaration should not be used directly", level = DeprecationLevel.HIDDEN)
+  @MetroContribution(scope = AppScope::class)
+  interface MetroContributionToDevzacsweersmetroappScopeoxd1AHI {
+    @Deprecated(message = "This synthesized declaration should not be used directly", level = DeprecationLevel.HIDDEN)
+    @ComptimeOnly
+    abstract class BindsMirror {
+      private constructor() /* primary */ {
+        super/*Any*/()
+        /* <init>() */
+
+      }
+
+      @Binds
+      @IntoSet
+      @CallableMetadata(callableName = "bindIntoSetAsNavEntryInstaller", propertyName = "", startOffset = -1, endOffset = -1)
+      abstract fun bindIntoSetAsNavEntryInstaller_intoset(instance: FooScreen_NavEntryInstaller): NavEntryInstaller
+
+    }
+
+    @IntoSet
+    @Binds
+    @ComptimeOnly
+    abstract fun bindIntoSetAsNavEntryInstaller(instance: FooScreen_NavEntryInstaller): NavEntryInstaller {
+      return error(message = "Never called")
+    }
+
+  }
+
+  constructor() /* primary */ {
+    super/*Any*/()
+  }
+
+  context(<unused var>: EntryProviderScope<NavKey>, <unused var>: SharedTransitionScope)
+  override fun install(backStack: NavBackStack<NavKey>) {
+    <unused var>.entry<DummyRoute>(content = local fun <anonymous>(it: DummyRoute) {
+      FooScreen()
+    }
+)
+  }
+
+}
+
+// FILE: NoReceiverAndParams.kt
+
+@RouteBinding(route = DummyRoute::class)
+@Composable
+fun FooScreen() {
+}
+
+fun box(): String {
+  return "OK"
+}
+
+// FILE: fooScreen_NavEntryInstallerAppScope.kt
+package metro.hints
+
+@Deprecated(message = "This synthesized declaration should not be used directly", level = DeprecationLevel.HIDDEN)
+fun AppScope(contributed: FooScreen_NavEntryInstaller) {
+  return error(message = "Never called")
+}

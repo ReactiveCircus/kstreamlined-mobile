@@ -60,7 +60,9 @@ import io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue.i
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.KotlinWeeklyIssueItem
 import io.github.reactivecircus.kstreamlined.kmp.presentation.kotlinweeklyissue.KotlinWeeklyIssueUiEvent
 import io.github.reactivecircus.kstreamlined.kmp.presentation.kotlinweeklyissue.KotlinWeeklyIssueUiState
+import io.github.reactivecircus.routebinding.runtime.RouteBinding
 
+@RouteBinding(KotlinWeeklyIssueRoute::class)
 @Composable
 internal fun SharedTransitionScope.KotlinWeeklyIssueScreen(
     backStack: NavBackStack<NavKey>,

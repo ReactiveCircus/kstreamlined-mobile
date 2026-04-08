@@ -1,0 +1,1 @@
+/PrivateFunction.kt:(187,194): error: `@RouteBinding` function `DummyScreen` cannot be private. Change the visibility of the function to internal instead.

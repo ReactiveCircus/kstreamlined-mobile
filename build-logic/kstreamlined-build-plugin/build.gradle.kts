@@ -51,6 +51,7 @@ dependencies {
 
     implementation(project(":aab-publisher"))
     implementation(project(":chameleon:chameleon-gradle-plugin"))
+    implementation(project(":routebinding:routebinding-gradle-plugin"))
     implementation(project(":licentia:licentia-gradle-plugin"))
     implementation(project(":v2p"))
 

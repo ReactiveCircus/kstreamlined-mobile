@@ -4,13 +4,13 @@ plugins {
 
 kstreamlined {
     androidFeatureLibrary("io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.impl") {
+        routeBinding()
         unitTests()
         screenshotTests()
 
         dependencies {
             implementation(project(":feature:talking-kotlin-episode:api"))
             implementation(project(":core:launcher"))
-            implementation(project(":core:navigation"))
             implementation(project(":core:ui:pattern"))
             implementation(project(":core:ui:util"))
             implementation(project(":kmp:feed-datasource"))

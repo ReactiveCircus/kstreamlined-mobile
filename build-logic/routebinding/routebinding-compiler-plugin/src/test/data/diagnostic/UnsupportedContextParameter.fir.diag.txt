@@ -1,0 +1,4 @@
+/UnsupportedContextParameter.kt:(265,276): error: Context parameter `foo` of `@RouteBinding` function `Foo` has unsupported type `String`. Supported types are:
+ • `SharedTransitionScope`
+ • `NavBackStack<NavKey>`
+ • subtype of `NavKey`

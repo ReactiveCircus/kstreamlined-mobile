@@ -39,12 +39,14 @@ import io.github.reactivecircus.kstreamlined.android.core.designsystem.component
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.icon.KSIcons
 import io.github.reactivecircus.kstreamlined.android.feature.home.HomeScreen
 import io.github.reactivecircus.kstreamlined.android.feature.savedforlater.SavedForLaterScreen
+import io.github.reactivecircus.routebinding.runtime.RouteBinding
 import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
 
 @OptIn(ExperimentalFoundationApi::class)
+@RouteBinding(MainRoute::class)
 @Composable
-fun SharedTransitionScope.MainScreen(
+internal fun SharedTransitionScope.MainScreen(
     backStack: NavBackStack<NavKey>,
 ) {
     val dpCacheWindow = LazyLayoutCacheWindow(ahead = 300.dp, behind = 300.dp)

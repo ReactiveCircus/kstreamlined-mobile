@@ -1,0 +1,1 @@
+/NonTopLevelFunction.kt:(230,241): error: `@RouteBinding` function `DummyScreen` must be top level function.

@@ -4,10 +4,11 @@ plugins {
 
 kstreamlined {
     androidFeatureLibrary("io.github.reactivecircus.kstreamlined.android.feature.contentviewer.impl") {
+        routeBinding()
+
         dependencies {
             implementation(project(":feature:content-viewer:api"))
             implementation(project(":core:launcher"))
-            implementation(project(":core:navigation"))
             implementation(project(":core:ui:pattern"))
             implementation(project(":kmp:feed-datasource"))
             implementation(project(":kmp:presentation:content-viewer"))

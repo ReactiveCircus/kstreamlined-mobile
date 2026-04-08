@@ -1,0 +1,38 @@
+FILE: WithSharedTransitionScopeAsContextParam.kt
+    context(sharedTransitionScope: R|androidx/compose/animation/SharedTransitionScope|)
+    @R|io/github/reactivecircus/routebinding/runtime/RouteBinding|(route = <getClass>(Q|DummyRoute|) [evaluated = <getClass>(Q|DummyRoute|)]) @R|androidx/compose/runtime/Composable|() public final fun FooScreen(backStack: R|androidx/navigation3/runtime/NavBackStack<androidx/navigation3/runtime/NavKey>|, route: R|DummyRoute|): R|kotlin/Unit| {
+    }
+    public final fun box(): R|kotlin/String| {
+        ^box String(OK)
+    }
+FILE: /FooScreen_NavEntryInstaller.kt
+    @R|kotlin/Deprecated|(message = String(This synthesized declaration should not be used directly), level = Q|kotlin/DeprecationLevel|.R|kotlin/DeprecationLevel.HIDDEN|) @R|dev/zacsweers/metro/ContributesIntoSet|(scope = <getClass>(Q|dev/zacsweers/metro/AppScope|)) public final class FooScreen_NavEntryInstaller : R|io/github/reactivecircus/routebinding/runtime/NavEntryInstaller| {
+        context(<unused var>: R|androidx/navigation3/runtime/EntryProviderScope<androidx/navigation3/runtime/NavKey>|, <unused var>: R|androidx/compose/animation/SharedTransitionScope|)
+        public final override fun install(backStack: R|androidx/navigation3/runtime/NavBackStack<androidx/navigation3/runtime/NavKey>|): R|kotlin/Unit|
+
+        public constructor(): R|FooScreen_NavEntryInstaller| {
+            super<R|kotlin/Any|>()
+        }
+
+        @R|kotlin/Deprecated|(message = String(This synthesized declaration should not be used directly), level = Q|kotlin/DeprecationLevel|.R|kotlin/DeprecationLevel.HIDDEN|) public final object MetroFactory : R|kotlin/Any| {
+            private constructor(): R|FooScreen_NavEntryInstaller.MetroFactory| {
+                super<R|kotlin/Any|>()
+            }
+
+        }
+
+        @R|kotlin/Deprecated|(message = String(This synthesized declaration should not be used directly), level = Q|kotlin/DeprecationLevel|.R|kotlin/DeprecationLevel.HIDDEN|) @R|dev/zacsweers/metro/internal/MetroContribution|(scope = <getClass>(Q|dev/zacsweers/metro/AppScope|)) public abstract interface MetroContributionToDevzacsweersmetroappScopeoxd1AHI : R|kotlin/Any| {
+            @R|kotlin/Deprecated|(message = String(This synthesized declaration should not be used directly), level = Q|kotlin/DeprecationLevel|.R|kotlin/DeprecationLevel.HIDDEN|) public abstract class BindsMirror : R|kotlin/Any| {
+                private constructor(): R|FooScreen_NavEntryInstaller.MetroContributionToDevzacsweersmetroappScopeoxd1AHI.BindsMirror| {
+                    super<R|kotlin/Any|>()
+                }
+
+            }
+
+        }
+
+    }
+FILE: metro/hints/fooScreen_NavEntryInstallerAppScope.kt
+    package metro.hints
+
+    @R|kotlin/Deprecated|(message = String(This synthesized declaration should not be used directly), level = Q|kotlin/DeprecationLevel|.R|kotlin/DeprecationLevel.HIDDEN|) public final fun AppScope(contributed: R|FooScreen_NavEntryInstaller|): R|kotlin/Unit|

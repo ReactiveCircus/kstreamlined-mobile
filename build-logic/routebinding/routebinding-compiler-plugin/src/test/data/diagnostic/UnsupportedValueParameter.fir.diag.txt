@@ -1,0 +1,5 @@
+/UnsupportedValueParameter.kt:(206,217): error: Parameter `foo` of `@RouteBinding` function `FooScreen` has unsupported type `String`. Supported types are:
+ • `SharedTransitionScope`
+ • `NavBackStack<NavKey>`
+ • subtype of `NavKey`
+ • anything with a default value

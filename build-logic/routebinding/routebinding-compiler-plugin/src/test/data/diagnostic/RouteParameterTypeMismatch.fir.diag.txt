@@ -1,0 +1,5 @@
+/RouteParameterTypeMismatch.kt:(465,484): error: Parameter type `AnotherRoute` does not match `@RouteBinding` route type `DummyRoute` in function `MismatchedValueParam`.
+
+/RouteParameterTypeMismatch.kt:(588,607): error: Parameter type `AnotherRoute` does not match `@RouteBinding` route type `DummyRoute` in function `MismatchedContextParam`.
+
+/RouteParameterTypeMismatch.kt:(747,759): error: Parameter type `AnotherRoute` does not match `@RouteBinding` route type `DummyRoute` in function `MismatchedReceiver`.

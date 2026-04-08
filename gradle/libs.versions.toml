@@ -30,8 +30,9 @@ firebase-perfPlugin = "2.0.2"
 firebase-crashlytics = "20.0.4"
 firebase-crashlyticsPlugin = "3.0.6"
 androidx-lint = "1.0.0-alpha05"
-androidx-compose-ui = "1.11.0-beta02"
 androidx-compose-foundation = "1.11.0-beta02"
+androidx-compose-animation = "1.11.0-beta02"
+androidx-compose-ui = "1.11.0-beta02"
 androidx-compose-runtime = "1.11.0-beta02"
 androidx-compose-tracing = "1.11.0-beta02"
 androidx-compose-material3 = "1.5.0-alpha16"
@@ -86,9 +87,12 @@ plugin-skie = { module = "co.touchlab.skie:co.touchlab.skie.gradle.plugin", vers
 plugin-sqldelight = { module = "app.cash.sqldelight:app.cash.sqldelight.gradle.plugin", version.ref = "sqldelight" }
 plugin-baselineprofile = { module = "androidx.baselineprofile:androidx.baselineprofile.gradle.plugin", version.ref = "androidx-benchmark" }
 androidPublisher = { module = "com.github.triplet.gradle:android-publisher", version.ref = "androidPublisher" }
+composeCompiler = { module = "org.jetbrains.kotlin:kotlin-compose-compiler-plugin", version.ref = "kotlin" }
 kotlinpoet = { module = "com.squareup:kotlinpoet", version.ref = "kotlinpoet" }
 leakcanary-android = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanary" }
 leakcanary-plumber = { module = "com.squareup.leakcanary:plumber-android", version.ref = "leakcanary" }
+metro-compiler = { module = "dev.zacsweers.metro:compiler", version.ref = "metro" }
+metro-runtime = { module = "dev.zacsweers.metro:runtime", version.ref = "metro" }
 metrox-viewmodelCompose = { module = "dev.zacsweers.metro:metrox-viewmodel-compose", version.ref = "metro"}
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
@@ -99,12 +103,13 @@ firebase-remoteConfig = { module = "com.google.firebase:firebase-config", versio
 firebase-perf = { module = "com.google.firebase:firebase-perf", version.ref = "firebase-perf" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics", version.ref = "firebase-crashlytics" }
 androidx-lintGradle = { group = "androidx.lint", name = "lint-gradle", version.ref = "androidx-lint" }
-androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "androidx-compose-ui" }
-androidx-compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "androidx-compose-foundation" }
-androidx-compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "androidx-compose-material3" }
 androidx-compose-runtime = { module = "androidx.compose.runtime:runtime", version.ref = "androidx-compose-runtime" }
 androidx-compose-runtimeAnnotation = { module = "androidx.compose.runtime:runtime-annotation", version.ref = "androidx-compose-runtime" }
 androidx-compose-runtime-tracing = { module = "androidx.compose.runtime:runtime-tracing", version.ref = "androidx-compose-tracing" }
+androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "androidx-compose-ui" }
+androidx-compose-animation = { module = "androidx.compose.animation:animation", version.ref = "androidx-compose-animation" }
+androidx-compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "androidx-compose-foundation" }
+androidx-compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "androidx-compose-material3" }
 androidx-core = { module = "androidx.core:core-ktx", version.ref = "androidx-core" }
 androidx-coreSplashscreen = { module = "androidx.core:core-splashscreen", version.ref = "androidx-coreSplashscreen" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity" }

@@ -1,0 +1,1 @@
+/NonComposableFunction.kt:(145,156): error: `@RouteBinding` function `DummyScreen` must be a `@Composable` function.

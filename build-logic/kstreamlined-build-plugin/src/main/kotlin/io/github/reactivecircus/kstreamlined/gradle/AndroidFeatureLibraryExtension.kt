@@ -26,6 +26,11 @@ import javax.inject.Inject
 @KStreamlinedExtensionMarker
 public interface AndroidFeatureLibraryExtension {
     /**
+     * Enable RouteBinding by applying the `io.github.reactivecircus.routebinding` plugin.
+     */
+    public fun routeBinding()
+
+    /**
      * Enable kotlinx.serialization by applying the `org.jetbrains.kotlin.plugin.serialization` plugin.
      */
     public fun serialization()
@@ -50,6 +55,8 @@ internal abstract class AndroidFeatureLibraryExtensionImpl @Inject constructor(
     private val project: Project,
     private val namespace: String,
 ) : AndroidFeatureLibraryExtension, TopLevelExtension {
+    private var routeBindingEnabled: Boolean = false
+
     private var serializationEnabled: Boolean = false
 
     private var unitTestsEnabled: Boolean = false
@@ -57,6 +64,10 @@ internal abstract class AndroidFeatureLibraryExtensionImpl @Inject constructor(
     private var screenshotTestsEnabled: Boolean = false
 
     private var dependenciesBlock: Action<KSDependencies.Android.Library>? = null
+
+    override fun routeBinding() {
+        routeBindingEnabled = true
+    }
 
     override fun serialization() {
         serializationEnabled = true
@@ -118,6 +129,10 @@ internal abstract class AndroidFeatureLibraryExtensionImpl @Inject constructor(
             add("implementation", libs.coil.compose)
             add("implementation", libs.kermit)
             add("implementation", libs.kotlinx.coroutines.core)
+        }
+
+        if (routeBindingEnabled) {
+            pluginManager.apply("io.github.reactivecircus.routebinding")
         }
 
         if (serializationEnabled) {
