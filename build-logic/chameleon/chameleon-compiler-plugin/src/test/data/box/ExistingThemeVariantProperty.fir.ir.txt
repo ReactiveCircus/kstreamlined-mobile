@@ -160,8 +160,8 @@ FILE fqName:<root> fileName:/SnapshotTester.kt
 FILE fqName:<root> fileName:/stubs.kt
   CLASS ANNOTATION_CLASS name:Composable modality:OPEN visibility:public superTypes:[kotlin.Annotation]
     annotations:
-      Retention(value = GET_ENUM 'ENUM_ENTRY IR_EXTERNAL_DECLARATION_STUB name:BINARY' type=kotlin.annotation.AnnotationRetention)
-      Target(allowedTargets = [GET_ENUM 'ENUM_ENTRY IR_EXTERNAL_DECLARATION_STUB name:FUNCTION' type=kotlin.annotation.AnnotationTarget, GET_ENUM 'ENUM_ENTRY IR_EXTERNAL_DECLARATION_STUB name:TYPE' type=kotlin.annotation.AnnotationTarget, GET_ENUM 'ENUM_ENTRY IR_EXTERNAL_DECLARATION_STUB name:TYPE_PARAMETER' type=kotlin.annotation.AnnotationTarget, GET_ENUM 'ENUM_ENTRY IR_EXTERNAL_DECLARATION_STUB name:PROPERTY_GETTER' type=kotlin.annotation.AnnotationTarget] type=kotlin.Array<out kotlin.annotation.AnnotationTarget> varargElementType=kotlin.annotation.AnnotationTarget)
+      Retention(value = AnnotationRetention.BINARY)
+      Target(allowedTargets = [AnnotationTarget.FUNCTION, AnnotationTarget.TYPE, AnnotationTarget.TYPE_PARAMETER, AnnotationTarget.PROPERTY_GETTER] type=kotlin.Array<out kotlin.annotation.AnnotationTarget> varargElementType=kotlin.annotation.AnnotationTarget)
     thisReceiver: VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> type:<root>.Composable
     CONSTRUCTOR visibility:public returnType:<root>.Composable [primary]
       BLOCK_BODY
@@ -182,7 +182,7 @@ FILE fqName:<root> fileName:/stubs.kt
         public open fun toString (): kotlin.String declared in kotlin.Annotation
   CLASS ANNOTATION_CLASS name:Rule modality:OPEN visibility:public superTypes:[kotlin.Annotation]
     annotations:
-      Retention(value = GET_ENUM 'ENUM_ENTRY IR_EXTERNAL_DECLARATION_STUB name:RUNTIME' type=kotlin.annotation.AnnotationRetention)
+      Retention(value = AnnotationRetention.RUNTIME)
     thisReceiver: VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> type:<root>.Rule
     CONSTRUCTOR visibility:public returnType:<root>.Rule [primary]
       BLOCK_BODY
@@ -203,7 +203,7 @@ FILE fqName:<root> fileName:/stubs.kt
         public open fun toString (): kotlin.String declared in kotlin.Annotation
   CLASS ANNOTATION_CLASS name:Test modality:OPEN visibility:public superTypes:[kotlin.Annotation]
     annotations:
-      Retention(value = GET_ENUM 'ENUM_ENTRY IR_EXTERNAL_DECLARATION_STUB name:RUNTIME' type=kotlin.annotation.AnnotationRetention)
+      Retention(value = AnnotationRetention.RUNTIME)
     thisReceiver: VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> type:<root>.Test
     CONSTRUCTOR visibility:public returnType:<root>.Test [primary]
       BLOCK_BODY
