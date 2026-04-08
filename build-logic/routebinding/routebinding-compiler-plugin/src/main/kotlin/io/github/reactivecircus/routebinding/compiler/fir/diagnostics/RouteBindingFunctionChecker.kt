@@ -8,8 +8,9 @@ import org.jetbrains.kotlin.diagnostics.reportOn
 import org.jetbrains.kotlin.fir.FirSession
 import org.jetbrains.kotlin.fir.analysis.checkers.MppCheckerKind
 import org.jetbrains.kotlin.fir.analysis.checkers.context.CheckerContext
-import org.jetbrains.kotlin.fir.analysis.checkers.declaration.FirFunctionChecker
+import org.jetbrains.kotlin.fir.analysis.checkers.declaration.FirSimpleFunctionChecker
 import org.jetbrains.kotlin.fir.declarations.FirFunction
+import org.jetbrains.kotlin.fir.declarations.FirNamedFunction
 import org.jetbrains.kotlin.fir.declarations.FirValueParameter
 import org.jetbrains.kotlin.fir.declarations.getAnnotationByClassId
 import org.jetbrains.kotlin.fir.declarations.getKClassArgument
@@ -25,10 +26,9 @@ import org.jetbrains.kotlin.fir.types.isSubtypeOf
 import org.jetbrains.kotlin.fir.types.renderReadable
 import org.jetbrains.kotlin.name.Name
 
-// TODO move to FirSimpleFunctionChecker / FirNamedFunction once Studio bundles Kotlin 2.3.20+.
-internal object RouteBindingFunctionChecker : FirFunctionChecker(MppCheckerKind.Common) {
+internal object RouteBindingFunctionChecker : FirSimpleFunctionChecker(MppCheckerKind.Common) {
     context(context: CheckerContext, reporter: DiagnosticReporter)
-    override fun check(declaration: FirFunction) {
+    override fun check(declaration: FirNamedFunction) {
         if (!declaration.hasAnnotation(ClassIds.RouteBinding.Annotation, context.session)) return
 
         val functionName = declaration.nameOrSpecialName.asString()
