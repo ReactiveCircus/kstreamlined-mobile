@@ -1,3 +1,5 @@
+import com.android.build.api.dsl.ManagedVirtualDevice
+
 plugins {
     id("kstreamlined")
 }
@@ -11,13 +13,14 @@ kstreamlined {
         minSdk = 28,
     ) {
         @Suppress("UnstableApiUsage")
-        managedVirtualDevice("pixel9Api35") {
-            device = "Pixel 9"
-            apiLevel = 35
-            systemImageSource = "aosp-atd"
+        managedVirtualDevice("pixel10Api37") {
+            device = "Pixel 10"
+            apiLevel = 37
+            systemImageSource = "google_apis"
+            pageAlignment = ManagedVirtualDevice.PageAlignment.FORCE_16KB_PAGES
         }
 
-        produceBaselineProfile("pixel9Api35")
+        produceBaselineProfile("pixel10Api37")
 
         dependencies {
             implementation(libs.kermit)
