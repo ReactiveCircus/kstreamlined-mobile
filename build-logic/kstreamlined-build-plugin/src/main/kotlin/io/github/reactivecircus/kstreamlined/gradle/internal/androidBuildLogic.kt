@@ -124,6 +124,7 @@ internal fun ApplicationAndroidComponentsExtension.configureAndroidApplicationVa
 
 private fun CommonExtension.configureCommonAndroidExtension(project: Project) {
     compileSdk = AndroidSdk.CompileSdk
+    compileSdkMinor = 0
     buildToolsVersion = AndroidSdk.BuildTools
 
     defaultConfig.minSdk = AndroidSdk.MinSdk
