@@ -69,7 +69,11 @@ internal fun KotlinMultiplatformAndroidLibraryExtension.configureKmpAndroidLibra
     namespace: String? = null,
     hostTestsEnabled: Boolean = false,
 ) {
-    compileSdk = AndroidSdk.CompileSdk
+    compileSdk {
+        version = release(AndroidSdk.CompileSdk) {
+            minorApiLevel = 0
+        }
+    }
     minSdk = AndroidSdk.MinSdk
     buildToolsVersion = AndroidSdk.BuildTools
 
@@ -123,8 +127,11 @@ internal fun ApplicationAndroidComponentsExtension.configureAndroidApplicationVa
 }
 
 private fun CommonExtension.configureCommonAndroidExtension(project: Project) {
-    compileSdk = AndroidSdk.CompileSdk
-    compileSdkMinor = 0
+    compileSdk {
+        version = release(AndroidSdk.CompileSdk) {
+            minorApiLevel = 0
+        }
+    }
     buildToolsVersion = AndroidSdk.BuildTools
 
     defaultConfig.minSdk = AndroidSdk.MinSdk
