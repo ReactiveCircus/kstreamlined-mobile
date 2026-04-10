@@ -6,9 +6,11 @@ import androidx.compose.material3.SwitchDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.tooling.preview.PreviewWrapper
 import androidx.compose.ui.unit.dp
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.icon.KSIcons
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.preview.KSPreviewWrapper
 import androidx.compose.material3.Switch as MaterialSwitch
 
 @Composable
@@ -43,28 +45,22 @@ public fun Switch(
 
 @Composable
 @PreviewLightDark
+@PreviewWrapper(KSPreviewWrapper::class)
 private fun PreviewSwitch_checked() {
-    KSTheme {
-        Surface {
-            Switch(
-                selected = true,
-                onSelectedChange = {},
-                modifier = Modifier.padding(8.dp),
-            )
-        }
-    }
+    Switch(
+        selected = true,
+        onSelectedChange = {},
+        modifier = Modifier.padding(8.dp),
+    )
 }
 
 @Composable
 @PreviewLightDark
+@PreviewWrapper(KSPreviewWrapper::class)
 private fun PreviewSwitch_unchecked() {
-    KSTheme {
-        Surface {
-            Switch(
-                selected = false,
-                onSelectedChange = {},
-                modifier = Modifier.padding(8.dp),
-            )
-        }
-    }
+    Switch(
+        selected = false,
+        onSelectedChange = {},
+        modifier = Modifier.padding(8.dp),
+    )
 }

@@ -29,11 +29,13 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.tooling.preview.PreviewWrapper
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Surface
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Text
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.preview.KSPreviewWrapper
 import java.util.Locale
 import kotlin.math.roundToInt
 
@@ -203,17 +205,16 @@ private const val AnimationDurationMillis = 400
 
 @Composable
 @PreviewLightDark
+@PreviewWrapper(KSPreviewWrapper::class)
 private fun PreviewSeekBar() {
-    KSTheme {
-        Surface(
-            color = KSTheme.colorScheme.tertiary,
-        ) {
-            SeekBar(
-                modifier = Modifier.padding(8.dp),
-                positionMillis = 1200_000,
-                durationMillis = 3000_000,
-                onPositionChangeFinished = {},
-            )
-        }
+    Surface(
+        color = KSTheme.colorScheme.tertiary,
+    ) {
+        SeekBar(
+            modifier = Modifier.padding(8.dp),
+            positionMillis = 1200_000,
+            durationMillis = 3000_000,
+            onPositionChangeFinished = {},
+        )
     }
 }

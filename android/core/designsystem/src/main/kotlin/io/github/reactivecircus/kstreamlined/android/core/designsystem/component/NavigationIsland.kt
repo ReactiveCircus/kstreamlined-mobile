@@ -19,9 +19,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.tooling.preview.PreviewWrapper
 import androidx.compose.ui.unit.dp
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.icon.KSIcons
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.preview.KSPreviewWrapper
 
 @Composable
 public fun NavigationIsland(
@@ -91,26 +93,23 @@ public fun NavigationIslandDivider(
 
 @Composable
 @PreviewLightDark
+@PreviewWrapper(KSPreviewWrapper::class)
 private fun PreviewNavigationIsland() {
-    KSTheme {
-        Surface {
-            NavigationIsland(
-                modifier = Modifier.padding(8.dp),
-            ) {
-                NavigationIslandItem(
-                    selected = true,
-                    icon = KSIcons.Kotlin,
-                    contentDescription = "Home",
-                    onClick = {},
-                )
-                NavigationIslandDivider()
-                NavigationIslandItem(
-                    selected = false,
-                    icon = KSIcons.Bookmarks,
-                    contentDescription = "Saved",
-                    onClick = {},
-                )
-            }
-        }
+    NavigationIsland(
+        modifier = Modifier.padding(8.dp),
+    ) {
+        NavigationIslandItem(
+            selected = true,
+            icon = KSIcons.Kotlin,
+            contentDescription = "Home",
+            onClick = {},
+        )
+        NavigationIslandDivider()
+        NavigationIslandItem(
+            selected = false,
+            icon = KSIcons.Bookmarks,
+            contentDescription = "Saved",
+            onClick = {},
+        )
     }
 }

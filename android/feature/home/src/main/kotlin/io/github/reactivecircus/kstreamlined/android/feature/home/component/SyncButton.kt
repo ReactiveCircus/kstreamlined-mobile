@@ -17,14 +17,15 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.tooling.preview.PreviewWrapper
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Chip
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Icon
-import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Surface
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Text
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.icon.KSIcons
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.preview.KSPreviewWrapper
 import io.github.reactivecircus.kstreamlined.android.feature.home.R
 
 @Composable
@@ -89,30 +90,24 @@ private const val AnimationDurationMillis = 1000
 
 @Composable
 @PreviewLightDark
+@PreviewWrapper(KSPreviewWrapper::class)
 private fun PreviewSyncButton() {
-    KSTheme {
-        Surface {
-            SyncButton(
-                showSkeleton = false,
-                syncing = true,
-                onClick = {},
-                modifier = Modifier.padding(8.dp),
-            )
-        }
-    }
+    SyncButton(
+        showSkeleton = false,
+        syncing = true,
+        onClick = {},
+        modifier = Modifier.padding(8.dp),
+    )
 }
 
 @Composable
 @PreviewLightDark
+@PreviewWrapper(KSPreviewWrapper::class)
 private fun PreviewSyncButton_skeleton() {
-    KSTheme {
-        Surface {
-            SyncButton(
-                showSkeleton = true,
-                syncing = true,
-                onClick = {},
-                modifier = Modifier.padding(8.dp),
-            )
-        }
-    }
+    SyncButton(
+        showSkeleton = true,
+        syncing = true,
+        onClick = {},
+        modifier = Modifier.padding(8.dp),
+    )
 }

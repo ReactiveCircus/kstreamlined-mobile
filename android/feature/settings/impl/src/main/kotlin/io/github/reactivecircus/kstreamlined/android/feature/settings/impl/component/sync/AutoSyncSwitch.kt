@@ -14,11 +14,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.tooling.preview.PreviewWrapper
 import androidx.compose.ui.unit.dp
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Surface
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Switch
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Text
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.preview.KSPreviewWrapper
 import io.github.reactivecircus.kstreamlined.android.feature.settings.impl.R
 
 @Composable
@@ -72,28 +74,22 @@ internal fun AutoSyncSwitch(
 
 @Composable
 @PreviewLightDark
+@PreviewWrapper(KSPreviewWrapper::class)
 private fun PreviewAutoSyncSwitch_selected() {
-    KSTheme {
-        Surface {
-            AutoSyncSwitch(
-                selected = true,
-                onSelectedChange = {},
-                modifier = Modifier.padding(24.dp),
-            )
-        }
-    }
+    AutoSyncSwitch(
+        selected = true,
+        onSelectedChange = {},
+        modifier = Modifier.padding(24.dp),
+    )
 }
 
 @Composable
 @PreviewLightDark
+@PreviewWrapper(KSPreviewWrapper::class)
 private fun PreviewAutoSyncSwitch_unselected() {
-    KSTheme {
-        Surface {
-            AutoSyncSwitch(
-                selected = false,
-                onSelectedChange = {},
-                modifier = Modifier.padding(24.dp),
-            )
-        }
-    }
+    AutoSyncSwitch(
+        selected = false,
+        onSelectedChange = {},
+        modifier = Modifier.padding(24.dp),
+    )
 }

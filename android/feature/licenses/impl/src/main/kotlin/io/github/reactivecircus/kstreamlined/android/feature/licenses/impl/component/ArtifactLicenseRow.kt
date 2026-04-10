@@ -14,11 +14,13 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.tooling.preview.PreviewWrapper
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Surface
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Text
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.preview.KSPreviewWrapper
 import io.github.reactivecircus.kstreamlined.android.feature.licenses.impl.ArtifactLicenseItem
 
 @Composable
@@ -90,18 +92,15 @@ internal fun ArtifactLicenseRow(
 
 @Composable
 @PreviewLightDark
+@PreviewWrapper(KSPreviewWrapper::class)
 private fun PreviewArtifactLicenseRow() {
-    KSTheme {
-        Surface {
-            ArtifactLicenseRow(
-                item = ArtifactLicenseItem(
-                    title = "Compose UI",
-                    description = "androidx:compose.ui:ui",
-                    version = "1.10.0",
-                    scmUrl = "url",
-                    licenses = listOf("Apache License 2.0"),
-                ),
-            )
-        }
-    }
+    ArtifactLicenseRow(
+        item = ArtifactLicenseItem(
+            title = "Compose UI",
+            description = "androidx:compose.ui:ui",
+            version = "1.10.0",
+            scmUrl = "url",
+            licenses = listOf("Apache License 2.0"),
+        ),
+    )
 }

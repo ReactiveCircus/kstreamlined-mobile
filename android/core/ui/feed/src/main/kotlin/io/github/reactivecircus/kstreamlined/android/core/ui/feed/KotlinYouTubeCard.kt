@@ -24,6 +24,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.tooling.preview.PreviewWrapper
 import androidx.compose.ui.unit.dp
 import androidx.tracing.trace
 import coil3.compose.AsyncImage
@@ -33,6 +34,7 @@ import io.github.reactivecircus.kstreamlined.android.core.designsystem.component
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Text
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.icon.KSIcons
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.preview.KSPreviewWrapper
 import io.github.reactivecircus.kstreamlined.android.core.ui.util.marqueeWithFadedEdges
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.DisplayableFeedItem
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
@@ -159,50 +161,44 @@ private val ImageHeight = 200.dp
 
 @Composable
 @PreviewLightDark
+@PreviewWrapper(KSPreviewWrapper::class)
 private fun PreviewKotlinYouTubeCard_unsaved() {
-    KSTheme {
-        Surface {
-            SharedTransitionLayout {
-                KotlinYouTubeCard(
-                    item = FeedItem.KotlinYouTube(
-                        id = "1",
-                        title = "The State of Kotlin Multiplatform",
-                        publishTime = Instant.parse("2023-11-21T18:47:47Z"),
-                        contentUrl = "contentUrl",
-                        savedForLater = false,
-                        thumbnailUrl = "",
-                        description = "JetBrains Kotlin Multiplatform (KMP) is an open-source technology",
-                    ).toDisplayable("3 days ago"),
-                    onItemClick = {},
-                    onSaveButtonClick = {},
-                    modifier = Modifier.padding(24.dp),
-                )
-            }
-        }
+    SharedTransitionLayout {
+        KotlinYouTubeCard(
+            item = FeedItem.KotlinYouTube(
+                id = "1",
+                title = "The State of Kotlin Multiplatform",
+                publishTime = Instant.parse("2023-11-21T18:47:47Z"),
+                contentUrl = "contentUrl",
+                savedForLater = false,
+                thumbnailUrl = "",
+                description = "JetBrains Kotlin Multiplatform (KMP) is an open-source technology",
+            ).toDisplayable("3 days ago"),
+            onItemClick = {},
+            onSaveButtonClick = {},
+            modifier = Modifier.padding(24.dp),
+        )
     }
 }
 
 @Composable
 @PreviewLightDark
+@PreviewWrapper(KSPreviewWrapper::class)
 private fun PreviewKotlinYouTubeCard_saved() {
-    KSTheme {
-        Surface {
-            SharedTransitionLayout {
-                KotlinYouTubeCard(
-                    item = FeedItem.KotlinYouTube(
-                        id = "1",
-                        title = "The State of Kotlin Multiplatform",
-                        publishTime = Instant.parse("2023-11-21T18:47:47Z"),
-                        contentUrl = "contentUrl",
-                        savedForLater = true,
-                        thumbnailUrl = "",
-                        description = "JetBrains Kotlin Multiplatform (KMP) is an open-source technology",
-                    ).toDisplayable("3 days ago"),
-                    onItemClick = {},
-                    onSaveButtonClick = {},
-                    modifier = Modifier.padding(24.dp),
-                )
-            }
-        }
+    SharedTransitionLayout {
+        KotlinYouTubeCard(
+            item = FeedItem.KotlinYouTube(
+                id = "1",
+                title = "The State of Kotlin Multiplatform",
+                publishTime = Instant.parse("2023-11-21T18:47:47Z"),
+                contentUrl = "contentUrl",
+                savedForLater = true,
+                thumbnailUrl = "",
+                description = "JetBrains Kotlin Multiplatform (KMP) is an open-source technology",
+            ).toDisplayable("3 days ago"),
+            onItemClick = {},
+            onSaveButtonClick = {},
+            modifier = Modifier.padding(24.dp),
+        )
     }
 }

@@ -31,6 +31,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.tooling.preview.PreviewWrapper
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.tracing.trace
@@ -40,6 +41,7 @@ import io.github.reactivecircus.kstreamlined.android.core.designsystem.component
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Text
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.icon.KSIcons
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.preview.KSPreviewWrapper
 import io.github.reactivecircus.kstreamlined.android.core.ui.util.marqueeWithFadedEdges
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.DisplayableFeedItem
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
@@ -191,60 +193,54 @@ private val ImageSize = 88.dp
 
 @Composable
 @PreviewLightDark
+@PreviewWrapper(KSPreviewWrapper::class)
 private fun PreviewTalkingKotlinCard_unsaved() {
-    KSTheme {
-        Surface {
-            SharedTransitionLayout {
-                TalkingKotlinCard(
-                    item = FeedItem.TalkingKotlin(
-                        id = "1",
-                        title = "Making Multiplatform Better",
-                        publishTime = Instant.parse("2023-09-18T22:00:00Z"),
-                        contentUrl = "contentUrl",
-                        savedForLater = false,
-                        audioUrl = "",
-                        thumbnailUrl = "",
-                        summary = "In this episode, we talk to Rick Clephas",
-                        summaryFormat = FeedItem.TalkingKotlin.ContentFormat.Text,
-                        summaryPlainText = null,
-                        duration = "45min.",
-                        startPositionMillis = 0,
-                    ).toDisplayable("Moments ago"),
-                    onItemClick = {},
-                    onSaveButtonClick = {},
-                    modifier = Modifier.padding(24.dp),
-                )
-            }
-        }
+    SharedTransitionLayout {
+        TalkingKotlinCard(
+            item = FeedItem.TalkingKotlin(
+                id = "1",
+                title = "Making Multiplatform Better",
+                publishTime = Instant.parse("2023-09-18T22:00:00Z"),
+                contentUrl = "contentUrl",
+                savedForLater = false,
+                audioUrl = "",
+                thumbnailUrl = "",
+                summary = "In this episode, we talk to Rick Clephas",
+                summaryFormat = FeedItem.TalkingKotlin.ContentFormat.Text,
+                summaryPlainText = null,
+                duration = "45min.",
+                startPositionMillis = 0,
+            ).toDisplayable("Moments ago"),
+            onItemClick = {},
+            onSaveButtonClick = {},
+            modifier = Modifier.padding(24.dp),
+        )
     }
 }
 
 @Composable
 @PreviewLightDark
+@PreviewWrapper(KSPreviewWrapper::class)
 private fun PreviewTalkingKotlinCard_saved() {
-    KSTheme {
-        Surface {
-            SharedTransitionLayout {
-                TalkingKotlinCard(
-                    item = FeedItem.TalkingKotlin(
-                        id = "1",
-                        title = "Making Multiplatform Better",
-                        publishTime = Instant.parse("2023-09-18T22:00:00Z"),
-                        contentUrl = "contentUrl",
-                        savedForLater = true,
-                        audioUrl = "",
-                        thumbnailUrl = "",
-                        summary = "In this episode, we talk to Rick Clephas.",
-                        summaryFormat = FeedItem.TalkingKotlin.ContentFormat.Text,
-                        summaryPlainText = null,
-                        duration = "1h 3min.",
-                        startPositionMillis = 0,
-                    ).toDisplayable("Moments ago"),
-                    onItemClick = {},
-                    onSaveButtonClick = {},
-                    modifier = Modifier.padding(24.dp),
-                )
-            }
-        }
+    SharedTransitionLayout {
+        TalkingKotlinCard(
+            item = FeedItem.TalkingKotlin(
+                id = "1",
+                title = "Making Multiplatform Better",
+                publishTime = Instant.parse("2023-09-18T22:00:00Z"),
+                contentUrl = "contentUrl",
+                savedForLater = true,
+                audioUrl = "",
+                thumbnailUrl = "",
+                summary = "In this episode, we talk to Rick Clephas.",
+                summaryFormat = FeedItem.TalkingKotlin.ContentFormat.Text,
+                summaryPlainText = null,
+                duration = "1h 3min.",
+                startPositionMillis = 0,
+            ).toDisplayable("Moments ago"),
+            onItemClick = {},
+            onSaveButtonClick = {},
+            modifier = Modifier.padding(24.dp),
+        )
     }
 }

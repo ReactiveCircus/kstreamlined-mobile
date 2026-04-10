@@ -15,6 +15,7 @@ import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.tooling.preview.PreviewWrapper
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -24,6 +25,7 @@ import io.github.reactivecircus.kstreamlined.android.core.designsystem.component
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Text
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.icon.KSIcons
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.preview.KSPreviewWrapper
 import io.github.reactivecircus.kstreamlined.kmp.settings.model.AppSettings
 
 @Composable
@@ -148,14 +150,11 @@ private fun ThemeOption(
 
 @Composable
 @PreviewLightDark
+@PreviewWrapper(KSPreviewWrapper::class)
 private fun PreviewThemeSelector() {
-    KSTheme {
-        Surface {
-            ThemeSelector(
-                selectedTheme = AppSettings.Theme.System,
-                onSelectTheme = {},
-                modifier = Modifier.padding(24.dp),
-            )
-        }
-    }
+    ThemeSelector(
+        selectedTheme = AppSettings.Theme.System,
+        onSelectTheme = {},
+        modifier = Modifier.padding(24.dp),
+    )
 }

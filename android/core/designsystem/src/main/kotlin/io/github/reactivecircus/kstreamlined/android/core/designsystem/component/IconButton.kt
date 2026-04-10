@@ -21,11 +21,13 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.tooling.preview.PreviewWrapper
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.color.LocalContentColor
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.icon.KSIcons
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.preview.KSPreviewWrapper
 
 @Composable
 @NonRestartableComposable
@@ -148,47 +150,38 @@ private val LargeContainerSize = 48.dp
 
 @Composable
 @PreviewLightDark
+@PreviewWrapper(KSPreviewWrapper::class)
 private fun PreviewIconButton() {
-    KSTheme {
-        Surface {
-            IconButton(
-                KSIcons.BookmarkAdd,
-                contentDescription = null,
-                onClick = {},
-                modifier = Modifier.padding(8.dp),
-            )
-        }
-    }
+    IconButton(
+        KSIcons.BookmarkAdd,
+        contentDescription = null,
+        onClick = {},
+        modifier = Modifier.padding(8.dp),
+    )
 }
 
 @Composable
 @PreviewLightDark
+@PreviewWrapper(KSPreviewWrapper::class)
 private fun PreviewLargeIconButton() {
-    KSTheme {
-        Surface {
-            LargeIconButton(
-                KSIcons.Close,
-                contentDescription = null,
-                onClick = {},
-                iconTint = KSTheme.colorScheme.primary,
-                modifier = Modifier.padding(8.dp),
-            )
-        }
-    }
+    LargeIconButton(
+        KSIcons.Close,
+        contentDescription = null,
+        onClick = {},
+        iconTint = KSTheme.colorScheme.primary,
+        modifier = Modifier.padding(8.dp),
+    )
 }
 
 @Composable
 @PreviewLightDark
+@PreviewWrapper(KSPreviewWrapper::class)
 private fun PreviewFilledIconButton() {
-    KSTheme {
-        Surface {
-            FilledIconButton(
-                KSIcons.Settings,
-                contentDescription = null,
-                onClick = {},
-                iconTint = KSTheme.colorScheme.primary,
-                modifier = Modifier.padding(8.dp),
-            )
-        }
-    }
+    FilledIconButton(
+        KSIcons.Settings,
+        contentDescription = null,
+        onClick = {},
+        iconTint = KSTheme.colorScheme.primary,
+        modifier = Modifier.padding(8.dp),
+    )
 }

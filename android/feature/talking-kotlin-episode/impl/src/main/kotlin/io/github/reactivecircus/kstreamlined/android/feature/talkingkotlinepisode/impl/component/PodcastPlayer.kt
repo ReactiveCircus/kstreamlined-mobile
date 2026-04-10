@@ -29,6 +29,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.tooling.preview.PreviewWrapper
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.util.UnstableApi
 import coil3.compose.AsyncImage
@@ -37,6 +38,7 @@ import io.github.reactivecircus.kstreamlined.android.core.designsystem.component
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Text
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.icon.KSIcons
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.preview.KSPreviewWrapper
 import io.github.reactivecircus.kstreamlined.android.core.ui.util.marqueeWithFadedEdges
 import io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepisode.TalkingKotlinEpisode
 import kotlinx.coroutines.delay
@@ -203,60 +205,54 @@ internal fun PodcastPlayerUi(
 
 @Composable
 @PreviewLightDark
+@PreviewWrapper(KSPreviewWrapper::class)
 private fun PreviewPodcastPlayerUi_paused() {
-    KSTheme {
-        Surface {
-            PodcastPlayerUi(
-                playerPositionMillis = 1200_000,
-                playerDurationMillis = 3000_000,
-                onPositionChange = {},
-                episode = TalkingKotlinEpisode(
-                    id = "1",
-                    title = "Talking Kotlin Episode Title",
-                    displayablePublishTime = "03 Dec 2023",
-                    contentUrl = "content-url",
-                    savedForLater = false,
-                    audioUrl = "audio-url",
-                    thumbnailUrl = "podcast-logo-url",
-                    summary = "summary",
-                    summaryIsHtml = false,
-                    duration = "35min.",
-                    startPositionMillis = 0,
-                ),
-                isPlaying = false,
-                onPlayPauseButtonClick = {},
-                modifier = Modifier.padding(8.dp),
-            )
-        }
-    }
+    PodcastPlayerUi(
+        playerPositionMillis = 1200_000,
+        playerDurationMillis = 3000_000,
+        onPositionChange = {},
+        episode = TalkingKotlinEpisode(
+            id = "1",
+            title = "Talking Kotlin Episode Title",
+            displayablePublishTime = "03 Dec 2023",
+            contentUrl = "content-url",
+            savedForLater = false,
+            audioUrl = "audio-url",
+            thumbnailUrl = "podcast-logo-url",
+            summary = "summary",
+            summaryIsHtml = false,
+            duration = "35min.",
+            startPositionMillis = 0,
+        ),
+        isPlaying = false,
+        onPlayPauseButtonClick = {},
+        modifier = Modifier.padding(8.dp),
+    )
 }
 
 @Composable
 @PreviewLightDark
+@PreviewWrapper(KSPreviewWrapper::class)
 private fun PreviewPodcastPlayer_playing() {
-    KSTheme {
-        Surface {
-            PodcastPlayerUi(
-                playerPositionMillis = 1200_000,
-                playerDurationMillis = 3000_000,
-                onPositionChange = {},
-                episode = TalkingKotlinEpisode(
-                    id = "1",
-                    title = "Talking Kotlin Episode Title",
-                    displayablePublishTime = "03 Dec 2023",
-                    contentUrl = "content-url",
-                    savedForLater = false,
-                    audioUrl = "audio-url",
-                    thumbnailUrl = "podcast-logo-url",
-                    summary = "summary",
-                    summaryIsHtml = false,
-                    duration = "35min.",
-                    startPositionMillis = 0,
-                ),
-                isPlaying = true,
-                onPlayPauseButtonClick = {},
-                modifier = Modifier.padding(8.dp),
-            )
-        }
-    }
+    PodcastPlayerUi(
+        playerPositionMillis = 1200_000,
+        playerDurationMillis = 3000_000,
+        onPositionChange = {},
+        episode = TalkingKotlinEpisode(
+            id = "1",
+            title = "Talking Kotlin Episode Title",
+            displayablePublishTime = "03 Dec 2023",
+            contentUrl = "content-url",
+            savedForLater = false,
+            audioUrl = "audio-url",
+            thumbnailUrl = "podcast-logo-url",
+            summary = "summary",
+            summaryIsHtml = false,
+            duration = "35min.",
+            startPositionMillis = 0,
+        ),
+        isPlaying = true,
+        onPlayPauseButtonClick = {},
+        modifier = Modifier.padding(8.dp),
+    )
 }
