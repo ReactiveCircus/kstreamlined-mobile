@@ -12,7 +12,7 @@ import kotlinx.coroutines.CoroutineScope
 
 @ViewModelKey
 @ContributesIntoMap(AppScope::class)
-public class SavedForLaterViewModel(
+internal class SavedForLaterViewModel(
     feedDataSource: FeedDataSource,
 ) : ViewModel() {
     internal val presenter = SavedForLaterPresenter(

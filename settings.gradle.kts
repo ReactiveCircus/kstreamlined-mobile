@@ -14,10 +14,12 @@ pluginManagement {
             }
         }
         mavenCentral()
-        // TODO remove once upgraded Paparazzi to 2.0.0-alpha05
         maven("https://central.sonatype.com/repository/maven-snapshots/") {
             content {
+                // TODO remove once upgraded Paparazzi to 2.0.0-alpha05
                 includeGroup("app.cash.paparazzi")
+                // TODO remove once upgraded Metro to 0.14.0
+                includeGroup("dev.zacsweers.metro")
             }
         }
     }
@@ -49,10 +51,12 @@ dependencyResolutionManagement {
             }
         }
         mavenCentral()
-        // TODO remove once upgraded Paparazzi to 2.0.0-alpha05
         maven("https://central.sonatype.com/repository/maven-snapshots/") {
             content {
+                // TODO remove once upgraded Paparazzi to 2.0.0-alpha05
                 includeGroup("app.cash.paparazzi")
+                // TODO remove once upgraded Metro to 0.14.0
+                includeGroup("dev.zacsweers.metro")
             }
         }
     }

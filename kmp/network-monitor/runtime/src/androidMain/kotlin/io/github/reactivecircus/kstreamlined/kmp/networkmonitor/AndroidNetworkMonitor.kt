@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.stateIn
 
 @SingleIn(AppScope::class)
 @ContributesBinding(AppScope::class)
-public class AndroidNetworkMonitor(
+internal class AndroidNetworkMonitor(
     context: Context,
     coroutineScope: CoroutineScope,
 ) : NetworkMonitor {
