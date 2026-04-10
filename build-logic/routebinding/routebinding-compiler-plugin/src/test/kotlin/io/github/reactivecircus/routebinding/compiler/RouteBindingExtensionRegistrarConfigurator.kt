@@ -51,6 +51,11 @@ private class RouteBindingExtensionRegistrarConfigurator(
             value = "true",
             configuration = configuration,
         )
+        metroCliProcessor.processOption(
+            option = metroCliOptionByName("generate-contribution-providers"),
+            value = "true",
+            configuration = configuration,
+        )
         with(metroRegistrar) { registerExtensions(configuration) }
 
         // register Compose compiler plugin if enabled from directive
