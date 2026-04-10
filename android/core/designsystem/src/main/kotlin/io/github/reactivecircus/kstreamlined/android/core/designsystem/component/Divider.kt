@@ -12,9 +12,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.tooling.preview.PreviewWrapper
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.preview.KSPreviewWrapper
 import androidx.compose.material3.HorizontalDivider as MaterialHorizontalDivider
 import androidx.compose.material3.VerticalDivider as MaterialVerticalDivider
 
@@ -48,40 +50,34 @@ public fun VerticalDivider(
 
 @Composable
 @PreviewLightDark
+@PreviewWrapper(KSPreviewWrapper::class)
 private fun PreviewHorizontalDivider() {
-    KSTheme {
-        Surface {
-            Column(
-                modifier = Modifier.padding(16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-            ) {
-                Text(text = "item 1", style = KSTheme.typography.titleMedium)
-                HorizontalDivider(
-                    modifier = Modifier.width(120.dp),
-                )
-                Text(text = "item 2", style = KSTheme.typography.titleMedium)
-            }
-        }
+    Column(
+        modifier = Modifier.padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        Text(text = "item 1", style = KSTheme.typography.titleMedium)
+        HorizontalDivider(
+            modifier = Modifier.width(120.dp),
+        )
+        Text(text = "item 2", style = KSTheme.typography.titleMedium)
     }
 }
 
 @Composable
 @PreviewLightDark
+@PreviewWrapper(KSPreviewWrapper::class)
 private fun PreviewVerticalDivider() {
-    KSTheme {
-        Surface {
-            Row(
-                modifier = Modifier.padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-            ) {
-                Text(text = "item 1", style = KSTheme.typography.titleMedium)
-                VerticalDivider(
-                    modifier = Modifier.height(120.dp),
-                )
-                Text(text = "item 2", style = KSTheme.typography.titleMedium)
-            }
-        }
+    Row(
+        modifier = Modifier.padding(16.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        Text(text = "item 1", style = KSTheme.typography.titleMedium)
+        VerticalDivider(
+            modifier = Modifier.height(120.dp),
+        )
+        Text(text = "item 2", style = KSTheme.typography.titleMedium)
     }
 }

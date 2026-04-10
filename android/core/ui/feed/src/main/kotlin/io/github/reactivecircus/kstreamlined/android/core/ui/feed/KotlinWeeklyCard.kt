@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.tooling.preview.PreviewWrapper
 import androidx.compose.ui.unit.dp
 import androidx.tracing.trace
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.IconButton
@@ -22,6 +23,7 @@ import io.github.reactivecircus.kstreamlined.android.core.designsystem.component
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Text
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.icon.KSIcons
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.preview.KSPreviewWrapper
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.DisplayableFeedItem
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.toDisplayable
@@ -94,44 +96,38 @@ public fun KotlinWeeklyCard(
 
 @Composable
 @PreviewLightDark
+@PreviewWrapper(KSPreviewWrapper::class)
 private fun PreviewKotlinWeeklyCard_unsaved() {
-    KSTheme {
-        Surface {
-            KotlinWeeklyCard(
-                item = FeedItem.KotlinWeekly(
-                    id = "1",
-                    title = "Kotlin Weekly #381",
-                    publishTime = Instant.parse("2023-11-19T09:13:00Z"),
-                    contentUrl = "contentUrl",
-                    savedForLater = false,
-                    issueNumber = 381,
-                ).toDisplayable(displayablePublishTime = "3 hours ago"),
-                onItemClick = {},
-                onSaveButtonClick = {},
-                modifier = Modifier.padding(24.dp),
-            )
-        }
-    }
+    KotlinWeeklyCard(
+        item = FeedItem.KotlinWeekly(
+            id = "1",
+            title = "Kotlin Weekly #381",
+            publishTime = Instant.parse("2023-11-19T09:13:00Z"),
+            contentUrl = "contentUrl",
+            savedForLater = false,
+            issueNumber = 381,
+        ).toDisplayable(displayablePublishTime = "3 hours ago"),
+        onItemClick = {},
+        onSaveButtonClick = {},
+        modifier = Modifier.padding(24.dp),
+    )
 }
 
 @Composable
 @PreviewLightDark
+@PreviewWrapper(KSPreviewWrapper::class)
 private fun PreviewKotlinWeeklyCard_saved() {
-    KSTheme {
-        Surface {
-            KotlinWeeklyCard(
-                item = FeedItem.KotlinWeekly(
-                    id = "1",
-                    title = "Kotlin Weekly #381",
-                    publishTime = Instant.parse("2023-11-19T09:13:00Z"),
-                    contentUrl = "contentUrl",
-                    savedForLater = true,
-                    issueNumber = 381,
-                ).toDisplayable(displayablePublishTime = "3 hours ago"),
-                onItemClick = {},
-                onSaveButtonClick = {},
-                modifier = Modifier.padding(24.dp),
-            )
-        }
-    }
+    KotlinWeeklyCard(
+        item = FeedItem.KotlinWeekly(
+            id = "1",
+            title = "Kotlin Weekly #381",
+            publishTime = Instant.parse("2023-11-19T09:13:00Z"),
+            contentUrl = "contentUrl",
+            savedForLater = true,
+            issueNumber = 381,
+        ).toDisplayable(displayablePublishTime = "3 hours ago"),
+        onItemClick = {},
+        onSaveButtonClick = {},
+        modifier = Modifier.padding(24.dp),
+    )
 }

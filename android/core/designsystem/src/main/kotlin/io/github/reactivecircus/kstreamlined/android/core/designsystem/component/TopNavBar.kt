@@ -27,11 +27,13 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.tooling.preview.PreviewWrapper
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.icon.KSIcons
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.preview.KSPreviewWrapper
 
 @Composable
 public fun SharedTransitionScope.TopNavBar(
@@ -160,78 +162,69 @@ private const val GradientHorizontalScale = 1.3f
 
 @Composable
 @PreviewLightDark
+@PreviewWrapper(KSPreviewWrapper::class)
 private fun PreviewTopNavBar() {
-    KSTheme {
-        Surface {
-            SharedTransitionLayout {
-                TopNavBar(
-                    title = "Title",
-                    actions = {
-                        FilledIconButton(
-                            KSIcons.Settings,
-                            contentDescription = null,
-                            onClick = {},
-                        )
-                    },
+    SharedTransitionLayout {
+        TopNavBar(
+            title = "Title",
+            actions = {
+                FilledIconButton(
+                    KSIcons.Settings,
+                    contentDescription = null,
+                    onClick = {},
                 )
-            }
-        }
+            },
+        )
     }
 }
 
 @Composable
 @PreviewLightDark
+@PreviewWrapper(KSPreviewWrapper::class)
 private fun PreviewTopNavBar_withBottomRow() {
-    KSTheme {
-        Surface {
-            SharedTransitionLayout {
-                TopNavBar(
-                    title = "Title",
-                    actions = {
-                        FilledIconButton(
-                            KSIcons.Settings,
-                            contentDescription = null,
-                            onClick = {},
-                        )
-                    },
-                    bottomRow = {
-                        Chip(
-                            onClick = {},
-                            contentColor = KSTheme.colorScheme.primary,
-                        ) {
-                            Text(
-                                text = "Button".uppercase(),
-                                style = KSTheme.typography.labelMedium.copy(
-                                    fontWeight = FontWeight.ExtraBold,
-                                    letterSpacing = 0.1.sp,
-                                ),
-                            )
-                            Icon(KSIcons.ArrowDown, contentDescription = null)
-                        }
-                    },
+    SharedTransitionLayout {
+        TopNavBar(
+            title = "Title",
+            actions = {
+                FilledIconButton(
+                    KSIcons.Settings,
+                    contentDescription = null,
+                    onClick = {},
                 )
-            }
-        }
+            },
+            bottomRow = {
+                Chip(
+                    onClick = {},
+                    contentColor = KSTheme.colorScheme.primary,
+                ) {
+                    Text(
+                        text = "Button".uppercase(),
+                        style = KSTheme.typography.labelMedium.copy(
+                            fontWeight = FontWeight.ExtraBold,
+                            letterSpacing = 0.1.sp,
+                        ),
+                    )
+                    Icon(KSIcons.ArrowDown, contentDescription = null)
+                }
+            },
+        )
     }
 }
 
 @Composable
 @PreviewLightDark
+@PreviewWrapper(KSPreviewWrapper::class)
 private fun PreviewTopNavBar_withNavigationIcon() {
-    KSTheme {
-        Surface {
-            SharedTransitionLayout {
-                TopNavBar(
-                    title = "Title",
-                    navigationIcon = {
-                        LargeIconButton(
-                            KSIcons.Close,
-                            contentDescription = null,
-                            onClick = {},
-                        )
-                    },
+    SharedTransitionLayout {
+        TopNavBar(
+            title = "Title",
+            navigationIcon = {
+                LargeIconButton(
+                    KSIcons.Close,
+                    contentDescription = null,
+                    onClick = {},
                 )
-            }
-        }
+            },
+        )
     }
 }

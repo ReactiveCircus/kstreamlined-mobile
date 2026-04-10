@@ -18,6 +18,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.tooling.preview.PreviewWrapper
 import androidx.compose.ui.unit.dp
 import androidx.tracing.trace
 import coil3.compose.AsyncImage
@@ -26,6 +27,7 @@ import io.github.reactivecircus.kstreamlined.android.core.designsystem.component
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Text
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.icon.KSIcons
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.preview.KSPreviewWrapper
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.DisplayableFeedItem
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.toDisplayable
@@ -113,48 +115,42 @@ private val ImageHeight = 200.dp
 
 @Composable
 @PreviewLightDark
+@PreviewWrapper(KSPreviewWrapper::class)
 private fun PreviewKotlinBlogCard_unsaved() {
-    KSTheme {
-        Surface {
-            SharedTransitionLayout {
-                KotlinBlogCard(
-                    item = FeedItem.KotlinBlog(
-                        id = "1",
-                        title = "Kotlin Multiplatform Development Roadmap for 2024",
-                        publishTime = Instant.parse("2023-11-16T11:59:46Z"),
-                        contentUrl = "contentUrl",
-                        savedForLater = false,
-                        featuredImageUrl = "",
-                    ).toDisplayable("Moments ago"),
-                    onItemClick = {},
-                    onSaveButtonClick = {},
-                    modifier = Modifier.padding(24.dp),
-                )
-            }
-        }
+    SharedTransitionLayout {
+        KotlinBlogCard(
+            item = FeedItem.KotlinBlog(
+                id = "1",
+                title = "Kotlin Multiplatform Development Roadmap for 2024",
+                publishTime = Instant.parse("2023-11-16T11:59:46Z"),
+                contentUrl = "contentUrl",
+                savedForLater = false,
+                featuredImageUrl = "",
+            ).toDisplayable("Moments ago"),
+            onItemClick = {},
+            onSaveButtonClick = {},
+            modifier = Modifier.padding(24.dp),
+        )
     }
 }
 
 @Composable
 @PreviewLightDark
+@PreviewWrapper(KSPreviewWrapper::class)
 private fun PreviewKotlinBlogCard_saved() {
-    KSTheme {
-        Surface {
-            SharedTransitionLayout {
-                KotlinBlogCard(
-                    item = FeedItem.KotlinBlog(
-                        id = "1",
-                        title = "Kotlin Multiplatform Development Roadmap for 2024",
-                        publishTime = Instant.parse("2023-11-16T11:59:46Z"),
-                        contentUrl = "contentUrl",
-                        savedForLater = true,
-                        featuredImageUrl = "",
-                    ).toDisplayable("Moments ago"),
-                    onItemClick = {},
-                    onSaveButtonClick = {},
-                    modifier = Modifier.padding(24.dp),
-                )
-            }
-        }
+    SharedTransitionLayout {
+        KotlinBlogCard(
+            item = FeedItem.KotlinBlog(
+                id = "1",
+                title = "Kotlin Multiplatform Development Roadmap for 2024",
+                publishTime = Instant.parse("2023-11-16T11:59:46Z"),
+                contentUrl = "contentUrl",
+                savedForLater = true,
+                featuredImageUrl = "",
+            ).toDisplayable("Moments ago"),
+            onItemClick = {},
+            onSaveButtonClick = {},
+            modifier = Modifier.padding(24.dp),
+        )
     }
 }

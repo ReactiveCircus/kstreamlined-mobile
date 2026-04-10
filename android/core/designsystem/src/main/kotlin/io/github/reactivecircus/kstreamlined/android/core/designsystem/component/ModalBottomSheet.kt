@@ -16,8 +16,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.tooling.preview.PreviewWrapper
 import androidx.compose.ui.unit.dp
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.preview.KSPreviewWrapper
 import androidx.compose.material3.ModalBottomSheet as M3ModalBottomSheet
 import androidx.compose.material3.SheetState as M3SheetState
 import androidx.compose.material3.rememberModalBottomSheetState as rememberM3ModalBottomSheetState
@@ -73,22 +75,19 @@ public fun rememberModalBottomSheetState(skipPartiallyExpanded: Boolean = false)
 
 @Composable
 @PreviewLightDark
+@PreviewWrapper(KSPreviewWrapper::class)
 private fun PreviewModalBottomSheet() {
-    KSTheme {
-        Surface {
-            val m3SheetState = rememberStandardBottomSheetState(initialValue = SheetValue.Expanded)
-            ModalBottomSheet(
-                onDismissRequest = {},
-                sheetState = SheetState(m3SheetState),
-            ) {
-                Text(
-                    text = "Sheet content",
-                    style = KSTheme.typography.titleMedium,
-                    modifier = Modifier
-                        .padding(24.dp)
-                        .align(Alignment.CenterHorizontally),
-                )
-            }
-        }
+    val m3SheetState = rememberStandardBottomSheetState(initialValue = SheetValue.Expanded)
+    ModalBottomSheet(
+        onDismissRequest = {},
+        sheetState = SheetState(m3SheetState),
+    ) {
+        Text(
+            text = "Sheet content",
+            style = KSTheme.typography.titleMedium,
+            modifier = Modifier
+                .padding(24.dp)
+                .align(Alignment.CenterHorizontally),
+        )
     }
 }

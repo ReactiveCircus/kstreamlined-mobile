@@ -7,10 +7,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.tooling.preview.PreviewWrapper
 import androidx.compose.ui.unit.dp
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Surface
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Text
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.preview.KSPreviewWrapper
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.KotlinWeeklyIssueItem
 
 @Composable
@@ -54,21 +56,18 @@ internal fun IssueItemUi(
 
 @Composable
 @PreviewLightDark
+@PreviewWrapper(KSPreviewWrapper::class)
 private fun PreviewIssueItemUi() {
-    KSTheme {
-        Surface {
-            IssueItemUi(
-                item = KotlinWeeklyIssueItem(
-                    title = "Amper Update – December 2023",
-                    summary = "Last month JetBrains introduced Amper, a tool to improve the" +
-                        " project configuration user experience. Marton Braun gives us an update" +
-                        " about its state in December 2023.",
-                    url = "https://blog.jetbrains.com/amper/2023/12/amper-update-december-2023/",
-                    source = "blog.jetbrains.com",
-                    group = KotlinWeeklyIssueItem.Group.Announcements,
-                ),
-                onItemClick = {},
-            )
-        }
-    }
+    IssueItemUi(
+        item = KotlinWeeklyIssueItem(
+            title = "Amper Update – December 2023",
+            summary = "Last month JetBrains introduced Amper, a tool to improve the" +
+                " project configuration user experience. Marton Braun gives us an update" +
+                " about its state in December 2023.",
+            url = "https://blog.jetbrains.com/amper/2023/12/amper-update-december-2023/",
+            source = "blog.jetbrains.com",
+            group = KotlinWeeklyIssueItem.Group.Announcements,
+        ),
+        onItemClick = {},
+    )
 }
