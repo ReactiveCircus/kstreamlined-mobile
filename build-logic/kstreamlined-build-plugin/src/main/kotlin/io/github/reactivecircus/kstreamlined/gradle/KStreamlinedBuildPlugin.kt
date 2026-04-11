@@ -3,6 +3,9 @@ package io.github.reactivecircus.kstreamlined.gradle
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.Delete
+import org.gradle.buildconfiguration.tasks.UpdateDaemonJvm
+import org.gradle.jvm.toolchain.JavaLanguageVersion
+import org.gradle.jvm.toolchain.JvmVendorSpec
 
 @Suppress("UnstableApiUsage", "Unused")
 internal class KStreamlinedBuildPlugin : Plugin<Project> {
@@ -28,6 +31,12 @@ internal class KStreamlinedBuildPlugin : Plugin<Project> {
         // register task for cleaning the build directory in the root project
         target.tasks.register("clean", Delete::class.java) {
             it.delete(target.isolated.rootProject.projectDirectory.file("build"))
+        }
+
+        // configure updateDaemonJvm task with language version and vendor
+        target.tasks.named("updateDaemonJvm", UpdateDaemonJvm::class.java) {
+            it.languageVersion.set(JavaLanguageVersion.of("26"))
+            it.vendor.set(JvmVendorSpec.AZUL)
         }
     }
 }
