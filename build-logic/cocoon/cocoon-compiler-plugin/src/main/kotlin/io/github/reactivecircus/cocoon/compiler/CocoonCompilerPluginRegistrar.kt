@@ -13,19 +13,16 @@ public class CocoonCompilerPluginRegistrar : CompilerPluginRegistrar() {
 
     override fun ExtensionStorage.registerExtensions(configuration: CompilerConfiguration) {
         val annotationString = requireNotNull(
-            configuration.get(CocoonCommandLineProcessor.CompilerOptions.Annotation),
+            configuration[CocoonCommandLineProcessor.CompilerOptions.Annotation],
         )
         val annotationClassId = annotationString.toClassId()
 
         val wrappingFunctionString = requireNotNull(
-            configuration.get(CocoonCommandLineProcessor.CompilerOptions.WrappingFunction),
+            configuration[CocoonCommandLineProcessor.CompilerOptions.WrappingFunction],
         )
         val wrappingFunctionCallableId = wrappingFunctionString.toCallableId()
 
-        val messageCollector = configuration.get(
-            CommonConfigurationKeys.MESSAGE_COLLECTOR_KEY,
-            MessageCollector.NONE,
-        )
+        val messageCollector = configuration[CommonConfigurationKeys.MESSAGE_COLLECTOR_KEY, MessageCollector.NONE]
 
         IrGenerationExtension.registerExtension(
             extension = CocoonIrGenerationExtension(
