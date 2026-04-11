@@ -1,5 +1,6 @@
 plugins {
     id("kstreamlined")
+    id("io.github.reactivecircus.cocoon")
 }
 
 kstreamlined {
@@ -19,4 +20,9 @@ kstreamlined {
             implementation(libs.androidx.compose.ui.tooling)
         }
     }
+}
+
+cocoon {
+    annotation.set("io.github.reactivecircus.kstreamlined.android.core.designsystem.preview.PreviewKStreamlined")
+    wrappingFunction.set("io.github.reactivecircus.kstreamlined.android.core.designsystem.preview.KSThemeWithSurface")
 }
