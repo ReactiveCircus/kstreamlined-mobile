@@ -19,7 +19,7 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewWrapper
 import androidx.compose.ui.unit.dp
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
-import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.preview.KSPreviewWrapper
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.preview.KSPreviewWrapper
 import androidx.compose.material3.ModalBottomSheet as M3ModalBottomSheet
 import androidx.compose.material3.SheetState as M3SheetState
 import androidx.compose.material3.rememberModalBottomSheetState as rememberM3ModalBottomSheetState

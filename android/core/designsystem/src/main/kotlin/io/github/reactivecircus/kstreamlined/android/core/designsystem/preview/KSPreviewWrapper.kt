@@ -1,4 +1,4 @@
-package io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.preview
+package io.github.reactivecircus.kstreamlined.android.core.designsystem.preview
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.PreviewWrapperProvider
