@@ -1,7 +1,3 @@
-plugins {
-    id("kstreamlined")
-}
-
 kstreamlined {
     androidFeatureLibrary("io.github.reactivecircus.kstreamlined.android.feature.settings.impl") {
         routeBinding()

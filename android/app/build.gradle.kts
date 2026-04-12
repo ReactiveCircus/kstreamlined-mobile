@@ -1,9 +1,5 @@
 import java.time.Instant
 
-plugins {
-    id("kstreamlined")
-}
-
 kstreamlined {
     androidApp(
         namespace = "io.github.reactivecircus.kstreamlined.android",

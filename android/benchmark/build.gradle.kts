@@ -1,9 +1,5 @@
 import com.android.build.api.dsl.ManagedVirtualDevice
 
-plugins {
-    id("kstreamlined")
-}
-
 kstreamlined {
     androidBenchmark(
         namespace = "io.github.reactivecircus.kstreamlined.android.benchmark",

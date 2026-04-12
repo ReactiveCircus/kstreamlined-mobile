@@ -1,7 +1,3 @@
-plugins {
-    id("kstreamlined")
-}
-
 kstreamlined {
     jvmLibrary {
         compose()

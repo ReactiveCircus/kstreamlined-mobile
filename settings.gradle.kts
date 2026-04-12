@@ -1,4 +1,5 @@
 pluginManagement {
+    includeBuild("build-logic")
     repositories {
         google {
             content {
@@ -66,6 +67,7 @@ plugins {
     id("com.gradle.develocity")
     id("org.gradle.toolchains.foojay-resolver-convention")
     id("com.android.settings")
+    id("kstreamlined.settings")
 }
 
 rootProject.name = "kstreamlined-mobile"
@@ -131,24 +133,14 @@ private fun includeKmpProjects(vararg projectPaths: String) {
 
 private fun includeAndroidProjects(vararg projectPaths: String) {
     if (startParameter.taskNames.any { it.endsWith("XCFramework") }) return
-    for (path in projectPaths) {
-        includeProject(path, "android/${path.replace(":", "/")}")
-    }
-}
-
-private fun includeProject(name: String, filePath: String) {
-    include(name)
-    val project = project(name)
-    project.projectDir = file(filePath)
-    var current = project
-    while (current.parent != null && current.parent != rootProject) {
-        val parent = current.parent!!
-        val defaultDir = File(parent.parent!!.projectDir, parent.name)
-        if (parent.projectDir == defaultDir) {
-            parent.projectDir = current.projectDir.parentFile
+    include(*projectPaths)
+    // redirect all project directories (including intermediate parents) under `android/`
+    projectPaths
+        .flatMap { path ->
+            val segments = path.removePrefix(":").split(":")
+            (1..segments.size).map { i -> ":" + segments.subList(0, i).joinToString(":") }
         }
-        current = parent
-    }
+        .forEach { project(it).projectDir = file("android${it.replace(":", "/")}") }
 }
 
 develocity {

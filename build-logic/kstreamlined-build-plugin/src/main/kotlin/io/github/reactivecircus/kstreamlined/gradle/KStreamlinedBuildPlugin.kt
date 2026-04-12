@@ -34,7 +34,7 @@ internal class KStreamlinedBuildPlugin : Plugin<Project> {
         }
 
         // configure updateDaemonJvm task with language version and vendor
-        target.tasks.named("updateDaemonJvm", UpdateDaemonJvm::class.java) {
+        target.tasks.withType(UpdateDaemonJvm::class.java).configureEach {
             it.languageVersion.set(JavaLanguageVersion.of("26"))
             it.vendor.set(JvmVendorSpec.AZUL)
         }
