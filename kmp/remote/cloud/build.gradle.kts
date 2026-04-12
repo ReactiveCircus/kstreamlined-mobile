@@ -1,10 +1,6 @@
 import com.apollographql.apollo.annotations.ApolloExperimental
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 
-plugins {
-    id("kstreamlined")
-}
-
 kstreamlined {
     kmpLibrary {
         targets {

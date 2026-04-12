@@ -1,7 +1,3 @@
-plugins {
-    id("kstreamlined")
-}
-
 kstreamlined {
     androidCoreLibrary("io.github.reactivecircus.kstreamlined.android.core.screenshottesting.tester") {
         compose()

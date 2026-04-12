@@ -10,8 +10,8 @@ plugins {
 
 gradlePlugin {
     plugins {
-        register("kstreamlined") {
-            id = "kstreamlined"
+        register("kstreamlinedBuild") {
+            id = "kstreamlined.build"
             implementationClass = "io.github.reactivecircus.kstreamlined.gradle.KStreamlinedBuildPlugin"
         }
     }
