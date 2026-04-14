@@ -15,6 +15,10 @@ import java.util.regex.Pattern;
 @TestMetadata("chameleon/chameleon-compiler-plugin/src/test/data/diagnostic/ir")
 @TestDataPath("$PROJECT_ROOT")
 public class IrDiagnosticTestGenerated extends AbstractIrDiagnosticTest {
+  private void run(String fileName) {
+    runTest("chameleon/chameleon-compiler-plugin/src/test/data/diagnostic/ir/" + fileName);
+  }
+
   @Test
   public void testAllFilesPresentInIr() {
     KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("chameleon/chameleon-compiler-plugin/src/test/data/diagnostic/ir"), Pattern.compile("^(.+)\\.kt$"), null, true);
@@ -23,24 +27,24 @@ public class IrDiagnosticTestGenerated extends AbstractIrDiagnosticTest {
   @Test
   @TestMetadata("MissingSnapshotFunction.kt")
   public void testMissingSnapshotFunction() {
-    runTest("chameleon/chameleon-compiler-plugin/src/test/data/diagnostic/ir/MissingSnapshotFunction.kt");
+    run("MissingSnapshotFunction.kt");
   }
 
   @Test
   @TestMetadata("MissingThemeVariantEnum.kt")
   public void testMissingThemeVariantEnum() {
-    runTest("chameleon/chameleon-compiler-plugin/src/test/data/diagnostic/ir/MissingThemeVariantEnum.kt");
+    run("MissingThemeVariantEnum.kt");
   }
 
   @Test
   @TestMetadata("ThemeVariantNotAnEnum.kt")
   public void testThemeVariantNotAnEnum() {
-    runTest("chameleon/chameleon-compiler-plugin/src/test/data/diagnostic/ir/ThemeVariantNotAnEnum.kt");
+    run("ThemeVariantNotAnEnum.kt");
   }
 
   @Test
   @TestMetadata("ThemeVariantNotParameterOfSnapshotFunction.kt")
   public void testThemeVariantNotParameterOfSnapshotFunction() {
-    runTest("chameleon/chameleon-compiler-plugin/src/test/data/diagnostic/ir/ThemeVariantNotParameterOfSnapshotFunction.kt");
+    run("ThemeVariantNotParameterOfSnapshotFunction.kt");
   }
 }

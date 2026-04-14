@@ -15,6 +15,10 @@ import java.util.regex.Pattern;
 @TestMetadata("routebinding/routebinding-compiler-plugin/src/test/data/diagnostic")
 @TestDataPath("$PROJECT_ROOT")
 public class DiagnosticTestGenerated extends AbstractDiagnosticTest {
+  private void run(String fileName) {
+    runTest("routebinding/routebinding-compiler-plugin/src/test/data/diagnostic/" + fileName);
+  }
+
   @Test
   public void testAllFilesPresentInDiagnostic() {
     KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("routebinding/routebinding-compiler-plugin/src/test/data/diagnostic"), Pattern.compile("^(.+)\\.kt$"), null, true);
@@ -23,54 +27,54 @@ public class DiagnosticTestGenerated extends AbstractDiagnosticTest {
   @Test
   @TestMetadata("DuplicateParameterType.kt")
   public void testDuplicateParameterType() {
-    runTest("routebinding/routebinding-compiler-plugin/src/test/data/diagnostic/DuplicateParameterType.kt");
+    run("DuplicateParameterType.kt");
   }
 
   @Test
   @TestMetadata("NonComposableFunction.kt")
   public void testNonComposableFunction() {
-    runTest("routebinding/routebinding-compiler-plugin/src/test/data/diagnostic/NonComposableFunction.kt");
+    run("NonComposableFunction.kt");
   }
 
   @Test
   @TestMetadata("NonTopLevelFunction.kt")
   public void testNonTopLevelFunction() {
-    runTest("routebinding/routebinding-compiler-plugin/src/test/data/diagnostic/NonTopLevelFunction.kt");
+    run("NonTopLevelFunction.kt");
   }
 
   @Test
   @TestMetadata("PrivateFunction.kt")
   public void testPrivateFunction() {
-    runTest("routebinding/routebinding-compiler-plugin/src/test/data/diagnostic/PrivateFunction.kt");
+    run("PrivateFunction.kt");
   }
 
   @Test
   @TestMetadata("PublicFunction.kt")
   public void testPublicFunction() {
-    runTest("routebinding/routebinding-compiler-plugin/src/test/data/diagnostic/PublicFunction.kt");
+    run("PublicFunction.kt");
   }
 
   @Test
   @TestMetadata("RouteParameterTypeMismatch.kt")
   public void testRouteParameterTypeMismatch() {
-    runTest("routebinding/routebinding-compiler-plugin/src/test/data/diagnostic/RouteParameterTypeMismatch.kt");
+    run("RouteParameterTypeMismatch.kt");
   }
 
   @Test
   @TestMetadata("UnsupportedContextParameter.kt")
   public void testUnsupportedContextParameter() {
-    runTest("routebinding/routebinding-compiler-plugin/src/test/data/diagnostic/UnsupportedContextParameter.kt");
+    run("UnsupportedContextParameter.kt");
   }
 
   @Test
   @TestMetadata("UnsupportedReceiverType.kt")
   public void testUnsupportedReceiverType() {
-    runTest("routebinding/routebinding-compiler-plugin/src/test/data/diagnostic/UnsupportedReceiverType.kt");
+    run("UnsupportedReceiverType.kt");
   }
 
   @Test
   @TestMetadata("UnsupportedValueParameter.kt")
   public void testUnsupportedValueParameter() {
-    runTest("routebinding/routebinding-compiler-plugin/src/test/data/diagnostic/UnsupportedValueParameter.kt");
+    run("UnsupportedValueParameter.kt");
   }
 }

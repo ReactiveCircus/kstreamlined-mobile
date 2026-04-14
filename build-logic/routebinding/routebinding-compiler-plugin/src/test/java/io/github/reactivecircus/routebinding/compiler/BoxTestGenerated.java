@@ -15,6 +15,10 @@ import java.util.regex.Pattern;
 @TestMetadata("routebinding/routebinding-compiler-plugin/src/test/data/box")
 @TestDataPath("$PROJECT_ROOT")
 public class BoxTestGenerated extends AbstractBoxTest {
+  private void run(String fileName) {
+    runTest("routebinding/routebinding-compiler-plugin/src/test/data/box/" + fileName);
+  }
+
   @Test
   public void testAllFilesPresentInBox() {
     KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("routebinding/routebinding-compiler-plugin/src/test/data/box"), Pattern.compile("^(.+)\\.kt$"), null, true);
@@ -23,42 +27,42 @@ public class BoxTestGenerated extends AbstractBoxTest {
   @Test
   @TestMetadata("BindingFunctionSignatures.kt")
   public void testBindingFunctionSignatures() {
-    runTest("routebinding/routebinding-compiler-plugin/src/test/data/box/BindingFunctionSignatures.kt");
+    run("BindingFunctionSignatures.kt");
   }
 
   @Test
   @TestMetadata("InstallFunctionCall.kt")
   public void testInstallFunctionCall() {
-    runTest("routebinding/routebinding-compiler-plugin/src/test/data/box/InstallFunctionCall.kt");
+    run("InstallFunctionCall.kt");
   }
 
   @Test
   @TestMetadata("ManualBinding.kt")
   public void testManualBinding() {
-    runTest("routebinding/routebinding-compiler-plugin/src/test/data/box/ManualBinding.kt");
+    run("ManualBinding.kt");
   }
 
   @Test
   @TestMetadata("MultipleBindingsInMultipleCompilations.kt")
   public void testMultipleBindingsInMultipleCompilations() {
-    runTest("routebinding/routebinding-compiler-plugin/src/test/data/box/MultipleBindingsInMultipleCompilations.kt");
+    run("MultipleBindingsInMultipleCompilations.kt");
   }
 
   @Test
   @TestMetadata("MultipleBindingsInSingleCompilation.kt")
   public void testMultipleBindingsInSingleCompilation() {
-    runTest("routebinding/routebinding-compiler-plugin/src/test/data/box/MultipleBindingsInSingleCompilation.kt");
+    run("MultipleBindingsInSingleCompilation.kt");
   }
 
   @Test
   @TestMetadata("SameBindingFunctionNameInDifferentPackages.kt")
   public void testSameBindingFunctionNameInDifferentPackages() {
-    runTest("routebinding/routebinding-compiler-plugin/src/test/data/box/SameBindingFunctionNameInDifferentPackages.kt");
+    run("SameBindingFunctionNameInDifferentPackages.kt");
   }
 
   @Test
   @TestMetadata("SingleBinding.kt")
   public void testSingleBinding() {
-    runTest("routebinding/routebinding-compiler-plugin/src/test/data/box/SingleBinding.kt");
+    run("SingleBinding.kt");
   }
 }

@@ -15,6 +15,10 @@ import java.util.regex.Pattern;
 @TestMetadata("chameleon/chameleon-compiler-plugin/src/test/data/diagnostic/fir")
 @TestDataPath("$PROJECT_ROOT")
 public class FirDiagnosticTestGenerated extends AbstractFirDiagnosticTest {
+  private void run(String fileName) {
+    runTest("chameleon/chameleon-compiler-plugin/src/test/data/diagnostic/fir/" + fileName);
+  }
+
   @Test
   public void testAllFilesPresentInFir() {
     KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("chameleon/chameleon-compiler-plugin/src/test/data/diagnostic/fir"), Pattern.compile("^(.+)\\.kt$"), null, true);
@@ -23,6 +27,6 @@ public class FirDiagnosticTestGenerated extends AbstractFirDiagnosticTest {
   @Test
   @TestMetadata("RedundantBurstAnnotation.kt")
   public void testRedundantBurstAnnotation() {
-    runTest("chameleon/chameleon-compiler-plugin/src/test/data/diagnostic/fir/RedundantBurstAnnotation.kt");
+    run("RedundantBurstAnnotation.kt");
   }
 }

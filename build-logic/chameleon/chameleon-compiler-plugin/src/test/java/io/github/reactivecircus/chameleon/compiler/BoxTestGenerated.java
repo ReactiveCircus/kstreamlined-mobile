@@ -15,6 +15,10 @@ import java.util.regex.Pattern;
 @TestMetadata("chameleon/chameleon-compiler-plugin/src/test/data/box")
 @TestDataPath("$PROJECT_ROOT")
 public class BoxTestGenerated extends AbstractBoxTest {
+  private void run(String fileName) {
+    runTest("chameleon/chameleon-compiler-plugin/src/test/data/box/" + fileName);
+  }
+
   @Test
   public void testAllFilesPresentInBox() {
     KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("chameleon/chameleon-compiler-plugin/src/test/data/box"), Pattern.compile("^(.+)\\.kt$"), null, true);
@@ -23,24 +27,24 @@ public class BoxTestGenerated extends AbstractBoxTest {
   @Test
   @TestMetadata("Basic.kt")
   public void testBasic() {
-    runTest("chameleon/chameleon-compiler-plugin/src/test/data/box/Basic.kt");
+    run("Basic.kt");
   }
 
   @Test
   @TestMetadata("ExistingThemeVariantProperty.kt")
   public void testExistingThemeVariantProperty() {
-    runTest("chameleon/chameleon-compiler-plugin/src/test/data/box/ExistingThemeVariantProperty.kt");
+    run("ExistingThemeVariantProperty.kt");
   }
 
   @Test
   @TestMetadata("NoSnapshotFunctionCalls.kt")
   public void testNoSnapshotFunctionCalls() {
-    runTest("chameleon/chameleon-compiler-plugin/src/test/data/box/NoSnapshotFunctionCalls.kt");
+    run("NoSnapshotFunctionCalls.kt");
   }
 
   @Test
   @TestMetadata("ThemeVariantArgumentProvided.kt")
   public void testThemeVariantArgumentProvided() {
-    runTest("chameleon/chameleon-compiler-plugin/src/test/data/box/ThemeVariantArgumentProvided.kt");
+    run("ThemeVariantArgumentProvided.kt");
   }
 }

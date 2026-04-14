@@ -15,6 +15,10 @@ import java.util.regex.Pattern;
 @TestMetadata("routebinding/routebinding-compiler-plugin/src/test/data/dump")
 @TestDataPath("$PROJECT_ROOT")
 public class DumpTestGenerated extends AbstractDumpTest {
+  private void run(String fileName) {
+    runTest("routebinding/routebinding-compiler-plugin/src/test/data/dump/" + fileName);
+  }
+
   @Test
   public void testAllFilesPresentInDump() {
     KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("routebinding/routebinding-compiler-plugin/src/test/data/dump"), Pattern.compile("^(.+)\\.kt$"), null, true);
@@ -23,42 +27,42 @@ public class DumpTestGenerated extends AbstractDumpTest {
   @Test
   @TestMetadata("NoReceiverAndParams.kt")
   public void testNoReceiverAndParams() {
-    runTest("routebinding/routebinding-compiler-plugin/src/test/data/dump/NoReceiverAndParams.kt");
+    run("NoReceiverAndParams.kt");
   }
 
   @Test
   @TestMetadata("Standard.kt")
   public void testStandard() {
-    runTest("routebinding/routebinding-compiler-plugin/src/test/data/dump/Standard.kt");
+    run("Standard.kt");
   }
 
   @Test
   @TestMetadata("WithBackStackParamOnly.kt")
   public void testWithBackStackParamOnly() {
-    runTest("routebinding/routebinding-compiler-plugin/src/test/data/dump/WithBackStackParamOnly.kt");
+    run("WithBackStackParamOnly.kt");
   }
 
   @Test
   @TestMetadata("WithParamWithDefaultValue.kt")
   public void testWithParamWithDefaultValue() {
-    runTest("routebinding/routebinding-compiler-plugin/src/test/data/dump/WithParamWithDefaultValue.kt");
+    run("WithParamWithDefaultValue.kt");
   }
 
   @Test
   @TestMetadata("WithRouteParamOnly.kt")
   public void testWithRouteParamOnly() {
-    runTest("routebinding/routebinding-compiler-plugin/src/test/data/dump/WithRouteParamOnly.kt");
+    run("WithRouteParamOnly.kt");
   }
 
   @Test
   @TestMetadata("WithSharedTransitionScopeAsContextParam.kt")
   public void testWithSharedTransitionScopeAsContextParam() {
-    runTest("routebinding/routebinding-compiler-plugin/src/test/data/dump/WithSharedTransitionScopeAsContextParam.kt");
+    run("WithSharedTransitionScopeAsContextParam.kt");
   }
 
   @Test
   @TestMetadata("WithSharedTransitionScopeAsValueParam.kt")
   public void testWithSharedTransitionScopeAsValueParam() {
-    runTest("routebinding/routebinding-compiler-plugin/src/test/data/dump/WithSharedTransitionScopeAsValueParam.kt");
+    run("WithSharedTransitionScopeAsValueParam.kt");
   }
 }
