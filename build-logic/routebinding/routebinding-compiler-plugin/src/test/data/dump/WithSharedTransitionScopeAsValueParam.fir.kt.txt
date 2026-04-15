@@ -11,18 +11,22 @@ class FooScreen_NavEntryInstaller : NavEntryInstaller {
 
     }
 
+    @HiddenFromObjC
     fun create(): Factory<FooScreen_NavEntryInstaller> {
       return MetroFactory
     }
 
+    @HiddenFromObjC
     fun newInstance(): FooScreen_NavEntryInstaller {
       return FooScreen_NavEntryInstaller()
     }
 
+    @HiddenFromObjC
     override operator fun invoke(): FooScreen_NavEntryInstaller {
       return MetroFactory.newInstance()
     }
 
+    @HiddenFromObjC
     fun mirrorFunction(): FooScreen_NavEntryInstaller {
       return error(message = "Never called")
     }
