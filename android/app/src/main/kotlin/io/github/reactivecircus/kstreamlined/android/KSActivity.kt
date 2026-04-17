@@ -17,6 +17,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.retain.retainRetainedValuesStoreRegistry
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -25,7 +27,8 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
+import androidx.navigation3.runtime.NavEntryDecorator
+import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
@@ -67,7 +70,7 @@ class KSActivity : ComponentActivity() {
                             contentAlignment = Alignment.Center,
                             entryDecorators = listOf(
                                 rememberSaveableStateHolderNavEntryDecorator(),
-                                rememberViewModelStoreNavEntryDecorator(),
+                                rememberRetainedNavEntryDecorator(),
                             ),
                             sharedTransitionScope = this,
                             entryProvider = entryProvider {
@@ -107,5 +110,17 @@ private fun ComponentActivity.NavigationBarStyleEffect(theme: AppSettings.Theme)
             )
         }
         onDispose { }
+    }
+}
+
+@Composable
+private fun rememberRetainedNavEntryDecorator(): NavEntryDecorator<NavKey> {
+    val registry = retainRetainedValuesStoreRegistry()
+    return remember(registry) {
+        NavEntryDecorator(onPop = registry::clearChild) { entry ->
+            registry.LocalRetainedValuesStoreProvider(entry.contentKey) {
+                entry.Content()
+            }
+        }
     }
 }
