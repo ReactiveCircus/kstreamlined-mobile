@@ -40,7 +40,6 @@ You can also bind `AllLicensesInfo` to the `LicensesInfo` interface in the DI gr
 
 ```kt
 @Provides
-@Singleton
 fun licensesInfo(): LicensesInfo = AllLicensesInfo
 ```
 

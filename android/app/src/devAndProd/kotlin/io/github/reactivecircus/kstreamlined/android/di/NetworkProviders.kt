@@ -16,7 +16,7 @@ import okhttp3.Call
 interface NetworkProviders {
     @SingleIn(AppScope::class)
     @Provides
-    fun apolloClient(
+    private fun apolloClient(
         okHttpCallFactory: Lazy<Call.Factory>,
     ): ApolloClient = trace("ApolloClient") {
         return ApolloClient.Builder()

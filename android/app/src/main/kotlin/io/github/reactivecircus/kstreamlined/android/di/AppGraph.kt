@@ -52,11 +52,11 @@ interface AppGraph : ViewModelGraph, NetworkProviders {
     val navEntryInstallers: Set<NavEntryInstaller>
 
     @Provides
-    fun provideApplicationContext(application: Application): Context = application
+    private fun provideApplicationContext(application: Application): Context = application
 
     @SingleIn(AppScope::class)
     @Provides
-    fun provideImageLoader(
+    private fun provideImageLoader(
         context: Context,
         okHttpCallFactory: Lazy<Call.Factory>,
     ): ImageLoader = trace("CoilImageLoader") {
@@ -72,7 +72,7 @@ interface AppGraph : ViewModelGraph, NetworkProviders {
 
     @SingleIn(AppScope::class)
     @Provides
-    fun provideOkHttpCallFactory(): Call.Factory = trace("KSOkHttpClient") {
+    private fun provideOkHttpCallFactory(): Call.Factory = trace("KSOkHttpClient") {
         val callTimeout = BuildConfig.NETWORK_TIMEOUT_SECONDS
             .toDuration(DurationUnit.SECONDS)
             .toJavaDuration()
@@ -83,11 +83,11 @@ interface AppGraph : ViewModelGraph, NetworkProviders {
 
     @SingleIn(AppScope::class)
     @Provides
-    fun provideAppCoroutineScope(): CoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
+    private fun provideAppCoroutineScope(): CoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
 
     @SingleIn(AppScope::class)
     @Provides
-    fun provideDatabase(
+    private fun provideDatabase(
         context: Context,
     ): KStreamlinedDatabase {
         return KStreamlinedDatabase(
@@ -109,19 +109,19 @@ interface AppGraph : ViewModelGraph, NetworkProviders {
 
     @SingleIn(AppScope::class)
     @Provides
-    fun provideSettingsDataSource(
+    private fun provideSettingsDataSource(
         context: Context,
         appCoroutineScope: CoroutineScope,
     ): SettingsDataSource = SettingsDataSource(dataStore = createAppSettingsDataStore(context))
 
     @Provides
-    fun provideAppInfo(): AppInfo = AppInfo(
+    private fun provideAppInfo(): AppInfo = AppInfo(
         versionName = BuildConfig.VERSION_NAME,
         sourceCodeUrl = BuildConfig.SOURCE_CODE_URL,
     )
 
     @Provides
-    fun provideLicensesInfo(): LicensesInfo = AllLicensesInfo
+    private fun provideLicensesInfo(): LicensesInfo = AllLicensesInfo
 
     @DependencyGraph.Factory
     fun interface Factory {
