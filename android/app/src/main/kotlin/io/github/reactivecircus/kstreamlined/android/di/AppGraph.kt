@@ -14,12 +14,12 @@ import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.DependencyGraph
 import dev.zacsweers.metro.Provides
 import dev.zacsweers.metro.SingleIn
-import dev.zacsweers.metrox.viewmodel.ViewModelGraph
 import io.github.reactivecircus.kstreamlined.android.BuildConfig
 import io.github.reactivecircus.kstreamlined.android.core.scheduledwork.KSWorkerFactory
 import io.github.reactivecircus.kstreamlined.android.core.scheduledwork.sync.SyncScheduler
 import io.github.reactivecircus.kstreamlined.android.licentia.AllLicensesInfo
 import io.github.reactivecircus.kstreamlined.kmp.appinfo.AppInfo
+import io.github.reactivecircus.kstreamlined.kmp.arch.metro.retain.RetainGraph
 import io.github.reactivecircus.kstreamlined.kmp.database.FeedItemEntity
 import io.github.reactivecircus.kstreamlined.kmp.database.InstantAdapter
 import io.github.reactivecircus.kstreamlined.kmp.database.KStreamlinedDatabase
@@ -38,7 +38,7 @@ import kotlin.time.toDuration
 import kotlin.time.toJavaDuration
 
 @DependencyGraph(AppScope::class)
-interface AppGraph : ViewModelGraph, NetworkProviders {
+interface AppGraph : RetainGraph, NetworkProviders {
     val imageLoader: Lazy<ImageLoader>
 
     val appCoroutineScope: CoroutineScope

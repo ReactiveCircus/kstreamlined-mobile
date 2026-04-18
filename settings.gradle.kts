@@ -69,6 +69,7 @@ plugins {
 rootProject.name = "kstreamlined-mobile"
 
 includeKmpProjects(
+    ":kmp:arch:metro-retain",
     ":kmp:app-info",
     ":kmp:feed-datasource",
     ":kmp:feed-model",

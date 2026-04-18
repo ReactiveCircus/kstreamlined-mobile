@@ -6,10 +6,13 @@ kstreamlined {
             jvm()
             ios()
         }
+        compose()
 
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         dependencies {
-            implementation(libs.androidx.compose.runtime.annotation)
+            api(libs.metro.runtime)
+            api(libs.androidx.compose.runtime)
+            implementation(libs.androidx.compose.runtime.retain)
         }
     }
 }

@@ -33,8 +33,8 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
-import dev.zacsweers.metrox.viewmodel.LocalMetroViewModelFactory
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
+import io.github.reactivecircus.kstreamlined.kmp.arch.metro.retain.LocalMetroRetainFactory
 import io.github.reactivecircus.kstreamlined.kmp.settings.model.AppSettings
 
 class KSActivity : ComponentActivity() {
@@ -57,7 +57,7 @@ class KSActivity : ComponentActivity() {
                 NavigationBarStyleEffect(theme)
 
                 CompositionLocalProvider(
-                    LocalMetroViewModelFactory provides appGraph.metroViewModelFactory,
+                    LocalMetroRetainFactory provides appGraph.metroRetainFactory,
                 ) {
                     val backStack = rememberNavBackStack(MainRoute)
 
