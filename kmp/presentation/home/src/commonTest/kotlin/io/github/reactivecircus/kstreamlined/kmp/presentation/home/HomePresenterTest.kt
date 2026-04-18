@@ -79,7 +79,7 @@ class HomePresenterTest {
             db = db,
             dbDispatcher = testDispatcher,
         ),
-        scope = testScope.backgroundScope,
+        coroutineContext = testDispatcher,
         recompositionMode = RecompositionMode.Immediate,
     )
 

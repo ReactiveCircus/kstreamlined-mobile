@@ -11,6 +11,7 @@ kstreamlined {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         dependencies {
             api(libs.molecule.runtime)
+            api(libs.androidx.compose.runtime.retain)
         }
     }
 }

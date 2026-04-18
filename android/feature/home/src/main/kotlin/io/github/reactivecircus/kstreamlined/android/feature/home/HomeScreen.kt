@@ -42,7 +42,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
 import androidx.tracing.trace
-import dev.zacsweers.metrox.viewmodel.metroViewModel
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.FilledIconButton
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Surface
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Text
@@ -65,9 +64,11 @@ import io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue.a
 import io.github.reactivecircus.kstreamlined.android.feature.settings.api.SettingsRoute
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.api.TalkingKotlinEpisodeRoute
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.api.TalkingKotlinEpisodeSharedTransitionKeys
+import io.github.reactivecircus.kstreamlined.kmp.arch.metro.retain.metroRetain
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.toDisplayable
 import io.github.reactivecircus.kstreamlined.kmp.presentation.home.HomeFeedItem
+import io.github.reactivecircus.kstreamlined.kmp.presentation.home.HomePresenter
 import io.github.reactivecircus.kstreamlined.kmp.presentation.home.HomeUiEvent
 import io.github.reactivecircus.kstreamlined.kmp.presentation.home.HomeUiState
 import kotlinx.coroutines.delay
@@ -79,7 +80,7 @@ public fun SharedTransitionScope.HomeScreen(
     listState: LazyListState,
     modifier: Modifier = Modifier,
 ) {
-    val presenter = metroViewModel<HomeViewModel>().presenter
+    val presenter = metroRetain<HomePresenter>()
     val uiState by presenter.states.collectAsStateWithLifecycle()
     val eventSink = presenter.eventSink
     HomeScreen(
