@@ -21,6 +21,7 @@ pluginManagement {
                 includeGroup("app.cash.paparazzi")
             }
         }
+        mavenLocal()
     }
 
     fun extractVersionFromCatalog(key: String) = file("$rootDir/gradle/libs.versions.toml")
