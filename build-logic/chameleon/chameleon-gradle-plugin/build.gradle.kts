@@ -1,5 +1,6 @@
 import dev.detekt.gradle.Detekt
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.util.Properties
 
 plugins {
     `java-gradle-plugin`
@@ -9,7 +10,13 @@ plugins {
     alias(libs.plugins.testkit)
 }
 
-group = project.property("GROUP") as String
+val sharedProps = layout.projectDirectory.file("../gradle.properties").asFile
+if (sharedProps.exists()) {
+    val props = Properties().apply {
+        sharedProps.inputStream().use { load(it) }
+    }
+    group = props.getProperty("GROUP")
+}
 
 gradlePlugin {
     plugins {
