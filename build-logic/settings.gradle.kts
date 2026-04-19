@@ -44,7 +44,6 @@ dependencyResolutionManagement {
                 includeGroup("app.cash.paparazzi")
             }
         }
-        mavenLocal()
     }
 
     versionCatalogs {
