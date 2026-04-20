@@ -20,20 +20,20 @@ import kotlin.reflect.KClass
  * @ContributesBinding(AppScope::class)
  * @SingleIn(AppScope::class)
  * class MyRetainFactory(
- *   override val retainedProviders: Map<KClass<out Any>, Provider<Any>>,
+ *   override val retainedProviders: Map<KClass<out Retainable>, Provider<Retainable>>,
  *   override val assistedFactoryProviders: Map<KClass<out RetainedAssistedFactory>, Provider<RetainedAssistedFactory>>,
  * ) : MetroRetainFactory()
  * ```
  */
 @Suppress("MaxLineLength")
 public abstract class MetroRetainFactory {
-    protected open val retainedProviders: Map<KClass<out Any>, Provider<Any>> = emptyMap()
+    protected open val retainedProviders: Map<KClass<out Retainable>, Provider<Retainable>> = emptyMap()
     protected open val assistedFactoryProviders:
         Map<KClass<out RetainedAssistedFactory>, Provider<RetainedAssistedFactory>> =
         emptyMap()
 
     @Suppress("UNCHECKED_CAST")
-    public fun <T : Any> create(modelClass: KClass<T>): T {
+    public fun <T : Retainable> create(modelClass: KClass<T>): T {
         retainedProviders[modelClass]?.let { provider ->
             return provider() as T
         }

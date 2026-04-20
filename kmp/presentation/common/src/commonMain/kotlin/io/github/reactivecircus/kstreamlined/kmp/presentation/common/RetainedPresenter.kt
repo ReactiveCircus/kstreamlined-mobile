@@ -5,6 +5,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.retain.RetainObserver
 import app.cash.molecule.RecompositionMode
 import app.cash.molecule.launchMolecule
+import io.github.reactivecircus.kstreamlined.kmp.arch.metro.retain.Retainable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
@@ -16,7 +17,7 @@ import kotlin.coroutines.CoroutineContext
 public abstract class RetainedPresenter<UiEvent : Any, UiState : Any>(
     coroutineContext: CoroutineContext,
     private val recompositionMode: RecompositionMode,
-) : RetainObserver {
+) : Retainable, RetainObserver {
     private val scope: CoroutineScope = CoroutineScope(SupervisorJob() + coroutineContext)
 
     private val events = MutableSharedFlow<UiEvent>()

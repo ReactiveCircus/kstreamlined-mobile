@@ -16,4 +16,4 @@ import kotlin.reflect.KClass
     AnnotationTarget.TYPE,
 )
 @Retention(AnnotationRetention.RUNTIME)
-public annotation class RetainedKey(val value: KClass<out Any> = Nothing::class)
+public annotation class RetainedKey(val value: KClass<out Retainable> = Nothing::class)

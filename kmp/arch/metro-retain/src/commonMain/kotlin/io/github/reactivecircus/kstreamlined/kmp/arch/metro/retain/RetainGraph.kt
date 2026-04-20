@@ -16,8 +16,8 @@ import kotlin.reflect.KClass
  * ```
  */
 public interface MetroRetainMultibindings {
-    @Multibinds(allowEmpty = true)
-    public val retainedProviders: Map<KClass<out Any>, Provider<Any>>
+    @Multibinds // TODO add allowEmpty = true back
+    public val retainedProviders: Map<KClass<out Retainable>, Provider<Retainable>>
 
     @Multibinds(allowEmpty = true)
     public val assistedFactoryProviders:

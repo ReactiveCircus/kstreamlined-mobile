@@ -9,6 +9,8 @@ import androidx.compose.runtime.setValue
 import app.cash.molecule.RecompositionMode
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoMap
+import dev.zacsweers.metro.binding
+import io.github.reactivecircus.kstreamlined.kmp.arch.metro.retain.Retainable
 import io.github.reactivecircus.kstreamlined.kmp.arch.metro.retain.RetainedKey
 import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.FeedDataSource
 import io.github.reactivecircus.kstreamlined.kmp.feed.sync.FeedSyncEngine
@@ -21,7 +23,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlin.coroutines.CoroutineContext
 
 @RetainedKey
-@ContributesIntoMap(AppScope::class)
+@ContributesIntoMap(AppScope::class, binding = binding<Retainable>())
 public class HomePresenter(
     private val feedSyncEngine: FeedSyncEngine,
     private val feedDataSource: FeedDataSource,

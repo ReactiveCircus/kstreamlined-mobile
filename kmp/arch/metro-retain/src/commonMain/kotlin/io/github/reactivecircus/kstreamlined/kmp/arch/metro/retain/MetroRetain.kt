@@ -11,7 +11,7 @@ import androidx.compose.runtime.retain.retain
  * lifecycle callbacks are fired automatically.
  */
 @Composable
-public inline fun <reified T : Any> metroRetain(): T {
+public inline fun <reified T : Retainable> metroRetain(): T {
     val factory = LocalMetroRetainFactory.current
     return retain { factory.create(T::class) }
 }
@@ -23,7 +23,7 @@ public inline fun <reified T : Any> metroRetain(): T {
  * on the factory to create the instance.
  */
 @Composable
-public inline fun <reified T : Any, reified F : RetainedAssistedFactory> assistedMetroRetain(
+public inline fun <reified T : Retainable, reified F : RetainedAssistedFactory> assistedMetroRetain(
     crossinline block: F.() -> T,
 ): T {
     val factory = LocalMetroRetainFactory.current

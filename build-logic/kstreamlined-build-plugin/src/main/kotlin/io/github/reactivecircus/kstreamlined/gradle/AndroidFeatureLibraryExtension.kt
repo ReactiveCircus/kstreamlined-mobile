@@ -16,6 +16,7 @@ import io.github.reactivecircus.kstreamlined.gradle.internal.configureTest
 import io.github.reactivecircus.kstreamlined.gradle.internal.libs
 import org.gradle.api.Action
 import org.gradle.api.Project
+import org.gradle.api.artifacts.ProjectDependency
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.KotlinBaseExtension
 import javax.inject.Inject
@@ -111,6 +112,7 @@ internal abstract class AndroidFeatureLibraryExtensionImpl @Inject constructor(
         }
 
         configureMetro()
+        exposeDependenciesForMetroContributionDiscovery()
 
         configureCompose(
             jvmTargetEnabled = false,
@@ -151,5 +153,23 @@ internal abstract class AndroidFeatureLibraryExtensionImpl @Inject constructor(
         }
 
         configureDetekt()
+    }
+
+    /**
+     * Expose`kmp:presentation:*` project dependencies to downstream (:app module) by
+     * changing `implementation` configuration to `api` so that contributed bindings can be discovered.
+     */
+    private fun Project.exposeDependenciesForMetroContributionDiscovery() {
+        configurations.named("implementation").configure { implConfig ->
+            implConfig.withDependencies { deps ->
+                val presentationDeps = deps
+                    .filterIsInstance<ProjectDependency>()
+                    .filter { it.path.startsWith(":kmp:presentation:") }
+                for (dep in presentationDeps) {
+                    deps.remove(dep)
+                    configurations.named("api").configure { it.dependencies.add(dep) }
+                }
+            }
+        }
     }
 }

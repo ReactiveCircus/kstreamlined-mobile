@@ -10,6 +10,8 @@ kstreamlined {
 
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         dependencies {
+            // TODO decouple from metro-retain / invert dependency
+            implementation(project(":kmp:arch:metro-retain"))
             api(libs.molecule.runtime)
             api(libs.androidx.compose.runtime.retain)
         }
