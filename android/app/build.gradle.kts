@@ -100,7 +100,7 @@ kstreamlined {
             demoImplementation(project(":kmp:remote:edge"))
             devImplementation(project(":kmp:remote:cloud"))
             prodImplementation(project(":kmp:remote:cloud"))
-            implementation(project(":kmp:pulse:metro"))
+            implementation(project(":kmp:capsule:inject"))
             implementation(project(":core:designsystem"))
             implementation(project(":feature:content-viewer:impl"))
             implementation(project(":feature:home"))

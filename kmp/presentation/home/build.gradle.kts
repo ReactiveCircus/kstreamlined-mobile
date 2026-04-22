@@ -12,8 +12,7 @@ kstreamlined {
 
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         dependencies {
-            implementation(project(":kmp:pulse:runtime"))
-            implementation(project(":kmp:pulse:metro"))
+            implementation(project(":kmp:capsule:runtime"))
             implementation(project(":kmp:feed-datasource"))
             implementation(project(":kmp:feed-sync:common"))
             implementation(project(":kmp:pretty-time"))

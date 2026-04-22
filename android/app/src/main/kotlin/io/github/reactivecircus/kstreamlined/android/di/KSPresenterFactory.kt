@@ -4,9 +4,9 @@ import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesBinding
 import dev.zacsweers.metro.Provider
 import dev.zacsweers.metro.SingleIn
-import io.github.reactivecircus.kstreamlined.kmp.pulse.metro.PresenterAssistedFactory
-import io.github.reactivecircus.kstreamlined.kmp.pulse.metro.PresenterFactory
-import io.github.reactivecircus.kstreamlined.kmp.pulse.runtime.Presenter
+import io.github.reactivecircus.kstreamlined.kmp.capsule.inject.PresenterFactory
+import io.github.reactivecircus.kstreamlined.kmp.capsule.runtime.Presenter
+import io.github.reactivecircus.kstreamlined.kmp.capsule.runtime.PresenterAssistedFactory
 import kotlin.reflect.KClass
 
 @Suppress("Unused", "MaxLineLength", "ParameterWrapping")

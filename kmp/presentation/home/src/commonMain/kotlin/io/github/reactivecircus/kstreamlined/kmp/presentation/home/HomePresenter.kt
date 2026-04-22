@@ -9,11 +9,11 @@ import androidx.compose.runtime.setValue
 import app.cash.molecule.RecompositionMode
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoMap
+import io.github.reactivecircus.kstreamlined.kmp.capsule.runtime.Presenter
+import io.github.reactivecircus.kstreamlined.kmp.capsule.runtime.PresenterKey
 import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.FeedDataSource
 import io.github.reactivecircus.kstreamlined.kmp.feed.sync.FeedSyncEngine
 import io.github.reactivecircus.kstreamlined.kmp.feed.sync.SyncState
-import io.github.reactivecircus.kstreamlined.kmp.pulse.metro.PresenterKey
-import io.github.reactivecircus.kstreamlined.kmp.pulse.runtime.Presenter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
