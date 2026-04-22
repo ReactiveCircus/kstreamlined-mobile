@@ -64,13 +64,13 @@ import io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue.a
 import io.github.reactivecircus.kstreamlined.android.feature.settings.api.SettingsRoute
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.api.TalkingKotlinEpisodeRoute
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.api.TalkingKotlinEpisodeSharedTransitionKeys
-import io.github.reactivecircus.kstreamlined.kmp.pulse.metro.metroRetain
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.toDisplayable
 import io.github.reactivecircus.kstreamlined.kmp.presentation.home.HomeFeedItem
 import io.github.reactivecircus.kstreamlined.kmp.presentation.home.HomePresenter
 import io.github.reactivecircus.kstreamlined.kmp.presentation.home.HomeUiEvent
 import io.github.reactivecircus.kstreamlined.kmp.presentation.home.HomeUiState
+import io.github.reactivecircus.kstreamlined.kmp.pulse.metro.retainPresenter
 import kotlinx.coroutines.delay
 
 @Composable
@@ -80,7 +80,7 @@ public fun SharedTransitionScope.HomeScreen(
     listState: LazyListState,
     modifier: Modifier = Modifier,
 ) {
-    val presenter = metroRetain<HomePresenter>()
+    val presenter = retainPresenter<HomePresenter>()
     val uiState by presenter.states.collectAsStateWithLifecycle()
     val eventSink = presenter.eventSink
     HomeScreen(

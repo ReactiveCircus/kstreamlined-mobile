@@ -4,7 +4,7 @@ import dev.zacsweers.metro.MapKey
 import kotlin.reflect.KClass
 
 /**
- * A [MapKey] annotation for binding [RetainedAssistedFactory] instances in a multibinding map.
+ * A [MapKey] annotation for binding [PresenterAssistedFactory] instances in a multibinding map.
  */
 @MapKey(implicitClassKey = true)
 @Target(
@@ -16,6 +16,6 @@ import kotlin.reflect.KClass
     AnnotationTarget.TYPE,
 )
 @Retention(AnnotationRetention.RUNTIME)
-public annotation class RetainedAssistedFactoryKey(
-    val value: KClass<out RetainedAssistedFactory> = Nothing::class,
+public annotation class PresenterAssistedFactoryKey(
+    val value: KClass<out PresenterAssistedFactory> = Nothing::class,
 )
