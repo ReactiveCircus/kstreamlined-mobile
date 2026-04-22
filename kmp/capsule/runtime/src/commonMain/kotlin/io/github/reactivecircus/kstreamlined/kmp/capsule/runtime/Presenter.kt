@@ -3,7 +3,6 @@ package io.github.reactivecircus.kstreamlined.kmp.capsule.runtime
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.retain.RetainObserver
-import app.cash.molecule.RecompositionMode
 import app.cash.molecule.launchMolecule
 import dev.zacsweers.metro.DefaultBinding
 import dev.zacsweers.metro.ExperimentalMetroApi
@@ -13,22 +12,20 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import kotlin.coroutines.CoroutineContext
 
 @OptIn(ExperimentalMetroApi::class)
 @DefaultBinding<Presenter<*, *>>
 public abstract class Presenter<UiEvent : Any, UiState : Any>(
-    coroutineContext: CoroutineContext,
-    private val recompositionMode: RecompositionMode,
+    moleculeContext: MoleculeContext,
 ) : RetainObserver {
-    private val scope: CoroutineScope = CoroutineScope(SupervisorJob() + coroutineContext)
+    private val scope: CoroutineScope = CoroutineScope(SupervisorJob() + moleculeContext.coroutineContext)
 
     private val events = MutableSharedFlow<UiEvent>()
 
     public val eventSink: (UiEvent) -> Unit = { scope.launch { events.emit(it) } }
 
     public val states: StateFlow<UiState> by lazy(LazyThreadSafetyMode.NONE) {
-        scope.launchMolecule(recompositionMode) { present() }
+        scope.launchMolecule(moleculeContext.recompositionMode) { present() }
     }
 
     @Composable

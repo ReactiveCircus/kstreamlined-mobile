@@ -2,6 +2,7 @@ package io.github.reactivecircus.kstreamlined.kmp.presentation.home
 
 import app.cash.molecule.RecompositionMode
 import app.cash.turbine.test
+import io.github.reactivecircus.kstreamlined.kmp.capsule.runtime.MoleculeContext
 import io.github.reactivecircus.kstreamlined.kmp.database.FeedItemEntity
 import io.github.reactivecircus.kstreamlined.kmp.database.FeedOriginEntity
 import io.github.reactivecircus.kstreamlined.kmp.database.testing.createInMemoryDatabase
@@ -79,8 +80,10 @@ class HomePresenterTest {
             db = db,
             dbDispatcher = testDispatcher,
         ),
-        coroutineContext = testDispatcher,
-        recompositionMode = RecompositionMode.Immediate,
+        moleculeContext = MoleculeContext(
+            coroutineContext = testDispatcher,
+            recompositionMode = RecompositionMode.Immediate,
+        ),
     )
 
     @Test

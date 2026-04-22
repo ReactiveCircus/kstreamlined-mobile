@@ -32,13 +32,13 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
 import androidx.tracing.trace
@@ -81,7 +81,7 @@ public fun SharedTransitionScope.HomeScreen(
     modifier: Modifier = Modifier,
 ) {
     val presenter = retainPresenter<HomePresenter>()
-    val uiState by presenter.states.collectAsStateWithLifecycle()
+    val uiState by presenter.states.collectAsState()
     val eventSink = presenter.eventSink
     HomeScreen(
         animatedVisibilityScope = animatedVisibilityScope,

@@ -6,28 +6,25 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import app.cash.molecule.RecompositionMode
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoMap
+import io.github.reactivecircus.kstreamlined.kmp.capsule.runtime.MoleculeContext
 import io.github.reactivecircus.kstreamlined.kmp.capsule.runtime.Presenter
 import io.github.reactivecircus.kstreamlined.kmp.capsule.runtime.PresenterKey
 import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.FeedDataSource
 import io.github.reactivecircus.kstreamlined.kmp.feed.sync.FeedSyncEngine
 import io.github.reactivecircus.kstreamlined.kmp.feed.sync.SyncState
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
-import kotlin.coroutines.CoroutineContext
 
 @PresenterKey
 @ContributesIntoMap(AppScope::class)
 public class HomePresenter(
     private val feedSyncEngine: FeedSyncEngine,
     private val feedDataSource: FeedDataSource,
-    coroutineContext: CoroutineContext = Dispatchers.Main, // TODO use AndroidUiDispatcher.Main on Android
-    recompositionMode: RecompositionMode = RecompositionMode.ContextClock,
-) : Presenter<HomeUiEvent, HomeUiState>(coroutineContext, recompositionMode) {
+    moleculeContext: MoleculeContext,
+) : Presenter<HomeUiEvent, HomeUiState>(moleculeContext) {
     @Composable
     override fun present(): HomeUiState {
         var uiState by remember { mutableStateOf<HomeUiState>(HomeUiState.Loading) }

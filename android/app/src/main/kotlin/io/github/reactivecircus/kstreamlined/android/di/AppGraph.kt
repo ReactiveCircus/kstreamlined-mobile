@@ -3,7 +3,9 @@ package io.github.reactivecircus.kstreamlined.android.di
 import android.app.Application
 import android.content.Context
 import android.os.Build
+import androidx.compose.ui.platform.AndroidUiDispatcher
 import androidx.tracing.trace
+import app.cash.molecule.RecompositionMode
 import app.cash.sqldelight.EnumColumnAdapter
 import app.cash.sqldelight.driver.android.AndroidSqliteDriver
 import coil3.ImageLoader
@@ -20,6 +22,7 @@ import io.github.reactivecircus.kstreamlined.android.core.scheduledwork.sync.Syn
 import io.github.reactivecircus.kstreamlined.android.licentia.AllLicensesInfo
 import io.github.reactivecircus.kstreamlined.kmp.appinfo.AppInfo
 import io.github.reactivecircus.kstreamlined.kmp.capsule.inject.PresenterGraph
+import io.github.reactivecircus.kstreamlined.kmp.capsule.runtime.MoleculeContext
 import io.github.reactivecircus.kstreamlined.kmp.database.FeedItemEntity
 import io.github.reactivecircus.kstreamlined.kmp.database.InstantAdapter
 import io.github.reactivecircus.kstreamlined.kmp.database.KStreamlinedDatabase
@@ -50,6 +53,12 @@ interface AppGraph : PresenterGraph, NetworkProviders {
     val settingsDataSource: SettingsDataSource
 
     val navEntryInstallers: Set<NavEntryInstaller>
+
+    @Provides
+    private fun provideMoleculeContext(): MoleculeContext = MoleculeContext(
+        coroutineContext = AndroidUiDispatcher.Main,
+        recompositionMode = RecompositionMode.ContextClock,
+    )
 
     @Provides
     private fun provideApplicationContext(application: Application): Context = application
