@@ -10,7 +10,10 @@ kstreamlined {
 
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         dependencies {
-            api(libs.molecule.runtime)
+            api(project(":kmp:pulse:runtime"))
+            api(libs.metro.runtime)
+            api(libs.androidx.compose.runtime)
+            implementation(libs.androidx.compose.runtime.retain)
         }
     }
 }

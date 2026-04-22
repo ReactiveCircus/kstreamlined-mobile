@@ -1,11 +1,12 @@
-package io.github.reactivecircus.kstreamlined.kmp.presentation.common
+package io.github.reactivecircus.kstreamlined.kmp.pulse.runtime
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.retain.RetainObserver
 import app.cash.molecule.RecompositionMode
 import app.cash.molecule.launchMolecule
-import io.github.reactivecircus.kstreamlined.kmp.arch.metro.retain.Retainable
+import dev.zacsweers.metro.DefaultBinding
+import dev.zacsweers.metro.ExperimentalMetroApi
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
@@ -14,10 +15,12 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
-public abstract class RetainedPresenter<UiEvent : Any, UiState : Any>(
+@OptIn(ExperimentalMetroApi::class)
+@DefaultBinding<Presenter<*, *>>
+public abstract class Presenter<UiEvent : Any, UiState : Any>(
     coroutineContext: CoroutineContext,
     private val recompositionMode: RecompositionMode,
-) : Retainable, RetainObserver {
+) : RetainObserver {
     private val scope: CoroutineScope = CoroutineScope(SupervisorJob() + coroutineContext)
 
     private val events = MutableSharedFlow<UiEvent>()

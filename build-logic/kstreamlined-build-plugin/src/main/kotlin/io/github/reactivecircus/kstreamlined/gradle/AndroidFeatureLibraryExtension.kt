@@ -121,7 +121,7 @@ internal abstract class AndroidFeatureLibraryExtensionImpl @Inject constructor(
         )
 
         with(dependencies) {
-            add("implementation", project(":kmp:arch:metro-retain"))
+            add("implementation", project(":kmp:pulse:metro"))
             add("implementation", project(":core:designsystem"))
             add("implementation", libs.androidx.compose.foundation)
             add("implementation", libs.androidx.compose.ui.tooling)

@@ -1,4 +1,4 @@
-package io.github.reactivecircus.kstreamlined.kmp.arch.metro.retain
+package io.github.reactivecircus.kstreamlined.kmp.pulse.metro
 
 import dev.zacsweers.metro.MapKey
 import kotlin.reflect.KClass

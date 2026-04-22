@@ -1,10 +1,11 @@
-package io.github.reactivecircus.kstreamlined.kmp.arch.metro.retain
+package io.github.reactivecircus.kstreamlined.kmp.pulse.metro
 
 import dev.zacsweers.metro.MapKey
+import io.github.reactivecircus.kstreamlined.kmp.pulse.runtime.Presenter
 import kotlin.reflect.KClass
 
 /**
- * A [MapKey] annotation for binding retained types in a multibinding map.
+ * A [MapKey] annotation for binding retained presenter types in a multibinding map.
  */
 @MapKey(implicitClassKey = true)
 @Target(
@@ -16,4 +17,4 @@ import kotlin.reflect.KClass
     AnnotationTarget.TYPE,
 )
 @Retention(AnnotationRetention.RUNTIME)
-public annotation class RetainedKey(val value: KClass<out Retainable> = Nothing::class)
+public annotation class RetainedKey(val value: KClass<out Presenter<*, *>> = Nothing::class)

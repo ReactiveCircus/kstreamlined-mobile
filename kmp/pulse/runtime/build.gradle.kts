@@ -7,12 +7,13 @@ kstreamlined {
             ios()
         }
         compose()
+        metro()
 
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         dependencies {
-            api(libs.metro.runtime)
-            api(libs.androidx.compose.runtime)
-            implementation(libs.androidx.compose.runtime.retain)
+            // TODO consider changing to implementation once RecompositionMode is no longer a public constructor parameter
+            api(libs.molecule.runtime)
+            api(libs.androidx.compose.runtime.retain)
         }
     }
 }

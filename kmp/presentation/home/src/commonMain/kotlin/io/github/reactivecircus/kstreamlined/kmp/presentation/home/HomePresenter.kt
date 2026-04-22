@@ -9,13 +9,11 @@ import androidx.compose.runtime.setValue
 import app.cash.molecule.RecompositionMode
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoMap
-import dev.zacsweers.metro.binding
-import io.github.reactivecircus.kstreamlined.kmp.arch.metro.retain.Retainable
-import io.github.reactivecircus.kstreamlined.kmp.arch.metro.retain.RetainedKey
+import io.github.reactivecircus.kstreamlined.kmp.pulse.metro.RetainedKey
 import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.FeedDataSource
 import io.github.reactivecircus.kstreamlined.kmp.feed.sync.FeedSyncEngine
 import io.github.reactivecircus.kstreamlined.kmp.feed.sync.SyncState
-import io.github.reactivecircus.kstreamlined.kmp.presentation.common.RetainedPresenter
+import io.github.reactivecircus.kstreamlined.kmp.pulse.runtime.Presenter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
@@ -23,13 +21,13 @@ import kotlinx.coroutines.flow.onEach
 import kotlin.coroutines.CoroutineContext
 
 @RetainedKey
-@ContributesIntoMap(AppScope::class, binding = binding<Retainable>())
+@ContributesIntoMap(AppScope::class)
 public class HomePresenter(
     private val feedSyncEngine: FeedSyncEngine,
     private val feedDataSource: FeedDataSource,
     coroutineContext: CoroutineContext = Dispatchers.Main, // TODO use AndroidUiDispatcher.Main on Android
     recompositionMode: RecompositionMode = RecompositionMode.ContextClock,
-) : RetainedPresenter<HomeUiEvent, HomeUiState>(coroutineContext, recompositionMode) {
+) : Presenter<HomeUiEvent, HomeUiState>(coroutineContext, recompositionMode) {
     @Composable
     override fun present(): HomeUiState {
         var uiState by remember { mutableStateOf<HomeUiState>(HomeUiState.Loading) }

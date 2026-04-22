@@ -19,7 +19,7 @@ import io.github.reactivecircus.kstreamlined.android.core.scheduledwork.KSWorker
 import io.github.reactivecircus.kstreamlined.android.core.scheduledwork.sync.SyncScheduler
 import io.github.reactivecircus.kstreamlined.android.licentia.AllLicensesInfo
 import io.github.reactivecircus.kstreamlined.kmp.appinfo.AppInfo
-import io.github.reactivecircus.kstreamlined.kmp.arch.metro.retain.RetainGraph
+import io.github.reactivecircus.kstreamlined.kmp.pulse.metro.RetainGraph
 import io.github.reactivecircus.kstreamlined.kmp.database.FeedItemEntity
 import io.github.reactivecircus.kstreamlined.kmp.database.InstantAdapter
 import io.github.reactivecircus.kstreamlined.kmp.database.KStreamlinedDatabase

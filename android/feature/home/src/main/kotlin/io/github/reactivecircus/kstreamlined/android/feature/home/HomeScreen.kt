@@ -64,7 +64,7 @@ import io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue.a
 import io.github.reactivecircus.kstreamlined.android.feature.settings.api.SettingsRoute
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.api.TalkingKotlinEpisodeRoute
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.api.TalkingKotlinEpisodeSharedTransitionKeys
-import io.github.reactivecircus.kstreamlined.kmp.arch.metro.retain.metroRetain
+import io.github.reactivecircus.kstreamlined.kmp.pulse.metro.metroRetain
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.toDisplayable
 import io.github.reactivecircus.kstreamlined.kmp.presentation.home.HomeFeedItem

@@ -1,11 +1,12 @@
-package io.github.reactivecircus.kstreamlined.kmp.arch.metro.retain
+package io.github.reactivecircus.kstreamlined.kmp.pulse.metro
 
 import dev.zacsweers.metro.Multibinds
 import dev.zacsweers.metro.Provider
+import io.github.reactivecircus.kstreamlined.kmp.pulse.runtime.Presenter
 import kotlin.reflect.KClass
 
 /**
- * Contains common multibindings for retained types and their assisted factories.
+ * Contains common multibindings for retained presenter types and their assisted factories.
  *
  * Extend this in a dependency graph that only needs to expose retained provider map multibindings.
  * If you want [MetroRetainFactory] access, extend [RetainGraph] instead.
@@ -17,7 +18,7 @@ import kotlin.reflect.KClass
  */
 public interface MetroRetainMultibindings {
     @Multibinds // TODO add allowEmpty = true back
-    public val retainedProviders: Map<KClass<out Retainable>, Provider<Retainable>>
+    public val retainedProviders: Map<KClass<out Presenter<*, *>>, Provider<Presenter<*, *>>>
 
     @Multibinds(allowEmpty = true)
     public val assistedFactoryProviders:

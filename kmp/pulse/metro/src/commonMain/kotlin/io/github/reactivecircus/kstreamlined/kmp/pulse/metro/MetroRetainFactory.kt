@@ -1,10 +1,11 @@
-package io.github.reactivecircus.kstreamlined.kmp.arch.metro.retain
+package io.github.reactivecircus.kstreamlined.kmp.pulse.metro
 
 import dev.zacsweers.metro.Provider
+import io.github.reactivecircus.kstreamlined.kmp.pulse.runtime.Presenter
 import kotlin.reflect.KClass
 
 /**
- * Factory class for creating retained instances and their assisted factories.
+ * Factory class for creating retained presenter instances and their assisted factories.
  *
  * This can be provided on a DI graph and then installed via [LocalMetroRetainFactory].
  * It can be used in tandem with [RetainGraph].
@@ -20,20 +21,20 @@ import kotlin.reflect.KClass
  * @ContributesBinding(AppScope::class)
  * @SingleIn(AppScope::class)
  * class MyRetainFactory(
- *   override val retainedProviders: Map<KClass<out Retainable>, Provider<Retainable>>,
+ *   override val retainedProviders: Map<KClass<out Presenter<*, *>>, Provider<Presenter<*, *>>>,
  *   override val assistedFactoryProviders: Map<KClass<out RetainedAssistedFactory>, Provider<RetainedAssistedFactory>>,
  * ) : MetroRetainFactory()
  * ```
  */
 @Suppress("MaxLineLength")
 public abstract class MetroRetainFactory {
-    protected open val retainedProviders: Map<KClass<out Retainable>, Provider<Retainable>> = emptyMap()
+    protected open val retainedProviders: Map<KClass<out Presenter<*, *>>, Provider<Presenter<*, *>>> = emptyMap()
     protected open val assistedFactoryProviders:
         Map<KClass<out RetainedAssistedFactory>, Provider<RetainedAssistedFactory>> =
         emptyMap()
 
     @Suppress("UNCHECKED_CAST")
-    public fun <T : Retainable> create(modelClass: KClass<T>): T {
+    public fun <T : Presenter<*, *>> create(modelClass: KClass<T>): T {
         retainedProviders[modelClass]?.let { provider ->
             return provider() as T
         }

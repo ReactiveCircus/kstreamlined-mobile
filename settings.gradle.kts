@@ -69,7 +69,6 @@ plugins {
 rootProject.name = "kstreamlined-mobile"
 
 includeKmpProjects(
-    ":kmp:arch:metro-retain",
     ":kmp:app-info",
     ":kmp:feed-datasource",
     ":kmp:feed-model",
@@ -97,6 +96,8 @@ includeKmpProjects(
     ":kmp:presentation:settings",
     ":kmp:presentation:talking-kotlin-episode",
     ":kmp:pretty-time",
+    ":kmp:pulse:metro",
+    ":kmp:pulse:runtime",
 )
 
 includeAndroidProjects(
