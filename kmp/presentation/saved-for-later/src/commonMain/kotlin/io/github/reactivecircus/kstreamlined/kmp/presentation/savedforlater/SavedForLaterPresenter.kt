@@ -6,16 +6,19 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import app.cash.molecule.RecompositionMode
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.ContributesIntoMap
+import io.github.reactivecircus.kstreamlined.kmp.capsule.runtime.MoleculeContext
+import io.github.reactivecircus.kstreamlined.kmp.capsule.runtime.Presenter
+import io.github.reactivecircus.kstreamlined.kmp.capsule.runtime.PresenterKey
 import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.FeedDataSource
-import io.github.reactivecircus.kstreamlined.kmp.presentation.common.Presenter
-import kotlinx.coroutines.CoroutineScope
 
+@PresenterKey
+@ContributesIntoMap(AppScope::class)
 public class SavedForLaterPresenter(
     private val feedDataSource: FeedDataSource,
-    scope: CoroutineScope,
-    recompositionMode: RecompositionMode = RecompositionMode.ContextClock,
-) : Presenter<SavedForLaterUiEvent, SavedForLaterUiState>(scope, recompositionMode) {
+    moleculeContext: MoleculeContext,
+) : Presenter<SavedForLaterUiEvent, SavedForLaterUiState>(moleculeContext) {
     @Composable
     override fun present(): SavedForLaterUiState {
         var uiState by remember { mutableStateOf<SavedForLaterUiState>(SavedForLaterUiState.Loading) }
