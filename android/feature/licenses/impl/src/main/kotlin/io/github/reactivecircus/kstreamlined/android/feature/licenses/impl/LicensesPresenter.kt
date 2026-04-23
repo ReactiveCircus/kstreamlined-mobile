@@ -6,33 +6,19 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.platform.AndroidUiDispatcher
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import app.cash.molecule.RecompositionMode
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoMap
-import dev.zacsweers.metrox.viewmodel.ViewModelKey
-import io.github.reactivecircus.kstreamlined.kmp.presentation.common.Presenter
+import io.github.reactivecircus.kstreamlined.kmp.capsule.runtime.MoleculeContext
+import io.github.reactivecircus.kstreamlined.kmp.capsule.runtime.Presenter
+import io.github.reactivecircus.kstreamlined.kmp.capsule.runtime.PresenterKey
 import io.github.reactivecircus.licentia.runtime.LicensesInfo
-import kotlinx.coroutines.CoroutineScope
 
-@ViewModelKey
+@PresenterKey
 @ContributesIntoMap(AppScope::class)
-internal class LicensesViewModel(
-    licensesInfo: LicensesInfo,
-) : ViewModel() {
-    internal val presenter = LicensesPresenter(
-        licensesInfo = licensesInfo,
-        scope = CoroutineScope(viewModelScope.coroutineContext + AndroidUiDispatcher.Main),
-    )
-}
-
 internal class LicensesPresenter(
     private val licensesInfo: LicensesInfo,
-    scope: CoroutineScope,
-    recompositionMode: RecompositionMode = RecompositionMode.ContextClock,
-) : Presenter<LicensesUiEvent, LicensesUiState>(scope, recompositionMode) {
+    moleculeContext: MoleculeContext,
+) : Presenter<LicensesUiEvent, LicensesUiState>(moleculeContext) {
     @Composable
     override fun present(): LicensesUiState {
         var uiState by remember { mutableStateOf<LicensesUiState>(LicensesUiState.Loading) }

@@ -16,16 +16,15 @@ import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.zIndex
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.ui.LocalNavAnimatedContentScope
 import androidx.tracing.trace
-import dev.zacsweers.metrox.viewmodel.metroViewModel
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.LargeIconButton
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.TopNavBar
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
@@ -33,6 +32,7 @@ import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundatio
 import io.github.reactivecircus.kstreamlined.android.feature.licenses.api.LicensesRoute
 import io.github.reactivecircus.kstreamlined.android.feature.licenses.api.LicensesSharedTransitionKeys
 import io.github.reactivecircus.kstreamlined.android.feature.licenses.impl.component.ArtifactLicenseRow
+import io.github.reactivecircus.kstreamlined.kmp.capsule.inject.retainPresenter
 import io.github.reactivecircus.routebinding.runtime.RouteBinding
 
 @RouteBinding(LicensesRoute::class)
@@ -40,8 +40,8 @@ import io.github.reactivecircus.routebinding.runtime.RouteBinding
 internal fun SharedTransitionScope.LicensesScreen(
     backStack: NavBackStack<NavKey>,
 ) = trace("Screen:Licenses") {
-    val presenter = metroViewModel<LicensesViewModel>().presenter
-    val uiState by presenter.states.collectAsStateWithLifecycle()
+    val presenter = retainPresenter<LicensesPresenter>()
+    val uiState by presenter.states.collectAsState()
 
     LicensesScreen(
         onNavigateUp = backStack::removeLastOrNull,
