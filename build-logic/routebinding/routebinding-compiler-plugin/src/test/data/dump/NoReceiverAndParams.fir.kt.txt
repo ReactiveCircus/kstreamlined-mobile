@@ -12,11 +12,15 @@ class FooScreen_NavEntryInstaller : NavEntryInstaller {
     }
 
     @HiddenFromObjC
+    @JvmStatic
+    @JsStatic
     fun create(): Factory<FooScreen_NavEntryInstaller> {
       return MetroFactory
     }
 
     @HiddenFromObjC
+    @JvmStatic
+    @JsStatic
     fun newInstance(): FooScreen_NavEntryInstaller {
       return FooScreen_NavEntryInstaller()
     }
