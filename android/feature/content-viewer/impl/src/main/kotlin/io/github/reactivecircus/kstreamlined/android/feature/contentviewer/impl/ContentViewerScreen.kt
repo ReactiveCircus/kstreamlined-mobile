@@ -27,6 +27,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -36,12 +37,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.ui.LocalNavAnimatedContentScope
 import androidx.tracing.trace
-import dev.zacsweers.metrox.viewmodel.assistedMetroViewModel
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.FilledIconButton
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.LargeIconButton
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.LoadingIndicator
@@ -53,6 +52,8 @@ import io.github.reactivecircus.kstreamlined.android.core.launcher.openShareShee
 import io.github.reactivecircus.kstreamlined.android.core.ui.pattern.ItemNotFoundUi
 import io.github.reactivecircus.kstreamlined.android.feature.contentviewer.api.ContentViewerRoute
 import io.github.reactivecircus.kstreamlined.android.feature.contentviewer.api.ContentViewerSharedTransitionKeys
+import io.github.reactivecircus.kstreamlined.kmp.capsule.inject.assistedRetainPresenter
+import io.github.reactivecircus.kstreamlined.kmp.presentation.contentviewer.ContentViewerPresenter
 import io.github.reactivecircus.kstreamlined.kmp.presentation.contentviewer.ContentViewerUiEvent
 import io.github.reactivecircus.kstreamlined.kmp.presentation.contentviewer.ContentViewerUiState
 import io.github.reactivecircus.routebinding.runtime.RouteBinding
@@ -64,10 +65,10 @@ internal fun SharedTransitionScope.ContentViewerScreen(
     backStack: NavBackStack<NavKey>,
     route: ContentViewerRoute,
 ) = trace("Screen:ContentViewer") {
-    val presenter = assistedMetroViewModel<ContentViewerViewModel, ContentViewerViewModel.Factory> {
+    val presenter = assistedRetainPresenter<ContentViewerPresenter, ContentViewerPresenter.Factory> {
         create(route.id)
-    }.presenter
-    val uiState by presenter.states.collectAsStateWithLifecycle()
+    }
+    val uiState by presenter.states.collectAsState()
     val eventSink = presenter.eventSink
 
     val animatedVisibilityScope = LocalNavAnimatedContentScope.current

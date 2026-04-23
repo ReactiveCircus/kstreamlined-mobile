@@ -2,6 +2,7 @@ package io.github.reactivecircus.kstreamlined.kmp.presentation.contentviewer
 
 import app.cash.molecule.RecompositionMode
 import app.cash.turbine.test
+import io.github.reactivecircus.kstreamlined.kmp.capsule.runtime.MoleculeContext
 import io.github.reactivecircus.kstreamlined.kmp.database.FeedItemEntity
 import io.github.reactivecircus.kstreamlined.kmp.database.testing.createInMemoryDatabase
 import io.github.reactivecircus.kstreamlined.kmp.database.testing.insertFeedItems
@@ -61,8 +62,7 @@ class ContentViewerPresenterTest {
             db = db,
             dbDispatcher = testDispatcher,
         ),
-        scope = testScope.backgroundScope,
-        recompositionMode = RecompositionMode.Immediate,
+        moleculeContext = MoleculeContext(testDispatcher, RecompositionMode.Immediate),
     )
 
     @Test
