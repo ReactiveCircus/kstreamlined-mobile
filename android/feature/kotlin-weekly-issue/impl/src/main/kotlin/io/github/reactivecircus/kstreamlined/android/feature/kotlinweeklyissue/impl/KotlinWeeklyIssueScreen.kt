@@ -30,6 +30,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -37,12 +38,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.ui.LocalNavAnimatedContentScope
 import androidx.tracing.trace
-import dev.zacsweers.metrox.viewmodel.assistedMetroViewModel
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.FilledIconButton
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.LargeIconButton
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Surface
@@ -57,7 +56,9 @@ import io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue.a
 import io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue.api.KotlinWeeklyIssueSharedTransitionKeys
 import io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue.impl.component.IssueGroupUi
 import io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue.impl.component.IssueItemUi
+import io.github.reactivecircus.kstreamlined.kmp.capsule.inject.assistedRetainPresenter
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.KotlinWeeklyIssueItem
+import io.github.reactivecircus.kstreamlined.kmp.presentation.kotlinweeklyissue.KotlinWeeklyIssuePresenter
 import io.github.reactivecircus.kstreamlined.kmp.presentation.kotlinweeklyissue.KotlinWeeklyIssueUiEvent
 import io.github.reactivecircus.kstreamlined.kmp.presentation.kotlinweeklyissue.KotlinWeeklyIssueUiState
 import io.github.reactivecircus.routebinding.runtime.RouteBinding
@@ -68,10 +69,10 @@ internal fun SharedTransitionScope.KotlinWeeklyIssueScreen(
     backStack: NavBackStack<NavKey>,
     route: KotlinWeeklyIssueRoute,
 ) = trace("Screen:KotlinWeeklyIssue") {
-    val presenter = assistedMetroViewModel<KotlinWeeklyIssueViewModel, KotlinWeeklyIssueViewModel.Factory> {
+    val presenter = assistedRetainPresenter<KotlinWeeklyIssuePresenter, KotlinWeeklyIssuePresenter.Factory> {
         create(route.id)
-    }.presenter
-    val uiState by presenter.states.collectAsStateWithLifecycle()
+    }
+    val uiState by presenter.states.collectAsState()
     val eventSink = presenter.eventSink
 
     val context = LocalContext.current

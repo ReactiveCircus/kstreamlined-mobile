@@ -7,10 +7,16 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import app.cash.molecule.RecompositionMode
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.Assisted
+import dev.zacsweers.metro.AssistedFactory
+import dev.zacsweers.metro.AssistedInject
+import dev.zacsweers.metro.ContributesIntoMap
+import io.github.reactivecircus.kstreamlined.kmp.capsule.runtime.MoleculeContext
+import io.github.reactivecircus.kstreamlined.kmp.capsule.runtime.Presenter
+import io.github.reactivecircus.kstreamlined.kmp.capsule.runtime.PresenterAssistedFactory
+import io.github.reactivecircus.kstreamlined.kmp.capsule.runtime.PresenterAssistedFactoryKey
 import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.FeedDataSource
-import io.github.reactivecircus.kstreamlined.kmp.presentation.common.Presenter
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
@@ -18,12 +24,12 @@ import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 
+@AssistedInject
 public class KotlinWeeklyIssuePresenter(
-    private val id: String,
+    @Assisted private val id: String,
     private val feedDataSource: FeedDataSource,
-    scope: CoroutineScope,
-    recompositionMode: RecompositionMode = RecompositionMode.ContextClock,
-) : Presenter<KotlinWeeklyIssueUiEvent, KotlinWeeklyIssueUiState>(scope, recompositionMode) {
+    moleculeContext: MoleculeContext,
+) : Presenter<KotlinWeeklyIssueUiEvent, KotlinWeeklyIssueUiState>(moleculeContext) {
     @OptIn(ExperimentalCoroutinesApi::class)
     @Composable
     override fun present(): KotlinWeeklyIssueUiState {
@@ -66,5 +72,12 @@ public class KotlinWeeklyIssuePresenter(
             }
         }
         return uiState
+    }
+
+    @AssistedFactory
+    @PresenterAssistedFactoryKey
+    @ContributesIntoMap(AppScope::class)
+    public fun interface Factory : PresenterAssistedFactory {
+        public fun create(id: String): KotlinWeeklyIssuePresenter
     }
 }
