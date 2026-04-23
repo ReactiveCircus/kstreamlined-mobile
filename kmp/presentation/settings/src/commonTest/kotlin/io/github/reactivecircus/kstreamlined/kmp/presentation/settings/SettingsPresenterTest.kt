@@ -14,11 +14,11 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class SettingsPresenterTest {
-    private val settingsDataStore = createFakeDataStore()
-
     private val testDispatcher = StandardTestDispatcher()
 
     private val testScope = TestScope(testDispatcher)
+
+    private val settingsDataStore = createFakeDataStore(scope = testScope)
 
     private val presenter = SettingsPresenter(
         settingsDataSource = SettingsDataSource(settingsDataStore),
