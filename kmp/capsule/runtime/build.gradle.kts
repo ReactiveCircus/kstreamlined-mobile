@@ -8,11 +8,15 @@ kstreamlined {
         }
         compose()
         metro()
+        unitTests()
 
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         dependencies {
             api(libs.molecule.runtime)
             api(libs.androidx.compose.runtime.retain)
+
+            testImplementation(libs.kotlinx.coroutines.test)
+            testImplementation(libs.turbine)
         }
     }
 }
