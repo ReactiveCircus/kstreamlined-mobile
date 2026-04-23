@@ -7,6 +7,7 @@ kstreamlined {
             ios()
         }
         compose()
+        unitTests()
 
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         dependencies {
@@ -14,6 +15,8 @@ kstreamlined {
             api(libs.metro.runtime)
             api(libs.androidx.compose.runtime)
             implementation(libs.androidx.compose.runtime.retain)
+
+            testImplementation(libs.kotlinx.coroutines.test)
         }
     }
 }
