@@ -11,7 +11,6 @@ kstreamlined {
 
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         dependencies {
-            // TODO consider changing to implementation once RecompositionMode is no longer a public constructor parameter
             api(libs.molecule.runtime)
             api(libs.androidx.compose.runtime.retain)
         }
