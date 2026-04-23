@@ -1,6 +1,5 @@
 package io.github.reactivecircus.kstreamlined.kmp.capsule.inject
 
-import dev.zacsweers.metro.Provider
 import io.github.reactivecircus.kstreamlined.kmp.capsule.runtime.Presenter
 import io.github.reactivecircus.kstreamlined.kmp.capsule.runtime.PresenterAssistedFactory
 import kotlin.reflect.KClass
@@ -19,16 +18,16 @@ import kotlin.reflect.KClass
  * @ContributesBinding(AppScope::class)
  * @SingleIn(AppScope::class)
  * class MyPresenterFactory(
- *   override val presenterProviders: Map<KClass<out Presenter<*, *>>, Provider<Presenter<*, *>>>,
- *   override val assistedFactoryProviders: Map<KClass<out PresenterAssistedFactory>, Provider<PresenterAssistedFactory>>,
+ *   override val presenterProviders: Map<KClass<out Presenter<*, *>>, () -> Presenter<*, *>>,
+ *   override val assistedFactoryProviders: Map<KClass<out PresenterAssistedFactory>, () -> PresenterAssistedFactory>,
  * ) : PresenterFactory()
  * ```
  */
 @Suppress("MaxLineLength")
 public abstract class PresenterFactory {
-    protected open val presenterProviders: Map<KClass<out Presenter<*, *>>, Provider<Presenter<*, *>>> = emptyMap()
+    protected open val presenterProviders: Map<KClass<out Presenter<*, *>>, () -> Presenter<*, *>> = emptyMap()
     protected open val assistedFactoryProviders:
-        Map<KClass<out PresenterAssistedFactory>, Provider<PresenterAssistedFactory>> =
+        Map<KClass<out PresenterAssistedFactory>, () -> PresenterAssistedFactory> =
         emptyMap()
 
     @Suppress("UNCHECKED_CAST")
@@ -41,10 +40,10 @@ public abstract class PresenterFactory {
 
     public fun <FactoryType : PresenterAssistedFactory> createAssistedFactory(
         factoryClass: KClass<FactoryType>,
-    ): Provider<FactoryType> {
+    ): () -> FactoryType {
         assistedFactoryProviders[factoryClass]?.let { provider ->
             @Suppress("UNCHECKED_CAST")
-            return provider as Provider<FactoryType>
+            return provider as () -> FactoryType
         }
         error("No presenter assisted factory provider found for $factoryClass")
     }

@@ -1,7 +1,6 @@
 package io.github.reactivecircus.kstreamlined.kmp.capsule.inject
 
 import dev.zacsweers.metro.Multibinds
-import dev.zacsweers.metro.Provider
 import io.github.reactivecircus.kstreamlined.kmp.capsule.runtime.Presenter
 import io.github.reactivecircus.kstreamlined.kmp.capsule.runtime.PresenterAssistedFactory
 import kotlin.reflect.KClass
@@ -18,12 +17,12 @@ import kotlin.reflect.KClass
  * ```
  */
 public interface PresenterMultibindings {
-    @Multibinds // TODO add allowEmpty = true back
-    public val presenterProviders: Map<KClass<out Presenter<*, *>>, Provider<Presenter<*, *>>>
+    @Multibinds(allowEmpty = true)
+    public val presenterProviders: Map<KClass<out Presenter<*, *>>, () -> Presenter<*, *>>
 
     @Multibinds(allowEmpty = true)
     public val assistedFactoryProviders:
-        Map<KClass<out PresenterAssistedFactory>, Provider<PresenterAssistedFactory>>
+        Map<KClass<out PresenterAssistedFactory>, () -> PresenterAssistedFactory>
 }
 
 /**
