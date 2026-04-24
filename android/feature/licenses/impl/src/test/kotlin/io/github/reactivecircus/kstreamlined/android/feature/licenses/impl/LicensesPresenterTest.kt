@@ -1,7 +1,7 @@
 package io.github.reactivecircus.kstreamlined.android.feature.licenses.impl
 
-import app.cash.molecule.RecompositionMode
 import app.cash.turbine.test
+import io.github.reactivecircus.kstreamlined.kmp.capsule.testing.asMoleculeContext
 import io.github.reactivecircus.licentia.runtime.LicensesInfo
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestScope
@@ -28,8 +28,7 @@ class LicensesPresenterTest {
                 ),
             )
         },
-        scope = testScope.backgroundScope,
-        recompositionMode = RecompositionMode.Immediate,
+        moleculeContext = testDispatcher.asMoleculeContext(),
     )
 
     @Test

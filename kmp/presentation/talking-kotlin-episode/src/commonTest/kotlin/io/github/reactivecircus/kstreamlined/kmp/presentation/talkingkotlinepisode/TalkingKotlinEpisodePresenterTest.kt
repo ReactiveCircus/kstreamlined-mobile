@@ -1,7 +1,7 @@
 package io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepisode
 
-import app.cash.molecule.RecompositionMode
 import app.cash.turbine.test
+import io.github.reactivecircus.kstreamlined.kmp.capsule.testing.asMoleculeContext
 import io.github.reactivecircus.kstreamlined.kmp.database.ContentFormat
 import io.github.reactivecircus.kstreamlined.kmp.database.FeedItemEntity
 import io.github.reactivecircus.kstreamlined.kmp.database.testing.createInMemoryDatabase
@@ -74,8 +74,7 @@ class TalkingKotlinEpisodePresenterTest {
             db = db,
             dbDispatcher = testDispatcher,
         ),
-        scope = testScope.backgroundScope,
-        recompositionMode = RecompositionMode.Immediate,
+        moleculeContext = testDispatcher.asMoleculeContext(),
     )
 
     @Test

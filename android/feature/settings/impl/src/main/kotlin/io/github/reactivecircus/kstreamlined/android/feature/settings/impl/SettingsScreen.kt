@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
@@ -33,12 +34,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.ui.LocalNavAnimatedContentScope
 import androidx.tracing.trace
-import dev.zacsweers.metrox.viewmodel.metroViewModel
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.LargeIconButton
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.ModalBottomSheet
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Text
@@ -57,6 +56,8 @@ import io.github.reactivecircus.kstreamlined.android.feature.settings.impl.compo
 import io.github.reactivecircus.kstreamlined.android.feature.settings.impl.component.sync.SyncIntervalPicker
 import io.github.reactivecircus.kstreamlined.android.feature.settings.impl.component.sync.SyncIntervalTile
 import io.github.reactivecircus.kstreamlined.android.feature.settings.impl.component.theme.ThemeSelector
+import io.github.reactivecircus.kstreamlined.kmp.capsule.inject.retainPresenter
+import io.github.reactivecircus.kstreamlined.kmp.presentation.settings.SettingsPresenter
 import io.github.reactivecircus.kstreamlined.kmp.presentation.settings.SettingsUiEvent
 import io.github.reactivecircus.kstreamlined.kmp.presentation.settings.SettingsUiState
 import io.github.reactivecircus.routebinding.runtime.RouteBinding
@@ -68,8 +69,8 @@ internal fun SharedTransitionScope.SettingsScreen(
     backStack: NavBackStack<NavKey>,
     route: SettingsRoute,
 ) = trace("Screen:Settings") {
-    val presenter = metroViewModel<SettingsViewModel>().presenter
-    val uiState by presenter.states.collectAsStateWithLifecycle()
+    val presenter = retainPresenter<SettingsPresenter>()
+    val uiState by presenter.states.collectAsState()
     val eventSink = presenter.eventSink
 
     SettingsScreen(

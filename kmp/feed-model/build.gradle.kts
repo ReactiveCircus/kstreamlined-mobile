@@ -9,7 +9,7 @@ kstreamlined {
 
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         dependencies {
-            implementation(libs.androidx.compose.runtimeAnnotation)
+            implementation(libs.androidx.compose.runtime.annotation)
         }
     }
 }

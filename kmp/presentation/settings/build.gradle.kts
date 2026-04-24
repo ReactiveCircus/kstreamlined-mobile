@@ -7,15 +7,17 @@ kstreamlined {
             ios()
         }
         compose()
+        metro()
         unitTests()
 
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         dependencies {
-            api(project(":kmp:presentation:common"))
+            implementation(project(":kmp:capsule:runtime"))
             implementation(project(":kmp:settings-datasource"))
             implementation(project(":kmp:app-info"))
 
             testImplementation(project(":kmp:datastore-testing"))
+            testImplementation(project(":kmp:capsule:testing"))
             testImplementation(libs.kotlinx.coroutines.test)
             testImplementation(libs.turbine)
         }

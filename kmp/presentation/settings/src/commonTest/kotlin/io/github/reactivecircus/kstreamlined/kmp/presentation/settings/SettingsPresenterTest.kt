@@ -1,8 +1,8 @@
 package io.github.reactivecircus.kstreamlined.kmp.presentation.settings
 
-import app.cash.molecule.RecompositionMode
 import app.cash.turbine.test
 import io.github.reactivecircus.kstreamlined.kmp.appinfo.AppInfo
+import io.github.reactivecircus.kstreamlined.kmp.capsule.testing.asMoleculeContext
 import io.github.reactivecircus.kstreamlined.kmp.datastore.testing.createFakeDataStore
 import io.github.reactivecircus.kstreamlined.kmp.settings.datasource.SettingsDataSource
 import io.github.reactivecircus.kstreamlined.kmp.settings.model.AppSettings
@@ -13,11 +13,11 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class SettingsPresenterTest {
-    private val settingsDataStore = createFakeDataStore()
-
     private val testDispatcher = StandardTestDispatcher()
 
     private val testScope = TestScope(testDispatcher)
+
+    private val settingsDataStore = createFakeDataStore(scope = testScope)
 
     private val presenter = SettingsPresenter(
         settingsDataSource = SettingsDataSource(settingsDataStore),
@@ -25,8 +25,7 @@ class SettingsPresenterTest {
             versionName = "1.0.0",
             sourceCodeUrl = "source-url",
         ),
-        scope = testScope.backgroundScope,
-        recompositionMode = RecompositionMode.Immediate,
+        moleculeContext = testDispatcher.asMoleculeContext(),
     )
 
     @Test

@@ -25,6 +25,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.remember
@@ -42,13 +43,11 @@ import androidx.compose.ui.text.fromHtml
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.ui.LocalNavAnimatedContentScope
 import androidx.tracing.trace
 import coil3.compose.AsyncImage
-import dev.zacsweers.metrox.viewmodel.assistedMetroViewModel
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.FilledIconButton
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.HorizontalDivider
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Icon
@@ -67,7 +66,9 @@ import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisod
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.api.TalkingKotlinEpisodeSharedTransitionKeys
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.impl.component.PlayPauseButton
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.impl.component.PodcastPlayer
+import io.github.reactivecircus.kstreamlined.kmp.capsule.inject.assistedRetainPresenter
 import io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepisode.TalkingKotlinEpisode
+import io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepisode.TalkingKotlinEpisodePresenter
 import io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepisode.TalkingKotlinEpisodeUiEvent
 import io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepisode.TalkingKotlinEpisodeUiState
 import io.github.reactivecircus.routebinding.runtime.RouteBinding
@@ -78,10 +79,10 @@ internal fun SharedTransitionScope.TalkingKotlinEpisodeScreen(
     backStack: NavBackStack<NavKey>,
     route: TalkingKotlinEpisodeRoute,
 ) = trace("Screen:TalkingKotlinEpisode") {
-    val presenter = assistedMetroViewModel<TalkingKotlinEpisodeViewModel, TalkingKotlinEpisodeViewModel.Factory> {
+    val presenter = assistedRetainPresenter<TalkingKotlinEpisodePresenter, TalkingKotlinEpisodePresenter.Factory> {
         create(route.id)
-    }.presenter
-    val uiState by presenter.states.collectAsStateWithLifecycle()
+    }
+    val uiState by presenter.states.collectAsState()
     val eventSink = presenter.eventSink
 
     val context = LocalContext.current

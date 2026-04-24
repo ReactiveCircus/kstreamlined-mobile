@@ -1,7 +1,7 @@
 package io.github.reactivecircus.kstreamlined.kmp.presentation.home
 
-import app.cash.molecule.RecompositionMode
 import app.cash.turbine.test
+import io.github.reactivecircus.kstreamlined.kmp.capsule.testing.asMoleculeContext
 import io.github.reactivecircus.kstreamlined.kmp.database.FeedItemEntity
 import io.github.reactivecircus.kstreamlined.kmp.database.FeedOriginEntity
 import io.github.reactivecircus.kstreamlined.kmp.database.testing.createInMemoryDatabase
@@ -79,8 +79,7 @@ class HomePresenterTest {
             db = db,
             dbDispatcher = testDispatcher,
         ),
-        scope = testScope.backgroundScope,
-        recompositionMode = RecompositionMode.Immediate,
+        moleculeContext = testDispatcher.asMoleculeContext(),
     )
 
     @Test
@@ -237,7 +236,7 @@ class HomePresenterTest {
     @Test
     fun `sends sync request to sync engine when Refresh event is dispatched`() = testScope.runTest {
         presenter.states.test {
-            cancelAndIgnoreRemainingEvents()
+            awaitItem()
 
             presenter.eventSink(HomeUiEvent.Refresh)
 
@@ -245,6 +244,8 @@ class HomePresenterTest {
                 FakeFeedSyncEngine.RecordedSync(forceRefresh = true),
                 feedSyncEngine.recordedSyncs.awaitItem(),
             )
+
+            cancelAndIgnoreRemainingEvents()
         }
     }
 

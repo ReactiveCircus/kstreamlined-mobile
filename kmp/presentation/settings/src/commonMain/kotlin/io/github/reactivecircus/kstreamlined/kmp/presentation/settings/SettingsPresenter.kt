@@ -6,20 +6,23 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import app.cash.molecule.RecompositionMode
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.ContributesIntoMap
 import io.github.reactivecircus.kstreamlined.kmp.appinfo.AppInfo
-import io.github.reactivecircus.kstreamlined.kmp.presentation.common.Presenter
+import io.github.reactivecircus.kstreamlined.kmp.capsule.runtime.MoleculeContext
+import io.github.reactivecircus.kstreamlined.kmp.capsule.runtime.Presenter
+import io.github.reactivecircus.kstreamlined.kmp.capsule.runtime.PresenterKey
 import io.github.reactivecircus.kstreamlined.kmp.settings.datasource.SettingsDataSource
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 
+@PresenterKey
+@ContributesIntoMap(AppScope::class)
 public class SettingsPresenter(
     private val settingsDataSource: SettingsDataSource,
     private val appInfo: AppInfo,
-    scope: CoroutineScope,
-    recompositionMode: RecompositionMode = RecompositionMode.ContextClock,
-) : Presenter<SettingsUiEvent, SettingsUiState>(scope, recompositionMode) {
+    moleculeContext: MoleculeContext,
+) : Presenter<SettingsUiEvent, SettingsUiState>(moleculeContext) {
     @Composable
     override fun present(): SettingsUiState {
         var uiState by remember { mutableStateOf<SettingsUiState>(SettingsUiState.Loading) }

@@ -24,15 +24,14 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
-import dev.zacsweers.metrox.viewmodel.metroViewModel
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.FilledIconButton
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.TopNavBar
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.TopNavBarSharedTransitionKeys
@@ -50,9 +49,11 @@ import io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue.a
 import io.github.reactivecircus.kstreamlined.android.feature.settings.api.SettingsRoute
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.api.TalkingKotlinEpisodeRoute
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.api.TalkingKotlinEpisodeSharedTransitionKeys
+import io.github.reactivecircus.kstreamlined.kmp.capsule.inject.retainPresenter
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.DisplayableFeedItem
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.toDisplayable
+import io.github.reactivecircus.kstreamlined.kmp.presentation.savedforlater.SavedForLaterPresenter
 import io.github.reactivecircus.kstreamlined.kmp.presentation.savedforlater.SavedForLaterUiEvent
 import io.github.reactivecircus.kstreamlined.kmp.presentation.savedforlater.SavedForLaterUiState
 
@@ -63,8 +64,8 @@ public fun SharedTransitionScope.SavedForLaterScreen(
     listState: LazyListState,
     modifier: Modifier = Modifier,
 ) {
-    val presenter = metroViewModel<SavedForLaterViewModel>().presenter
-    val uiState by presenter.states.collectAsStateWithLifecycle()
+    val presenter = retainPresenter<SavedForLaterPresenter>()
+    val uiState by presenter.states.collectAsState()
     val eventSink = presenter.eventSink
     SavedForLaterScreen(
         animatedVisibilityScope = animatedVisibilityScope,

@@ -3,7 +3,9 @@ package io.github.reactivecircus.kstreamlined.android.di
 import android.app.Application
 import android.content.Context
 import android.os.Build
+import androidx.compose.ui.platform.AndroidUiDispatcher
 import androidx.tracing.trace
+import app.cash.molecule.RecompositionMode
 import app.cash.sqldelight.EnumColumnAdapter
 import app.cash.sqldelight.driver.android.AndroidSqliteDriver
 import coil3.ImageLoader
@@ -14,12 +16,13 @@ import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.DependencyGraph
 import dev.zacsweers.metro.Provides
 import dev.zacsweers.metro.SingleIn
-import dev.zacsweers.metrox.viewmodel.ViewModelGraph
 import io.github.reactivecircus.kstreamlined.android.BuildConfig
 import io.github.reactivecircus.kstreamlined.android.core.scheduledwork.KSWorkerFactory
 import io.github.reactivecircus.kstreamlined.android.core.scheduledwork.sync.SyncScheduler
 import io.github.reactivecircus.kstreamlined.android.licentia.AllLicensesInfo
 import io.github.reactivecircus.kstreamlined.kmp.appinfo.AppInfo
+import io.github.reactivecircus.kstreamlined.kmp.capsule.inject.PresenterGraph
+import io.github.reactivecircus.kstreamlined.kmp.capsule.runtime.MoleculeContext
 import io.github.reactivecircus.kstreamlined.kmp.database.FeedItemEntity
 import io.github.reactivecircus.kstreamlined.kmp.database.InstantAdapter
 import io.github.reactivecircus.kstreamlined.kmp.database.KStreamlinedDatabase
@@ -33,12 +36,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import okhttp3.Call
 import okhttp3.OkHttpClient
+import kotlin.coroutines.CoroutineContext
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 import kotlin.time.toJavaDuration
 
 @DependencyGraph(AppScope::class)
-interface AppGraph : ViewModelGraph, NetworkProviders {
+interface AppGraph : PresenterGraph, NetworkProviders {
     val imageLoader: Lazy<ImageLoader>
 
     val appCoroutineScope: CoroutineScope
@@ -50,6 +54,14 @@ interface AppGraph : ViewModelGraph, NetworkProviders {
     val settingsDataSource: SettingsDataSource
 
     val navEntryInstallers: Set<NavEntryInstaller>
+
+    @Provides
+    private fun provideMoleculeContext(): MoleculeContext = object : MoleculeContext {
+        override val coroutineContext: CoroutineContext
+            get() = AndroidUiDispatcher.Main
+        override val recompositionMode: RecompositionMode
+            get() = RecompositionMode.ContextClock
+    }
 
     @Provides
     private fun provideApplicationContext(application: Application): Context = application
