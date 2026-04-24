@@ -120,6 +120,7 @@ internal abstract class AndroidFeatureLibraryExtensionImpl @Inject constructor(
             iosTargetEnabled = false,
         )
 
+        @Suppress("UnstableApiUsage")
         with(dependencies) {
             add("implementation", project(":kmp:capsule:inject"))
             add("implementation", project(":core:designsystem"))
