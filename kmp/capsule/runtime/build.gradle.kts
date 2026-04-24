@@ -15,6 +15,7 @@ kstreamlined {
             api(libs.molecule.runtime)
             api(libs.androidx.compose.runtime.retain)
 
+            testImplementation(project(":kmp:capsule:testing"))
             testImplementation(libs.kotlinx.coroutines.test)
             testImplementation(libs.turbine)
         }

@@ -59,6 +59,7 @@ public class KotlinWeeklyIssuePresenter(
             when (event) {
                 is KotlinWeeklyIssueUiEvent.Refresh -> {
                     loadCount++
+                    uiState = KotlinWeeklyIssueUiState.Loading
                 }
 
                 is KotlinWeeklyIssueUiEvent.ToggleSavedForLater -> {

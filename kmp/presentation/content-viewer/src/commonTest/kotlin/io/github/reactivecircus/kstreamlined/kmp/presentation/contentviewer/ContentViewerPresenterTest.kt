@@ -1,8 +1,7 @@
 package io.github.reactivecircus.kstreamlined.kmp.presentation.contentviewer
 
-import app.cash.molecule.RecompositionMode
 import app.cash.turbine.test
-import io.github.reactivecircus.kstreamlined.kmp.capsule.runtime.MoleculeContext
+import io.github.reactivecircus.kstreamlined.kmp.capsule.testing.asMoleculeContext
 import io.github.reactivecircus.kstreamlined.kmp.database.FeedItemEntity
 import io.github.reactivecircus.kstreamlined.kmp.database.testing.createInMemoryDatabase
 import io.github.reactivecircus.kstreamlined.kmp.database.testing.insertFeedItems
@@ -62,13 +61,14 @@ class ContentViewerPresenterTest {
             db = db,
             dbDispatcher = testDispatcher,
         ),
-        moleculeContext = MoleculeContext(testDispatcher, RecompositionMode.Immediate),
+        moleculeContext = testDispatcher.asMoleculeContext(),
     )
 
     @Test
     fun `presenter emits Content state when initialized and content exists`() =
         testScope.runTest {
-            presenter().states.test {
+            val presenter = presenter()
+            presenter.states.test {
                 db.transaction {
                     db.insertFeedItems(listOf(dummyFeedItem))
                 }
@@ -82,7 +82,8 @@ class ContentViewerPresenterTest {
     @Test
     fun `presenter emits NotFound state when initialized and content does not exist`() =
         testScope.runTest {
-            presenter(id = "unknown-id").states.test {
+            val presenter = presenter(id = "unknown-id")
+            presenter.states.test {
                 assertEquals(ContentViewerUiState.Initializing, awaitItem())
 
                 assertEquals(ContentViewerUiState.NotFound, awaitItem())

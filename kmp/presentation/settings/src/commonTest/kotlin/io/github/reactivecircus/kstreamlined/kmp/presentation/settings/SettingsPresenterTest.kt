@@ -1,9 +1,8 @@
 package io.github.reactivecircus.kstreamlined.kmp.presentation.settings
 
-import app.cash.molecule.RecompositionMode
 import app.cash.turbine.test
 import io.github.reactivecircus.kstreamlined.kmp.appinfo.AppInfo
-import io.github.reactivecircus.kstreamlined.kmp.capsule.runtime.MoleculeContext
+import io.github.reactivecircus.kstreamlined.kmp.capsule.testing.asMoleculeContext
 import io.github.reactivecircus.kstreamlined.kmp.datastore.testing.createFakeDataStore
 import io.github.reactivecircus.kstreamlined.kmp.settings.datasource.SettingsDataSource
 import io.github.reactivecircus.kstreamlined.kmp.settings.model.AppSettings
@@ -26,7 +25,7 @@ class SettingsPresenterTest {
             versionName = "1.0.0",
             sourceCodeUrl = "source-url",
         ),
-        moleculeContext = MoleculeContext(testDispatcher, RecompositionMode.Immediate),
+        moleculeContext = testDispatcher.asMoleculeContext(),
     )
 
     @Test

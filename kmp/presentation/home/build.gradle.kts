@@ -20,6 +20,7 @@ kstreamlined {
             testImplementation(project(":kmp:feed-sync:testing"))
             testImplementation(project(":kmp:remote:testing"))
             testImplementation(project(":kmp:database-testing"))
+            testImplementation(project(":kmp:capsule:testing"))
             testImplementation(libs.kotlinx.coroutines.test)
             testImplementation(libs.turbine)
         }

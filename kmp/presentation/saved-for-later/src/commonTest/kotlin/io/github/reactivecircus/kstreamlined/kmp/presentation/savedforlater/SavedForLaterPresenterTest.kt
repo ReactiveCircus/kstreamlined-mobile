@@ -1,8 +1,7 @@
 package io.github.reactivecircus.kstreamlined.kmp.presentation.savedforlater
 
-import app.cash.molecule.RecompositionMode
 import app.cash.turbine.test
-import io.github.reactivecircus.kstreamlined.kmp.capsule.runtime.MoleculeContext
+import io.github.reactivecircus.kstreamlined.kmp.capsule.testing.asMoleculeContext
 import io.github.reactivecircus.kstreamlined.kmp.database.FeedItemEntity
 import io.github.reactivecircus.kstreamlined.kmp.database.testing.createInMemoryDatabase
 import io.github.reactivecircus.kstreamlined.kmp.database.testing.insertFeedItems
@@ -63,10 +62,7 @@ class SavedForLaterPresenterTest {
             db = db,
             dbDispatcher = testDispatcher,
         ),
-        moleculeContext = MoleculeContext(
-            coroutineContext = testDispatcher,
-            recompositionMode = RecompositionMode.Immediate,
-        ),
+        moleculeContext = testDispatcher.asMoleculeContext(),
     )
 
     @Test

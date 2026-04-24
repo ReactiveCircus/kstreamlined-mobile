@@ -36,6 +36,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import okhttp3.Call
 import okhttp3.OkHttpClient
+import kotlin.coroutines.CoroutineContext
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 import kotlin.time.toJavaDuration
@@ -55,10 +56,12 @@ interface AppGraph : PresenterGraph, NetworkProviders {
     val navEntryInstallers: Set<NavEntryInstaller>
 
     @Provides
-    private fun provideMoleculeContext(): MoleculeContext = MoleculeContext(
-        coroutineContext = AndroidUiDispatcher.Main,
-        recompositionMode = RecompositionMode.ContextClock,
-    )
+    private fun provideMoleculeContext(): MoleculeContext = object : MoleculeContext {
+        override val coroutineContext: CoroutineContext
+            get() = AndroidUiDispatcher.Main
+        override val recompositionMode: RecompositionMode
+            get() = RecompositionMode.ContextClock
+    }
 
     @Provides
     private fun provideApplicationContext(application: Application): Context = application

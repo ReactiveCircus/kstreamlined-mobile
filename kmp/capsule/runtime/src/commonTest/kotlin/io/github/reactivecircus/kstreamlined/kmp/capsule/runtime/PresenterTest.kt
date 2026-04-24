@@ -5,8 +5,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import app.cash.molecule.RecompositionMode
 import app.cash.turbine.test
+import io.github.reactivecircus.kstreamlined.kmp.capsule.testing.asMoleculeContext
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
@@ -15,7 +15,7 @@ import kotlin.test.assertTrue
 
 class PresenterTest {
     private val testDispatcher = StandardTestDispatcher()
-    private val moleculeContext = MoleculeContext(testDispatcher, RecompositionMode.Immediate)
+    private val moleculeContext = testDispatcher.asMoleculeContext()
 
     @Test
     fun `states emits values when present function is composed`() = runTest(testDispatcher) {

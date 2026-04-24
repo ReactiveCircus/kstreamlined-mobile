@@ -17,6 +17,7 @@ kstreamlined {
             implementation(project(":kmp:app-info"))
 
             testImplementation(project(":kmp:datastore-testing"))
+            testImplementation(project(":kmp:capsule:testing"))
             testImplementation(libs.kotlinx.coroutines.test)
             testImplementation(libs.turbine)
         }

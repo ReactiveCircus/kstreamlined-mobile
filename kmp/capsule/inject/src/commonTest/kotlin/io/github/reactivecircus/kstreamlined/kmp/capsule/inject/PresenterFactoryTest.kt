@@ -6,13 +6,19 @@ import io.github.reactivecircus.kstreamlined.kmp.capsule.runtime.MoleculeContext
 import io.github.reactivecircus.kstreamlined.kmp.capsule.runtime.Presenter
 import io.github.reactivecircus.kstreamlined.kmp.capsule.runtime.PresenterAssistedFactory
 import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlin.coroutines.CoroutineContext
 import kotlin.reflect.KClass
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
 class PresenterFactoryTest {
-    private val moleculeContext = MoleculeContext(StandardTestDispatcher(), RecompositionMode.Immediate)
+    private val moleculeContext = object : MoleculeContext {
+        override val coroutineContext: CoroutineContext
+            get() = StandardTestDispatcher()
+        override val recompositionMode: RecompositionMode
+            get() = RecompositionMode.ContextClock
+    }
 
     @Test
     fun `create returns presenter from provider map`() {

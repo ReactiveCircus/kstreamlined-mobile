@@ -10,7 +10,8 @@ kstreamlined {
 
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         dependencies {
-            api(libs.molecule.runtime)
+            api(project(":kmp:capsule:runtime"))
+            api(libs.kotlinx.coroutines.test)
         }
     }
 }
