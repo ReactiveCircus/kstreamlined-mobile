@@ -25,6 +25,7 @@ import io.github.reactivecircus.kstreamlined.gradle.internal.configureDetekt
 import io.github.reactivecircus.kstreamlined.gradle.internal.configureKotlin
 import io.github.reactivecircus.kstreamlined.gradle.internal.configureLicensesInfoGeneration
 import io.github.reactivecircus.kstreamlined.gradle.internal.configureMetro
+import io.github.reactivecircus.kstreamlined.gradle.internal.configureMetroContributionVerification
 import io.github.reactivecircus.kstreamlined.gradle.internal.configurePowerAssert
 import io.github.reactivecircus.kstreamlined.gradle.internal.configureTest
 import io.github.reactivecircus.kstreamlined.gradle.internal.libs
@@ -375,6 +376,10 @@ internal abstract class AndroidAppExtensionImpl @Inject constructor(
                         project.objects.newInstance(ResValuesOptionsImpl::class.java, variant)
                     }.callback(variant)
                 }
+            }
+
+            if (metroEnabled) {
+                extension.configureMetroContributionVerification(project)
             }
         }
 
