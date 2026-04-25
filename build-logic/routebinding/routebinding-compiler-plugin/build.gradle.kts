@@ -6,7 +6,6 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.detekt)
-    alias(libs.plugins.testkit)
     idea
 }
 
