@@ -60,7 +60,7 @@ jobs:
           cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
 
       - name: Assemble dev debug APK and signed release App Bundle
-        run: ./gradlew app:assembleDevDebug app:bundleProdRelease -Pandroid.experimental.settings.executionProfile=ci --scan
+        run: ./gradlew app:assembleDevDebug app:bundleProdRelease app:verifyMetroContributionsDevDebug -Pandroid.experimental.settings.executionProfile=ci --scan
 
       - name: Cleanup secrets
         if: always()
