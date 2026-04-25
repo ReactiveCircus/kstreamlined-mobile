@@ -105,10 +105,10 @@ interface AppGraph : PresenterGraph { ... }
 
 ```kt
 @Provides
-private fun provideMoleculeContext(): MoleculeContext = object : MoleculeContext {
-    override val coroutineContext get() = AndroidUiDispatcher.Main
-    override val recompositionMode get() = RecompositionMode.ContextClock
-}
+private fun provideMoleculeContext(): MoleculeContext = MoleculeContext(
+    coroutineContext = AndroidUiDispatcher.Main,
+    recompositionMode = RecompositionMode.ContextClock,
+)
 ```
 
 A concrete `PresenterFactory` binding should be contributed to the graph:
