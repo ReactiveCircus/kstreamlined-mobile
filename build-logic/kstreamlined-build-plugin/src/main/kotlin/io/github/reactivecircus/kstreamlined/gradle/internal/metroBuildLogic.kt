@@ -44,7 +44,8 @@ internal fun ApplicationAndroidComponentsExtension.configureMetroContributionVer
     val runtimeClasspath = project.configurations.named("${variantName}RuntimeClasspath")
 
     project.tasks.register(taskName, VerifyMetroContributionsTask::class.java) { task ->
-        task.description = "Verifies all Metro contribution hints are on the compile classpath of ${project.displayName}."
+        val projectName = project.displayName
+        task.description = "Verifies all Metro contribution hints are on the compile classpath of $projectName."
         task.group = "verification"
         task.dependsOn("compile${variantName.capitalizeFirstChar()}Kotlin")
 
@@ -53,7 +54,7 @@ internal fun ApplicationAndroidComponentsExtension.configureMetroContributionVer
                 config.incoming.resolutionResult.allComponents
                     .mapNotNull { (it.id as? ProjectComponentIdentifier)?.projectPath }
                     .toSet()
-            }
+            },
         )
 
         val rootDir = project.rootDir
@@ -69,11 +70,11 @@ internal fun ApplicationAndroidComponentsExtension.configureMetroContributionVer
                     .associate { id ->
                         id.projectPath to buildDirForProjectPath(rootDir, id.projectPath)
                     }
-            }
+            },
         )
 
         task.reportFile.set(
-            project.layout.buildDirectory.file("reports/metro-contributions-verification-$variantName.txt")
+            project.layout.buildDirectory.file("reports/metro-contributions-verification-$variantName.txt"),
         )
     }
 
@@ -129,15 +130,20 @@ private abstract class VerifyMetroContributionsTask : DefaultTask() {
 
         if (missingProjects.isNotEmpty()) {
             val message = buildString {
-                appendLine("Metro contributions verification failed.")
-                appendLine()
-                appendLine("The following projects contain Metro contribution hints (`metro.hints` package)")
-                appendLine("but are only on the runtime classpath, not the compile classpath.")
-                appendLine("Metro requires contributed bindings to be on the compile classpath to discover them.")
-                appendLine()
-                appendLine("Add these as direct dependencies of the project containing your `@DependencyGraph`:")
+                appendLine(
+                    """
+                    |Metro contributions verification failed.
+                    |
+                    |The following projects contain Metro contribution hints (`metro.hints` package)
+                    |but are only on the runtime classpath, not the compile classpath.
+                    |Metro requires contributed bindings to be on the compile classpath to discover them.
+                    |
+                    |Add these as direct dependencies of the project containing your `@DependencyGraph`:
+                    |
+                    """.trimMargin(),
+                )
                 for (path in missingProjects) {
-                    appendLine("  implementation(project(\"$path\"))")
+                    appendLine("implementation(project(\"$path\"))")
                 }
             }
             report.writeText(message)
@@ -155,9 +161,11 @@ private abstract class VerifyMetroContributionsTask : DefaultTask() {
         val classesDir = File(buildDir, "classes")
         if (!classesDir.isDirectory) return false
         return classesDir.walk()
-            .any { it.isDirectory && it.name == "hints" && it.parentFile?.name == "metro" &&
-                it.listFiles()?.isNotEmpty() == true
+            .any {
+                it.isDirectory &&
+                    it.name == "hints" &&
+                    it.parentFile?.name == "metro" &&
+                    it.listFiles()?.isNotEmpty() == true
             }
     }
 }
-
