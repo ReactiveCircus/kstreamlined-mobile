@@ -4,10 +4,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.style.ExperimentalFoundationStyleApi
+import androidx.compose.foundation.style.fillWidth
+import androidx.compose.foundation.style.styleable
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -22,6 +24,7 @@ import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundatio
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.preview.KSPreviewWrapper
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.KotlinWeeklyIssueItem
 
+@OptIn(ExperimentalFoundationStyleApi::class)
 @Composable
 internal fun IssueGroupUi(
     group: KotlinWeeklyIssueItem.Group,
@@ -34,11 +37,10 @@ internal fun IssueGroupUi(
         ),
     )
     Surface(
-        modifier = modifier
-            .drawBehind {
-                drawRect(brush)
-            }
-            .fillMaxWidth(),
+        modifier = modifier.styleable {
+            background(brush)
+            fillWidth()
+        },
         color = Color.Transparent,
     ) {
         IssueGroupBadge(
