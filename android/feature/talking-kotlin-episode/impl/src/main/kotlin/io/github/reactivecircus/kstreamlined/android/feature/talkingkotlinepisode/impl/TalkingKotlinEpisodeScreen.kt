@@ -101,7 +101,11 @@ internal fun SharedTransitionScope.TalkingKotlinEpisodeScreen(
         onShareButtonClick = { title, url ->
             context.openShareSheet(title, url)
         },
-        onOpenLink = context::openCustomTab,
+        onOpenLink = {
+            if (!isTransitionActive) {
+                context.openCustomTab(it)
+            }
+        },
         onPlayerPositionChange = { playerPosition = it },
         uiState = uiState,
         eventSink = eventSink,

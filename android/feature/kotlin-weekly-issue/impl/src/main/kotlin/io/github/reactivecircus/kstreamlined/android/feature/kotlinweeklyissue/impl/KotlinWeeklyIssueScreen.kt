@@ -90,7 +90,9 @@ internal fun SharedTransitionScope.KotlinWeeklyIssueScreen(
             context.openShareSheet(title, url)
         },
         onOpenLink = {
-            context.openCustomTab(it)
+            if (!isTransitionActive) {
+                context.openCustomTab(it)
+            }
         },
         uiState = uiState,
         eventSink = eventSink,
