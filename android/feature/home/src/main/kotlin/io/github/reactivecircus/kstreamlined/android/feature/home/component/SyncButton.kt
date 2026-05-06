@@ -40,9 +40,9 @@ internal fun SyncButton(
         modifier = modifier,
         enabled = !showSkeleton && !syncing,
         contentColor = if (showSkeleton) {
-            KSTheme.colorScheme.container
+            KSTheme.colorScheme.surface
         } else {
-            KSTheme.colorScheme.primary
+            KSTheme.colorScheme.accent
         },
     ) {
         var currentRotation by remember { mutableFloatStateOf(0f) }

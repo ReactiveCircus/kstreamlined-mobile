@@ -64,7 +64,7 @@ public fun SharedTransitionScope.TopNavBar(
             ),
         elevation = elevation,
         color = KSTheme.colorScheme.background,
-        contentColor = KSTheme.colorScheme.primary,
+        contentColor = KSTheme.colorScheme.accent,
     ) {
         Box(
             modifier = Modifier.padding(contentPadding),
@@ -123,7 +123,7 @@ private fun SharedTransitionScope.GradientTitle(
     modifier: Modifier = Modifier,
 ) {
     Row(modifier = modifier) {
-        val gradient = KSTheme.colorScheme.gradient
+        val gradient = KSTheme.colorScheme.brandGradient
         val brush = remember {
             object : ShaderBrush() {
                 override fun createShader(size: Size): Shader {
@@ -195,7 +195,7 @@ private fun PreviewTopNavBar_withBottomRow() {
             bottomRow = {
                 Chip(
                     onClick = {},
-                    contentColor = KSTheme.colorScheme.primary,
+                    contentColor = KSTheme.colorScheme.accent,
                 ) {
                     Text(
                         text = "Button".uppercase(),

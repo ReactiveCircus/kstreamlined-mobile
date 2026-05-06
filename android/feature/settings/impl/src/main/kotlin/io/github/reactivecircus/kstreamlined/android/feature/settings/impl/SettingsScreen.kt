@@ -154,7 +154,7 @@ private fun SharedTransitionScope.ContentUi(
                 style = KSTheme.typography.labelLarge.copy(
                     fontWeight = FontWeight.SemiBold,
                 ),
-                color = KSTheme.colorScheme.onBackgroundVariant,
+                color = KSTheme.colorScheme.onBackgroundMuted,
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -173,7 +173,7 @@ private fun SharedTransitionScope.ContentUi(
                     style = KSTheme.typography.labelLarge.copy(
                         fontWeight = FontWeight.SemiBold,
                     ),
-                    color = KSTheme.colorScheme.onBackgroundVariant,
+                    color = KSTheme.colorScheme.onBackgroundMuted,
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
@@ -225,7 +225,7 @@ private fun SharedTransitionScope.ContentUi(
                 style = KSTheme.typography.labelLarge.copy(
                     fontWeight = FontWeight.SemiBold,
                 ),
-                color = KSTheme.colorScheme.onBackgroundVariant,
+                color = KSTheme.colorScheme.onBackgroundMuted,
             )
 
             Spacer(modifier = Modifier.height(16.dp))

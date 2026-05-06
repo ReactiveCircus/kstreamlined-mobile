@@ -39,8 +39,8 @@ internal fun AutoSyncSwitch(
             bottomStart = bottomCornerRadius,
             bottomEnd = bottomCornerRadius,
         ),
-        color = KSTheme.colorScheme.container,
-        contentColor = KSTheme.colorScheme.onBackgroundVariant,
+        color = KSTheme.colorScheme.surface,
+        contentColor = KSTheme.colorScheme.onBackgroundMuted,
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Column(

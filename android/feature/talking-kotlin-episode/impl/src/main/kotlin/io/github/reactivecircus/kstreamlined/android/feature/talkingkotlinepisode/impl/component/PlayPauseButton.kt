@@ -34,7 +34,7 @@ internal fun PlayPauseButton(
     Chip(
         onClick = onPlayPauseButtonClick,
         modifier = modifier,
-        contentColor = KSTheme.colorScheme.primary,
+        contentColor = KSTheme.colorScheme.accent,
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,

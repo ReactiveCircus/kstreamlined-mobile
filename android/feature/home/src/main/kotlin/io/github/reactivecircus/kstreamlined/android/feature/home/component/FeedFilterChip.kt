@@ -29,9 +29,9 @@ internal fun FeedFilterChip(
         modifier = modifier,
         enabled = !showSkeleton,
         contentColor = if (showSkeleton) {
-            KSTheme.colorScheme.container
+            KSTheme.colorScheme.surface
         } else {
-            KSTheme.colorScheme.primary
+            KSTheme.colorScheme.accent
         },
     ) {
         Text(

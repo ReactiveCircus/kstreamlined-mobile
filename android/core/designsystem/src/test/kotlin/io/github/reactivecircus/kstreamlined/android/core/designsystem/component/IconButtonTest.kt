@@ -34,7 +34,7 @@ class IconButtonTest {
                 KSIcons.Close,
                 contentDescription = null,
                 onClick = {},
-                iconTint = KSTheme.colorScheme.primary,
+                iconTint = KSTheme.colorScheme.accent,
                 modifier = Modifier.padding(8.dp),
             )
         }
@@ -47,7 +47,7 @@ class IconButtonTest {
                 KSIcons.Settings,
                 contentDescription = null,
                 onClick = {},
-                iconTint = KSTheme.colorScheme.primary,
+                iconTint = KSTheme.colorScheme.accent,
                 modifier = Modifier.padding(8.dp),
             )
         }

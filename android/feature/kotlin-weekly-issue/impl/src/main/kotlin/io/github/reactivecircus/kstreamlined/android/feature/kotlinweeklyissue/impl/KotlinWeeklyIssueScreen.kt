@@ -243,7 +243,7 @@ private fun LoadingSkeletonUi(
                     .fillMaxWidth()
                     .height(120.dp),
                 shape = RoundedCornerShape(16.dp),
-                color = KSTheme.colorScheme.container,
+                color = KSTheme.colorScheme.surface,
             ) {}
         }
     }

@@ -37,7 +37,7 @@ internal fun ThemeSelector(
     Surface(
         modifier = modifier,
         shape = CircleShape,
-        color = KSTheme.colorScheme.container,
+        color = KSTheme.colorScheme.surface,
     ) {
         val selectionProgress by animateFloatAsState(
             targetValue = AppSettings.Theme.entries.indexOf(selectedTheme).toFloat(),
@@ -57,7 +57,7 @@ internal fun ThemeSelector(
                 Layout(
                     modifier = Modifier
                         .layoutId("selectionIndicator")
-                        .border(2.dp, KSTheme.colorScheme.primary, CircleShape),
+                        .border(2.dp, KSTheme.colorScheme.accent, CircleShape),
                 ) { _, constraints -> layout(constraints.minWidth, constraints.minHeight) {} }
             },
         ) { measurables, constraints ->
@@ -118,8 +118,8 @@ private fun ThemeOption(
         modifier = modifier,
         enabled = !selected,
         shape = CircleShape,
-        color = KSTheme.colorScheme.container,
-        contentColor = KSTheme.colorScheme.primary,
+        color = KSTheme.colorScheme.surface,
+        contentColor = KSTheme.colorScheme.accent,
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Icon(

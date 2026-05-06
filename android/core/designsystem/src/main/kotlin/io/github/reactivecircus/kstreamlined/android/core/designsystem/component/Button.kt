@@ -23,8 +23,8 @@ public fun Button(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    color: Color = KSTheme.colorScheme.container,
-    contentColor: Color = KSTheme.colorScheme.primary,
+    color: Color = KSTheme.colorScheme.surface,
+    contentColor: Color = KSTheme.colorScheme.accent,
 ) {
     Surface(
         onClick = onClick,

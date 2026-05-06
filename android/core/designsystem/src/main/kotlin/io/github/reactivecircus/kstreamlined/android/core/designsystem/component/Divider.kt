@@ -25,7 +25,7 @@ import androidx.compose.material3.VerticalDivider as MaterialVerticalDivider
 public fun HorizontalDivider(
     modifier: Modifier = Modifier,
     thickness: Dp = 1.dp,
-    color: Color = KSTheme.colorScheme.outline,
+    color: Color = KSTheme.colorScheme.border,
 ) {
     MaterialHorizontalDivider(
         modifier = modifier,
@@ -39,7 +39,7 @@ public fun HorizontalDivider(
 public fun VerticalDivider(
     modifier: Modifier = Modifier,
     thickness: Dp = 1.dp,
-    color: Color = KSTheme.colorScheme.outline,
+    color: Color = KSTheme.colorScheme.border,
 ) {
     MaterialVerticalDivider(
         modifier = modifier,

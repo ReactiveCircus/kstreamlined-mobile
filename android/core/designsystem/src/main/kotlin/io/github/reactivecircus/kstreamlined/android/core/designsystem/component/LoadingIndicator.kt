@@ -16,8 +16,8 @@ import io.github.reactivecircus.kstreamlined.android.core.designsystem.preview.K
 @Composable
 public fun LoadingIndicator(
     modifier: Modifier = Modifier,
-    color: Color = KSTheme.colorScheme.primary,
-    trackColor: Color = KSTheme.colorScheme.container,
+    color: Color = KSTheme.colorScheme.accent,
+    trackColor: Color = KSTheme.colorScheme.surface,
 ) {
     ContainedLoadingIndicator(
         modifier = modifier,

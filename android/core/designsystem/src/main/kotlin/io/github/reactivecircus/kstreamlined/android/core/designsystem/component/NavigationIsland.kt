@@ -33,8 +33,8 @@ public fun NavigationIsland(
     Surface(
         modifier = modifier,
         shape = CircleShape,
-        color = KSTheme.colorScheme.containerInverse,
-        contentColor = KSTheme.colorScheme.onContainerInverse,
+        color = KSTheme.colorScheme.surfaceInverse,
+        contentColor = KSTheme.colorScheme.onSurfaceInverseFaint,
         elevation = 4.dp,
     ) {
         Row(
@@ -73,9 +73,9 @@ public fun NavigationIslandItem(
             painter = icon,
             contentDescription = contentDescription,
             tint = if (selected) {
-                KSTheme.colorScheme.primary
+                KSTheme.colorScheme.accent
             } else {
-                KSTheme.colorScheme.onContainerInverse
+                KSTheme.colorScheme.onSurfaceInverseFaint
             },
         )
     }
@@ -87,7 +87,7 @@ public fun NavigationIslandDivider(
 ) {
     VerticalDivider(
         modifier = modifier.height(16.dp),
-        color = KSTheme.colorScheme.onContainerInverse,
+        color = KSTheme.colorScheme.onSurfaceInverseFaint,
     )
 }
 

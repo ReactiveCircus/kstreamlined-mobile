@@ -52,7 +52,7 @@ public fun SharedTransitionScope.KotlinBlogCard(
             .fillMaxWidth()
             .testTag("kotlinBlogCard"),
         shape = RoundedCornerShape(16.dp),
-        color = KSTheme.colorScheme.container,
+        color = KSTheme.colorScheme.surface,
         contentColor = KSTheme.colorScheme.onBackground,
     ) {
         Column {
@@ -85,7 +85,7 @@ public fun SharedTransitionScope.KotlinBlogCard(
                     Text(
                         text = item.displayablePublishTime,
                         style = KSTheme.typography.bodyMedium,
-                        color = KSTheme.colorScheme.onBackgroundVariant,
+                        color = KSTheme.colorScheme.onBackgroundMuted,
                     )
                     Spacer(modifier = Modifier.weight(1f))
                     IconButton(

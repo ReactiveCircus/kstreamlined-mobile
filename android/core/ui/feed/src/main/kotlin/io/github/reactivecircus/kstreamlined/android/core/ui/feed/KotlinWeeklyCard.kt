@@ -39,8 +39,8 @@ public fun KotlinWeeklyCard(
 ): Unit = trace("FeedItem:KotlinWeeklyCard") {
     val brush = Brush.horizontalGradient(
         colors = listOf(
-            KSTheme.colorScheme.primaryDark,
-            KSTheme.colorScheme.primaryLight,
+            KSTheme.colorScheme.accentStrong,
+            KSTheme.colorScheme.accentSoft,
         ),
     )
     Surface(
@@ -52,7 +52,7 @@ public fun KotlinWeeklyCard(
             }
             .testTag("kotlinWeeklyCard"),
         color = Color.Transparent,
-        contentColor = KSTheme.colorScheme.onPrimary,
+        contentColor = KSTheme.colorScheme.onAccent,
     ) {
         Row(
             modifier = Modifier.padding(vertical = 24.dp),
@@ -73,7 +73,7 @@ public fun KotlinWeeklyCard(
                 Text(
                     text = item.displayablePublishTime,
                     style = KSTheme.typography.bodyMedium,
-                    color = KSTheme.colorScheme.onPrimaryVariant,
+                    color = KSTheme.colorScheme.onAccentMuted,
                 )
             }
             IconButton(

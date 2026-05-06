@@ -34,8 +34,8 @@ internal fun SyncIntervalTile(
         onClick = onClick,
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp),
-        color = KSTheme.colorScheme.container,
-        contentColor = KSTheme.colorScheme.onBackgroundVariant,
+        color = KSTheme.colorScheme.surface,
+        contentColor = KSTheme.colorScheme.onBackgroundMuted,
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Column(
