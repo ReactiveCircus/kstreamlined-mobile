@@ -117,7 +117,7 @@ public fun FilledIconButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    containerColor: Color = KSTheme.colorScheme.container,
+    containerColor: Color = KSTheme.colorScheme.surface,
     iconTint: Color = LocalContentColor.current,
 ) {
     Surface(
@@ -168,7 +168,7 @@ private fun PreviewLargeIconButton() {
         KSIcons.Close,
         contentDescription = null,
         onClick = {},
-        iconTint = KSTheme.colorScheme.primary,
+        iconTint = KSTheme.colorScheme.accent,
         modifier = Modifier.padding(8.dp),
     )
 }
@@ -181,7 +181,7 @@ private fun PreviewFilledIconButton() {
         KSIcons.Settings,
         contentDescription = null,
         onClick = {},
-        iconTint = KSTheme.colorScheme.primary,
+        iconTint = KSTheme.colorScheme.accent,
         modifier = Modifier.padding(8.dp),
     )
 }

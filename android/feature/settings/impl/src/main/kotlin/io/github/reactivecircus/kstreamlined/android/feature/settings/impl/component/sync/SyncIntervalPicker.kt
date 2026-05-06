@@ -36,11 +36,11 @@ internal fun SyncIntervalPicker(
             val isSelected = it == selectedSyncInterval
             Surface(
                 onClick = { onSelectSyncInterval(it) },
-                color = KSTheme.colorScheme.container,
+                color = KSTheme.colorScheme.surface,
                 contentColor = if (isSelected) {
-                    KSTheme.colorScheme.primary
+                    KSTheme.colorScheme.accent
                 } else {
-                    KSTheme.colorScheme.onBackgroundVariant
+                    KSTheme.colorScheme.onBackgroundMuted
                 },
             ) {
                 Row(

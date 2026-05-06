@@ -37,7 +37,7 @@ internal fun IssueItemUi(
                 style = KSTheme.typography.titleMedium.copy(
                     fontWeight = FontWeight.ExtraBold,
                 ),
-                color = KSTheme.colorScheme.onBackgroundVariant,
+                color = KSTheme.colorScheme.onBackgroundMuted,
             )
             Text(
                 text = item.summary,
@@ -48,7 +48,7 @@ internal fun IssueItemUi(
                 style = KSTheme.typography.labelLarge.copy(
                     fontWeight = FontWeight.ExtraBold,
                 ),
-                color = KSTheme.colorScheme.primary,
+                color = KSTheme.colorScheme.accent,
             )
         }
     }

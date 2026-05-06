@@ -115,9 +115,9 @@ internal fun SeekBar(
     ) {
         Layout(
             {
-                val inactiveColor = KSTheme.colorScheme.onBackgroundVariant
-                val activeColor = KSTheme.colorScheme.onContainerInverse
-                val activeSeekingColor = KSTheme.colorScheme.onTertiary
+                val inactiveColor = KSTheme.colorScheme.onBackgroundMuted
+                val activeColor = KSTheme.colorScheme.onSurfaceInverseFaint
+                val activeSeekingColor = KSTheme.colorScheme.onSurfaceInverse
                 val animatedActiveColor by animateColorAsState(
                     targetValue = if (seeking) activeSeekingColor else activeColor,
                     label = "color",
@@ -162,7 +162,7 @@ internal fun SeekBar(
             Text(
                 text = playedProgress,
                 style = KSTheme.typography.labelSmall,
-                color = KSTheme.colorScheme.onTertiaryVariant,
+                color = KSTheme.colorScheme.onSurfaceInverseMuted,
             )
 
             Spacer(modifier = Modifier.weight(1f))
@@ -170,7 +170,7 @@ internal fun SeekBar(
             Text(
                 text = remainingProgress,
                 style = KSTheme.typography.labelSmall,
-                color = KSTheme.colorScheme.onTertiaryVariant,
+                color = KSTheme.colorScheme.onSurfaceInverseMuted,
             )
         }
     }
@@ -208,7 +208,7 @@ private const val AnimationDurationMillis = 400
 @PreviewWrapper(KSPreviewWrapper::class)
 private fun PreviewSeekBar() {
     Surface(
-        color = KSTheme.colorScheme.tertiary,
+        color = KSTheme.colorScheme.surfaceInverse,
     ) {
         SeekBar(
             modifier = Modifier.padding(8.dp),

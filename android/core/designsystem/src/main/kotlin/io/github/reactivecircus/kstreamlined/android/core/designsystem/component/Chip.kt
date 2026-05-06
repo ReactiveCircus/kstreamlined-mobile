@@ -22,7 +22,7 @@ public fun Chip(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    color: Color = KSTheme.colorScheme.container,
+    color: Color = KSTheme.colorScheme.surface,
     contentColor: Color = KSTheme.colorScheme.onBackground,
     content: @Composable RowScope.() -> Unit,
 ) {
@@ -53,7 +53,7 @@ private fun PreviewChip() {
     Chip(
         onClick = {},
         modifier = Modifier.padding(8.dp),
-        contentColor = KSTheme.colorScheme.primary,
+        contentColor = KSTheme.colorScheme.accent,
     ) {
         Text(
             text = "Chip".uppercase(),

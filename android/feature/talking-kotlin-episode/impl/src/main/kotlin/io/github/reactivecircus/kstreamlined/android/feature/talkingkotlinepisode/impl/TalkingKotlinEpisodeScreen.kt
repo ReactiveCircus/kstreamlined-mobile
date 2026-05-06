@@ -243,8 +243,8 @@ private fun SharedTransitionScope.ContentUi(
                         modifier = Modifier
                             .size(ImageSize)
                             .clip(RoundedCornerShape(8.dp)),
-                        placeholder = ColorPainter(KSTheme.colorScheme.container),
-                        error = ColorPainter(KSTheme.colorScheme.container),
+                        placeholder = ColorPainter(KSTheme.colorScheme.surface),
+                        error = ColorPainter(KSTheme.colorScheme.surface),
                     )
                 }
             }
@@ -256,7 +256,7 @@ private fun SharedTransitionScope.ContentUi(
                         text = "${episode.displayablePublishTime} • ${episode.duration}",
                         style = KSTheme.typography.labelMedium,
                         modifier = Modifier.padding(vertical = 8.dp),
-                        color = KSTheme.colorScheme.onBackgroundVariant,
+                        color = KSTheme.colorScheme.onBackgroundMuted,
                         textAlign = TextAlign.Center,
                     )
                     Text(
@@ -274,7 +274,7 @@ private fun SharedTransitionScope.ContentUi(
             }
             item {
                 val linkStyle = SpanStyle(
-                    color = KSTheme.colorScheme.primary,
+                    color = KSTheme.colorScheme.accent,
                     fontWeight = FontWeight.Bold,
                 )
                 val annotatedString = remember(episode.summary) {
@@ -287,7 +287,7 @@ private fun SharedTransitionScope.ContentUi(
                 Text(
                     text = annotatedString,
                     style = KSTheme.typography.bodyMedium.copy(
-                        color = KSTheme.colorScheme.onBackgroundVariant,
+                        color = KSTheme.colorScheme.onBackgroundMuted,
                     ),
                     modifier = Modifier.padding(horizontal = 24.dp),
                 )
@@ -299,7 +299,7 @@ private fun SharedTransitionScope.ContentUi(
                 Surface(
                     onClick = { onOpenLink(episode.contentUrl) },
                     modifier = Modifier.fillMaxWidth(),
-                    contentColor = KSTheme.colorScheme.primary,
+                    contentColor = KSTheme.colorScheme.accent,
                 ) {
                     Row(
                         modifier = Modifier

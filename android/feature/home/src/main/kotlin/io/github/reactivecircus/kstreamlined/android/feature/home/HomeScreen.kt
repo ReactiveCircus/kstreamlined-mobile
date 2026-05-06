@@ -246,7 +246,7 @@ private fun SharedTransitionScope.ContentUi(
                             Text(
                                 text = it.title,
                                 style = KSTheme.typography.titleMedium,
-                                color = KSTheme.colorScheme.onBackgroundVariant,
+                                color = KSTheme.colorScheme.onBackgroundMuted,
                                 modifier = Modifier.animateItem(),
                             )
                         }
@@ -392,7 +392,7 @@ private fun LoadingSkeletonUi(
                     .fillMaxWidth()
                     .height(200.dp),
                 shape = RoundedCornerShape(16.dp),
-                color = KSTheme.colorScheme.container,
+                color = KSTheme.colorScheme.surface,
             ) {}
         }
     }

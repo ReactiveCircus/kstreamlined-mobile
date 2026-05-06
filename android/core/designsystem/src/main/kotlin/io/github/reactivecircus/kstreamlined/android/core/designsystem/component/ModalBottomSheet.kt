@@ -29,7 +29,7 @@ public fun ModalBottomSheet(
     onDismissRequest: () -> Unit,
     modifier: Modifier = Modifier,
     sheetState: SheetState = rememberModalBottomSheetState(),
-    color: Color = KSTheme.colorScheme.container,
+    color: Color = KSTheme.colorScheme.surface,
     contentColor: Color = KSTheme.colorScheme.onBackground,
     content: @Composable (ColumnScope.() -> Unit),
 ) {

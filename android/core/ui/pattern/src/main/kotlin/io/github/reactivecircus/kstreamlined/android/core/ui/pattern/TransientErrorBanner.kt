@@ -37,8 +37,8 @@ public fun TransientErrorBanner(
     Surface(
         modifier = modifier.padding(8.dp),
         shape = CircleShape,
-        color = KSTheme.colorScheme.tertiary,
-        contentColor = KSTheme.colorScheme.onTertiary,
+        color = KSTheme.colorScheme.surfaceInverse,
+        contentColor = KSTheme.colorScheme.onSurfaceInverse,
         elevation = 4.dp,
     ) {
         Row(

@@ -49,7 +49,7 @@ class TopNavBarTest {
                     bottomRow = {
                         Chip(
                             onClick = {},
-                            contentColor = KSTheme.colorScheme.primary,
+                            contentColor = KSTheme.colorScheme.accent,
                         ) {
                             Text(
                                 text = "Button".uppercase(),

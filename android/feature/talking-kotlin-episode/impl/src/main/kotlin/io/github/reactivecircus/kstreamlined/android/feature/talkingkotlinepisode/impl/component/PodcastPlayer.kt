@@ -133,8 +133,8 @@ internal fun PodcastPlayerUi(
     Surface(
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp),
-        color = KSTheme.colorScheme.tertiary,
-        contentColor = KSTheme.colorScheme.onTertiary,
+        color = KSTheme.colorScheme.surfaceInverse,
+        contentColor = KSTheme.colorScheme.onSurfaceInverse,
     ) {
         Row(
             modifier = Modifier

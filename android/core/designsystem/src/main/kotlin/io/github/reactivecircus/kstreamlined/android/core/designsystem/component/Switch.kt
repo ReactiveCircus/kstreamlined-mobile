@@ -29,16 +29,16 @@ public fun Switch(
                     painter = KSIcons.Check,
                     contentDescription = null,
                     modifier = Modifier.size(16.dp),
-                    tint = KSTheme.colorScheme.primaryDark,
+                    tint = KSTheme.colorScheme.accentStrong,
                 )
             }
         },
         colors = SwitchDefaults.colors(
-            checkedTrackColor = KSTheme.colorScheme.primary,
-            checkedThumbColor = KSTheme.colorScheme.onPrimary,
-            uncheckedTrackColor = KSTheme.colorScheme.onTertiaryVariant,
-            uncheckedThumbColor = KSTheme.colorScheme.outlineInverse,
-            uncheckedBorderColor = KSTheme.colorScheme.outlineVariant,
+            checkedTrackColor = KSTheme.colorScheme.accent,
+            checkedThumbColor = KSTheme.colorScheme.onAccent,
+            uncheckedTrackColor = KSTheme.colorScheme.onSurfaceInverseMuted,
+            uncheckedThumbColor = KSTheme.colorScheme.borderInverse,
+            uncheckedBorderColor = KSTheme.colorScheme.borderMuted,
         ),
     )
 }

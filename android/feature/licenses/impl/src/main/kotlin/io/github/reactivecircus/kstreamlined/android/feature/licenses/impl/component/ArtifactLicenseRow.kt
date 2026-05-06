@@ -70,8 +70,8 @@ internal fun ArtifactLicenseRow(
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     item.licenses.forEach { license ->
                         Surface(
-                            color = KSTheme.colorScheme.container,
-                            contentColor = KSTheme.colorScheme.onBackgroundVariant,
+                            color = KSTheme.colorScheme.surface,
+                            contentColor = KSTheme.colorScheme.onBackgroundMuted,
                             shape = CircleShape,
                         ) {
                             Text(

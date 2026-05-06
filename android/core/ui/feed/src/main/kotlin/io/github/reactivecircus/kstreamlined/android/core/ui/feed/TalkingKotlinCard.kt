@@ -59,8 +59,8 @@ public fun SharedTransitionScope.TalkingKotlinCard(
 ): Unit = trace("FeedItem:TalkingKotlinCard") {
     val brush = Brush.horizontalGradient(
         colors = listOf(
-            KSTheme.colorScheme.tertiary,
-            KSTheme.colorScheme.tertiaryVariant,
+            KSTheme.colorScheme.surfaceInverse,
+            KSTheme.colorScheme.surfaceInverseMuted,
         ),
     )
     Surface(
@@ -82,7 +82,7 @@ public fun SharedTransitionScope.TalkingKotlinCard(
             }
             .testTag("talkingKotlinCard"),
         color = Color.Transparent,
-        contentColor = KSTheme.colorScheme.onTertiary,
+        contentColor = KSTheme.colorScheme.onSurfaceInverse,
     ) {
         Column(
             modifier = Modifier.padding(
@@ -101,7 +101,7 @@ public fun SharedTransitionScope.TalkingKotlinCard(
                     Text(
                         text = item.displayablePublishTime,
                         style = KSTheme.typography.bodyMedium,
-                        color = KSTheme.colorScheme.onTertiaryVariant,
+                        color = KSTheme.colorScheme.onSurfaceInverseMuted,
                     )
                     Text(
                         text = item.value.title,
@@ -158,8 +158,8 @@ private fun BottomRow(
     Row(verticalAlignment = Alignment.CenterVertically) {
         Surface(
             shape = CircleShape,
-            color = KSTheme.colorScheme.containerOnTertiary,
-            contentColor = KSTheme.colorScheme.primary,
+            color = KSTheme.colorScheme.surfaceInverseRaised,
+            contentColor = KSTheme.colorScheme.accent,
         ) {
             Text(
                 text = item.value.duration,

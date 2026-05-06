@@ -22,7 +22,7 @@ class ChipTest {
             Chip(
                 onClick = {},
                 modifier = Modifier.padding(8.dp),
-                contentColor = KSTheme.colorScheme.primary,
+                contentColor = KSTheme.colorScheme.accent,
             ) {
                 Text(
                     text = "Chip".uppercase(),

@@ -19,7 +19,7 @@ class SeekBarTest {
     fun snapshot_SeekBar() {
         snapshotTester.snapshot(addSurface = false) {
             Surface(
-                color = KSTheme.colorScheme.tertiary,
+                color = KSTheme.colorScheme.surfaceInverse,
             ) {
                 SeekBar(
                     modifier = Modifier.padding(8.dp),

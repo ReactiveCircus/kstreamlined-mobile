@@ -57,8 +57,8 @@ public fun SharedTransitionScope.KotlinYouTubeCard(
             .fillMaxWidth()
             .testTag("kotlinYouTubeCard"),
         shape = RoundedCornerShape(16.dp),
-        color = KSTheme.colorScheme.secondary,
-        contentColor = KSTheme.colorScheme.onSecondary,
+        color = KSTheme.colorScheme.surfaceYouTube,
+        contentColor = KSTheme.colorScheme.onSurfaceYouTube,
     ) {
         Column {
             Box(contentAlignment = Alignment.Center) {
@@ -109,7 +109,7 @@ public fun SharedTransitionScope.KotlinYouTubeCard(
                     Text(
                         text = item.displayablePublishTime,
                         style = KSTheme.typography.bodyMedium,
-                        color = KSTheme.colorScheme.onSecondaryVariant,
+                        color = KSTheme.colorScheme.onSurfaceYouTubeMuted,
                     )
                     Spacer(modifier = Modifier.weight(1f))
                     IconButton(

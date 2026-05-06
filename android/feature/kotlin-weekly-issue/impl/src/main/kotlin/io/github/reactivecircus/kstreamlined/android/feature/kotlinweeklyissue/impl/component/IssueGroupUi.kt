@@ -63,14 +63,8 @@ private fun IssueGroupBadge(
     Surface(
         modifier = modifier.wrapContentWidth(Alignment.Start),
         shape = RoundedCornerShape(4.dp),
-        color = when (group) {
-            KotlinWeeklyIssueItem.Group.Announcements -> AnnouncementsColor
-            KotlinWeeklyIssueItem.Group.Articles -> ArticlesColor
-            KotlinWeeklyIssueItem.Group.Android -> AndroidColor
-            KotlinWeeklyIssueItem.Group.Videos -> VideosColor
-            KotlinWeeklyIssueItem.Group.Libraries -> LibrariesColor
-        },
-        contentColor = Color.White,
+        color = Color(group.sourceColorArgb.toInt()),
+        contentColor = Color(group.onSourceColorArgb.toInt()),
     ) {
         Text(
             text = group.name.uppercase(),
@@ -81,12 +75,6 @@ private fun IssueGroupBadge(
         )
     }
 }
-
-private val AnnouncementsColor = Color(0xFF7874B4)
-private val ArticlesColor = Color(0xFFF1646C)
-private val AndroidColor = Color(0xFF79C5B4)
-private val VideosColor = Color(0xFF639FCB)
-private val LibrariesColor = Color(0xFF800000)
 
 @Composable
 @PreviewLightDark
