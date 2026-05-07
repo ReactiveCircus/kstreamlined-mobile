@@ -1,7 +1,7 @@
 package io.github.reactivecircus.kstreamlined.android.feature.licenses.impl
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -22,11 +22,10 @@ internal class LicensesPresenter(
     @Composable
     override fun present(): LicensesUiState {
         var uiState by remember { mutableStateOf<LicensesUiState>(LicensesUiState.Loading) }
-        DisposableEffect(Unit) {
+        SideEffect(Unit) {
             uiState = LicensesUiState.Content(
                 items = licensesInfo.artifacts.toArtifactLicenseItems(),
             )
-            onDispose { }
         }
         return uiState
     }

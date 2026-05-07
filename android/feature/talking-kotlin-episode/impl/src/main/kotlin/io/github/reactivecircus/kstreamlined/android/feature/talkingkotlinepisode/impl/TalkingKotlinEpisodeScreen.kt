@@ -24,7 +24,7 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
@@ -122,7 +122,7 @@ internal fun SharedTransitionScope.TalkingKotlinEpisodeScreen(
 
     // save playback position when navigating away
     val topEntry = backStack.lastOrNull()
-    LaunchedEffect(topEntry) {
+    SideEffect(topEntry) {
         if (topEntry !is TalkingKotlinEpisodeRoute) {
             eventSink(TalkingKotlinEpisodeUiEvent.SaveStartPosition(playerPosition))
         }

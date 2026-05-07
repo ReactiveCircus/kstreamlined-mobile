@@ -12,9 +12,9 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -97,7 +97,7 @@ private val AppSettings.Theme.isDarkEffectively: Boolean
 private fun ComponentActivity.NavigationBarStyleEffect(theme: AppSettings.Theme) {
     val navigationBarColor = KSTheme.colorScheme.background.toArgb()
     val isDarkEffectively = theme.isDarkEffectively
-    DisposableEffect(theme, isDarkEffectively) {
+    SideEffect(theme, isDarkEffectively) {
         if (isDarkEffectively) {
             enableEdgeToEdge(
                 statusBarStyle = SystemBarStyle.dark(Color.TRANSPARENT),
@@ -109,7 +109,6 @@ private fun ComponentActivity.NavigationBarStyleEffect(theme: AppSettings.Theme)
                 navigationBarStyle = SystemBarStyle.light(navigationBarColor, navigationBarColor),
             )
         }
-        onDispose { }
     }
 }
 
