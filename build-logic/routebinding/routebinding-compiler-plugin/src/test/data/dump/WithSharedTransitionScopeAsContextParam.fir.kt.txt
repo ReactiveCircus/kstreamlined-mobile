@@ -30,6 +30,7 @@ class FooScreen_NavEntryInstaller : NavEntryInstaller {
       return MetroFactory.newInstance()
     }
 
+    @ComptimeOnly
     @HiddenFromObjC
     fun mirrorFunction(): FooScreen_NavEntryInstaller {
       return error(message = "Never called")
@@ -39,7 +40,10 @@ class FooScreen_NavEntryInstaller : NavEntryInstaller {
 
   @Deprecated(message = "This synthesized declaration should not be used directly", level = DeprecationLevel.HIDDEN)
   @MetroContribution(scope = AppScope::class)
-  interface MetroContributionToDevzacsweersmetroappScopeoxd1AHI {
+  @BindingContainer
+  @Origin(value = FooScreen_NavEntryInstaller::class)
+  @ComptimeOnly
+  interface MetroContributionToDevzacsweersmetroappScopeocf15 {
     @Deprecated(message = "This synthesized declaration should not be used directly", level = DeprecationLevel.HIDDEN)
     @ComptimeOnly
     abstract class BindsMirror {
@@ -59,7 +63,7 @@ class FooScreen_NavEntryInstaller : NavEntryInstaller {
     @IntoSet
     @Binds
     @ComptimeOnly
-    abstract fun bindIntoSetAsNavEntryInstaller(instance: FooScreen_NavEntryInstaller): NavEntryInstaller {
+    fun bindIntoSetAsNavEntryInstaller(instance: FooScreen_NavEntryInstaller): NavEntryInstaller {
       return error(message = "Never called")
     }
 
