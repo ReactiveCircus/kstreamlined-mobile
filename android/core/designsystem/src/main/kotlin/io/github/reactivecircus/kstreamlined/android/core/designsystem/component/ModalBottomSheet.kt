@@ -8,21 +8,20 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.SheetValue
-import androidx.compose.material3.rememberStandardBottomSheetState
+import androidx.compose.material3.SheetValue.Expanded
+import androidx.compose.material3.SheetValue.Hidden
+import androidx.compose.material3.SheetValue.PartiallyExpanded
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.compose.ui.tooling.preview.PreviewWrapper
 import androidx.compose.ui.unit.dp
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
-import io.github.reactivecircus.kstreamlined.android.core.designsystem.preview.KSPreviewWrapper
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.preview.PreviewKStreamlined
 import androidx.compose.material3.ModalBottomSheet as M3ModalBottomSheet
 import androidx.compose.material3.SheetState as M3SheetState
-import androidx.compose.material3.rememberModalBottomSheetState as rememberM3ModalBottomSheetState
+import androidx.compose.material3.rememberBottomSheetState as rememberM3BottomSheetState
 
 @Composable
 public fun ModalBottomSheet(
@@ -67,17 +66,21 @@ public class SheetState internal constructor(
 
 @Composable
 public fun rememberModalBottomSheetState(skipPartiallyExpanded: Boolean = false): SheetState {
-    val m3SheetState = rememberM3ModalBottomSheetState(
-        skipPartiallyExpanded = skipPartiallyExpanded,
+    val m3SheetState = rememberM3BottomSheetState(
+        initialValue = Hidden,
+        enabledValues = if (skipPartiallyExpanded) {
+            setOf(Hidden, Expanded)
+        } else {
+            setOf(Hidden, PartiallyExpanded, Expanded)
+        },
     )
     return remember(skipPartiallyExpanded) { SheetState(m3SheetState) }
 }
 
 @Composable
-@PreviewLightDark
-@PreviewWrapper(KSPreviewWrapper::class)
+@PreviewKStreamlined
 private fun PreviewModalBottomSheet() {
-    val m3SheetState = rememberStandardBottomSheetState(initialValue = SheetValue.Expanded)
+    val m3SheetState = rememberM3BottomSheetState(initialValue = Expanded)
     ModalBottomSheet(
         onDismissRequest = {},
         sheetState = SheetState(m3SheetState),

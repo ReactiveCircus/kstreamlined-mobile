@@ -13,17 +13,14 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.compose.ui.tooling.preview.PreviewWrapper
 import androidx.compose.ui.unit.dp
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Surface
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Text
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
-import io.github.reactivecircus.kstreamlined.android.core.designsystem.preview.KSPreviewWrapper
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.preview.PreviewKStreamlined
 
-@PreviewLightDark
-@PreviewWrapper(KSPreviewWrapper::class)
 @Composable
+@PreviewKStreamlined
 private fun PreviewKSColorScheme_accent() {
     Column {
         with(KSTheme.colorScheme) {
@@ -36,9 +33,8 @@ private fun PreviewKSColorScheme_accent() {
     }
 }
 
-@PreviewLightDark
-@PreviewWrapper(KSPreviewWrapper::class)
 @Composable
+@PreviewKStreamlined
 private fun PreviewKSColorScheme_background() {
     Column {
         with(KSTheme.colorScheme) {
@@ -49,9 +45,8 @@ private fun PreviewKSColorScheme_background() {
     }
 }
 
-@PreviewLightDark
-@PreviewWrapper(KSPreviewWrapper::class)
 @Composable
+@PreviewKStreamlined
 private fun PreviewKSColorScheme_surface() {
     Column {
         with(KSTheme.colorScheme) {
@@ -66,9 +61,8 @@ private fun PreviewKSColorScheme_surface() {
     }
 }
 
-@PreviewLightDark
-@PreviewWrapper(KSPreviewWrapper::class)
 @Composable
+@PreviewKStreamlined
 private fun PreviewKSColorScheme_youtube() {
     Column {
         with(KSTheme.colorScheme) {
@@ -79,9 +73,8 @@ private fun PreviewKSColorScheme_youtube() {
     }
 }
 
-@PreviewLightDark
-@PreviewWrapper(KSPreviewWrapper::class)
 @Composable
+@PreviewKStreamlined
 private fun PreviewKSColorScheme_border() {
     Column {
         with(KSTheme.colorScheme) {
@@ -92,9 +85,8 @@ private fun PreviewKSColorScheme_border() {
     }
 }
 
-@PreviewLightDark
-@PreviewWrapper(KSPreviewWrapper::class)
 @Composable
+@PreviewKStreamlined
 private fun PreviewKSColorScheme_brandGradient() {
     Box(
         modifier = Modifier
