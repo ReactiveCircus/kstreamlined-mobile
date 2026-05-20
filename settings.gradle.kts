@@ -73,6 +73,7 @@ includeKmpProjects(
     ":kmp:network-monitor:runtime",
     ":kmp:network-monitor:testing",
     ":kmp:presentation:content-viewer",
+    ":kmp:presentation:feed-selection",
     ":kmp:presentation:home",
     ":kmp:presentation:kotlin-weekly-issue",
     ":kmp:presentation:saved-for-later",
