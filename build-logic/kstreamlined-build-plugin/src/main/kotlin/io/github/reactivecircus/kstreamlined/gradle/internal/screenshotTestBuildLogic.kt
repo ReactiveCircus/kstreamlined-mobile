@@ -1,6 +1,5 @@
 package io.github.reactivecircus.kstreamlined.gradle.internal
 
-import app.cash.paparazzi.gradle.PrepareResourcesTask
 import com.android.build.api.dsl.LibraryExtension
 import com.android.build.api.variant.ApplicationAndroidComponentsExtension
 import com.android.build.api.variant.HasUnitTestBuilder
@@ -28,9 +27,6 @@ internal fun Project.configureScreenshotTest() {
                     }
                 }
             }
-        }
-        tasks.withType(PrepareResourcesTask::class.java).configureEach {
-            it.enabled = runningCheck || runningPaparazzi
         }
         tasks.named("check").configure {
             it.dependsOn("verifyPaparazzi")
