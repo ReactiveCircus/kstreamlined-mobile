@@ -114,6 +114,7 @@ class HomeScreenTest {
                     listState = rememberLazyListState(),
                     onViewItem = {},
                     onOpenSettings = {},
+                    onOpenFeedSelection = {},
                     uiState = uiState,
                     eventSink = {},
                 )

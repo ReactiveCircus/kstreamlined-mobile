@@ -57,6 +57,7 @@ import io.github.reactivecircus.kstreamlined.android.core.ui.pattern.ErrorUi
 import io.github.reactivecircus.kstreamlined.android.core.ui.pattern.TransientErrorBanner
 import io.github.reactivecircus.kstreamlined.android.feature.contentviewer.api.ContentViewerRoute
 import io.github.reactivecircus.kstreamlined.android.feature.contentviewer.api.ContentViewerSharedTransitionKeys
+import io.github.reactivecircus.kstreamlined.android.feature.feedselection.api.FeedSelectionRoute
 import io.github.reactivecircus.kstreamlined.android.feature.home.component.FeedFilterChip
 import io.github.reactivecircus.kstreamlined.android.feature.home.component.SyncButton
 import io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue.api.KotlinWeeklyIssueRoute
@@ -117,6 +118,9 @@ public fun SharedTransitionScope.HomeScreen(
         onOpenSettings = {
             backStack.add(SettingsRoute(origin = SharedTransitionOrigin))
         },
+        onOpenFeedSelection = {
+            backStack.add(FeedSelectionRoute(origin = SharedTransitionOrigin))
+        },
         uiState = uiState,
         eventSink = eventSink,
         modifier = modifier,
@@ -130,6 +134,7 @@ internal fun SharedTransitionScope.HomeScreen(
     listState: LazyListState,
     onViewItem: (FeedItem) -> Unit,
     onOpenSettings: () -> Unit,
+    onOpenFeedSelection: () -> Unit,
     uiState: HomeUiState,
     eventSink: (HomeUiEvent) -> Unit,
     modifier: Modifier = Modifier,
@@ -157,7 +162,7 @@ internal fun SharedTransitionScope.HomeScreen(
                 FeedFilterChip(
                     showSkeleton = uiState !is HomeUiState.Content,
                     selectedFeedCount = if (uiState is HomeUiState.Content) uiState.selectedFeedCount else 0,
-                    onClick = {},
+                    onClick = onOpenFeedSelection,
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 SyncButton(

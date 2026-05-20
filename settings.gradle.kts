@@ -94,6 +94,8 @@ includeAndroidProjects(
     ":benchmark",
     ":feature:content-viewer:api",
     ":feature:content-viewer:impl",
+    ":feature:feed-selection:api",
+    ":feature:feed-selection:impl",
     ":feature:home",
     ":feature:kotlin-weekly-issue:api",
     ":feature:kotlin-weekly-issue:impl",
