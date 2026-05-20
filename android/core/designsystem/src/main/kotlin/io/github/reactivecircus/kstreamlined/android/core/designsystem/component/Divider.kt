@@ -11,12 +11,10 @@ import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.compose.ui.tooling.preview.PreviewWrapper
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
-import io.github.reactivecircus.kstreamlined.android.core.designsystem.preview.KSPreviewWrapper
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.preview.PreviewKStreamlined
 import androidx.compose.material3.HorizontalDivider as MaterialHorizontalDivider
 import androidx.compose.material3.VerticalDivider as MaterialVerticalDivider
 
@@ -49,8 +47,7 @@ public fun VerticalDivider(
 }
 
 @Composable
-@PreviewLightDark
-@PreviewWrapper(KSPreviewWrapper::class)
+@PreviewKStreamlined
 private fun PreviewHorizontalDivider() {
     Column(
         modifier = Modifier.padding(16.dp),
@@ -66,8 +63,7 @@ private fun PreviewHorizontalDivider() {
 }
 
 @Composable
-@PreviewLightDark
-@PreviewWrapper(KSPreviewWrapper::class)
+@PreviewKStreamlined
 private fun PreviewVerticalDivider() {
     Row(
         modifier = Modifier.padding(16.dp),

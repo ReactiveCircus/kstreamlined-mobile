@@ -5,15 +5,12 @@ import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.compose.ui.tooling.preview.PreviewWrapper
 import androidx.compose.ui.unit.dp
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Icon
-import io.github.reactivecircus.kstreamlined.android.core.designsystem.preview.KSPreviewWrapper
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.preview.PreviewKStreamlined
 
 @Composable
-@PreviewLightDark
-@PreviewWrapper(KSPreviewWrapper::class)
+@PreviewKStreamlined
 private fun PreviewKSIcons() {
     FlowRow(
         modifier = Modifier.padding(16.dp),

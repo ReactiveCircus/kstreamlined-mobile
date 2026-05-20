@@ -6,11 +6,9 @@ import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.compose.ui.tooling.preview.PreviewWrapper
 import androidx.compose.ui.unit.dp
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
-import io.github.reactivecircus.kstreamlined.android.core.designsystem.preview.KSPreviewWrapper
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.preview.PreviewKStreamlined
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -27,8 +25,7 @@ public fun LoadingIndicator(
 }
 
 @Composable
-@PreviewLightDark
-@PreviewWrapper(KSPreviewWrapper::class)
+@PreviewKStreamlined
 private fun PreviewLoadingIndicator() {
     LoadingIndicator(
         modifier = Modifier.padding(8.dp),

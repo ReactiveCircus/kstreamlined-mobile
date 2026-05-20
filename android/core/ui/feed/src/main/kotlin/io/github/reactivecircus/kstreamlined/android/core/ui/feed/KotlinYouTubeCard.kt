@@ -25,8 +25,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.compose.ui.tooling.preview.PreviewWrapper
 import androidx.compose.ui.unit.dp
 import androidx.tracing.trace
 import coil3.compose.AsyncImage
@@ -36,7 +34,7 @@ import io.github.reactivecircus.kstreamlined.android.core.designsystem.component
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Text
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.icon.KSIcons
-import io.github.reactivecircus.kstreamlined.android.core.designsystem.preview.KSPreviewWrapper
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.preview.PreviewKStreamlined
 import io.github.reactivecircus.kstreamlined.android.core.ui.util.marqueeWithFadedEdges
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.DisplayableFeedItem
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
@@ -169,8 +167,7 @@ private fun PlayIconOverlay(
 private val ImageHeight = 200.dp
 
 @Composable
-@PreviewLightDark
-@PreviewWrapper(KSPreviewWrapper::class)
+@PreviewKStreamlined
 private fun PreviewKotlinYouTubeCard_unsaved() {
     SharedTransitionLayout {
         KotlinYouTubeCard(
@@ -191,8 +188,7 @@ private fun PreviewKotlinYouTubeCard_unsaved() {
 }
 
 @Composable
-@PreviewLightDark
-@PreviewWrapper(KSPreviewWrapper::class)
+@PreviewKStreamlined
 private fun PreviewKotlinYouTubeCard_saved() {
     SharedTransitionLayout {
         KotlinYouTubeCard(

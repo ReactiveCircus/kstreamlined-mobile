@@ -26,14 +26,12 @@ import androidx.compose.ui.graphics.ShaderBrush
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.compose.ui.tooling.preview.PreviewWrapper
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.icon.KSIcons
-import io.github.reactivecircus.kstreamlined.android.core.designsystem.preview.KSPreviewWrapper
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.preview.PreviewKStreamlined
 
 @Composable
 public fun SharedTransitionScope.TopNavBar(
@@ -161,8 +159,7 @@ private fun SharedTransitionScope.GradientTitle(
 private const val GradientHorizontalScale = 1.3f
 
 @Composable
-@PreviewLightDark
-@PreviewWrapper(KSPreviewWrapper::class)
+@PreviewKStreamlined
 private fun PreviewTopNavBar() {
     SharedTransitionLayout {
         TopNavBar(
@@ -179,8 +176,7 @@ private fun PreviewTopNavBar() {
 }
 
 @Composable
-@PreviewLightDark
-@PreviewWrapper(KSPreviewWrapper::class)
+@PreviewKStreamlined
 private fun PreviewTopNavBar_withBottomRow() {
     SharedTransitionLayout {
         TopNavBar(
@@ -212,8 +208,7 @@ private fun PreviewTopNavBar_withBottomRow() {
 }
 
 @Composable
-@PreviewLightDark
-@PreviewWrapper(KSPreviewWrapper::class)
+@PreviewKStreamlined
 private fun PreviewTopNavBar_withNavigationIcon() {
     SharedTransitionLayout {
         TopNavBar(

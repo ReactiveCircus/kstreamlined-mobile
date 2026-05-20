@@ -14,8 +14,6 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.compose.ui.tooling.preview.PreviewWrapper
 import androidx.compose.ui.unit.dp
 import androidx.tracing.trace
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.IconButton
@@ -23,7 +21,7 @@ import io.github.reactivecircus.kstreamlined.android.core.designsystem.component
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Text
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.icon.KSIcons
-import io.github.reactivecircus.kstreamlined.android.core.designsystem.preview.KSPreviewWrapper
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.preview.PreviewKStreamlined
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.DisplayableFeedItem
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.toDisplayable
@@ -93,8 +91,7 @@ public fun KotlinWeeklyCard(
 }
 
 @Composable
-@PreviewLightDark
-@PreviewWrapper(KSPreviewWrapper::class)
+@PreviewKStreamlined
 private fun PreviewKotlinWeeklyCard_unsaved() {
     KotlinWeeklyCard(
         item = FeedItem.KotlinWeekly(
@@ -112,8 +109,7 @@ private fun PreviewKotlinWeeklyCard_unsaved() {
 }
 
 @Composable
-@PreviewLightDark
-@PreviewWrapper(KSPreviewWrapper::class)
+@PreviewKStreamlined
 private fun PreviewKotlinWeeklyCard_saved() {
     KotlinWeeklyCard(
         item = FeedItem.KotlinWeekly(
