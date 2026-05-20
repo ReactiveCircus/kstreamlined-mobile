@@ -58,6 +58,7 @@ import io.github.reactivecircus.kstreamlined.kmp.presentation.contentviewer.Cont
 import io.github.reactivecircus.kstreamlined.kmp.presentation.contentviewer.ContentViewerUiState
 import io.github.reactivecircus.routebinding.runtime.RouteBinding
 import kotlinx.coroutines.delay
+import kotlin.time.Duration.Companion.milliseconds
 
 @RouteBinding(ContentViewerRoute::class)
 @Composable
@@ -190,7 +191,7 @@ private fun ContentUi(
             if (state.isLoading) {
                 showLoadingIndicator = true
             } else {
-                delay(LoadingIndicatorDismissDelayMillis)
+                delay(LoadingIndicatorDismissDelayMillis.milliseconds)
                 showLoadingIndicator = false
             }
         }

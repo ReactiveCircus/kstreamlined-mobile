@@ -6,25 +6,26 @@ import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.time.Duration.Companion.milliseconds
 
 class CombineWithMetadataTest {
     @Test
     fun `combineWithMetadata emits expected metadata`() =
         runTest {
             val flow1 = flow {
-                delay(500)
+                delay(500.milliseconds)
                 emit(1)
-                delay(3_000)
+                delay(3_000.milliseconds)
                 emit(2)
             }
             val flow2 = flow {
                 emit("a")
-                delay(1_000)
+                delay(1_000.milliseconds)
                 emit("b")
             }
             val flow3 = flow {
                 emit(true)
-                delay(2_000)
+                delay(2_000.milliseconds)
                 emit(false)
             }
 

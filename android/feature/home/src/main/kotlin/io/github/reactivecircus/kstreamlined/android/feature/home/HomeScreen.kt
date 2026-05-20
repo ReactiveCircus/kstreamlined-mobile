@@ -72,6 +72,7 @@ import io.github.reactivecircus.kstreamlined.kmp.presentation.home.HomePresenter
 import io.github.reactivecircus.kstreamlined.kmp.presentation.home.HomeUiEvent
 import io.github.reactivecircus.kstreamlined.kmp.presentation.home.HomeUiState
 import kotlinx.coroutines.delay
+import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
 public fun SharedTransitionScope.HomeScreen(
@@ -367,7 +368,7 @@ private fun SharedTransitionScope.ContentUi(
         }
         LaunchedEffect(showTransientError) {
             if (showTransientError) {
-                delay(TransientErrorDurationMillis)
+                delay(TransientErrorDurationMillis.milliseconds)
                 eventSink(HomeUiEvent.DismissTransientError)
             }
         }

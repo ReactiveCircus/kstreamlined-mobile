@@ -42,6 +42,7 @@ import io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepiso
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flow
+import kotlin.time.Duration.Companion.milliseconds
 
 @OptIn(UnstableApi::class)
 @Composable
@@ -81,7 +82,7 @@ internal fun PodcastPlayer(
             player.play()
             flow {
                 while (true) {
-                    delay(PlaybackSyncInterval)
+                    delay(PlaybackSyncInterval.milliseconds)
                     emit(Unit)
                 }
             }.collectLatest {
