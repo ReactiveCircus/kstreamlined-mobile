@@ -15,7 +15,6 @@ googleServices = "4.4.4"
 invert = "0.0.14"
 detekt = "2.0.0-alpha.3"
 androidPublisher = "4.0.0"
-skie = "0.10.11"
 kotlinpoet = "2.3.0"
 leakcanary = "2.14"
 metro = "1.1.1"
@@ -83,7 +82,6 @@ plugin-firebasePerf = { module = "com.google.firebase:perf-plugin", version.ref 
 plugin-appDistribution = { module = "com.google.firebase:firebase-appdistribution-gradle", version.ref = "firebase-appDistributionPlugin" }
 plugin-detekt = { module = "dev.detekt:detekt-gradle-plugin", version.ref = "detekt" }
 plugin-detektKtlintWrapper = { module = "dev.detekt:detekt-rules-ktlint-wrapper", version.ref = "detekt" }
-plugin-skie = { module = "co.touchlab.skie:co.touchlab.skie.gradle.plugin", version.ref = "skie" }
 plugin-sqldelight = { module = "app.cash.sqldelight:app.cash.sqldelight.gradle.plugin", version.ref = "sqldelight" }
 plugin-baselineprofile = { module = "androidx.baselineprofile:androidx.baselineprofile.gradle.plugin", version.ref = "androidx-benchmark" }
 androidPublisher = { module = "com.github.triplet.gradle:android-publisher", version.ref = "androidPublisher" }

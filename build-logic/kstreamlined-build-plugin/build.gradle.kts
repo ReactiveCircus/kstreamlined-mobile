@@ -78,7 +78,6 @@ dependencies {
     implementation(libs.plugin.firebasePerf)
     implementation(libs.plugin.crashlytics)
     implementation(libs.plugin.appDistribution)
-    implementation(libs.plugin.skie)
     implementation(libs.plugin.sqldelight)
     implementation(libs.plugin.baselineprofile)
 }
