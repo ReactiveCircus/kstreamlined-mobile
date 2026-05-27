@@ -125,6 +125,12 @@ public fun SharedTransitionScope.HomeScreen(
         eventSink = eventSink,
         modifier = modifier,
     )
+    val selectedFeedCount = (uiState as? HomeUiState.Content)?.selectedFeedCount
+    LaunchedEffect(selectedFeedCount) {
+        if (selectedFeedCount != null) {
+            listState.requestScrollToItem(0)
+        }
+    }
     ReportDrawnWhen { uiState !is HomeUiState.Loading }
 }
 

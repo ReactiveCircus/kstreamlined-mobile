@@ -1,4 +1,4 @@
-package io.github.reactivecircus.kstreamlined.android.feature.home.component
+package io.github.reactivecircus.kstreamlined.android.feature.feedselection.impl.component
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Spring
@@ -10,17 +10,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,83 +25,14 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.MeshGradientPainter
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
-import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.ModalBottomSheet
-import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.SheetState
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Surface
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Switch
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Text
-import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.rememberModalBottomSheetState
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
-import io.github.reactivecircus.kstreamlined.android.core.designsystem.preview.PreviewKStreamlined
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedOrigin
 
 @Composable
-internal fun FeedSelectionBottomSheet(
-    onDismissRequest: () -> Unit,
-    modifier: Modifier = Modifier,
-    sheetState: SheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
-) {
-    val mockFeedOrigins = remember {
-        mutableStateListOf(
-            FeedOrigin(
-                key = FeedOrigin.Key.KotlinBlog,
-                title = "Kotlin Blog",
-                description = "Latest news from the official Kotlin Blog",
-                selected = true,
-            ),
-            FeedOrigin(
-                key = FeedOrigin.Key.KotlinYouTubeChannel,
-                title = "Kotlin YouTube",
-                description = "Videos from the official Kotlin YouTube channel",
-                selected = true,
-            ),
-            FeedOrigin(
-                key = FeedOrigin.Key.TalkingKotlinPodcast,
-                title = "Talking Kotlin",
-                description = "Podcast on Kotlin and more by JetBrains",
-                selected = false,
-            ),
-            FeedOrigin(
-                key = FeedOrigin.Key.KotlinWeekly,
-                title = "Kotlin Weekly",
-                description = "Weekly community Kotlin newsletter",
-                selected = true,
-            ),
-        )
-    }
-
-    ModalBottomSheet(
-        onDismissRequest = onDismissRequest,
-        sheetState = sheetState,
-        modifier = modifier,
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 24.dp)
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .verticalScroll(rememberScrollState()),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-            ) {
-                mockFeedOrigins.forEachIndexed { index, origin ->
-                    FeedSourceCard(
-                        origin = origin,
-                        onToggle = {
-                            mockFeedOrigins[index] = origin.copy(selected = !origin.selected)
-                        }
-                    )
-                }
-                Spacer(modifier = Modifier.height(8.dp))
-            }
-        }
-    }
-}
-
-@Composable
-private fun FeedSourceCard(
+internal fun FeedOriginCard(
     origin: FeedOrigin,
     onToggle: () -> Unit,
     modifier: Modifier = Modifier,
@@ -115,16 +40,16 @@ private fun FeedSourceCard(
     val selectionProgress by animateFloatAsState(
         targetValue = if (origin.selected) 1f else 0f,
         animationSpec = spring(stiffness = Spring.StiffnessLow),
-        label = "selectionProgress"
+        label = "selectionProgress",
     )
 
     val scale by animateFloatAsState(
         targetValue = if (origin.selected) 1f else 0.98f,
         animationSpec = spring(
             dampingRatio = Spring.DampingRatioMediumBouncy,
-            stiffness = Spring.StiffnessLow
+            stiffness = Spring.StiffnessLow,
         ),
-        label = "scale"
+        label = "scale",
     )
 
     val targetContentColor = if (origin.selected) {
@@ -151,11 +76,11 @@ private fun FeedSourceCard(
 
     val contentColor by animateColorAsState(
         targetValue = targetContentColor,
-        label = "contentColor"
+        label = "contentColor",
     )
     val mutedContentColor by animateColorAsState(
         targetValue = targetMutedContentColor,
-        label = "mutedContentColor"
+        label = "mutedContentColor",
     )
 
     val borderStroke = if (!origin.selected) {
@@ -207,9 +132,7 @@ private fun FeedSourceCard(
 
                 FeedOrigin.Key.KotlinYouTubeChannel -> {
                     Box(
-                        modifier = brandModifier.background(
-                            color = KSTheme.colorScheme.surfaceYouTube
-                        )
+                        modifier = brandModifier.background(KSTheme.colorScheme.surfaceYouTube),
                     )
                 }
 
@@ -220,9 +143,9 @@ private fun FeedSourceCard(
                                 colors = listOf(
                                     KSTheme.colorScheme.surfaceInverse,
                                     KSTheme.colorScheme.surfaceInverseMuted,
-                                )
-                            )
-                        )
+                                ),
+                            ),
+                        ),
                     )
                 }
 
@@ -233,9 +156,9 @@ private fun FeedSourceCard(
                                 colors = listOf(
                                     KSTheme.colorScheme.accentStrong,
                                     KSTheme.colorScheme.accentSoft,
-                                )
-                            )
-                        )
+                                ),
+                            ),
+                        ),
                     )
                 }
             }
@@ -266,21 +189,5 @@ private fun FeedSourceCard(
                 )
             }
         }
-    }
-}
-
-@Composable
-@PreviewKStreamlined
-private fun PreviewFeedSelectionSheet() {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-    ) {
-        FeedSelectionBottomSheet(
-            onDismissRequest = {},
-            sheetState = rememberModalBottomSheetState(
-                initiallyExpanded = true,
-                skipPartiallyExpanded = true,
-            ),
-        )
     }
 }

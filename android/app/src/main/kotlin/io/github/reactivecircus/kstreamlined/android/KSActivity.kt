@@ -18,7 +18,6 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.retain.retainRetainedValuesStoreRegistry
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -27,13 +26,16 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.navigation3.runtime.NavEntryDecorator
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
+import io.github.reactivecircus.kstreamlined.android.feature.feedselection.api.FeedSelectionRoute
+import io.github.reactivecircus.kstreamlined.android.feature.feedselection.impl.FeedSelectionBottomSheet
+import io.github.reactivecircus.kstreamlined.android.navigation.BottomSheetSceneStrategy
+import io.github.reactivecircus.kstreamlined.android.navigation.rememberRetainedNavEntryDecorator
 import io.github.reactivecircus.kstreamlined.kmp.capsule.inject.LocalPresenterFactory
 import io.github.reactivecircus.kstreamlined.kmp.settings.model.AppSettings
 
@@ -60,6 +62,7 @@ class KSActivity : ComponentActivity() {
                     LocalPresenterFactory provides appGraph.presenterFactory,
                 ) {
                     val backStack = rememberNavBackStack(MainRoute)
+                    val bottomSheetStrategy = remember { BottomSheetSceneStrategy<NavKey>() }
 
                     SharedTransitionLayout {
                         NavDisplay(
@@ -72,9 +75,15 @@ class KSActivity : ComponentActivity() {
                                 rememberSaveableStateHolderNavEntryDecorator(),
                                 rememberRetainedNavEntryDecorator(),
                             ),
+                            sceneStrategies = listOf(bottomSheetStrategy),
                             sharedTransitionScope = this,
                             entryProvider = entryProvider {
                                 appGraph.navEntryInstallers.forEach { it.install(backStack) }
+                                entry<FeedSelectionRoute>(
+                                    metadata = BottomSheetSceneStrategy.bottomSheet(),
+                                ) {
+                                    FeedSelectionBottomSheet()
+                                }
                             },
                         )
                     }
@@ -108,18 +117,6 @@ private fun ComponentActivity.NavigationBarStyleEffect(theme: AppSettings.Theme)
                 statusBarStyle = SystemBarStyle.light(Color.TRANSPARENT, Color.TRANSPARENT),
                 navigationBarStyle = SystemBarStyle.light(navigationBarColor, navigationBarColor),
             )
-        }
-    }
-}
-
-@Composable
-private fun rememberRetainedNavEntryDecorator(): NavEntryDecorator<NavKey> {
-    val registry = retainRetainedValuesStoreRegistry()
-    return remember(registry) {
-        NavEntryDecorator(onPop = registry::clearChild) { entry ->
-            registry.LocalRetainedValuesStoreProvider(entry.contentKey) {
-                entry.Content()
-            }
         }
     }
 }

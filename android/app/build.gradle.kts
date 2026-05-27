@@ -111,6 +111,7 @@ kstreamlined {
             implementation(project(":core:designsystem"))
             implementation(project(":core:scheduled-work"))
             implementation(project(":feature:content-viewer:impl"))
+            implementation(project(":feature:feed-selection:api")) // TODO remove once migrated to route binding
             implementation(project(":feature:feed-selection:impl"))
             implementation(project(":feature:home"))
             implementation(project(":feature:kotlin-weekly-issue:impl"))
