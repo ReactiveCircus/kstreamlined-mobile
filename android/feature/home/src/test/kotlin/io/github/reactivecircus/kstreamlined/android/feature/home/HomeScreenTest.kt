@@ -36,6 +36,7 @@ class HomeScreenTest {
             HomeScreenSnapshot(
                 uiState = HomeUiState.Content(
                     selectedFeedCount = 3,
+                    totalFeedCount = 4,
                     feedItems = listOf(
                         HomeFeedItem.SectionHeader("This week"),
                         HomeFeedItem.Item(

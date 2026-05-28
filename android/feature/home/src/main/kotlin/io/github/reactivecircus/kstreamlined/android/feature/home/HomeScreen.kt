@@ -168,6 +168,7 @@ internal fun SharedTransitionScope.HomeScreen(
                 FeedFilterChip(
                     showSkeleton = uiState !is HomeUiState.Content,
                     selectedFeedCount = if (uiState is HomeUiState.Content) uiState.selectedFeedCount else 0,
+                    totalFeedCount = if (uiState is HomeUiState.Content) uiState.totalFeedCount else 0,
                     onClick = onOpenFeedSelection,
                 )
                 Spacer(modifier = Modifier.width(8.dp))

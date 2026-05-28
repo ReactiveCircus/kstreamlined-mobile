@@ -14,11 +14,25 @@ class FeedFilterChipTest {
     val snapshotTester = SnapshotTester()
 
     @Test
-    fun snapshot_FeedFilterChip() {
+    fun snapshot_FeedFilterChip_allSelected() {
         snapshotTester.snapshot {
             FeedFilterChip(
                 showSkeleton = false,
                 selectedFeedCount = 4,
+                totalFeedCount = 4,
+                onClick = {},
+                modifier = Modifier.padding(8.dp),
+            )
+        }
+    }
+
+    @Test
+    fun snapshot_FeedFilterChip_someSelected() {
+        snapshotTester.snapshot {
+            FeedFilterChip(
+                showSkeleton = false,
+                selectedFeedCount = 2,
+                totalFeedCount = 4,
                 onClick = {},
                 modifier = Modifier.padding(8.dp),
             )
@@ -30,7 +44,8 @@ class FeedFilterChipTest {
         snapshotTester.snapshot {
             FeedFilterChip(
                 showSkeleton = true,
-                selectedFeedCount = 0,
+                selectedFeedCount = 4,
+                totalFeedCount = 4,
                 onClick = {},
                 modifier = Modifier.padding(8.dp),
             )

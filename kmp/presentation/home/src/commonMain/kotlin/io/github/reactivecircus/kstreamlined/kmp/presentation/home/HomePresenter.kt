@@ -72,6 +72,7 @@ public class HomePresenter(
                 if (hasContent) {
                     HomeUiState.Content(
                         selectedFeedCount = feedOrigins.count { it.selected },
+                        totalFeedCount = feedOrigins.size,
                         feedItems = feedItems.toHomeFeedItems(),
                         refreshing = true,
                         hasTransientError = false,
@@ -85,6 +86,7 @@ public class HomePresenter(
                 if (hasContent) {
                     HomeUiState.Content(
                         selectedFeedCount = feedOrigins.count { it.selected },
+                        totalFeedCount = feedOrigins.size,
                         feedItems = feedItems.toHomeFeedItems(),
                         refreshing = false,
                         hasTransientError = false,
@@ -108,6 +110,7 @@ public class HomePresenter(
 
                     HomeUiState.Content(
                         selectedFeedCount = feedOrigins.count { it.selected },
+                        totalFeedCount = feedOrigins.size,
                         feedItems = feedItems.toHomeFeedItems(),
                         refreshing = false,
                         hasTransientError = hasTransientError,

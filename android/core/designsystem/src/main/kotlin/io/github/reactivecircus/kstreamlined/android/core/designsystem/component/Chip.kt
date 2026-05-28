@@ -1,5 +1,6 @@
 package io.github.reactivecircus.kstreamlined.android.core.designsystem.component
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
@@ -22,6 +23,7 @@ public fun Chip(
     enabled: Boolean = true,
     color: Color = KSTheme.colorScheme.surface,
     contentColor: Color = KSTheme.colorScheme.onBackground,
+    border: BorderStroke? = null,
     content: @Composable RowScope.() -> Unit,
 ) {
     Surface(
@@ -31,6 +33,7 @@ public fun Chip(
         shape = CircleShape,
         color = color,
         contentColor = contentColor,
+        border = border,
     ) {
         Row(
             modifier = Modifier.padding(
@@ -51,6 +54,25 @@ private fun PreviewChip() {
         onClick = {},
         modifier = Modifier.padding(8.dp),
         contentColor = KSTheme.colorScheme.accent,
+    ) {
+        Text(
+            text = "Chip".uppercase(),
+            style = KSTheme.typography.labelLarge.copy(
+                fontWeight = FontWeight.ExtraBold,
+            ),
+        )
+        Icon(KSIcons.ArrowDown, contentDescription = null)
+    }
+}
+
+@Composable
+@PreviewKStreamlined
+private fun PreviewChip_withBorder() {
+    Chip(
+        onClick = {},
+        modifier = Modifier.padding(8.dp),
+        contentColor = KSTheme.colorScheme.accent,
+        border = BorderStroke(width = 1.dp, color = KSTheme.colorScheme.accent),
     ) {
         Text(
             text = "Chip".uppercase(),

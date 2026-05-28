@@ -1,5 +1,6 @@
 package io.github.reactivecircus.kstreamlined.android.core.designsystem.component
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -23,6 +24,26 @@ class ChipTest {
                 onClick = {},
                 modifier = Modifier.padding(8.dp),
                 contentColor = KSTheme.colorScheme.accent,
+            ) {
+                Text(
+                    text = "Chip".uppercase(),
+                    style = KSTheme.typography.labelLarge.copy(
+                        fontWeight = FontWeight.ExtraBold,
+                    ),
+                )
+                Icon(KSIcons.ArrowDown, contentDescription = null)
+            }
+        }
+    }
+
+    @Test
+    fun snapshot_Chip_withBorder() {
+        snapshotTester.snapshot {
+            Chip(
+                onClick = {},
+                modifier = Modifier.padding(8.dp),
+                contentColor = KSTheme.colorScheme.accent,
+                border = BorderStroke(width = 1.dp, color = KSTheme.colorScheme.accent),
             ) {
                 Text(
                     text = "Chip".uppercase(),
