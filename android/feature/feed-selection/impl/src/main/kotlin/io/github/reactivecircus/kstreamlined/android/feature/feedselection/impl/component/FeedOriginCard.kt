@@ -8,6 +8,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,7 +25,6 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.MeshGradientPainter
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Surface
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Switch
@@ -99,6 +99,7 @@ internal fun FeedOriginCard(
             .graphicsLayer {
                 scaleX = scale
                 scaleY = scale
+                @Suppress("MagicNumber")
                 alpha = 0.6f + 0.4f * selectionProgress
             },
         shape = RoundedCornerShape(16.dp),
@@ -106,65 +107,10 @@ internal fun FeedOriginCard(
         border = borderStroke,
     ) {
         Box {
-            val brandModifier = Modifier
-                .matchParentSize()
-                .graphicsLayer { alpha = selectionProgress }
-                .clip(RoundedCornerShape(16.dp))
-
-            when (origin.key) {
-                FeedOrigin.Key.KotlinBlog -> {
-                    val meshColors = KSTheme.colorScheme.brandMeshGradient
-                    val meshPainter = remember(KSTheme.colorScheme.isDark) {
-                        val positions = arrayOf(
-                            Offset(0.0f, 0.0f), Offset(0.5f, 0.0f), Offset(1.0f, 0.0f),
-                            Offset(0.0f, 0.5f), Offset(0.55f, 0.45f), Offset(1.0f, 0.5f),
-                            Offset(0.0f, 1.0f), Offset(0.5f, 1.0f), Offset(1.0f, 1.0f),
-                        )
-                        MeshGradientPainter(rows = 2, columns = 2, hasBicubicColor = true) {
-                            for (row in 0..2) {
-                                for (col in 0..2) {
-                                    val idx = row * 3 + col
-                                    setVertex(row, col, positions[idx], meshColors[idx])
-                                }
-                            }
-                        }
-                    }
-
-                    Box(modifier = brandModifier.paint(meshPainter))
-                }
-
-                FeedOrigin.Key.KotlinYouTubeChannel -> {
-                    Box(
-                        modifier = brandModifier.background(KSTheme.colorScheme.surfaceYouTube),
-                    )
-                }
-
-                FeedOrigin.Key.TalkingKotlinPodcast -> {
-                    Box(
-                        modifier = brandModifier.background(
-                            brush = Brush.horizontalGradient(
-                                colors = listOf(
-                                    KSTheme.colorScheme.surfaceInverse,
-                                    KSTheme.colorScheme.surfaceInverseMuted,
-                                ),
-                            ),
-                        ),
-                    )
-                }
-
-                FeedOrigin.Key.KotlinWeekly -> {
-                    Box(
-                        modifier = brandModifier.background(
-                            brush = Brush.horizontalGradient(
-                                colors = listOf(
-                                    KSTheme.colorScheme.accentStrong,
-                                    KSTheme.colorScheme.accentSoft,
-                                ),
-                            ),
-                        ),
-                    )
-                }
-            }
+            CardBackground(
+                origin = origin,
+                selectionProgress = { selectionProgress },
+            )
 
             Row(
                 modifier = Modifier.padding(24.dp),
@@ -191,6 +137,68 @@ internal fun FeedOriginCard(
                     onSelectedChange = { onToggle() },
                 )
             }
+        }
+    }
+}
+
+@Composable
+private fun BoxScope.CardBackground(origin: FeedOrigin, selectionProgress: () -> Float) {
+    val brandModifier = Modifier
+        .matchParentSize()
+        .graphicsLayer { alpha = selectionProgress() }
+        .clip(RoundedCornerShape(16.dp))
+
+    when (origin.key) {
+        FeedOrigin.Key.KotlinBlog -> {
+            val meshColors = KSTheme.colorScheme.brandMeshGradient
+            val meshPainter = remember(KSTheme.colorScheme.isDark) {
+                val positions = arrayOf(
+                    Offset(0.0f, 0.0f), Offset(0.5f, 0.0f), Offset(1.0f, 0.0f),
+                    Offset(0.0f, 0.5f), Offset(0.55f, 0.45f), Offset(1.0f, 0.5f),
+                    Offset(0.0f, 1.0f), Offset(0.5f, 1.0f), Offset(1.0f, 1.0f),
+                )
+                MeshGradientPainter(rows = 2, columns = 2, hasBicubicColor = true) {
+                    for (row in 0..2) {
+                        for (col in 0..2) {
+                            val idx = row * 3 + col
+                            setVertex(row, col, positions[idx], meshColors[idx])
+                        }
+                    }
+                }
+            }
+            Box(modifier = brandModifier.paint(meshPainter))
+        }
+
+        FeedOrigin.Key.KotlinYouTubeChannel -> {
+            Box(
+                modifier = brandModifier.background(KSTheme.colorScheme.surfaceYouTube),
+            )
+        }
+
+        FeedOrigin.Key.TalkingKotlinPodcast -> {
+            Box(
+                modifier = brandModifier.background(
+                    brush = Brush.horizontalGradient(
+                        colors = listOf(
+                            KSTheme.colorScheme.surfaceInverse,
+                            KSTheme.colorScheme.surfaceInverseMuted,
+                        ),
+                    ),
+                ),
+            )
+        }
+
+        FeedOrigin.Key.KotlinWeekly -> {
+            Box(
+                modifier = brandModifier.background(
+                    brush = Brush.horizontalGradient(
+                        colors = listOf(
+                            KSTheme.colorScheme.accentStrong,
+                            KSTheme.colorScheme.accentSoft,
+                        ),
+                    ),
+                ),
+            )
         }
     }
 }
