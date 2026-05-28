@@ -34,19 +34,19 @@ class FeedSelectionPresenterTest {
         FeedOriginEntity(
             key = FeedOrigin.Key.KotlinYouTubeChannel.name,
             title = "Kotlin YouTube",
-            description = "Videos from the Kotlin YouTube channel",
+            description = "Videos from the official Kotlin YouTube channel",
             selected = true,
         ),
         FeedOriginEntity(
             key = FeedOrigin.Key.TalkingKotlinPodcast.name,
             title = "Talking Kotlin",
-            description = "A podcast about Kotlin",
+            description = "Podcast on Kotlin and more by JetBrains",
             selected = true,
         ),
         FeedOriginEntity(
             key = FeedOrigin.Key.KotlinWeekly.name,
             title = "Kotlin Weekly",
-            description = "Weekly Kotlin newsletter",
+            description = "Weekly community Kotlin newsletter",
             selected = true,
         ),
     )

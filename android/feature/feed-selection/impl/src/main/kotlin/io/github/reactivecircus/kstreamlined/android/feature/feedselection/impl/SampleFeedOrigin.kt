@@ -12,14 +12,14 @@ internal object SampleFeedOrigin {
 
     val KotlinYouTubeChannel = FeedOrigin(
         key = FeedOrigin.Key.KotlinYouTubeChannel,
-        title = "Kotlin YouTube Channel",
+        title = "Kotlin YouTube",
         description = "Videos from the official Kotlin YouTube channel",
         selected = true,
     )
 
     val TalkingKotlinPodcast = FeedOrigin(
         key = FeedOrigin.Key.TalkingKotlinPodcast,
-        title = "Talking Kotlin Podcast",
+        title = "Talking Kotlin",
         description = "Podcast on Kotlin and more by JetBrains",
         selected = true,
     )
