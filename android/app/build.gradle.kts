@@ -127,6 +127,7 @@ kstreamlined {
             implementation(libs.androidx.compose.runtime.tracing)
             implementation(libs.androidx.coreSplashscreen)
             implementation(libs.androidx.datastore.preferences)
+            implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(libs.androidx.navigation3.runtime)
             implementation(libs.androidx.navigation3.ui)
             implementation(libs.androidx.profileinstaller)
