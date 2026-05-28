@@ -48,7 +48,7 @@ public fun FeedSelectionBottomSheet(): Unit = trace("Screen:FeedSelection") {
 }
 
 @Composable
-private fun FeedOriginList(
+internal fun FeedOriginList(
     feedOrigins: List<FeedOrigin>,
     onToggle: (FeedOrigin.Key) -> Unit,
     modifier: Modifier = Modifier,
@@ -86,7 +86,12 @@ private fun PreviewFeedSelectionBottomSheet_allSelected() {
             ),
         ) {
             FeedOriginList(
-                feedOrigins = SampleFeedOrigins,
+                feedOrigins = listOf(
+                    SampleFeedOrigin.KotlinBlog,
+                    SampleFeedOrigin.KotlinYouTubeChannel,
+                    SampleFeedOrigin.TalkingKotlinPodcast,
+                    SampleFeedOrigin.KotlinWeekly,
+                ),
                 onToggle = {},
             )
         }
@@ -105,42 +110,14 @@ private fun PreviewFeedSelectionBottomSheet_someSelected() {
             ),
         ) {
             FeedOriginList(
-                feedOrigins = SampleFeedOrigins.mapIndexed { index, feedOrigin ->
-                    if (index % 2 == 0) {
-                        feedOrigin.copy(selected = false)
-                    } else {
-                        feedOrigin
-                    }
-                },
+                feedOrigins = listOf(
+                    SampleFeedOrigin.KotlinBlog.copy(selected = false),
+                    SampleFeedOrigin.KotlinYouTubeChannel,
+                    SampleFeedOrigin.TalkingKotlinPodcast.copy(selected = false),
+                    SampleFeedOrigin.KotlinWeekly,
+                ),
                 onToggle = {},
             )
         }
     }
 }
-
-internal val SampleFeedOrigins = listOf(
-    FeedOrigin(
-        key = FeedOrigin.Key.KotlinBlog,
-        title = "Kotlin Blog",
-        description = "Latest news from the official Kotlin Blog",
-        selected = true,
-    ),
-    FeedOrigin(
-        key = FeedOrigin.Key.KotlinYouTubeChannel,
-        title = "Kotlin YouTube",
-        description = "Videos from the official Kotlin YouTube channel",
-        selected = true,
-    ),
-    FeedOrigin(
-        key = FeedOrigin.Key.TalkingKotlinPodcast,
-        title = "Talking Kotlin",
-        description = "Podcast on Kotlin and more by JetBrains",
-        selected = true,
-    ),
-    FeedOrigin(
-        key = FeedOrigin.Key.KotlinWeekly,
-        title = "Kotlin Weekly",
-        description = "Weekly community Kotlin newsletter",
-        selected = true,
-    ),
-)

@@ -24,11 +24,14 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.MeshGradientPainter
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Surface
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Switch
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Text
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.preview.PreviewKStreamlined
+import io.github.reactivecircus.kstreamlined.android.feature.feedselection.impl.SampleFeedOrigin
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedOrigin
 
 @Composable
@@ -190,4 +193,84 @@ internal fun FeedOriginCard(
             }
         }
     }
+}
+
+@Composable
+@PreviewKStreamlined
+private fun PreviewFeedOriginCard_KotlinBlog_selected() {
+    FeedOriginCard(
+        origin = SampleFeedOrigin.KotlinBlog,
+        onToggle = {},
+        modifier = Modifier.padding(24.dp),
+    )
+}
+
+@Composable
+@PreviewKStreamlined
+private fun PreviewFeedOriginCard_KotlinBlog_unselected() {
+    FeedOriginCard(
+        origin = SampleFeedOrigin.KotlinBlog.copy(selected = false),
+        onToggle = {},
+        modifier = Modifier.padding(24.dp),
+    )
+}
+
+@Composable
+@PreviewKStreamlined
+private fun PreviewFeedOriginCard_KotlinYouTubeChannel_selected() {
+    FeedOriginCard(
+        origin = SampleFeedOrigin.KotlinYouTubeChannel,
+        onToggle = {},
+        modifier = Modifier.padding(24.dp),
+    )
+}
+
+@Composable
+@PreviewKStreamlined
+private fun PreviewFeedOriginCard_KotlinYouTubeChannel_unselected() {
+    FeedOriginCard(
+        origin = SampleFeedOrigin.KotlinYouTubeChannel.copy(selected = false),
+        onToggle = {},
+        modifier = Modifier.padding(24.dp),
+    )
+}
+
+@Composable
+@PreviewKStreamlined
+private fun PreviewFeedOriginCard_TalkingKotlinPodcast_selected() {
+    FeedOriginCard(
+        origin = SampleFeedOrigin.TalkingKotlinPodcast,
+        onToggle = {},
+        modifier = Modifier.padding(24.dp),
+    )
+}
+
+@Composable
+@PreviewKStreamlined
+private fun PreviewFeedOriginCard_TalkingKotlinPodcast_unselected() {
+    FeedOriginCard(
+        origin = SampleFeedOrigin.TalkingKotlinPodcast.copy(selected = false),
+        onToggle = {},
+        modifier = Modifier.padding(24.dp),
+    )
+}
+
+@Composable
+@PreviewKStreamlined
+private fun PreviewFeedOriginCard_KotlinWeekly_selected() {
+    FeedOriginCard(
+        origin = SampleFeedOrigin.KotlinWeekly,
+        onToggle = {},
+        modifier = Modifier.padding(24.dp),
+    )
+}
+
+@Composable
+@PreviewKStreamlined
+private fun PreviewFeedOriginCard_KotlinWeekly_unselected() {
+    FeedOriginCard(
+        origin = SampleFeedOrigin.KotlinWeekly.copy(selected = false),
+        onToggle = {},
+        modifier = Modifier.padding(24.dp),
+    )
 }
