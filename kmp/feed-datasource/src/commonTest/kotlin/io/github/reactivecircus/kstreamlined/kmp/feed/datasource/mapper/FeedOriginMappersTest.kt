@@ -29,12 +29,12 @@ class FeedOriginMappersTest {
         val entity = FeedOriginEntity(
             key = FeedOrigin.Key.KotlinYouTubeChannel.name,
             title = "Kotlin YouTube",
-            description = "The official YouTube channel of the Kotlin programming language",
+            description = "Videos from the official Kotlin YouTube channel",
             selected = true,
         )
         val expected = FeedOrigin(
             title = "Kotlin YouTube",
-            description = "The official YouTube channel of the Kotlin programming language",
+            description = "Videos from the official Kotlin YouTube channel",
             selected = true,
             key = FeedOrigin.Key.KotlinYouTubeChannel,
         )
@@ -46,12 +46,12 @@ class FeedOriginMappersTest {
         val entity = FeedOriginEntity(
             key = FeedOrigin.Key.TalkingKotlinPodcast.name,
             title = "Talking Kotlin",
-            description = "Technical show discussing everything Kotlin, hosted by Hadi and Sebastian",
+            description = "Podcast on Kotlin and more by JetBrains",
             selected = true,
         )
         val expected = FeedOrigin(
             title = "Talking Kotlin",
-            description = "Technical show discussing everything Kotlin, hosted by Hadi and Sebastian",
+            description = "Podcast on Kotlin and more by JetBrains",
             selected = true,
             key = FeedOrigin.Key.TalkingKotlinPodcast,
         )
@@ -63,12 +63,12 @@ class FeedOriginMappersTest {
         val entity = FeedOriginEntity(
             key = FeedOrigin.Key.KotlinWeekly.name,
             title = "Kotlin Weekly",
-            description = "Weekly community Kotlin newsletter, hosted by Enrique",
+            description = "Weekly community Kotlin newsletter",
             selected = true,
         )
         val expected = FeedOrigin(
             title = "Kotlin Weekly",
-            description = "Weekly community Kotlin newsletter, hosted by Enrique",
+            description = "Weekly community Kotlin newsletter",
             selected = true,
             key = FeedOrigin.Key.KotlinWeekly,
         )

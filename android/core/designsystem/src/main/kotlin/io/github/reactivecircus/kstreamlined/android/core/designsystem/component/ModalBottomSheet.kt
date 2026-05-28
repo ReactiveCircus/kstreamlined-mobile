@@ -2,7 +2,9 @@
 
 package io.github.reactivecircus.kstreamlined.android.core.designsystem.component
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -65,9 +67,12 @@ public class SheetState internal constructor(
 }
 
 @Composable
-public fun rememberModalBottomSheetState(skipPartiallyExpanded: Boolean = false): SheetState {
+public fun rememberModalBottomSheetState(
+    initiallyExpanded: Boolean = false,
+    skipPartiallyExpanded: Boolean = false,
+): SheetState {
     val m3SheetState = rememberM3BottomSheetState(
-        initialValue = Hidden,
+        initialValue = if (initiallyExpanded) Expanded else Hidden,
         enabledValues = if (skipPartiallyExpanded) {
             setOf(Hidden, Expanded)
         } else {
@@ -80,17 +85,20 @@ public fun rememberModalBottomSheetState(skipPartiallyExpanded: Boolean = false)
 @Composable
 @PreviewKStreamlined
 private fun PreviewModalBottomSheet() {
-    val m3SheetState = rememberM3BottomSheetState(initialValue = Expanded)
-    ModalBottomSheet(
-        onDismissRequest = {},
-        sheetState = SheetState(m3SheetState),
+    Box(
+        modifier = Modifier.fillMaxSize(),
     ) {
-        Text(
-            text = "Sheet content",
-            style = KSTheme.typography.titleMedium,
-            modifier = Modifier
-                .padding(24.dp)
-                .align(Alignment.CenterHorizontally),
-        )
+        ModalBottomSheet(
+            onDismissRequest = {},
+            sheetState = rememberModalBottomSheetState(initiallyExpanded = true),
+        ) {
+            Text(
+                text = "Sheet content",
+                style = KSTheme.typography.titleMedium,
+                modifier = Modifier
+                    .padding(24.dp)
+                    .align(Alignment.CenterHorizontally),
+            )
+        }
     }
 }

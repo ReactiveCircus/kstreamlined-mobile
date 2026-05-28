@@ -45,7 +45,7 @@ class FeedDataSourceTest {
                 db.feedOriginEntityQueries.upsertFeedOrigin(
                     key = FeedOrigin.Key.KotlinYouTubeChannel.name,
                     title = "Kotlin YouTube",
-                    description = "The official YouTube channel of the Kotlin programming language",
+                    description = "Videos from the official Kotlin YouTube channel",
                     selected = true,
                 )
             }
@@ -61,7 +61,7 @@ class FeedDataSourceTest {
                     FeedOrigin(
                         key = FeedOrigin.Key.KotlinYouTubeChannel,
                         title = "Kotlin YouTube",
-                        description = "The official YouTube channel of the Kotlin programming language",
+                        description = "Videos from the official Kotlin YouTube channel",
                         selected = true,
                     ),
                 ),
@@ -83,7 +83,7 @@ class FeedDataSourceTest {
                     FeedOrigin(
                         key = FeedOrigin.Key.KotlinYouTubeChannel,
                         title = "Kotlin YouTube",
-                        description = "The official YouTube channel of the Kotlin programming language",
+                        description = "Videos from the official Kotlin YouTube channel",
                         selected = true,
                     ),
                 ),
@@ -108,7 +108,7 @@ class FeedDataSourceTest {
                     db.feedOriginEntityQueries.upsertFeedOrigin(
                         key = FeedOrigin.Key.KotlinYouTubeChannel.name,
                         title = "Kotlin YouTube",
-                        description = "The official YouTube channel of the Kotlin programming language",
+                        description = "Videos from the official Kotlin YouTube channel",
                         selected = true,
                     )
                     db.feedItemEntityQueries.upsertFeedItem(
@@ -206,7 +206,7 @@ class FeedDataSourceTest {
                     db.feedOriginEntityQueries.upsertFeedOrigin(
                         key = FeedOrigin.Key.KotlinYouTubeChannel.name,
                         title = "Kotlin YouTube",
-                        description = "The official YouTube channel of the Kotlin programming language",
+                        description = "Videos from the official Kotlin YouTube channel",
                         selected = true,
                     )
                     db.feedItemEntityQueries.upsertFeedItem(
@@ -414,19 +414,19 @@ class FeedDataSourceTest {
             db.feedOriginEntityQueries.upsertFeedOrigin(
                 key = FeedOrigin.Key.KotlinYouTubeChannel.name,
                 title = "Kotlin YouTube",
-                description = "The official YouTube channel of the Kotlin programming language",
+                description = "Videos from the official Kotlin YouTube channel",
                 selected = true,
             )
             db.feedOriginEntityQueries.upsertFeedOrigin(
                 key = FeedOrigin.Key.TalkingKotlinPodcast.name,
                 title = "Talking Kotlin",
-                description = "Technical show discussing everything Kotlin, hosted by Hadi and Sebastian",
+                description = "Podcast on Kotlin and more by JetBrains",
                 selected = false,
             )
             db.feedOriginEntityQueries.upsertFeedOrigin(
                 key = FeedOrigin.Key.KotlinWeekly.name,
                 title = "Kotlin Weekly",
-                description = "Weekly community Kotlin newsletter, hosted by Enrique",
+                description = "Weekly community Kotlin newsletter",
                 selected = false,
             )
 
@@ -443,19 +443,19 @@ class FeedDataSourceTest {
                     FeedOriginEntity(
                         key = FeedOrigin.Key.KotlinYouTubeChannel.name,
                         title = "Kotlin YouTube",
-                        description = "The official YouTube channel of the Kotlin programming language",
+                        description = "Videos from the official Kotlin YouTube channel",
                         selected = false,
                     ),
                     FeedOriginEntity(
                         key = FeedOrigin.Key.TalkingKotlinPodcast.name,
                         title = "Talking Kotlin",
-                        description = "Technical show discussing everything Kotlin, hosted by Hadi and Sebastian",
+                        description = "Podcast on Kotlin and more by JetBrains",
                         selected = true,
                     ),
                     FeedOriginEntity(
                         key = FeedOrigin.Key.KotlinWeekly.name,
                         title = "Kotlin Weekly",
-                        description = "Weekly community Kotlin newsletter, hosted by Enrique",
+                        description = "Weekly community Kotlin newsletter",
                         selected = true,
                     ),
                 ),

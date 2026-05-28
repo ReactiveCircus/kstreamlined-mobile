@@ -9,6 +9,7 @@ public sealed interface HomeUiState {
 
     public data class Content(
         val selectedFeedCount: Int,
+        val totalFeedCount: Int,
         val feedItems: List<HomeFeedItem>,
         val refreshing: Boolean,
         val hasTransientError: Boolean,

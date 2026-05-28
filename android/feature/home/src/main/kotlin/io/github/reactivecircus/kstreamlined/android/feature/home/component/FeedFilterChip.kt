@@ -1,5 +1,6 @@
 package io.github.reactivecircus.kstreamlined.android.feature.home.component
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -19,9 +20,11 @@ import io.github.reactivecircus.kstreamlined.android.feature.home.R
 internal fun FeedFilterChip(
     showSkeleton: Boolean,
     selectedFeedCount: Int,
+    totalFeedCount: Int,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val filtered = selectedFeedCount in 1..<totalFeedCount
     Chip(
         onClick = onClick,
         modifier = modifier,
@@ -30,6 +33,11 @@ internal fun FeedFilterChip(
             KSTheme.colorScheme.surface
         } else {
             KSTheme.colorScheme.accent
+        },
+        border = if (filtered) {
+            BorderStroke(width = 1.dp, color = KSTheme.colorScheme.accent)
+        } else {
+            null
         },
     ) {
         Text(
@@ -45,10 +53,23 @@ internal fun FeedFilterChip(
 
 @Composable
 @PreviewKStreamlined
-private fun PreviewFeedFilterChip() {
+private fun PreviewFeedFilterChip_allSelected() {
     FeedFilterChip(
         showSkeleton = false,
         selectedFeedCount = 4,
+        totalFeedCount = 4,
+        onClick = {},
+        modifier = Modifier.padding(8.dp),
+    )
+}
+
+@Composable
+@PreviewKStreamlined
+private fun PreviewFeedFilterChip_someSelected() {
+    FeedFilterChip(
+        showSkeleton = false,
+        selectedFeedCount = 2,
+        totalFeedCount = 4,
         onClick = {},
         modifier = Modifier.padding(8.dp),
     )
@@ -60,6 +81,7 @@ private fun PreviewFeedFilterChip_skeleton() {
     FeedFilterChip(
         showSkeleton = true,
         selectedFeedCount = 0,
+        totalFeedCount = 4,
         onClick = {},
         modifier = Modifier.padding(8.dp),
     )

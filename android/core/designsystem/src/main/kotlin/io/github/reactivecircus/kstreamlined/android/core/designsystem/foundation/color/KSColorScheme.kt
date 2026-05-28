@@ -28,6 +28,7 @@ public class KSColorScheme internal constructor(
     public val borderMuted: Color,
     public val borderInverse: Color,
     public val brandGradient: List<Color>,
+    public val brandMeshGradient: List<Color>,
     public val isDark: Boolean,
 )
 
@@ -35,6 +36,7 @@ private object Palette {
     val Purple10 = Color(0xFF_1A0E5C)
     val Purple20 = Color(0xFF_2A1A8F)
     val Purple30 = Color(0xFF_4A30C2)
+    val Purple35 = Color(0xFF_5C3AD4)
     val Purple40 = Color(0xFF_6E46DE)
     val Purple50 = Color(0xFF_7F52FF)
     val Purple60 = Color(0xFF_8968FF)
@@ -43,7 +45,9 @@ private object Palette {
     val Purple90 = Color(0xFF_DAD0FF)
     val Purple95 = Color(0xFF_EFE8FF)
 
+    val Magenta30 = Color(0xFF_7B1099)
     val Magenta40 = Color(0xFF_9D14B3)
+    val Magenta45 = Color(0xFF_B010CC)
     val Magenta50 = Color(0xFF_C711E1)
     val Magenta60 = Color(0xFF_D549E8)
     val Magenta70 = Color(0xFF_D5A1DE)
@@ -59,7 +63,7 @@ private object Palette {
     val Lavender65 = Color(0xFF_ABA2BE)
     val Lavender75 = Color(0xFF_C4BAD9)
     val Lavender85 = Color(0xFF_DBD0F2)
-    val Lavender92 = Color(0xFF_E7DBFF)
+    val Lavender90 = Color(0xFF_E7DBFF)
 
     val Neutral0 = Color(0xFF_000000)
     val Neutral5 = Color(0xFF_070426)
@@ -75,20 +79,32 @@ private val BrandGradient = listOf(
     Palette.Red50,
 )
 
+private val SurfaceBlogMeshLight = listOf(
+    Palette.Purple40, Palette.Magenta40, Palette.Magenta60,
+    Palette.Purple35, Palette.Magenta45, Palette.Red50,
+    Palette.Purple40, Palette.Magenta40, Palette.Red40,
+)
+
+private val SurfaceBlogMeshDark = listOf(
+    Palette.Purple30, Palette.Magenta30, Palette.Magenta50,
+    Palette.Purple20, Palette.Magenta40, Palette.Red50,
+    Palette.Purple35, Palette.Magenta30, Palette.Red40,
+)
+
 internal val LightColorScheme = KSColorScheme(
     accent = Palette.Purple50,
     accentStrong = Palette.Purple40,
     accentSoft = Palette.Purple70,
-    onAccent = Palette.Lavender92,
+    onAccent = Palette.Lavender90,
     onAccentMuted = Palette.Lavender85,
-    background = Palette.Lavender92,
+    background = Palette.Lavender90,
     onBackground = Palette.Neutral5,
     onBackgroundMuted = Palette.Neutral15,
     surface = Palette.Magenta85,
     surfaceInverse = Palette.Neutral5,
     surfaceInverseMuted = Palette.Neutral15,
     surfaceInverseRaised = Palette.Neutral10,
-    onSurfaceInverse = Palette.Lavender92,
+    onSurfaceInverse = Palette.Lavender90,
     onSurfaceInverseMuted = Palette.Lavender85,
     onSurfaceInverseFaint = Palette.Lavender65,
     surfaceYouTube = Palette.Red40,
@@ -98,6 +114,7 @@ internal val LightColorScheme = KSColorScheme(
     borderMuted = Palette.Magenta70,
     borderInverse = Palette.Neutral60,
     brandGradient = BrandGradient,
+    brandMeshGradient = SurfaceBlogMeshLight,
     isDark = false,
 )
 
@@ -108,10 +125,10 @@ internal val DarkColorScheme = KSColorScheme(
     onAccent = Palette.Lavender85,
     onAccentMuted = Palette.Lavender75,
     background = Palette.Neutral5,
-    onBackground = Palette.Lavender92,
+    onBackground = Palette.Lavender90,
     onBackgroundMuted = Palette.Magenta80,
     surface = Palette.Neutral10,
-    surfaceInverse = Palette.Lavender92,
+    surfaceInverse = Palette.Lavender90,
     surfaceInverseMuted = Palette.Lavender75,
     surfaceInverseRaised = Palette.Magenta85,
     onSurfaceInverse = Palette.Neutral5,
@@ -124,7 +141,7 @@ internal val DarkColorScheme = KSColorScheme(
     borderMuted = Palette.Neutral15,
     borderInverse = Palette.Magenta70,
     brandGradient = BrandGradient,
-
+    brandMeshGradient = SurfaceBlogMeshDark,
     isDark = true,
 )
 

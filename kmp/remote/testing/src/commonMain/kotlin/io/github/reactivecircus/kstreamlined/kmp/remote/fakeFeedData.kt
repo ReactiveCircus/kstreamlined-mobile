@@ -16,17 +16,17 @@ public val FakeFeedSources: List<FeedSource> = listOf(
     FeedSource(
         key = FeedSource.Key.KotlinYouTubeChannel,
         title = "Kotlin YouTube",
-        description = "The official YouTube channel of the Kotlin programming language",
+        description = "Videos from the official Kotlin YouTube channel",
     ),
     FeedSource(
         key = FeedSource.Key.TalkingKotlinPodcast,
         title = "Talking Kotlin",
-        description = "Technical show discussing everything Kotlin, hosted by Hadi and Sebastian",
+        description = "Podcast on Kotlin and more by JetBrains",
     ),
     FeedSource(
         key = FeedSource.Key.KotlinWeekly,
         title = "Kotlin Weekly",
-        description = "Weekly community Kotlin newsletter, hosted by Enrique",
+        description = "Weekly community Kotlin newsletter",
     ),
 )
 

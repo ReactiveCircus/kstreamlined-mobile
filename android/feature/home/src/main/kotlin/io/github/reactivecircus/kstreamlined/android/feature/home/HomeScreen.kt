@@ -57,6 +57,7 @@ import io.github.reactivecircus.kstreamlined.android.core.ui.pattern.ErrorUi
 import io.github.reactivecircus.kstreamlined.android.core.ui.pattern.TransientErrorBanner
 import io.github.reactivecircus.kstreamlined.android.feature.contentviewer.api.ContentViewerRoute
 import io.github.reactivecircus.kstreamlined.android.feature.contentviewer.api.ContentViewerSharedTransitionKeys
+import io.github.reactivecircus.kstreamlined.android.feature.feedselection.api.FeedSelectionRoute
 import io.github.reactivecircus.kstreamlined.android.feature.home.component.FeedFilterChip
 import io.github.reactivecircus.kstreamlined.android.feature.home.component.SyncButton
 import io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue.api.KotlinWeeklyIssueRoute
@@ -117,10 +118,19 @@ public fun SharedTransitionScope.HomeScreen(
         onOpenSettings = {
             backStack.add(SettingsRoute(origin = SharedTransitionOrigin))
         },
+        onOpenFeedSelection = {
+            backStack.add(FeedSelectionRoute(origin = SharedTransitionOrigin))
+        },
         uiState = uiState,
         eventSink = eventSink,
         modifier = modifier,
     )
+    val selectedFeedCount = (uiState as? HomeUiState.Content)?.selectedFeedCount
+    LaunchedEffect(selectedFeedCount) {
+        if (selectedFeedCount != null) {
+            listState.requestScrollToItem(0)
+        }
+    }
     ReportDrawnWhen { uiState !is HomeUiState.Loading }
 }
 
@@ -130,6 +140,7 @@ internal fun SharedTransitionScope.HomeScreen(
     listState: LazyListState,
     onViewItem: (FeedItem) -> Unit,
     onOpenSettings: () -> Unit,
+    onOpenFeedSelection: () -> Unit,
     uiState: HomeUiState,
     eventSink: (HomeUiEvent) -> Unit,
     modifier: Modifier = Modifier,
@@ -157,7 +168,8 @@ internal fun SharedTransitionScope.HomeScreen(
                 FeedFilterChip(
                     showSkeleton = uiState !is HomeUiState.Content,
                     selectedFeedCount = if (uiState is HomeUiState.Content) uiState.selectedFeedCount else 0,
-                    onClick = {},
+                    totalFeedCount = if (uiState is HomeUiState.Content) uiState.totalFeedCount else 0,
+                    onClick = onOpenFeedSelection,
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 SyncButton(
