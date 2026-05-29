@@ -42,6 +42,12 @@ Individual benchmarks can also be run from Android Studio or command line:
 ./gradlew :benchmark:connectedBenchmarkReleaseAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=io.github.reactivecircus.kstreamlined.android.benchmark.screentransition.ScreenTransitionBenchmark
 ```
 
+#### Feed selection benchmark
+
+```
+./gradlew :benchmark:connectedBenchmarkReleaseAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=io.github.reactivecircus.kstreamlined.android.benchmark.feedselection.FeedSelectionBenchmark
+```
+
 ### Benchmark results
 
 Results are available at `android/benchmark/build/outputs/androidTest-results/connected/benchmarkRelease/`.

@@ -27,8 +27,8 @@ class HomeFeedRecompositionBenchmark {
         packageName = PackageName,
         metrics = listOf(
             FrameTimingMetric(),
-            TraceSectionMetric("FeedList", mode = TraceSectionMetric.Mode.Sum),
-            TraceSectionMetric("SectionHeader", mode = TraceSectionMetric.Mode.Sum),
+            TraceSectionMetric("HomeFeedList", mode = TraceSectionMetric.Mode.Sum),
+            TraceSectionMetric("HomeFeedSectionHeader", mode = TraceSectionMetric.Mode.Sum),
             TraceSectionMetric("FeedItem:%Card", mode = TraceSectionMetric.Mode.Sum),
         ),
         compilationMode = CompilationMode.Partial(BaselineProfileMode.Require),

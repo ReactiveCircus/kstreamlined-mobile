@@ -51,6 +51,10 @@ fun MacrobenchmarkScope.clickSaveButtonOnCard() {
         .click()
 }
 
+fun MacrobenchmarkScope.clickFilterChip() {
+    onElement { viewIdResourceName == "home:feedFilterChip" }.click()
+}
+
 enum class CardType {
     KotlinBlog,
     KotlinYouTube,

@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.tracing.trace
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.ModalBottomSheet
@@ -54,7 +55,8 @@ internal fun FeedOriginList(
         modifier = modifier
             .fillMaxWidth()
             .verticalScroll(rememberScrollState())
-            .padding(horizontal = 24.dp),
+            .padding(horizontal = 24.dp)
+            .testTag("feedSelection:originList"),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         feedOrigins.forEach { origin ->

@@ -41,7 +41,7 @@ class ScreenTransitionBenchmark {
         packageName = PackageName,
         metrics = listOf(
             FrameTimingMetric(),
-            TraceSectionMetric("FeedList", mode = TraceSectionMetric.Mode.Sum),
+            TraceSectionMetric("HomeFeedList", mode = TraceSectionMetric.Mode.Sum),
             TraceSectionMetric("FeedItem:%Card", mode = TraceSectionMetric.Mode.Sum),
             TraceSectionMetric("Screen:%", mode = TraceSectionMetric.Mode.Sum),
         ),

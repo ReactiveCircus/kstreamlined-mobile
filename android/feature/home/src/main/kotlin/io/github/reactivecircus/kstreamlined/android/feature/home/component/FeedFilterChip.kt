@@ -4,6 +4,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -27,7 +28,7 @@ internal fun FeedFilterChip(
     val filtered = selectedFeedCount in 1..<totalFeedCount
     Chip(
         onClick = onClick,
-        modifier = modifier,
+        modifier = modifier.testTag("home:feedFilterChip"),
         enabled = !showSkeleton,
         contentColor = if (showSkeleton) {
             KSTheme.colorScheme.surface

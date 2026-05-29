@@ -232,7 +232,7 @@ private fun SharedTransitionScope.ContentUi(
     onItemClick: (FeedItem) -> Unit,
     eventSink: (HomeUiEvent) -> Unit,
     modifier: Modifier = Modifier,
-) = trace("FeedList") {
+) = trace("HomeFeedList") {
     Box(
         modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.TopCenter,
@@ -260,7 +260,7 @@ private fun SharedTransitionScope.ContentUi(
             ) {
                 when (it) {
                     is HomeFeedItem.SectionHeader -> {
-                        trace("SectionHeader") {
+                        trace("HomeFeedSectionHeader") {
                             Text(
                                 text = it.title,
                                 style = KSTheme.typography.titleMedium,
