@@ -1,3 +1,5 @@
+enableFeaturePreview("NO_IMPLICIT_LOOKUP_IN_PARENT_PROJECTS")
+
 pluginManagement {
     includeBuild("build-logic")
     repositories {
