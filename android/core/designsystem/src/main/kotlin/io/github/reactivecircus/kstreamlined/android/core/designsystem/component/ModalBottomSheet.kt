@@ -2,6 +2,7 @@
 
 package io.github.reactivecircus.kstreamlined.android.core.designsystem.component
 
+import android.os.Build
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,11 +15,14 @@ import androidx.compose.material3.SheetValue.Expanded
 import androidx.compose.material3.SheetValue.Hidden
 import androidx.compose.material3.SheetValue.PartiallyExpanded
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.DialogWindowProvider
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.preview.PreviewKStreamlined
 import androidx.compose.material3.ModalBottomSheet as M3ModalBottomSheet
@@ -47,8 +51,21 @@ public fun ModalBottomSheet(
             )
         },
         onDismissRequest = onDismissRequest,
-        content = content,
-    )
+    ) {
+        DialogWindowNavigationBarEffect()
+        content()
+    }
+}
+
+@Composable
+private fun DialogWindowNavigationBarEffect() {
+    val view = LocalView.current
+    SideEffect {
+        val dialogWindow = (view.parent as? DialogWindowProvider)?.window ?: return@SideEffect
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            dialogWindow.isNavigationBarContrastEnforced = false
+        }
+    }
 }
 
 public class SheetState internal constructor(
