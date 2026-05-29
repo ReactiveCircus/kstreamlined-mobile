@@ -34,6 +34,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -73,6 +74,8 @@ import io.github.reactivecircus.kstreamlined.kmp.presentation.home.HomePresenter
 import io.github.reactivecircus.kstreamlined.kmp.presentation.home.HomeUiEvent
 import io.github.reactivecircus.kstreamlined.kmp.presentation.home.HomeUiState
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.filterNotNull
 import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
@@ -125,11 +128,13 @@ public fun SharedTransitionScope.HomeScreen(
         eventSink = eventSink,
         modifier = modifier,
     )
-    val selectedFeedCount = (uiState as? HomeUiState.Content)?.selectedFeedCount
-    LaunchedEffect(selectedFeedCount) {
-        if (selectedFeedCount != null) {
-            listState.requestScrollToItem(0)
-        }
+    LaunchedEffect(Unit) {
+        snapshotFlow { (uiState as? HomeUiState.Content)?.selectedFeedCount }
+            .filterNotNull()
+            .drop(1)
+            .collect {
+                listState.requestScrollToItem(0)
+            }
     }
     ReportDrawnWhen { uiState !is HomeUiState.Loading }
 }
