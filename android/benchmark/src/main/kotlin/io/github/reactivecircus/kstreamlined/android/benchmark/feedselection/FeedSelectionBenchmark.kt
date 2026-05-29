@@ -18,13 +18,13 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
+@OptIn(ExperimentalMetricApi::class)
 @LargeTest
 @RunWith(AndroidJUnit4::class)
 class FeedSelectionBenchmark {
     @get:Rule
     val rule = MacrobenchmarkRule()
 
-    @OptIn(ExperimentalMetricApi::class)
     @Test
     fun openAndCloseFeedSelectionBottomSheet() = rule.measureRepeated(
         packageName = PackageName,
@@ -48,7 +48,6 @@ class FeedSelectionBenchmark {
         },
     )
 
-    @OptIn(ExperimentalMetricApi::class)
     @Test
     fun toggleSingleFeed() = rule.measureRepeated(
         packageName = PackageName,
@@ -73,7 +72,6 @@ class FeedSelectionBenchmark {
         },
     )
 
-    @OptIn(ExperimentalMetricApi::class)
     @Test
     fun deselectLastSelectedFeed() = rule.measureRepeated(
         packageName = PackageName,
@@ -99,13 +97,12 @@ class FeedSelectionBenchmark {
             toggleFeedOriginCard(FeedOriginKey.KotlinYouTubeChannel)
             toggleFeedOriginCard(FeedOriginKey.TalkingKotlinPodcast)
             toggleFeedOriginCard(FeedOriginKey.KotlinWeekly)
-            dismissFeedSelectionSheet()
+            toggleFeedOriginCard(FeedOriginKey.KotlinWeekly)
         },
     )
 
-    @OptIn(ExperimentalMetricApi::class)
     @Test
-    fun scrollHomeFeedAndDeselectFeedFromBottomSheet() = rule.measureRepeated(
+    fun scrollHomeFeedAndChangeFeedSelectionFromBottomSheet() = rule.measureRepeated(
         packageName = PackageName,
         metrics = listOf(
             FrameTimingMetric(),
@@ -127,7 +124,7 @@ class FeedSelectionBenchmark {
         },
         measureBlock = {
             toggleFeedOriginCard(FeedOriginKey.KotlinWeekly)
-            dismissFeedSelectionSheet()
+            toggleFeedOriginCard(FeedOriginKey.KotlinWeekly)
         },
     )
 }

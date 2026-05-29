@@ -15,6 +15,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.unit.dp
 import androidx.tracing.trace
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.ModalBottomSheet
@@ -41,6 +43,7 @@ public fun FeedSelectionBottomSheet(): Unit = trace("Screen:FeedSelection") {
             onToggle = { key ->
                 eventSink(FeedSelectionUiEvent.ToggleFeedOrigin(key))
             },
+            modifier = Modifier.semantics { testTagsAsResourceId = true },
         )
     }
 }
