@@ -24,9 +24,7 @@ class BaselineProfileGenerator {
     ) {
         pressHome()
         startActivityAndWait()
-        runCatching {
-            waitForHomeFeedContent()
-            homeFeedListScrollDown()
-        }
+        waitForHomeFeedContent()
+        homeFeedListScrollDown()
     }
 }
