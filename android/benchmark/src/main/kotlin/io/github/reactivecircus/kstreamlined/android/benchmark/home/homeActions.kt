@@ -5,6 +5,7 @@ package io.github.reactivecircus.kstreamlined.android.benchmark.home
 import androidx.benchmark.macro.MacrobenchmarkScope
 import androidx.test.uiautomator.Direction
 import androidx.test.uiautomator.onElement
+import io.github.reactivecircus.kstreamlined.android.benchmark.FeedOriginKey
 import io.github.reactivecircus.kstreamlined.android.benchmark.flingDownUp
 import io.github.reactivecircus.kstreamlined.android.benchmark.scrollDown
 import java.util.Locale
@@ -51,6 +52,10 @@ fun MacrobenchmarkScope.clickSaveButtonOnCard() {
         .click()
 }
 
+fun MacrobenchmarkScope.clickFilterChip() {
+    onElement { viewIdResourceName == "home:feedFilterChip" }.click()
+}
+
 enum class CardType {
     KotlinBlog,
     KotlinYouTube,
@@ -60,4 +65,11 @@ enum class CardType {
 
     val resourceName: String
         get() = "${name.replaceFirstChar { it.lowercase(Locale.getDefault()) }}Card"
+
+    fun toFeedOriginKey(): FeedOriginKey = when (this) {
+        KotlinBlog -> FeedOriginKey.KotlinBlog
+        KotlinYouTube -> FeedOriginKey.KotlinYouTubeChannel
+        TalkingKotlin -> FeedOriginKey.TalkingKotlinPodcast
+        KotlinWeekly -> FeedOriginKey.KotlinWeekly
+    }
 }

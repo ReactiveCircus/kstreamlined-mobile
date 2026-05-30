@@ -12,6 +12,7 @@ import androidx.benchmark.perfetto.ExperimentalPerfettoCaptureApi
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import io.github.reactivecircus.kstreamlined.android.benchmark.PackageName
+import io.github.reactivecircus.kstreamlined.android.benchmark.appState
 import io.github.reactivecircus.kstreamlined.android.benchmark.home.waitForHomeFeedContent
 import org.junit.Rule
 import org.junit.Test
@@ -43,6 +44,7 @@ class StartupBenchmark {
         iterations = 10,
         setupBlock = {
             pressHome()
+            appState { resetFeedSelections() }
         },
         measureBlock = {
             startActivityAndWait()

@@ -25,7 +25,9 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.MeshGradientPainter
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
+import androidx.tracing.trace
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Surface
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Switch
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Text
@@ -39,7 +41,7 @@ internal fun FeedOriginCard(
     origin: FeedOrigin,
     onToggle: () -> Unit,
     modifier: Modifier = Modifier,
-) {
+) = trace("FeedOrigin:${origin.key.name}") {
     val selectionProgress by animateFloatAsState(
         targetValue = if (origin.selected) 1f else 0f,
         animationSpec = spring(stiffness = Spring.StiffnessLow),
@@ -101,7 +103,8 @@ internal fun FeedOriginCard(
                 scaleY = scale
                 @Suppress("MagicNumber")
                 alpha = 0.6f + 0.4f * selectionProgress
-            },
+            }
+            .testTag("feedOriginCard:${origin.key.name}"),
         shape = RoundedCornerShape(16.dp),
         color = KSTheme.colorScheme.surface,
         border = borderStroke,

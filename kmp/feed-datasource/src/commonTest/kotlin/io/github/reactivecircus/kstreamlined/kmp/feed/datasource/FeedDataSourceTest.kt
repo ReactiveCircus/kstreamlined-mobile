@@ -379,6 +379,127 @@ class FeedDataSourceTest {
     }
 
     @Test
+    fun `selectAllFeedSources selects all feed origins in DB`() = runTest(testDispatcher) {
+        db.feedOriginEntityQueries.upsertFeedOrigin(
+            key = FeedOrigin.Key.KotlinBlog.name,
+            title = "Kotlin Blog",
+            description = "Latest news from the official Kotlin Blog",
+            selected = false,
+        )
+        db.feedOriginEntityQueries.upsertFeedOrigin(
+            key = FeedOrigin.Key.KotlinYouTubeChannel.name,
+            title = "Kotlin YouTube",
+            description = "Videos from the official Kotlin YouTube channel",
+            selected = true,
+        )
+        db.feedOriginEntityQueries.upsertFeedOrigin(
+            key = FeedOrigin.Key.TalkingKotlinPodcast.name,
+            title = "Talking Kotlin",
+            description = "Podcast on Kotlin and more by JetBrains",
+            selected = false,
+        )
+        db.feedOriginEntityQueries.upsertFeedOrigin(
+            key = FeedOrigin.Key.KotlinWeekly.name,
+            title = "Kotlin Weekly",
+            description = "Weekly community Kotlin newsletter",
+            selected = false,
+        )
+
+        feedDataSource.selectAllFeedSources()
+
+        assertEquals(
+            listOf(
+                FeedOriginEntity(
+                    key = FeedOrigin.Key.KotlinBlog.name,
+                    title = "Kotlin Blog",
+                    description = "Latest news from the official Kotlin Blog",
+                    selected = true,
+                ),
+                FeedOriginEntity(
+                    key = FeedOrigin.Key.KotlinYouTubeChannel.name,
+                    title = "Kotlin YouTube",
+                    description = "Videos from the official Kotlin YouTube channel",
+                    selected = true,
+                ),
+                FeedOriginEntity(
+                    key = FeedOrigin.Key.TalkingKotlinPodcast.name,
+                    title = "Talking Kotlin",
+                    description = "Podcast on Kotlin and more by JetBrains",
+                    selected = true,
+                ),
+                FeedOriginEntity(
+                    key = FeedOrigin.Key.KotlinWeekly.name,
+                    title = "Kotlin Weekly",
+                    description = "Weekly community Kotlin newsletter",
+                    selected = true,
+                ),
+            ),
+            db.feedOriginEntityQueries.allFeedOrigins().executeAsList(),
+        )
+    }
+
+    @Test
+    fun `selectSingleFeedSource selects only the specified feed origin in DB`() =
+        runTest(testDispatcher) {
+            db.feedOriginEntityQueries.upsertFeedOrigin(
+                key = FeedOrigin.Key.KotlinBlog.name,
+                title = "Kotlin Blog",
+                description = "Latest news from the official Kotlin Blog",
+                selected = true,
+            )
+            db.feedOriginEntityQueries.upsertFeedOrigin(
+                key = FeedOrigin.Key.KotlinYouTubeChannel.name,
+                title = "Kotlin YouTube",
+                description = "Videos from the official Kotlin YouTube channel",
+                selected = true,
+            )
+            db.feedOriginEntityQueries.upsertFeedOrigin(
+                key = FeedOrigin.Key.TalkingKotlinPodcast.name,
+                title = "Talking Kotlin",
+                description = "Podcast on Kotlin and more by JetBrains",
+                selected = true,
+            )
+            db.feedOriginEntityQueries.upsertFeedOrigin(
+                key = FeedOrigin.Key.KotlinWeekly.name,
+                title = "Kotlin Weekly",
+                description = "Weekly community Kotlin newsletter",
+                selected = true,
+            )
+
+            feedDataSource.selectSingleFeedSource(FeedOrigin.Key.TalkingKotlinPodcast)
+
+            assertEquals(
+                listOf(
+                    FeedOriginEntity(
+                        key = FeedOrigin.Key.KotlinBlog.name,
+                        title = "Kotlin Blog",
+                        description = "Latest news from the official Kotlin Blog",
+                        selected = false,
+                    ),
+                    FeedOriginEntity(
+                        key = FeedOrigin.Key.KotlinYouTubeChannel.name,
+                        title = "Kotlin YouTube",
+                        description = "Videos from the official Kotlin YouTube channel",
+                        selected = false,
+                    ),
+                    FeedOriginEntity(
+                        key = FeedOrigin.Key.TalkingKotlinPodcast.name,
+                        title = "Talking Kotlin",
+                        description = "Podcast on Kotlin and more by JetBrains",
+                        selected = true,
+                    ),
+                    FeedOriginEntity(
+                        key = FeedOrigin.Key.KotlinWeekly.name,
+                        title = "Kotlin Weekly",
+                        description = "Weekly community Kotlin newsletter",
+                        selected = false,
+                    ),
+                ),
+                db.feedOriginEntityQueries.allFeedOrigins().executeAsList(),
+            )
+        }
+
+    @Test
     fun `unselectFeedSource updates feed origin selection in DB`() = runTest(testDispatcher) {
         db.feedOriginEntityQueries.upsertFeedOrigin(
             key = FeedOrigin.Key.KotlinBlog.name,

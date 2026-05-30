@@ -20,6 +20,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 
+@Suppress("TooManyFunctions")
 @SingleIn(AppScope::class)
 @Inject
 public class FeedDataSource(
@@ -75,6 +76,25 @@ public class FeedDataSource(
         withContext(dbDispatcher) {
             db.feedOriginEntityQueries.updateSelection(selected = true, key = feedOriginKey.name)
         }
+
+    public suspend fun selectAllFeedSources(): Unit = withContext(dbDispatcher) {
+        db.transaction {
+            db.feedOriginEntityQueries.allFeedOrigins().executeAsList().forEach { origin ->
+                db.feedOriginEntityQueries.updateSelection(selected = true, key = origin.key)
+            }
+        }
+    }
+
+    public suspend fun selectSingleFeedSource(feedOriginKey: FeedOrigin.Key): Unit = withContext(dbDispatcher) {
+        db.transaction {
+            db.feedOriginEntityQueries.allFeedOrigins().executeAsList().forEach { origin ->
+                db.feedOriginEntityQueries.updateSelection(
+                    selected = origin.key == feedOriginKey.name,
+                    key = origin.key,
+                )
+            }
+        }
+    }
 
     public suspend fun unselectFeedSource(feedOriginKey: FeedOrigin.Key): Unit =
         withContext(dbDispatcher) {
