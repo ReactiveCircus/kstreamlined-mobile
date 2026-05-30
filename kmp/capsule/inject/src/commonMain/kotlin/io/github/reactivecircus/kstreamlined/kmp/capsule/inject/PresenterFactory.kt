@@ -27,8 +27,7 @@ import kotlin.reflect.KClass
 public abstract class PresenterFactory {
     protected open val presenterProviders: Map<KClass<out Presenter<*, *>>, () -> Presenter<*, *>> = emptyMap()
     protected open val assistedFactoryProviders:
-        Map<KClass<out PresenterAssistedFactory>, () -> PresenterAssistedFactory> =
-        emptyMap()
+        Map<KClass<out PresenterAssistedFactory>, () -> PresenterAssistedFactory> = emptyMap()
 
     @Suppress("UNCHECKED_CAST")
     public fun <T : Presenter<*, *>> create(modelClass: KClass<T>): T {

@@ -15,29 +15,6 @@ import androidx.navigation3.scene.SceneStrategyScope
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.ModalBottomSheet
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.rememberModalBottomSheetState
 
-internal data class BottomSheetScene<T : Any>(
-    override val key: T,
-    override val previousEntries: List<NavEntry<T>>,
-    override val overlaidEntries: List<NavEntry<T>>,
-    private val entry: NavEntry<T>,
-    private val onBack: () -> Unit,
-) : OverlayScene<T> {
-
-    override val entries: List<NavEntry<T>> = listOf(entry)
-
-    override val content: @Composable (() -> Unit) = {
-        val lifecycleOwner = rememberLifecycleOwner()
-        ModalBottomSheet(
-            onDismissRequest = onBack,
-            sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
-        ) {
-            CompositionLocalProvider(LocalLifecycleOwner provides lifecycleOwner) {
-                entry.Content()
-            }
-        }
-    }
-}
-
 class BottomSheetSceneStrategy<T : Any> : SceneStrategy<T> {
 
     override fun SceneStrategyScope<T>.calculateScene(entries: List<NavEntry<T>>): Scene<T>? {
@@ -59,5 +36,28 @@ class BottomSheetSceneStrategy<T : Any> : SceneStrategy<T> {
         }
 
         object BottomSheetKey : NavMetadataKey<Unit>
+    }
+}
+
+private data class BottomSheetScene<T : Any>(
+    override val key: T,
+    override val previousEntries: List<NavEntry<T>>,
+    override val overlaidEntries: List<NavEntry<T>>,
+    private val entry: NavEntry<T>,
+    private val onBack: () -> Unit,
+) : OverlayScene<T> {
+
+    override val entries: List<NavEntry<T>> = listOf(entry)
+
+    override val content: @Composable (() -> Unit) = {
+        val lifecycleOwner = rememberLifecycleOwner()
+        ModalBottomSheet(
+            onDismissRequest = onBack,
+            sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
+        ) {
+            CompositionLocalProvider(LocalLifecycleOwner provides lifecycleOwner) {
+                entry.Content()
+            }
+        }
     }
 }
