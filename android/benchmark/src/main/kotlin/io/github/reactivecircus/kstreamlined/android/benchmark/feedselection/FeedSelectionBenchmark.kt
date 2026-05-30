@@ -9,7 +9,9 @@ import androidx.benchmark.macro.TraceSectionMetric
 import androidx.benchmark.macro.junit4.MacrobenchmarkRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
+import io.github.reactivecircus.kstreamlined.android.benchmark.FeedOriginKey
 import io.github.reactivecircus.kstreamlined.android.benchmark.PackageName
+import io.github.reactivecircus.kstreamlined.android.benchmark.appState
 import io.github.reactivecircus.kstreamlined.android.benchmark.home.CardType
 import io.github.reactivecircus.kstreamlined.android.benchmark.home.clickFilterChip
 import io.github.reactivecircus.kstreamlined.android.benchmark.home.scrollToCard
@@ -39,6 +41,7 @@ class FeedSelectionBenchmark {
         setupBlock = {
             pressHome()
             startActivityAndWait()
+            appState { resetFeedSelections() }
             waitForHomeFeedContent()
         },
         measureBlock = {
@@ -62,6 +65,7 @@ class FeedSelectionBenchmark {
         setupBlock = {
             pressHome()
             startActivityAndWait()
+            appState { resetFeedSelections() }
             waitForHomeFeedContent()
             clickFilterChip()
             waitForFeedSelectionContent()
@@ -88,6 +92,7 @@ class FeedSelectionBenchmark {
         setupBlock = {
             pressHome()
             startActivityAndWait()
+            appState { resetFeedSelections() }
             waitForHomeFeedContent()
             clickFilterChip()
             waitForFeedSelectionContent()
@@ -96,7 +101,6 @@ class FeedSelectionBenchmark {
             toggleFeedOriginCard(FeedOriginKey.KotlinBlog)
             toggleFeedOriginCard(FeedOriginKey.KotlinYouTubeChannel)
             toggleFeedOriginCard(FeedOriginKey.TalkingKotlinPodcast)
-            toggleFeedOriginCard(FeedOriginKey.KotlinWeekly)
             toggleFeedOriginCard(FeedOriginKey.KotlinWeekly)
         },
     )
@@ -117,13 +121,13 @@ class FeedSelectionBenchmark {
         setupBlock = {
             pressHome()
             startActivityAndWait()
+            appState { resetFeedSelections() }
             waitForHomeFeedContent()
             scrollToCard(CardType.KotlinWeekly)
             clickFilterChip()
             waitForFeedSelectionContent()
         },
         measureBlock = {
-            toggleFeedOriginCard(FeedOriginKey.KotlinWeekly)
             toggleFeedOriginCard(FeedOriginKey.KotlinWeekly)
         },
     )

@@ -10,9 +10,9 @@ import androidx.benchmark.macro.junit4.MacrobenchmarkRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import io.github.reactivecircus.kstreamlined.android.benchmark.PackageName
+import io.github.reactivecircus.kstreamlined.android.benchmark.appState
 import io.github.reactivecircus.kstreamlined.android.benchmark.home.CardType
 import io.github.reactivecircus.kstreamlined.android.benchmark.home.clickCard
-import io.github.reactivecircus.kstreamlined.android.benchmark.home.scrollToCard
 import io.github.reactivecircus.kstreamlined.android.benchmark.home.waitForHomeFeedContent
 import org.junit.Rule
 import org.junit.Test
@@ -51,8 +51,8 @@ class ScreenTransitionBenchmark {
         setupBlock = {
             pressHome()
             startActivityAndWait()
+            appState { selectSingleFeed(cardType.toFeedOriginKey()) }
             waitForHomeFeedContent()
-            scrollToCard(cardType)
         },
         measureBlock = {
             clickCard(cardType)

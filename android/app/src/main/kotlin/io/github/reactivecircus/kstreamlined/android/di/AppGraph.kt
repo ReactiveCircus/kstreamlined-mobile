@@ -27,6 +27,7 @@ import io.github.reactivecircus.kstreamlined.kmp.database.FeedItemEntity
 import io.github.reactivecircus.kstreamlined.kmp.database.InstantAdapter
 import io.github.reactivecircus.kstreamlined.kmp.database.KStreamlinedDatabase
 import io.github.reactivecircus.kstreamlined.kmp.database.LastSyncMetadata
+import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.FeedDataSource
 import io.github.reactivecircus.kstreamlined.kmp.settings.datasource.SettingsDataSource
 import io.github.reactivecircus.kstreamlined.kmp.settings.datasource.datastore.createAppSettingsDataStore
 import io.github.reactivecircus.licentia.runtime.LicensesInfo
@@ -49,6 +50,8 @@ interface AppGraph : PresenterGraph, NetworkProviders {
     val workerFactory: Lazy<KSWorkerFactory>
 
     val syncScheduler: SyncScheduler
+
+    val feedDataSource: FeedDataSource
 
     val settingsDataSource: SettingsDataSource
 
