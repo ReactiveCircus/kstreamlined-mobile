@@ -577,6 +577,9 @@ internal abstract class AndroidAppExtensionImpl @Inject constructor(
                 maxAgpVersion = false
                 disabledVariants = false
             }
+            it.filter {
+                exclude("io.github.reactivecircus.kstreamlined.android.benchmark.**")
+            }
             dependencies.add("baselineProfile", project(projectPath))
         }
     }
