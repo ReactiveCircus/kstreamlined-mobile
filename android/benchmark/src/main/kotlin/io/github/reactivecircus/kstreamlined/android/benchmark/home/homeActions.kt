@@ -3,7 +3,6 @@
 package io.github.reactivecircus.kstreamlined.android.benchmark.home
 
 import androidx.benchmark.macro.MacrobenchmarkScope
-import androidx.test.uiautomator.Direction
 import androidx.test.uiautomator.onElement
 import io.github.reactivecircus.kstreamlined.android.benchmark.FeedOriginKey
 import io.github.reactivecircus.kstreamlined.android.benchmark.flingDownUp
@@ -20,26 +19,6 @@ fun MacrobenchmarkScope.homeFeedListScrollDown() {
 
 fun MacrobenchmarkScope.homeFeedListFlingDownUp() {
     onElement { viewIdResourceName == "home:feedList" }.flingDownUp()
-}
-
-fun MacrobenchmarkScope.scrollToCard(type: CardType) {
-    val feedList = onElement { viewIdResourceName == "home:feedList" }
-    feedList.setGestureMarginPercentage(0.2f)
-
-    var scrollCount = 0
-    while (onElementOrNull(500) { viewIdResourceName == type.resourceName } == null) {
-        if (scrollCount > 5) {
-            feedList.fling(Direction.DOWN)
-            scrollCount = 0
-        } else {
-            feedList.scroll(Direction.DOWN, 1f, 10000)
-            scrollCount++
-        }
-    }
-    val card = onElement { viewIdResourceName == type.resourceName }
-    if (feedList.visibleBounds.bottom - card.visibleBounds.bottom < 250) {
-        feedList.scroll(Direction.DOWN, 0.5f, 10000)
-    }
 }
 
 fun MacrobenchmarkScope.clickCard(type: CardType) {
