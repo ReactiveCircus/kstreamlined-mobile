@@ -12,9 +12,8 @@ import androidx.test.filters.LargeTest
 import io.github.reactivecircus.kstreamlined.android.benchmark.FeedOriginKey
 import io.github.reactivecircus.kstreamlined.android.benchmark.PackageName
 import io.github.reactivecircus.kstreamlined.android.benchmark.appState
-import io.github.reactivecircus.kstreamlined.android.benchmark.home.CardType
 import io.github.reactivecircus.kstreamlined.android.benchmark.home.clickFilterChip
-import io.github.reactivecircus.kstreamlined.android.benchmark.home.scrollToCard
+import io.github.reactivecircus.kstreamlined.android.benchmark.home.homeFeedListScrollDown
 import io.github.reactivecircus.kstreamlined.android.benchmark.home.waitForHomeFeedContent
 import org.junit.Rule
 import org.junit.Test
@@ -123,7 +122,7 @@ class FeedSelectionBenchmark {
             startActivityAndWait()
             appState { resetFeedSelections() }
             waitForHomeFeedContent()
-            scrollToCard(CardType.KotlinWeekly)
+            homeFeedListScrollDown()
             clickFilterChip()
             waitForFeedSelectionContent()
         },

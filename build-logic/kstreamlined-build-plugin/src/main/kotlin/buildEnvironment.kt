@@ -7,6 +7,16 @@ public val Project.isCiBuild: Boolean
 public val Project.isIdeBuild: Boolean
     get() = providers.systemProperty("idea.active").orNull == "true"
 
+public val Project.isGeneratingBaselineProfile: Boolean
+    get() = gradle.startParameter.taskNames.any {
+        it.contains("generateBaselineProfile", ignoreCase = true)
+    }
+
+public val Project.isRunningBenchmark: Boolean
+    get() = gradle.startParameter.taskNames.any {
+        it.contains("connectedBenchmarkReleaseAndroidTest", ignoreCase = true)
+    }
+
 public fun Project.envOrProp(name: String): Provider<String> =
     providers.environmentVariable(name).orElse(providers.gradleProperty(name).orElse(""))
 
