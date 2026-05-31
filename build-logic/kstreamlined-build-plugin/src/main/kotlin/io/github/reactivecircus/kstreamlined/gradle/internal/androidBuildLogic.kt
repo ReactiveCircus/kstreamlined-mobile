@@ -10,6 +10,8 @@ import com.android.build.api.dsl.TestExtension
 import com.android.build.api.variant.ApplicationAndroidComponentsExtension
 import com.android.build.api.variant.HasUnitTestBuilder
 import com.android.build.api.variant.LibraryAndroidComponentsExtension
+import isGeneratingBaselineProfile
+import isRunningBenchmark
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import java.io.File
@@ -86,7 +88,7 @@ internal fun KotlinMultiplatformAndroidLibraryExtension.configureKmpAndroidLibra
     }
 
     withDeviceTest {
-        animationsDisabled = true
+        animationsDisabled = !(project.isGeneratingBaselineProfile || project.isRunningBenchmark)
     }
 
     lint {
@@ -136,7 +138,7 @@ private fun CommonExtension.configureCommonAndroidExtension(project: Project) {
 
     defaultConfig.minSdk = AndroidSdk.MinSdk
 
-    testOptions.animationsDisabled = true
+    testOptions.animationsDisabled = !(project.isGeneratingBaselineProfile || project.isRunningBenchmark)
 
     with(compileOptions) {
         sourceCompatibility = JavaVersion.VERSION_21
