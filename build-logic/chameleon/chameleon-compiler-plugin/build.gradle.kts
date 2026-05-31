@@ -22,8 +22,8 @@ idea {
     module.generatedSourceDirs.add(projectDir.resolve("src/test/java"))
 }
 
-val chameleonRuntimeClasspath: Configuration by configurations.creating { isTransitive = false }
-val burstRuntimeClasspath: Configuration by configurations.creating { isTransitive = false }
+val chameleonRuntimeClasspath = configurations.create("chameleonRuntimeClasspath") { isTransitive = false }
+val burstRuntimeClasspath = configurations.create("burstRuntimeClasspath") { isTransitive = false }
 
 dependencies {
     // enable Ktlint formatting

@@ -21,9 +21,9 @@ idea {
     module.generatedSourceDirs.add(projectDir.resolve("src/test/java"))
 }
 
-val routeBindingRuntimeClasspath: Configuration by configurations.creating { isTransitive = false }
-val metroRuntimeClasspath: Configuration by configurations.creating { isTransitive = false }
-val composeRuntimeClasspath: Configuration by configurations.creating { isTransitive = false }
+val routeBindingRuntimeClasspath = configurations.create("routeBindingRuntimeClasspath") { isTransitive = false }
+val metroRuntimeClasspath = configurations.create("metroRuntimeClasspath") { isTransitive = false }
+val composeRuntimeClasspath = configurations.create("composeRuntimeClasspath") { isTransitive = false }
 
 dependencies {
     // enable Ktlint formatting
