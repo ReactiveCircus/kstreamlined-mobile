@@ -40,7 +40,7 @@ class TalkingKotlinEpisodeMapperTest {
             startPositionMillis = 3000,
         )
 
-        assertEquals(expectedTalkingKotlinEpisode, feedItem.asPresentationModel(timeZone))
+        assertEquals(expectedTalkingKotlinEpisode, feedItem.asPresentationModel(timeZone = timeZone))
     }
 
     @Test
@@ -76,6 +76,6 @@ class TalkingKotlinEpisodeMapperTest {
             startPositionMillis = 3000,
         )
 
-        assertEquals(expectedTalkingKotlinEpisode, feedItem.asPresentationModel(timeZone))
+        assertEquals(expectedTalkingKotlinEpisode, feedItem.asPresentationModel(timeZone = timeZone))
     }
 }

@@ -62,6 +62,7 @@ class SavedForLaterPresenterTest {
             db = db,
             dbDispatcher = testDispatcher,
         ),
+        timeZone = timeZone,
         moleculeContext = testDispatcher.asMoleculeContext(),
     )
 
@@ -79,7 +80,7 @@ class SavedForLaterPresenterTest {
 
                 assertEquals(
                     SavedForLaterUiState.Content(
-                        listOf(item).toSavedForLaterFeedItems(timeZone),
+                        listOf(item).toSavedForLaterFeedItems(timeZone = timeZone),
                     ),
                     awaitItem(),
                 )
@@ -100,7 +101,7 @@ class SavedForLaterPresenterTest {
 
                 assertEquals(
                     SavedForLaterUiState.Content(
-                        listOf(item).toSavedForLaterFeedItems(timeZone),
+                        listOf(item).toSavedForLaterFeedItems(timeZone = timeZone),
                     ),
                     awaitItem(),
                 )

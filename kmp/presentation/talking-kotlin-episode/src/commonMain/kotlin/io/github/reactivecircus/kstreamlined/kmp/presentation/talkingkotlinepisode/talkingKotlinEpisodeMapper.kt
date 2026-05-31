@@ -4,13 +4,12 @@ import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.prettytime.toFormattedTime
 import kotlinx.datetime.TimeZone
 
-internal fun FeedItem.TalkingKotlin.asPresentationModel(
-    timeZone: TimeZone = TimeZone.currentSystemDefault(),
-): TalkingKotlinEpisode {
+context(timeZone: TimeZone)
+internal fun FeedItem.TalkingKotlin.asPresentationModel(): TalkingKotlinEpisode {
     return TalkingKotlinEpisode(
         id = id,
         title = title,
-        displayablePublishTime = publishTime.toFormattedTime(timeZone),
+        displayablePublishTime = publishTime.toFormattedTime(),
         contentUrl = contentUrl,
         savedForLater = savedForLater,
         audioUrl = audioUrl,

@@ -79,6 +79,8 @@ class HomePresenterTest {
             db = db,
             dbDispatcher = testDispatcher,
         ),
+        clock = fixedClock,
+        timeZone = timeZone,
         moleculeContext = testDispatcher.asMoleculeContext(),
     )
 
@@ -286,7 +288,7 @@ class HomePresenterTest {
                     refreshing = false,
                     hasTransientError = true,
                     items = listOf(feedItem.copy(savedForLater = true))
-                        .toHomeFeedItems(fixedClock, timeZone),
+                        .toHomeFeedItems(clock = fixedClock, timeZone = timeZone),
                 )
 
                 presenter.eventSink(
@@ -298,7 +300,7 @@ class HomePresenterTest {
                     refreshing = false,
                     hasTransientError = true,
                     items = listOf(feedItem.copy(savedForLater = false))
-                        .toHomeFeedItems(fixedClock, timeZone),
+                        .toHomeFeedItems(clock = fixedClock, timeZone = timeZone),
                 )
             }
         }
@@ -359,7 +361,7 @@ class HomePresenterTest {
                 savedForLater = it.saved_for_later,
                 featuredImageUrl = it.image_url.orEmpty(),
             )
-        }.toHomeFeedItems(fixedClock, timeZone),
+        }.toHomeFeedItems(clock = fixedClock, timeZone = timeZone),
     ) {
         assertIs<HomeUiState.Content>(state)
         assertEquals(dummyFeedOrigins.size, state.selectedFeedCount)

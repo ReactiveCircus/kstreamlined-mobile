@@ -74,6 +74,7 @@ class TalkingKotlinEpisodePresenterTest {
             db = db,
             dbDispatcher = testDispatcher,
         ),
+        timeZone = timeZone,
         moleculeContext = testDispatcher.asMoleculeContext(),
     )
 
@@ -89,7 +90,7 @@ class TalkingKotlinEpisodePresenterTest {
 
                 assertEquals(
                     TalkingKotlinEpisodeUiState.Content(
-                        episode = item.asPresentationModel(timeZone),
+                        episode = item.asPresentationModel(timeZone = timeZone),
                         isPlaying = false,
                     ),
                     awaitItem(),
@@ -120,7 +121,7 @@ class TalkingKotlinEpisodePresenterTest {
 
                 assertEquals(
                     TalkingKotlinEpisodeUiState.Content(
-                        episode = item.asPresentationModel(timeZone),
+                        episode = item.asPresentationModel(timeZone = timeZone),
                         isPlaying = false,
                     ),
                     awaitItem(),
@@ -130,7 +131,7 @@ class TalkingKotlinEpisodePresenterTest {
 
                 assertEquals(
                     TalkingKotlinEpisodeUiState.Content(
-                        episode = item.copy(savedForLater = true).asPresentationModel(timeZone),
+                        episode = item.copy(savedForLater = true).asPresentationModel(timeZone = timeZone),
                         isPlaying = false,
                     ),
                     awaitItem(),
@@ -140,7 +141,7 @@ class TalkingKotlinEpisodePresenterTest {
 
                 assertEquals(
                     TalkingKotlinEpisodeUiState.Content(
-                        episode = item.copy(savedForLater = false).asPresentationModel(timeZone),
+                        episode = item.copy(savedForLater = false).asPresentationModel(timeZone = timeZone),
                         isPlaying = false,
                     ),
                     awaitItem(),
@@ -161,7 +162,7 @@ class TalkingKotlinEpisodePresenterTest {
 
                 assertEquals(
                     TalkingKotlinEpisodeUiState.Content(
-                        episode = item.asPresentationModel(timeZone),
+                        episode = item.asPresentationModel(timeZone = timeZone),
                         isPlaying = false,
                     ),
                     awaitItem(),
@@ -171,7 +172,7 @@ class TalkingKotlinEpisodePresenterTest {
 
                 assertEquals(
                     TalkingKotlinEpisodeUiState.Content(
-                        episode = item.copy(startPositionMillis = 1000).asPresentationModel(timeZone),
+                        episode = item.copy(startPositionMillis = 1000).asPresentationModel(timeZone = timeZone),
                         isPlaying = false,
                     ),
                     awaitItem(),
@@ -192,7 +193,7 @@ class TalkingKotlinEpisodePresenterTest {
 
                 assertEquals(
                     TalkingKotlinEpisodeUiState.Content(
-                        episode = item.asPresentationModel(timeZone),
+                        episode = item.asPresentationModel(timeZone = timeZone),
                         isPlaying = false,
                     ),
                     awaitItem(),
@@ -202,7 +203,7 @@ class TalkingKotlinEpisodePresenterTest {
 
                 assertEquals(
                     TalkingKotlinEpisodeUiState.Content(
-                        episode = item.asPresentationModel(timeZone),
+                        episode = item.asPresentationModel(timeZone = timeZone),
                         isPlaying = true,
                     ),
                     awaitItem(),
@@ -212,7 +213,7 @@ class TalkingKotlinEpisodePresenterTest {
 
                 assertEquals(
                     TalkingKotlinEpisodeUiState.Content(
-                        episode = item.asPresentationModel(timeZone),
+                        episode = item.asPresentationModel(timeZone = timeZone),
                         isPlaying = false,
                     ),
                     awaitItem(),

@@ -12,11 +12,13 @@ import io.github.reactivecircus.kstreamlined.kmp.capsule.runtime.MoleculeContext
 import io.github.reactivecircus.kstreamlined.kmp.capsule.runtime.Presenter
 import io.github.reactivecircus.kstreamlined.kmp.capsule.runtime.PresenterKey
 import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.FeedDataSource
+import kotlinx.datetime.TimeZone
 
 @PresenterKey
 @ContributesIntoMap(AppScope::class)
 public class SavedForLaterPresenter(
     private val feedDataSource: FeedDataSource,
+    private val timeZone: TimeZone = TimeZone.currentSystemDefault(),
     moleculeContext: MoleculeContext,
 ) : Presenter<SavedForLaterUiEvent, SavedForLaterUiState>(moleculeContext) {
     @Composable
@@ -24,7 +26,9 @@ public class SavedForLaterPresenter(
         var uiState by remember { mutableStateOf<SavedForLaterUiState>(SavedForLaterUiState.Loading) }
         LaunchedEffect(Unit) {
             feedDataSource.streamSavedFeedItems().collect { feedItems ->
-                uiState = SavedForLaterUiState.Content(feedItems.toSavedForLaterFeedItems())
+                uiState = SavedForLaterUiState.Content(
+                    context(timeZone) { feedItems.toSavedForLaterFeedItems() },
+                )
             }
         }
         CollectEvent { event ->
