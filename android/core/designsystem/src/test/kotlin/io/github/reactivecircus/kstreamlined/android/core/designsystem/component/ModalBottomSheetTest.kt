@@ -4,8 +4,6 @@ package io.github.reactivecircus.kstreamlined.android.core.designsystem.componen
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.SheetValue
-import androidx.compose.material3.rememberStandardBottomSheetState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -23,10 +21,9 @@ class ModalBottomSheetTest {
     @Test
     fun snapshot_ModalBottomSheet() {
         snapshotTester.snapshot {
-            val m3SheetState = rememberStandardBottomSheetState(initialValue = SheetValue.Expanded)
             ModalBottomSheet(
                 onDismissRequest = {},
-                sheetState = SheetState(m3SheetState),
+                sheetState = rememberModalBottomSheetState(initiallyExpanded = true),
             ) {
                 Text(
                     text = "Sheet content",
