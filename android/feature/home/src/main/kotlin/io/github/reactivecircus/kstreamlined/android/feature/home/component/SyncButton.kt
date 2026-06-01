@@ -13,7 +13,7 @@ import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -72,7 +72,7 @@ internal fun SyncButton(
         Icon(
             KSIcons.Sync,
             contentDescription = null,
-            modifier = Modifier.rotate(rotation.value),
+            modifier = Modifier.graphicsLayer { rotationZ = rotation.value },
         )
         Text(
             text = stringResource(id = R.string.sync).uppercase(),

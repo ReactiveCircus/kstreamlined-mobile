@@ -3,12 +3,12 @@ package io.github.reactivecircus.kstreamlined.android.feature.feedselection.impl
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.style.ExperimentalFoundationStyleApi
+import androidx.compose.foundation.style.contentPaddingHorizontal
+import androidx.compose.foundation.style.styleable
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -48,6 +48,7 @@ public fun FeedSelectionBottomSheet(): Unit = trace("Screen:FeedSelection") {
     }
 }
 
+@OptIn(ExperimentalFoundationStyleApi::class)
 @Composable
 internal fun FeedOriginList(
     feedOrigins: List<FeedOrigin>,
@@ -58,7 +59,10 @@ internal fun FeedOriginList(
         modifier = modifier
             .fillMaxWidth()
             .verticalScroll(rememberScrollState())
-            .padding(horizontal = 24.dp)
+            .styleable {
+                contentPaddingHorizontal(24.dp)
+                contentPaddingBottom(24.dp)
+            }
             .testTag("feedSelection:originList"),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
@@ -68,7 +72,6 @@ internal fun FeedOriginList(
                 onToggle = { onToggle(origin.key) },
             )
         }
-        Spacer(modifier = Modifier.height(8.dp))
     }
 }
 
