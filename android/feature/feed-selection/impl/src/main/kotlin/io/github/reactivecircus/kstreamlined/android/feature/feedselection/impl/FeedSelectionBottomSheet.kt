@@ -61,7 +61,7 @@ internal fun FeedOriginList(
             .verticalScroll(rememberScrollState())
             .styleable {
                 contentPaddingHorizontal(24.dp)
-                contentPaddingBottom(16.dp)
+                contentPaddingBottom(24.dp)
             }
             .testTag("feedSelection:originList"),
         verticalArrangement = Arrangement.spacedBy(16.dp),
