@@ -13,6 +13,6 @@ public interface RouteMetadataProvider {
 /**
  * Default no-op [RouteMetadataProvider] that produces an empty metadata map.
  */
-public object EmptyMetadataProvider : RouteMetadataProvider {
+internal object EmptyMetadataProvider : RouteMetadataProvider {
     override fun provide(): Map<String, Any> = emptyMap()
 }
