@@ -110,6 +110,7 @@ includeAndroidProjects(
     ":feature:talking-kotlin-episode:impl",
     ":core:designsystem",
     ":core:launcher",
+    ":core:route-metadata",
     ":core:scheduled-work",
     ":core:screenshot-testing:tester",
     ":core:screenshot-testing:paparazzi",

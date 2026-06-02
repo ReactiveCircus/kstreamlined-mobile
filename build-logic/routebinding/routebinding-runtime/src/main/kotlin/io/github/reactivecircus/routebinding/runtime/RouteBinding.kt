@@ -10,7 +10,12 @@ import kotlin.reflect.KClass
  * function to a [route] using Nav3's `EntryProviderScope` API, contributing it as a multibinding via Metro.
  *
  * @param route the [NavKey] this Composable function binds to.
+ * @param metadataProvider an object that implements [RouteMetadataProvider] to provide Nav3 metadata for this navigation entry.
+ *   Defaults to [EmptyMetadataProvider] which produces an empty metadata map.
  */
 @Target(AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.SOURCE)
-public annotation class RouteBinding(val route: KClass<out NavKey>)
+public annotation class RouteBinding(
+    val route: KClass<out NavKey>,
+    val metadataProvider: KClass<out RouteMetadataProvider> = EmptyMetadataProvider::class,
+)
