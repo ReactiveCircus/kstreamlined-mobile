@@ -75,7 +75,7 @@ class FooScreen_NavEntryInstaller : NavEntryInstaller {
 
   context(<unused var>: EntryProviderScope<NavKey>, <unused var>: SharedTransitionScope)
   override fun install(backStack: NavBackStack<NavKey>) {
-    <unused var>.entry<DummyRoute>(metadata = TestMetadataProvider.provide(), content = local fun <anonymous>(it: DummyRoute) {
+    <unused var>.entry<DummyRoute>(metadata = DummyMetadataProvider.provide(), content = local fun <anonymous>(it: DummyRoute) {
       FooScreen(/* <this> = <unused var>, */ backStack = backStack, route = it)
     }
 )
@@ -85,7 +85,7 @@ class FooScreen_NavEntryInstaller : NavEntryInstaller {
 
 // FILE: WithMetadataProvider.kt
 
-object TestMetadataProvider : RouteMetadataProvider {
+object DummyMetadataProvider : RouteMetadataProvider {
   private constructor() /* primary */ {
     super/*Any*/()
     /* <init>() */
@@ -98,7 +98,7 @@ object TestMetadataProvider : RouteMetadataProvider {
 
 }
 
-@RouteBinding(route = DummyRoute::class, metadataProvider = TestMetadataProvider::class)
+@RouteBinding(route = DummyRoute::class, metadataProvider = DummyMetadataProvider::class)
 @Composable
 internal fun SharedTransitionScope.FooScreen(backStack: NavBackStack<NavKey>, route: DummyRoute) {
 }

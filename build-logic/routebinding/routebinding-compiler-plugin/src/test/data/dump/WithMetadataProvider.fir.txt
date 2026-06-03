@@ -1,6 +1,6 @@
 FILE: WithMetadataProvider.kt
-    public final object TestMetadataProvider : R|io/github/reactivecircus/routebinding/runtime/RouteMetadataProvider| {
-        private constructor(): R|TestMetadataProvider| {
+    public final object DummyMetadataProvider : R|io/github/reactivecircus/routebinding/runtime/RouteMetadataProvider| {
+        private constructor(): R|DummyMetadataProvider| {
             super<R|kotlin/Any|>()
         }
 
@@ -9,7 +9,7 @@ FILE: WithMetadataProvider.kt
         }
 
     }
-    @R|io/github/reactivecircus/routebinding/runtime/RouteBinding|(route = <getClass>(Q|DummyRoute|) [evaluated = <getClass>(Q|DummyRoute|)], metadataProvider = <getClass>(Q|TestMetadataProvider|) [evaluated = <getClass>(Q|TestMetadataProvider|)]) @R|androidx/compose/runtime/Composable|() internal final fun R|androidx/compose/animation/SharedTransitionScope|.FooScreen(backStack: R|androidx/navigation3/runtime/NavBackStack<androidx/navigation3/runtime/NavKey>|, route: R|DummyRoute|): R|kotlin/Unit| {
+    @R|io/github/reactivecircus/routebinding/runtime/RouteBinding|(route = <getClass>(Q|DummyRoute|) [evaluated = <getClass>(Q|DummyRoute|)], metadataProvider = <getClass>(Q|DummyMetadataProvider|) [evaluated = <getClass>(Q|DummyMetadataProvider|)]) @R|androidx/compose/runtime/Composable|() internal final fun R|androidx/compose/animation/SharedTransitionScope|.FooScreen(backStack: R|androidx/navigation3/runtime/NavBackStack<androidx/navigation3/runtime/NavKey>|, route: R|DummyRoute|): R|kotlin/Unit| {
     }
     public final fun box(): R|kotlin/String| {
         ^box String(OK)
