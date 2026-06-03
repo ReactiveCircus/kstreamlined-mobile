@@ -95,8 +95,7 @@ internal class RouteBindingClassTransformer(
 
         val metadataProviderKClass = annotation.arguments.getOrNull(1) as? IrClassReference
         val metadataProviderClass = metadataProviderKClass?.symbol?.owner as? IrClass
-        val hasMetadataProvider = metadataProviderClass != null &&
-            metadataProviderClass.classId != ClassIds.RouteBinding.EmptyMetadataProvider
+        val hasMetadataProvider = metadataProviderClass != null
 
         +irCallWithSubstitutedType(entryFunction, listOf(routeType)).apply {
             val entryProviderScopeParam = installFunction.parameters.first {
