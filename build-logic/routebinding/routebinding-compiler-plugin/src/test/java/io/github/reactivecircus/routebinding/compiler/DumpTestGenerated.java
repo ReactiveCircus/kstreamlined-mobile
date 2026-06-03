@@ -43,6 +43,12 @@ public class DumpTestGenerated extends AbstractDumpTest {
   }
 
   @Test
+  @TestMetadata("WithMetadataProvider.kt")
+  public void testWithMetadataProvider() {
+    run("WithMetadataProvider.kt");
+  }
+
+  @Test
   @TestMetadata("WithParamWithDefaultValue.kt")
   public void testWithParamWithDefaultValue() {
     run("WithParamWithDefaultValue.kt");

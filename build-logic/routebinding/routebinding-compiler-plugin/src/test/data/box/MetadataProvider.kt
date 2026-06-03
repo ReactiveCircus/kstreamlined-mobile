@@ -10,9 +10,14 @@ import dev.zacsweers.metro.createGraph
 import dev.zacsweers.metro.DependencyGraph
 import io.github.reactivecircus.routebinding.runtime.NavEntryInstaller
 import io.github.reactivecircus.routebinding.runtime.RouteBinding
+import io.github.reactivecircus.routebinding.runtime.RouteMetadataProvider
 import kotlin.test.assertEquals
 
-@RouteBinding(DummyRoute::class)
+object DummyMetadataProvider : RouteMetadataProvider {
+    override fun provide(): Map<String, Any> = mapOf("key" to "value")
+}
+
+@RouteBinding(DummyRoute::class, metadataProvider = DummyMetadataProvider::class)
 @Composable
 internal fun SharedTransitionScope.TestScreen(
     backStack: NavBackStack<NavKey>,
@@ -38,6 +43,7 @@ fun box(): String {
     }
 
     assertEquals(DummyRoute::class, entryProviderScope.recordedRouteType)
+    assertEquals(mapOf<String, Any>("key" to "value"), entryProviderScope.recordedMetadata)
 
     return "OK"
 }

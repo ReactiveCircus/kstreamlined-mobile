@@ -26,6 +26,7 @@ internal object RouteBindingDiagnostics : KtDiagnosticsContainer() {
     val UNSUPPORTED_CONTEXT_PARAMETER_TYPE by error3<KtElement, String, String, String>(DEFAULT)
     val DUPLICATE_PARAMETER_TYPE by error2<KtElement, String, String>(DEFAULT)
     val ROUTE_PARAMETER_TYPE_MISMATCH by error3<KtElement, String, String, String>(DEFAULT)
+    val METADATA_PROVIDER_MUST_BE_OBJECT by error1<KtElement, String>(DEFAULT)
 
     override fun getRendererFactory(): BaseDiagnosticRendererFactory {
         return RouteBindingRendererFactory
@@ -91,6 +92,12 @@ private object RouteBindingRendererFactory : BaseDiagnosticRendererFactory() {
             "Parameter type `{2}` does not match `@RouteBinding` route type `{1}` in function `{0}`.",
             CommonRenderers.STRING,
             CommonRenderers.STRING,
+            CommonRenderers.STRING,
+        )
+        it.put(
+            RouteBindingDiagnostics.METADATA_PROVIDER_MUST_BE_OBJECT,
+            "`{0}` is not an object declaration." +
+                " `metadataProvider` must be an `object` implementing `RouteMetadataProvider'`.",
             CommonRenderers.STRING,
         )
     }

@@ -2,6 +2,7 @@ package io.github.reactivecircus.routebinding.compiler.fir.diagnostics
 
 import io.github.reactivecircus.routebinding.compiler.ClassIds
 import org.jetbrains.kotlin.KtSourceElement
+import org.jetbrains.kotlin.descriptors.ClassKind
 import org.jetbrains.kotlin.descriptors.Visibilities
 import org.jetbrains.kotlin.diagnostics.DiagnosticReporter
 import org.jetbrains.kotlin.diagnostics.reportOn
@@ -12,12 +13,15 @@ import org.jetbrains.kotlin.fir.analysis.checkers.declaration.FirSimpleFunctionC
 import org.jetbrains.kotlin.fir.declarations.FirFunction
 import org.jetbrains.kotlin.fir.declarations.FirNamedFunction
 import org.jetbrains.kotlin.fir.declarations.FirValueParameter
+import org.jetbrains.kotlin.fir.declarations.findArgumentByName
 import org.jetbrains.kotlin.fir.declarations.getAnnotationByClassId
 import org.jetbrains.kotlin.fir.declarations.getKClassArgument
 import org.jetbrains.kotlin.fir.declarations.hasAnnotation
 import org.jetbrains.kotlin.fir.declarations.utils.effectiveVisibility
 import org.jetbrains.kotlin.fir.declarations.utils.nameOrSpecialName
 import org.jetbrains.kotlin.fir.resolve.getContainingClass
+import org.jetbrains.kotlin.fir.resolve.providers.symbolProvider
+import org.jetbrains.kotlin.fir.symbols.impl.FirRegularClassSymbol
 import org.jetbrains.kotlin.fir.types.ConeKotlinType
 import org.jetbrains.kotlin.fir.types.classId
 import org.jetbrains.kotlin.fir.types.coneType
@@ -67,6 +71,7 @@ internal object RouteBindingFunctionChecker : FirSimpleFunctionChecker(MppChecke
         }
 
         checkParameterTypes(declaration, functionName)
+        checkMetadataProvider(declaration)
     }
 
     context(context: CheckerContext, reporter: DiagnosticReporter)
@@ -197,9 +202,30 @@ internal object RouteBindingFunctionChecker : FirSimpleFunctionChecker(MppChecke
             )
         }
     }
+
+    context(context: CheckerContext, reporter: DiagnosticReporter)
+    private fun checkMetadataProvider(declaration: FirNamedFunction) {
+        val session = context.session
+        val annotation = declaration.getAnnotationByClassId(ClassIds.RouteBinding.Annotation, session) ?: return
+        val metadataProviderType = annotation.getKClassArgument(metadataProviderArgName) ?: return
+        val metadataProviderClassId = metadataProviderType.classId ?: return
+        if (metadataProviderClassId == ClassIds.RouteBinding.EmptyMetadataProvider) return
+
+        val classSymbol = session.symbolProvider.getClassLikeSymbolByClassId(metadataProviderClassId)
+            as? FirRegularClassSymbol ?: return
+        if (classSymbol.classKind != ClassKind.OBJECT) {
+            val argumentSource = annotation.findArgumentByName(metadataProviderArgName)?.source
+            reporter.reportOn(
+                argumentSource ?: declaration.source,
+                RouteBindingDiagnostics.METADATA_PROVIDER_MUST_BE_OBJECT,
+                metadataProviderClassId.shortClassName.asString(),
+            )
+        }
+    }
 }
 
 private val routeArgName = Name.identifier("route")
+private val metadataProviderArgName = Name.identifier("metadataProvider")
 
 private enum class SupportedParamType(val displayName: String) {
     SharedTransitionScope("SharedTransitionScope"),

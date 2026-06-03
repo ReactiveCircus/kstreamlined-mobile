@@ -9,6 +9,7 @@ class NavBackStack<T : NavKey>
 
 class EntryProviderScope<T : Any> {
     var recordedRouteType: KClass<*>? = null
+    val recordedMetadata: MutableMap<String, Any> = mutableMapOf()
 
     // not called by generated code
     fun <K : T> EntryProviderScope<T>.entry(
@@ -25,5 +26,6 @@ class EntryProviderScope<T : Any> {
         noinline content: @Composable (K) -> Unit,
     ) {
         recordedRouteType = K::class
+        recordedMetadata.putAll(metadata)
     }
 }

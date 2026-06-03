@@ -5,6 +5,7 @@ kstreamlined {
 
         dependencies {
             implementation(project(":feature:feed-selection:api"))
+            implementation(project(":core:route-metadata"))
             implementation(project(":kmp:presentation:feed-selection"))
             implementation(project(":kmp:feed-model"))
         }
