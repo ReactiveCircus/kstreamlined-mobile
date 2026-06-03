@@ -43,6 +43,12 @@ public class BoxTestGenerated extends AbstractBoxTest {
   }
 
   @Test
+  @TestMetadata("MetadataProvider.kt")
+  public void testMetadataProvider() {
+    run("MetadataProvider.kt");
+  }
+
+  @Test
   @TestMetadata("MultipleBindingsInMultipleCompilations.kt")
   public void testMultipleBindingsInMultipleCompilations() {
     run("MultipleBindingsInMultipleCompilations.kt");

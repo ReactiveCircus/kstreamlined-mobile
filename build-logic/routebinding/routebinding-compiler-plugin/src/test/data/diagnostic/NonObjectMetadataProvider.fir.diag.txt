@@ -1,0 +1,3 @@
+/NonObjectMetadataProvider.kt:(408,436): error: `ClassMetadataProvider` is not an object declaration. `metadataProvider` must be an `object` implementing `RouteMetadataProvider`.
+
+/NonObjectMetadataProvider.kt:(530,558): error: `RouteMetadataProvider` is not an object declaration. `metadataProvider` must be an `object` implementing `RouteMetadataProvider`.

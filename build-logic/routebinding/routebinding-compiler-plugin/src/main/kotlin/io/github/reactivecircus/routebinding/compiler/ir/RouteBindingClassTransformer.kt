@@ -16,6 +16,7 @@ import org.jetbrains.kotlin.ir.builders.irCall
 import org.jetbrains.kotlin.ir.builders.irCallWithSubstitutedType
 import org.jetbrains.kotlin.ir.builders.irDelegatingConstructorCall
 import org.jetbrains.kotlin.ir.builders.irGet
+import org.jetbrains.kotlin.ir.builders.irGetObject
 import org.jetbrains.kotlin.ir.declarations.IrClass
 import org.jetbrains.kotlin.ir.declarations.IrDeclarationOrigin
 import org.jetbrains.kotlin.ir.declarations.IrFunction
@@ -87,11 +88,15 @@ internal class RouteBindingClassTransformer(
         sourceFunction: IrFunction,
         installFunction: IrFunction,
     ) {
-        val routeKClass = sourceFunction.getAnnotation(
-            ClassIds.RouteBinding.Annotation.asSingleFqName(),
-        ).arguments.first() as IrClassReference
+        val annotation = sourceFunction.getAnnotation(ClassIds.RouteBinding.Annotation.asSingleFqName())
+        val routeKClass = annotation.arguments.first() as IrClassReference
         val routeType = routeKClass.symbol.defaultType
         val entryFunction = nav3Symbols.entryFunction
+
+        val metadataProviderKClass = annotation.arguments.getOrNull(1) as? IrClassReference
+        val metadataProviderClass = metadataProviderKClass?.symbol?.owner as? IrClass
+        val hasMetadataProvider = metadataProviderClass != null &&
+            metadataProviderClass.classId != ClassIds.RouteBinding.EmptyMetadataProvider
 
         +irCallWithSubstitutedType(entryFunction, listOf(routeType)).apply {
             val entryProviderScopeParam = installFunction.parameters.first {
@@ -100,6 +105,20 @@ internal class RouteBindingClassTransformer(
             dispatchReceiver = irGet(entryProviderScopeParam)
 
             val entryFunctionParams = entryFunction.owner.parameters
+
+            // pass metadata to entry function if a metadataProvider is specified
+            if (hasMetadataProvider) {
+                val provideFunction = metadataProviderClass.functions.first {
+                    it.name == Name.identifier("provide")
+                }
+                val metadataParamIndex = entryFunctionParams.indexOfFirst {
+                    it.name == Name.identifier("metadata")
+                }
+                arguments[metadataParamIndex] = irCall(provideFunction).apply {
+                    dispatchReceiver = irGetObject(metadataProviderClass.symbol)
+                }
+            }
+
             val contentParamType = entryFunctionParams.last().type
             val lambdaFunctionType = IrTypeSubstitutor(
                 typeParameters = entryFunction.owner.typeParameters.map { it.symbol },

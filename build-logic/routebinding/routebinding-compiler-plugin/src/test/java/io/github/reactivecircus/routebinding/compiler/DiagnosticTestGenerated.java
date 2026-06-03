@@ -37,6 +37,12 @@ public class DiagnosticTestGenerated extends AbstractDiagnosticTest {
   }
 
   @Test
+  @TestMetadata("NonObjectMetadataProvider.kt")
+  public void testNonObjectMetadataProvider() {
+    run("NonObjectMetadataProvider.kt");
+  }
+
+  @Test
   @TestMetadata("NonTopLevelFunction.kt")
   public void testNonTopLevelFunction() {
     run("NonTopLevelFunction.kt");

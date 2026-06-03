@@ -22,16 +22,19 @@ import androidx.tracing.trace
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.ModalBottomSheet
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.rememberModalBottomSheetState
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.preview.PreviewKStreamlined
+import io.github.reactivecircus.kstreamlined.android.core.routemetadata.BottomSheetMetadataProvider
+import io.github.reactivecircus.kstreamlined.android.feature.feedselection.api.FeedSelectionRoute
 import io.github.reactivecircus.kstreamlined.android.feature.feedselection.impl.component.FeedOriginCard
 import io.github.reactivecircus.kstreamlined.kmp.capsule.inject.retainPresenter
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedOrigin
 import io.github.reactivecircus.kstreamlined.kmp.presentation.feedselection.FeedSelectionPresenter
 import io.github.reactivecircus.kstreamlined.kmp.presentation.feedselection.FeedSelectionUiEvent
 import io.github.reactivecircus.kstreamlined.kmp.presentation.feedselection.FeedSelectionUiState
+import io.github.reactivecircus.routebinding.runtime.RouteBinding
 
-// TODO revert to internal once RouteBinding supports metadata
+@RouteBinding(FeedSelectionRoute::class, BottomSheetMetadataProvider::class)
 @Composable
-public fun FeedSelectionBottomSheet(): Unit = trace("Screen:FeedSelection") {
+internal fun FeedSelectionBottomSheet(): Unit = trace("Screen:FeedSelection") {
     val presenter = retainPresenter<FeedSelectionPresenter>()
     val uiState by presenter.states.collectAsState()
     val eventSink = presenter.eventSink

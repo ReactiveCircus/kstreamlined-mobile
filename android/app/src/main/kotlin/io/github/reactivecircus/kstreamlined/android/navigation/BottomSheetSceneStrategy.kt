@@ -5,21 +5,20 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.rememberLifecycleOwner
 import androidx.navigation3.runtime.NavEntry
-import androidx.navigation3.runtime.NavMetadataKey
 import androidx.navigation3.runtime.get
-import androidx.navigation3.runtime.metadata
 import androidx.navigation3.scene.OverlayScene
 import androidx.navigation3.scene.Scene
 import androidx.navigation3.scene.SceneStrategy
 import androidx.navigation3.scene.SceneStrategyScope
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.ModalBottomSheet
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.rememberModalBottomSheetState
+import io.github.reactivecircus.kstreamlined.android.core.routemetadata.BottomSheetMetadataKey
 
 class BottomSheetSceneStrategy<T : Any> : SceneStrategy<T> {
 
     override fun SceneStrategyScope<T>.calculateScene(entries: List<NavEntry<T>>): Scene<T>? {
         val lastEntry = entries.lastOrNull() ?: return null
-        lastEntry.metadata[BottomSheetKey] ?: return null
+        lastEntry.metadata[BottomSheetMetadataKey] ?: return null
         @Suppress("UNCHECKED_CAST")
         return BottomSheetScene(
             key = lastEntry.contentKey as T,
@@ -28,14 +27,6 @@ class BottomSheetSceneStrategy<T : Any> : SceneStrategy<T> {
             entry = lastEntry,
             onBack = onBack,
         )
-    }
-
-    companion object {
-        fun bottomSheet() = metadata {
-            put(BottomSheetKey, Unit)
-        }
-
-        object BottomSheetKey : NavMetadataKey<Unit>
     }
 }
 
