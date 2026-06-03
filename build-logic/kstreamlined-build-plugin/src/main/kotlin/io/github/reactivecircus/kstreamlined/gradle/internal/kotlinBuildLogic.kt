@@ -24,7 +24,10 @@ internal fun KotlinBaseExtension.configureKotlin(
                 "kotlin.experimental.ExperimentalObjCName",
             )
             freeCompilerArgs.addAll(
+                "-Xcollection-literals",
                 "-Xconsistent-data-class-copy-visibility",
+                "-Xexplicit-context-arguments",
+                "-Xintrinsic-const-evaluation",
                 "-Xname-based-destructuring=complete",
             )
         }
