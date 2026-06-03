@@ -82,7 +82,57 @@ Supported optional parameter types:
 - A subtype of `NavKey` — the route for this screen (must match the `val route: KClass<out NavKey>` type in the `@RouteBinding` declaration)
 - Any parameter with a default value is also allowed
 
-### 2. Collect installers via Metro
+### 2. Optional - configure provider for Nav3 metadata
+
+RouteBinding supports the Nav3 entry metadata via the `metadataProvider` parameter of the `@RouteBinding` annotation.
+
+First provide an implementation of the `RouteMetadataProvider` interface as an `object` in a module that can be accessed from the feature modules:
+
+```kt
+object BottomSheetMetadataProvider : RouteMetadataProvider {
+    override fun provide(): Map<String, Any> = metadata { put(BottomSheetMetadataKey, Unit) }
+}
+
+data object BottomSheetMetadataKey : NavMetadataKey<Unit>
+```
+
+This module needs to depend on the runtime library explicitly, if it doesn't (need to) apply the RouteBinding Gradle plugin:
+
+```kt
+dependencies {
+    implementation("io.github.reactivecircus.routebinding:routebinding-runtime")
+}
+```
+
+Then reference the provider object from the `@RouteBinding` annotation:
+
+```kt
+@RouteBinding(SettingsRoute::class, metadataProvider = BottomSheetMetadataProvider::class)
+@Composable
+internal fun SettingsBottomSheet() { ... }
+```
+
+The generated `NavEntryInstaller` will pass the metadata to Nav3's `entry` function:
+
+```kt
+entryProviderScope.entry<FeedSelectionRoute>(metadata = BottomSheetMetadataProvider.provide()) {
+    FeedSelectionBottomSheet()
+}
+```
+
+Finally the metadata key (`BottomSheetMetadataKey` above) used by the `RouteMetadataProvider` can be used when implementing any custom Nav3 `SceneStrategy`:
+
+```kt
+class BottomSheetSceneStrategy<T : Any> : SceneStrategy<T> {
+    override fun SceneStrategyScope<T>.calculateScene(entries: List<NavEntry<T>>): Scene<T>? {
+        val lastEntry = entries.lastOrNull() ?: return null
+        lastEntry.metadata[BottomSheetMetadataKey] ?: return null
+        ...
+    }
+}
+```
+
+### 3. Collect installers via Metro
 
 In the app module, expose the contributed set of `NavEntryInstaller` from the dependency graph:
 
@@ -93,7 +143,7 @@ interface AppGraph {
 }
 ```
 
-### 3. Install entries with Nav3
+### 4. Install entries with Nav3
 
 Use the collected installers to wire up the navigation graph using Nav3's `entryProvider`:
 
