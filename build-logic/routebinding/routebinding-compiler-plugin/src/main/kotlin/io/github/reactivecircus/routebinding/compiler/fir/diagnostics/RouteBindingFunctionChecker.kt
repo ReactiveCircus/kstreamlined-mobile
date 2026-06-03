@@ -209,7 +209,6 @@ internal object RouteBindingFunctionChecker : FirSimpleFunctionChecker(MppChecke
         val annotation = declaration.getAnnotationByClassId(ClassIds.RouteBinding.Annotation, session) ?: return
         val metadataProviderType = annotation.getKClassArgument(metadataProviderArgName) ?: return
         val metadataProviderClassId = metadataProviderType.classId ?: return
-        if (metadataProviderClassId == ClassIds.RouteBinding.EmptyMetadataProvider) return
 
         val classSymbol = session.symbolProvider.getClassLikeSymbolByClassId(metadataProviderClassId)
             as? FirRegularClassSymbol ?: return

@@ -11,7 +11,7 @@ public interface RouteMetadataProvider {
 }
 
 /**
- * Default no-op [RouteMetadataProvider] that won't be consumed in the generated [NavEntryInstaller].
+ * Default [RouteMetadataProvider] that returns an empty map.
  */
 internal object EmptyMetadataProvider : RouteMetadataProvider {
     override fun provide(): Map<String, Any> = emptyMap()

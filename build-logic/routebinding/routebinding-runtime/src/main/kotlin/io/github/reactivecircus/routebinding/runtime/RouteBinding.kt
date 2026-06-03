@@ -12,7 +12,7 @@ import kotlin.reflect.KClass
  * @param route the [NavKey] this Composable function binds to.
  * @param metadataProvider reference to an object that implements [RouteMetadataProvider] to
  * provide Nav3 metadata for this navigation entry. Defaults to [EmptyMetadataProvider] which
- * won't be consumed in the generated [NavEntryInstaller].
+ * returns an empty map.
  */
 @Target(AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.SOURCE)
