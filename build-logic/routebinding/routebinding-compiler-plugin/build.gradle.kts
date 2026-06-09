@@ -53,8 +53,13 @@ dependencies {
 kotlin {
     compilerOptions {
         jvmTarget = JvmTarget.JVM_21
-        optIn.add("org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi")
-        optIn.add("org.jetbrains.kotlin.ir.symbols.UnsafeDuringIrConstructionAPI")
+        optIn.addAll(
+            "org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi",
+            "org.jetbrains.kotlin.ir.symbols.UnsafeDuringIrConstructionAPI",
+        )
+        freeCompilerArgs.addAll(
+            "-Xcontext-parameters", // TODO remove once AS migrates to IJ 2026.1.3
+        )
     }
     explicitApi()
 }
@@ -65,6 +70,7 @@ java {
 }
 
 tasks.register<JavaExec>("generateTests") {
+    description = "Generates compiler tests from test data files in src/test/data."
     inputs
         .dir(layout.projectDirectory.dir("src/test/data"))
         .withPropertyName("testData")

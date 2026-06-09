@@ -6,7 +6,7 @@ import org.gradle.api.tasks.compile.JavaCompile
 import org.jetbrains.kotlin.gradle.dsl.JvmDefaultMode
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinBaseExtension
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
+import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
 /**
@@ -16,20 +16,19 @@ internal fun KotlinBaseExtension.configureKotlin(
     target: Project,
     enableExplicitApi: Boolean = true,
 ) {
-    target.tasks.withType(KotlinCompilationTask::class.java).configureEach {
-        it.compilerOptions {
+    if (this is KotlinMultiplatformExtension) {
+        compilerOptions {
             progressiveMode.set(true)
-            optIn.addAll(
-                "kotlin.time.ExperimentalTime",
-                "kotlin.experimental.ExperimentalObjCName",
-            )
-            freeCompilerArgs.addAll(
-                "-Xcollection-literals",
-                "-Xconsistent-data-class-copy-visibility",
-                "-Xexplicit-context-arguments",
-                "-Xintrinsic-const-evaluation",
-                "-Xname-based-destructuring=complete",
-            )
+            optIn.addAll(OptIns)
+            freeCompilerArgs.addAll(FreeCompilerArgs)
+        }
+    } else {
+        target.tasks.withType(KotlinJvmCompile::class.java).configureEach {
+            it.compilerOptions {
+                progressiveMode.set(true)
+                optIn.addAll(OptIns)
+                freeCompilerArgs.addAll(FreeCompilerArgs)
+            }
         }
     }
     target.configureJvmCompatibility()
@@ -37,6 +36,21 @@ internal fun KotlinBaseExtension.configureKotlin(
         explicitApi()
     }
 }
+
+private val OptIns = listOf(
+    "kotlin.time.ExperimentalTime",
+    "kotlin.experimental.ExperimentalObjCName",
+)
+
+private val FreeCompilerArgs = listOf(
+    "-Xcollection-literals",
+    "-Xcontext-parameters", // TODO remove once AS migrates to IJ 2026.1.3
+    "-Xconsistent-data-class-copy-visibility",
+    "-Xexplicit-backing-fields", // TODO remove once AS migrates to IJ 2026.1.4
+    "-Xexplicit-context-arguments",
+    "-Xintrinsic-const-evaluation",
+    "-Xname-based-destructuring=complete",
+)
 
 private fun Project.configureJvmCompatibility() {
     tasks.withType(KotlinJvmCompile::class.java).configureEach {
