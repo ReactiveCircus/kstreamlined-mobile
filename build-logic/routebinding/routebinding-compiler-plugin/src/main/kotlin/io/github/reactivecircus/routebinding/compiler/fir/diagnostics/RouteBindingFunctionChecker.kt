@@ -111,7 +111,7 @@ internal object RouteBindingFunctionChecker : FirNamedFunctionChecker(MppChecker
         }
     }
 
-    context(_: CheckerContext, reporter: DiagnosticReporter)
+    context(context: CheckerContext, reporter: DiagnosticReporter)
     private fun checkContextParameter(
         param: FirValueParameter,
         functionName: String,
@@ -147,7 +147,7 @@ internal object RouteBindingFunctionChecker : FirNamedFunctionChecker(MppChecker
         }
     }
 
-    context(_: CheckerContext, reporter: DiagnosticReporter)
+    context(context: CheckerContext, reporter: DiagnosticReporter)
     private fun checkValueParameter(
         param: FirValueParameter,
         functionName: String,
@@ -184,7 +184,7 @@ internal object RouteBindingFunctionChecker : FirNamedFunctionChecker(MppChecker
         }
     }
 
-    context(_: CheckerContext, reporter: DiagnosticReporter)
+    context(context: CheckerContext, reporter: DiagnosticReporter)
     private fun checkRouteTypeMismatch(
         source: KtSourceElement?,
         paramType: ConeKotlinType,
