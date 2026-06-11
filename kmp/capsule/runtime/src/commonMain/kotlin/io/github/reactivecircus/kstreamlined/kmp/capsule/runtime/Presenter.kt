@@ -5,7 +5,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.retain.RetainObserver
 import app.cash.molecule.launchMolecule
 import dev.zacsweers.metro.DefaultBinding
-import dev.zacsweers.metro.ExperimentalMetroApi
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
@@ -13,7 +12,6 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMetroApi::class)
 @DefaultBinding<Presenter<*, *>>
 public abstract class Presenter<UiEvent : Any, UiState : Any>(
     moleculeContext: MoleculeContext,

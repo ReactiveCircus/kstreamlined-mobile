@@ -2,7 +2,6 @@ package io.github.reactivecircus.kstreamlined.gradle.internal
 
 import com.android.build.api.variant.ApplicationAndroidComponentsExtension
 import dev.zacsweers.metro.gradle.DelicateMetroGradleApi
-import dev.zacsweers.metro.gradle.ExperimentalMetroGradleApi
 import dev.zacsweers.metro.gradle.MetroPluginExtension
 import org.gradle.api.DefaultTask
 import org.gradle.api.Project
@@ -19,7 +18,7 @@ import java.util.Locale
 /**
  * Apply and configure Metro plugin.
  */
-@OptIn(DelicateMetroGradleApi::class, ExperimentalMetroGradleApi::class)
+@OptIn(DelicateMetroGradleApi::class)
 internal fun Project.configureMetro() {
     pluginManager.apply("dev.zacsweers.metro")
     extensions.configure(MetroPluginExtension::class.java) {
