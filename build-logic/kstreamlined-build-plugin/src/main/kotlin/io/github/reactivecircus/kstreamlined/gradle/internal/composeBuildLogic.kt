@@ -27,6 +27,7 @@ internal fun Project.configureCompose(
         // only enable compose compiler for relevant target platforms
         it.targetKotlinPlatforms.set(
             buildSet {
+                add(KotlinPlatformType.common)
                 if (jvmTargetEnabled) add(KotlinPlatformType.jvm)
                 if (androidTargetEnabled) add(KotlinPlatformType.androidJvm)
                 if (iosTargetEnabled) add(KotlinPlatformType.native)
