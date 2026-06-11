@@ -14,7 +14,6 @@ import isGeneratingBaselineProfile
 import isRunningBenchmark
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
-import java.io.File
 
 /**
  * Apply baseline configurations on an Android Application project.
@@ -91,9 +90,7 @@ internal fun KotlinMultiplatformAndroidLibraryExtension.configureKmpAndroidLibra
         animationsDisabled = !(project.isGeneratingBaselineProfile || project.isRunningBenchmark)
     }
 
-    lint {
-        configureLintOptions(project)
-    }
+    lint.configureLintOptions()
 
     packaging {
         configurePackagingOptions()
@@ -145,16 +142,14 @@ private fun CommonExtension.configureCommonAndroidExtension(project: Project) {
         targetCompatibility = JavaVersion.VERSION_21
     }
 
-    lint.configureLintOptions(project)
+    lint.configureLintOptions()
 
     packaging.configurePackagingOptions()
 }
 
-private fun Lint.configureLintOptions(project: Project) {
+private fun Lint.configureLintOptions() {
     quiet = false
     ignoreWarnings = false
-    htmlOutput = File("${project.layout.buildDirectory.get()}/reports/lint/lint-reports.html")
-    xmlOutput = File("${project.layout.buildDirectory.get()}/reports/lint/lint-reports.xml")
     ignoreTestSources = true
 }
 
