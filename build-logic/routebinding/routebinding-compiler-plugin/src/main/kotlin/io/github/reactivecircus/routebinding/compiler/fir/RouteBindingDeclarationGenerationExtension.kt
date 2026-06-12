@@ -1,6 +1,7 @@
 package io.github.reactivecircus.routebinding.compiler.fir
 
 import dev.zacsweers.metro.compiler.MetroOptions
+import dev.zacsweers.metro.compiler.api.fir.MetroContributionHintExtension
 import dev.zacsweers.metro.compiler.api.fir.MetroFirDeclarationGenerationExtension
 import dev.zacsweers.metro.compiler.compat.CompatContext
 import io.github.reactivecircus.routebinding.compiler.ClassIds
@@ -43,7 +44,7 @@ import org.jetbrains.kotlin.types.ConstantValueKind
 
 internal class RouteBindingDeclarationGenerationExtension(
     session: FirSession,
-) : MetroFirDeclarationGenerationExtension(session) {
+) : MetroFirDeclarationGenerationExtension(session), MetroContributionHintExtension {
     private val hasRouteBindingAnnotation = LookupPredicate.BuilderContext.annotated(
         ClassIds.RouteBinding.Annotation.asSingleFqName(),
     )
@@ -64,9 +65,9 @@ internal class RouteBindingDeclarationGenerationExtension(
         register(hasRouteBindingAnnotation)
     }
 
-    override fun getContributionHints(): List<ContributionHint> {
+    override fun getContributionHints(): List<MetroContributionHintExtension.ContributionHint> {
         return navEntryInstallerClassIds.map { classId ->
-            ContributionHint(
+            MetroContributionHintExtension.ContributionHint(
                 contributingClassId = classId,
                 scope = ClassIds.Metro.AppScope,
             )
