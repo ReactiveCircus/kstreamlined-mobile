@@ -48,7 +48,10 @@ tasks.withType<Detekt>().configureEach {
 
 dependencies {
     // enable Ktlint formatting
-    detektPlugins(libs.plugin.detektKtlintWrapper)
+    detektPlugins(libs.plugin.detektKtlintWrapper) {
+        // TODO remove after upgrading to detekt 2.0.0-alpha.5+ (https://github.com/detekt/detekt/issues/9390)
+        exclude(group = "dev.detekt", module = "ktlint-repackage")
+    }
 
     api(libs.androidx.navigation3.runtime)
     api(libs.androidx.compose.animation)

@@ -16,6 +16,11 @@ internal fun Project.configureDetekt() {
     // enable Ktlint formatting
     dependencies.add("detektPlugins", libs.plugin.detektKtlintWrapper)
 
+    // TODO remove after upgrading to detekt 2.0.0-alpha.5+ (https://github.com/detekt/detekt/issues/9390)
+    configurations.named("detektPlugins") {
+        it.exclude(mapOf("group" to "dev.detekt", "module" to "ktlint-repackage"))
+    }
+
     plugins.withType(DetektPlugin::class.java).configureEach {
         extensions.configure(DetektExtension::class.java) {
             it.source.setFrom(file("src/"))
