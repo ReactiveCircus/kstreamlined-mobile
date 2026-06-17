@@ -39,12 +39,6 @@ dependencyResolutionManagement {
                 includeGroupByRegex("com.google.*")
             }
         }
-        // TODO after upgrading to detekt 2.0.0-alpha.5+ (https://github.com/detekt/detekt/issues/9396)
-        maven("https://repo.gradle.org/gradle/libs-releases/") {
-            content {
-                includeGroup("org.gradle.experimental")
-            }
-        }
         mavenCentral()
     }
 
