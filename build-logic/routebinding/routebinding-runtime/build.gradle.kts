@@ -18,9 +18,6 @@ if (sharedProps.exists()) {
 kotlin {
     compilerOptions {
         jvmTarget = JvmTarget.JVM_17
-        freeCompilerArgs.addAll(
-            "-Xcontext-parameters", // TODO remove once AS migrates to IJ 2026.1.3
-        )
     }
     explicitApi()
 }

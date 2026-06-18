@@ -53,9 +53,6 @@ kotlin {
             "org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi",
             "org.jetbrains.kotlin.ir.symbols.UnsafeDuringIrConstructionAPI",
         )
-        freeCompilerArgs.addAll(
-            "-Xcontext-parameters", // TODO remove once AS migrates to IJ 2026.1.3
-        )
     }
     explicitApi()
 }

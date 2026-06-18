@@ -44,7 +44,6 @@ private val OptIns = listOf(
 
 private val FreeCompilerArgs = listOf(
     "-Xcollection-literals",
-    "-Xcontext-parameters", // TODO remove once AS migrates to IJ 2026.1.3
     "-Xconsistent-data-class-copy-visibility",
     "-Xexplicit-backing-fields", // TODO remove once AS migrates to IJ 2026.1.4
     "-Xexplicit-context-arguments",
