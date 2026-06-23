@@ -7,7 +7,7 @@ runs:
     - name: "Restore tcmalloc"
       if: runner.os == 'Linux'
       id: cache-tcmalloc
-      uses: actions/cache/restore@v5
+      uses: actions/cache/restore@v6
       with:
         path: /tmp/libtcmalloc_minimal.so.4
         key: v7-${{ runner.os }}-tcmalloc
@@ -33,7 +33,7 @@ runs:
         cp /usr/lib/x86_64-linux-gnu/libtcmalloc_minimal.so.4 /tmp/
 
     - name: "Save tcmalloc"
-      uses: actions/cache/save@v5
+      uses: actions/cache/save@v6
       if: ${{ runner.os == 'Linux' && steps.cache-tcmalloc.outputs.cache-hit != 'true' }}
       with:
         path: /tmp/libtcmalloc_minimal.so.4
