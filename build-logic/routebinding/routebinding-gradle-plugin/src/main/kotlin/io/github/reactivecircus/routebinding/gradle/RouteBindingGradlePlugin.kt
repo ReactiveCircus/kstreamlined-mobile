@@ -53,4 +53,5 @@ public class RouteBindingGradlePlugin : KotlinCompilerPluginSupportPlugin {
 }
 
 private const val RouteBindingCompilerPluginId = "io.github.reactivecircus.routebinding.compiler"
+private const val MetroCompilerPluginId = "dev.zacsweers.metro.compiler"
 private const val ComposeCompilerPluginId = "androidx.compose.compiler.plugins.kotlin"

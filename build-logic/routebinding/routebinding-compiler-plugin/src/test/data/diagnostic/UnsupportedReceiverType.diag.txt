@@ -1,0 +1,4 @@
+/UnsupportedReceiverType.kt:6:14: error: Extension receiver of `@RouteBinding` function `UnsupportedReceiverScreen` has unsupported type `String`. Supported types are:
+ • `SharedTransitionScope`
+ • `NavBackStack<NavKey>`
+ • subtype of `NavKey`
