@@ -17,11 +17,8 @@ public class RouteBindingGradlePlugin : KotlinCompilerPluginSupportPlugin {
 
     override fun applyToCompilation(kotlinCompilation: KotlinCompilation<*>): Provider<List<SubpluginOption>> {
         kotlinCompilation.compileTaskProvider.configure {
-            it.compilerOptions.freeCompilerArgs.addAll(
-                listOf(
-                    "-Xcompiler-plugin-order=$RouteBindingCompilerPluginId>$MetroCompilerPluginId",
-                    "-Xcompiler-plugin-order=$RouteBindingCompilerPluginId>$ComposeCompilerPluginId",
-                ),
+            it.compilerOptions.freeCompilerArgs.add(
+                "-Xcompiler-plugin-order=$RouteBindingCompilerPluginId>$ComposeCompilerPluginId",
             )
         }
         val project = kotlinCompilation.target.project
