@@ -8,6 +8,7 @@ import org.jetbrains.kotlin.cli.jvm.config.addJvmClasspathRoots
 import org.jetbrains.kotlin.compiler.plugin.CompilerPluginRegistrar
 import org.jetbrains.kotlin.config.CommonConfigurationKeys
 import org.jetbrains.kotlin.config.CompilerConfiguration
+import org.jetbrains.kotlin.config.MessageCollectorAccess
 import org.jetbrains.kotlin.fir.extensions.FirExtensionRegistrarAdapter
 import org.jetbrains.kotlin.name.ClassId
 import org.jetbrains.kotlin.test.builders.TestConfigurationBuilder
@@ -40,15 +41,13 @@ private class ChameleonExtensionRegistrarConfigurator(
 
         FirExtensionRegistrarAdapter.registerExtension(ChameleonFirExtensionRegistrar)
 
+        @OptIn(MessageCollectorAccess::class)
         IrGenerationExtension.registerExtension(
             ChameleonIrGenerationExtension(
                 chameleonAnnotationId = ClassIds.Chameleon.Annotation,
                 snapshotFunctionId = snapshotFunctionString.toMemberCallableId(),
                 themeVariantEnumId = ClassId.fromString(themeVariantEnumString),
-                messageCollector = configuration.get(
-                    CommonConfigurationKeys.MESSAGE_COLLECTOR_KEY,
-                    MessageCollector.NONE,
-                ),
+                messageCollector = configuration[CommonConfigurationKeys.MESSAGE_COLLECTOR_KEY, MessageCollector.NONE],
             ),
         )
     }

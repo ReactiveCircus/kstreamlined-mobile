@@ -32,7 +32,7 @@ FILE: /FooScreen_NavEntryInstaller.kt
         }
 
     }
-FILE: metro/hints/fooScreen_NavEntryInstallerAppScope.kt
+FILE: metro/hints/fooScreen_NavEntryInstallerDev_zacsweers_metro_AppScope.kt
     package metro.hints
 
-    @R|kotlin/Deprecated|(message = String(This synthesized declaration should not be used directly), level = Q|kotlin/DeprecationLevel|.R|kotlin/DeprecationLevel.HIDDEN|) public final fun AppScope(contributed: R|FooScreen_NavEntryInstaller|): R|kotlin/Unit|
+    @R|kotlin/Deprecated|(message = String(This synthesized declaration should not be used directly), level = Q|kotlin/DeprecationLevel|.R|kotlin/DeprecationLevel.HIDDEN|) public final fun dev_zacsweers_metro_AppScope(contributed: R|FooScreen_NavEntryInstaller|): R|kotlin/Unit|

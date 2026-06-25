@@ -1,1 +1,0 @@
-/RedundantBurstAnnotation.kt:(174,180): error: `@Burst` annotation is redundant on classes annotated with `@Chameleon`.

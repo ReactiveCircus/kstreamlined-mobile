@@ -17,6 +17,11 @@ pluginManagement {
             }
         }
         mavenCentral()
+        maven("https://central.sonatype.com/repository/maven-snapshots/") {
+            content {
+                includeGroup("dev.zacsweers.metro")
+            }
+        }
     }
 
     fun extractVersionFromCatalog(key: String) = file("$rootDir/gradle/libs.versions.toml")
@@ -46,6 +51,11 @@ dependencyResolutionManagement {
             }
         }
         mavenCentral()
+        maven("https://central.sonatype.com/repository/maven-snapshots/") {
+            content {
+                includeGroup("dev.zacsweers.metro")
+            }
+        }
     }
 }
 

@@ -2,6 +2,7 @@ package io.github.reactivecircus.kstreamlined.gradle.internal
 
 import com.android.build.api.variant.ApplicationAndroidComponentsExtension
 import dev.zacsweers.metro.gradle.DelicateMetroGradleApi
+import dev.zacsweers.metro.gradle.ExperimentalMetroGradleApi
 import dev.zacsweers.metro.gradle.MetroPluginExtension
 import org.gradle.api.DefaultTask
 import org.gradle.api.Project
@@ -23,6 +24,8 @@ internal fun Project.configureMetro() {
     pluginManager.apply("dev.zacsweers.metro")
     extensions.configure(MetroPluginExtension::class.java) {
         it.generateContributionProviders.set(true)
+        @OptIn(ExperimentalMetroGradleApi::class)
+        it.generateClassesInIr.set(false) // TODO re-enable once supported by RouteBinding
         if (providers.gradleProperty("enableMetroCompilerReports").orNull == "true") {
             it.reportsDestination.set(layout.buildDirectory.dir("metro_reports"))
         }

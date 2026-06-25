@@ -56,7 +56,9 @@ class FooScreen_NavEntryInstaller : NavEntryInstaller {
       @Binds
       @IntoSet
       @CallableMetadata(callableName = "bindIntoSetAsNavEntryInstaller", propertyName = "", startOffset = -1, endOffset = -1)
-      abstract fun bindIntoSetAsNavEntryInstaller_intoset(instance: FooScreen_NavEntryInstaller): NavEntryInstaller
+      fun bindIntoSetAsNavEntryInstaller_intoset(instance: FooScreen_NavEntryInstaller): NavEntryInstaller {
+        return error(message = "Never called")
+      }
 
     }
 
@@ -83,21 +85,21 @@ class FooScreen_NavEntryInstaller : NavEntryInstaller {
 
 }
 
-// FILE: WithParamWithDefaultValue.kt
+// FILE: Standard.kt
 
 @RouteBinding(route = DummyRoute::class)
 @Composable
-internal fun SharedTransitionScope.FooScreen(backStack: NavBackStack<NavKey>, route: DummyRoute, title: String = "Title") {
+internal fun SharedTransitionScope.FooScreen(backStack: NavBackStack<NavKey>, route: DummyRoute) {
 }
 
 fun box(): String {
   return "OK"
 }
 
-// FILE: fooScreen_NavEntryInstallerAppScope.kt
+// FILE: fooScreen_NavEntryInstallerDev_zacsweers_metro_AppScope.kt
 package metro.hints
 
 @Deprecated(message = "This synthesized declaration should not be used directly", level = DeprecationLevel.HIDDEN)
-fun AppScope(contributed: FooScreen_NavEntryInstaller) {
+fun dev_zacsweers_metro_AppScope(contributed: FooScreen_NavEntryInstaller) {
   return error(message = "Never called")
 }

@@ -56,7 +56,9 @@ class FooScreen_NavEntryInstaller : NavEntryInstaller {
       @Binds
       @IntoSet
       @CallableMetadata(callableName = "bindIntoSetAsNavEntryInstaller", propertyName = "", startOffset = -1, endOffset = -1)
-      abstract fun bindIntoSetAsNavEntryInstaller_intoset(instance: FooScreen_NavEntryInstaller): NavEntryInstaller
+      fun bindIntoSetAsNavEntryInstaller_intoset(instance: FooScreen_NavEntryInstaller): NavEntryInstaller {
+        return error(message = "Never called")
+      }
 
     }
 
@@ -75,29 +77,42 @@ class FooScreen_NavEntryInstaller : NavEntryInstaller {
 
   context(<unused var>: EntryProviderScope<NavKey>, <unused var>: SharedTransitionScope)
   override fun install(backStack: NavBackStack<NavKey>) {
-    <unused var>.entry<DummyRoute>(content = local fun <anonymous>(it: DummyRoute) {
-      FooScreen(route = it)
+    <unused var>.entry<DummyRoute>(metadata = DummyMetadataProvider.provide(), content = local fun <anonymous>(it: DummyRoute) {
+      FooScreen(/* <this> = <unused var>, */ backStack = backStack, route = it)
     }
 )
   }
 
 }
 
-// FILE: WithRouteParamOnly.kt
+// FILE: WithMetadataProvider.kt
 
-@RouteBinding(route = DummyRoute::class)
+object DummyMetadataProvider : RouteMetadataProvider {
+  private constructor() /* primary */ {
+    super/*Any*/()
+    /* <init>() */
+
+  }
+
+  override fun provide(): Map<String, Any> {
+    return mapOf<String, String>(pair = to<String, String>(/* <this> = "key", */ that = "value"))
+  }
+
+}
+
+@RouteBinding(route = DummyRoute::class, metadataProvider = DummyMetadataProvider::class)
 @Composable
-internal fun FooScreen(route: DummyRoute) {
+internal fun SharedTransitionScope.FooScreen(backStack: NavBackStack<NavKey>, route: DummyRoute) {
 }
 
 fun box(): String {
   return "OK"
 }
 
-// FILE: fooScreen_NavEntryInstallerAppScope.kt
+// FILE: fooScreen_NavEntryInstallerDev_zacsweers_metro_AppScope.kt
 package metro.hints
 
 @Deprecated(message = "This synthesized declaration should not be used directly", level = DeprecationLevel.HIDDEN)
-fun AppScope(contributed: FooScreen_NavEntryInstaller) {
+fun dev_zacsweers_metro_AppScope(contributed: FooScreen_NavEntryInstaller) {
   return error(message = "Never called")
 }

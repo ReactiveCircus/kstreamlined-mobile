@@ -15,6 +15,11 @@ pluginManagement {
             }
         }
         mavenCentral()
+        maven("https://central.sonatype.com/repository/maven-snapshots/") {
+            content {
+                includeGroup("dev.zacsweers.metro")
+            }
+        }
     }
 
     val gradleToolchainsResolverVersion = file("../gradle/libs.versions.toml")
@@ -40,6 +45,11 @@ dependencyResolutionManagement {
             }
         }
         mavenCentral()
+        maven("https://central.sonatype.com/repository/maven-snapshots/") {
+            content {
+                includeGroup("dev.zacsweers.metro")
+            }
+        }
     }
 
     versionCatalogs {
