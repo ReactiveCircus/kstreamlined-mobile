@@ -42,17 +42,12 @@ private class RouteBindingExtensionRegistrarConfigurator(
 
         // configure and register Metro compiler plugin
         metroCliProcessor.processOption(
-            option = metroCliOptionByName("generate-contribution-hints-in-fir"),
-            value = "true",
-            configuration = configuration,
-        )
-        metroCliProcessor.processOption(
-            option = metroCliOptionByName("contributes-as-inject"),
-            value = "true",
-            configuration = configuration,
-        )
-        metroCliProcessor.processOption(
             option = metroCliOptionByName("generate-contribution-providers"),
+            value = "true",
+            configuration = configuration,
+        )
+        metroCliProcessor.processOption(
+            option = metroCliOptionByName("generate-classes-in-ir"),
             value = "true",
             configuration = configuration,
         )

@@ -1,10 +1,34 @@
-// FILE: FooScreen_NavEntryInstaller.kt
+// FILE: Standard.kt
 
-@Deprecated(message = "This synthesized declaration should not be used directly", level = DeprecationLevel.HIDDEN)
 @ContributesIntoSet(scope = AppScope::class)
 class FooScreen_NavEntryInstaller : NavEntryInstaller {
   @Deprecated(message = "This synthesized declaration should not be used directly", level = DeprecationLevel.HIDDEN)
-  object MetroFactory : Factory<FooScreen_NavEntryInstaller> {
+  class MetroFactory : Factory<FooScreen_NavEntryInstaller> {
+    @Deprecated(message = "This synthesized declaration should not be used directly", level = DeprecationLevel.HIDDEN)
+    companion object Companion {
+      private constructor() /* primary */ {
+        super/*Any*/()
+        /* <init>() */
+
+      }
+
+      @HiddenFromObjC
+      @JvmStatic
+      @JsStatic
+      fun create(): MetroFactory {
+        return MetroFactory()
+      }
+
+      @HiddenFromObjC
+      @JvmStatic
+      @JsStatic
+      fun newInstance(): FooScreen_NavEntryInstaller {
+        return FooScreen_NavEntryInstaller()
+      }
+
+    }
+
+    @HiddenFromObjC
     private constructor() /* primary */ {
       super/*Any*/()
       /* <init>() */
@@ -12,22 +36,8 @@ class FooScreen_NavEntryInstaller : NavEntryInstaller {
     }
 
     @HiddenFromObjC
-    @JvmStatic
-    @JsStatic
-    fun create(): MetroFactory {
-      return MetroFactory
-    }
-
-    @HiddenFromObjC
-    @JvmStatic
-    @JsStatic
-    fun newInstance(): FooScreen_NavEntryInstaller {
-      return FooScreen_NavEntryInstaller()
-    }
-
-    @HiddenFromObjC
     override operator fun invoke(): FooScreen_NavEntryInstaller {
-      return MetroFactory.newInstance()
+      return Companion.newInstance()
     }
 
     @ComptimeOnly
@@ -41,18 +51,12 @@ class FooScreen_NavEntryInstaller : NavEntryInstaller {
   @Deprecated(message = "This synthesized declaration should not be used directly", level = DeprecationLevel.HIDDEN)
   @MetroContribution(scope = AppScope::class)
   @BindingContainer
-  @Origin(value = FooScreen_NavEntryInstaller::class)
+  @Origin(value = FooScreen_NavEntryInstaller::class, context = "contribution_provider")
   @ComptimeOnly
   interface MetroContributionToDevzacsweersmetroappScopeocf15 {
     @Deprecated(message = "This synthesized declaration should not be used directly", level = DeprecationLevel.HIDDEN)
     @ComptimeOnly
     abstract class BindsMirror {
-      private constructor() /* primary */ {
-        super/*Any*/()
-        /* <init>() */
-
-      }
-
       @Binds
       @IntoSet
       @CallableMetadata(callableName = "bindIntoSetAsNavEntryInstaller", propertyName = "", startOffset = -1, endOffset = -1)
@@ -71,21 +75,21 @@ class FooScreen_NavEntryInstaller : NavEntryInstaller {
 
   }
 
-  constructor() /* primary */ {
+  private constructor() /* primary */ {
     super/*Any*/()
+    /* <init>() */
+
   }
 
-  context(<unused var>: EntryProviderScope<NavKey>, <unused var>: SharedTransitionScope)
+  context(entryProviderScope: EntryProviderScope<NavKey>, sharedTransitionScope: SharedTransitionScope)
   override fun install(backStack: NavBackStack<NavKey>) {
-    <unused var>.entry<DummyRoute>(content = local fun <anonymous>(it: DummyRoute) {
-      FooScreen(/* <this> = <unused var>, */ backStack = backStack, route = it)
+    entryProviderScope.entry<DummyRoute>(content = local fun <anonymous>(it: DummyRoute) {
+      FooScreen(/* <this> = sharedTransitionScope, */ backStack = backStack, route = it)
     }
 )
   }
 
 }
-
-// FILE: Standard.kt
 
 @RouteBinding(route = DummyRoute::class)
 @Composable
@@ -99,7 +103,6 @@ fun box(): String {
 // FILE: fooScreen_NavEntryInstallerDev_zacsweers_metro_AppScope.kt
 package metro.hints
 
-@Deprecated(message = "This synthesized declaration should not be used directly", level = DeprecationLevel.HIDDEN)
 fun dev_zacsweers_metro_AppScope(contributed: FooScreen_NavEntryInstaller) {
   return error(message = "Never called")
 }

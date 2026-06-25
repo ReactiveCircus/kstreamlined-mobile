@@ -25,7 +25,6 @@ internal fun Project.configureMetro() {
     extensions.configure(MetroPluginExtension::class.java) {
         it.generateContributionProviders.set(true)
         @OptIn(ExperimentalMetroGradleApi::class)
-        it.generateClassesInIr.set(false) // TODO re-enable once supported by RouteBinding
         if (providers.gradleProperty("enableMetroCompilerReports").orNull == "true") {
             it.reportsDestination.set(layout.buildDirectory.dir("metro_reports"))
         }
