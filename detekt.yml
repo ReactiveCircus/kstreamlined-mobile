@@ -9,8 +9,6 @@ complexity:
 ktlint:
   BackingPropertyNaming:
     active: false
-  ChainMethodContinuation:
-    active: false
   ClassSignature:
     active: false
   Filename:
@@ -23,12 +21,8 @@ ktlint:
     active: false
   MixedConditionOperators:
     active: false
-  MultilineExpressionWrapping:
-    active: false
   PropertyName:
     constantNamingStyle: 'pascal_case'
-  StringTemplateIndent:
-    active: false
 
 naming:
   FunctionNaming:
