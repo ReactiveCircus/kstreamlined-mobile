@@ -6,9 +6,6 @@ internal object ClassIds {
     object RouteBinding {
         val Annotation = ClassId.fromString("io/github/reactivecircus/routebinding/runtime/RouteBinding")
         val NavEntryInstaller = ClassId.fromString("io/github/reactivecircus/routebinding/runtime/NavEntryInstaller")
-        val RouteMetadataProvider = ClassId.fromString(
-            "io/github/reactivecircus/routebinding/runtime/RouteMetadataProvider",
-        )
     }
 
     object Compose {
