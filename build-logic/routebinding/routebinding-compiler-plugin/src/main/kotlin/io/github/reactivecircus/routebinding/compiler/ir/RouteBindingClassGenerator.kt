@@ -102,7 +102,6 @@ internal class RouteBindingClassGenerator(
             type = annotationType,
             constructorSymbol = contributesIntoSetCtor,
         ).apply {
-            // ContributesIntoSet(scope = AppScope::class, ...); remaining params have defaults.
             arguments[0] = IrClassReferenceImpl(
                 startOffset = UNDEFINED_OFFSET,
                 endOffset = UNDEFINED_OFFSET,

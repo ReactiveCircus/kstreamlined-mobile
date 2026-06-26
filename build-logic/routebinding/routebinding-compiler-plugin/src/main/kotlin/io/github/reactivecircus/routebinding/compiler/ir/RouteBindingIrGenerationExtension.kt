@@ -15,40 +15,38 @@ internal class RouteBindingIrGenerationExtension(
     private val messageCollector: MessageCollector,
 ) : IrGenerationExtension {
     override fun generate(moduleFragment: IrModuleFragment, pluginContext: IrPluginContext) {
+        val generator by lazy {
+            val metroSymbols = MetroSymbols.create(
+                pluginContext,
+                messageCollector,
+                contributesIntoSetClassId = ClassIds.Metro.ContributesIntoSet,
+                appScopeClassId = ClassIds.Metro.AppScope,
+            )
+            val nav3Symbols = Nav3Symbols.create(
+                pluginContext,
+                messageCollector,
+                entryProviderScopeClassId = ClassIds.Nav3.EntryProviderScope,
+            )
+            val routeBindingSymbols = RouteBindingSymbols.create(
+                pluginContext,
+                messageCollector,
+                navEntryInstallerClassId = ClassIds.RouteBinding.NavEntryInstaller,
+            )
+            if (metroSymbols == null || nav3Symbols == null || routeBindingSymbols == null) return@lazy null
+            RouteBindingClassGenerator(
+                pluginContext,
+                metroSymbols,
+                nav3Symbols,
+                routeBindingSymbols,
+            )
+        }
+
         moduleFragment.files
             .flatMap { it.declarations }
             .filterIsInstance<IrSimpleFunction>()
             .filter { it.hasAnnotation(ClassIds.RouteBinding.Annotation) }
-            .let { routeBindingFunctions ->
-                if (routeBindingFunctions.isEmpty()) return
-                val metroSymbols = MetroSymbols.create(
-                    pluginContext,
-                    messageCollector,
-                    contributesIntoSetClassId = ClassIds.Metro.ContributesIntoSet,
-                    appScopeClassId = ClassIds.Metro.AppScope,
-                )
-                val nav3Symbols = Nav3Symbols.create(
-                    pluginContext,
-                    messageCollector,
-                    entryProviderScopeClassId = ClassIds.Nav3.EntryProviderScope,
-                )
-                val routeBindingSymbols = RouteBindingSymbols.create(
-                    pluginContext,
-                    messageCollector,
-                    navEntryInstallerClassId = ClassIds.RouteBinding.NavEntryInstaller,
-                )
-                if (metroSymbols == null || nav3Symbols == null || routeBindingSymbols == null) return
-
-                // Generate the NavEntryInstaller class for each `@RouteBinding`-annotated source function.
-                val generator = RouteBindingClassGenerator(
-                    pluginContext,
-                    metroSymbols,
-                    nav3Symbols,
-                    routeBindingSymbols,
-                )
-                for (sourceFunction in routeBindingFunctions) {
-                    generator.generate(sourceFunction)
-                }
+            .forEach { sourceFunction ->
+                generator?.generate(sourceFunction)
             }
     }
 }
