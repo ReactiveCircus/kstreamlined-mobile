@@ -15,12 +15,6 @@ pluginManagement {
             }
         }
         mavenCentral()
-        // TODO remove once upgraded to Metro 1.3.0.
-        maven("https://central.sonatype.com/repository/maven-snapshots/") {
-            content {
-                includeGroup("dev.zacsweers.metro")
-            }
-        }
     }
 
     val gradleToolchainsResolverVersion = file("../gradle/libs.versions.toml")
@@ -46,12 +40,6 @@ dependencyResolutionManagement {
             }
         }
         mavenCentral()
-        // TODO remove once upgraded to Metro 1.3.0.
-        maven("https://central.sonatype.com/repository/maven-snapshots/") {
-            content {
-                includeGroup("dev.zacsweers.metro")
-            }
-        }
     }
 
     versionCatalogs {
