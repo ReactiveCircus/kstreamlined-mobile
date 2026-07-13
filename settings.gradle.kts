@@ -164,3 +164,18 @@ android {
         }
     }
 }
+
+buildCache {
+    remote<HttpBuildCache> {
+        val buildCacheUrl = providers.gradleProperty(("KS_REMOTE_BUILD_CACHE_URL"))
+        isEnabled = buildCacheUrl.isPresent
+        if (buildCacheUrl.isPresent) {
+            url = uri(buildCacheUrl.get())
+            credentials {
+                username = providers.gradleProperty("KS_REMOTE_BUILD_CACHE_USERNAME").orNull
+                password = providers.gradleProperty("KS_REMOTE_BUILD_CACHE_PASSWORD").orNull
+            }
+            isPush = System.getenv("CI") == "true" && System.getenv("GITHUB_REF") == "refs/heads/main"
+        }
+    }
+}
