@@ -167,15 +167,18 @@ android {
 
 buildCache {
     remote<HttpBuildCache> {
-        val buildCacheUrl = providers.gradleProperty(("KS_REMOTE_BUILD_CACHE_URL"))
+        val buildCacheUrl = envOrProp(("KS_REMOTE_BUILD_CACHE_URL"))
         isEnabled = buildCacheUrl.isPresent
         if (buildCacheUrl.isPresent) {
             url = uri(buildCacheUrl.get())
             credentials {
-                username = providers.gradleProperty("KS_REMOTE_BUILD_CACHE_USERNAME").orNull
-                password = providers.gradleProperty("KS_REMOTE_BUILD_CACHE_PASSWORD").orNull
+                username = envOrProp("KS_REMOTE_BUILD_CACHE_USERNAME").orNull
+                password = envOrProp("KS_REMOTE_BUILD_CACHE_PASSWORD").orNull
             }
             isPush = System.getenv("CI") == "true" && System.getenv("GITHUB_REF") == "refs/heads/main"
         }
     }
 }
+
+private fun Settings.envOrProp(name: String): Provider<String> =
+    providers.environmentVariable(name).orElse(providers.gradleProperty(name).orElse(""))
