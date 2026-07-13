@@ -19,6 +19,9 @@ on:
 env:
   GRADLE_OPTS: -Dorg.gradle.jvmargs="-Xms4g -Xmx4g -XX:MetaspaceSize=1g -XX:SoftRefLRUPolicyMSPerMB=1 -XX:+UseParallelGC -XX:+HeapDumpOnOutOfMemoryError -XX:+UnlockExperimentalVMOptions"
   TERM: dumb
+  KS_REMOTE_BUILD_CACHE_URL: ${{ secrets.KS_REMOTE_BUILD_CACHE_URL }}
+  KS_REMOTE_BUILD_CACHE_USERNAME: ${{ secrets.KS_REMOTE_BUILD_CACHE_USERNAME }}
+  KS_REMOTE_BUILD_CACHE_PASSWORD: ${{ secrets.KS_REMOTE_BUILD_CACHE_PASSWORD }}
 
 jobs:
   assemble:

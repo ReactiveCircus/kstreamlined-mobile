@@ -181,4 +181,4 @@ buildCache {
 }
 
 private fun Settings.envOrProp(name: String): Provider<String> =
-    providers.environmentVariable(name).orElse(providers.gradleProperty(name).orElse(""))
+    providers.environmentVariable(name).orElse(providers.gradleProperty(name))
