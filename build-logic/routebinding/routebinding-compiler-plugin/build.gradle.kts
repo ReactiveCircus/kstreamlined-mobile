@@ -36,6 +36,7 @@ dependencies {
     metroRuntimeClasspath(libs.metro.runtime)
     composeRuntimeClasspath(libs.androidx.compose.runtime)
 
+    testImplementation(libs.kotlinx.coroutines.core)
     testImplementation(libs.metro.compiler)
     testImplementation(libs.composeCompiler)
     testImplementation(kotlin("test-junit5"))
