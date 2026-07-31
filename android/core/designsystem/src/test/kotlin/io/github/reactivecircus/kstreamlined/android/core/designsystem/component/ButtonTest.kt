@@ -16,6 +16,11 @@ class ButtonTest {
     @Test
     fun snapshot_Button() {
         snapshotTester.snapshot {
+            val config = Config(
+                content = {},
+            )
+            config.content // this throws NoSuchMethodError when `Config` comes from a separate compilation.
+
             Button(
                 text = "Button",
                 onClick = {},
