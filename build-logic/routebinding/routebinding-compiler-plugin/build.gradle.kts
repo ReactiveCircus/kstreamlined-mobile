@@ -31,6 +31,7 @@ dependencies {
 
     compileOnly(kotlin("compiler"))
     compileOnly(kotlin("stdlib"))
+    compileOnly(libs.metro.compiler)
 
     routeBindingRuntimeClasspath(project(":routebinding:routebinding-runtime"))
     metroRuntimeClasspath(libs.metro.runtime)
