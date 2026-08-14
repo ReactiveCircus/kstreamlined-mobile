@@ -7,19 +7,17 @@ import dev.zacsweers.metro.gradle.MetroPluginExtension
 import org.gradle.api.DefaultTask
 import org.gradle.api.Project
 import org.gradle.api.artifacts.component.ProjectComponentIdentifier
+import org.gradle.api.artifacts.type.ArtifactTypeDefinition
 import org.gradle.api.file.ConfigurableFileCollection
 import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.provider.MapProperty
-import org.gradle.api.provider.SetProperty
-import org.gradle.api.tasks.IgnoreEmptyDirectories
+import org.gradle.api.tasks.Classpath
 import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.InputFiles
 import org.gradle.api.tasks.OutputFile
-import org.gradle.api.tasks.PathSensitive
-import org.gradle.api.tasks.PathSensitivity
 import org.gradle.api.tasks.TaskAction
 import java.io.File
 import java.util.Locale
+import java.util.zip.ZipFile
 
 /**
  * Apply and configure Metro plugin.
@@ -53,38 +51,39 @@ internal fun ApplicationAndroidComponentsExtension.configureMetroContributionVer
         val projectName = project.displayName
         task.description = "Verifies all Metro contribution hints are on the compile classpath of $projectName."
         task.group = "verification"
-        task.dependsOn("compile${variantName.capitalizeFirstChar()}Kotlin")
 
-        task.compileClasspathProjectPaths.set(
-            compileClasspath.map { config ->
-                config.incoming.resolutionResult.allComponents
-                    .mapNotNull { (it.id as? ProjectComponentIdentifier)?.projectPath }
-                    .toSet()
-            },
-        )
-
-        val rootDir = project.rootDir
-        val runtimeOnlyProjectBuildDirs = project.provider {
-            val compilePaths = compileClasspath.get().incoming.resolutionResult.allComponents
+        val compileClasspathProjectPaths = compileClasspath.map { config ->
+            config.incoming.resolutionResult.allComponents
                 .mapNotNull { (it.id as? ProjectComponentIdentifier)?.projectPath }
                 .toSet()
-
-            runtimeClasspath.get().incoming.resolutionResult.allComponents
-                .mapNotNull { it.id as? ProjectComponentIdentifier }
-                .filter { it.projectPath !in compilePaths }
-                .associate { id ->
-                    id.projectPath to buildDirForProjectPath(rootDir, id.projectPath)
-                }
         }
-        task.runtimeOnlyProjectBuildDirs.set(runtimeOnlyProjectBuildDirs)
-        task.runtimeOnlyMetroHintFiles.from(
-            project.files(
-                runtimeOnlyProjectBuildDirs.map { buildDirs ->
-                    buildDirs.values.map { buildDir -> File(buildDir, "classes") }
-                },
-            )
-                .asFileTree
-                .matching { it.include("**/metro/hints/**") },
+        val runtimeClassJars = runtimeClasspath.map { config ->
+            config.incoming.artifactView { view ->
+                view.attributes.attribute(
+                    ArtifactTypeDefinition.ARTIFACT_TYPE_ATTRIBUTE,
+                    "android-classes-jar",
+                )
+                view.componentFilter { it is ProjectComponentIdentifier }
+            }
+        }
+        val runtimeProjectArtifacts = runtimeClassJars.flatMap { view ->
+            view.artifacts.resolvedArtifacts
+        }
+
+        task.runtimeOnlyProjectArtifacts.set(
+            compileClasspathProjectPaths.zip(runtimeProjectArtifacts) { compilePaths, runtimeArtifacts ->
+                runtimeArtifacts
+                    .mapNotNull { artifact ->
+                        val id = artifact.id.componentIdentifier as? ProjectComponentIdentifier
+                            ?: return@mapNotNull null
+                        if (id.projectPath in compilePaths) return@mapNotNull null
+                        id.projectPath to artifact.file.absolutePath
+                    }
+                    .toMap()
+            },
+        )
+        task.runtimeProjectClassJars.from(
+            runtimeClassJars.map { it.files },
         )
 
         task.reportFile.set(
@@ -93,15 +92,6 @@ internal fun ApplicationAndroidComponentsExtension.configureMetroContributionVer
     }
 
     project.tasks.named("check").configure { it.dependsOn(taskName) }
-}
-
-private fun buildDirForProjectPath(rootDir: File, projectPath: String): String {
-    val relativePath = projectPath.removePrefix(":").replace(":", "/")
-    val defaultBuildDir = File(rootDir, "$relativePath/build")
-    if (defaultBuildDir.isDirectory) return defaultBuildDir.absolutePath
-    val androidBuildDir = File(rootDir, "android/$relativePath/build")
-    if (androidBuildDir.isDirectory) return androidBuildDir.absolutePath
-    return defaultBuildDir.absolutePath
 }
 
 private fun String.capitalizeFirstChar(): String =
@@ -118,32 +108,24 @@ private fun String.capitalizeFirstChar(): String =
  */
 private abstract class VerifyMetroContributionsTask : DefaultTask() {
     /**
-     * Project paths that are on the compileClasspath.
+     * Runtime-only project paths and their resolved Android runtime artifacts.
      */
     @get:Input
-    abstract val compileClasspathProjectPaths: SetProperty<String>
+    abstract val runtimeOnlyProjectArtifacts: MapProperty<String, String>
 
     /**
-     * Build directory paths of projects that are on the runtimeClasspath but NOT the compileClasspath.
+     * Resolved project runtime artifacts, carrying their producing task dependencies.
      */
-    @get:Input
-    abstract val runtimeOnlyProjectBuildDirs: MapProperty<String, String>
-
-    /**
-     * Metro hint files generated by runtime-only projects.
-     */
-    @get:InputFiles
-    @get:IgnoreEmptyDirectories
-    @get:PathSensitive(PathSensitivity.RELATIVE)
-    abstract val runtimeOnlyMetroHintFiles: ConfigurableFileCollection
+    @get:Classpath
+    abstract val runtimeProjectClassJars: ConfigurableFileCollection
 
     @get:OutputFile
     abstract val reportFile: RegularFileProperty
 
     @TaskAction
     fun execute() {
-        val missingProjects = runtimeOnlyProjectBuildDirs.get()
-            .filter { (_, buildDir) -> containsMetroHints(File(buildDir, "classes")) }
+        val missingProjects = runtimeOnlyProjectArtifacts.get()
+            .filter { (_, artifactPath) -> containsMetroHints(File(artifactPath)) }
             .keys
             .sorted()
 
@@ -176,17 +158,11 @@ private abstract class VerifyMetroContributionsTask : DefaultTask() {
     }
 
     /**
-     * Check if a project's classes output contains Metro contribution hints.
-     * Scans `classes/kotlin/{target}/{compilation}/metro/hints/` directories.
+     * Check if a resolved project artifact contains Metro contribution hints.
      */
-    private fun containsMetroHints(classesDir: File): Boolean {
-        if (!classesDir.isDirectory) return false
-        return classesDir.walk()
-            .any {
-                it.isDirectory &&
-                    it.name == "hints" &&
-                    it.parentFile?.name == "metro" &&
-                    it.listFiles()?.isNotEmpty() == true
-            }
-    }
+    private fun containsMetroHints(artifactJar: File): Boolean =
+        ZipFile(artifactJar).use { zip ->
+            zip.entries().asSequence()
+                .any { !it.isDirectory && it.name.startsWith("metro/hints/") }
+        }
 }
