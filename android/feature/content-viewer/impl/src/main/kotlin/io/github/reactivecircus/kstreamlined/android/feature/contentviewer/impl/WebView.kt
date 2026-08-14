@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
@@ -26,7 +27,6 @@ import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.mapSaver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
@@ -162,33 +162,32 @@ internal fun WebView(
             }
         }
 
-        LaunchedEffect(wv, state) {
-            snapshotFlow { state.content }.collect { content ->
-                when (content) {
-                    is WebContent.Url -> {
-                        wv.loadUrl(content.url, content.additionalHttpHeaders)
-                    }
+        val content = state.content
+        SideEffect(wv, content) {
+            when (content) {
+                is WebContent.Url -> {
+                    wv.loadUrl(content.url, content.additionalHttpHeaders)
+                }
 
-                    is WebContent.Data -> {
-                        wv.loadDataWithBaseURL(
-                            content.baseUrl,
-                            content.data,
-                            content.mimeType,
-                            content.encoding,
-                            content.historyUrl,
-                        )
-                    }
+                is WebContent.Data -> {
+                    wv.loadDataWithBaseURL(
+                        content.baseUrl,
+                        content.data,
+                        content.mimeType,
+                        content.encoding,
+                        content.historyUrl,
+                    )
+                }
 
-                    is WebContent.Post -> {
-                        wv.postUrl(
-                            content.url,
-                            content.postData,
-                        )
-                    }
+                is WebContent.Post -> {
+                    wv.postUrl(
+                        content.url,
+                        content.postData,
+                    )
+                }
 
-                    is WebContent.NavigatorOnly -> {
-                        // NO-OP
-                    }
+                is WebContent.NavigatorOnly -> {
+                    // NO-OP
                 }
             }
         }

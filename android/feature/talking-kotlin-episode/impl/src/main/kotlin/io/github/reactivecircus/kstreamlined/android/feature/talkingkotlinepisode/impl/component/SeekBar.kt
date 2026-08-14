@@ -68,7 +68,7 @@ internal fun SeekBar(
 
     var activeTrackWidthPx by remember { mutableFloatStateOf(0f) }
 
-    SideEffect(positionMillis, durationMillis) {
+    SideEffect(positionMillis, durationMillis, seeking) {
         if (!seeking && durationMillis > 0) {
             currentPositionMillis = positionMillis
         }

@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
@@ -76,10 +77,17 @@ internal fun PodcastPlayer(
         }
     }
 
-    // sync player state with UI
-    LaunchedEffect(isPlaying) {
+    SideEffect(player, isPlaying) {
         if (isPlaying) {
             player.play()
+        } else {
+            player.pause()
+        }
+    }
+
+    // sync player position with UI while playing
+    if (isPlaying) {
+        LaunchedEffect(player) {
             flow {
                 while (true) {
                     delay(PlaybackSyncInterval.milliseconds)
@@ -89,8 +97,6 @@ internal fun PodcastPlayer(
                 playerPositionMillis = player.currentPosition.toInt()
                 playerDurationMillis = player.duration.toInt()
             }
-        } else {
-            player.pause()
         }
     }
 

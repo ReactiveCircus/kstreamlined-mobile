@@ -99,7 +99,7 @@ private val AppSettings.Theme.isDarkEffectively: Boolean
 private fun ComponentActivity.NavigationBarStyleEffect(theme: AppSettings.Theme) {
     val navigationBarColor = KSTheme.colorScheme.background.toArgb()
     val isDarkEffectively = theme.isDarkEffectively
-    SideEffect(theme, isDarkEffectively) {
+    SideEffect(theme, isDarkEffectively, navigationBarColor) {
         if (isDarkEffectively) {
             enableEdgeToEdge(
                 statusBarStyle = SystemBarStyle.dark(Color.TRANSPARENT),
