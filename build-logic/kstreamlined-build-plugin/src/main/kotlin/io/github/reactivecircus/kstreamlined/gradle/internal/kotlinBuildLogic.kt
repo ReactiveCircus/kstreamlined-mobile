@@ -56,6 +56,7 @@ private fun computeFreeCompilerArgs() = buildList {
     )
     // TODO remove once supported by AS
     if (project.isInIdeaSync) {
+        add("-Xcontext-parameters")
         add("-Xexplicit-backing-fields")
     }
 }
