@@ -4,8 +4,8 @@ import org.gradle.api.provider.Provider
 public val Project.isCiBuild: Boolean
     get() = providers.environmentVariable("CI").orNull == "true"
 
-public val Project.isIdeBuild: Boolean
-    get() = providers.systemProperty("idea.active").orNull == "true"
+public val Project.isInIdeaSync: Boolean
+    get() = providers.systemProperty("idea.sync.active").orNull == "true"
 
 public val Project.isGeneratingBaselineProfile: Boolean
     get() = gradle.startParameter.taskNames.any {

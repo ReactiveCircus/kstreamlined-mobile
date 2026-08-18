@@ -5,7 +5,7 @@ import com.android.build.api.variant.ApplicationAndroidComponentsExtension
 import com.android.build.api.variant.HasUnitTestBuilder
 import com.android.build.api.variant.LibraryAndroidComponentsExtension
 import io.github.reactivecircus.chameleon.gradle.ChameleonExtension
-import isIdeBuild
+import isInIdeaSync
 import org.gradle.api.Project
 import org.gradle.api.tasks.testing.Test
 
@@ -50,7 +50,7 @@ internal fun Project.configureScreenshotTest() {
 
     dependencies.add("testImplementation", project(":core:screenshot-testing:tester"))
 
-    if (runningCheck || runningPaparazzi || isIdeBuild) {
+    if (runningCheck || runningPaparazzi || isInIdeaSync) {
         pluginManager.withPlugin("com.android.library") {
             extensions.configure(LibraryAndroidComponentsExtension::class.java) {
                 it.beforeVariants { variantBuilder ->

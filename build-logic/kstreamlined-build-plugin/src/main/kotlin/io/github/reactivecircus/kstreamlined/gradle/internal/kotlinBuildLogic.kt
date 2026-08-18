@@ -1,5 +1,6 @@
 package io.github.reactivecircus.kstreamlined.gradle.internal
 
+import isInIdeaSync
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.api.tasks.compile.JavaCompile
@@ -20,14 +21,14 @@ internal fun KotlinBaseExtension.configureKotlin(
         compilerOptions {
             progressiveMode.set(true)
             optIn.addAll(OptIns)
-            freeCompilerArgs.addAll(FreeCompilerArgs)
+            freeCompilerArgs.addAll(target.computeFreeCompilerArgs())
         }
     } else {
         target.tasks.withType(KotlinJvmCompile::class.java).configureEach {
             it.compilerOptions {
                 progressiveMode.set(true)
                 optIn.addAll(OptIns)
-                freeCompilerArgs.addAll(FreeCompilerArgs)
+                freeCompilerArgs.addAll(target.computeFreeCompilerArgs())
             }
         }
     }
@@ -42,14 +43,21 @@ private val OptIns = listOf(
     "kotlin.experimental.ExperimentalObjCName",
 )
 
-private val FreeCompilerArgs = listOf(
-    "-Xcollection-literals",
-    "-Xconsistent-data-class-copy-visibility",
-    "-Xexplicit-backing-fields", // TODO remove once AS migrates to IJ 2026.1.4
-    "-Xexplicit-context-arguments",
-    "-Xintrinsic-const-evaluation",
-    "-Xname-based-destructuring=complete",
-)
+private fun Project.computeFreeCompilerArgs() = buildList {
+    addAll(
+        listOf(
+            "-Xcollection-literals",
+            "-Xconsistent-data-class-copy-visibility",
+            "-Xexplicit-context-arguments",
+            "-Xintrinsic-const-evaluation",
+            "-Xname-based-destructuring=complete",
+        ),
+    )
+    // TODO remove once supported by AS
+    if (isInIdeaSync) {
+        add("-Xexplicit-backing-fields")
+    }
+}
 
 private fun Project.configureJvmCompatibility() {
     tasks.withType(KotlinJvmCompile::class.java).configureEach {
