@@ -38,61 +38,61 @@ internal fun Project.configureMetro() {
  * Register a verification task on the application's devDebug variant that verifies all project dependencies
  * containing Metro contribution hints are on the compileClasspath (not just runtime).
  */
-internal fun ApplicationAndroidComponentsExtension.configureMetroContributionVerification(
-    project: Project,
-) = onVariants(selector().withName("devDebug")) { variant ->
-    val variantName = variant.name
-    val taskName = "verifyMetroContributions${variantName.capitalizeFirstChar()}"
+context(project: Project)
+internal fun ApplicationAndroidComponentsExtension.configureMetroContributionVerification() =
+    onVariants(selector().withName("devDebug")) { variant ->
+        val variantName = variant.name
+        val taskName = "verifyMetroContributions${variantName.capitalizeFirstChar()}"
 
-    val compileClasspath = project.configurations.named("${variantName}CompileClasspath")
-    val runtimeClasspath = project.configurations.named("${variantName}RuntimeClasspath")
+        val compileClasspath = project.configurations.named("${variantName}CompileClasspath")
+        val runtimeClasspath = project.configurations.named("${variantName}RuntimeClasspath")
 
-    project.tasks.register(taskName, VerifyMetroContributionsTask::class.java) { task ->
-        val projectName = project.displayName
-        task.description = "Verifies all Metro contribution hints are on the compile classpath of $projectName."
-        task.group = "verification"
+        project.tasks.register(taskName, VerifyMetroContributionsTask::class.java) { task ->
+            val projectName = project.displayName
+            task.description = "Verifies all Metro contribution hints are on the compile classpath of $projectName."
+            task.group = "verification"
 
-        val compileClasspathProjectPaths = compileClasspath.map { config ->
-            config.incoming.resolutionResult.allComponents
-                .mapNotNull { (it.id as? ProjectComponentIdentifier)?.projectPath }
-                .toSet()
-        }
-        val runtimeClassJars = runtimeClasspath.map { config ->
-            config.incoming.artifactView { view ->
-                view.attributes.attribute(
-                    ArtifactTypeDefinition.ARTIFACT_TYPE_ATTRIBUTE,
-                    "android-classes-jar",
-                )
-                view.componentFilter { it is ProjectComponentIdentifier }
+            val compileClasspathProjectPaths = compileClasspath.map { config ->
+                config.incoming.resolutionResult.allComponents
+                    .mapNotNull { (it.id as? ProjectComponentIdentifier)?.projectPath }
+                    .toSet()
             }
-        }
-        val runtimeProjectArtifacts = runtimeClassJars.flatMap { view ->
-            view.artifacts.resolvedArtifacts
+            val runtimeClassJars = runtimeClasspath.map { config ->
+                config.incoming.artifactView { view ->
+                    view.attributes.attribute(
+                        ArtifactTypeDefinition.ARTIFACT_TYPE_ATTRIBUTE,
+                        "android-classes-jar",
+                    )
+                    view.componentFilter { it is ProjectComponentIdentifier }
+                }
+            }
+            val runtimeProjectArtifacts = runtimeClassJars.flatMap { view ->
+                view.artifacts.resolvedArtifacts
+            }
+
+            task.runtimeOnlyProjectArtifacts.set(
+                compileClasspathProjectPaths.zip(runtimeProjectArtifacts) { compilePaths, runtimeArtifacts ->
+                    runtimeArtifacts
+                        .mapNotNull { artifact ->
+                            val id = artifact.id.componentIdentifier as? ProjectComponentIdentifier
+                                ?: return@mapNotNull null
+                            if (id.projectPath in compilePaths) return@mapNotNull null
+                            id.projectPath to artifact.file.absolutePath
+                        }
+                        .toMap()
+                },
+            )
+            task.runtimeProjectClassJars.from(
+                runtimeClassJars.map { it.files },
+            )
+
+            task.reportFile.set(
+                project.layout.buildDirectory.file("reports/metro-contributions-verification-$variantName.txt"),
+            )
         }
 
-        task.runtimeOnlyProjectArtifacts.set(
-            compileClasspathProjectPaths.zip(runtimeProjectArtifacts) { compilePaths, runtimeArtifacts ->
-                runtimeArtifacts
-                    .mapNotNull { artifact ->
-                        val id = artifact.id.componentIdentifier as? ProjectComponentIdentifier
-                            ?: return@mapNotNull null
-                        if (id.projectPath in compilePaths) return@mapNotNull null
-                        id.projectPath to artifact.file.absolutePath
-                    }
-                    .toMap()
-            },
-        )
-        task.runtimeProjectClassJars.from(
-            runtimeClassJars.map { it.files },
-        )
-
-        task.reportFile.set(
-            project.layout.buildDirectory.file("reports/metro-contributions-verification-$variantName.txt"),
-        )
+        project.tasks.named("check").configure { it.dependsOn(taskName) }
     }
-
-    project.tasks.named("check").configure { it.dependsOn(taskName) }
-}
 
 private fun String.capitalizeFirstChar(): String =
     replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.US) else it.toString() }

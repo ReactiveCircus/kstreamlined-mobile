@@ -253,7 +253,6 @@ internal abstract class KmpLibraryExtensionImpl @Inject constructor(
 
             extensions.configure(KotlinMultiplatformExtension::class.java) { extension ->
                 extension.configureKmpTargets(
-                    project = this,
                     config = KmpTargetsConfig(
                         jvmTargetEnabled = jvmEnabled,
                         androidTargetEnabled = androidEnabled,
@@ -262,7 +261,7 @@ internal abstract class KmpLibraryExtensionImpl @Inject constructor(
                         androidHostTestsEnabled = this@KmpLibraryExtensionImpl.androidHostTestsEnabled,
                     ),
                 )
-                extension.configureKotlin(this)
+                extension.configureKotlin()
 
                 this@KmpLibraryExtensionImpl.configureDependencies(extension)
             }
@@ -290,7 +289,7 @@ internal abstract class KmpLibraryExtensionImpl @Inject constructor(
             if (this@KmpLibraryExtensionImpl.unitTestsEnabled) {
                 configurePowerAssert()
                 extensions.configure(KotlinMultiplatformExtension::class.java) {
-                    it.configureKmpTest(project)
+                    it.configureKmpTest()
                 }
             }
 

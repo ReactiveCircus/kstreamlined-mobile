@@ -18,8 +18,8 @@ import org.gradle.api.Project
 /**
  * Apply baseline configurations on an Android Application project.
  */
+context(project: Project)
 internal fun ApplicationExtension.configureAndroidApplicationExtension(
-    project: Project,
     namespace: String,
     applicationId: String,
 ) {
@@ -32,41 +32,41 @@ internal fun ApplicationExtension.configureAndroidApplicationExtension(
         @Suppress("UnstableApiUsage")
         localeFilters += "en"
     }
-    configureCommonAndroidExtension(project)
+    configureCommonAndroidExtension()
 }
 
 /**
  * Apply baseline configurations on an Android Library project.
  */
+context(project: Project)
 internal fun LibraryExtension.configureAndroidLibraryExtension(
-    project: Project,
     namespace: String,
     enableAndroidResources: Boolean,
 ) {
     this.namespace = namespace
     this.androidResources.enable = enableAndroidResources
-    configureCommonAndroidExtension(project)
+    configureCommonAndroidExtension()
 }
 
 /**
  * Apply baseline configurations on an Android Test project.
  */
+context(project: Project)
 internal fun TestExtension.configureAndroidTestExtension(
-    project: Project,
     namespace: String,
 ) {
     this.namespace = namespace
     defaultConfig {
         targetSdk = AndroidSdk.TargetSdk
     }
-    configureCommonAndroidExtension(project)
+    configureCommonAndroidExtension()
 }
 
 /**
  * Apply baseline configurations on an KMP Android Library project.
  */
+context(project: Project)
 internal fun KotlinMultiplatformAndroidLibraryExtension.configureKmpAndroidLibraryExtension(
-    project: Project,
     namespace: String? = null,
     hostTestsEnabled: Boolean = false,
 ) {
@@ -112,8 +112,8 @@ internal fun LibraryAndroidComponentsExtension.configureAndroidLibraryVariants(e
 /**
  * Configure the Application Component based on build variants.
  */
+context(project: Project)
 internal fun ApplicationAndroidComponentsExtension.configureAndroidApplicationVariants(
-    project: Project,
     unitTestsEnabled: Boolean,
 ) {
     beforeVariants {
@@ -125,7 +125,8 @@ internal fun ApplicationAndroidComponentsExtension.configureAndroidApplicationVa
     }
 }
 
-private fun CommonExtension.configureCommonAndroidExtension(project: Project) {
+context(project: Project)
+private fun CommonExtension.configureCommonAndroidExtension() {
     compileSdk {
         version = release(AndroidSdk.CompileSdk) {
             minorApiLevel = 0

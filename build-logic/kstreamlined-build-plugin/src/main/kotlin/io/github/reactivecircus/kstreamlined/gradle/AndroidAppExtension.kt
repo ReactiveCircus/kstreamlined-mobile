@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalKotlinGradlePluginApi::class)
-
 package io.github.reactivecircus.kstreamlined.gradle
 
 import FlavorDimensions
@@ -36,7 +34,6 @@ import org.gradle.api.model.ObjectFactory
 import org.gradle.api.plugins.BasePluginExtension
 import org.gradle.api.plugins.ExtensionAware
 import org.gradle.api.provider.Provider
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.KotlinBaseExtension
 import java.io.File
 import java.io.Serializable
@@ -327,12 +324,11 @@ internal abstract class AndroidAppExtensionImpl @Inject constructor(
         pluginManager.apply("com.android.application")
 
         extensions.configure(KotlinBaseExtension::class.java) {
-            it.configureKotlin(this, enableExplicitApi = false)
+            it.configureKotlin(enableExplicitApi = false)
         }
 
         extensions.configure(ApplicationExtension::class.java) {
             it.configureAndroidApplicationExtension(
-                project = project,
                 namespace = namespace,
                 applicationId = applicationId,
             )
@@ -363,7 +359,7 @@ internal abstract class AndroidAppExtensionImpl @Inject constructor(
         }
 
         extensions.configure(ApplicationAndroidComponentsExtension::class.java) { extension ->
-            extension.configureAndroidApplicationVariants(project, unitTestsEnabled)
+            extension.configureAndroidApplicationVariants(unitTestsEnabled)
 
             extension.onVariants { variant ->
                 buildConfigsCallback?.let { callback ->
@@ -379,7 +375,7 @@ internal abstract class AndroidAppExtensionImpl @Inject constructor(
             }
 
             if (metroEnabled) {
-                extension.configureMetroContributionVerification(project)
+                extension.configureMetroContributionVerification()
             }
         }
 

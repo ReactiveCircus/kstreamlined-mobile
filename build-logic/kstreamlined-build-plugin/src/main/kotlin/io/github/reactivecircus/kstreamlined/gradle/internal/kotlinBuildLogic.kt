@@ -13,26 +13,26 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 /**
  * Configure Kotlin compiler options, language settings, JVM compatibility for the [target].
  */
+context(project: Project)
 internal fun KotlinBaseExtension.configureKotlin(
-    target: Project,
     enableExplicitApi: Boolean = true,
 ) {
     if (this is KotlinMultiplatformExtension) {
         compilerOptions {
             progressiveMode.set(true)
             optIn.addAll(OptIns)
-            freeCompilerArgs.addAll(target.computeFreeCompilerArgs())
+            freeCompilerArgs.addAll(computeFreeCompilerArgs())
         }
     } else {
-        target.tasks.withType(KotlinJvmCompile::class.java).configureEach {
+        project.tasks.withType(KotlinJvmCompile::class.java).configureEach {
             it.compilerOptions {
                 progressiveMode.set(true)
                 optIn.addAll(OptIns)
-                freeCompilerArgs.addAll(target.computeFreeCompilerArgs())
+                freeCompilerArgs.addAll(computeFreeCompilerArgs())
             }
         }
     }
-    target.configureJvmCompatibility()
+    configureJvmCompatibility()
     if (enableExplicitApi) {
         explicitApi()
     }
@@ -43,7 +43,8 @@ private val OptIns = listOf(
     "kotlin.experimental.ExperimentalObjCName",
 )
 
-private fun Project.computeFreeCompilerArgs() = buildList {
+context(project: Project)
+private fun computeFreeCompilerArgs() = buildList {
     addAll(
         listOf(
             "-Xcollection-literals",
@@ -54,19 +55,20 @@ private fun Project.computeFreeCompilerArgs() = buildList {
         ),
     )
     // TODO remove once supported by AS
-    if (isInIdeaSync) {
+    if (project.isInIdeaSync) {
         add("-Xexplicit-backing-fields")
     }
 }
 
-private fun Project.configureJvmCompatibility() {
-    tasks.withType(KotlinJvmCompile::class.java).configureEach {
+context(project: Project)
+private fun configureJvmCompatibility() {
+    project.tasks.withType(KotlinJvmCompile::class.java).configureEach {
         it.compilerOptions {
             jvmTarget.set(JvmTarget.JVM_21)
             jvmDefault.set(JvmDefaultMode.NO_COMPATIBILITY)
         }
     }
-    tasks.withType(JavaCompile::class.java).configureEach {
+    project.tasks.withType(JavaCompile::class.java).configureEach {
         it.sourceCompatibility = JavaVersion.VERSION_21.toString()
         it.targetCompatibility = JavaVersion.VERSION_21.toString()
     }

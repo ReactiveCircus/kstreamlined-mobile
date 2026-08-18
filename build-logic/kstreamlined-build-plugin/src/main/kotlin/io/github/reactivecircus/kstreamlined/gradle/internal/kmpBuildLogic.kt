@@ -9,8 +9,8 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.NativeOutputKind
 /**
  * Enable and configure KMP targets.
  */
+context(project: Project)
 internal fun KotlinMultiplatformExtension.configureKmpTargets(
-    project: Project,
     config: KmpTargetsConfig,
 ) {
     if (config.jvmTargetEnabled) {
@@ -18,9 +18,8 @@ internal fun KotlinMultiplatformExtension.configureKmpTargets(
     }
 
     if (config.androidTargetEnabled) {
-        extensions.configure(KotlinMultiplatformAndroidLibraryTarget::class.java) {
+        this@configureKmpTargets.extensions.configure(KotlinMultiplatformAndroidLibraryTarget::class.java) {
             it.configureKmpAndroidLibraryExtension(
-                project = project,
                 namespace = config.androidNamespace!!,
                 hostTestsEnabled = config.androidHostTestsEnabled,
             )
@@ -44,7 +43,8 @@ internal class KmpTargetsConfig(
 /**
  * Apply test configs to KMP project.
  */
-internal fun KotlinMultiplatformExtension.configureKmpTest(project: Project) {
+context(project: Project)
+internal fun KotlinMultiplatformExtension.configureKmpTest() {
     with(sourceSets) {
         commonTest {
             dependencies {

@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalKotlinGradlePluginApi::class)
-
 package io.github.reactivecircus.kstreamlined.gradle
 
 import FlavorDimensions
@@ -13,7 +11,6 @@ import io.github.reactivecircus.kstreamlined.gradle.internal.configureKotlin
 import io.github.reactivecircus.kstreamlined.gradle.internal.libs
 import org.gradle.api.Action
 import org.gradle.api.Project
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.KotlinBaseExtension
 import javax.inject.Inject
 
@@ -70,12 +67,11 @@ internal abstract class AndroidBenchmarkExtensionImpl @Inject constructor(
         pluginManager.apply("com.android.test")
 
         extensions.configure(KotlinBaseExtension::class.java) {
-            it.configureKotlin(this, enableExplicitApi = false)
+            it.configureKotlin(enableExplicitApi = false)
         }
 
         extensions.configure(TestExtension::class.java) {
             it.configureAndroidTestExtension(
-                project = this,
                 namespace = namespace,
             )
             it.defaultConfig {
