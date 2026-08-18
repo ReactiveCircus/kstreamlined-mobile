@@ -42,7 +42,6 @@ class SettingsScreenTest {
                 exit = ExitTransition.None,
             ) {
                 SettingsScreen(
-                    animatedVisibilityScope = this,
                     topBarBoundsKey = "",
                     titleElementKey = "",
                     onOpenLicenses = {},

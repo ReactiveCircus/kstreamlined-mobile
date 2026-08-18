@@ -35,7 +35,8 @@ import kotlin.time.Instant
 
 @OptIn(ExperimentalFoundationStyleApi::class)
 @Composable
-public fun SharedTransitionScope.KotlinBlogCard(
+context(sharedTransitionScope: SharedTransitionScope)
+public fun KotlinBlogCard(
     item: DisplayableFeedItem<FeedItem.KotlinBlog>,
     onItemClick: (FeedItem.KotlinBlog) -> Unit,
     onSaveButtonClick: (FeedItem.KotlinBlog) -> Unit,
@@ -97,11 +98,13 @@ public fun SharedTransitionScope.KotlinBlogCard(
                             .testTag("saveButton")
                             .then(
                                 if (animatedVisibilityScope != null && saveButtonElementKey != null) {
-                                    Modifier.sharedElement(
-                                        sharedContentState = rememberSharedContentState(key = saveButtonElementKey),
-                                        animatedVisibilityScope = animatedVisibilityScope,
-                                        zIndexInOverlay = 1f,
-                                    )
+                                    with(sharedTransitionScope) {
+                                        Modifier.sharedElement(
+                                            sharedContentState = rememberSharedContentState(key = saveButtonElementKey),
+                                            animatedVisibilityScope = animatedVisibilityScope,
+                                            zIndexInOverlay = 1f,
+                                        )
+                                    }
                                 } else {
                                     Modifier
                                 },

@@ -62,7 +62,8 @@ import kotlin.time.Duration.Companion.milliseconds
 
 @RouteBinding(ContentViewerRoute::class)
 @Composable
-internal fun SharedTransitionScope.ContentViewerScreen(
+context(sharedTransitionScope: SharedTransitionScope)
+internal fun ContentViewerScreen(
     backStack: NavBackStack<NavKey>,
     route: ContentViewerRoute,
 ) = trace("Screen:ContentViewer") {
@@ -74,86 +75,88 @@ internal fun SharedTransitionScope.ContentViewerScreen(
 
     val animatedVisibilityScope = LocalNavAnimatedContentScope.current
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .windowInsetsPadding(WindowInsets.navigationBars.only(WindowInsetsSides.Horizontal))
-            .background(KSTheme.colorScheme.background)
-            .sharedBounds(
-                sharedContentState = rememberSharedContentState(
-                    key = ContentViewerSharedTransitionKeys.bounds(
-                        origin = route.origin,
-                        id = route.id,
-                    ),
-                ),
-                animatedVisibilityScope = animatedVisibilityScope,
-            ),
-    ) {
-        val context = LocalContext.current
-        TopNavBar(
-            animatedVisibilityScope = animatedVisibilityScope,
-            boundsKey = TopNavBarSharedTransitionKeys.bounds(route.origin),
-            title = "",
-            contentPadding = WindowInsets.statusBars.asPaddingValues(),
-            navigationIcon = {
-                LargeIconButton(
-                    KSIcons.Close,
-                    contentDescription = null,
-                    onClick = backStack::removeLastOrNull,
-                )
-            },
-            actions = {
-                if (uiState is ContentViewerUiState.Content) {
-                    val item = (uiState as ContentViewerUiState.Content).item
-                    FilledIconButton(
-                        KSIcons.Share,
-                        contentDescription = null,
-                        onClick = {
-                            context.openShareSheet(item.title, item.contentUrl)
-                        },
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    FilledIconButton(
-                        if (item.savedForLater) {
-                            KSIcons.BookmarkFill
-                        } else {
-                            KSIcons.BookmarkAdd
-                        },
-                        contentDescription = null,
-                        onClick = { eventSink(ContentViewerUiEvent.ToggleSavedForLater) },
-                        modifier = Modifier.sharedElement(
-                            sharedContentState = rememberSharedContentState(
-                                key = ContentViewerSharedTransitionKeys.saveButtonElement(
-                                    origin = route.origin,
-                                    id = route.id,
-                                ),
-                            ),
-                            animatedVisibilityScope = animatedVisibilityScope,
-                            zIndexInOverlay = 1f,
+    with(sharedTransitionScope) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .windowInsetsPadding(WindowInsets.navigationBars.only(WindowInsetsSides.Horizontal))
+                .background(KSTheme.colorScheme.background)
+                .sharedBounds(
+                    sharedContentState = rememberSharedContentState(
+                        key = ContentViewerSharedTransitionKeys.bounds(
+                            origin = route.origin,
+                            id = route.id,
                         ),
+                    ),
+                    animatedVisibilityScope = animatedVisibilityScope,
+                ),
+        ) {
+            val context = LocalContext.current
+            TopNavBar(
+                animatedVisibilityScope = animatedVisibilityScope,
+                boundsKey = TopNavBarSharedTransitionKeys.bounds(route.origin),
+                title = "",
+                contentPadding = WindowInsets.statusBars.asPaddingValues(),
+                navigationIcon = {
+                    LargeIconButton(
+                        KSIcons.Close,
+                        contentDescription = null,
+                        onClick = backStack::removeLastOrNull,
                     )
-                }
-            },
-        )
+                },
+                actions = {
+                    if (uiState is ContentViewerUiState.Content) {
+                        val item = (uiState as ContentViewerUiState.Content).item
+                        FilledIconButton(
+                            KSIcons.Share,
+                            contentDescription = null,
+                            onClick = {
+                                context.openShareSheet(item.title, item.contentUrl)
+                            },
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        FilledIconButton(
+                            if (item.savedForLater) {
+                                KSIcons.BookmarkFill
+                            } else {
+                                KSIcons.BookmarkAdd
+                            },
+                            contentDescription = null,
+                            onClick = { eventSink(ContentViewerUiEvent.ToggleSavedForLater) },
+                            modifier = Modifier.sharedElement(
+                                sharedContentState = rememberSharedContentState(
+                                    key = ContentViewerSharedTransitionKeys.saveButtonElement(
+                                        origin = route.origin,
+                                        id = route.id,
+                                    ),
+                                ),
+                                animatedVisibilityScope = animatedVisibilityScope,
+                                zIndexInOverlay = 1f,
+                            ),
+                        )
+                    }
+                },
+            )
 
-        AnimatedContent(
-            targetState = uiState,
-            transitionSpec = { fadeIn() togetherWith fadeOut() },
-            contentAlignment = Alignment.Center,
-            contentKey = { state -> state.contentKey },
-            label = "uiState",
-        ) { state ->
-            when (state) {
-                is ContentViewerUiState.Initializing -> {
-                    Box(modifier = Modifier.fillMaxSize())
-                }
+            AnimatedContent(
+                targetState = uiState,
+                transitionSpec = { fadeIn() togetherWith fadeOut() },
+                contentAlignment = Alignment.Center,
+                contentKey = { state -> state.contentKey },
+                label = "uiState",
+            ) { state ->
+                when (state) {
+                    is ContentViewerUiState.Initializing -> {
+                        Box(modifier = Modifier.fillMaxSize())
+                    }
 
-                is ContentViewerUiState.NotFound -> {
-                    ItemNotFoundUi(modifier = Modifier.padding(24.dp))
-                }
+                    is ContentViewerUiState.NotFound -> {
+                        ItemNotFoundUi(modifier = Modifier.padding(24.dp))
+                    }
 
-                is ContentViewerUiState.Content -> {
-                    ContentUi(url = state.item.contentUrl)
+                    is ContentViewerUiState.Content -> {
+                        ContentUi(url = state.item.contentUrl)
+                    }
                 }
             }
         }

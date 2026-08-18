@@ -37,24 +37,28 @@ import io.github.reactivecircus.routebinding.runtime.RouteBinding
 
 @RouteBinding(LicensesRoute::class)
 @Composable
-internal fun SharedTransitionScope.LicensesScreen(
+context(sharedTransitionScope: SharedTransitionScope)
+internal fun LicensesScreen(
     backStack: NavBackStack<NavKey>,
 ) = trace("Screen:Licenses") {
     val presenter = retainPresenter<LicensesPresenter>()
     val uiState by presenter.states.collectAsState()
 
-    LicensesScreen(
-        onNavigateUp = backStack::removeLastOrNull,
-        uiState = uiState,
-        modifier = Modifier.sharedBounds(
-            sharedContentState = rememberSharedContentState(key = LicensesSharedTransitionKeys.Bounds),
-            animatedVisibilityScope = LocalNavAnimatedContentScope.current,
-        ),
-    )
+    with(sharedTransitionScope) {
+        LicensesScreen(
+            onNavigateUp = backStack::removeLastOrNull,
+            uiState = uiState,
+            modifier = Modifier.sharedBounds(
+                sharedContentState = rememberSharedContentState(key = LicensesSharedTransitionKeys.Bounds),
+                animatedVisibilityScope = LocalNavAnimatedContentScope.current,
+            ),
+        )
+    }
 }
 
 @Composable
-internal fun SharedTransitionScope.LicensesScreen(
+context(sharedTransitionScope: SharedTransitionScope)
+internal fun LicensesScreen(
     onNavigateUp: () -> Unit,
     uiState: LicensesUiState,
     modifier: Modifier = Modifier,
