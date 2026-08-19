@@ -198,7 +198,7 @@ class HomeFeedItemMapperTest {
             ),
         )
 
-        val actualHomeFeedItems = feedItems.toHomeFeedItems(fixedClock, timeZone)
+        val actualHomeFeedItems = feedItems.toHomeFeedItems(clock = fixedClock, timeZone = timeZone)
 
         assertEquals(expectedHomeFeedItems, actualHomeFeedItems)
     }

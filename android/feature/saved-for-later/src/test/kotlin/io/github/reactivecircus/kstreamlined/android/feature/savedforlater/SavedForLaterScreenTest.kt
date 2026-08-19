@@ -101,7 +101,6 @@ class SavedForLaterScreenTest {
                 exit = ExitTransition.None,
             ) {
                 SavedForLaterScreen(
-                    animatedVisibilityScope = this,
                     listState = rememberLazyListState(),
                     onViewItem = {},
                     onOpenSettings = {},

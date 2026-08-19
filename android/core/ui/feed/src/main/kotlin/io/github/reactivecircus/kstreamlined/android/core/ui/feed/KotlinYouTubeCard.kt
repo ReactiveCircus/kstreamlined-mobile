@@ -43,7 +43,8 @@ import kotlin.time.Instant
 
 @OptIn(ExperimentalFoundationStyleApi::class)
 @Composable
-public fun SharedTransitionScope.KotlinYouTubeCard(
+context(sharedTransitionScope: SharedTransitionScope)
+public fun KotlinYouTubeCard(
     item: DisplayableFeedItem<FeedItem.KotlinYouTube>,
     onItemClick: (FeedItem.KotlinYouTube) -> Unit,
     onSaveButtonClick: (FeedItem.KotlinYouTube) -> Unit,
@@ -124,11 +125,13 @@ public fun SharedTransitionScope.KotlinYouTubeCard(
                             .testTag("saveButton")
                             .then(
                                 if (animatedVisibilityScope != null && saveButtonElementKey != null) {
-                                    Modifier.sharedElement(
-                                        sharedContentState = rememberSharedContentState(key = saveButtonElementKey),
-                                        animatedVisibilityScope = animatedVisibilityScope,
-                                        zIndexInOverlay = 1f,
-                                    )
+                                    with(sharedTransitionScope) {
+                                        Modifier.sharedElement(
+                                            sharedContentState = rememberSharedContentState(key = saveButtonElementKey),
+                                            animatedVisibilityScope = animatedVisibilityScope,
+                                            zIndexInOverlay = 1f,
+                                        )
+                                    }
                                 } else {
                                     Modifier
                                 },

@@ -77,7 +77,7 @@ class SavedForLaterItemMapperTest {
             ),
         )
 
-        val actualDisplayableItems = feedItems.toSavedForLaterFeedItems(timeZone)
+        val actualDisplayableItems = feedItems.toSavedForLaterFeedItems(timeZone = timeZone)
 
         assertEquals(expectedDisplayableItems, actualDisplayableItems)
     }

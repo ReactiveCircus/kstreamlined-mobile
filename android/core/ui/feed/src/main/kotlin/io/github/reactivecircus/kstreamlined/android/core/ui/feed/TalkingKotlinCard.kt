@@ -47,7 +47,8 @@ import kotlin.time.Instant
 
 @OptIn(ExperimentalFoundationStyleApi::class)
 @Composable
-public fun SharedTransitionScope.TalkingKotlinCard(
+context(sharedTransitionScope: SharedTransitionScope)
+public fun TalkingKotlinCard(
     item: DisplayableFeedItem<FeedItem.TalkingKotlin>,
     onItemClick: (FeedItem.TalkingKotlin) -> Unit,
     onSaveButtonClick: (FeedItem.TalkingKotlin) -> Unit,
@@ -66,10 +67,12 @@ public fun SharedTransitionScope.TalkingKotlinCard(
         modifier = modifier
             .then(
                 if (animatedVisibilityScope != null && cardElementKey != null) {
-                    Modifier.sharedElement(
-                        sharedContentState = rememberSharedContentState(key = cardElementKey),
-                        animatedVisibilityScope = animatedVisibilityScope,
-                    )
+                    with(sharedTransitionScope) {
+                        Modifier.sharedElement(
+                            sharedContentState = rememberSharedContentState(key = cardElementKey),
+                            animatedVisibilityScope = animatedVisibilityScope,
+                        )
+                    }
                 } else {
                     Modifier
                 },

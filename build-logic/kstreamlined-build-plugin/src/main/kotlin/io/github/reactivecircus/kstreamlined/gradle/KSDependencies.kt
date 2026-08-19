@@ -48,19 +48,19 @@ internal inline fun <reified S : Named, reified D : KSDependencies> Project.conf
             val main = sourceSets.getByName("main") as KotlinSourceSet
             val test = sourceSets.getByName("test") as KotlinSourceSet
             require(dependencies is KSDependencies.Jvm)
-            dependencies.api.wireWith(this, main.apiConfigurationName)
-            dependencies.implementation.wireWith(this, main.implementationConfigurationName)
-            dependencies.testImplementation.wireWith(this, test.implementationConfigurationName)
+            dependencies.api.wireWith(main.apiConfigurationName)
+            dependencies.implementation.wireWith(main.implementationConfigurationName)
+            dependencies.testImplementation.wireWith(test.implementationConfigurationName)
         }
 
         typeOf<S>().isSubtypeOf(typeOf<AndroidSourceSet>()) -> {
             val main = sourceSets.getByName("main") as AndroidSourceSet
-            dependencies.api.wireWith(this, main.apiConfigurationName)
-            dependencies.implementation.wireWith(this, main.implementationConfigurationName)
+            dependencies.api.wireWith(main.apiConfigurationName)
+            dependencies.implementation.wireWith(main.implementationConfigurationName)
 
             if (dependencies is HasTestConfiguration) {
                 val test = sourceSets.getByName("test") as AndroidSourceSet
-                dependencies.testImplementation.wireWith(this, test.implementationConfigurationName)
+                dependencies.testImplementation.wireWith(test.implementationConfigurationName)
             }
 
             if (dependencies is KSDependencies.Android.App) {
@@ -71,12 +71,12 @@ internal inline fun <reified S : Named, reified D : KSDependencies> Project.conf
                 val demo = sourceSets.getByName("demo") as AndroidSourceSet
                 val prod = sourceSets.getByName("prod") as AndroidSourceSet
 
-                dependencies.debugImplementation.wireWith(this, debug.implementationConfigurationName)
-                dependencies.releaseImplementation.wireWith(this, release.implementationConfigurationName)
-                dependencies.mockImplementation.wireWith(this, mock.implementationConfigurationName)
-                dependencies.devImplementation.wireWith(this, dev.implementationConfigurationName)
-                dependencies.demoImplementation.wireWith(this, demo.implementationConfigurationName)
-                dependencies.prodImplementation.wireWith(this, prod.implementationConfigurationName)
+                dependencies.debugImplementation.wireWith(debug.implementationConfigurationName)
+                dependencies.releaseImplementation.wireWith(release.implementationConfigurationName)
+                dependencies.mockImplementation.wireWith(mock.implementationConfigurationName)
+                dependencies.devImplementation.wireWith(dev.implementationConfigurationName)
+                dependencies.demoImplementation.wireWith(demo.implementationConfigurationName)
+                dependencies.prodImplementation.wireWith(prod.implementationConfigurationName)
             }
         }
     }
@@ -85,8 +85,8 @@ internal inline fun <reified S : Named, reified D : KSDependencies> Project.conf
 }
 
 @Suppress("UnstableApiUsage")
+context(project: Project)
 private fun DependencyCollector.wireWith(
-    project: Project,
     configurationName: String,
 ) {
     val configuration = project.configurations.getByName(configurationName)

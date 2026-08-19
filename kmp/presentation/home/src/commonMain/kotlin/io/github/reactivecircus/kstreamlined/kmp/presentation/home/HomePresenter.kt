@@ -17,21 +17,27 @@ import io.github.reactivecircus.kstreamlined.kmp.feed.sync.SyncState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
+import kotlinx.datetime.TimeZone
+import kotlin.time.Clock
 
 @PresenterKey
 @ContributesIntoMap(AppScope::class)
 public class HomePresenter(
     private val feedSyncEngine: FeedSyncEngine,
     private val feedDataSource: FeedDataSource,
+    private val clock: Clock = Clock.System,
+    private val timeZone: TimeZone = TimeZone.currentSystemDefault(),
     moleculeContext: MoleculeContext,
 ) : Presenter<HomeUiEvent, HomeUiState>(moleculeContext) {
     @Composable
     override fun present(): HomeUiState {
         var uiState by remember { mutableStateOf<HomeUiState>(HomeUiState.Loading) }
         LaunchedEffect(Unit) {
-            uiStateFlow(currentState = { uiState })
-                .onEach { uiState = it }
-                .collect()
+            context(clock, timeZone) {
+                uiStateFlow(currentState = { uiState })
+                    .onEach { uiState = it }
+                    .collect()
+            }
         }
         CollectEvent { event ->
             when (event) {
@@ -59,6 +65,7 @@ public class HomePresenter(
     }
 
     @Suppress("CognitiveComplexMethod")
+    context(clock: Clock, timeZone: TimeZone)
     private fun uiStateFlow(
         currentState: () -> HomeUiState,
     ): Flow<HomeUiState> = combineWithMetadata(

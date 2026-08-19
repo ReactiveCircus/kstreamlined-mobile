@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalKotlinGradlePluginApi::class)
-
 package io.github.reactivecircus.kstreamlined.gradle
 
 import com.android.build.api.dsl.LibraryExtension
@@ -16,7 +14,6 @@ import io.github.reactivecircus.kstreamlined.gradle.internal.configureTest
 import io.github.reactivecircus.kstreamlined.gradle.internal.libs
 import org.gradle.api.Action
 import org.gradle.api.Project
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.KotlinBaseExtension
 import javax.inject.Inject
 
@@ -89,12 +86,11 @@ internal abstract class AndroidFeatureLibraryExtensionImpl @Inject constructor(
         pluginManager.apply("com.android.library")
 
         extensions.configure(KotlinBaseExtension::class.java) {
-            it.configureKotlin(this)
+            it.configureKotlin()
         }
 
         extensions.configure(LibraryExtension::class.java) {
             it.configureAndroidLibraryExtension(
-                project = this,
                 namespace = namespace,
                 enableAndroidResources = true,
             )

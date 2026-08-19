@@ -27,6 +27,7 @@ import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -42,6 +43,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.ui.LocalNavAnimatedContentScope
 import androidx.tracing.trace
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.FilledIconButton
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Surface
@@ -79,8 +81,8 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
-public fun SharedTransitionScope.HomeScreen(
-    animatedVisibilityScope: AnimatedVisibilityScope,
+context(sharedTransitionScope: SharedTransitionScope)
+public fun HomeScreen(
     backStack: NavBackStack<NavKey>,
     listState: LazyListState,
     modifier: Modifier = Modifier,
@@ -88,6 +90,9 @@ public fun SharedTransitionScope.HomeScreen(
     val presenter = retainPresenter<HomePresenter>()
     val uiState by presenter.states.collectAsState()
     val eventSink = presenter.eventSink
+
+    val animatedVisibilityScope = LocalNavAnimatedContentScope.current
+
     HomeScreen(
         animatedVisibilityScope = animatedVisibilityScope,
         listState = listState,
@@ -140,8 +145,8 @@ public fun SharedTransitionScope.HomeScreen(
 }
 
 @Composable
-internal fun SharedTransitionScope.HomeScreen(
-    animatedVisibilityScope: AnimatedVisibilityScope,
+context(sharedTransitionScope: SharedTransitionScope, animatedVisibilityScope: AnimatedVisibilityScope)
+internal fun HomeScreen(
     listState: LazyListState,
     onViewItem: (FeedItem) -> Unit,
     onOpenSettings: () -> Unit,
@@ -224,8 +229,8 @@ internal fun SharedTransitionScope.HomeScreen(
 private const val SharedTransitionOrigin = "Home"
 
 @Composable
-private fun SharedTransitionScope.ContentUi(
-    animatedVisibilityScope: AnimatedVisibilityScope,
+context(sharedTransitionScope: SharedTransitionScope, animatedVisibilityScope: AnimatedVisibilityScope)
+private fun ContentUi(
     listState: LazyListState,
     items: List<HomeFeedItem>,
     showTransientError: Boolean,
@@ -258,122 +263,11 @@ private fun SharedTransitionScope.ContentUi(
                     }
                 },
             ) {
-                when (it) {
-                    is HomeFeedItem.SectionHeader -> {
-                        trace("HomeFeedSectionHeader") {
-                            Text(
-                                text = it.title,
-                                style = KSTheme.typography.titleMedium,
-                                color = KSTheme.colorScheme.onBackgroundMuted,
-                                modifier = Modifier.animateItem(),
-                            )
-                        }
-                    }
-
-                    is HomeFeedItem.Item -> {
-                        val (item = value, displayablePublishTime) = it.displayableFeedItem
-                        when (item) {
-                            is FeedItem.KotlinBlog -> {
-                                KotlinBlogCard(
-                                    item = item.toDisplayable(displayablePublishTime),
-                                    onItemClick = onItemClick,
-                                    onSaveButtonClick = {
-                                        eventSink(HomeUiEvent.ToggleSavedForLater(item))
-                                    },
-                                    modifier = Modifier
-                                        .animateItem()
-                                        .sharedBounds(
-                                            sharedContentState = rememberSharedContentState(
-                                                key = ContentViewerSharedTransitionKeys.bounds(
-                                                    origin = SharedTransitionOrigin,
-                                                    id = item.id,
-                                                ),
-                                            ),
-                                            animatedVisibilityScope = animatedVisibilityScope,
-                                        ),
-                                    animatedVisibilityScope = animatedVisibilityScope,
-                                    saveButtonElementKey = ContentViewerSharedTransitionKeys.saveButtonElement(
-                                        origin = SharedTransitionOrigin,
-                                        id = item.id,
-                                    ),
-                                )
-                            }
-
-                            is FeedItem.KotlinWeekly -> {
-                                KotlinWeeklyCard(
-                                    item = item.toDisplayable(displayablePublishTime),
-                                    onItemClick = onItemClick,
-                                    onSaveButtonClick = {
-                                        eventSink(HomeUiEvent.ToggleSavedForLater(item))
-                                    },
-                                    modifier = Modifier
-                                        .animateItem()
-                                        .sharedBounds(
-                                            sharedContentState = rememberSharedContentState(
-                                                key = KotlinWeeklyIssueSharedTransitionKeys.bounds(
-                                                    origin = SharedTransitionOrigin,
-                                                    id = item.id,
-                                                ),
-                                            ),
-                                            animatedVisibilityScope = animatedVisibilityScope,
-                                        ),
-                                )
-                            }
-
-                            is FeedItem.KotlinYouTube -> {
-                                KotlinYouTubeCard(
-                                    item = item.toDisplayable(displayablePublishTime),
-                                    onItemClick = onItemClick,
-                                    onSaveButtonClick = {
-                                        eventSink(HomeUiEvent.ToggleSavedForLater(item))
-                                    },
-                                    modifier = Modifier
-                                        .animateItem()
-                                        .sharedBounds(
-                                            sharedContentState = rememberSharedContentState(
-                                                key = ContentViewerSharedTransitionKeys.bounds(
-                                                    origin = SharedTransitionOrigin,
-                                                    id = item.id,
-                                                ),
-                                            ),
-                                            animatedVisibilityScope = animatedVisibilityScope,
-                                        ),
-                                    animatedVisibilityScope = animatedVisibilityScope,
-                                    saveButtonElementKey = ContentViewerSharedTransitionKeys.saveButtonElement(
-                                        origin = SharedTransitionOrigin,
-                                        id = item.id,
-                                    ),
-                                )
-                            }
-
-                            is FeedItem.TalkingKotlin -> {
-                                TalkingKotlinCard(
-                                    item = item.toDisplayable(displayablePublishTime),
-                                    onItemClick = onItemClick,
-                                    onSaveButtonClick = {
-                                        eventSink(HomeUiEvent.ToggleSavedForLater(item))
-                                    },
-                                    modifier = Modifier
-                                        .animateItem()
-                                        .sharedBounds(
-                                            sharedContentState = rememberSharedContentState(
-                                                key = TalkingKotlinEpisodeSharedTransitionKeys.bounds(
-                                                    origin = SharedTransitionOrigin,
-                                                    id = item.id,
-                                                ),
-                                            ),
-                                            animatedVisibilityScope = animatedVisibilityScope,
-                                        ),
-                                    animatedVisibilityScope = animatedVisibilityScope,
-                                    cardElementKey = TalkingKotlinEpisodeSharedTransitionKeys.playerElement(
-                                        origin = SharedTransitionOrigin,
-                                        id = item.id,
-                                    ),
-                                )
-                            }
-                        }
-                    }
-                }
+                FeedItemUi(
+                    homeFeedItem = it,
+                    onItemClick = onItemClick,
+                    eventSink = eventSink,
+                )
             }
         }
         AnimatedVisibility(
@@ -387,6 +281,131 @@ private fun SharedTransitionScope.ContentUi(
             if (showTransientError) {
                 delay(TransientErrorDurationMillis.milliseconds)
                 eventSink(HomeUiEvent.DismissTransientError)
+            }
+        }
+    }
+}
+
+@Composable
+context(sharedTransitionScope: SharedTransitionScope, animatedVisibilityScope: AnimatedVisibilityScope)
+private fun LazyItemScope.FeedItemUi(
+    homeFeedItem: HomeFeedItem,
+    onItemClick: (FeedItem) -> Unit,
+    eventSink: (HomeUiEvent) -> Unit,
+) = with(sharedTransitionScope) {
+    when (homeFeedItem) {
+        is HomeFeedItem.SectionHeader -> {
+            trace("HomeFeedSectionHeader") {
+                Text(
+                    text = homeFeedItem.title,
+                    style = KSTheme.typography.titleMedium,
+                    color = KSTheme.colorScheme.onBackgroundMuted,
+                    modifier = Modifier.animateItem(),
+                )
+            }
+        }
+
+        is HomeFeedItem.Item -> {
+            val (item = value, displayablePublishTime) = homeFeedItem.displayableFeedItem
+            when (item) {
+                is FeedItem.KotlinBlog -> {
+                    KotlinBlogCard(
+                        item = item.toDisplayable(displayablePublishTime),
+                        onItemClick = onItemClick,
+                        onSaveButtonClick = {
+                            eventSink(HomeUiEvent.ToggleSavedForLater(item))
+                        },
+                        modifier = Modifier
+                            .animateItem()
+                            .sharedBounds(
+                                sharedContentState = rememberSharedContentState(
+                                    key = ContentViewerSharedTransitionKeys.bounds(
+                                        origin = SharedTransitionOrigin,
+                                        id = item.id,
+                                    ),
+                                ),
+                                animatedVisibilityScope = animatedVisibilityScope,
+                            ),
+                        animatedVisibilityScope = animatedVisibilityScope,
+                        saveButtonElementKey = ContentViewerSharedTransitionKeys.saveButtonElement(
+                            origin = SharedTransitionOrigin,
+                            id = item.id,
+                        ),
+                    )
+                }
+
+                is FeedItem.KotlinWeekly -> {
+                    KotlinWeeklyCard(
+                        item = item.toDisplayable(displayablePublishTime),
+                        onItemClick = onItemClick,
+                        onSaveButtonClick = {
+                            eventSink(HomeUiEvent.ToggleSavedForLater(item))
+                        },
+                        modifier = Modifier
+                            .animateItem()
+                            .sharedBounds(
+                                sharedContentState = rememberSharedContentState(
+                                    key = KotlinWeeklyIssueSharedTransitionKeys.bounds(
+                                        origin = SharedTransitionOrigin,
+                                        id = item.id,
+                                    ),
+                                ),
+                                animatedVisibilityScope = animatedVisibilityScope,
+                            ),
+                    )
+                }
+
+                is FeedItem.KotlinYouTube -> {
+                    KotlinYouTubeCard(
+                        item = item.toDisplayable(displayablePublishTime),
+                        onItemClick = onItemClick,
+                        onSaveButtonClick = {
+                            eventSink(HomeUiEvent.ToggleSavedForLater(item))
+                        },
+                        modifier = Modifier
+                            .animateItem()
+                            .sharedBounds(
+                                sharedContentState = rememberSharedContentState(
+                                    key = ContentViewerSharedTransitionKeys.bounds(
+                                        origin = SharedTransitionOrigin,
+                                        id = item.id,
+                                    ),
+                                ),
+                                animatedVisibilityScope = animatedVisibilityScope,
+                            ),
+                        animatedVisibilityScope = animatedVisibilityScope,
+                        saveButtonElementKey = ContentViewerSharedTransitionKeys.saveButtonElement(
+                            origin = SharedTransitionOrigin,
+                            id = item.id,
+                        ),
+                    )
+                }
+
+                is FeedItem.TalkingKotlin -> {
+                    TalkingKotlinCard(
+                        item = item.toDisplayable(displayablePublishTime),
+                        onItemClick = onItemClick,
+                        onSaveButtonClick = {
+                            eventSink(HomeUiEvent.ToggleSavedForLater(item))
+                        },
+                        modifier = Modifier
+                            .animateItem()
+                            .sharedBounds(
+                                sharedContentState = rememberSharedContentState(
+                                    key = TalkingKotlinEpisodeSharedTransitionKeys.bounds(
+                                        origin = SharedTransitionOrigin,
+                                        id = item.id,
+                                    ),
+                                ),
+                                animatedVisibilityScope = animatedVisibilityScope,
+                            ),
+                        animatedVisibilityScope = animatedVisibilityScope,
+                        cardElementKey = TalkingKotlinEpisodeSharedTransitionKeys.playerElement(
+                            origin = SharedTransitionOrigin,
+                            id = item.id,
+                        ),
+                    )
+                }
             }
         }
     }

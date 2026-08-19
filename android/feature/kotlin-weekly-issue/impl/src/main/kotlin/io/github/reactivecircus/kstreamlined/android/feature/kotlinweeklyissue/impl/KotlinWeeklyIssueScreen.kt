@@ -7,7 +7,6 @@ import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -65,7 +64,8 @@ import io.github.reactivecircus.routebinding.runtime.RouteBinding
 
 @RouteBinding(KotlinWeeklyIssueRoute::class)
 @Composable
-internal fun SharedTransitionScope.KotlinWeeklyIssueScreen(
+context(sharedTransitionScope: SharedTransitionScope)
+internal fun KotlinWeeklyIssueScreen(
     backStack: NavBackStack<NavKey>,
     route: KotlinWeeklyIssueRoute,
 ) = trace("Screen:KotlinWeeklyIssue") {
@@ -80,36 +80,39 @@ internal fun SharedTransitionScope.KotlinWeeklyIssueScreen(
 
     val animatedVisibilityScope = LocalNavAnimatedContentScope.current
 
-    KotlinWeeklyIssueScreen(
-        animatedVisibilityScope = animatedVisibilityScope,
-        topBarBoundsKey = TopNavBarSharedTransitionKeys.bounds(route.origin),
-        titleElementKey = TopNavBarSharedTransitionKeys.titleElement(route.origin),
-        title = title,
-        onNavigateUp = backStack::removeLastOrNull,
-        onShareButtonClick = { url ->
-            context.openShareSheet(title, url)
-        },
-        onOpenLink = {
-            if (!isTransitionActive) {
-                context.openCustomTab(it)
-            }
-        },
-        uiState = uiState,
-        eventSink = eventSink,
-        modifier = Modifier.sharedBounds(
-            sharedContentState = rememberSharedContentState(
-                key = KotlinWeeklyIssueSharedTransitionKeys.bounds(
-                    origin = route.origin,
-                    id = route.id,
-                ),
-            ),
+    with(sharedTransitionScope) {
+        KotlinWeeklyIssueScreen(
             animatedVisibilityScope = animatedVisibilityScope,
-        ),
-    )
+            topBarBoundsKey = TopNavBarSharedTransitionKeys.bounds(route.origin),
+            titleElementKey = TopNavBarSharedTransitionKeys.titleElement(route.origin),
+            title = title,
+            onNavigateUp = backStack::removeLastOrNull,
+            onShareButtonClick = { url ->
+                context.openShareSheet(title, url)
+            },
+            onOpenLink = {
+                if (!isTransitionActive) {
+                    context.openCustomTab(it)
+                }
+            },
+            uiState = uiState,
+            eventSink = eventSink,
+            modifier = Modifier.sharedBounds(
+                sharedContentState = rememberSharedContentState(
+                    key = KotlinWeeklyIssueSharedTransitionKeys.bounds(
+                        origin = route.origin,
+                        id = route.id,
+                    ),
+                ),
+                animatedVisibilityScope = animatedVisibilityScope,
+            ),
+        )
+    }
 }
 
 @Composable
-internal fun SharedTransitionScope.KotlinWeeklyIssueScreen(
+context(sharedTransitionScope: SharedTransitionScope)
+internal fun KotlinWeeklyIssueScreen(
     topBarBoundsKey: String,
     titleElementKey: String,
     title: String,
@@ -198,7 +201,6 @@ internal fun SharedTransitionScope.KotlinWeeklyIssueScreen(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun ContentUi(
     groupedItems: Map<KotlinWeeklyIssueItem.Group, List<KotlinWeeklyIssueItem>>,

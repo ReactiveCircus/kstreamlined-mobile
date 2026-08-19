@@ -34,7 +34,8 @@ import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundatio
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.preview.PreviewKStreamlined
 
 @Composable
-public fun SharedTransitionScope.TopNavBar(
+context(sharedTransitionScope: SharedTransitionScope)
+public fun TopNavBar(
     title: String,
     modifier: Modifier = Modifier,
     animatedVisibilityScope: AnimatedVisibilityScope? = null,
@@ -50,12 +51,14 @@ public fun SharedTransitionScope.TopNavBar(
         modifier = modifier
             .then(
                 if (boundsKey != null && animatedVisibilityScope != null) {
-                    Modifier.sharedBounds(
-                        sharedContentState = rememberSharedContentState(key = boundsKey),
-                        animatedVisibilityScope = animatedVisibilityScope,
-                        zIndexInOverlay = 1f,
-                        resizeMode = scaleToBounds(ContentScale.FillWidth, Alignment.TopCenter),
-                    )
+                    with(sharedTransitionScope) {
+                        Modifier.sharedBounds(
+                            sharedContentState = rememberSharedContentState(key = boundsKey),
+                            animatedVisibilityScope = animatedVisibilityScope,
+                            zIndexInOverlay = 1f,
+                            resizeMode = scaleToBounds(ContentScale.FillWidth, Alignment.TopCenter),
+                        )
+                    }
                 } else {
                     Modifier
                 },
@@ -114,7 +117,8 @@ public object TopNavBarSharedTransitionKeys {
 }
 
 @Composable
-private fun SharedTransitionScope.GradientTitle(
+context(sharedTransitionScope: SharedTransitionScope)
+private fun GradientTitle(
     animatedVisibilityScope: AnimatedVisibilityScope?,
     titleElementKey: String?,
     text: String,
@@ -142,13 +146,15 @@ private fun SharedTransitionScope.GradientTitle(
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
             modifier = if (titleElementKey != null && animatedVisibilityScope != null) {
-                Modifier
-                    .sharedElement(
-                        sharedContentState = rememberSharedContentState(key = titleElementKey),
-                        animatedVisibilityScope = animatedVisibilityScope,
-                        zIndexInOverlay = 1f,
-                    )
-                    .skipToLookaheadSize()
+                with(sharedTransitionScope) {
+                    Modifier
+                        .sharedElement(
+                            sharedContentState = rememberSharedContentState(key = titleElementKey),
+                            animatedVisibilityScope = animatedVisibilityScope,
+                            zIndexInOverlay = 1f,
+                        )
+                        .skipToLookaheadSize()
+                }
             } else {
                 Modifier
             },

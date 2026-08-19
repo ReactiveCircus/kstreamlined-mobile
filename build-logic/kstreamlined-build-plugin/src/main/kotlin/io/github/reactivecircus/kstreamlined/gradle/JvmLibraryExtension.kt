@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalKotlinGradlePluginApi::class)
-
 package io.github.reactivecircus.kstreamlined.gradle
 
 import io.github.reactivecircus.kstreamlined.gradle.internal.configureCompose
@@ -10,7 +8,6 @@ import io.github.reactivecircus.kstreamlined.gradle.internal.configureTest
 import io.github.reactivecircus.kstreamlined.gradle.internal.libs
 import org.gradle.api.Action
 import org.gradle.api.Project
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import javax.inject.Inject
 
@@ -72,7 +69,7 @@ internal abstract class JvmLibraryExtensionImpl @Inject constructor(
         pluginManager.apply("com.android.lint")
 
         extensions.configure(KotlinJvmProjectExtension::class.java) {
-            it.configureKotlin(this)
+            it.configureKotlin()
 
             dependenciesBlock?.let { block ->
                 configureDependencies(

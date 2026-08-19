@@ -6,9 +6,8 @@ import kotlin.time.Clock
 import kotlin.time.Instant
 
 @Suppress("MagicNumber")
-public fun Instant.weeksAgo(
-    clock: Clock = Clock.System,
-): String {
+context(clock: Clock)
+public fun Instant.weeksAgo(): String {
     val duration = clock.now().minus(this)
     val weekDifference = duration.inWholeDays / 7
     return when (weekDifference) {
@@ -19,10 +18,8 @@ public fun Instant.weeksAgo(
 }
 
 @Suppress("MagicNumber")
-public fun Instant.timeAgo(
-    clock: Clock = Clock.System,
-    timeZone: TimeZone = TimeZone.currentSystemDefault(),
-): String {
+context(clock: Clock, timeZone: TimeZone)
+public fun Instant.timeAgo(): String {
     val now = clock.now()
     val duration = now.minus(this)
     return when {
@@ -44,7 +41,7 @@ public fun Instant.timeAgo(
 
         duration.inWholeDays < 7 -> "${duration.inWholeDays} days ago"
 
-        else -> toFormattedTime(timeZone)
+        else -> toFormattedTime()
     }
 }
 
@@ -52,9 +49,8 @@ public fun Instant.timeAgo(
  * Format the [Instant] to a string in the format of `dd MMM yyyy`.
  */
 @Suppress("MagicNumber")
-public fun Instant.toFormattedTime(
-    timeZone: TimeZone = TimeZone.currentSystemDefault(),
-): String {
+context(timeZone: TimeZone)
+public fun Instant.toFormattedTime(): String {
     return toLocalDateTime(timeZone).let { localDateTime ->
         buildString {
             append(

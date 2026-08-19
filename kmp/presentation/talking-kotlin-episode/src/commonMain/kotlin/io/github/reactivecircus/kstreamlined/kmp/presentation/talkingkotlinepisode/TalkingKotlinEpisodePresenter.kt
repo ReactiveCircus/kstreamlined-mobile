@@ -20,11 +20,13 @@ import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
+import kotlinx.datetime.TimeZone
 
 @AssistedInject
 public class TalkingKotlinEpisodePresenter(
     @Assisted private val id: String,
     private val feedDataSource: FeedDataSource,
+    private val timeZone: TimeZone = TimeZone.currentSystemDefault(),
     moleculeContext: MoleculeContext,
 ) : Presenter<TalkingKotlinEpisodeUiEvent, TalkingKotlinEpisodeUiState>(moleculeContext) {
     @Composable
@@ -39,7 +41,7 @@ public class TalkingKotlinEpisodePresenter(
                     val talkingKotlinItem = item as? FeedItem.TalkingKotlin
                     uiState = if (talkingKotlinItem != null) {
                         TalkingKotlinEpisodeUiState.Content(
-                            episode = talkingKotlinItem.asPresentationModel(),
+                            episode = context(timeZone) { talkingKotlinItem.asPresentationModel() },
                             isPlaying = false,
                         )
                     } else {

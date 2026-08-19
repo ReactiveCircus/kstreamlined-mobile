@@ -8,7 +8,7 @@ import org.gradle.api.tasks.Delete
 internal class KStreamlinedBuildPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         if (target.isolated.rootProject == target.isolated) {
-            configureRootProject(target)
+            context(target) { configureRootProject() }
             return
         }
         val extension = target.extensions.create(
@@ -22,12 +22,13 @@ internal class KStreamlinedBuildPlugin : Plugin<Project> {
         }
     }
 
-    private fun configureRootProject(target: Project) {
-        target.pluginManager.apply("com.squareup.invert")
+    context(project: Project)
+    private fun configureRootProject() {
+        project.pluginManager.apply("com.squareup.invert")
 
         // register task for cleaning the build directory in the root project
-        target.tasks.register("clean", Delete::class.java) {
-            it.delete(target.isolated.rootProject.projectDirectory.file("build"))
+        project.tasks.register("clean", Delete::class.java) {
+            it.delete(project.isolated.rootProject.projectDirectory.file("build"))
         }
     }
 }

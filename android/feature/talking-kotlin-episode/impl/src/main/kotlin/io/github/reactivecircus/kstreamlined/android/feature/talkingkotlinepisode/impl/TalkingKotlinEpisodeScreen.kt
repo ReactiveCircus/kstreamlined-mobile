@@ -75,7 +75,8 @@ import io.github.reactivecircus.routebinding.runtime.RouteBinding
 
 @RouteBinding(TalkingKotlinEpisodeRoute::class)
 @Composable
-internal fun SharedTransitionScope.TalkingKotlinEpisodeScreen(
+context(sharedTransitionScope: SharedTransitionScope)
+internal fun TalkingKotlinEpisodeScreen(
     backStack: NavBackStack<NavKey>,
     route: TalkingKotlinEpisodeRoute,
 ) = trace("Screen:TalkingKotlinEpisode") {
@@ -90,35 +91,37 @@ internal fun SharedTransitionScope.TalkingKotlinEpisodeScreen(
 
     val animatedVisibilityScope = LocalNavAnimatedContentScope.current
 
-    TalkingKotlinEpisodeScreen(
-        animatedVisibilityScope = animatedVisibilityScope,
-        topBarBoundsKey = TopNavBarSharedTransitionKeys.bounds(route.origin),
-        playerElementKey = TalkingKotlinEpisodeSharedTransitionKeys.playerElement(
-            origin = route.origin,
-            id = route.id,
-        ),
-        onNavigateUp = backStack::removeLastOrNull,
-        onShareButtonClick = { title, url ->
-            context.openShareSheet(title, url)
-        },
-        onOpenLink = {
-            if (!isTransitionActive) {
-                context.openCustomTab(it)
-            }
-        },
-        onPlayerPositionChange = { playerPosition = it },
-        uiState = uiState,
-        eventSink = eventSink,
-        modifier = Modifier.sharedBounds(
-            sharedContentState = rememberSharedContentState(
-                key = TalkingKotlinEpisodeSharedTransitionKeys.bounds(
-                    origin = route.origin,
-                    id = route.id,
-                ),
-            ),
+    with(sharedTransitionScope) {
+        TalkingKotlinEpisodeScreen(
             animatedVisibilityScope = animatedVisibilityScope,
-        ),
-    )
+            topBarBoundsKey = TopNavBarSharedTransitionKeys.bounds(route.origin),
+            playerElementKey = TalkingKotlinEpisodeSharedTransitionKeys.playerElement(
+                origin = route.origin,
+                id = route.id,
+            ),
+            onNavigateUp = backStack::removeLastOrNull,
+            onShareButtonClick = { title, url ->
+                context.openShareSheet(title, url)
+            },
+            onOpenLink = {
+                if (!isTransitionActive) {
+                    context.openCustomTab(it)
+                }
+            },
+            onPlayerPositionChange = { playerPosition = it },
+            uiState = uiState,
+            eventSink = eventSink,
+            modifier = Modifier.sharedBounds(
+                sharedContentState = rememberSharedContentState(
+                    key = TalkingKotlinEpisodeSharedTransitionKeys.bounds(
+                        origin = route.origin,
+                        id = route.id,
+                    ),
+                ),
+                animatedVisibilityScope = animatedVisibilityScope,
+            ),
+        )
+    }
 
     // save playback position when navigating away
     val topEntry = backStack.lastOrNull()
@@ -130,7 +133,8 @@ internal fun SharedTransitionScope.TalkingKotlinEpisodeScreen(
 }
 
 @Composable
-internal fun SharedTransitionScope.TalkingKotlinEpisodeScreen(
+context(sharedTransitionScope: SharedTransitionScope)
+internal fun TalkingKotlinEpisodeScreen(
     topBarBoundsKey: String,
     playerElementKey: String,
     onNavigateUp: () -> Unit,
@@ -213,7 +217,8 @@ internal fun SharedTransitionScope.TalkingKotlinEpisodeScreen(
 }
 
 @Composable
-private fun SharedTransitionScope.ContentUi(
+context(sharedTransitionScope: SharedTransitionScope)
+private fun ContentUi(
     animatedVisibilityScope: AnimatedVisibilityScope?,
     playerElementKey: String,
     episode: TalkingKotlinEpisode,
@@ -330,10 +335,12 @@ private fun SharedTransitionScope.ContentUi(
             onPlayerPositionChange = onPlayerPositionChange,
             contentPadding = WindowInsets.navigationBars.asPaddingValues(),
             modifier = if (animatedVisibilityScope != null) {
-                Modifier.sharedElement(
-                    sharedContentState = rememberSharedContentState(key = playerElementKey),
-                    animatedVisibilityScope = animatedVisibilityScope,
-                )
+                with(sharedTransitionScope) {
+                    Modifier.sharedElement(
+                        sharedContentState = rememberSharedContentState(key = playerElementKey),
+                        animatedVisibilityScope = animatedVisibilityScope,
+                    )
+                }
             } else {
                 Modifier
             },

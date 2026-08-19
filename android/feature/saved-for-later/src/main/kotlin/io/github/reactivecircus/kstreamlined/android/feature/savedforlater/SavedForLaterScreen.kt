@@ -32,6 +32,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.ui.LocalNavAnimatedContentScope
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.FilledIconButton
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.TopNavBar
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.TopNavBarSharedTransitionKeys
@@ -58,8 +59,8 @@ import io.github.reactivecircus.kstreamlined.kmp.presentation.savedforlater.Save
 import io.github.reactivecircus.kstreamlined.kmp.presentation.savedforlater.SavedForLaterUiState
 
 @Composable
-public fun SharedTransitionScope.SavedForLaterScreen(
-    animatedVisibilityScope: AnimatedVisibilityScope,
+context(sharedTransitionScope: SharedTransitionScope)
+public fun SavedForLaterScreen(
     backStack: NavBackStack<NavKey>,
     listState: LazyListState,
     modifier: Modifier = Modifier,
@@ -67,6 +68,9 @@ public fun SharedTransitionScope.SavedForLaterScreen(
     val presenter = retainPresenter<SavedForLaterPresenter>()
     val uiState by presenter.states.collectAsState()
     val eventSink = presenter.eventSink
+
+    val animatedVisibilityScope = LocalNavAnimatedContentScope.current
+
     SavedForLaterScreen(
         animatedVisibilityScope = animatedVisibilityScope,
         listState = listState,
@@ -107,8 +111,8 @@ public fun SharedTransitionScope.SavedForLaterScreen(
 }
 
 @Composable
-internal fun SharedTransitionScope.SavedForLaterScreen(
-    animatedVisibilityScope: AnimatedVisibilityScope,
+context(sharedTransitionScope: SharedTransitionScope, animatedVisibilityScope: AnimatedVisibilityScope)
+internal fun SavedForLaterScreen(
     listState: LazyListState,
     onViewItem: (FeedItem) -> Unit,
     onOpenSettings: () -> Unit,
@@ -166,14 +170,14 @@ private const val SharedTransitionOrigin = "SavedForLater"
 
 @Suppress("MaxLineLength")
 @Composable
-private fun SharedTransitionScope.ContentUi(
-    animatedVisibilityScope: AnimatedVisibilityScope,
+context(sharedTransitionScope: SharedTransitionScope, animatedVisibilityScope: AnimatedVisibilityScope)
+private fun ContentUi(
     listState: LazyListState,
     items: List<DisplayableFeedItem<FeedItem>>,
     onItemClick: (FeedItem) -> Unit,
     eventSink: (SavedForLaterUiEvent) -> Unit,
     modifier: Modifier = Modifier,
-) {
+) = with(sharedTransitionScope) {
     LazyColumn(
         modifier = modifier.fillMaxSize(),
         state = listState,

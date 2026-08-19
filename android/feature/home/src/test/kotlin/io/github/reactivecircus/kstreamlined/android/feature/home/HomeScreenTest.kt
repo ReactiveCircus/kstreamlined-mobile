@@ -111,7 +111,6 @@ class HomeScreenTest {
                 exit = ExitTransition.None,
             ) {
                 HomeScreen(
-                    animatedVisibilityScope = this,
                     listState = rememberLazyListState(),
                     onViewItem = {},
                     onOpenSettings = {},

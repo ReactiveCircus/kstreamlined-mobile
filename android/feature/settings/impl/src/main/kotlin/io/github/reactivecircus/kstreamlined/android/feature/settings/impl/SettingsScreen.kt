@@ -6,7 +6,6 @@ import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -65,7 +64,8 @@ import kotlinx.coroutines.launch
 
 @RouteBinding(SettingsRoute::class)
 @Composable
-internal fun SharedTransitionScope.SettingsScreen(
+context(sharedTransitionScope: SharedTransitionScope)
+internal fun SettingsScreen(
     backStack: NavBackStack<NavKey>,
     route: SettingsRoute,
 ) = trace("Screen:Settings") {
@@ -85,8 +85,8 @@ internal fun SharedTransitionScope.SettingsScreen(
 }
 
 @Composable
-internal fun SharedTransitionScope.SettingsScreen(
-    animatedVisibilityScope: AnimatedVisibilityScope,
+context(sharedTransitionScope: SharedTransitionScope, animatedVisibilityScope: AnimatedVisibilityScope)
+internal fun SettingsScreen(
     topBarBoundsKey: String,
     titleElementKey: String,
     onOpenLicenses: () -> Unit,
@@ -134,10 +134,9 @@ internal fun SharedTransitionScope.SettingsScreen(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun SharedTransitionScope.ContentUi(
-    animatedVisibilityScope: AnimatedVisibilityScope,
+context(sharedTransitionScope: SharedTransitionScope, animatedVisibilityScope: AnimatedVisibilityScope)
+private fun ContentUi(
     state: SettingsUiState.Content,
     eventSink: (SettingsUiEvent) -> Unit,
     onOpenLicenses: () -> Unit,
@@ -234,13 +233,15 @@ private fun SharedTransitionScope.ContentUi(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            OpenSourceLicensesTile(
-                onClick = onOpenLicenses,
-                modifier = Modifier.sharedBounds(
-                    sharedContentState = rememberSharedContentState(key = LicensesSharedTransitionKeys.Bounds),
-                    animatedVisibilityScope = animatedVisibilityScope,
-                ),
-            )
+            with(sharedTransitionScope) {
+                OpenSourceLicensesTile(
+                    onClick = onOpenLicenses,
+                    modifier = Modifier.sharedBounds(
+                        sharedContentState = rememberSharedContentState(key = LicensesSharedTransitionKeys.Bounds),
+                        animatedVisibilityScope = animatedVisibilityScope,
+                    ),
+                )
+            }
 
             Spacer(modifier = Modifier.height(8.dp))
 

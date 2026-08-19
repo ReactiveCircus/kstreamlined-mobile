@@ -46,7 +46,8 @@ import kotlin.math.absoluteValue
 @OptIn(ExperimentalFoundationApi::class)
 @RouteBinding(MainRoute::class)
 @Composable
-internal fun SharedTransitionScope.MainScreen(
+context(sharedTransitionScope: SharedTransitionScope)
+internal fun MainScreen(
     backStack: NavBackStack<NavKey>,
 ) {
     val dpCacheWindow = LazyLayoutCacheWindow(ahead = 300.dp, behind = 300.dp)
@@ -70,7 +71,6 @@ internal fun SharedTransitionScope.MainScreen(
             when (it) {
                 MainPagerItem.Home.ordinal -> {
                     HomeScreen(
-                        animatedVisibilityScope = animatedVisibilityScope,
                         backStack = backStack,
                         listState = homeListState,
                         modifier = Modifier.pagerScaleTransition(it, pagerState),
@@ -79,7 +79,6 @@ internal fun SharedTransitionScope.MainScreen(
 
                 MainPagerItem.Saved.ordinal -> {
                     SavedForLaterScreen(
-                        animatedVisibilityScope = animatedVisibilityScope,
                         backStack = backStack,
                         listState = savedListState,
                         modifier = Modifier.pagerScaleTransition(it, pagerState),
@@ -100,51 +99,53 @@ internal fun SharedTransitionScope.MainScreen(
 
         val coroutineScope = rememberCoroutineScope()
 
-        with(animatedVisibilityScope) {
-            NavigationIsland(
-                modifier = Modifier
-                    .navigationBarsPadding()
-                    .padding(8.dp)
-                    .align(Alignment.BottomCenter)
-                    .renderInSharedTransitionScopeOverlay(
-                        zIndexInOverlay = 1f,
+        with(sharedTransitionScope) {
+            with(animatedVisibilityScope) {
+                NavigationIsland(
+                    modifier = Modifier
+                        .navigationBarsPadding()
+                        .padding(8.dp)
+                        .align(Alignment.BottomCenter)
+                        .renderInSharedTransitionScopeOverlay(
+                            zIndexInOverlay = 1f,
+                        )
+                        .animateEnterExit(
+                            enter = fadeIn() + slideInVertically(
+                                tween(delayMillis = 200, easing = LinearOutSlowInEasing),
+                            ) { it * 2 },
+                            exit = fadeOut(),
+                        ),
+                ) {
+                    NavigationIslandItem(
+                        selected = selectedPage == MainPagerItem.Home,
+                        icon = KSIcons.Kotlin,
+                        contentDescription = "Home",
+                        onClick = {
+                            if (pagerState.currentPage != MainPagerItem.Home.ordinal) {
+                                selectedPage = MainPagerItem.Home
+                            } else {
+                                coroutineScope.launch {
+                                    homeListState.animateScrollToItem(0)
+                                }
+                            }
+                        },
                     )
-                    .animateEnterExit(
-                        enter = fadeIn() + slideInVertically(
-                            tween(delayMillis = 200, easing = LinearOutSlowInEasing),
-                        ) { it * 2 },
-                        exit = fadeOut(),
-                    ),
-            ) {
-                NavigationIslandItem(
-                    selected = selectedPage == MainPagerItem.Home,
-                    icon = KSIcons.Kotlin,
-                    contentDescription = "Home",
-                    onClick = {
-                        if (pagerState.currentPage != MainPagerItem.Home.ordinal) {
-                            selectedPage = MainPagerItem.Home
-                        } else {
-                            coroutineScope.launch {
-                                homeListState.animateScrollToItem(0)
+                    NavigationIslandDivider()
+                    NavigationIslandItem(
+                        selected = selectedPage == MainPagerItem.Saved,
+                        icon = KSIcons.Bookmarks,
+                        contentDescription = "Saved",
+                        onClick = {
+                            if (pagerState.currentPage != MainPagerItem.Saved.ordinal) {
+                                selectedPage = MainPagerItem.Saved
+                            } else {
+                                coroutineScope.launch {
+                                    savedListState.animateScrollToItem(0)
+                                }
                             }
-                        }
-                    },
-                )
-                NavigationIslandDivider()
-                NavigationIslandItem(
-                    selected = selectedPage == MainPagerItem.Saved,
-                    icon = KSIcons.Bookmarks,
-                    contentDescription = "Saved",
-                    onClick = {
-                        if (pagerState.currentPage != MainPagerItem.Saved.ordinal) {
-                            selectedPage = MainPagerItem.Saved
-                        } else {
-                            coroutineScope.launch {
-                                savedListState.animateScrollToItem(0)
-                            }
-                        }
-                    },
-                )
+                        },
+                    )
+                }
             }
         }
 
