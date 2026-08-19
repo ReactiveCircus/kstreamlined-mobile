@@ -1,8 +1,8 @@
 package io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.impl
 
-import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.runtime.Composable
 import io.github.reactivecircus.chameleon.runtime.Chameleon
+import io.github.reactivecircus.kstreamlined.android.core.animation.NoOpSharedElementLayout
 import io.github.reactivecircus.kstreamlined.android.core.screenshottesting.tester.SnapshotTester
 import io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepisode.TalkingKotlinEpisode
 import io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepisode.TalkingKotlinEpisodeUiState
@@ -49,7 +49,7 @@ class TalkingKotlinEpisodeScreenTest {
 
     @Composable
     fun TalkingKotlinEpisodeScreenSnapshot(uiState: TalkingKotlinEpisodeUiState) {
-        SharedTransitionLayout {
+        NoOpSharedElementLayout {
             TalkingKotlinEpisodeScreen(
                 topBarBoundsKey = "",
                 playerElementKey = "",

@@ -1,6 +1,7 @@
 package io.github.reactivecircus.kstreamlined.android.feature.licenses.impl
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -46,6 +47,7 @@ internal fun LicensesScreen(
 
     with(sharedTransitionScope) {
         LicensesScreen(
+            animatedVisibilityScope = LocalNavAnimatedContentScope.current,
             onNavigateUp = backStack::removeLastOrNull,
             uiState = uiState,
             modifier = Modifier.sharedBounds(
@@ -57,7 +59,7 @@ internal fun LicensesScreen(
 }
 
 @Composable
-context(sharedTransitionScope: SharedTransitionScope)
+context(sharedTransitionScope: SharedTransitionScope, animatedVisibilityScope: AnimatedVisibilityScope)
 internal fun LicensesScreen(
     onNavigateUp: () -> Unit,
     uiState: LicensesUiState,

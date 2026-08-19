@@ -1,7 +1,6 @@
 package io.github.reactivecircus.kstreamlined.android.core.ui.feed
 
 import androidx.compose.animation.AnimatedVisibilityScope
-import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -28,6 +27,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.tracing.trace
 import coil3.compose.AsyncImage
+import io.github.reactivecircus.kstreamlined.android.core.animation.NoOpSharedElementLayout
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Icon
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.IconButton
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Surface
@@ -43,13 +43,12 @@ import kotlin.time.Instant
 
 @OptIn(ExperimentalFoundationStyleApi::class)
 @Composable
-context(sharedTransitionScope: SharedTransitionScope)
+context(sharedTransitionScope: SharedTransitionScope, animatedVisibilityScope: AnimatedVisibilityScope)
 public fun KotlinYouTubeCard(
     item: DisplayableFeedItem<FeedItem.KotlinYouTube>,
     onItemClick: (FeedItem.KotlinYouTube) -> Unit,
     onSaveButtonClick: (FeedItem.KotlinYouTube) -> Unit,
     modifier: Modifier = Modifier,
-    animatedVisibilityScope: AnimatedVisibilityScope? = null,
     saveButtonElementKey: String? = null,
 ): Unit = trace("FeedItem:KotlinYouTubeCard") {
     Surface(
@@ -124,7 +123,7 @@ public fun KotlinYouTubeCard(
                         modifier = Modifier
                             .testTag("saveButton")
                             .then(
-                                if (animatedVisibilityScope != null && saveButtonElementKey != null) {
+                                if (saveButtonElementKey != null) {
                                     with(sharedTransitionScope) {
                                         Modifier.sharedElement(
                                             sharedContentState = rememberSharedContentState(key = saveButtonElementKey),
@@ -172,7 +171,7 @@ private val ImageHeight = 200.dp
 @Composable
 @PreviewKStreamlined
 private fun PreviewKotlinYouTubeCard_unsaved() {
-    SharedTransitionLayout {
+    NoOpSharedElementLayout {
         KotlinYouTubeCard(
             item = FeedItem.KotlinYouTube(
                 id = "1",
@@ -193,7 +192,7 @@ private fun PreviewKotlinYouTubeCard_unsaved() {
 @Composable
 @PreviewKStreamlined
 private fun PreviewKotlinYouTubeCard_saved() {
-    SharedTransitionLayout {
+    NoOpSharedElementLayout {
         KotlinYouTubeCard(
             item = FeedItem.KotlinYouTube(
                 id = "1",

@@ -1,7 +1,6 @@
 package io.github.reactivecircus.kstreamlined.android.core.ui.feed
 
 import androidx.compose.animation.AnimatedVisibilityScope
-import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -33,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.tracing.trace
 import coil3.compose.AsyncImage
+import io.github.reactivecircus.kstreamlined.android.core.animation.NoOpSharedElementLayout
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.IconButton
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Surface
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Text
@@ -47,13 +47,12 @@ import kotlin.time.Instant
 
 @OptIn(ExperimentalFoundationStyleApi::class)
 @Composable
-context(sharedTransitionScope: SharedTransitionScope)
+context(sharedTransitionScope: SharedTransitionScope, animatedVisibilityScope: AnimatedVisibilityScope)
 public fun TalkingKotlinCard(
     item: DisplayableFeedItem<FeedItem.TalkingKotlin>,
     onItemClick: (FeedItem.TalkingKotlin) -> Unit,
     onSaveButtonClick: (FeedItem.TalkingKotlin) -> Unit,
     modifier: Modifier = Modifier,
-    animatedVisibilityScope: AnimatedVisibilityScope? = null,
     cardElementKey: String? = null,
 ): Unit = trace("FeedItem:TalkingKotlinCard") {
     val brush = Brush.horizontalGradient(
@@ -66,7 +65,7 @@ public fun TalkingKotlinCard(
         onClick = { onItemClick(item.value) },
         modifier = modifier
             .then(
-                if (animatedVisibilityScope != null && cardElementKey != null) {
+                if (cardElementKey != null) {
                     with(sharedTransitionScope) {
                         Modifier.sharedElement(
                             sharedContentState = rememberSharedContentState(key = cardElementKey),
@@ -192,7 +191,7 @@ private val ImageSize = 88.dp
 @Composable
 @PreviewKStreamlined
 private fun PreviewTalkingKotlinCard_unsaved() {
-    SharedTransitionLayout {
+    NoOpSharedElementLayout {
         TalkingKotlinCard(
             item = FeedItem.TalkingKotlin(
                 id = "1",
@@ -218,7 +217,7 @@ private fun PreviewTalkingKotlinCard_unsaved() {
 @Composable
 @PreviewKStreamlined
 private fun PreviewTalkingKotlinCard_saved() {
-    SharedTransitionLayout {
+    NoOpSharedElementLayout {
         TalkingKotlinCard(
             item = FeedItem.TalkingKotlin(
                 id = "1",

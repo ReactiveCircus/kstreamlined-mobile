@@ -1,8 +1,8 @@
 package io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue.impl
 
-import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.runtime.Composable
 import io.github.reactivecircus.chameleon.runtime.Chameleon
+import io.github.reactivecircus.kstreamlined.android.core.animation.NoOpSharedElementLayout
 import io.github.reactivecircus.kstreamlined.android.core.screenshottesting.tester.SnapshotTester
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.KotlinWeeklyIssueItem
 import io.github.reactivecircus.kstreamlined.kmp.presentation.kotlinweeklyissue.KotlinWeeklyIssueUiState
@@ -76,7 +76,7 @@ class KotlinWeeklyIssueScreenTest {
 
     @Composable
     fun KotlinWeeklyIssueScreenSnapshot(uiState: KotlinWeeklyIssueUiState) {
-        SharedTransitionLayout {
+        NoOpSharedElementLayout {
             KotlinWeeklyIssueScreen(
                 topBarBoundsKey = "",
                 titleElementKey = "",

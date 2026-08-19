@@ -1,7 +1,6 @@
 package io.github.reactivecircus.kstreamlined.android.core.designsystem.component
 
 import androidx.compose.animation.AnimatedVisibilityScope
-import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.animation.SharedTransitionScope.ResizeMode.Companion.scaleToBounds
 import androidx.compose.foundation.layout.Box
@@ -29,16 +28,16 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import io.github.reactivecircus.kstreamlined.android.core.animation.NoOpSharedElementLayout
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.icon.KSIcons
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.preview.PreviewKStreamlined
 
 @Composable
-context(sharedTransitionScope: SharedTransitionScope)
+context(sharedTransitionScope: SharedTransitionScope, animatedVisibilityScope: AnimatedVisibilityScope)
 public fun TopNavBar(
     title: String,
     modifier: Modifier = Modifier,
-    animatedVisibilityScope: AnimatedVisibilityScope? = null,
     boundsKey: String? = null,
     titleElementKey: String? = null,
     contentPadding: PaddingValues = PaddingValues(0.dp),
@@ -50,7 +49,7 @@ public fun TopNavBar(
     Surface(
         modifier = modifier
             .then(
-                if (boundsKey != null && animatedVisibilityScope != null) {
+                if (boundsKey != null) {
                     with(sharedTransitionScope) {
                         Modifier.sharedBounds(
                             sharedContentState = rememberSharedContentState(key = boundsKey),
@@ -86,7 +85,6 @@ public fun TopNavBar(
                     }
 
                     GradientTitle(
-                        animatedVisibilityScope = animatedVisibilityScope,
                         titleElementKey = titleElementKey,
                         text = title,
                         modifier = Modifier.weight(1f),
@@ -117,9 +115,8 @@ public object TopNavBarSharedTransitionKeys {
 }
 
 @Composable
-context(sharedTransitionScope: SharedTransitionScope)
+context(sharedTransitionScope: SharedTransitionScope, animatedVisibilityScope: AnimatedVisibilityScope)
 private fun GradientTitle(
-    animatedVisibilityScope: AnimatedVisibilityScope?,
     titleElementKey: String?,
     text: String,
     modifier: Modifier = Modifier,
@@ -145,7 +142,7 @@ private fun GradientTitle(
             ),
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
-            modifier = if (titleElementKey != null && animatedVisibilityScope != null) {
+            modifier = if (titleElementKey != null) {
                 with(sharedTransitionScope) {
                     Modifier
                         .sharedElement(
@@ -167,7 +164,7 @@ private const val GradientHorizontalScale = 1.3f
 @Composable
 @PreviewKStreamlined
 private fun PreviewTopNavBar() {
-    SharedTransitionLayout {
+    NoOpSharedElementLayout {
         TopNavBar(
             title = "Title",
             actions = {
@@ -184,7 +181,7 @@ private fun PreviewTopNavBar() {
 @Composable
 @PreviewKStreamlined
 private fun PreviewTopNavBar_withBottomRow() {
-    SharedTransitionLayout {
+    NoOpSharedElementLayout {
         TopNavBar(
             title = "Title",
             actions = {
@@ -216,7 +213,7 @@ private fun PreviewTopNavBar_withBottomRow() {
 @Composable
 @PreviewKStreamlined
 private fun PreviewTopNavBar_withNavigationIcon() {
-    SharedTransitionLayout {
+    NoOpSharedElementLayout {
         TopNavBar(
             title = "Title",
             navigationIcon = {

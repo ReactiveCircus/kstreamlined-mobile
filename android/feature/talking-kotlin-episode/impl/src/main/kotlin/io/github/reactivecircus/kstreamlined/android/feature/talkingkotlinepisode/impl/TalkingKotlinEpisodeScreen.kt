@@ -133,7 +133,7 @@ internal fun TalkingKotlinEpisodeScreen(
 }
 
 @Composable
-context(sharedTransitionScope: SharedTransitionScope)
+context(sharedTransitionScope: SharedTransitionScope, animatedVisibilityScope: AnimatedVisibilityScope)
 internal fun TalkingKotlinEpisodeScreen(
     topBarBoundsKey: String,
     playerElementKey: String,
@@ -144,7 +144,6 @@ internal fun TalkingKotlinEpisodeScreen(
     uiState: TalkingKotlinEpisodeUiState,
     eventSink: (TalkingKotlinEpisodeUiEvent) -> Unit,
     modifier: Modifier = Modifier,
-    animatedVisibilityScope: AnimatedVisibilityScope? = null,
 ) {
     Column(
         modifier = modifier
@@ -153,7 +152,6 @@ internal fun TalkingKotlinEpisodeScreen(
             .background(KSTheme.colorScheme.background),
     ) {
         TopNavBar(
-            animatedVisibilityScope = animatedVisibilityScope,
             boundsKey = topBarBoundsKey,
             title = "",
             modifier = Modifier.zIndex(1f),
@@ -202,7 +200,6 @@ internal fun TalkingKotlinEpisodeScreen(
 
                 is TalkingKotlinEpisodeUiState.Content -> {
                     ContentUi(
-                        animatedVisibilityScope = animatedVisibilityScope,
                         playerElementKey = playerElementKey,
                         episode = uiState.episode,
                         eventSink = eventSink,
@@ -217,9 +214,8 @@ internal fun TalkingKotlinEpisodeScreen(
 }
 
 @Composable
-context(sharedTransitionScope: SharedTransitionScope)
+context(sharedTransitionScope: SharedTransitionScope, animatedVisibilityScope: AnimatedVisibilityScope)
 private fun ContentUi(
-    animatedVisibilityScope: AnimatedVisibilityScope?,
     playerElementKey: String,
     episode: TalkingKotlinEpisode,
     eventSink: (TalkingKotlinEpisodeUiEvent) -> Unit,
@@ -334,15 +330,11 @@ private fun ContentUi(
             onPlayPauseButtonClick = { eventSink(TalkingKotlinEpisodeUiEvent.TogglePlayPause) },
             onPlayerPositionChange = onPlayerPositionChange,
             contentPadding = WindowInsets.navigationBars.asPaddingValues(),
-            modifier = if (animatedVisibilityScope != null) {
-                with(sharedTransitionScope) {
-                    Modifier.sharedElement(
-                        sharedContentState = rememberSharedContentState(key = playerElementKey),
-                        animatedVisibilityScope = animatedVisibilityScope,
-                    )
-                }
-            } else {
-                Modifier
+            modifier = with(sharedTransitionScope) {
+                Modifier.sharedElement(
+                    sharedContentState = rememberSharedContentState(key = playerElementKey),
+                    animatedVisibilityScope = animatedVisibilityScope,
+                )
             },
         )
     }

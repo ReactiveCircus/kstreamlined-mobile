@@ -127,7 +127,6 @@ internal fun SavedForLaterScreen(
             .background(KSTheme.colorScheme.background),
     ) {
         TopNavBar(
-            animatedVisibilityScope = animatedVisibilityScope,
             boundsKey = TopNavBarSharedTransitionKeys.bounds(SharedTransitionOrigin),
             titleElementKey = TopNavBarSharedTransitionKeys.titleElement(SharedTransitionOrigin),
             title = stringResource(id = R.string.title_saved_for_later),
@@ -207,7 +206,6 @@ private fun ContentUi(
                                 ),
                                 animatedVisibilityScope = animatedVisibilityScope,
                             ),
-                        animatedVisibilityScope = animatedVisibilityScope,
                         saveButtonElementKey = ContentViewerSharedTransitionKeys.saveButtonElement(
                             origin = SharedTransitionOrigin,
                             id = item.id,
@@ -250,7 +248,6 @@ private fun ContentUi(
                                 ),
                                 animatedVisibilityScope = animatedVisibilityScope,
                             ),
-                        animatedVisibilityScope = animatedVisibilityScope,
                         saveButtonElementKey = ContentViewerSharedTransitionKeys.saveButtonElement(
                             origin = SharedTransitionOrigin,
                             id = item.id,
@@ -274,7 +271,6 @@ private fun ContentUi(
                                 ),
                                 animatedVisibilityScope = animatedVisibilityScope,
                             ),
-                        animatedVisibilityScope = animatedVisibilityScope,
                         cardElementKey = TalkingKotlinEpisodeSharedTransitionKeys.playerElement(
                             origin = SharedTransitionOrigin,
                             id = item.id,

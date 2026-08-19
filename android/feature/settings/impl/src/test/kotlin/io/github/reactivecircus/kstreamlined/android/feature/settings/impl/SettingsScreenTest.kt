@@ -1,11 +1,8 @@
 package io.github.reactivecircus.kstreamlined.android.feature.settings.impl
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.EnterTransition
-import androidx.compose.animation.ExitTransition
-import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.runtime.Composable
 import io.github.reactivecircus.chameleon.runtime.Chameleon
+import io.github.reactivecircus.kstreamlined.android.core.animation.NoOpSharedElementLayout
 import io.github.reactivecircus.kstreamlined.android.core.screenshottesting.tester.SnapshotTester
 import io.github.reactivecircus.kstreamlined.kmp.presentation.settings.AutoSyncInterval
 import io.github.reactivecircus.kstreamlined.kmp.presentation.settings.SettingsUiState
@@ -35,21 +32,15 @@ class SettingsScreenTest {
 
     @Composable
     fun SettingsScreenSnapshot(uiState: SettingsUiState) {
-        SharedTransitionLayout {
-            AnimatedVisibility(
-                visible = true,
-                enter = EnterTransition.None,
-                exit = ExitTransition.None,
-            ) {
-                SettingsScreen(
-                    topBarBoundsKey = "",
-                    titleElementKey = "",
-                    onOpenLicenses = {},
-                    onNavigateUp = {},
-                    uiState = uiState,
-                    eventSink = {},
-                )
-            }
+        NoOpSharedElementLayout {
+            SettingsScreen(
+                topBarBoundsKey = "",
+                titleElementKey = "",
+                onOpenLicenses = {},
+                onNavigateUp = {},
+                uiState = uiState,
+                eventSink = {},
+            )
         }
     }
 }

@@ -1,11 +1,8 @@
 package io.github.reactivecircus.kstreamlined.android.feature.licenses.impl
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.EnterTransition
-import androidx.compose.animation.ExitTransition
-import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.runtime.Composable
 import io.github.reactivecircus.chameleon.runtime.Chameleon
+import io.github.reactivecircus.kstreamlined.android.core.animation.NoOpSharedElementLayout
 import io.github.reactivecircus.kstreamlined.android.core.screenshottesting.tester.SnapshotTester
 import org.junit.Rule
 import kotlin.test.Test
@@ -78,17 +75,11 @@ class LicensesScreenTest {
 
     @Composable
     internal fun LicensesScreenSnapshot(uiState: LicensesUiState) {
-        SharedTransitionLayout {
-            AnimatedVisibility(
-                visible = true,
-                enter = EnterTransition.None,
-                exit = ExitTransition.None,
-            ) {
-                LicensesScreen(
-                    onNavigateUp = {},
-                    uiState = uiState,
-                )
-            }
+        NoOpSharedElementLayout {
+            LicensesScreen(
+                onNavigateUp = {},
+                uiState = uiState,
+            )
         }
     }
 }
