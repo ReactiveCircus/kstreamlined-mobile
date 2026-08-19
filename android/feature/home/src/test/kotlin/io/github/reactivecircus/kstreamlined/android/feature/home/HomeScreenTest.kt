@@ -1,12 +1,9 @@
 package io.github.reactivecircus.kstreamlined.android.feature.home
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.EnterTransition
-import androidx.compose.animation.ExitTransition
-import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import io.github.reactivecircus.chameleon.runtime.Chameleon
+import io.github.reactivecircus.kstreamlined.android.core.animation.NoOpSharedElementLayout
 import io.github.reactivecircus.kstreamlined.android.core.screenshottesting.tester.SnapshotTester
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.DisplayableFeedItem
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
@@ -104,21 +101,15 @@ class HomeScreenTest {
 
     @Composable
     fun HomeScreenSnapshot(uiState: HomeUiState) {
-        SharedTransitionLayout {
-            AnimatedVisibility(
-                visible = true,
-                enter = EnterTransition.None,
-                exit = ExitTransition.None,
-            ) {
-                HomeScreen(
-                    listState = rememberLazyListState(),
-                    onViewItem = {},
-                    onOpenSettings = {},
-                    onOpenFeedSelection = {},
-                    uiState = uiState,
-                    eventSink = {},
-                )
-            }
+        NoOpSharedElementLayout {
+            HomeScreen(
+                listState = rememberLazyListState(),
+                onViewItem = {},
+                onOpenSettings = {},
+                onOpenFeedSelection = {},
+                uiState = uiState,
+                eventSink = {},
+            )
         }
     }
 }

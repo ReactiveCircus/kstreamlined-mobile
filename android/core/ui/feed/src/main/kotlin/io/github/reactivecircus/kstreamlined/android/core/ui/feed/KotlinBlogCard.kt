@@ -1,7 +1,6 @@
 package io.github.reactivecircus.kstreamlined.android.core.ui.feed
 
 import androidx.compose.animation.AnimatedVisibilityScope
-import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -22,6 +21,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.tracing.trace
 import coil3.compose.AsyncImage
+import io.github.reactivecircus.kstreamlined.android.core.animation.NoOpSharedElementLayout
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.IconButton
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Surface
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Text
@@ -35,13 +35,12 @@ import kotlin.time.Instant
 
 @OptIn(ExperimentalFoundationStyleApi::class)
 @Composable
-context(sharedTransitionScope: SharedTransitionScope)
+context(sharedTransitionScope: SharedTransitionScope, animatedVisibilityScope: AnimatedVisibilityScope)
 public fun KotlinBlogCard(
     item: DisplayableFeedItem<FeedItem.KotlinBlog>,
     onItemClick: (FeedItem.KotlinBlog) -> Unit,
     onSaveButtonClick: (FeedItem.KotlinBlog) -> Unit,
     modifier: Modifier = Modifier,
-    animatedVisibilityScope: AnimatedVisibilityScope? = null,
     saveButtonElementKey: String? = null,
 ): Unit = trace("FeedItem:KotlinBlogCard") {
     Surface(
@@ -97,7 +96,7 @@ public fun KotlinBlogCard(
                         modifier = Modifier
                             .testTag("saveButton")
                             .then(
-                                if (animatedVisibilityScope != null && saveButtonElementKey != null) {
+                                if (saveButtonElementKey != null) {
                                     with(sharedTransitionScope) {
                                         Modifier.sharedElement(
                                             sharedContentState = rememberSharedContentState(key = saveButtonElementKey),
@@ -121,7 +120,7 @@ private val ImageHeight = 200.dp
 @Composable
 @PreviewKStreamlined
 private fun PreviewKotlinBlogCard_unsaved() {
-    SharedTransitionLayout {
+    NoOpSharedElementLayout {
         KotlinBlogCard(
             item = FeedItem.KotlinBlog(
                 id = "1",
@@ -141,7 +140,7 @@ private fun PreviewKotlinBlogCard_unsaved() {
 @Composable
 @PreviewKStreamlined
 private fun PreviewKotlinBlogCard_saved() {
-    SharedTransitionLayout {
+    NoOpSharedElementLayout {
         KotlinBlogCard(
             item = FeedItem.KotlinBlog(
                 id = "1",

@@ -111,7 +111,7 @@ internal fun KotlinWeeklyIssueScreen(
 }
 
 @Composable
-context(sharedTransitionScope: SharedTransitionScope)
+context(sharedTransitionScope: SharedTransitionScope, animatedVisibilityScope: AnimatedVisibilityScope)
 internal fun KotlinWeeklyIssueScreen(
     topBarBoundsKey: String,
     titleElementKey: String,
@@ -122,7 +122,6 @@ internal fun KotlinWeeklyIssueScreen(
     uiState: KotlinWeeklyIssueUiState,
     eventSink: (KotlinWeeklyIssueUiEvent) -> Unit,
     modifier: Modifier = Modifier,
-    animatedVisibilityScope: AnimatedVisibilityScope? = null,
 ) {
     Column(
         modifier = modifier
@@ -131,7 +130,6 @@ internal fun KotlinWeeklyIssueScreen(
             .background(KSTheme.colorScheme.background),
     ) {
         TopNavBar(
-            animatedVisibilityScope = animatedVisibilityScope,
             boundsKey = topBarBoundsKey,
             titleElementKey = titleElementKey,
             title = title,

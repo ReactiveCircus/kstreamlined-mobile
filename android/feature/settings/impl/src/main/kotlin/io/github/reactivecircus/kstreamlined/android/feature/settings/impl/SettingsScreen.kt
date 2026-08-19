@@ -102,7 +102,6 @@ internal fun SettingsScreen(
             .background(KSTheme.colorScheme.background),
     ) {
         TopNavBar(
-            animatedVisibilityScope = animatedVisibilityScope,
             boundsKey = topBarBoundsKey,
             titleElementKey = titleElementKey,
             title = stringResource(id = R.string.title_settings),

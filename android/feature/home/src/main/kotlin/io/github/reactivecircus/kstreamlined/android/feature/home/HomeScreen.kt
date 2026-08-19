@@ -162,7 +162,6 @@ internal fun HomeScreen(
             .background(KSTheme.colorScheme.background),
     ) {
         TopNavBar(
-            animatedVisibilityScope = animatedVisibilityScope,
             boundsKey = TopNavBarSharedTransitionKeys.bounds(SharedTransitionOrigin),
             titleElementKey = TopNavBarSharedTransitionKeys.titleElement(SharedTransitionOrigin),
             title = stringResource(id = R.string.title_home),
@@ -326,7 +325,6 @@ private fun LazyItemScope.FeedItemUi(
                                 ),
                                 animatedVisibilityScope = animatedVisibilityScope,
                             ),
-                        animatedVisibilityScope = animatedVisibilityScope,
                         saveButtonElementKey = ContentViewerSharedTransitionKeys.saveButtonElement(
                             origin = SharedTransitionOrigin,
                             id = item.id,
@@ -373,7 +371,6 @@ private fun LazyItemScope.FeedItemUi(
                                 ),
                                 animatedVisibilityScope = animatedVisibilityScope,
                             ),
-                        animatedVisibilityScope = animatedVisibilityScope,
                         saveButtonElementKey = ContentViewerSharedTransitionKeys.saveButtonElement(
                             origin = SharedTransitionOrigin,
                             id = item.id,
@@ -399,7 +396,6 @@ private fun LazyItemScope.FeedItemUi(
                                 ),
                                 animatedVisibilityScope = animatedVisibilityScope,
                             ),
-                        animatedVisibilityScope = animatedVisibilityScope,
                         cardElementKey = TalkingKotlinEpisodeSharedTransitionKeys.playerElement(
                             origin = SharedTransitionOrigin,
                             id = item.id,

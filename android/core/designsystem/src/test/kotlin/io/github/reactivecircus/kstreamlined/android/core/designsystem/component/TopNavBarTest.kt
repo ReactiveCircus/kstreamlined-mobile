@@ -1,9 +1,9 @@
 package io.github.reactivecircus.kstreamlined.android.core.designsystem.component
 
-import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import io.github.reactivecircus.chameleon.runtime.Chameleon
+import io.github.reactivecircus.kstreamlined.android.core.animation.NoOpSharedElementLayout
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.icon.KSIcons
 import io.github.reactivecircus.kstreamlined.android.core.screenshottesting.tester.SnapshotTester
@@ -18,7 +18,7 @@ class TopNavBarTest {
     @Test
     fun snapshot_TopNavBar_default() {
         snapshotTester.snapshot {
-            SharedTransitionLayout {
+            NoOpSharedElementLayout {
                 TopNavBar(
                     title = "Title",
                     actions = {
@@ -36,7 +36,7 @@ class TopNavBarTest {
     @Test
     fun snapshot_TopNavBar_withBottomRow() {
         snapshotTester.snapshot {
-            SharedTransitionLayout {
+            NoOpSharedElementLayout {
                 TopNavBar(
                     title = "Title",
                     actions = {
@@ -69,7 +69,7 @@ class TopNavBarTest {
     @Test
     fun snapshot_TopNavBar_withNavigationIcon() {
         snapshotTester.snapshot {
-            SharedTransitionLayout {
+            NoOpSharedElementLayout {
                 TopNavBar(
                     title = "Title",
                     navigationIcon = {
