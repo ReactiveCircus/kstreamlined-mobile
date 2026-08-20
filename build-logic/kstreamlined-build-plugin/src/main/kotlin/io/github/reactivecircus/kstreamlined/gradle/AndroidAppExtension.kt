@@ -61,11 +61,6 @@ public interface AndroidAppExtension {
     public fun signing(action: Action<AppSigningOptions>)
 
     /**
-     * Configure custom R8 keep rule.
-     */
-    public fun keepRule(keepRuleFile: File)
-
-    /**
      * Configure app versioning.
      */
     public fun versioning(action: Action<AppVersioningExtension>)
@@ -198,8 +193,6 @@ internal abstract class AndroidAppExtensionImpl @Inject constructor(
 
     private val appSigningOptions = project.objects.newInstance(AppSigningOptionsImpl::class.java)
 
-    private var keepRuleFile: File? = null
-
     private var versioningConfig: Action<AppVersioningExtension>? = null
 
     private var playPublishingServiceAccountCredentials: File? = null
@@ -243,10 +236,6 @@ internal abstract class AndroidAppExtensionImpl @Inject constructor(
 
     override fun signing(action: Action<AndroidAppExtension.AppSigningOptions>) {
         action.execute(appSigningOptions)
-    }
-
-    override fun keepRule(keepRuleFile: File) {
-        this.keepRuleFile = keepRuleFile
     }
 
     override fun versioning(action: Action<AppVersioningExtension>) {
@@ -317,10 +306,6 @@ internal abstract class AndroidAppExtensionImpl @Inject constructor(
             )
         }
 
-        if (keepRuleFile == null) {
-            error("Missing keepRule(keepRuleFile: File) configuration.")
-        }
-
         pluginManager.apply("com.android.application")
 
         extensions.configure(KotlinBaseExtension::class.java) {
@@ -335,9 +320,7 @@ internal abstract class AndroidAppExtensionImpl @Inject constructor(
 
             it.configureSigningConfigs()
 
-            it.configureBuildTypes(
-                keepRules = listOf(it.getDefaultProguardFile("proguard-android-optimize.txt"), keepRuleFile!!),
-            )
+            it.configureBuildTypes()
 
             it.configureProductFlavors()
 
@@ -456,7 +439,7 @@ internal abstract class AndroidAppExtensionImpl @Inject constructor(
         }
     }
 
-    private fun ApplicationExtension.configureBuildTypes(keepRules: List<File>) = buildTypes {
+    private fun ApplicationExtension.configureBuildTypes() = buildTypes {
         with(getByName("debug")) {
             if (firebasePerfEnabled) {
                 isDefault = true
@@ -484,12 +467,8 @@ internal abstract class AndroidAppExtensionImpl @Inject constructor(
                 }
             }
 
-            @Suppress("UnstableApiUsage")
             optimization {
                 enable = true
-                keepRules {
-                    files.addAll(keepRules)
-                }
             }
         }
     }

@@ -63,7 +63,6 @@ kstreamlined {
                 keyPassword(envOrProp("KSTREAMLINED_KEY_PASSWORD").get())
             }
         }
-        keepRule(file("keep-rules.pro"))
         versioning {
             enabled.set(
                 providers.environmentVariable("ENABLE_APP_VERSIONING").orElse("true").map { it.toBoolean() }
