@@ -272,6 +272,7 @@ private fun ContentUi(
                         isPlaying = playerState.showPauseButton,
                         onPlayPauseButtonClick = playerState::togglePlayPause,
                         modifier = Modifier.padding(top = 8.dp),
+                        enabled = playerState.isPlayPauseEnabled,
                     )
                 }
             }

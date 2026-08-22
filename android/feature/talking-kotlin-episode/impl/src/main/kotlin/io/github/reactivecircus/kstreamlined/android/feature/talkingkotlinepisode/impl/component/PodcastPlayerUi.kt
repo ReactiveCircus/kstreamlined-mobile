@@ -44,6 +44,7 @@ internal fun PodcastPlayerUi(
         onPositionChange = state::seekTo,
         episode = episode,
         showPauseButton = state.showPauseButton,
+        playPauseButtonEnabled = state.isPlayPauseEnabled,
         onPlayPauseButtonClick = state::togglePlayPause,
         modifier = modifier,
         contentPadding = contentPadding,
@@ -59,6 +60,7 @@ internal fun PodcastPlayerUi(
     showPauseButton: Boolean,
     onPlayPauseButtonClick: () -> Unit,
     modifier: Modifier = Modifier,
+    playPauseButtonEnabled: Boolean = true,
     contentPadding: PaddingValues = PaddingValues(0.dp),
 ) {
     Surface(
@@ -128,6 +130,7 @@ internal fun PodcastPlayerUi(
                     if (playing) KSIcons.Pause else KSIcons.PlayArrow,
                     contentDescription = null,
                     onClick = onPlayPauseButtonClick,
+                    enabled = playPauseButtonEnabled,
                 )
             }
         }

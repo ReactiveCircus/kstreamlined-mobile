@@ -44,6 +44,9 @@ internal class PodcastPlayerState(
     val showPauseButton: Boolean
         get() = !playPauseButtonState.showPlay
 
+    val isPlayPauseEnabled: Boolean
+        get() = playPauseButtonState.isEnabled
+
     fun seekTo(positionMillis: Int) {
         player?.seekTo(positionMillis.toLong())
     }
