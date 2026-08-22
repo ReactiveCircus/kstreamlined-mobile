@@ -42,7 +42,7 @@ public class TalkingKotlinEpisodePresenter(
                     uiState = if (talkingKotlinItem != null) {
                         TalkingKotlinEpisodeUiState.Content(
                             episode = context(timeZone) { talkingKotlinItem.asPresentationModel() },
-                            isPlaying = false,
+                            isPlaying = (uiState as? TalkingKotlinEpisodeUiState.Content)?.isPlaying ?: false,
                         )
                     } else {
                         TalkingKotlinEpisodeUiState.NotFound
