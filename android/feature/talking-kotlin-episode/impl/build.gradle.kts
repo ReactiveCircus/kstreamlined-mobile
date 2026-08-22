@@ -12,6 +12,7 @@ kstreamlined {
             implementation(project(":kmp:feed-datasource"))
             implementation(project(":kmp:presentation:talking-kotlin-episode"))
             implementation(libs.androidx.media3.exoplayer)
+            implementation(libs.androidx.media3.ui)
         }
     }
 }

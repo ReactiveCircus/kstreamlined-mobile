@@ -18,11 +18,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.retain.RetainedEffect
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,6 +28,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.util.UnstableApi
+import androidx.media3.ui.compose.state.rememberProgressStateWithTickInterval
 import coil3.compose.AsyncImage
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.LargeIconButton
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Surface
@@ -40,10 +38,6 @@ import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundatio
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.preview.PreviewKStreamlined
 import io.github.reactivecircus.kstreamlined.android.core.ui.util.marqueeWithFadedEdges
 import io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepisode.TalkingKotlinEpisode
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.flow
-import kotlin.time.Duration.Companion.milliseconds
 
 @OptIn(UnstableApi::class)
 @Composable
@@ -55,56 +49,34 @@ internal fun PodcastPlayer(
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp),
 ) {
-    var playerPositionMillis by remember { mutableIntStateOf(0) }
-    var playerDurationMillis by remember { mutableIntStateOf(0) }
-
     val player = retainAudioPlayer(
         audioUrl = episode.audioUrl,
-        onPlaybackReady = { currentPosition, duration ->
-            playerPositionMillis = currentPosition.toInt()
-            playerDurationMillis = duration.toInt()
-        },
-        onPlaybackEnded = { currentPosition ->
-            playerPositionMillis = currentPosition.toInt()
-            onPlayPauseButtonClick()
-        },
+        startPositionMillis = episode.startPositionMillis,
+        onPlaybackEnded = onPlayPauseButtonClick,
     )
+    val progressState = rememberProgressStateWithTickInterval(player = player)
+    val playerPositionMillis = progressState.currentPositionMs.toPlayerUiMillis()
+    val playerDurationMillis = progressState.durationMs.toPlayerUiMillis()
 
     RetainedEffect(player) {
-        player.seekTo(episode.startPositionMillis)
         onRetire {
-            player.release()
+            player?.release()
         }
     }
 
     SideEffect(player, isPlaying) {
         if (isPlaying) {
-            player.play()
+            player?.play()
         } else {
-            player.pause()
+            player?.pause()
         }
     }
 
-    // sync player position with UI while playing
-    if (isPlaying) {
-        LaunchedEffect(player) {
-            flow {
-                while (true) {
-                    delay(PlaybackSyncInterval.milliseconds)
-                    emit(Unit)
-                }
-            }.collectLatest {
-                playerPositionMillis = player.currentPosition.toInt()
-                playerDurationMillis = player.duration.toInt()
-            }
-        }
-    }
-
-    // report latest player position
-    LaunchedEffect(Unit) {
-        snapshotFlow { playerPositionMillis }
+    val currentOnPlayerPositionChange = rememberUpdatedState(onPlayerPositionChange)
+    LaunchedEffect(progressState) {
+        snapshotFlow { progressState.currentPositionMs }
             .collect {
-                onPlayerPositionChange(it.toLong())
+                currentOnPlayerPositionChange.value(it)
             }
     }
 
@@ -112,7 +84,7 @@ internal fun PodcastPlayer(
         playerPositionMillis = playerPositionMillis,
         playerDurationMillis = playerDurationMillis,
         onPositionChange = { position ->
-            player.seekTo(position.toLong())
+            player?.seekTo(position.toLong())
         },
         episode = episode,
         isPlaying = isPlaying,
@@ -122,7 +94,7 @@ internal fun PodcastPlayer(
     )
 }
 
-private const val PlaybackSyncInterval = 1000L
+private fun Long.toPlayerUiMillis(): Int = coerceIn(0L, Int.MAX_VALUE.toLong()).toInt()
 
 @Composable
 internal fun PodcastPlayerUi(
