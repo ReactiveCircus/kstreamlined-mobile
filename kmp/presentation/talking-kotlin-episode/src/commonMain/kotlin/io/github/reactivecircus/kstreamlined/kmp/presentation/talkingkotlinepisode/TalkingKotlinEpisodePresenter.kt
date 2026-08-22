@@ -42,7 +42,6 @@ public class TalkingKotlinEpisodePresenter(
                     uiState = if (talkingKotlinItem != null) {
                         TalkingKotlinEpisodeUiState.Content(
                             episode = context(timeZone) { talkingKotlinItem.asPresentationModel() },
-                            isPlaying = (uiState as? TalkingKotlinEpisodeUiState.Content)?.isPlaying ?: false,
                         )
                     } else {
                         TalkingKotlinEpisodeUiState.NotFound
@@ -68,13 +67,6 @@ public class TalkingKotlinEpisodePresenter(
                             id = episode.id,
                             positionMillis = event.startPositionMillis,
                         )
-                    }
-                }
-
-                is TalkingKotlinEpisodeUiEvent.TogglePlayPause -> {
-                    val currentUiState = uiState
-                    if (currentUiState is TalkingKotlinEpisodeUiState.Content) {
-                        uiState = currentUiState.copy(isPlaying = !currentUiState.isPlaying)
                     }
                 }
             }

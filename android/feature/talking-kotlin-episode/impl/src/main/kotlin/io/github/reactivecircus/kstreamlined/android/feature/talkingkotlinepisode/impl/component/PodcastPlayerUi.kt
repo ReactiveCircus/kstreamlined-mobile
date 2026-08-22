@@ -1,6 +1,5 @@
 package io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.impl.component
 
-import androidx.annotation.OptIn
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
@@ -16,19 +15,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.rememberUpdatedState
-import androidx.compose.runtime.retain.RetainedEffect
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.media3.common.util.UnstableApi
-import androidx.media3.ui.compose.state.rememberProgressStateWithTickInterval
 import coil3.compose.AsyncImage
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.LargeIconButton
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Surface
@@ -39,62 +31,24 @@ import io.github.reactivecircus.kstreamlined.android.core.designsystem.preview.P
 import io.github.reactivecircus.kstreamlined.android.core.ui.util.marqueeWithFadedEdges
 import io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepisode.TalkingKotlinEpisode
 
-@OptIn(UnstableApi::class)
 @Composable
-internal fun PodcastPlayer(
+internal fun PodcastPlayerUi(
+    state: PodcastPlayerState,
     episode: TalkingKotlinEpisode,
-    isPlaying: Boolean,
-    onPlayPauseButtonClick: () -> Unit,
-    onPlayerPositionChange: (Long) -> Unit,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp),
 ) {
-    val player = retainAudioPlayer(
-        audioUrl = episode.audioUrl,
-        startPositionMillis = episode.startPositionMillis,
-        onPlaybackEnded = onPlayPauseButtonClick,
-    )
-    val progressState = rememberProgressStateWithTickInterval(player = player)
-    val playerPositionMillis = progressState.currentPositionMs.toPlayerUiMillis()
-    val playerDurationMillis = progressState.durationMs.toPlayerUiMillis()
-
-    RetainedEffect(player) {
-        onRetire {
-            player?.release()
-        }
-    }
-
-    SideEffect(player, isPlaying) {
-        if (isPlaying) {
-            player?.play()
-        } else {
-            player?.pause()
-        }
-    }
-
-    val currentOnPlayerPositionChange = rememberUpdatedState(onPlayerPositionChange)
-    LaunchedEffect(progressState) {
-        snapshotFlow { progressState.currentPositionMs }
-            .collect {
-                currentOnPlayerPositionChange.value(it)
-            }
-    }
-
     PodcastPlayerUi(
-        playerPositionMillis = playerPositionMillis,
-        playerDurationMillis = playerDurationMillis,
-        onPositionChange = { position ->
-            player?.seekTo(position.toLong())
-        },
+        playerPositionMillis = state.playerPositionMillis,
+        playerDurationMillis = state.playerDurationMillis,
+        onPositionChange = state::seekTo,
         episode = episode,
-        isPlaying = isPlaying,
-        onPlayPauseButtonClick = onPlayPauseButtonClick,
+        showPauseButton = state.showPauseButton,
+        onPlayPauseButtonClick = state::togglePlayPause,
         modifier = modifier,
         contentPadding = contentPadding,
     )
 }
-
-private fun Long.toPlayerUiMillis(): Int = coerceIn(0L, Int.MAX_VALUE.toLong()).toInt()
 
 @Composable
 internal fun PodcastPlayerUi(
@@ -102,7 +56,7 @@ internal fun PodcastPlayerUi(
     playerDurationMillis: Int,
     onPositionChange: (Int) -> Unit,
     episode: TalkingKotlinEpisode,
-    isPlaying: Boolean,
+    showPauseButton: Boolean,
     onPlayPauseButtonClick: () -> Unit,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp),
@@ -142,7 +96,7 @@ internal fun PodcastPlayerUi(
                     modifier = Modifier
                         .marqueeWithFadedEdges(
                             edgeWidth = 12.dp,
-                            iterations = if (isPlaying) Int.MAX_VALUE else 0,
+                            iterations = if (showPauseButton) Int.MAX_VALUE else 0,
                             repeatDelayMillis = 0,
                             velocity = 40.dp,
                         ),
@@ -164,7 +118,7 @@ internal fun PodcastPlayerUi(
             }
 
             AnimatedContent(
-                targetState = isPlaying,
+                targetState = showPauseButton,
                 modifier = Modifier.padding(end = 8.dp),
                 transitionSpec = { scaleIn() togetherWith scaleOut() },
                 contentAlignment = Alignment.Center,
@@ -200,7 +154,7 @@ private fun PreviewPodcastPlayerUi_paused() {
             duration = "35min.",
             startPositionMillis = 0,
         ),
-        isPlaying = false,
+        showPauseButton = false,
         onPlayPauseButtonClick = {},
         modifier = Modifier.padding(8.dp),
     )
@@ -226,7 +180,7 @@ private fun PreviewPodcastPlayer_playing() {
             duration = "35min.",
             startPositionMillis = 0,
         ),
-        isPlaying = true,
+        showPauseButton = true,
         onPlayPauseButtonClick = {},
         modifier = Modifier.padding(8.dp),
     )

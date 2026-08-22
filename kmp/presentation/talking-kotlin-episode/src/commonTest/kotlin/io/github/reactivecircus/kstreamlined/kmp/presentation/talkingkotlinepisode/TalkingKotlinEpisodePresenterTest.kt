@@ -91,7 +91,6 @@ class TalkingKotlinEpisodePresenterTest {
                 assertEquals(
                     TalkingKotlinEpisodeUiState.Content(
                         episode = item.asPresentationModel(timeZone = timeZone),
-                        isPlaying = false,
                     ),
                     awaitItem(),
                 )
@@ -122,7 +121,6 @@ class TalkingKotlinEpisodePresenterTest {
                 assertEquals(
                     TalkingKotlinEpisodeUiState.Content(
                         episode = item.asPresentationModel(timeZone = timeZone),
-                        isPlaying = false,
                     ),
                     awaitItem(),
                 )
@@ -132,7 +130,6 @@ class TalkingKotlinEpisodePresenterTest {
                 assertEquals(
                     TalkingKotlinEpisodeUiState.Content(
                         episode = item.copy(savedForLater = true).asPresentationModel(timeZone = timeZone),
-                        isPlaying = false,
                     ),
                     awaitItem(),
                 )
@@ -142,45 +139,6 @@ class TalkingKotlinEpisodePresenterTest {
                 assertEquals(
                     TalkingKotlinEpisodeUiState.Content(
                         episode = item.copy(savedForLater = false).asPresentationModel(timeZone = timeZone),
-                        isPlaying = false,
-                    ),
-                    awaitItem(),
-                )
-            }
-        }
-
-    @Test
-    fun `presenter emits Content state with unchanged isPlaying value when ToggleSavedForLater event is dispatched`() =
-        testScope.runTest {
-            val presenter = presenter()
-            presenter.states.test {
-                db.transaction {
-                    db.insertFeedItems(listOf(dummyFeedItem))
-                }
-
-                assertEquals(TalkingKotlinEpisodeUiState.Initializing, awaitItem())
-                assertEquals(
-                    TalkingKotlinEpisodeUiState.Content(
-                        episode = item.asPresentationModel(timeZone = timeZone),
-                        isPlaying = false,
-                    ),
-                    awaitItem(),
-                )
-
-                presenter.eventSink(TalkingKotlinEpisodeUiEvent.TogglePlayPause)
-                assertEquals(
-                    TalkingKotlinEpisodeUiState.Content(
-                        episode = item.asPresentationModel(timeZone = timeZone),
-                        isPlaying = true,
-                    ),
-                    awaitItem(),
-                )
-
-                presenter.eventSink(TalkingKotlinEpisodeUiEvent.ToggleSavedForLater)
-                assertEquals(
-                    TalkingKotlinEpisodeUiState.Content(
-                        episode = item.copy(savedForLater = true).asPresentationModel(timeZone = timeZone),
-                        isPlaying = true,
                     ),
                     awaitItem(),
                 )
@@ -201,7 +159,6 @@ class TalkingKotlinEpisodePresenterTest {
                 assertEquals(
                     TalkingKotlinEpisodeUiState.Content(
                         episode = item.asPresentationModel(timeZone = timeZone),
-                        isPlaying = false,
                     ),
                     awaitItem(),
                 )
@@ -211,48 +168,6 @@ class TalkingKotlinEpisodePresenterTest {
                 assertEquals(
                     TalkingKotlinEpisodeUiState.Content(
                         episode = item.copy(startPositionMillis = 1000).asPresentationModel(timeZone = timeZone),
-                        isPlaying = false,
-                    ),
-                    awaitItem(),
-                )
-            }
-        }
-
-    @Test
-    fun `presenter emits Content state with updated isPlaying value when TogglePlayPause event is dispatched`() =
-        testScope.runTest {
-            val presenter = presenter()
-            presenter.states.test {
-                db.transaction {
-                    db.insertFeedItems(listOf(dummyFeedItem))
-                }
-
-                assertEquals(TalkingKotlinEpisodeUiState.Initializing, awaitItem())
-
-                assertEquals(
-                    TalkingKotlinEpisodeUiState.Content(
-                        episode = item.asPresentationModel(timeZone = timeZone),
-                        isPlaying = false,
-                    ),
-                    awaitItem(),
-                )
-
-                presenter.eventSink(TalkingKotlinEpisodeUiEvent.TogglePlayPause)
-
-                assertEquals(
-                    TalkingKotlinEpisodeUiState.Content(
-                        episode = item.asPresentationModel(timeZone = timeZone),
-                        isPlaying = true,
-                    ),
-                    awaitItem(),
-                )
-
-                presenter.eventSink(TalkingKotlinEpisodeUiEvent.TogglePlayPause)
-
-                assertEquals(
-                    TalkingKotlinEpisodeUiState.Content(
-                        episode = item.asPresentationModel(timeZone = timeZone),
-                        isPlaying = false,
                     ),
                     awaitItem(),
                 )

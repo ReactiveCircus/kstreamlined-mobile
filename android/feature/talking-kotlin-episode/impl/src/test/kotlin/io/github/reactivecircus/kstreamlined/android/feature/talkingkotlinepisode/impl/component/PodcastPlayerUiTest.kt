@@ -34,7 +34,7 @@ class PodcastPlayerUiTest {
                     duration = "35min.",
                     startPositionMillis = 0,
                 ),
-                isPlaying = false,
+                showPauseButton = false,
                 onPlayPauseButtonClick = {},
                 modifier = Modifier.padding(8.dp),
             )
@@ -61,7 +61,7 @@ class PodcastPlayerUiTest {
                     duration = "35min.",
                     startPositionMillis = 0,
                 ),
-                isPlaying = true,
+                showPauseButton = true,
                 onPlayPauseButtonClick = {},
                 modifier = Modifier.padding(8.dp),
             )

@@ -41,7 +41,6 @@ class TalkingKotlinEpisodeScreenTest {
                         duration = "52min.",
                         startPositionMillis = 0,
                     ),
-                    isPlaying = false,
                 ),
             )
         }

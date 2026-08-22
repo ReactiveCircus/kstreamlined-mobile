@@ -65,7 +65,8 @@ import io.github.reactivecircus.kstreamlined.android.core.ui.util.linkify
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.api.TalkingKotlinEpisodeRoute
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.api.TalkingKotlinEpisodeSharedTransitionKeys
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.impl.component.PlayPauseButton
-import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.impl.component.PodcastPlayer
+import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.impl.component.PodcastPlayerUi
+import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.impl.component.rememberPodcastPlayerState
 import io.github.reactivecircus.kstreamlined.kmp.capsule.inject.assistedRetainPresenter
 import io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepisode.TalkingKotlinEpisode
 import io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepisode.TalkingKotlinEpisodePresenter
@@ -202,8 +203,6 @@ internal fun TalkingKotlinEpisodeScreen(
                     ContentUi(
                         playerElementKey = playerElementKey,
                         episode = uiState.episode,
-                        eventSink = eventSink,
-                        isPlaying = uiState.isPlaying,
                         onOpenLink = onOpenLink,
                         onPlayerPositionChange = onPlayerPositionChange,
                     )
@@ -218,12 +217,15 @@ context(sharedTransitionScope: SharedTransitionScope, animatedVisibilityScope: A
 private fun ContentUi(
     playerElementKey: String,
     episode: TalkingKotlinEpisode,
-    eventSink: (TalkingKotlinEpisodeUiEvent) -> Unit,
-    isPlaying: Boolean,
     onOpenLink: (url: String) -> Unit,
     onPlayerPositionChange: (Long) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val playerState = rememberPodcastPlayerState(
+        episode = episode,
+        onPlayerPositionChange = onPlayerPositionChange,
+    )
+
     Column(
         modifier = modifier.fillMaxSize(),
     ) {
@@ -267,8 +269,8 @@ private fun ContentUi(
                         textAlign = TextAlign.Center,
                     )
                     PlayPauseButton(
-                        isPlaying = isPlaying,
-                        onPlayPauseButtonClick = { eventSink(TalkingKotlinEpisodeUiEvent.TogglePlayPause) },
+                        isPlaying = playerState.showPauseButton,
+                        onPlayPauseButtonClick = playerState::togglePlayPause,
                         modifier = Modifier.padding(top = 8.dp),
                     )
                 }
@@ -324,11 +326,9 @@ private fun ContentUi(
             }
         }
 
-        PodcastPlayer(
+        PodcastPlayerUi(
+            state = playerState,
             episode = episode,
-            isPlaying = isPlaying,
-            onPlayPauseButtonClick = { eventSink(TalkingKotlinEpisodeUiEvent.TogglePlayPause) },
-            onPlayerPositionChange = onPlayerPositionChange,
             contentPadding = WindowInsets.navigationBars.asPaddingValues(),
             modifier = with(sharedTransitionScope) {
                 Modifier.sharedElement(
