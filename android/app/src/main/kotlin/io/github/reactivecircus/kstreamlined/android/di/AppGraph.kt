@@ -19,6 +19,7 @@ import dev.zacsweers.metro.SingleIn
 import io.github.reactivecircus.kstreamlined.android.BuildConfig
 import io.github.reactivecircus.kstreamlined.android.core.scheduledwork.KSWorkerFactory
 import io.github.reactivecircus.kstreamlined.android.core.scheduledwork.sync.SyncScheduler
+import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.impl.component.PodcastPlayerFactory
 import io.github.reactivecircus.kstreamlined.android.licentia.AllLicensesInfo
 import io.github.reactivecircus.kstreamlined.kmp.appinfo.AppInfo
 import io.github.reactivecircus.kstreamlined.kmp.capsule.inject.PresenterGraph
@@ -54,6 +55,8 @@ interface AppGraph : PresenterGraph, NetworkProviders {
     val feedDataSource: FeedDataSource
 
     val settingsDataSource: SettingsDataSource
+
+    val podcastPlayerFactory: PodcastPlayerFactory
 
     val navEntryInstallers: Set<NavEntryInstaller>
 
