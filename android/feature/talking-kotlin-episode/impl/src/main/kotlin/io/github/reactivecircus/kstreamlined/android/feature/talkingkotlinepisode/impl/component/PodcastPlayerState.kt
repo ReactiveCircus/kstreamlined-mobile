@@ -12,6 +12,8 @@ import androidx.compose.runtime.retain.retain
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
+import androidx.media3.common.AudioAttributes
+import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
@@ -106,6 +108,11 @@ internal fun rememberPodcastPlayerState(
 
 private const val ProgressTickIntervalMs = 1000L
 
+private val PodcastAudioAttributes = AudioAttributes.Builder()
+    .setUsage(C.USAGE_MEDIA)
+    .setContentType(C.AUDIO_CONTENT_TYPE_SPEECH)
+    .build()
+
 @OptIn(UnstableApi::class)
 @Composable
 private fun retainAudioPlayer(
@@ -130,18 +137,22 @@ private fun retainAudioPlayer(
             context,
             audioOnlyRenderersFactory,
             DefaultMediaSourceFactory(context, extractorFactory),
-        ).build().apply {
-            addListener(object : Player.Listener {
-                override fun onPlaybackStateChanged(playbackState: Int) {
-                    if (playbackState == Player.STATE_ENDED) {
-                        pause()
-                        seekTo(0)
+        )
+            .setAudioAttributes(PodcastAudioAttributes, true)
+            .setHandleAudioBecomingNoisy(true)
+            .build()
+            .apply {
+                addListener(object : Player.Listener {
+                    override fun onPlaybackStateChanged(playbackState: Int) {
+                        if (playbackState == Player.STATE_ENDED) {
+                            pause()
+                            seekTo(0)
+                        }
                     }
-                }
-            })
-            setMediaItem(MediaItem.fromUri(audioUrl), startPositionMillis)
-            prepare()
-        }
+                })
+                setMediaItem(MediaItem.fromUri(audioUrl), startPositionMillis)
+                prepare()
+            }
     }
 
     RetainedEffect(player) {
