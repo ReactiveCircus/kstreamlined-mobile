@@ -14,6 +14,7 @@ import androidx.media3.datasource.DefaultDataSource
 import androidx.media3.datasource.cache.CacheDataSource
 import androidx.media3.datasource.cache.LeastRecentlyUsedCacheEvictor
 import androidx.media3.datasource.cache.SimpleCache
+import androidx.media3.datasource.okhttp.OkHttpDataSource
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.Renderer
 import androidx.media3.exoplayer.RenderersFactory
@@ -27,6 +28,7 @@ import androidx.media3.extractor.text.SubtitleParser
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.Inject
 import dev.zacsweers.metro.SingleIn
+import okhttp3.Call
 import java.io.File
 
 @OptIn(UnstableApi::class)
@@ -34,7 +36,14 @@ import java.io.File
 @Inject
 public class PodcastPlayerFactory(
     private val context: Context,
+    okHttpCallFactory: Lazy<Call.Factory>,
 ) {
+    private val mediaCallFactory = Call.Factory { request ->
+        okHttpCallFactory.value.newCall(request).apply {
+            timeout().clearTimeout()
+        }
+    }
+
     private val cache by lazy(LazyThreadSafetyMode.NONE) {
         SimpleCache(
             File(context.cacheDir, CacheDirectoryName),
@@ -46,7 +55,12 @@ public class PodcastPlayerFactory(
     private val cacheDataSourceFactory by lazy(LazyThreadSafetyMode.NONE) {
         CacheDataSource.Factory()
             .setCache(cache)
-            .setUpstreamDataSourceFactory(DefaultDataSource.Factory(context))
+            .setUpstreamDataSourceFactory(
+                DefaultDataSource.Factory(
+                    context,
+                    OkHttpDataSource.Factory(mediaCallFactory),
+                ),
+            )
             .setFlags(CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR)
     }
 

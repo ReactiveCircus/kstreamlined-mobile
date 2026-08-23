@@ -119,6 +119,7 @@ androidx-work-runtime = { module = "androidx.work:work-runtime", version.ref = "
 androidx-browser = { module = "androidx.browser:browser", version.ref = "androidx-browser" }
 androidx-media3-exoplayer = { module = "androidx.media3:media3-exoplayer", version.ref = "androidx-media3" }
 androidx-media3-ui = { module = "androidx.media3:media3-ui-compose", version.ref = "androidx-media3" }
+androidx-media3-datasource-okhttp = { module = "androidx.media3:media3-datasource-okhttp", version.ref = "androidx-media3" }
 androidx-profileinstaller = { module = "androidx.profileinstaller:profileinstaller", version.ref = "androidx-profileinstaller" }
 androidx-benchmark-macroJunit = { module = "androidx.benchmark:benchmark-macro-junit4", version.ref = "androidx-benchmark" }
 androidx-tracing = { module = "androidx.tracing:tracing", version.ref = "androidx-tracing" }
