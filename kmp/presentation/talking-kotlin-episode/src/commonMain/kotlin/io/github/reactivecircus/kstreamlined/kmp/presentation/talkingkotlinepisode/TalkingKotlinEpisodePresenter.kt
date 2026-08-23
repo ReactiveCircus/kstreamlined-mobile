@@ -40,9 +40,10 @@ public class TalkingKotlinEpisodePresenter(
                 .onEach { item ->
                     val talkingKotlinItem = item as? FeedItem.TalkingKotlin
                     uiState = if (talkingKotlinItem != null) {
+                        val currentContentState = uiState as? TalkingKotlinEpisodeUiState.Content
                         TalkingKotlinEpisodeUiState.Content(
                             episode = context(timeZone) { talkingKotlinItem.asPresentationModel() },
-                            isPlaying = false,
+                            hasTransientError = currentContentState?.hasTransientError ?: false,
                         )
                     } else {
                         TalkingKotlinEpisodeUiState.NotFound
@@ -71,10 +72,17 @@ public class TalkingKotlinEpisodePresenter(
                     }
                 }
 
-                is TalkingKotlinEpisodeUiEvent.TogglePlayPause -> {
+                is TalkingKotlinEpisodeUiEvent.ShowTransientError -> {
                     val currentUiState = uiState
                     if (currentUiState is TalkingKotlinEpisodeUiState.Content) {
-                        uiState = currentUiState.copy(isPlaying = !currentUiState.isPlaying)
+                        uiState = currentUiState.copy(hasTransientError = true)
+                    }
+                }
+
+                is TalkingKotlinEpisodeUiEvent.DismissTransientError -> {
+                    val currentUiState = uiState
+                    if (currentUiState is TalkingKotlinEpisodeUiState.Content) {
+                        uiState = currentUiState.copy(hasTransientError = false)
                     }
                 }
             }

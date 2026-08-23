@@ -1,7 +1,10 @@
 package io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.impl
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.SharedTransitionScope
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -61,11 +64,14 @@ import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundatio
 import io.github.reactivecircus.kstreamlined.android.core.launcher.openCustomTab
 import io.github.reactivecircus.kstreamlined.android.core.launcher.openShareSheet
 import io.github.reactivecircus.kstreamlined.android.core.ui.pattern.ItemNotFoundUi
+import io.github.reactivecircus.kstreamlined.android.core.ui.pattern.TransientErrorBanner
 import io.github.reactivecircus.kstreamlined.android.core.ui.util.linkify
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.api.TalkingKotlinEpisodeRoute
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.api.TalkingKotlinEpisodeSharedTransitionKeys
+import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.impl.component.AnchoredOverlayLayout
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.impl.component.PlayPauseButton
-import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.impl.component.PodcastPlayer
+import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.impl.component.PodcastPlayerUi
+import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.impl.component.rememberPodcastPlayerState
 import io.github.reactivecircus.kstreamlined.kmp.capsule.inject.assistedRetainPresenter
 import io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepisode.TalkingKotlinEpisode
 import io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepisode.TalkingKotlinEpisodePresenter
@@ -202,8 +208,8 @@ internal fun TalkingKotlinEpisodeScreen(
                     ContentUi(
                         playerElementKey = playerElementKey,
                         episode = uiState.episode,
+                        showTransientError = uiState.hasTransientError,
                         eventSink = eventSink,
-                        isPlaying = uiState.isPlaying,
                         onOpenLink = onOpenLink,
                         onPlayerPositionChange = onPlayerPositionChange,
                     )
@@ -218,126 +224,150 @@ context(sharedTransitionScope: SharedTransitionScope, animatedVisibilityScope: A
 private fun ContentUi(
     playerElementKey: String,
     episode: TalkingKotlinEpisode,
+    showTransientError: Boolean,
     eventSink: (TalkingKotlinEpisodeUiEvent) -> Unit,
-    isPlaying: Boolean,
     onOpenLink: (url: String) -> Unit,
     onPlayerPositionChange: (Long) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Column(
+    val playerState = rememberPodcastPlayerState(
+        episode = episode,
+        onPlayerPositionChange = onPlayerPositionChange,
+        onPlaybackError = { eventSink(TalkingKotlinEpisodeUiEvent.ShowTransientError) },
+    )
+    val onPlayPauseButtonClick = {
+        eventSink(TalkingKotlinEpisodeUiEvent.DismissTransientError)
+        playerState.togglePlayPause()
+    }
+
+    AnchoredOverlayLayout(
         modifier = modifier.fillMaxSize(),
-    ) {
-        LazyColumn(
-            modifier = Modifier.weight(1f),
-            contentPadding = PaddingValues(vertical = 24.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-        ) {
-            item {
-                Box(
-                    modifier = Modifier.fillMaxWidth(),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    AsyncImage(
-                        model = episode.thumbnailUrl,
-                        contentDescription = null,
-                        modifier = Modifier
-                            .size(ImageSize)
-                            .clip(RoundedCornerShape(8.dp)),
-                        placeholder = ColorPainter(KSTheme.colorScheme.surface),
-                        error = ColorPainter(KSTheme.colorScheme.surface),
-                    )
-                }
-            }
-            item {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-                    Text(
-                        text = "${episode.displayablePublishTime} • ${episode.duration}",
-                        style = KSTheme.typography.labelMedium,
-                        modifier = Modifier.padding(vertical = 8.dp),
-                        color = KSTheme.colorScheme.onBackgroundMuted,
-                        textAlign = TextAlign.Center,
-                    )
-                    Text(
-                        text = episode.title,
-                        style = KSTheme.typography.titleLarge,
-                        modifier = Modifier.padding(horizontal = 24.dp),
-                        textAlign = TextAlign.Center,
-                    )
-                    PlayPauseButton(
-                        isPlaying = isPlaying,
-                        onPlayPauseButtonClick = { eventSink(TalkingKotlinEpisodeUiEvent.TogglePlayPause) },
-                        modifier = Modifier.padding(top = 8.dp),
-                    )
-                }
-            }
-            item {
-                val linkStyle = SpanStyle(
-                    color = KSTheme.colorScheme.accent,
-                    fontWeight = FontWeight.Bold,
-                )
-                val annotatedString = remember(episode.summary) {
-                    if (episode.summaryIsHtml) {
-                        AnnotatedString.fromHtml(episode.summary)
-                    } else {
-                        episode.summary.linkify(linkStyle)
+        content = {
+            LazyColumn(
+                contentPadding = PaddingValues(vertical = 24.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+            ) {
+                item {
+                    Box(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        AsyncImage(
+                            model = episode.thumbnailUrl,
+                            contentDescription = null,
+                            modifier = Modifier
+                                .size(ImageSize)
+                                .clip(RoundedCornerShape(8.dp)),
+                            placeholder = ColorPainter(KSTheme.colorScheme.surface),
+                            error = ColorPainter(KSTheme.colorScheme.surface),
+                        )
                     }
                 }
-                Text(
-                    text = annotatedString,
-                    style = KSTheme.typography.bodyMedium.copy(
-                        color = KSTheme.colorScheme.onBackgroundMuted,
-                    ),
-                    modifier = Modifier.padding(horizontal = 24.dp),
-                )
-            }
-            item {
-                HorizontalDivider(
-                    modifier = Modifier.padding(horizontal = 24.dp),
-                )
-                Surface(
-                    onClick = { onOpenLink(episode.contentUrl) },
-                    modifier = Modifier.fillMaxWidth(),
-                    contentColor = KSTheme.colorScheme.accent,
-                ) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(
-                                horizontal = 24.dp,
-                                vertical = 16.dp,
-                            ),
-                        verticalAlignment = Alignment.CenterVertically,
+                item {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
                         Text(
-                            text = stringResource(id = R.string.episode_website),
-                            style = KSTheme.typography.labelLarge.copy(
-                                fontWeight = FontWeight.ExtraBold,
-                            ),
+                            text = "${episode.displayablePublishTime} • ${episode.duration}",
+                            style = KSTheme.typography.labelMedium,
+                            modifier = Modifier.padding(vertical = 8.dp),
+                            color = KSTheme.colorScheme.onBackgroundMuted,
+                            textAlign = TextAlign.Center,
                         )
-                        Spacer(modifier = Modifier.weight(1f))
-                        Icon(KSIcons.ArrowRight, contentDescription = null)
+                        Text(
+                            text = episode.title,
+                            style = KSTheme.typography.titleLarge,
+                            modifier = Modifier.padding(horizontal = 24.dp),
+                            textAlign = TextAlign.Center,
+                        )
+                        PlayPauseButton(
+                            isPlaying = playerState.showPauseButton,
+                            onPlayPauseButtonClick = onPlayPauseButtonClick,
+                            modifier = Modifier.padding(top = 8.dp),
+                            enabled = playerState.isPlayPauseEnabled,
+                        )
+                    }
+                }
+                item {
+                    val linkStyle = SpanStyle(
+                        color = KSTheme.colorScheme.accent,
+                        fontWeight = FontWeight.Bold,
+                    )
+                    val annotatedString = remember(episode.summary) {
+                        if (episode.summaryIsHtml) {
+                            AnnotatedString.fromHtml(episode.summary)
+                        } else {
+                            episode.summary.linkify(linkStyle)
+                        }
+                    }
+                    Text(
+                        text = annotatedString,
+                        style = KSTheme.typography.bodyMedium.copy(
+                            color = KSTheme.colorScheme.onBackgroundMuted,
+                        ),
+                        modifier = Modifier.padding(horizontal = 24.dp),
+                    )
+                }
+                item {
+                    HorizontalDivider(
+                        modifier = Modifier.padding(horizontal = 24.dp),
+                    )
+                    Surface(
+                        onClick = { onOpenLink(episode.contentUrl) },
+                        modifier = Modifier.fillMaxWidth(),
+                        contentColor = KSTheme.colorScheme.accent,
+                    ) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(
+                                    horizontal = 24.dp,
+                                    vertical = 16.dp,
+                                ),
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            Text(
+                                text = stringResource(id = R.string.episode_website),
+                                style = KSTheme.typography.labelLarge.copy(
+                                    fontWeight = FontWeight.ExtraBold,
+                                ),
+                            )
+                            Spacer(modifier = Modifier.weight(1f))
+                            Icon(KSIcons.ArrowRight, contentDescription = null)
+                        }
                     }
                 }
             }
-        }
-
-        PodcastPlayer(
-            episode = episode,
-            isPlaying = isPlaying,
-            onPlayPauseButtonClick = { eventSink(TalkingKotlinEpisodeUiEvent.TogglePlayPause) },
-            onPlayerPositionChange = onPlayerPositionChange,
-            contentPadding = WindowInsets.navigationBars.asPaddingValues(),
-            modifier = with(sharedTransitionScope) {
-                Modifier.sharedElement(
-                    sharedContentState = rememberSharedContentState(key = playerElementKey),
-                    animatedVisibilityScope = animatedVisibilityScope,
+        },
+        bottomBar = {
+            PodcastPlayerUi(
+                state = playerState,
+                episode = episode,
+                onPlayPauseButtonClick = onPlayPauseButtonClick,
+                contentPadding = WindowInsets.navigationBars.asPaddingValues(),
+                modifier = with(sharedTransitionScope) {
+                    Modifier.sharedElement(
+                        sharedContentState = rememberSharedContentState(key = playerElementKey),
+                        animatedVisibilityScope = animatedVisibilityScope,
+                    )
+                },
+            )
+        },
+        overlay = {
+            AnimatedVisibility(
+                visible = showTransientError,
+                enter = fadeIn(),
+                exit = fadeOut(),
+            ) {
+                TransientErrorBanner(
+                    onDismiss = {
+                        eventSink(TalkingKotlinEpisodeUiEvent.DismissTransientError)
+                    },
                 )
-            },
-        )
-    }
+            }
+        },
+    )
 }
 
 private val ImageSize = 240.dp

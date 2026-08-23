@@ -1,6 +1,5 @@
 package io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.impl.component
 
-import androidx.annotation.OptIn
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
@@ -16,21 +15,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.retain.RetainedEffect
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.media3.common.util.UnstableApi
 import coil3.compose.AsyncImage
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.LargeIconButton
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Surface
@@ -40,89 +30,27 @@ import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundatio
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.preview.PreviewKStreamlined
 import io.github.reactivecircus.kstreamlined.android.core.ui.util.marqueeWithFadedEdges
 import io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepisode.TalkingKotlinEpisode
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.flow
-import kotlin.time.Duration.Companion.milliseconds
 
-@OptIn(UnstableApi::class)
 @Composable
-internal fun PodcastPlayer(
+internal fun PodcastPlayerUi(
+    state: PodcastPlayerState,
     episode: TalkingKotlinEpisode,
-    isPlaying: Boolean,
     onPlayPauseButtonClick: () -> Unit,
-    onPlayerPositionChange: (Long) -> Unit,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp),
 ) {
-    var playerPositionMillis by remember { mutableIntStateOf(0) }
-    var playerDurationMillis by remember { mutableIntStateOf(0) }
-
-    val player = retainAudioPlayer(
-        audioUrl = episode.audioUrl,
-        onPlaybackReady = { currentPosition, duration ->
-            playerPositionMillis = currentPosition.toInt()
-            playerDurationMillis = duration.toInt()
-        },
-        onPlaybackEnded = { currentPosition ->
-            playerPositionMillis = currentPosition.toInt()
-            onPlayPauseButtonClick()
-        },
-    )
-
-    RetainedEffect(player) {
-        player.seekTo(episode.startPositionMillis)
-        onRetire {
-            player.release()
-        }
-    }
-
-    SideEffect(player, isPlaying) {
-        if (isPlaying) {
-            player.play()
-        } else {
-            player.pause()
-        }
-    }
-
-    // sync player position with UI while playing
-    if (isPlaying) {
-        LaunchedEffect(player) {
-            flow {
-                while (true) {
-                    delay(PlaybackSyncInterval.milliseconds)
-                    emit(Unit)
-                }
-            }.collectLatest {
-                playerPositionMillis = player.currentPosition.toInt()
-                playerDurationMillis = player.duration.toInt()
-            }
-        }
-    }
-
-    // report latest player position
-    LaunchedEffect(Unit) {
-        snapshotFlow { playerPositionMillis }
-            .collect {
-                onPlayerPositionChange(it.toLong())
-            }
-    }
-
     PodcastPlayerUi(
-        playerPositionMillis = playerPositionMillis,
-        playerDurationMillis = playerDurationMillis,
-        onPositionChange = { position ->
-            player.seekTo(position.toLong())
-        },
+        playerPositionMillis = state.playerPositionMillis,
+        playerDurationMillis = state.playerDurationMillis,
+        onPositionChange = state::seekTo,
         episode = episode,
-        isPlaying = isPlaying,
+        showPauseButton = state.showPauseButton,
+        playPauseButtonEnabled = state.isPlayPauseEnabled,
         onPlayPauseButtonClick = onPlayPauseButtonClick,
         modifier = modifier,
         contentPadding = contentPadding,
     )
 }
-
-private const val PlaybackSyncInterval = 1000L
 
 @Composable
 internal fun PodcastPlayerUi(
@@ -130,9 +58,10 @@ internal fun PodcastPlayerUi(
     playerDurationMillis: Int,
     onPositionChange: (Int) -> Unit,
     episode: TalkingKotlinEpisode,
-    isPlaying: Boolean,
+    showPauseButton: Boolean,
     onPlayPauseButtonClick: () -> Unit,
     modifier: Modifier = Modifier,
+    playPauseButtonEnabled: Boolean = true,
     contentPadding: PaddingValues = PaddingValues(0.dp),
 ) {
     Surface(
@@ -170,7 +99,7 @@ internal fun PodcastPlayerUi(
                     modifier = Modifier
                         .marqueeWithFadedEdges(
                             edgeWidth = 12.dp,
-                            iterations = if (isPlaying) Int.MAX_VALUE else 0,
+                            iterations = if (showPauseButton) Int.MAX_VALUE else 0,
                             repeatDelayMillis = 0,
                             velocity = 40.dp,
                         ),
@@ -192,7 +121,7 @@ internal fun PodcastPlayerUi(
             }
 
             AnimatedContent(
-                targetState = isPlaying,
+                targetState = showPauseButton,
                 modifier = Modifier.padding(end = 8.dp),
                 transitionSpec = { scaleIn() togetherWith scaleOut() },
                 contentAlignment = Alignment.Center,
@@ -202,6 +131,7 @@ internal fun PodcastPlayerUi(
                     if (playing) KSIcons.Pause else KSIcons.PlayArrow,
                     contentDescription = null,
                     onClick = onPlayPauseButtonClick,
+                    enabled = playPauseButtonEnabled,
                 )
             }
         }
@@ -228,7 +158,7 @@ private fun PreviewPodcastPlayerUi_paused() {
             duration = "35min.",
             startPositionMillis = 0,
         ),
-        isPlaying = false,
+        showPauseButton = false,
         onPlayPauseButtonClick = {},
         modifier = Modifier.padding(8.dp),
     )
@@ -254,7 +184,7 @@ private fun PreviewPodcastPlayer_playing() {
             duration = "35min.",
             startPositionMillis = 0,
         ),
-        isPlaying = true,
+        showPauseButton = true,
         onPlayPauseButtonClick = {},
         modifier = Modifier.padding(8.dp),
     )

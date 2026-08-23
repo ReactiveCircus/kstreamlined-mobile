@@ -28,10 +28,12 @@ internal fun PlayPauseButton(
     isPlaying: Boolean,
     onPlayPauseButtonClick: () -> Unit,
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
 ) {
     Chip(
         onClick = onPlayPauseButtonClick,
         modifier = modifier,
+        enabled = enabled,
         contentColor = KSTheme.colorScheme.accent,
     ) {
         Row(
