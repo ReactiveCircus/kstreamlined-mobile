@@ -23,6 +23,8 @@ import androidx.media3.exoplayer.mediacodec.MediaCodecSelector
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.extractor.ExtractorsFactory
 import androidx.media3.extractor.mp3.Mp3Extractor
+import androidx.media3.extractor.mp4.Mp4Extractor
+import androidx.media3.extractor.text.SubtitleParser
 import androidx.media3.ui.compose.state.PlayPauseButtonState
 import androidx.media3.ui.compose.state.ProgressStateWithTickInterval
 import androidx.media3.ui.compose.state.rememberErrorState
@@ -119,7 +121,10 @@ private fun retainAudioPlayer(
             )
         }
         val extractorFactory = ExtractorsFactory {
-            arrayOf(Mp3Extractor())
+            arrayOf(
+                Mp3Extractor(),
+                Mp4Extractor(SubtitleParser.Factory.UNSUPPORTED),
+            )
         }
         ExoPlayer.Builder(
             context,
