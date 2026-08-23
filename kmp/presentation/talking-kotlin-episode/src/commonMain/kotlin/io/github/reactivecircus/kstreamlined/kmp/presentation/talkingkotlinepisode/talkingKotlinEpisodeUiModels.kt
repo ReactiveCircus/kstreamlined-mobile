@@ -10,6 +10,7 @@ public sealed interface TalkingKotlinEpisodeUiState {
 
     public data class Content(
         val episode: TalkingKotlinEpisode,
+        val hasTransientError: Boolean,
     ) : TalkingKotlinEpisodeUiState
 }
 
@@ -17,4 +18,8 @@ public sealed interface TalkingKotlinEpisodeUiEvent {
     public data object ToggleSavedForLater : TalkingKotlinEpisodeUiEvent
 
     public data class SaveStartPosition(val startPositionMillis: Long) : TalkingKotlinEpisodeUiEvent
+
+    public data object ShowTransientError : TalkingKotlinEpisodeUiEvent
+
+    public data object DismissTransientError : TalkingKotlinEpisodeUiEvent
 }

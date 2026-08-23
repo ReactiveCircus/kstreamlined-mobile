@@ -91,6 +91,7 @@ class TalkingKotlinEpisodePresenterTest {
                 assertEquals(
                     TalkingKotlinEpisodeUiState.Content(
                         episode = item.asPresentationModel(timeZone = timeZone),
+                        hasTransientError = false,
                     ),
                     awaitItem(),
                 )
@@ -121,6 +122,7 @@ class TalkingKotlinEpisodePresenterTest {
                 assertEquals(
                     TalkingKotlinEpisodeUiState.Content(
                         episode = item.asPresentationModel(timeZone = timeZone),
+                        hasTransientError = false,
                     ),
                     awaitItem(),
                 )
@@ -130,6 +132,7 @@ class TalkingKotlinEpisodePresenterTest {
                 assertEquals(
                     TalkingKotlinEpisodeUiState.Content(
                         episode = item.copy(savedForLater = true).asPresentationModel(timeZone = timeZone),
+                        hasTransientError = false,
                     ),
                     awaitItem(),
                 )
@@ -139,6 +142,54 @@ class TalkingKotlinEpisodePresenterTest {
                 assertEquals(
                     TalkingKotlinEpisodeUiState.Content(
                         episode = item.copy(savedForLater = false).asPresentationModel(timeZone = timeZone),
+                        hasTransientError = false,
+                    ),
+                    awaitItem(),
+                )
+            }
+        }
+
+    @Test
+    fun `presenter retains transient playback error until dismissed`() =
+        testScope.runTest {
+            val presenter = presenter()
+            presenter.states.test {
+                db.transaction {
+                    db.insertFeedItems(listOf(dummyFeedItem))
+                }
+
+                assertEquals(TalkingKotlinEpisodeUiState.Initializing, awaitItem())
+                assertEquals(
+                    TalkingKotlinEpisodeUiState.Content(
+                        episode = item.asPresentationModel(timeZone = timeZone),
+                        hasTransientError = false,
+                    ),
+                    awaitItem(),
+                )
+
+                presenter.eventSink(TalkingKotlinEpisodeUiEvent.ShowTransientError)
+                assertEquals(
+                    TalkingKotlinEpisodeUiState.Content(
+                        episode = item.asPresentationModel(timeZone = timeZone),
+                        hasTransientError = true,
+                    ),
+                    awaitItem(),
+                )
+
+                presenter.eventSink(TalkingKotlinEpisodeUiEvent.ToggleSavedForLater)
+                assertEquals(
+                    TalkingKotlinEpisodeUiState.Content(
+                        episode = item.copy(savedForLater = true).asPresentationModel(timeZone = timeZone),
+                        hasTransientError = true,
+                    ),
+                    awaitItem(),
+                )
+
+                presenter.eventSink(TalkingKotlinEpisodeUiEvent.DismissTransientError)
+                assertEquals(
+                    TalkingKotlinEpisodeUiState.Content(
+                        episode = item.copy(savedForLater = true).asPresentationModel(timeZone = timeZone),
+                        hasTransientError = false,
                     ),
                     awaitItem(),
                 )
@@ -159,6 +210,7 @@ class TalkingKotlinEpisodePresenterTest {
                 assertEquals(
                     TalkingKotlinEpisodeUiState.Content(
                         episode = item.asPresentationModel(timeZone = timeZone),
+                        hasTransientError = false,
                     ),
                     awaitItem(),
                 )
@@ -168,6 +220,7 @@ class TalkingKotlinEpisodePresenterTest {
                 assertEquals(
                     TalkingKotlinEpisodeUiState.Content(
                         episode = item.copy(startPositionMillis = 1000).asPresentationModel(timeZone = timeZone),
+                        hasTransientError = false,
                     ),
                     awaitItem(),
                 )

@@ -3,6 +3,7 @@ package io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepiso
 import androidx.annotation.OptIn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
@@ -24,6 +25,7 @@ import androidx.media3.extractor.ExtractorsFactory
 import androidx.media3.extractor.mp3.Mp3Extractor
 import androidx.media3.ui.compose.state.PlayPauseButtonState
 import androidx.media3.ui.compose.state.ProgressStateWithTickInterval
+import androidx.media3.ui.compose.state.rememberErrorState
 import androidx.media3.ui.compose.state.rememberPlayPauseButtonState
 import androidx.media3.ui.compose.state.rememberProgressStateWithTickInterval
 import io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepisode.TalkingKotlinEpisode
@@ -63,6 +65,7 @@ private fun Long.toPlayerUiMillis(): Int = coerceIn(0L, Int.MAX_VALUE.toLong()).
 internal fun rememberPodcastPlayerState(
     episode: TalkingKotlinEpisode,
     onPlayerPositionChange: (Long) -> Unit,
+    onPlaybackError: () -> Unit,
 ): PodcastPlayerState {
     val player = retainAudioPlayer(
         audioUrl = episode.audioUrl,
@@ -73,6 +76,14 @@ internal fun rememberPodcastPlayerState(
         tickIntervalMs = ProgressTickIntervalMs,
     )
     val playPauseButtonState = rememberPlayPauseButtonState(player)
+    val errorState = rememberErrorState(player)
+    val currentOnPlaybackError = rememberUpdatedState(onPlaybackError)
+
+    SideEffect(errorState.error) {
+        if (errorState.error != null && player?.playWhenReady == true) {
+            currentOnPlaybackError.value()
+        }
+    }
 
     val currentOnPlayerPositionChange = rememberUpdatedState(onPlayerPositionChange)
     LaunchedEffect(progressState) {

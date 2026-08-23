@@ -35,6 +35,7 @@ import io.github.reactivecircus.kstreamlined.kmp.presentation.talkingkotlinepiso
 internal fun PodcastPlayerUi(
     state: PodcastPlayerState,
     episode: TalkingKotlinEpisode,
+    onPlayPauseButtonClick: () -> Unit,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp),
 ) {
@@ -45,7 +46,7 @@ internal fun PodcastPlayerUi(
         episode = episode,
         showPauseButton = state.showPauseButton,
         playPauseButtonEnabled = state.isPlayPauseEnabled,
-        onPlayPauseButtonClick = state::togglePlayPause,
+        onPlayPauseButtonClick = onPlayPauseButtonClick,
         modifier = modifier,
         contentPadding = contentPadding,
     )
