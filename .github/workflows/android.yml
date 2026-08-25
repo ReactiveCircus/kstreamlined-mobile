@@ -39,10 +39,11 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: actions/setup-java@v5
+      - uses: actions/setup-java@v6
         with:
           distribution: 'zulu'
           java-version: '26'
+          cache-jdk: true
 
       - uses: ./.github/actions/setup-tcmalloc
 
@@ -89,10 +90,11 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      - uses: actions/setup-java@v5
+      - uses: actions/setup-java@v6
         with:
           distribution: 'zulu'
           java-version: '26'
+          cache-jdk: true
 
       - uses: ./.github/actions/setup-tcmalloc
 
@@ -120,10 +122,11 @@ jobs:
         with:
           lfs: true
 
-      - uses: actions/setup-java@v5
+      - uses: actions/setup-java@v6
         with:
           distribution: 'zulu'
           java-version: '26'
+          cache-jdk: true
 
       - uses: ./.github/actions/setup-tcmalloc
 
@@ -149,10 +152,11 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      - uses: actions/setup-java@v5
+      - uses: actions/setup-java@v6
         with:
           distribution: 'zulu'
           java-version: '26'
+          cache-jdk: true
 
       - uses: ./.github/actions/setup-tcmalloc
 
@@ -176,10 +180,11 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      - uses: actions/setup-java@v5
+      - uses: actions/setup-java@v6
         with:
           distribution: 'zulu'
           java-version: '26'
+          cache-jdk: true
 
       - uses: ./.github/actions/setup-tcmalloc
 
@@ -206,10 +211,11 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      - uses: actions/setup-java@v5
+      - uses: actions/setup-java@v6
         with:
           distribution: 'zulu'
           java-version: '26'
+          cache-jdk: true
 
       - uses: ./.github/actions/setup-tcmalloc
 
@@ -256,10 +262,11 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      - uses: actions/setup-java@v5
+      - uses: actions/setup-java@v6
         with:
           distribution: 'zulu'
           java-version: '26'
+          cache-jdk: true
 
       - uses: ./.github/actions/setup-tcmalloc
 
