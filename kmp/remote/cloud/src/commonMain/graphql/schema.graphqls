@@ -7,7 +7,7 @@ interface FeedEntry {
   """
   Unique id of the feed entry.
   """
-  id: String!
+  id: ID!
 
   """
   Title of the feed entry.
@@ -65,6 +65,11 @@ enum FeedSourceKey {
 }
 
 """
+Built-in ID
+"""
+scalar ID
+
+"""
 ISO 8601 instant.
 """
 scalar Instant
@@ -78,7 +83,7 @@ type KotlinBlog implements FeedEntry {
   """
   Unique id of the feed entry.
   """
-  id: String!
+  id: ID!
 
   """
   Title of the feed entry.
@@ -110,7 +115,7 @@ type KotlinWeekly implements FeedEntry {
   """
   Unique id of the feed entry.
   """
-  id: String!
+  id: ID!
 
   """
   Title of the feed entry.
@@ -191,7 +196,7 @@ type KotlinYouTube implements FeedEntry {
   """
   Unique id of the feed entry.
   """
-  id: String!
+  id: ID!
 
   """
   Title of the feed entry.
@@ -254,7 +259,7 @@ type TalkingKotlin implements FeedEntry {
   """
   Unique id of the feed entry.
   """
-  id: String!
+  id: ID!
 
   """
   Title of the feed entry.
@@ -474,12 +479,12 @@ type __Schema {
   mutationType: __Type
 
   """
-  'A list of all directives supported by this server.
+  A list of all directives supported by this server.
   """
   directives: [__Directive!]!
 
   """
-  'If this server support subscription, the type that subscription operations will be rooted at.
+  If this server support subscription, the type that subscription operations will be rooted at.
   """
   subscriptionType: __Type
 }
@@ -518,7 +523,7 @@ An enum describing what kind of type a given __Type is
 """
 enum __TypeKind {
   """
-  Indicates this type is a scalar. 'specifiedByURL' is a valid field
+  Indicates this type is a scalar. `specifiedByURL` is a valid field
   """
   SCALAR
 
@@ -561,32 +566,32 @@ enum __TypeKind {
 """
 Directs the executor to include this field or fragment only when the `if` argument is true
 """
-directive @include ("Included when true." if: Boolean!) on FIELD|FRAGMENT_SPREAD|INLINE_FRAGMENT
+directive @include("Included when true." if: Boolean!) on FIELD | FRAGMENT_SPREAD | INLINE_FRAGMENT
 
 """
 Directs the executor to skip this field or fragment when the `if` argument is true.
 """
-directive @skip ("Skipped when true." if: Boolean!) on FIELD|FRAGMENT_SPREAD|INLINE_FRAGMENT
+directive @skip("Skipped when true." if: Boolean!) on FIELD | FRAGMENT_SPREAD | INLINE_FRAGMENT
 
-directive @extends on OBJECT|INTERFACE
+directive @extends on OBJECT | INTERFACE
 
 directive @external on FIELD_DEFINITION
 
-directive @key (fields: _FieldSet!) repeatable on OBJECT|INTERFACE
+directive @key(fields: _FieldSet!) repeatable on OBJECT | INTERFACE
 
-directive @provides (fields: _FieldSet!) on FIELD_DEFINITION
+directive @provides(fields: _FieldSet!) on FIELD_DEFINITION
 
-directive @requires (fields: _FieldSet!) on FIELD_DEFINITION
+directive @requires(fields: _FieldSet!) on FIELD_DEFINITION
 
 """
 Marks the field, argument, input field or enum value as deprecated
 """
-directive @deprecated ("The reason for the deprecation" reason: String! = "No longer supported") on FIELD_DEFINITION|ARGUMENT_DEFINITION|ENUM_VALUE|INPUT_FIELD_DEFINITION
+directive @deprecated("The reason for the deprecation" reason: String! = "No longer supported") on FIELD_DEFINITION | ARGUMENT_DEFINITION | ENUM_VALUE | INPUT_FIELD_DEFINITION
 
 """
 Exposes a URL that specifies the behaviour of this scalar.
 """
-directive @specifiedBy ("The URL that specifies the behaviour of this scalar." url: String!) on SCALAR
+directive @specifiedBy("The URL that specifies the behaviour of this scalar." url: String!) on SCALAR
 
 """
 Indicates an Input Object is a OneOf Input Object.
@@ -596,14 +601,15 @@ directive @oneOf on INPUT_OBJECT
 """
 This directive allows results to be deferred during execution
 """
-directive @defer ("Deferred behaviour is controlled by this argument" if: Boolean! = true, "A unique label that represents the fragment being deferred" label: String) on FRAGMENT_SPREAD|INLINE_FRAGMENT
+directive @defer("Deferred behaviour is controlled by this argument" if: Boolean! = true, "A unique label that represents the fragment being deferred" label: String) on FRAGMENT_SPREAD | INLINE_FRAGMENT
 
 """
 This directive disables error propagation when a non nullable field returns null for the given operation.
 """
-directive @experimental_disableErrorPropagation on QUERY|MUTATION|SUBSCRIPTION
+directive @experimental_disableErrorPropagation on QUERY | MUTATION | SUBSCRIPTION
 
 schema {
   query: Query
   mutation: Mutation
 }
+
