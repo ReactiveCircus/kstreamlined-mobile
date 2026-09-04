@@ -8,7 +8,7 @@ import kotlin.test.assertNull
 
 class FeedOriginEntityMappersTest {
     @Test
-    fun `list of FeedOriginEntity maps to expected network models when selected feed origins exist`() {
+    fun `list of FeedOriginEntity maps to expected FeedSource keys when selected feed origins exist`() {
         val feedOriginEntities = listOf(
             FeedOriginEntity(
                 key = FeedSource.Key.KotlinBlog.name,
@@ -33,12 +33,12 @@ class FeedOriginEntityMappersTest {
             FeedSource.Key.KotlinBlog,
             FeedSource.Key.TalkingKotlinPodcast,
         )
-        assertEquals(expected, feedOriginEntities.asNetworkModels())
+        assertEquals(expected, feedOriginEntities.asSelectedFeedSourceKeys())
     }
 
     @Test
     fun `list of FeedOriginEntity maps to null when no selected feed origins exist`() {
-        assertNull(emptyList<FeedOriginEntity>().asNetworkModels())
+        assertNull(emptyList<FeedOriginEntity>().asSelectedFeedSourceKeys())
 
         val feedOriginEntities = listOf(
             FeedOriginEntity(
@@ -48,7 +48,7 @@ class FeedOriginEntityMappersTest {
                 selected = false,
             ),
         )
-        assertNull(feedOriginEntities.asNetworkModels())
+        assertNull(feedOriginEntities.asSelectedFeedSourceKeys())
     }
 
     @Test

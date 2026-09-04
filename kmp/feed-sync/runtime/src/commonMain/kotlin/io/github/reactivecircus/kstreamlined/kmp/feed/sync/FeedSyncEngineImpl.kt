@@ -8,7 +8,7 @@ import dev.zacsweers.metro.ContributesBinding
 import dev.zacsweers.metro.SingleIn
 import io.github.reactivecircus.kstreamlined.kmp.database.KStreamlinedDatabase
 import io.github.reactivecircus.kstreamlined.kmp.database.SyncResourceType
-import io.github.reactivecircus.kstreamlined.kmp.feed.sync.mapper.asNetworkModels
+import io.github.reactivecircus.kstreamlined.kmp.feed.sync.mapper.asSelectedFeedSourceKeys
 import io.github.reactivecircus.kstreamlined.kmp.feed.sync.mapper.toDbModel
 import io.github.reactivecircus.kstreamlined.kmp.feed.sync.mapper.toSyncParams
 import io.github.reactivecircus.kstreamlined.kmp.networkmonitor.NetworkMonitor
@@ -107,7 +107,9 @@ internal class FeedSyncEngineImpl(
 
         if (shouldSyncSources && shouldSyncItems) {
             // fetch both feed sources and feed items in a single request
-            val (entries = first, sources = second) = feedService.fetchFeedEntriesAndOrigins()
+            val (entries = first, sources = second) = feedService.fetchFeedEntriesAndOrigins(
+                filters = db.feedOriginEntityQueries.allFeedOrigins().executeAsList().asSelectedFeedSourceKeys(),
+            )
             feedEntries = entries
             feedSources = sources
         } else if (shouldSyncSources) {
@@ -116,7 +118,7 @@ internal class FeedSyncEngineImpl(
         } else {
             feedSources = null
             feedEntries = feedService.fetchFeedEntries(
-                filters = db.feedOriginEntityQueries.allFeedOrigins().executeAsList().asNetworkModels(),
+                filters = db.feedOriginEntityQueries.allFeedOrigins().executeAsList().asSelectedFeedSourceKeys(),
             )
         }
 
