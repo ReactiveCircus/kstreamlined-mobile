@@ -72,7 +72,7 @@ internal fun KotlinMultiplatformAndroidLibraryExtension.configureKmpAndroidLibra
 ) {
     compileSdk {
         version = release(AndroidSdk.CompileSdk) {
-            minorApiLevel = 0
+            minorApiLevel = 2
         }
     }
     minSdk = AndroidSdk.MinSdk
@@ -129,7 +129,7 @@ context(project: Project)
 private fun CommonExtension.configureCommonAndroidExtension() {
     compileSdk {
         version = release(AndroidSdk.CompileSdk) {
-            minorApiLevel = 0
+            minorApiLevel = 2
         }
     }
     buildToolsVersion = AndroidSdk.BuildTools
