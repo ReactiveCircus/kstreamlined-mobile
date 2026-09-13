@@ -16,6 +16,7 @@ public data class KotlinWeeklyIssueItem(
         public val sourceColorArgb: Long,
         public val onSourceColorArgb: Long,
     ) {
+        News(0xFF_7874B4, 0xFF_FFFFFF),
         Announcements(0xFF_7874B4, 0xFF_FFFFFF),
         Articles(0xFF_F1646C, 0xFF_FFFFFF),
         Android(0xFF_79C5B4, 0xFF_FFFFFF),

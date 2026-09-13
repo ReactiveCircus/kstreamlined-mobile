@@ -31,13 +31,13 @@ class KotlinWeeklyIssueScreenTest {
                     id = "1",
                     contentUrl = "content-url",
                     issueItems = mapOf(
-                        KotlinWeeklyIssueItem.Group.Announcements to listOf(
+                        KotlinWeeklyIssueItem.Group.News to listOf(
                             KotlinWeeklyIssueItem(
                                 title = "Apply for Google Summer of Code 2025 and Contribute to the Kotlin Ecosystem",
                                 summary = "The Kotlin Foundation is once again participating in Google Summer of Code. If you are thinking of participating, check out this announcement.",
                                 url = "url",
                                 source = "blog.jetbrains.com",
-                                group = KotlinWeeklyIssueItem.Group.Announcements,
+                                group = KotlinWeeklyIssueItem.Group.News,
                             ),
                         ),
                         KotlinWeeklyIssueItem.Group.Articles to listOf(

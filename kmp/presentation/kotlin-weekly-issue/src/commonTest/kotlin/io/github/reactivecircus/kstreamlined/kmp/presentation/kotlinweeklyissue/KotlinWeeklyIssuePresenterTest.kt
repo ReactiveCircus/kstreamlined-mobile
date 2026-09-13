@@ -63,6 +63,7 @@ class KotlinWeeklyIssuePresenterTest {
             url = it.url,
             source = it.source,
             group = when (it.group) {
+                KotlinWeeklyIssueEntry.Group.News -> KotlinWeeklyIssueItem.Group.News
                 KotlinWeeklyIssueEntry.Group.Announcements -> KotlinWeeklyIssueItem.Group.Announcements
                 KotlinWeeklyIssueEntry.Group.Articles -> KotlinWeeklyIssueItem.Group.Articles
                 KotlinWeeklyIssueEntry.Group.Android -> KotlinWeeklyIssueItem.Group.Android

@@ -68,7 +68,7 @@ class CloudFeedServiceTest {
         kotlinWeeklyIssue = listOf(
             buildKotlinWeeklyIssueEntry {
                 title = "Kotlin Weekly entry 1"
-                group = KotlinWeeklyIssueEntryGroup.ANNOUNCEMENTS
+                group = KotlinWeeklyIssueEntryGroup.NEWS
             },
             buildKotlinWeeklyIssueEntry {
                 title = "Kotlin Weekly entry 2"

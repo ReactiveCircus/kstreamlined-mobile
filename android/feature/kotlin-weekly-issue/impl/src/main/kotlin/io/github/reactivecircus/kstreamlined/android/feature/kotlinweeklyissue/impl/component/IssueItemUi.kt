@@ -63,7 +63,7 @@ private fun PreviewIssueItemUi() {
                 " about its state in December 2023.",
             url = "https://blog.jetbrains.com/amper/2023/12/amper-update-december-2023/",
             source = "blog.jetbrains.com",
-            group = KotlinWeeklyIssueItem.Group.Announcements,
+            group = KotlinWeeklyIssueItem.Group.News,
         ),
         onItemClick = {},
     )

@@ -15,14 +15,14 @@ class KotlinWeeklyIssueEntryMappersTest {
             summary = "Summary 1",
             url = "url 1",
             source = "Source 1",
-            group = KotlinWeeklyIssueEntryGroup.ANNOUNCEMENTS,
+            group = KotlinWeeklyIssueEntryGroup.NEWS,
         )
         val expected1 = KotlinWeeklyIssueEntry(
             title = "Title 1",
             summary = "Summary 1",
             url = "url 1",
             source = "Source 1",
-            group = KotlinWeeklyIssueEntry.Group.Announcements,
+            group = KotlinWeeklyIssueEntry.Group.News,
         )
         assertEquals(expected1, entry1.asExternalModel())
 

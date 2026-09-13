@@ -8,6 +8,7 @@ public data class KotlinWeeklyIssueEntry(
     val group: Group,
 ) {
     public enum class Group {
+        News,
         Announcements,
         Articles,
         Android,
