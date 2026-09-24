@@ -25,7 +25,6 @@ import org.jetbrains.kotlin.ir.expressions.IrClassReference
 import org.jetbrains.kotlin.ir.expressions.IrExpression
 import org.jetbrains.kotlin.ir.expressions.IrStatementOrigin
 import org.jetbrains.kotlin.ir.expressions.impl.IrFunctionExpressionImpl
-import org.jetbrains.kotlin.ir.interpreter.getAnnotation
 import org.jetbrains.kotlin.ir.types.IrType
 import org.jetbrains.kotlin.ir.types.IrTypeSubstitutor
 import org.jetbrains.kotlin.ir.types.defaultType
@@ -35,6 +34,7 @@ import org.jetbrains.kotlin.ir.util.classId
 import org.jetbrains.kotlin.ir.util.classIdOrFail
 import org.jetbrains.kotlin.ir.util.constructors
 import org.jetbrains.kotlin.ir.util.functions
+import org.jetbrains.kotlin.ir.util.getAnnotation
 import org.jetbrains.kotlin.ir.util.getPackageFragment
 import org.jetbrains.kotlin.ir.util.hasDefaultValue
 import org.jetbrains.kotlin.name.ClassId
@@ -88,6 +88,7 @@ internal class RouteBindingClassTransformer(
         installFunction: IrFunction,
     ) {
         val annotation = sourceFunction.getAnnotation(ClassIds.RouteBinding.Annotation.asSingleFqName())
+            ?: error("Missing @RouteBinding annotation on ${sourceFunction.name}")
         val routeKClass = annotation.arguments.first() as IrClassReference
         val routeType = routeKClass.symbol.defaultType
         val entryFunction = nav3Symbols.entryFunction

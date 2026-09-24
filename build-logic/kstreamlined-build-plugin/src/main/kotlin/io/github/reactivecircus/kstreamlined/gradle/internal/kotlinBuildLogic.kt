@@ -48,9 +48,9 @@ private fun computeFreeCompilerArgs() = buildList {
     addAll(
         listOf(
             "-Xcollection-literals",
+            "-Xcompanion-blocks-and-extensions",
             "-Xconsistent-data-class-copy-visibility",
             "-Xexplicit-context-arguments",
-            "-Xintrinsic-const-evaluation",
             "-Xname-based-destructuring=complete",
         ),
     )
