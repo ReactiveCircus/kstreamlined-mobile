@@ -1,11 +1,8 @@
 package io.github.reactivecircus.kstreamlined.android
 
-import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -22,10 +19,10 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.core.view.WindowCompat
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
@@ -45,6 +42,7 @@ class KSActivity : ComponentActivity() {
         installSplashScreen()
 
         super.onCreate(savedInstanceState)
+        WindowCompat.enableEdgeToEdge(window)
 
         setContent {
             var theme by rememberSaveable { mutableStateOf(AppSettings.Theme.System) }
@@ -52,10 +50,11 @@ class KSActivity : ComponentActivity() {
                 appGraph.settingsDataSource.appSettings.collect { theme = it.theme }
             }
 
+            val isDarkTheme = theme.isDarkEffectively
             KSTheme(
-                darkTheme = theme.isDarkEffectively,
+                darkTheme = isDarkTheme,
             ) {
-                NavigationBarStyleEffect(theme)
+                SystemBarAppearanceEffect(isDarkTheme)
 
                 CompositionLocalProvider(
                     LocalPresenterFactory provides appGraph.presenterFactory,
@@ -98,20 +97,11 @@ private val AppSettings.Theme.isDarkEffectively: Boolean
     }
 
 @Composable
-private fun ComponentActivity.NavigationBarStyleEffect(theme: AppSettings.Theme) {
-    val navigationBarColor = KSTheme.colorScheme.background.toArgb()
-    val isDarkEffectively = theme.isDarkEffectively
-    SideEffect(theme, isDarkEffectively, navigationBarColor) {
-        if (isDarkEffectively) {
-            enableEdgeToEdge(
-                statusBarStyle = SystemBarStyle.dark(Color.TRANSPARENT),
-                navigationBarStyle = SystemBarStyle.dark(navigationBarColor),
-            )
-        } else {
-            enableEdgeToEdge(
-                statusBarStyle = SystemBarStyle.light(Color.TRANSPARENT, Color.TRANSPARENT),
-                navigationBarStyle = SystemBarStyle.light(navigationBarColor, navigationBarColor),
-            )
+private fun ComponentActivity.SystemBarAppearanceEffect(isDarkTheme: Boolean) {
+    SideEffect(isDarkTheme) {
+        WindowCompat.getInsetsController(window, window.decorView).run {
+            isAppearanceLightStatusBars = !isDarkTheme
+            isAppearanceLightNavigationBars = !isDarkTheme
         }
     }
 }
