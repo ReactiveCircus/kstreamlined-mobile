@@ -1,5 +1,3 @@
-@file:Suppress("ConstPropertyName")
-
 public object FlavorDimensions {
     public const val Environment: String = "environment"
 }
