@@ -1,5 +1,6 @@
 package io.github.reactivecircus.kstreamlined.gradle.internal
 
+import app.cash.burst.gradle.BurstExtension
 import com.android.build.api.dsl.LibraryExtension
 import com.android.build.api.variant.ApplicationAndroidComponentsExtension
 import com.android.build.api.variant.HasUnitTestBuilder
@@ -34,6 +35,13 @@ internal fun Project.configureScreenshotTest() {
     }
 
     pluginManager.apply("app.cash.burst")
+    pluginManager.withPlugin("app.cash.burst") {
+        extensions.configure(BurstExtension::class.java) {
+            it.compilationFilter.set { compilation ->
+                compilation.name.endsWith("unitTest", ignoreCase = true)
+            }
+        }
+    }
 
     pluginManager.apply("io.github.reactivecircus.chameleon")
     pluginManager.withPlugin("io.github.reactivecircus.chameleon") {
