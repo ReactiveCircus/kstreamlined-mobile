@@ -1,7 +1,7 @@
 [versions]
 kotlin = "2.5.0-Beta1"
 androidGradlePlugin = "9.5.0-alpha08"
-gradle-develocityPlugin = "4.5.0"
+gradle-develocityPlugin = "4.6.0"
 gradle-toolchainsResolverPlugin = "1.0.0"
 appVersioning = "1.6.0"
 paparazzi = "2.0.0-alpha05.1"
