@@ -23,7 +23,6 @@ fragment FeedEntryItem on FeedEntry {
     duration
   }
   ... on KotlinWeekly {
-    contentUrl
     issueNumber
   }
 }
