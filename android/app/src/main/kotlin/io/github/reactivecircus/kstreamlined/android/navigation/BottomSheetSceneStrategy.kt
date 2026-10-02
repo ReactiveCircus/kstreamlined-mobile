@@ -3,6 +3,7 @@ package io.github.reactivecircus.kstreamlined.android.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.compose.dropUnlessResumed
 import androidx.lifecycle.compose.rememberLifecycleOwner
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.runtime.get
@@ -43,7 +44,7 @@ private data class BottomSheetScene<T : Any>(
     override val content: @Composable (() -> Unit) = {
         val lifecycleOwner = rememberLifecycleOwner()
         ModalBottomSheet(
-            onDismissRequest = onBack,
+            onDismissRequest = dropUnlessResumed { onBack() },
             sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
         ) {
             CompositionLocalProvider(LocalLifecycleOwner provides lifecycleOwner) {
