@@ -119,7 +119,7 @@ kstreamlined {
             implementation(project(":feature:settings:impl"))
             implementation(project(":feature:talking-kotlin-episode:impl"))
 
-            releaseImplementation(libs.firebase.perf)
+            implementation(libs.firebase.perf)
             implementation(libs.firebase.crashlytics)
             implementation(libs.androidx.activity.compose)
             implementation(libs.androidx.compose.foundation)

@@ -441,11 +441,11 @@ internal abstract class AndroidAppExtensionImpl @Inject constructor(
 
     private fun ApplicationExtension.configureBuildTypes() = buildTypes {
         with(getByName("debug")) {
-            if (firebasePerfEnabled) {
-                isDefault = true
-                matchingFallbacks.add("release")
-                signingConfig = signingConfigs.getByName("debug")
+            isDefault = true
+            matchingFallbacks.add("release")
+            signingConfig = signingConfigs.getByName("debug")
 
+            if (firebasePerfEnabled) {
                 project.pluginManager.withPlugin("com.google.firebase.firebase-perf") {
                     // disable performance monitoring plugin for debug builds
                     (this as ExtensionAware).extensions.configure(FirebasePerfExtension::class.java) {
