@@ -51,6 +51,8 @@ private fun PreviewKSColorScheme_surface() {
     Column {
         with(KSTheme.colorScheme) {
             Swatch("surface", surface)
+            Swatch("surfaceAccent", surfaceAccent)
+            Swatch("onSurfaceAccent", onSurfaceAccent)
             Swatch("surfaceInverse", surfaceInverse)
             Swatch("surfaceInverseMuted", surfaceInverseMuted)
             Swatch("surfaceInverseRaised", surfaceInverseRaised)

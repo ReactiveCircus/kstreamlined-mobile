@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredSize
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.style.ExperimentalFoundationStyleApi
 import androidx.compose.foundation.style.fillWidth
@@ -17,11 +19,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.tracing.trace
 import coil3.compose.AsyncImage
 import io.github.reactivecircus.kstreamlined.android.core.animation.NoOpSharedElementLayout
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Icon
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.IconButton
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Surface
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Text
@@ -40,6 +46,7 @@ public fun KotlinBlogCard(
     item: DisplayableFeedItem<FeedItem.KotlinBlog>,
     onItemClick: (FeedItem.KotlinBlog) -> Unit,
     onSaveButtonClick: (FeedItem.KotlinBlog) -> Unit,
+    onTldrClick: (() -> Unit)?, // TODO change to non-null once fully integrated
     modifier: Modifier = Modifier,
     saveButtonElementKey: String? = null,
 ): Unit = trace("FeedItem:KotlinBlogCard") {
@@ -67,11 +74,16 @@ public fun KotlinBlogCard(
                 modifier = Modifier.padding(
                     start = 16.dp,
                     end = 8.dp,
-                    top = 24.dp,
+                    top = if (onTldrClick != null) 16.dp else 24.dp,
                     bottom = 8.dp,
                 ),
                 verticalArrangement = Arrangement.spacedBy(4.dp),
             ) {
+                if (onTldrClick != null) {
+                    TldrChip(
+                        onClick = onTldrClick,
+                    )
+                }
                 Text(
                     text = item.value.title,
                     style = KSTheme.typography.titleMedium,
@@ -108,6 +120,7 @@ public fun KotlinBlogCard(
                                     Modifier
                                 },
                             ),
+                        iconTint = KSTheme.colorScheme.onBackgroundMuted,
                     )
                 }
             }
@@ -116,6 +129,41 @@ public fun KotlinBlogCard(
 }
 
 private val ImageHeight = 200.dp
+
+@Composable
+private fun TldrChip(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Surface(
+        onClick = onClick,
+        modifier = modifier,
+        shape = CircleShape,
+        color = KSTheme.colorScheme.surfaceAccent,
+        contentColor = KSTheme.colorScheme.onSurfaceAccent,
+    ) {
+        Row(
+            modifier = Modifier
+                .padding(start = 8.dp, end = 10.dp)
+                .padding(vertical = 6.dp),
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Icon(
+                KSIcons.Sparkles,
+                contentDescription = null,
+                modifier = Modifier.requiredSize(20.dp),
+            )
+            Text(
+                text = stringResource(R.string.tldr),
+                style = KSTheme.typography.labelMedium.copy(
+                    fontWeight = FontWeight.ExtraBold,
+                    letterSpacing = 0.1.sp,
+                ),
+            )
+        }
+    }
+}
 
 @Composable
 @PreviewKStreamlined
@@ -132,6 +180,7 @@ private fun PreviewKotlinBlogCard_unsaved() {
             ).toDisplayable("Moments ago"),
             onItemClick = {},
             onSaveButtonClick = {},
+            onTldrClick = {},
             modifier = Modifier.padding(24.dp),
         )
     }
@@ -152,7 +201,29 @@ private fun PreviewKotlinBlogCard_saved() {
             ).toDisplayable("Moments ago"),
             onItemClick = {},
             onSaveButtonClick = {},
+            onTldrClick = {},
             modifier = Modifier.padding(24.dp),
+        )
+    }
+}
+
+@Composable
+@PreviewKStreamlined
+private fun PreviewKotlinBlogCard_noTldrSummary() {
+    NoOpSharedElementLayout {
+        KotlinBlogCard(
+            item = FeedItem.KotlinBlog(
+                id = "1",
+                title = "Kotlin Multiplatform Development Roadmap for 2024",
+                publishTime = Instant.parse("2023-11-16T11:59:46Z"),
+                contentUrl = "contentUrl",
+                savedForLater = false,
+                featuredImageUrl = "",
+            ).toDisplayable("Moments ago"),
+            onItemClick = {},
+            onSaveButtonClick = {},
+            modifier = Modifier.padding(24.dp),
+            onTldrClick = null,
         )
     }
 }

@@ -33,6 +33,29 @@ class KotlinBlogCardTest {
                     onItemClick = {},
                     onSaveButtonClick = {},
                     modifier = Modifier.padding(24.dp),
+                    onTldrClick = {},
+                )
+            }
+        }
+    }
+
+    @Test
+    fun snapshot_KotlinBlogCard_noTldr(saved: Boolean) {
+        snapshotTester.snapshot {
+            NoOpSharedElementLayout {
+                KotlinBlogCard(
+                    item = FeedItem.KotlinBlog(
+                        id = "1",
+                        title = "Kotlin Multiplatform Development Roadmap for 2024",
+                        publishTime = Instant.parse("2023-11-16T11:59:46Z"),
+                        contentUrl = "contentUrl",
+                        savedForLater = saved,
+                        featuredImageUrl = "",
+                    ).toDisplayable("Moments ago"),
+                    onItemClick = {},
+                    onSaveButtonClick = {},
+                    modifier = Modifier.padding(24.dp),
+                    onTldrClick = null,
                 )
             }
         }

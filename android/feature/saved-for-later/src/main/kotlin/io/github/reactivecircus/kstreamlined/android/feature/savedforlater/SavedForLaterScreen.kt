@@ -195,6 +195,7 @@ private fun ContentUi(
                         item = item.toDisplayable(displayablePublishTime),
                         onItemClick = onItemClick,
                         onSaveButtonClick = { eventSink(SavedForLaterUiEvent.RemoveSavedItem(item.id)) },
+                        onTldrClick = null, // TODO integrate
                         modifier = Modifier
                             .animateItem()
                             .sharedBounds(
