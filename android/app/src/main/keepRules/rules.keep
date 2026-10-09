@@ -4,3 +4,9 @@
    void traceEventStart(int,int,int,java.lang.String);
    void traceEventEnd();
 }
+
+# Add missing rules from `protolite-well-known-types` (removed since Firebase Perf 23.0.0)
+# TODO remove once https://github.com/firebase/firebase-android-sdk/issues/8691 is fixed
+-keepclassmembers class * extends com.google.protobuf.GeneratedMessageLite {
+    <fields>;
+}
