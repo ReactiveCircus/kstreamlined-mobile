@@ -68,6 +68,7 @@ import io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue.a
 import io.github.reactivecircus.kstreamlined.android.feature.settings.api.SettingsRoute
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.api.TalkingKotlinEpisodeRoute
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.api.TalkingKotlinEpisodeSharedTransitionKeys
+import io.github.reactivecircus.kstreamlined.android.feature.tldrsummary.api.TldrSummaryRoute
 import io.github.reactivecircus.kstreamlined.kmp.capsule.inject.retainPresenter
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.toDisplayable
@@ -124,6 +125,15 @@ public fun HomeScreen(
                 },
             )
         },
+        onOpenTldrSummary = {
+            backStack.add(
+                TldrSummaryRoute(
+                    origin = SharedTransitionOrigin,
+                    id = it.id,
+                    title = it.title,
+                ),
+            )
+        },
         onOpenSettings = {
             backStack.add(SettingsRoute(origin = SharedTransitionOrigin))
         },
@@ -150,6 +160,7 @@ context(sharedTransitionScope: SharedTransitionScope, animatedVisibilityScope: A
 internal fun HomeScreen(
     listState: LazyListState,
     onViewItem: (FeedItem) -> Unit,
+    onOpenTldrSummary: (FeedItem) -> Unit,
     onOpenSettings: () -> Unit,
     onOpenFeedSelection: () -> Unit,
     uiState: HomeUiState,
@@ -217,6 +228,7 @@ internal fun HomeScreen(
                             items = state.feedItems,
                             showTransientError = state.hasTransientError,
                             onItemClick = onViewItem,
+                            onTldrSummaryButtonClick = onOpenTldrSummary,
                             eventSink = eventSink,
                         )
                     }
@@ -235,6 +247,7 @@ private fun ContentUi(
     items: List<HomeFeedItem>,
     showTransientError: Boolean,
     onItemClick: (FeedItem) -> Unit,
+    onTldrSummaryButtonClick: (FeedItem) -> Unit,
     eventSink: (HomeUiEvent) -> Unit,
     modifier: Modifier = Modifier,
 ) = trace("HomeFeedList") {
@@ -266,6 +279,7 @@ private fun ContentUi(
                 FeedItemUi(
                     homeFeedItem = it,
                     onItemClick = onItemClick,
+                    onTldrSummaryButtonClick = onTldrSummaryButtonClick,
                     eventSink = eventSink,
                 )
             }
@@ -291,6 +305,7 @@ context(sharedTransitionScope: SharedTransitionScope, animatedVisibilityScope: A
 private fun LazyItemScope.FeedItemUi(
     homeFeedItem: HomeFeedItem,
     onItemClick: (FeedItem) -> Unit,
+    onTldrSummaryButtonClick: (FeedItem) -> Unit,
     eventSink: (HomeUiEvent) -> Unit,
 ) = with(sharedTransitionScope) {
     when (homeFeedItem) {
@@ -319,7 +334,7 @@ private fun LazyItemScope.FeedItemUi(
                         onTldrClick = if (item.publishTime < Instant.parse("2026-09-09T10:00:00Z")) {
                             null
                         } else {
-                            {}
+                            { onTldrSummaryButtonClick(item) }
                         },
                         modifier = Modifier
                             .animateItem()

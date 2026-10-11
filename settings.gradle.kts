@@ -115,6 +115,8 @@ includeAndroidProjects(
     ":feature:settings:impl",
     ":feature:talking-kotlin-episode:api",
     ":feature:talking-kotlin-episode:impl",
+    ":feature:tldr-summary:api",
+    ":feature:tldr-summary:impl",
     ":core:designsystem",
     ":core:launcher",
     ":core:route-metadata",

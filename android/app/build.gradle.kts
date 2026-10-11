@@ -118,6 +118,7 @@ kstreamlined {
             implementation(project(":feature:saved-for-later"))
             implementation(project(":feature:settings:impl"))
             implementation(project(":feature:talking-kotlin-episode:impl"))
+            implementation(project(":feature:tldr-summary:impl"))
 
             implementation(libs.firebase.perf)
             implementation(libs.firebase.crashlytics)

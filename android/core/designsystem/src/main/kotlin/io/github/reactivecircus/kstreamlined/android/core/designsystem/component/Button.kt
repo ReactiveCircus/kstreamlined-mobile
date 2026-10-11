@@ -1,5 +1,6 @@
 package io.github.reactivecircus.kstreamlined.android.core.designsystem.component
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
@@ -37,6 +38,7 @@ public fun Button(
                 vertical = 12.dp,
                 horizontal = 16.dp,
             ),
+            horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
