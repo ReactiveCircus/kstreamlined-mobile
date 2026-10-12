@@ -11,26 +11,34 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextIndent
+import androidx.compose.ui.text.withAnnotation
 import androidx.compose.ui.text.withLink
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
 
-internal const val SampleTitle = "What's new in Kotlin 2.3.0: name-based destructuring, guard conditions and more"
-internal const val SampleGeneratedTime = "2 Oct 2025"
+internal const val SampleTitle =
+    "What's new in Kotlin 2.4.20: Swift export sealed classes, Wasm compilation modes and more"
+internal const val SampleGeneratedTime = "7 Sep 2026"
 internal const val SampleModel = "gpt-oss-120b"
+
+internal const val InlineCodeTag = "inline-code"
+
+// Narrow no-break space (0.3em wide at this size) reserving room for the background's horizontal
+// padding, without allowing a line break between the code and its padding.
+private const val InlineCodeSpacing = '\u202F'
+private val InlineCodeSpacingStyle = SpanStyle(fontSize = 0.5.em)
 
 @Composable
 internal fun rememberSampleTldrContent(): AnnotatedString {
     val headingStyle = KSTheme.typography.titleMedium.toSpanStyle()
-    val codeStyle = SpanStyle(background = KSTheme.colorScheme.surface)
     val linkStyle = SpanStyle(
         color = KSTheme.colorScheme.accent,
         fontWeight = FontWeight.Bold,
         textDecoration = TextDecoration.Underline,
     )
-    return remember(headingStyle, codeStyle, linkStyle) {
+    return remember(headingStyle, linkStyle) {
         buildAnnotatedString {
             fun paragraph(block: AnnotatedString.Builder.() -> Unit) {
                 withStyle(ParagraphStyle(lineHeight = 1.5.em)) { block() }
@@ -59,7 +67,9 @@ internal fun rememberSampleTldrContent(): AnnotatedString {
             }
 
             fun code(text: String) {
-                withStyle(codeStyle) { append(" $text ") }
+                withStyle(InlineCodeSpacingStyle) { append(InlineCodeSpacing) }
+                withAnnotation(tag = InlineCodeTag, annotation = text) { append(text) }
+                withStyle(InlineCodeSpacingStyle) { append(InlineCodeSpacing) }
             }
 
             fun bold(text: String) {
@@ -68,44 +78,71 @@ internal fun rememberSampleTldrContent(): AnnotatedString {
 
             paragraph {
                 append(
-                    "Kotlin 2.3.0 is a language and tooling release focused on safer, " +
-                        "more expressive code and faster builds.",
+                    "Kotlin 2.4.20 is a tooling release focused on multiplatform interop, " +
+                        "smaller Wasm binaries and a faster compiler CLI.",
                 )
             }
             spacer()
-            heading("Language")
+            heading("Standard library")
+            bullet { append("Support for coroutine stack trace recovery.") }
             bullet {
-                bold("Name-based destructuring")
-                append(" matches properties by name rather than position.")
+                append("Experimental ")
+                code("allDistinct()")
+                append(" and ")
+                code("allEqual()")
+                append(" check collection elements.")
             }
             bullet {
-                bold("Guard conditions")
-                append(" in ")
-                code("when")
-                append(" branches are now stable.")
-            }
-            bullet {
-                append("Smarter smart casts across lambdas and ")
-                code("try/catch")
-                append(".")
+                append("New overloads for ")
+                code("kotlin.test")
+                append(" assertion functions.")
             }
             spacer()
             heading("Multiplatform")
-            bullet { append("Swift export is enabled by default for new projects.") }
-            bullet { append("Kotlin/Wasm produces smaller binaries.") }
+            bullet {
+                append("Swift export maps ")
+                bold("sealed classes")
+                append(" to Swift enums for exhaustive ")
+                code("switch")
+                append(".")
+            }
+            bullet {
+                append("Generated ")
+                code("Package.swift")
+                append(" for SwiftPM dependencies.")
+            }
+            bullet {
+                append("Kotlin/Wasm adds new ")
+                bold("compilation modes")
+                append(" and shrinks binaries by about 5–10%.")
+            }
             spacer()
             heading("Tooling")
-            bullet { append("Faster incremental builds with the K2 compiler.") }
             bullet {
-                append("See the ")
-                withLink(LinkAnnotation.Url("https://kotlinlang.org", TextLinkStyles(linkStyle))) {
-                    append("migration guide")
+                append("The Kotlin runner command is now ")
+                code("kotlinr")
+                append(".")
+            }
+            bullet {
+                append("Experimental compiler ")
+                bold("native image")
+                append(" for faster startup.")
+            }
+            bullet {
+                append("See ")
+                withLink(
+                    LinkAnnotation.Url(
+                        url = "https://kotlinlang.org/docs/whatsnew2420.html",
+                        styles = TextLinkStyles(linkStyle),
+                    ),
+                ) {
+                    append("What's new in Kotlin 2.4.20")
                 }
-                append(" for build changes.")
+                append(" for the full list.")
             }
             spacer()
             paragraph {
-                append("Update via the Kotlin Gradle plugin or IntelliJ IDEA's bundled plugin.")
+                append("Update your IDE, then change the Kotlin version to 2.4.20 in your build scripts.")
             }
         }
     }
