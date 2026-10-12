@@ -34,7 +34,6 @@ import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.CompositingStrategy
-import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
@@ -44,6 +43,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
 import androidx.tracing.trace
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.HorizontalDashedDivider
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Icon
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.LargeIconButton
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Surface
@@ -136,7 +136,10 @@ internal fun TldrSummaryScreen(
                     color = KSTheme.colorScheme.onBackground,
                 )
                 Spacer(modifier = Modifier.height(24.dp))
-                DashedDivider()
+                HorizontalDashedDivider(
+                    color = KSTheme.colorScheme.borderMuted,
+                    modifier = Modifier.fillMaxWidth(),
+                )
                 Spacer(modifier = Modifier.height(12.dp))
                 Disclosure()
             }
@@ -307,26 +310,6 @@ private fun ReadOriginalButton(
             )
         }
     }
-}
-
-@Composable
-private fun DashedDivider(modifier: Modifier = Modifier) {
-    val color = KSTheme.colorScheme.borderMuted
-    Spacer(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(1.dp)
-            .drawBehind {
-                val dash = 4.dp.toPx()
-                drawLine(
-                    color = color,
-                    start = Offset(0f, size.height / 2),
-                    end = Offset(size.width, size.height / 2),
-                    strokeWidth = size.height,
-                    pathEffect = PathEffect.dashPathEffect(floatArrayOf(dash, dash)),
-                )
-            },
-    )
 }
 
 @Composable

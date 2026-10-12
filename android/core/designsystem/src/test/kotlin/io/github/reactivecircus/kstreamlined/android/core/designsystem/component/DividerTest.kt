@@ -38,6 +38,23 @@ class DividerTest {
     }
 
     @Test
+    fun snapshot_HorizontalDashedDivider() {
+        snapshotTester.snapshot {
+            Column(
+                modifier = Modifier.padding(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                Text(text = "item 1", style = KSTheme.typography.titleMedium)
+                HorizontalDashedDivider(
+                    modifier = Modifier.width(120.dp),
+                )
+                Text(text = "item 2", style = KSTheme.typography.titleMedium)
+            }
+        }
+    }
+
+    @Test
     fun snapshot_VerticalDivider() {
         snapshotTester.snapshot {
             Row(
@@ -47,6 +64,23 @@ class DividerTest {
             ) {
                 Text(text = "item 1", style = KSTheme.typography.titleMedium)
                 VerticalDivider(
+                    modifier = Modifier.height(120.dp),
+                )
+                Text(text = "item 2", style = KSTheme.typography.titleMedium)
+            }
+        }
+    }
+
+    @Test
+    fun snapshot_VerticalDashedDivider() {
+        snapshotTester.snapshot {
+            Row(
+                modifier = Modifier.padding(16.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                Text(text = "item 1", style = KSTheme.typography.titleMedium)
+                VerticalDashedDivider(
                     modifier = Modifier.height(120.dp),
                 )
                 Text(text = "item 2", style = KSTheme.typography.titleMedium)
