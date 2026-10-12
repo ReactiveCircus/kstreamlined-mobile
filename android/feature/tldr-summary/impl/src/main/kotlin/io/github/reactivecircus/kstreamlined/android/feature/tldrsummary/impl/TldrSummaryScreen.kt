@@ -27,10 +27,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.CompositingStrategy
 import androidx.compose.ui.graphics.PathEffect
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -108,6 +113,7 @@ internal fun TldrSummaryScreen(
             Column(
                 modifier = Modifier
                     .weight(1f)
+                    .topFadingEdge(scrollState)
                     .verticalScroll(scrollState)
                     .padding(WindowInsets.navigationBars.only(WindowInsetsSides.Bottom).asPaddingValues())
                     .padding(top = 8.dp, bottom = 72.dp)
@@ -181,6 +187,25 @@ private const val AccentGlowAlpha = 0.3f
 private const val AccentGlowCenterYFraction = 0.15f
 private const val AccentGlowRadiusFraction = 0.8f
 private const val BackdropFadeStartFraction = 0.6f
+
+private fun Modifier.topFadingEdge(scrollState: ScrollState): Modifier = this
+    .graphicsLayer { compositingStrategy = CompositingStrategy.Offscreen }
+    .drawWithContent {
+        drawContent()
+        val fadeHeight = minOf(scrollState.value.toFloat(), FadingEdgeHeight.toPx())
+        if (fadeHeight > 0f) {
+            drawRect(
+                brush = Brush.verticalGradient(
+                    colors = listOf(Color.Transparent, Color.Black),
+                    endY = fadeHeight,
+                ),
+                size = Size(size.width, fadeHeight),
+                blendMode = BlendMode.DstIn,
+            )
+        }
+    }
+
+private val FadingEdgeHeight = 24.dp
 
 @Composable
 private fun TldrBadge(modifier: Modifier = Modifier) {
