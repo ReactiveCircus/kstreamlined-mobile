@@ -1,11 +1,14 @@
 package io.github.reactivecircus.kstreamlined.android.feature.tldrsummary.impl
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -24,17 +27,14 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.produceState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.drawWithContent
-import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
@@ -42,15 +42,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.CompositingStrategy
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
 import androidx.tracing.trace
-import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.HorizontalDashedDivider
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Icon
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.LargeIconButton
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Surface
@@ -59,7 +55,15 @@ import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundatio
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.icon.KSIcons
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.preview.PreviewKStreamlined
 import io.github.reactivecircus.kstreamlined.android.feature.tldrsummary.api.TldrSummaryRoute
+import io.github.reactivecircus.kstreamlined.android.feature.tldrsummary.impl.component.DisclosureFooter
+import io.github.reactivecircus.kstreamlined.android.feature.tldrsummary.impl.component.GenerationMetadata
+import io.github.reactivecircus.kstreamlined.android.feature.tldrsummary.impl.component.LoadingSkeletonUi
+import io.github.reactivecircus.kstreamlined.android.feature.tldrsummary.impl.component.SummaryUi
+import io.github.reactivecircus.kstreamlined.android.feature.tldrsummary.impl.component.TldrBadge
 import io.github.reactivecircus.routebinding.runtime.RouteBinding
+import kotlinx.coroutines.delay
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
 
 @RouteBinding(TldrSummaryRoute::class)
 @Composable
@@ -67,22 +71,35 @@ internal fun TldrSummaryScreen(
     backStack: NavBackStack<NavKey>,
     route: TldrSummaryRoute,
 ) = trace("Screen:TldrSummaryScreen") {
+    val uiState by rememberSampleTldrSummaryUiState(loadingDuration = SimulatedLoadingDuration)
     TldrSummaryScreen(
         title = route.title,
-        content = rememberSampleTldrContent(),
-        displayableGeneratedTime = SampleGeneratedTime,
-        model = SampleModel,
+        uiState = uiState,
         onNavigateUp = backStack::removeLastOrNull,
         onReadOriginal = { /* TODO */ },
     )
 }
 
 @Composable
+private fun rememberSampleTldrSummaryUiState(loadingDuration: Duration): State<TldrSummaryUiState> {
+    val contentState = TldrSummaryUiState.Content(
+        summary = rememberSampleTldrSummary(),
+        model = SampleModel,
+        displayableGeneratedTime = SampleGeneratedTime,
+    )
+    val initialState = if (loadingDuration == Duration.ZERO) contentState else TldrSummaryUiState.Loading
+    return produceState(initialState, contentState, loadingDuration) {
+        delay(loadingDuration)
+        value = contentState
+    }
+}
+
+private val SimulatedLoadingDuration = 3.seconds
+
+@Composable
 internal fun TldrSummaryScreen(
     title: String,
-    content: AnnotatedString,
-    displayableGeneratedTime: String,
-    model: String,
+    uiState: TldrSummaryUiState,
     onNavigateUp: () -> Unit,
     onReadOriginal: () -> Unit,
     modifier: Modifier = Modifier,
@@ -121,7 +138,7 @@ internal fun TldrSummaryScreen(
                 modifier = Modifier
                     .weight(1f)
                     .topFadingEdge(scrollState)
-                    .verticalScroll(scrollState)
+                    .verticalScroll(scrollState, enabled = uiState !is TldrSummaryUiState.Loading)
                     .padding(WindowInsets.navigationBars.only(WindowInsetsSides.Bottom).asPaddingValues())
                     .padding(top = 8.dp, bottom = 72.dp)
                     .padding(horizontal = 24.dp),
@@ -132,19 +149,22 @@ internal fun TldrSummaryScreen(
                     color = KSTheme.colorScheme.onBackground,
                 )
                 Spacer(modifier = Modifier.height(12.dp))
-                GenerationMetadata(
-                    displayableGeneratedTime = displayableGeneratedTime,
-                    model = model,
-                )
-                Spacer(modifier = Modifier.height(24.dp))
-                SummaryContent(content = content)
-                Spacer(modifier = Modifier.height(24.dp))
-                HorizontalDashedDivider(
-                    color = KSTheme.colorScheme.borderMuted,
-                    modifier = Modifier.fillMaxWidth(),
-                )
-                Spacer(modifier = Modifier.height(12.dp))
-                Disclosure()
+                AnimatedContent(
+                    targetState = uiState,
+                    transitionSpec = { fadeIn() togetherWith fadeOut() },
+                    contentKey = { state -> state.contentKey },
+                    label = "uiState",
+                ) { state ->
+                    when (state) {
+                        is TldrSummaryUiState.Loading -> {
+                            LoadingSkeletonUi()
+                        }
+
+                        is TldrSummaryUiState.Content -> {
+                            ContentUi(state = state)
+                        }
+                    }
+                }
             }
         }
         ReadOriginalButton(
@@ -157,57 +177,28 @@ internal fun TldrSummaryScreen(
     }
 }
 
+private val TldrSummaryUiState.contentKey: Int
+    get() = when (this) {
+        is TldrSummaryUiState.Loading -> 0
+        is TldrSummaryUiState.Content -> 1
+    }
+
 @Composable
-private fun SummaryContent(
-    content: AnnotatedString,
+private fun ContentUi(
+    state: TldrSummaryUiState.Content,
     modifier: Modifier = Modifier,
 ) {
-    val inlineCodeColor = KSTheme.colorScheme.surface
-    var inlineCodeBounds by remember { mutableStateOf(emptyList<Rect>()) }
-    Text(
-        text = content,
-        style = KSTheme.typography.bodyLarge.copy(letterSpacing = 0.1.sp),
-        color = KSTheme.colorScheme.onBackground,
-        onTextLayout = { inlineCodeBounds = it.inlineCodeBounds() },
-        modifier = modifier.drawBehind {
-            val cornerRadius = CornerRadius(InlineCodeCornerRadius.toPx())
-            inlineCodeBounds.forEach { bounds ->
-                drawRoundRect(
-                    color = inlineCodeColor,
-                    topLeft = bounds.topLeft,
-                    size = bounds.size,
-                    cornerRadius = cornerRadius,
-                )
-            }
-        },
-    )
-}
-
-private fun TextLayoutResult.inlineCodeBounds(): List<Rect> = with(layoutInput.density) {
-    val fontSize = layoutInput.style.fontSize.toPx()
-    val horizontalPadding = InlineCodeHorizontalPadding.toPx()
-    val verticalPadding = InlineCodeVerticalPadding.toPx()
-    layoutInput.text.getStringAnnotations(InlineCodeTag, 0, layoutInput.text.length).flatMap { range ->
-        (getLineForOffset(range.start)..getLineForOffset(range.end - 1)).mapNotNull { line ->
-            val start = maxOf(range.start, getLineStart(line))
-            val end = minOf(range.end, getLineEnd(line, visibleEnd = true))
-            if (start >= end) return@mapNotNull null
-            val baseline = getLineBaseline(line)
-            Rect(
-                left = getBoundingBox(start).left - horizontalPadding,
-                top = baseline - fontSize * GlyphTopEm - verticalPadding,
-                right = getBoundingBox(end - 1).right + horizontalPadding,
-                bottom = baseline + fontSize * GlyphBottomEm + verticalPadding,
-            )
-        }
+    Column(modifier = modifier) {
+        GenerationMetadata(
+            displayableGeneratedTime = state.displayableGeneratedTime,
+            model = state.model,
+        )
+        Spacer(modifier = Modifier.height(24.dp))
+        SummaryUi(summary = state.summary)
+        Spacer(modifier = Modifier.height(24.dp))
+        DisclosureFooter()
     }
 }
-
-private val InlineCodeHorizontalPadding = 4.dp
-private val InlineCodeVerticalPadding = 2.dp
-private val InlineCodeCornerRadius = 4.dp
-private const val GlyphTopEm = 0.84f
-private const val GlyphBottomEm = 0.18f
 
 @Composable
 private fun HeaderBackdrop(modifier: Modifier = Modifier) {
@@ -266,78 +257,6 @@ private fun Modifier.topFadingEdge(scrollState: ScrollState): Modifier = this
 private val FadingEdgeHeight = 24.dp
 
 @Composable
-private fun TldrBadge(modifier: Modifier = Modifier) {
-    val brandGradient = KSTheme.colorScheme.brandGradient
-    Row(
-        modifier = modifier
-            .background(
-                brush = Brush.horizontalGradient(brandGradient.take(2)),
-                shape = CircleShape,
-            )
-            .padding(start = 8.dp, end = 10.dp)
-            .padding(vertical = 6.dp),
-        horizontalArrangement = Arrangement.spacedBy(6.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Icon(
-            KSIcons.Sparkles,
-            contentDescription = null,
-            modifier = Modifier.requiredSize(20.dp),
-            tint = KSTheme.colorScheme.onAccent,
-        )
-        Text(
-            text = stringResource(R.string.title_tldr_summary),
-            style = KSTheme.typography.labelMedium.copy(
-                fontWeight = FontWeight.ExtraBold,
-                letterSpacing = 0.1.sp,
-            ),
-            color = KSTheme.colorScheme.onAccent,
-        )
-    }
-}
-
-@Composable
-private fun GenerationMetadata(
-    displayableGeneratedTime: String,
-    model: String,
-    modifier: Modifier = Modifier,
-) {
-    val textStyle = KSTheme.typography.labelMedium
-    val textColor = KSTheme.colorScheme.onBackgroundMuted
-    FlowRow(
-        modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(6.dp),
-        verticalArrangement = Arrangement.spacedBy(4.dp),
-        itemVerticalAlignment = Alignment.CenterVertically,
-    ) {
-        Text(
-            text = stringResource(R.string.tldr_generated_by),
-            style = textStyle,
-            color = textColor,
-        )
-        Surface(
-            shape = CircleShape,
-            color = KSTheme.colorScheme.surfaceAccent,
-            contentColor = KSTheme.colorScheme.onSurfaceAccent,
-        ) {
-            Text(
-                text = model,
-                style = textStyle.copy(
-                    fontWeight = FontWeight.ExtraBold,
-                    letterSpacing = 0.1.sp,
-                ),
-                modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp),
-            )
-        }
-        Text(
-            text = stringResource(R.string.tldr_generated_on, displayableGeneratedTime),
-            style = textStyle,
-            color = textColor,
-        )
-    }
-}
-
-@Composable
 private fun ReadOriginalButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -389,13 +308,42 @@ private fun Disclosure(modifier: Modifier = Modifier) {
 
 @Composable
 @PreviewKStreamlined
-private fun PreviewTldrSummaryScreen() {
+private fun PreviewTldrSummaryScreen_Loading() {
     TldrSummaryScreen(
         title = SampleTitle,
-        content = rememberSampleTldrContent(),
-        displayableGeneratedTime = SampleGeneratedTime,
-        model = SampleModel,
+        uiState = TldrSummaryUiState.Loading,
         onNavigateUp = {},
         onReadOriginal = {},
+    )
+}
+
+@Composable
+@PreviewKStreamlined
+private fun PreviewTldrSummaryScreen_Content() {
+    TldrSummaryScreen(
+        title = SampleTitle,
+        uiState = TldrSummaryUiState.Content(
+            summary = rememberSampleTldrSummary(),
+            model = SampleModel,
+            displayableGeneratedTime = SampleGeneratedTime,
+        ),
+        onNavigateUp = {},
+        onReadOriginal = {},
+    )
+}
+
+@Composable
+@PreviewKStreamlined
+private fun PreviewTldrSummaryScreen_Content_ScrolledToBottom() {
+    TldrSummaryScreen(
+        title = SampleTitle,
+        uiState = TldrSummaryUiState.Content(
+            summary = rememberSampleTldrSummary(),
+            model = SampleModel,
+            displayableGeneratedTime = SampleGeneratedTime,
+        ),
+        onNavigateUp = {},
+        onReadOriginal = {},
+        scrollState = ScrollState(Int.MAX_VALUE),
     )
 }

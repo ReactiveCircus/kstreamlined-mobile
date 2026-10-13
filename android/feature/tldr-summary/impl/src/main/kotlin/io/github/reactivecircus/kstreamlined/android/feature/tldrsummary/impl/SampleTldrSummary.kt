@@ -20,18 +20,12 @@ import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundatio
 
 internal const val SampleTitle =
     "What's new in Kotlin 2.4.20: Swift export sealed classes, Wasm compilation modes and more"
+
 internal const val SampleGeneratedTime = "7 Sep 2026"
 internal const val SampleModel = "gpt-oss-120b"
 
-internal const val InlineCodeTag = "inline-code"
-
-// Narrow no-break space (0.3em wide at this size) reserving room for the background's horizontal
-// padding, without allowing a line break between the code and its padding.
-private const val InlineCodeSpacing = '\u202F'
-private val InlineCodeSpacingStyle = SpanStyle(fontSize = 0.5.em)
-
 @Composable
-internal fun rememberSampleTldrContent(): AnnotatedString {
+internal fun rememberSampleTldrSummary(): AnnotatedString {
     val headingStyle = KSTheme.typography.titleMedium.toSpanStyle()
     val linkStyle = SpanStyle(
         color = KSTheme.colorScheme.accent,
@@ -147,3 +141,7 @@ internal fun rememberSampleTldrContent(): AnnotatedString {
         }
     }
 }
+
+internal const val InlineCodeTag = "inline-code"
+private const val InlineCodeSpacing = '\u202F'
+private val InlineCodeSpacingStyle = SpanStyle(fontSize = 0.5.em)

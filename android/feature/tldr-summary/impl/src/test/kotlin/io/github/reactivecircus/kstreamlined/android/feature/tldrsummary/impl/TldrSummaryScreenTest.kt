@@ -12,13 +12,11 @@ class TldrSummaryScreenTest {
     val snapshotTester = SnapshotTester()
 
     @Test
-    fun snapshot_TldrSummaryScreen() {
+    fun snapshot_TldrSummaryScreen_Loading() {
         snapshotTester.snapshot {
             TldrSummaryScreen(
                 title = SampleTitle,
-                content = rememberSampleTldrContent(),
-                displayableGeneratedTime = SampleGeneratedTime,
-                model = SampleModel,
+                uiState = TldrSummaryUiState.Loading,
                 onNavigateUp = {},
                 onReadOriginal = {},
             )
@@ -26,13 +24,31 @@ class TldrSummaryScreenTest {
     }
 
     @Test
-    fun snapshot_TldrSummaryScreen_ScrolledToBottom() {
+    fun snapshot_TldrSummaryScreen_Content() {
         snapshotTester.snapshot {
             TldrSummaryScreen(
                 title = SampleTitle,
-                content = rememberSampleTldrContent(),
-                displayableGeneratedTime = SampleGeneratedTime,
-                model = SampleModel,
+                uiState = TldrSummaryUiState.Content(
+                    summary = rememberSampleTldrSummary(),
+                    model = SampleModel,
+                    displayableGeneratedTime = SampleGeneratedTime,
+                ),
+                onNavigateUp = {},
+                onReadOriginal = {},
+            )
+        }
+    }
+
+    @Test
+    fun snapshot_TldrSummaryScreen_Content_ScrolledToBottom() {
+        snapshotTester.snapshot {
+            TldrSummaryScreen(
+                title = SampleTitle,
+                uiState = TldrSummaryUiState.Content(
+                    summary = rememberSampleTldrSummary(),
+                    model = SampleModel,
+                    displayableGeneratedTime = SampleGeneratedTime,
+                ),
                 onNavigateUp = {},
                 onReadOriginal = {},
                 scrollState = ScrollState(Int.MAX_VALUE),
