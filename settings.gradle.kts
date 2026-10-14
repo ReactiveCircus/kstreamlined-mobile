@@ -1,19 +1,23 @@
 enableFeaturePreview("NO_IMPLICIT_LOOKUP_IN_PARENT_PROJECTS")
 
+@Suppress("UnstableApiUsage")
 pluginManagement {
     includeBuild("build-logic")
     repositories {
         google {
             content {
-                includeGroupByRegex("androidx.*")
-                includeGroupByRegex("com.android.*")
-                includeGroupByRegex("com.google.*")
+                includeGroupAndSubgroups("androidx")
+                includeGroupAndSubgroups("com.android")
+                includeGroupAndSubgroups("com.google.android")
+                includeGroupAndSubgroups("com.google.firebase")
+                includeGroupAndSubgroups("com.google.gms")
+                includeGroup("com.google.testing.platform")
             }
         }
         gradlePluginPortal {
             content {
-                includeGroupByRegex("com.gradle.*")
-                includeGroupByRegex("org.gradle.*")
+                includeGroupAndSubgroups("com.gradle")
+                includeGroupAndSubgroups("org.gradle")
             }
         }
         mavenCentral()
@@ -35,14 +39,17 @@ pluginManagement {
 
 includeBuild("build-logic")
 
+@Suppress("UnstableApiUsage")
 dependencyResolutionManagement {
-    @Suppress("UnstableApiUsage")
     repositories {
         google {
             content {
-                includeGroupByRegex("androidx.*")
-                includeGroupByRegex("com.android.*")
-                includeGroupByRegex("com.google.*")
+                includeGroupAndSubgroups("androidx")
+                includeGroupAndSubgroups("com.android")
+                includeGroupAndSubgroups("com.google.android")
+                includeGroupAndSubgroups("com.google.firebase")
+                includeGroupAndSubgroups("com.google.gms")
+                includeGroup("com.google.testing.platform")
             }
         }
         mavenCentral()
