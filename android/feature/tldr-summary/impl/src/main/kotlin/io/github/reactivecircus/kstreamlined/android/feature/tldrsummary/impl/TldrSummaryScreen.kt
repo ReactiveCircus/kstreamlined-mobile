@@ -115,7 +115,7 @@ private fun rememberSampleTldrSummaryUiState(
 }
 
 private val SimulatedLoadingDuration = 3.seconds
-private const val SimulateError = true
+private const val SimulateError = false
 
 @Composable
 internal fun TldrSummaryScreen(
