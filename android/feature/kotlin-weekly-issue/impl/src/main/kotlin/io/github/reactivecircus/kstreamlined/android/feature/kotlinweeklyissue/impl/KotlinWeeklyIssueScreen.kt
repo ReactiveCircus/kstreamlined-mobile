@@ -27,7 +27,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -183,7 +185,10 @@ internal fun KotlinWeeklyIssueScreen(
                     is KotlinWeeklyIssueUiState.Error -> {
                         ErrorUi(
                             onRetry = { eventSink(KotlinWeeklyIssueUiEvent.Refresh) },
-                            modifier = Modifier.padding(24.dp),
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .verticalScroll(rememberScrollState())
+                                .padding(24.dp),
                         )
                     }
 

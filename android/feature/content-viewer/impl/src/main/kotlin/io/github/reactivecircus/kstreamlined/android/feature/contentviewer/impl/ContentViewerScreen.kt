@@ -25,6 +25,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -151,7 +153,12 @@ internal fun ContentViewerScreen(
                     }
 
                     is ContentViewerUiState.NotFound -> {
-                        ItemNotFoundUi(modifier = Modifier.padding(24.dp))
+                        ItemNotFoundUi(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .verticalScroll(rememberScrollState())
+                                .padding(24.dp),
+                        )
                     }
 
                     is ContentViewerUiState.Content -> {

@@ -20,7 +20,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
@@ -29,7 +28,10 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.produceState
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
@@ -54,6 +56,7 @@ import io.github.reactivecircus.kstreamlined.android.core.designsystem.component
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.icon.KSIcons
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.preview.PreviewKStreamlined
+import io.github.reactivecircus.kstreamlined.android.core.ui.pattern.ErrorUi
 import io.github.reactivecircus.kstreamlined.android.feature.tldrsummary.api.TldrSummaryRoute
 import io.github.reactivecircus.kstreamlined.android.feature.tldrsummary.impl.component.DisclosureFooter
 import io.github.reactivecircus.kstreamlined.android.feature.tldrsummary.impl.component.GenerationMetadata
@@ -71,30 +74,48 @@ internal fun TldrSummaryScreen(
     backStack: NavBackStack<NavKey>,
     route: TldrSummaryRoute,
 ) = trace("Screen:TldrSummaryScreen") {
-    val uiState by rememberSampleTldrSummaryUiState(loadingDuration = SimulatedLoadingDuration)
+    var retryTrigger by remember { mutableIntStateOf(0) }
+    val uiState by rememberSampleTldrSummaryUiState(
+        loadingDuration = SimulatedLoadingDuration,
+        simulateError = SimulateError,
+        retryTrigger = retryTrigger,
+    )
     TldrSummaryScreen(
         title = route.title,
         uiState = uiState,
         onNavigateUp = backStack::removeLastOrNull,
         onReadOriginal = { /* TODO */ },
+        onRetry = { retryTrigger++ },
     )
 }
 
 @Composable
-private fun rememberSampleTldrSummaryUiState(loadingDuration: Duration): State<TldrSummaryUiState> {
-    val contentState = TldrSummaryUiState.Content(
-        summary = rememberSampleTldrSummary(),
-        model = SampleModel,
-        displayableGeneratedTime = SampleGeneratedTime,
-    )
-    val initialState = if (loadingDuration == Duration.ZERO) contentState else TldrSummaryUiState.Loading
-    return produceState(initialState, contentState, loadingDuration) {
-        delay(loadingDuration)
-        value = contentState
+private fun rememberSampleTldrSummaryUiState(
+    loadingDuration: Duration,
+    simulateError: Boolean,
+    retryTrigger: Int,
+): State<TldrSummaryUiState> {
+    val targetState = if (simulateError) {
+        TldrSummaryUiState.Error
+    } else {
+        TldrSummaryUiState.Content(
+            summary = rememberSampleTldrSummary(),
+            model = SampleModel,
+            displayableGeneratedTime = SampleGeneratedTime,
+        )
+    }
+    val initialState = if (loadingDuration == Duration.ZERO) targetState else TldrSummaryUiState.Loading
+    return produceState(initialState, targetState, loadingDuration, retryTrigger) {
+        if (loadingDuration > Duration.ZERO) {
+            value = TldrSummaryUiState.Loading
+            delay(loadingDuration)
+        }
+        value = targetState
     }
 }
 
 private val SimulatedLoadingDuration = 3.seconds
+private const val SimulateError = true
 
 @Composable
 internal fun TldrSummaryScreen(
@@ -102,6 +123,7 @@ internal fun TldrSummaryScreen(
     uiState: TldrSummaryUiState,
     onNavigateUp: () -> Unit,
     onReadOriginal: () -> Unit,
+    onRetry: () -> Unit,
     modifier: Modifier = Modifier,
     scrollState: ScrollState = rememberScrollState(),
 ) {
@@ -136,11 +158,16 @@ internal fun TldrSummaryScreen(
             }
             Column(
                 modifier = Modifier
-                    .weight(1f)
                     .topFadingEdge(scrollState)
-                    .verticalScroll(scrollState, enabled = uiState !is TldrSummaryUiState.Loading)
+                    .then(
+                        if (uiState is TldrSummaryUiState.Content) {
+                            Modifier.verticalScroll(scrollState)
+                        } else {
+                            Modifier
+                        },
+                    )
                     .padding(WindowInsets.navigationBars.only(WindowInsetsSides.Bottom).asPaddingValues())
-                    .padding(top = 8.dp, bottom = 72.dp)
+                    .padding(top = 8.dp)
                     .padding(horizontal = 24.dp),
             ) {
                 Text(
@@ -160,8 +187,18 @@ internal fun TldrSummaryScreen(
                             LoadingSkeletonUi()
                         }
 
+                        is TldrSummaryUiState.Error -> {
+                            ErrorUi(
+                                onRetry = onRetry,
+                                modifier = Modifier.padding(bottom = 72.dp),
+                            )
+                        }
+
                         is TldrSummaryUiState.Content -> {
-                            ContentUi(state = state)
+                            ContentUi(
+                                state = state,
+                                modifier = Modifier.padding(bottom = 72.dp),
+                            )
                         }
                     }
                 }
@@ -180,7 +217,8 @@ internal fun TldrSummaryScreen(
 private val TldrSummaryUiState.contentKey: Int
     get() = when (this) {
         is TldrSummaryUiState.Loading -> 0
-        is TldrSummaryUiState.Content -> 1
+        is TldrSummaryUiState.Error -> 1
+        is TldrSummaryUiState.Content -> 2
     }
 
 @Composable
@@ -287,26 +325,6 @@ private fun ReadOriginalButton(
 }
 
 @Composable
-private fun Disclosure(modifier: Modifier = Modifier) {
-    Row(
-        modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-    ) {
-        Icon(
-            KSIcons.Info,
-            contentDescription = null,
-            modifier = Modifier.requiredSize(16.dp),
-            tint = KSTheme.colorScheme.onBackgroundMuted,
-        )
-        Text(
-            text = stringResource(R.string.tldr_disclosure),
-            style = KSTheme.typography.bodySmall,
-            color = KSTheme.colorScheme.onBackgroundMuted,
-        )
-    }
-}
-
-@Composable
 @PreviewKStreamlined
 private fun PreviewTldrSummaryScreen_Loading() {
     TldrSummaryScreen(
@@ -314,6 +332,19 @@ private fun PreviewTldrSummaryScreen_Loading() {
         uiState = TldrSummaryUiState.Loading,
         onNavigateUp = {},
         onReadOriginal = {},
+        onRetry = {},
+    )
+}
+
+@Composable
+@PreviewKStreamlined
+private fun PreviewTldrSummaryScreen_Error() {
+    TldrSummaryScreen(
+        title = SampleTitle,
+        uiState = TldrSummaryUiState.Error,
+        onNavigateUp = {},
+        onReadOriginal = {},
+        onRetry = {},
     )
 }
 
@@ -329,6 +360,7 @@ private fun PreviewTldrSummaryScreen_Content() {
         ),
         onNavigateUp = {},
         onReadOriginal = {},
+        onRetry = {},
     )
 }
 
@@ -344,6 +376,7 @@ private fun PreviewTldrSummaryScreen_Content_ScrolledToBottom() {
         ),
         onNavigateUp = {},
         onReadOriginal = {},
+        onRetry = {},
         scrollState = ScrollState(Int.MAX_VALUE),
     )
 }

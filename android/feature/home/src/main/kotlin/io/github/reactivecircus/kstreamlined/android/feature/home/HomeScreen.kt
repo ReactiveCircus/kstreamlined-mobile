@@ -30,7 +30,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -217,7 +219,10 @@ internal fun HomeScreen(
                     is HomeUiState.Error -> {
                         ErrorUi(
                             onRetry = { eventSink(HomeUiEvent.Refresh) },
-                            modifier = Modifier.padding(calculateListContentPadding()),
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .verticalScroll(rememberScrollState())
+                                .padding(calculateListContentPadding()),
                         )
                     }
 

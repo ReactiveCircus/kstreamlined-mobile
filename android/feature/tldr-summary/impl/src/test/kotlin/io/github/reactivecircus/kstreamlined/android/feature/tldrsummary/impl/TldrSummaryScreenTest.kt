@@ -19,6 +19,20 @@ class TldrSummaryScreenTest {
                 uiState = TldrSummaryUiState.Loading,
                 onNavigateUp = {},
                 onReadOriginal = {},
+                onRetry = {},
+            )
+        }
+    }
+
+    @Test
+    fun snapshot_TldrSummaryScreen_Error() {
+        snapshotTester.snapshot {
+            TldrSummaryScreen(
+                title = SampleTitle,
+                uiState = TldrSummaryUiState.Error,
+                onNavigateUp = {},
+                onReadOriginal = {},
+                onRetry = {},
             )
         }
     }
@@ -35,6 +49,7 @@ class TldrSummaryScreenTest {
                 ),
                 onNavigateUp = {},
                 onReadOriginal = {},
+                onRetry = {},
             )
         }
     }
@@ -51,6 +66,7 @@ class TldrSummaryScreenTest {
                 ),
                 onNavigateUp = {},
                 onReadOriginal = {},
+                onRetry = {},
                 scrollState = ScrollState(Int.MAX_VALUE),
             )
         }
