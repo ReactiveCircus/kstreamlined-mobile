@@ -4,14 +4,17 @@ pluginManagement {
     repositories {
         google {
             content {
-                includeGroupByRegex("androidx.*")
-                includeGroupByRegex("com.android.*")
-                includeGroupByRegex("com.google.*")
+                includeGroupAndSubgroups("androidx")
+                includeGroupAndSubgroups("com.android")
+                includeGroupAndSubgroups("com.google.android")
+                includeGroupAndSubgroups("com.google.firebase")
+                includeGroupAndSubgroups("com.google.gms")
+                includeGroup("com.google.testing.platform")
             }
         }
         gradlePluginPortal {
             content {
-                includeGroupByRegex("org.gradle.*")
+                includeGroupAndSubgroups("org.gradle")
             }
         }
         mavenCentral()
@@ -34,9 +37,12 @@ dependencyResolutionManagement {
     repositories {
         google {
             content {
-                includeGroupByRegex("androidx.*")
-                includeGroupByRegex("com.android.*")
-                includeGroupByRegex("com.google.*")
+                includeGroupAndSubgroups("androidx")
+                includeGroupAndSubgroups("com.android")
+                includeGroupAndSubgroups("com.google.android")
+                includeGroupAndSubgroups("com.google.firebase")
+                includeGroupAndSubgroups("com.google.gms")
+                includeGroup("com.google.testing.platform")
             }
         }
         mavenCentral()
