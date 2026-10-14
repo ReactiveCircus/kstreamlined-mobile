@@ -1,5 +1,6 @@
 enableFeaturePreview("NO_IMPLICIT_LOOKUP_IN_PARENT_PROJECTS")
 
+@Suppress("UnstableApiUsage")
 pluginManagement {
     includeBuild("build-logic")
     repositories {
@@ -38,8 +39,8 @@ pluginManagement {
 
 includeBuild("build-logic")
 
+@Suppress("UnstableApiUsage")
 dependencyResolutionManagement {
-    @Suppress("UnstableApiUsage")
     repositories {
         google {
             content {
