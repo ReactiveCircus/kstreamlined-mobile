@@ -20,6 +20,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -80,7 +83,7 @@ public fun KotlinBlogCard(
                 verticalArrangement = Arrangement.spacedBy(4.dp),
             ) {
                 if (onTldrClick != null) {
-                    TldrChip(
+                    TldrButton(
                         onClick = onTldrClick,
                     )
                 }
@@ -131,13 +134,13 @@ public fun KotlinBlogCard(
 private val ImageHeight = 200.dp
 
 @Composable
-private fun TldrChip(
+private fun TldrButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Surface(
         onClick = onClick,
-        modifier = modifier,
+        modifier = modifier.semantics { role = Role.Button },
         shape = CircleShape,
         color = KSTheme.colorScheme.surfaceAccent,
         contentColor = KSTheme.colorScheme.onSurfaceAccent,

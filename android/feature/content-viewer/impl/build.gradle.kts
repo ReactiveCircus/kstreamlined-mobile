@@ -1,6 +1,7 @@
 kstreamlined {
     androidFeatureLibrary("io.github.reactivecircus.kstreamlined.android.feature.contentviewer.impl") {
         routeBinding()
+        screenshotTests()
 
         dependencies {
             implementation(project(":feature:content-viewer:api"))

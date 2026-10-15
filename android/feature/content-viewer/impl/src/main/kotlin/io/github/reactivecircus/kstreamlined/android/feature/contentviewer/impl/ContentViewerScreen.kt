@@ -54,13 +54,16 @@ import io.github.reactivecircus.kstreamlined.android.core.launcher.openShareShee
 import io.github.reactivecircus.kstreamlined.android.core.ui.pattern.ItemNotFoundUi
 import io.github.reactivecircus.kstreamlined.android.feature.contentviewer.api.ContentViewerRoute
 import io.github.reactivecircus.kstreamlined.android.feature.contentviewer.api.ContentViewerSharedTransitionKeys
+import io.github.reactivecircus.kstreamlined.android.feature.contentviewer.impl.component.TldrButton
 import io.github.reactivecircus.kstreamlined.kmp.capsule.inject.assistedRetainPresenter
+import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.presentation.contentviewer.ContentViewerPresenter
 import io.github.reactivecircus.kstreamlined.kmp.presentation.contentviewer.ContentViewerUiEvent
 import io.github.reactivecircus.kstreamlined.kmp.presentation.contentviewer.ContentViewerUiState
 import io.github.reactivecircus.routebinding.runtime.RouteBinding
 import kotlinx.coroutines.delay
 import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Instant
 
 @RouteBinding(ContentViewerRoute::class)
 @Composable
@@ -109,6 +112,13 @@ internal fun ContentViewerScreen(
                 actions = {
                     if (uiState is ContentViewerUiState.Content) {
                         val item = (uiState as ContentViewerUiState.Content).item
+                        // TODO integrate
+                        if (item is FeedItem.KotlinBlog && item.publishTime >= Instant.parse("2026-09-09T10:00:00Z")) {
+                            TldrButton(
+                                onClick = { /* TODO */ },
+                            )
+                            Spacer(modifier = Modifier.width(12.dp))
+                        }
                         FilledIconButton(
                             KSIcons.Share,
                             contentDescription = null,
