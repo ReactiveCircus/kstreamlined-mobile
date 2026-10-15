@@ -1,11 +1,10 @@
-package io.github.reactivecircus.kstreamlined.kmp.feed.datasource.mapper
+package io.github.reactivecircus.kstreamlined.kmp.presentation.kotlinweeklyissue
 
-import io.github.reactivecircus.kstreamlined.kmp.feed.model.KotlinWeeklyIssueItem
 import io.github.reactivecircus.kstreamlined.kmp.remote.model.KotlinWeeklyIssueEntry
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class KotlinWeeklyIssueItemMappersTest {
+class KotlinWeeklyIssueItemMapperTest {
     @Test
     fun `KotlinWeeklyIssueEntry maps to expected KotlinWeeklyIssueItem`() {
         val entry1 = KotlinWeeklyIssueEntry(
@@ -22,7 +21,7 @@ class KotlinWeeklyIssueItemMappersTest {
             source = "Source 1",
             group = KotlinWeeklyIssueItem.Group.News,
         )
-        assertEquals(expected1, entry1.asExternalModel())
+        assertEquals(expected1, entry1.asPresentationModel())
 
         val entry2 = KotlinWeeklyIssueEntry(
             title = "Title 2",
@@ -38,7 +37,7 @@ class KotlinWeeklyIssueItemMappersTest {
             source = "Source 2",
             group = KotlinWeeklyIssueItem.Group.Announcements,
         )
-        assertEquals(expected2, entry2.asExternalModel())
+        assertEquals(expected2, entry2.asPresentationModel())
 
         val entry3 = KotlinWeeklyIssueEntry(
             title = "Title 3",
@@ -54,7 +53,7 @@ class KotlinWeeklyIssueItemMappersTest {
             source = "Source 3",
             group = KotlinWeeklyIssueItem.Group.Articles,
         )
-        assertEquals(expected3, entry3.asExternalModel())
+        assertEquals(expected3, entry3.asPresentationModel())
 
         val entry4 = KotlinWeeklyIssueEntry(
             title = "Title 4",
@@ -70,7 +69,7 @@ class KotlinWeeklyIssueItemMappersTest {
             source = "Source 4",
             group = KotlinWeeklyIssueItem.Group.Android,
         )
-        assertEquals(expected4, entry4.asExternalModel())
+        assertEquals(expected4, entry4.asPresentationModel())
 
         val entry5 = KotlinWeeklyIssueEntry(
             title = "Title 5",
@@ -86,7 +85,7 @@ class KotlinWeeklyIssueItemMappersTest {
             source = "Source 5",
             group = KotlinWeeklyIssueItem.Group.Videos,
         )
-        assertEquals(expected5, entry5.asExternalModel())
+        assertEquals(expected5, entry5.asPresentationModel())
 
         val entry6 = KotlinWeeklyIssueEntry(
             title = "Title 6",
@@ -102,6 +101,6 @@ class KotlinWeeklyIssueItemMappersTest {
             source = "Source 6",
             group = KotlinWeeklyIssueItem.Group.Libraries,
         )
-        assertEquals(expected6, entry6.asExternalModel())
+        assertEquals(expected6, entry6.asPresentationModel())
     }
 }

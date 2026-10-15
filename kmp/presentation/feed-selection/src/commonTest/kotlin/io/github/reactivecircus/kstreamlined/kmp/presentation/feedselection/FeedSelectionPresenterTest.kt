@@ -7,7 +7,6 @@ import io.github.reactivecircus.kstreamlined.kmp.database.testing.createInMemory
 import io.github.reactivecircus.kstreamlined.kmp.database.testing.insertFeedOrigins
 import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.FeedDataSource
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedOrigin
-import io.github.reactivecircus.kstreamlined.kmp.remote.FakeFeedService
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
@@ -16,8 +15,6 @@ import kotlin.test.assertEquals
 import kotlin.test.assertIs
 
 class FeedSelectionPresenterTest {
-    private val feedService = FakeFeedService()
-
     private val db = createInMemoryDatabase()
 
     private val testDispatcher = StandardTestDispatcher()
@@ -53,7 +50,6 @@ class FeedSelectionPresenterTest {
 
     private val presenter = FeedSelectionPresenter(
         feedDataSource = FeedDataSource(
-            feedService = feedService,
             db = db,
             dbDispatcher = testDispatcher,
         ),

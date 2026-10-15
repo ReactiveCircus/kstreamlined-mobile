@@ -64,23 +64,4 @@ class FakeFeedServiceTest {
             fakeFeedService.fetchFeedEntriesAndOrigins()
         }
     }
-
-    @Test
-    fun `returns expected response when fetchKotlinWeeklyIssue succeeds`() = runTest {
-        fakeFeedService.nextKotlinWeeklyIssueResponse = {
-            FakeKotlinWeeklyIssueEntries
-        }
-        assertEquals(
-            FakeKotlinWeeklyIssueEntries,
-            fakeFeedService.fetchKotlinWeeklyIssue("url"),
-        )
-    }
-
-    @Test
-    fun `throws exception when fetchKotlinWeeklyIssue fails`() = runTest {
-        fakeFeedService.nextKotlinWeeklyIssueResponse = { throw IllegalStateException() }
-        assertFailsWith<IllegalStateException> {
-            fakeFeedService.fetchKotlinWeeklyIssue("url")
-        }
-    }
 }

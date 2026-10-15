@@ -13,6 +13,7 @@ kstreamlined {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         dependencies {
             implementation(project(":kmp:capsule:runtime"))
+            implementation(project(":kmp:remote:common"))
             implementation(project(":kmp:feed-datasource"))
 
             testImplementation(project(":kmp:remote:testing"))

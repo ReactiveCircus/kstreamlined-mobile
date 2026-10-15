@@ -8,10 +8,8 @@ import io.github.reactivecircus.kstreamlined.kmp.database.testing.insertFeedItem
 import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.FeedDataSource
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedOrigin
-import io.github.reactivecircus.kstreamlined.kmp.feed.model.KotlinWeeklyIssueItem
-import io.github.reactivecircus.kstreamlined.kmp.remote.FakeFeedService
+import io.github.reactivecircus.kstreamlined.kmp.remote.FakeContentService
 import io.github.reactivecircus.kstreamlined.kmp.remote.FakeKotlinWeeklyIssueEntries
-import io.github.reactivecircus.kstreamlined.kmp.remote.model.KotlinWeeklyIssueEntry
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
@@ -20,7 +18,7 @@ import kotlin.test.assertEquals
 import kotlin.time.Instant
 
 class KotlinWeeklyIssuePresenterTest {
-    private val feedService = FakeFeedService()
+    private val contentService = FakeContentService()
 
     private val db = createInMemoryDatabase()
 
@@ -57,26 +55,13 @@ class KotlinWeeklyIssuePresenterTest {
     }
 
     private val fakeKotlinWeeklyIssueItems = FakeKotlinWeeklyIssueEntries.map {
-        KotlinWeeklyIssueItem(
-            title = it.title,
-            summary = it.summary,
-            url = it.url,
-            source = it.source,
-            group = when (it.group) {
-                KotlinWeeklyIssueEntry.Group.News -> KotlinWeeklyIssueItem.Group.News
-                KotlinWeeklyIssueEntry.Group.Announcements -> KotlinWeeklyIssueItem.Group.Announcements
-                KotlinWeeklyIssueEntry.Group.Articles -> KotlinWeeklyIssueItem.Group.Articles
-                KotlinWeeklyIssueEntry.Group.Android -> KotlinWeeklyIssueItem.Group.Android
-                KotlinWeeklyIssueEntry.Group.Videos -> KotlinWeeklyIssueItem.Group.Videos
-                KotlinWeeklyIssueEntry.Group.Libraries -> KotlinWeeklyIssueItem.Group.Libraries
-            },
-        )
+        it.asPresentationModel()
     }
 
     private fun presenter(id: String = item.id) = KotlinWeeklyIssuePresenter(
         id = id,
+        contentService = contentService,
         feedDataSource = FeedDataSource(
-            feedService = feedService,
             db = db,
             dbDispatcher = testDispatcher,
         ),
@@ -93,7 +78,7 @@ class KotlinWeeklyIssuePresenterTest {
 
                 assertEquals(KotlinWeeklyIssueUiState.Loading, awaitItem())
 
-                feedService.nextKotlinWeeklyIssueResponse = { FakeKotlinWeeklyIssueEntries }
+                contentService.nextKotlinWeeklyIssueResponse = { FakeKotlinWeeklyIssueEntries }
 
                 assertEquals(
                     KotlinWeeklyIssueUiState.Content(
@@ -117,7 +102,7 @@ class KotlinWeeklyIssuePresenterTest {
 
                 assertEquals(KotlinWeeklyIssueUiState.Loading, awaitItem())
 
-                feedService.nextKotlinWeeklyIssueResponse = {
+                contentService.nextKotlinWeeklyIssueResponse = {
                     error("Failed to fetch Kotlin Weekly issue")
                 }
 
@@ -146,13 +131,13 @@ class KotlinWeeklyIssuePresenterTest {
 
                 assertEquals(KotlinWeeklyIssueUiState.Loading, awaitItem())
 
-                feedService.nextKotlinWeeklyIssueResponse = {
+                contentService.nextKotlinWeeklyIssueResponse = {
                     error("Failed to fetch Kotlin Weekly issue")
                 }
 
                 assertEquals(KotlinWeeklyIssueUiState.Error, awaitItem())
 
-                feedService.nextKotlinWeeklyIssueResponse = { FakeKotlinWeeklyIssueEntries }
+                contentService.nextKotlinWeeklyIssueResponse = { FakeKotlinWeeklyIssueEntries }
 
                 presenter.eventSink(KotlinWeeklyIssueUiEvent.Refresh)
 

@@ -4,7 +4,6 @@ import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesBinding
 import io.github.reactivecircus.kstreamlined.kmp.remote.model.FeedEntry
 import io.github.reactivecircus.kstreamlined.kmp.remote.model.FeedSource
-import io.github.reactivecircus.kstreamlined.kmp.remote.model.KotlinWeeklyIssueEntry
 
 @ContributesBinding(AppScope::class)
 internal class EdgeFeedService : FeedService {
@@ -20,9 +19,5 @@ internal class EdgeFeedService : FeedService {
         filters: List<FeedSource.Key>?,
     ): Pair<List<FeedEntry>, List<FeedSource>> {
         TODO("Not yet implemented")
-    }
-
-    override suspend fun fetchKotlinWeeklyIssue(url: String): List<KotlinWeeklyIssueEntry> {
-        TODO()
     }
 }

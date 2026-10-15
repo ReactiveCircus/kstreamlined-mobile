@@ -10,8 +10,6 @@ import io.github.reactivecircus.kstreamlined.kmp.database.KStreamlinedDatabase
 import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.mapper.asExternalModel
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedOrigin
-import io.github.reactivecircus.kstreamlined.kmp.feed.model.KotlinWeeklyIssueItem
-import io.github.reactivecircus.kstreamlined.kmp.remote.FeedService
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -24,7 +22,6 @@ import kotlinx.coroutines.withContext
 @SingleIn(AppScope::class)
 @Inject
 public class FeedDataSource(
-    private val feedService: FeedService,
     private val db: KStreamlinedDatabase,
     private val dbDispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) {
@@ -64,12 +61,6 @@ public class FeedDataSource(
             .mapToOneOrNull(dbDispatcher)
             .distinctUntilChanged()
             .map { it?.asExternalModel() }
-    }
-
-    public suspend fun loadKotlinWeeklyIssue(url: String): List<KotlinWeeklyIssueItem> {
-        return feedService.fetchKotlinWeeklyIssue(url).map {
-            it.asExternalModel()
-        }
     }
 
     public suspend fun selectFeedSource(feedOriginKey: FeedOrigin.Key): Unit =

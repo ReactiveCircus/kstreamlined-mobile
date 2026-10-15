@@ -10,12 +10,10 @@ import dev.zacsweers.metro.ContributesBinding
 import io.github.reactivecircus.kstreamlined.graphql.FeedEntriesQuery
 import io.github.reactivecircus.kstreamlined.graphql.FeedEntriesWithSourcesQuery
 import io.github.reactivecircus.kstreamlined.graphql.FeedSourcesQuery
-import io.github.reactivecircus.kstreamlined.graphql.KotlinWeeklyIssueQuery
 import io.github.reactivecircus.kstreamlined.kmp.remote.mapper.asApolloModel
 import io.github.reactivecircus.kstreamlined.kmp.remote.mapper.asExternalModel
 import io.github.reactivecircus.kstreamlined.kmp.remote.model.FeedEntry
 import io.github.reactivecircus.kstreamlined.kmp.remote.model.FeedSource
-import io.github.reactivecircus.kstreamlined.kmp.remote.model.KotlinWeeklyIssueEntry
 
 @ContributesBinding(AppScope::class)
 internal class CloudFeedService(private val apolloClient: ApolloClient) : FeedService {
@@ -68,21 +66,5 @@ internal class CloudFeedService(private val apolloClient: ApolloClient) : FeedSe
                 it.feedSourceItem.asExternalModel()
             }
         }
-    }
-
-    override suspend fun fetchKotlinWeeklyIssue(
-        url: String,
-    ): List<KotlinWeeklyIssueEntry> {
-        return runCatching {
-            apolloClient.query(
-                KotlinWeeklyIssueQuery(url = url),
-            )
-                .fetchPolicy(FetchPolicy.CacheFirst)
-                .execute()
-                .dataOrThrow()
-                .kotlinWeeklyIssueEntries
-        }.onFailure {
-            Logger.w("Query failed", it)
-        }.getOrThrow().mapNotNull { it.asExternalModel() }
     }
 }
