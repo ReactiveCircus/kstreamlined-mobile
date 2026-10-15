@@ -8,7 +8,7 @@ import io.github.reactivecircus.kstreamlined.kmp.database.testing.insertFeedItem
 import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.FeedDataSource
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedOrigin
-import io.github.reactivecircus.kstreamlined.kmp.remote.FakeFeedService
+import io.github.reactivecircus.kstreamlined.kmp.remote.FakeContentService
 import io.github.reactivecircus.kstreamlined.kmp.remote.FakeKotlinWeeklyIssueEntries
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestScope
@@ -18,7 +18,7 @@ import kotlin.test.assertEquals
 import kotlin.time.Instant
 
 class KotlinWeeklyIssuePresenterTest {
-    private val feedService = FakeFeedService()
+    private val contentService = FakeContentService()
 
     private val db = createInMemoryDatabase()
 
@@ -60,7 +60,7 @@ class KotlinWeeklyIssuePresenterTest {
 
     private fun presenter(id: String = item.id) = KotlinWeeklyIssuePresenter(
         id = id,
-        feedService = feedService,
+        contentService = contentService,
         feedDataSource = FeedDataSource(
             db = db,
             dbDispatcher = testDispatcher,
@@ -78,7 +78,7 @@ class KotlinWeeklyIssuePresenterTest {
 
                 assertEquals(KotlinWeeklyIssueUiState.Loading, awaitItem())
 
-                feedService.nextKotlinWeeklyIssueResponse = { FakeKotlinWeeklyIssueEntries }
+                contentService.nextKotlinWeeklyIssueResponse = { FakeKotlinWeeklyIssueEntries }
 
                 assertEquals(
                     KotlinWeeklyIssueUiState.Content(
@@ -102,7 +102,7 @@ class KotlinWeeklyIssuePresenterTest {
 
                 assertEquals(KotlinWeeklyIssueUiState.Loading, awaitItem())
 
-                feedService.nextKotlinWeeklyIssueResponse = {
+                contentService.nextKotlinWeeklyIssueResponse = {
                     error("Failed to fetch Kotlin Weekly issue")
                 }
 
@@ -131,13 +131,13 @@ class KotlinWeeklyIssuePresenterTest {
 
                 assertEquals(KotlinWeeklyIssueUiState.Loading, awaitItem())
 
-                feedService.nextKotlinWeeklyIssueResponse = {
+                contentService.nextKotlinWeeklyIssueResponse = {
                     error("Failed to fetch Kotlin Weekly issue")
                 }
 
                 assertEquals(KotlinWeeklyIssueUiState.Error, awaitItem())
 
-                feedService.nextKotlinWeeklyIssueResponse = { FakeKotlinWeeklyIssueEntries }
+                contentService.nextKotlinWeeklyIssueResponse = { FakeKotlinWeeklyIssueEntries }
 
                 presenter.eventSink(KotlinWeeklyIssueUiEvent.Refresh)
 
