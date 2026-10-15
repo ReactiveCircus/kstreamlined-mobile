@@ -1,0 +1,8 @@
+query KotlinBlogTldr($id: ID!) {
+  kotlinBlogTldr(id: $id) {
+    id
+    content
+    model
+    generatedAt
+  }
+}

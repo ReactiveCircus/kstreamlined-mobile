@@ -22,6 +22,7 @@ class FeedEntryMappersTest {
                     publishTime = Instant.parse("2022-01-01T00:00:00Z")
                     contentUrl = "https://blog.kotlinlang.org/post"
                     featuredImageUrl = "https://blog.kotlinlang.org/image"
+                    hasTldrSummary = true
                 },
             )
         }.feedEntries.first()
