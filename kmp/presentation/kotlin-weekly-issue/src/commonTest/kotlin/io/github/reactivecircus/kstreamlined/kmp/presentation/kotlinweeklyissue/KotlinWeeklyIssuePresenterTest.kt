@@ -8,10 +8,8 @@ import io.github.reactivecircus.kstreamlined.kmp.database.testing.insertFeedItem
 import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.FeedDataSource
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedOrigin
-import io.github.reactivecircus.kstreamlined.kmp.feed.model.KotlinWeeklyIssueItem
 import io.github.reactivecircus.kstreamlined.kmp.remote.FakeFeedService
 import io.github.reactivecircus.kstreamlined.kmp.remote.FakeKotlinWeeklyIssueEntries
-import io.github.reactivecircus.kstreamlined.kmp.remote.model.KotlinWeeklyIssueEntry
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
@@ -57,26 +55,13 @@ class KotlinWeeklyIssuePresenterTest {
     }
 
     private val fakeKotlinWeeklyIssueItems = FakeKotlinWeeklyIssueEntries.map {
-        KotlinWeeklyIssueItem(
-            title = it.title,
-            summary = it.summary,
-            url = it.url,
-            source = it.source,
-            group = when (it.group) {
-                KotlinWeeklyIssueEntry.Group.News -> KotlinWeeklyIssueItem.Group.News
-                KotlinWeeklyIssueEntry.Group.Announcements -> KotlinWeeklyIssueItem.Group.Announcements
-                KotlinWeeklyIssueEntry.Group.Articles -> KotlinWeeklyIssueItem.Group.Articles
-                KotlinWeeklyIssueEntry.Group.Android -> KotlinWeeklyIssueItem.Group.Android
-                KotlinWeeklyIssueEntry.Group.Videos -> KotlinWeeklyIssueItem.Group.Videos
-                KotlinWeeklyIssueEntry.Group.Libraries -> KotlinWeeklyIssueItem.Group.Libraries
-            },
-        )
+        it.asPresentationModel()
     }
 
     private fun presenter(id: String = item.id) = KotlinWeeklyIssuePresenter(
         id = id,
+        feedService = feedService,
         feedDataSource = FeedDataSource(
-            feedService = feedService,
             db = db,
             dbDispatcher = testDispatcher,
         ),

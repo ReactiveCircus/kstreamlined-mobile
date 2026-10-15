@@ -17,6 +17,7 @@ import io.github.reactivecircus.kstreamlined.kmp.capsule.runtime.Presenter
 import io.github.reactivecircus.kstreamlined.kmp.capsule.runtime.PresenterAssistedFactory
 import io.github.reactivecircus.kstreamlined.kmp.capsule.runtime.PresenterAssistedFactoryKey
 import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.FeedDataSource
+import io.github.reactivecircus.kstreamlined.kmp.remote.FeedService
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
@@ -27,6 +28,7 @@ import kotlinx.coroutines.flow.onStart
 @AssistedInject
 public class KotlinWeeklyIssuePresenter(
     @Assisted private val id: String,
+    private val feedService: FeedService,
     private val feedDataSource: FeedDataSource,
     moleculeContext: MoleculeContext,
 ) : Presenter<KotlinWeeklyIssueUiEvent, KotlinWeeklyIssueUiState>(moleculeContext) {
@@ -40,7 +42,9 @@ public class KotlinWeeklyIssuePresenter(
                 .onStart { uiState = KotlinWeeklyIssueUiState.Loading }
                 .mapLatest { item ->
                     item ?: error("Feed item not found")
-                    item to feedDataSource.loadKotlinWeeklyIssue(item.contentUrl)
+                    item to feedService.fetchKotlinWeeklyIssue(item.contentUrl).map {
+                        it.asPresentationModel()
+                    }
                 }
                 .onEach { (item = first, issue = second) ->
                     uiState = KotlinWeeklyIssueUiState.Content(

@@ -8,7 +8,6 @@ import io.github.reactivecircus.kstreamlined.kmp.database.testing.insertFeedItem
 import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.FeedDataSource
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedOrigin
-import io.github.reactivecircus.kstreamlined.kmp.remote.FakeFeedService
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
@@ -17,8 +16,6 @@ import kotlin.test.assertEquals
 import kotlin.time.Instant
 
 class ContentViewerPresenterTest {
-    private val feedService = FakeFeedService()
-
     private val db = createInMemoryDatabase()
 
     private val testDispatcher = StandardTestDispatcher()
@@ -57,7 +54,6 @@ class ContentViewerPresenterTest {
     private fun presenter(id: String = item.id) = ContentViewerPresenter(
         id = id,
         feedDataSource = FeedDataSource(
-            feedService = feedService,
             db = db,
             dbDispatcher = testDispatcher,
         ),

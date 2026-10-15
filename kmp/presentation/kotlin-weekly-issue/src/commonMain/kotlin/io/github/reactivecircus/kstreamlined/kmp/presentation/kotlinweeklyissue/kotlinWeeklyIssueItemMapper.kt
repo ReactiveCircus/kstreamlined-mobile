@@ -1,9 +1,8 @@
-package io.github.reactivecircus.kstreamlined.kmp.feed.datasource.mapper
+package io.github.reactivecircus.kstreamlined.kmp.presentation.kotlinweeklyissue
 
-import io.github.reactivecircus.kstreamlined.kmp.feed.model.KotlinWeeklyIssueItem
 import io.github.reactivecircus.kstreamlined.kmp.remote.model.KotlinWeeklyIssueEntry
 
-internal fun KotlinWeeklyIssueEntry.asExternalModel(): KotlinWeeklyIssueItem {
+internal fun KotlinWeeklyIssueEntry.asPresentationModel(): KotlinWeeklyIssueItem {
     return KotlinWeeklyIssueItem(
         title = this.title,
         summary = this.summary,

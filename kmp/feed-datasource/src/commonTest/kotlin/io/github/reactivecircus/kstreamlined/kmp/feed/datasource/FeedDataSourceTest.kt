@@ -4,28 +4,21 @@ import app.cash.turbine.test
 import io.github.reactivecircus.kstreamlined.kmp.database.ContentFormat
 import io.github.reactivecircus.kstreamlined.kmp.database.FeedOriginEntity
 import io.github.reactivecircus.kstreamlined.kmp.database.testing.createInMemoryDatabase
-import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.mapper.asExternalModel
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedOrigin
-import io.github.reactivecircus.kstreamlined.kmp.remote.FakeFeedService
-import io.github.reactivecircus.kstreamlined.kmp.remote.FakeKotlinWeeklyIssueEntries
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
 import kotlin.test.assertNull
 import kotlin.time.Instant
 
 class FeedDataSourceTest {
-    private val feedService = FakeFeedService()
-
     private val db = createInMemoryDatabase()
 
     private val testDispatcher = StandardTestDispatcher()
 
     private val feedDataSource = FeedDataSource(
-        feedService = feedService,
         db = db,
         dbDispatcher = testDispatcher,
     )
@@ -328,29 +321,6 @@ class FeedDataSourceTest {
                 ),
                 awaitItem(),
             )
-        }
-    }
-
-    @Test
-    fun `loadKotlinWeeklyIssues returns result when fetching from service succeeds`() = runTest {
-        feedService.nextKotlinWeeklyIssueResponse = {
-            FakeKotlinWeeklyIssueEntries
-        }
-
-        val expected = FakeKotlinWeeklyIssueEntries.map { it.asExternalModel() }
-        val actual = feedDataSource.loadKotlinWeeklyIssue("url")
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun `loadKotlinWeeklyIssues throws exception when fetching from service fails`() = runTest {
-        feedService.nextKotlinWeeklyIssueResponse = {
-            error("Failed to fetch Kotlin Weekly issue")
-        }
-
-        assertFailsWith<IllegalStateException> {
-            feedDataSource.loadKotlinWeeklyIssue("url")
         }
     }
 

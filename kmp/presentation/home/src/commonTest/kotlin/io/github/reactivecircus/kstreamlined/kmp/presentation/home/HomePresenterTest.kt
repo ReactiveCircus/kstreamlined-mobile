@@ -12,7 +12,6 @@ import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedOrigin
 import io.github.reactivecircus.kstreamlined.kmp.feed.sync.FakeFeedSyncEngine
 import io.github.reactivecircus.kstreamlined.kmp.feed.sync.SyncState
-import io.github.reactivecircus.kstreamlined.kmp.remote.FakeFeedService
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestScope
@@ -28,8 +27,6 @@ import kotlin.time.Instant
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class HomePresenterTest {
-    private val feedService = FakeFeedService()
-
     private val db = createInMemoryDatabase()
 
     private val testDispatcher = StandardTestDispatcher()
@@ -75,7 +72,6 @@ class HomePresenterTest {
     private val presenter = HomePresenter(
         feedSyncEngine = feedSyncEngine,
         feedDataSource = FeedDataSource(
-            feedService = feedService,
             db = db,
             dbDispatcher = testDispatcher,
         ),

@@ -17,7 +17,6 @@ kstreamlined {
             implementation(project(":kmp:pretty-time"))
 
             testImplementation(project(":kmp:capsule:testing"))
-            testImplementation(project(":kmp:remote:testing"))
             testImplementation(project(":kmp:database-testing"))
             testImplementation(libs.kotlinx.coroutines.test)
             testImplementation(libs.turbine)

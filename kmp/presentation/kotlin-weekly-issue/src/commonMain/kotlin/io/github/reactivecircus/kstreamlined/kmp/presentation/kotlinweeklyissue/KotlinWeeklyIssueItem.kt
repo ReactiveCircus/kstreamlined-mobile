@@ -1,4 +1,4 @@
-package io.github.reactivecircus.kstreamlined.kmp.feed.model
+package io.github.reactivecircus.kstreamlined.kmp.presentation.kotlinweeklyissue
 
 import androidx.compose.runtime.Immutable
 

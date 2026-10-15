@@ -16,7 +16,6 @@ kstreamlined {
             implementation(project(":kmp:capsule:runtime"))
             implementation(project(":kmp:feed-datasource"))
 
-            testImplementation(project(":kmp:remote:testing"))
             testImplementation(project(":kmp:database-testing"))
             testImplementation(project(":kmp:capsule:testing"))
             testImplementation(libs.kotlinx.coroutines.test)

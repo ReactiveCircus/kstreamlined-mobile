@@ -19,7 +19,6 @@ kstreamlined {
             implementation(project(":kmp:pretty-time"))
 
             testImplementation(project(":kmp:feed-sync:testing"))
-            testImplementation(project(":kmp:remote:testing"))
             testImplementation(project(":kmp:database-testing"))
             testImplementation(project(":kmp:capsule:testing"))
             testImplementation(libs.kotlinx.coroutines.test)
