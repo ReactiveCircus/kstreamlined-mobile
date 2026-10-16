@@ -119,6 +119,7 @@ class FeedDataSourceTest {
                         podcast_description_format = null,
                         podcast_description_plain_text = null,
                         saved_for_later = false,
+                        supports_tldr = true,
                     )
                     db.feedItemEntityQueries.upsertFeedItem(
                         id = "2",
@@ -135,6 +136,7 @@ class FeedDataSourceTest {
                         podcast_description_format = null,
                         podcast_description_plain_text = null,
                         saved_for_later = false,
+                        supports_tldr = null,
                     )
                 }
 
@@ -156,6 +158,7 @@ class FeedDataSourceTest {
                             contentUrl = "content-url-1",
                             savedForLater = false,
                             featuredImageUrl = "image-url-1",
+                            supportsTldr = true,
                         ),
                     ),
                     awaitItem(),
@@ -217,6 +220,7 @@ class FeedDataSourceTest {
                         podcast_description_format = null,
                         podcast_description_plain_text = null,
                         saved_for_later = false,
+                        supports_tldr = true,
                     )
                     db.feedItemEntityQueries.upsertFeedItem(
                         id = "2",
@@ -233,6 +237,7 @@ class FeedDataSourceTest {
                         podcast_description_format = null,
                         podcast_description_plain_text = null,
                         saved_for_later = false,
+                        supports_tldr = null,
                     )
                 }
 
@@ -252,6 +257,7 @@ class FeedDataSourceTest {
                             contentUrl = "content-url-1",
                             savedForLater = true,
                             featuredImageUrl = "image-url-1",
+                            supportsTldr = true,
                         ),
                     ),
                     awaitItem(),
@@ -279,6 +285,7 @@ class FeedDataSourceTest {
                 podcast_description_format = null,
                 podcast_description_plain_text = null,
                 saved_for_later = false,
+                supports_tldr = true,
             )
 
             assertEquals(
@@ -289,6 +296,7 @@ class FeedDataSourceTest {
                     contentUrl = "content-url-1",
                     savedForLater = false,
                     featuredImageUrl = "image-url-1",
+                    supportsTldr = true,
                 ),
                 awaitItem(),
             )
@@ -308,6 +316,7 @@ class FeedDataSourceTest {
                 podcast_description_format = null,
                 podcast_description_plain_text = null,
                 saved_for_later = true,
+                supports_tldr = true,
             )
 
             assertEquals(
@@ -318,6 +327,7 @@ class FeedDataSourceTest {
                     contentUrl = "content-url-2",
                     savedForLater = true,
                     featuredImageUrl = "image-url-2",
+                    supportsTldr = true,
                 ),
                 awaitItem(),
             )
@@ -341,6 +351,7 @@ class FeedDataSourceTest {
             podcast_description_format = null,
             podcast_description_plain_text = null,
             saved_for_later = false,
+            supports_tldr = true,
         )
 
         assertEquals(
@@ -351,6 +362,7 @@ class FeedDataSourceTest {
                 contentUrl = "content-url-1",
                 savedForLater = false,
                 featuredImageUrl = "image-url-1",
+                supportsTldr = true,
             ),
             feedDataSource.findFeedItemById("id"),
         )
@@ -608,6 +620,7 @@ class FeedDataSourceTest {
             podcast_description_format = null,
             podcast_description_plain_text = null,
             saved_for_later = false,
+            supports_tldr = true,
         )
 
         feedDataSource.addSavedFeedItem("1")
@@ -635,6 +648,7 @@ class FeedDataSourceTest {
             podcast_description_format = null,
             podcast_description_plain_text = null,
             saved_for_later = true,
+            supports_tldr = true,
         )
 
         feedDataSource.removeSavedFeedItem("1")
@@ -663,6 +677,7 @@ class FeedDataSourceTest {
                 podcast_description_format = ContentFormat.Text,
                 podcast_description_plain_text = null,
                 saved_for_later = false,
+                supports_tldr = null,
             )
 
             feedDataSource.saveTalkingKotlinEpisodeStartPosition("1", 30_000)

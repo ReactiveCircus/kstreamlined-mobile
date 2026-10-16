@@ -27,6 +27,7 @@ class FeedItemMappersTest {
             podcast_description_format = null,
             podcast_description_plain_text = null,
             saved_for_later = false,
+            supports_tldr = true,
         )
         val expected = FeedItem.KotlinBlog(
             id = "1",
@@ -35,6 +36,38 @@ class FeedItemMappersTest {
             contentUrl = "https://blog.kotlinlang.org/post",
             savedForLater = false,
             featuredImageUrl = "https://blog.kotlinlang.org/image",
+            supportsTldr = true,
+        )
+        assertEquals(expected, entity.asExternalModel())
+    }
+
+    @Test
+    fun `FeedItemEntity with supports_tldr = null maps to FeedItem_KotlinBlog with supportsTldr = false`() {
+        val entity = FeedItemEntity(
+            id = "1",
+            feed_origin_key = FeedOrigin.Key.KotlinBlog.name,
+            title = "Kotlin Blog Post",
+            publish_time = Instant.parse("2022-01-01T00:00:00Z"),
+            content_url = "https://blog.kotlinlang.org/post",
+            image_url = "https://blog.kotlinlang.org/image",
+            description = null,
+            issue_number = null,
+            podcast_audio_url = null,
+            podcast_duration = null,
+            podcast_start_position = null,
+            podcast_description_format = null,
+            podcast_description_plain_text = null,
+            saved_for_later = false,
+            supports_tldr = null,
+        )
+        val expected = FeedItem.KotlinBlog(
+            id = "1",
+            title = "Kotlin Blog Post",
+            publishTime = Instant.parse("2022-01-01T00:00:00Z"),
+            contentUrl = "https://blog.kotlinlang.org/post",
+            savedForLater = false,
+            featuredImageUrl = "https://blog.kotlinlang.org/image",
+            supportsTldr = false,
         )
         assertEquals(expected, entity.asExternalModel())
     }
@@ -56,6 +89,7 @@ class FeedItemMappersTest {
             podcast_description_format = null,
             podcast_description_plain_text = null,
             saved_for_later = false,
+            supports_tldr = null,
         )
         val expected = FeedItem.KotlinYouTube(
             id = "1",
@@ -86,6 +120,7 @@ class FeedItemMappersTest {
             podcast_description_format = null,
             podcast_description_plain_text = null,
             saved_for_later = false,
+            supports_tldr = null,
         )
         val expected = FeedItem.TalkingKotlin(
             id = "1",
@@ -121,6 +156,7 @@ class FeedItemMappersTest {
             podcast_description_format = null,
             podcast_description_plain_text = null,
             saved_for_later = false,
+            supports_tldr = null,
         )
         val expected = FeedItem.TalkingKotlin(
             id = "1",
@@ -156,6 +192,7 @@ class FeedItemMappersTest {
             podcast_description_format = ContentFormat.Text,
             podcast_description_plain_text = null,
             saved_for_later = false,
+            supports_tldr = null,
         )
         val expected = FeedItem.TalkingKotlin(
             id = "1",
@@ -191,6 +228,7 @@ class FeedItemMappersTest {
             podcast_description_format = ContentFormat.Html,
             podcast_description_plain_text = "Desc",
             saved_for_later = false,
+            supports_tldr = null,
         )
         val expected = FeedItem.TalkingKotlin(
             id = "1",
@@ -226,6 +264,7 @@ class FeedItemMappersTest {
             podcast_description_format = null,
             podcast_description_plain_text = null,
             saved_for_later = false,
+            supports_tldr = null,
         )
         val expected = FeedItem.KotlinWeekly(
             id = "1",
@@ -255,6 +294,7 @@ class FeedItemMappersTest {
             podcast_description_format = null,
             podcast_description_plain_text = null,
             saved_for_later = false,
+            supports_tldr = null,
         )
         val error = assertFailsWith<IllegalStateException> {
             entity.asExternalModel()

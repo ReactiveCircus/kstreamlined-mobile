@@ -26,6 +26,7 @@ class HomeFeedItemMapperTest {
                 contentUrl = "content-url",
                 savedForLater = false,
                 featuredImageUrl = "feature-image-url",
+                supportsTldr = true,
             ),
             // 30 minutes ago
             FeedItem.KotlinYouTube(
@@ -69,6 +70,7 @@ class HomeFeedItemMapperTest {
                 contentUrl = "content-url",
                 savedForLater = false,
                 featuredImageUrl = "feature-image-url",
+                supportsTldr = true,
             ),
             // last week
             // 12 days ago
@@ -104,6 +106,7 @@ class HomeFeedItemMapperTest {
                         contentUrl = "content-url",
                         savedForLater = false,
                         featuredImageUrl = "feature-image-url",
+                        supportsTldr = true,
                     ),
                     displayablePublishTime = "Moments ago",
                 ),
@@ -163,6 +166,7 @@ class HomeFeedItemMapperTest {
                         contentUrl = "content-url",
                         savedForLater = false,
                         featuredImageUrl = "feature-image-url",
+                        supportsTldr = true,
                     ),
                     displayablePublishTime = "5 days ago",
                 ),

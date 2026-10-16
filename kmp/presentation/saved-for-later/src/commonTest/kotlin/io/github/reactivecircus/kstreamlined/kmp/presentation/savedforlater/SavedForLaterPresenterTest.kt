@@ -40,6 +40,7 @@ class SavedForLaterPresenterTest {
         podcast_description_format = null,
         podcast_description_plain_text = null,
         saved_for_later = true,
+        supports_tldr = true,
     )
 
     private val item = dummyFeedItem.let {
@@ -50,6 +51,7 @@ class SavedForLaterPresenterTest {
             contentUrl = it.content_url,
             savedForLater = it.saved_for_later,
             featuredImageUrl = it.image_url.orEmpty(),
+            supportsTldr = true,
         )
     }
 

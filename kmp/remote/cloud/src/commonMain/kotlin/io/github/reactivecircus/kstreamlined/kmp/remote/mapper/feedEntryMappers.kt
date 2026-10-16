@@ -24,6 +24,7 @@ internal fun KotlinBlogFeedEntryItem.asExternalModel(): FeedEntry.KotlinBlog {
         publishTime = this.publishTime,
         contentUrl = this.contentUrl,
         featuredImageUrl = this.onKotlinBlog.featuredImageUrl,
+        supportsTldr = this.onKotlinBlog.supportsTldr,
     )
 }
 

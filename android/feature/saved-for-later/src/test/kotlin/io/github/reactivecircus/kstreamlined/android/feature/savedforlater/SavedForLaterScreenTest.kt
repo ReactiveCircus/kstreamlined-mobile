@@ -31,6 +31,7 @@ class SavedForLaterScreenTest {
                                 contentUrl = "contentUrl",
                                 savedForLater = true,
                                 featuredImageUrl = "",
+                                supportsTldr = true,
                             ),
                             displayablePublishTime = "30 Nov 2023",
                         ),

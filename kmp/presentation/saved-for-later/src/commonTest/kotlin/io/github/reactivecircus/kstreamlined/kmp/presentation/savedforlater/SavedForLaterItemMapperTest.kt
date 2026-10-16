@@ -20,6 +20,7 @@ class SavedForLaterItemMapperTest {
                 contentUrl = "content-url",
                 savedForLater = false,
                 featuredImageUrl = "feature-image-url",
+                supportsTldr = true,
             ),
             FeedItem.KotlinYouTube(
                 id = "2",
@@ -49,6 +50,7 @@ class SavedForLaterItemMapperTest {
                     contentUrl = "content-url",
                     savedForLater = false,
                     featuredImageUrl = "feature-image-url",
+                    supportsTldr = true,
                 ),
                 displayablePublishTime = "3 Dec 2023",
             ),

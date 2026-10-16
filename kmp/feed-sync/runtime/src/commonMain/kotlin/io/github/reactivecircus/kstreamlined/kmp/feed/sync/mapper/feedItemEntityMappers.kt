@@ -51,6 +51,7 @@ internal fun FeedEntry.toDbModel(
         },
         podcast_description_format = podcastDescriptionFormat,
         podcast_description_plain_text = podcastDescriptionPlainText,
+        supports_tldr = if (this is FeedEntry.KotlinBlog) supportsTldr else null,
         saved_for_later = currentFeedItems.any { it.saved_for_later && it.id == id },
     )
 }

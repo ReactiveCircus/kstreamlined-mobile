@@ -51,6 +51,7 @@ internal val MockFeedEntries: List<FeedEntry> = listOf(
         publishTime = Instant.parse("2023-11-23T17:00:38Z"),
         contentUrl = "https://blog.jetbrains.com/kotlin/2023/11/advent-of-code-2023-with-kotlin/",
         featuredImageUrl = "https://blog.jetbrains.com/wp-content/uploads/2023/11/DSGN-18072-Social-media-banners_Blog-Featured-image-1280x720-1.png",
+        supportsTldr = true,
     ),
     FeedEntry.KotlinYouTube(
         id = "yt:video:bz4cQeaXmsI",
@@ -73,6 +74,7 @@ internal val MockFeedEntries: List<FeedEntry> = listOf(
         publishTime = Instant.parse("2023-11-16T11:59:46Z"),
         contentUrl = "https://blog.jetbrains.com/kotlin/2023/11/kotlin-multiplatform-development-roadmap-for-2024/",
         featuredImageUrl = "https://blog.jetbrains.com/wp-content/uploads/2023/11/kmp_roadmap_720.png",
+        supportsTldr = true,
     ),
     FeedEntry.TalkingKotlin(
         id = "tag:soundcloud,2010:tracks/1664789634",
@@ -90,6 +92,7 @@ internal val MockFeedEntries: List<FeedEntry> = listOf(
         publishTime = Instant.parse("2023-11-09T10:07:24Z"),
         contentUrl = "https://blog.jetbrains.com/blog/2023/11/09/amper-improving-the-build-tooling-user-experience/",
         featuredImageUrl = "https://blog.jetbrains.com/wp-content/uploads/2023/11/Blog-Featured-1280x720-2x-1-2.png",
+        supportsTldr = true,
     ),
     FeedEntry.KotlinBlog(
         id = "https://blog.jetbrains.com/?post_type=kotlin&p=403389",
@@ -97,6 +100,7 @@ internal val MockFeedEntries: List<FeedEntry> = listOf(
         publishTime = Instant.parse("2023-11-07T14:24:34Z"),
         contentUrl = "https://blog.jetbrains.com/kotlin/2023/11/kotlin-multiplatform-tooling-in-fleet/",
         featuredImageUrl = "https://blog.jetbrains.com/wp-content/uploads/2023/11/Blog-Featured-1280x720-2x.png",
+        supportsTldr = false,
     ),
     FeedEntry.KotlinWeekly(
         id = "https://mailchi.mp/kotlinweekly/kotlin-weekly-379",
@@ -111,6 +115,7 @@ internal val MockFeedEntries: List<FeedEntry> = listOf(
         publishTime = Instant.parse("2023-11-02T12:01:27Z"),
         contentUrl = "https://blog.jetbrains.com/kotlin/2023/11/compose-multiplatform-1-5-10-release/",
         featuredImageUrl = "https://blog.jetbrains.com/wp-content/uploads/2023/11/compose-featured_blog_1280x720.png",
+        supportsTldr = true,
     ),
     FeedEntry.KotlinYouTube(
         id = "yt:video:Ol_96CHKqg8",
@@ -126,6 +131,7 @@ internal val MockFeedEntries: List<FeedEntry> = listOf(
         publishTime = Instant.parse("2023-11-01T11:31:28Z"),
         contentUrl = "https://blog.jetbrains.com/kotlin/2023/11/kotlin-multiplatform-stable/",
         featuredImageUrl = "https://blog.jetbrains.com/wp-content/uploads/2023/11/DSGN-17931-Banners-for-1.9.20-release-and-KMP-Stable-annoucement_Blog-Social-share-image-1280x720-1-1.png",
+        supportsTldr = true,
     ),
     FeedEntry.TalkingKotlin(
         id = "tag:soundcloud,2010:tracks/1589216519",

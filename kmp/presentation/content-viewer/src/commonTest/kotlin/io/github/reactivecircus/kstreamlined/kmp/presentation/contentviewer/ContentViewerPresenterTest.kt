@@ -37,6 +37,7 @@ class ContentViewerPresenterTest {
         podcast_description_format = null,
         podcast_description_plain_text = null,
         saved_for_later = false,
+        supports_tldr = null,
     )
 
     private val item = dummyFeedItem.let {

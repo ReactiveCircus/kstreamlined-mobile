@@ -36,6 +36,7 @@ public fun KStreamlinedDatabase.insertFeedItems(feedItems: List<FeedItemEntity>)
                 podcast_start_position = it.podcast_start_position,
                 podcast_description_format = it.podcast_description_format,
                 podcast_description_plain_text = it.podcast_description_plain_text,
+                supports_tldr = it.supports_tldr,
                 saved_for_later = it.saved_for_later,
             )
         }

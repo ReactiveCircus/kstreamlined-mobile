@@ -162,6 +162,7 @@ internal class FeedSyncEngineImpl(
                         podcast_start_position = entity.podcast_start_position,
                         podcast_description_format = entity.podcast_description_format,
                         podcast_description_plain_text = entity.podcast_description_plain_text,
+                        supports_tldr = entity.supports_tldr,
                         saved_for_later = entity.saved_for_later,
                     )
                 }

@@ -14,6 +14,7 @@ internal fun FeedItemEntity.asExternalModel(): FeedItem {
             contentUrl = content_url,
             savedForLater = saved_for_later,
             featuredImageUrl = image_url!!,
+            supportsTldr = supports_tldr ?: false,
         )
 
         FeedOrigin.Key.KotlinYouTubeChannel.name -> FeedItem.KotlinYouTube(
