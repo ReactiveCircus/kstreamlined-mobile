@@ -88,6 +88,7 @@ includeKmpProjects(
     ":kmp:presentation:saved-for-later",
     ":kmp:presentation:settings",
     ":kmp:presentation:talking-kotlin-episode",
+    ":kmp:presentation:tldr-summary",
     ":kmp:pretty-time",
     ":kmp:remote:common",
     ":kmp:remote:cloud",

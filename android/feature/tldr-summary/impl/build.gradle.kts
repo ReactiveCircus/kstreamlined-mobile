@@ -6,6 +6,7 @@ kstreamlined {
         dependencies {
             implementation(project(":core:ui:pattern"))
             implementation(project(":feature:tldr-summary:api"))
+            implementation(project(":kmp:presentation:tldr-summary"))
         }
     }
 }
