@@ -29,7 +29,7 @@ class TalkingKotlinEpisodeMapperTest {
         val expectedTalkingKotlinEpisode = TalkingKotlinEpisode(
             id = "1",
             title = "Talking Kotlin 1",
-            displayablePublishTime = "03 Dec 2023",
+            displayablePublishTime = "3 Dec 2023",
             contentUrl = "content-url",
             savedForLater = false,
             audioUrl = "audio-url",
@@ -65,7 +65,7 @@ class TalkingKotlinEpisodeMapperTest {
         val expectedTalkingKotlinEpisode = TalkingKotlinEpisode(
             id = "1",
             title = "Talking Kotlin 1",
-            displayablePublishTime = "03 Dec 2023",
+            displayablePublishTime = "3 Dec 2023",
             contentUrl = "content-url",
             savedForLater = false,
             audioUrl = "audio-url",

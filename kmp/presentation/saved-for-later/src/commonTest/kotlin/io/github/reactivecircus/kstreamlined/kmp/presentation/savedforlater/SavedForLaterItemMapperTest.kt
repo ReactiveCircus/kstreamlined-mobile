@@ -50,7 +50,7 @@ class SavedForLaterItemMapperTest {
                     savedForLater = false,
                     featuredImageUrl = "feature-image-url",
                 ),
-                displayablePublishTime = "03 Dec 2023",
+                displayablePublishTime = "3 Dec 2023",
             ),
             DisplayableFeedItem(
                 FeedItem.KotlinYouTube(
@@ -62,7 +62,7 @@ class SavedForLaterItemMapperTest {
                     thumbnailUrl = "thumbnail-url",
                     description = "description",
                 ),
-                displayablePublishTime = "03 Dec 2023",
+                displayablePublishTime = "3 Dec 2023",
             ),
             DisplayableFeedItem(
                 FeedItem.KotlinWeekly(
@@ -73,7 +73,7 @@ class SavedForLaterItemMapperTest {
                     savedForLater = false,
                     issueNumber = 1,
                 ),
-                displayablePublishTime = "02 Dec 2023",
+                displayablePublishTime = "2 Dec 2023",
             ),
         )
 

@@ -46,16 +46,14 @@ public fun Instant.timeAgo(): String {
 }
 
 /**
- * Format the [Instant] to a string in the format of `dd MMM yyyy`.
+ * Format the [Instant] to a string in the format of `d MMM yyyy`.
  */
 @Suppress("MagicNumber")
 context(timeZone: TimeZone)
 public fun Instant.toFormattedTime(): String {
     return toLocalDateTime(timeZone).let { localDateTime ->
         buildString {
-            append(
-                localDateTime.day.toString().padStart(2, '0'),
-            )
+            append(localDateTime.day)
             append(" ")
             append(
                 localDateTime.month.name.take(3)

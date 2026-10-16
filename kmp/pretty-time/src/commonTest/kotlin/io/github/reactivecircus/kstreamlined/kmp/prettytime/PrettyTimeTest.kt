@@ -44,13 +44,13 @@ class PrettyTimeTest {
         assertEquals("2 days ago", now.minus(48.hours).timeAgo(clock = fixedClock, timeZone = timeZone))
         assertEquals("6 days ago", now.minus(7.days - 1.seconds).timeAgo(clock = fixedClock, timeZone = timeZone))
         assertEquals("26 Nov 2023", now.minus(7.days).timeAgo(clock = fixedClock, timeZone = timeZone))
-        assertEquals("03 Dec 2022", now.minus(365.days).timeAgo(clock = fixedClock, timeZone = timeZone))
+        assertEquals("3 Dec 2022", now.minus(365.days).timeAgo(clock = fixedClock, timeZone = timeZone))
     }
 
     @Test
     fun toFormattedTime() {
         val timeZone = TimeZone.UTC
-        assertEquals("03 Dec 2023", Instant.parse("2023-12-03T03:10:54Z").toFormattedTime(timeZone = timeZone))
+        assertEquals("3 Dec 2023", Instant.parse("2023-12-03T03:10:54Z").toFormattedTime(timeZone = timeZone))
         assertEquals("23 Oct 2023", Instant.parse("2023-10-23T12:00:54Z").toFormattedTime(timeZone = timeZone))
         assertEquals("21 Nov 2022", Instant.parse("2022-11-21T23:00:00Z").toFormattedTime(timeZone = timeZone))
     }

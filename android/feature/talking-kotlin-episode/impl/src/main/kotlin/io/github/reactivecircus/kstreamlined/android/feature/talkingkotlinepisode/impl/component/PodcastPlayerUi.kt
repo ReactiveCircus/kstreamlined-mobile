@@ -148,7 +148,7 @@ private fun PreviewPodcastPlayerUi_paused() {
         episode = TalkingKotlinEpisode(
             id = "1",
             title = "Talking Kotlin Episode Title",
-            displayablePublishTime = "03 Dec 2023",
+            displayablePublishTime = "3 Dec 2023",
             contentUrl = "content-url",
             savedForLater = false,
             audioUrl = "audio-url",
@@ -174,7 +174,7 @@ private fun PreviewPodcastPlayer_playing() {
         episode = TalkingKotlinEpisode(
             id = "1",
             title = "Talking Kotlin Episode Title",
-            displayablePublishTime = "03 Dec 2023",
+            displayablePublishTime = "3 Dec 2023",
             contentUrl = "content-url",
             savedForLater = false,
             audioUrl = "audio-url",
