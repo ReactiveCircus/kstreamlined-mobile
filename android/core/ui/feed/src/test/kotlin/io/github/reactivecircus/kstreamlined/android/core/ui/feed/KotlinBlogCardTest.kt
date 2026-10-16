@@ -52,12 +52,12 @@ class KotlinBlogCardTest {
                         contentUrl = "contentUrl",
                         savedForLater = saved,
                         featuredImageUrl = "",
-                        supportsTldr = true,
+                        supportsTldr = false,
                     ).toDisplayable("Moments ago"),
                     onItemClick = {},
                     onSaveButtonClick = {},
                     modifier = Modifier.padding(24.dp),
-                    onTldrClick = null,
+                    onTldrClick = {},
                 )
             }
         }

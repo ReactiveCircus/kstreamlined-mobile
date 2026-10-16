@@ -82,7 +82,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.filterNotNull
 import kotlin.time.Duration.Companion.milliseconds
-import kotlin.time.Instant
 
 @Composable
 context(sharedTransitionScope: SharedTransitionScope)
@@ -335,12 +334,7 @@ private fun LazyItemScope.FeedItemUi(
                         onSaveButtonClick = {
                             eventSink(HomeUiEvent.ToggleSavedForLater(item))
                         },
-                        // TODO integrate
-                        onTldrClick = if (item.publishTime < Instant.parse("2026-09-09T10:00:00Z")) {
-                            null
-                        } else {
-                            { onTldrSummaryButtonClick(item) }
-                        },
+                        onTldrClick = onTldrSummaryButtonClick,
                         modifier = Modifier
                             .animateItem()
                             .sharedBounds(

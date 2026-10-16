@@ -49,7 +49,7 @@ public fun KotlinBlogCard(
     item: DisplayableFeedItem<FeedItem.KotlinBlog>,
     onItemClick: (FeedItem.KotlinBlog) -> Unit,
     onSaveButtonClick: (FeedItem.KotlinBlog) -> Unit,
-    onTldrClick: (() -> Unit)?, // TODO change to non-null once fully integrated
+    onTldrClick: (FeedItem.KotlinBlog) -> Unit,
     modifier: Modifier = Modifier,
     saveButtonElementKey: String? = null,
 ): Unit = trace("FeedItem:KotlinBlogCard") {
@@ -77,14 +77,14 @@ public fun KotlinBlogCard(
                 modifier = Modifier.padding(
                     start = 16.dp,
                     end = 8.dp,
-                    top = if (onTldrClick != null) 16.dp else 24.dp,
+                    top = if (item.value.supportsTldr) 16.dp else 24.dp,
                     bottom = 8.dp,
                 ),
                 verticalArrangement = Arrangement.spacedBy(4.dp),
             ) {
-                if (onTldrClick != null) {
+                if (item.value.supportsTldr) {
                     TldrButton(
-                        onClick = onTldrClick,
+                        onClick = { onTldrClick(item.value) },
                     )
                 }
                 Text(
@@ -224,12 +224,12 @@ private fun PreviewKotlinBlogCard_noTldrSummary() {
                 contentUrl = "contentUrl",
                 savedForLater = false,
                 featuredImageUrl = "",
-                supportsTldr = true,
+                supportsTldr = false,
             ).toDisplayable("Moments ago"),
             onItemClick = {},
             onSaveButtonClick = {},
             modifier = Modifier.padding(24.dp),
-            onTldrClick = null,
+            onTldrClick = {},
         )
     }
 }

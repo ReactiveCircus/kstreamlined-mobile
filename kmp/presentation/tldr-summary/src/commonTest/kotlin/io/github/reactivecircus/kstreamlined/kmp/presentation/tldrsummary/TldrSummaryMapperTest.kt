@@ -8,7 +8,7 @@ import kotlin.time.Instant
 
 class TldrSummaryMapperTest {
     @Test
-    fun `transformed TldrSummary has expected content, model and displayable generated time`() {
+    fun `transformed TldrSummary has expected content and displayable generated time`() {
         val timeZone = TimeZone.UTC
 
         val tldr = KotlinBlogTldr(

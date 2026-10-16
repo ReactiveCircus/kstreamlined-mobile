@@ -52,6 +52,7 @@ import io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue.a
 import io.github.reactivecircus.kstreamlined.android.feature.settings.api.SettingsRoute
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.api.TalkingKotlinEpisodeRoute
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.api.TalkingKotlinEpisodeSharedTransitionKeys
+import io.github.reactivecircus.kstreamlined.android.feature.tldrsummary.api.TldrSummaryRoute
 import io.github.reactivecircus.kstreamlined.kmp.capsule.inject.retainPresenter
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.DisplayableFeedItem
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
@@ -103,6 +104,15 @@ public fun SavedForLaterScreen(
                 },
             )
         },
+        onOpenTldrSummary = {
+            backStack.add(
+                TldrSummaryRoute(
+                    origin = SharedTransitionOrigin,
+                    id = it.id,
+                    title = it.title,
+                ),
+            )
+        },
         onOpenSettings = {
             backStack.add(SettingsRoute(origin = SharedTransitionOrigin))
         },
@@ -117,6 +127,7 @@ context(sharedTransitionScope: SharedTransitionScope, animatedVisibilityScope: A
 internal fun SavedForLaterScreen(
     listState: LazyListState,
     onViewItem: (FeedItem) -> Unit,
+    onOpenTldrSummary: (FeedItem) -> Unit,
     onOpenSettings: () -> Unit,
     uiState: SavedForLaterUiState,
     eventSink: (SavedForLaterUiEvent) -> Unit,
@@ -156,6 +167,7 @@ internal fun SavedForLaterScreen(
                             listState = listState,
                             items = uiState.feedItems,
                             onItemClick = onViewItem,
+                            onTldrSummaryButtonClick = onOpenTldrSummary,
                             eventSink = eventSink,
                         )
                     } else {
@@ -181,6 +193,7 @@ private fun ContentUi(
     listState: LazyListState,
     items: List<DisplayableFeedItem<FeedItem>>,
     onItemClick: (FeedItem) -> Unit,
+    onTldrSummaryButtonClick: (FeedItem) -> Unit,
     eventSink: (SavedForLaterUiEvent) -> Unit,
     modifier: Modifier = Modifier,
 ) = with(sharedTransitionScope) {
@@ -202,7 +215,7 @@ private fun ContentUi(
                         item = item.toDisplayable(displayablePublishTime),
                         onItemClick = onItemClick,
                         onSaveButtonClick = { eventSink(SavedForLaterUiEvent.RemoveSavedItem(item.id)) },
-                        onTldrClick = null, // TODO integrate
+                        onTldrClick = onTldrSummaryButtonClick,
                         modifier = Modifier
                             .animateItem()
                             .sharedBounds(

@@ -96,6 +96,7 @@ class SavedForLaterScreenTest {
             SavedForLaterScreen(
                 listState = rememberLazyListState(),
                 onViewItem = {},
+                onOpenTldrSummary = {},
                 onOpenSettings = {},
                 uiState = uiState,
                 eventSink = {},
