@@ -63,6 +63,10 @@ public class FeedDataSource(
             .map { it?.asExternalModel() }
     }
 
+    public suspend fun findFeedItemById(id: String): FeedItem? = withContext(dbDispatcher) {
+        db.feedItemEntityQueries.feedItemById(id).executeAsOneOrNull()?.asExternalModel()
+    }
+
     public suspend fun selectFeedSource(feedOriginKey: FeedOrigin.Key): Unit =
         withContext(dbDispatcher) {
             db.feedOriginEntityQueries.updateSelection(selected = true, key = feedOriginKey.name)

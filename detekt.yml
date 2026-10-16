@@ -1,4 +1,6 @@
 complexity:
+  LargeClass:
+    excludes: ['**/test/**', '**/*Test/**']
   LongMethod:
     active: false
   LongParameterList:

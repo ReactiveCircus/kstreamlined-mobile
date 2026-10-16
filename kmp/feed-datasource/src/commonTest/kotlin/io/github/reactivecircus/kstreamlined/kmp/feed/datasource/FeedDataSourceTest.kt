@@ -325,6 +325,43 @@ class FeedDataSourceTest {
     }
 
     @Test
+    fun `findFeedItemById returns feed item when it exists in DB`() = runTest(testDispatcher) {
+        db.feedItemEntityQueries.upsertFeedItem(
+            id = "id",
+            feed_origin_key = FeedOrigin.Key.KotlinBlog.name,
+            title = "Kotlin Blog Post",
+            publish_time = Instant.parse("2022-01-01T00:00:00Z"),
+            content_url = "content-url-1",
+            image_url = "image-url-1",
+            description = null,
+            issue_number = null,
+            podcast_audio_url = null,
+            podcast_duration = null,
+            podcast_start_position = null,
+            podcast_description_format = null,
+            podcast_description_plain_text = null,
+            saved_for_later = false,
+        )
+
+        assertEquals(
+            FeedItem.KotlinBlog(
+                id = "id",
+                title = "Kotlin Blog Post",
+                publishTime = Instant.parse("2022-01-01T00:00:00Z"),
+                contentUrl = "content-url-1",
+                savedForLater = false,
+                featuredImageUrl = "image-url-1",
+            ),
+            feedDataSource.findFeedItemById("id"),
+        )
+    }
+
+    @Test
+    fun `findFeedItemById returns null when feed item does not exist in DB`() = runTest(testDispatcher) {
+        assertNull(feedDataSource.findFeedItemById("id"))
+    }
+
+    @Test
     fun `selectFeedSource updates feed origin selection in DB`() = runTest(testDispatcher) {
         db.feedOriginEntityQueries.upsertFeedOrigin(
             key = FeedOrigin.Key.KotlinBlog.name,

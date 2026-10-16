@@ -156,8 +156,13 @@ class KotlinWeeklyIssuePresenterTest {
         }
 
     @Test
-    fun `presenter emits Content state with updated savedForLater value when ToggleSavedForLater event is dispatched`() =
+    fun `presenter emits Content state with updated savedForLater value without refetching issue when ToggleSavedForLater event is dispatched`() =
         testScope.runTest {
+            var fetchCount = 0
+            contentService.nextKotlinWeeklyIssueResponse = {
+                fetchCount++
+                FakeKotlinWeeklyIssueEntries
+            }
             val presenter = presenter()
             presenter.states.test {
                 db.transaction {
@@ -199,6 +204,8 @@ class KotlinWeeklyIssuePresenterTest {
                     ),
                     awaitItem(),
                 )
+
+                assertEquals(1, fetchCount)
             }
         }
 }

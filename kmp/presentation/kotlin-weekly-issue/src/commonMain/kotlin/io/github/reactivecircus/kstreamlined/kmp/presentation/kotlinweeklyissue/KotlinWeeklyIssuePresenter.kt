@@ -18,12 +18,11 @@ import io.github.reactivecircus.kstreamlined.kmp.capsule.runtime.PresenterAssist
 import io.github.reactivecircus.kstreamlined.kmp.capsule.runtime.PresenterAssistedFactoryKey
 import io.github.reactivecircus.kstreamlined.kmp.feed.datasource.FeedDataSource
 import io.github.reactivecircus.kstreamlined.kmp.remote.ContentService
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.mapLatest
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.ensureActive
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.mapNotNull
+import kotlin.coroutines.cancellation.CancellationException
 
 @AssistedInject
 public class KotlinWeeklyIssuePresenter(
@@ -32,32 +31,36 @@ public class KotlinWeeklyIssuePresenter(
     private val feedDataSource: FeedDataSource,
     moleculeContext: MoleculeContext,
 ) : Presenter<KotlinWeeklyIssueUiEvent, KotlinWeeklyIssueUiState>(moleculeContext) {
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Composable
     override fun present(): KotlinWeeklyIssueUiState {
         var uiState by remember { mutableStateOf<KotlinWeeklyIssueUiState>(KotlinWeeklyIssueUiState.Loading) }
         var loadCount by remember { mutableIntStateOf(0) }
         LaunchedEffect(loadCount) {
+            uiState = KotlinWeeklyIssueUiState.Loading
+            uiState = runCatching {
+                val item = feedDataSource.findFeedItemById(id) ?: error("Feed item not found")
+                val issue = contentService.fetchKotlinWeeklyIssue(item.contentUrl).map {
+                    it.asPresentationModel()
+                }
+                KotlinWeeklyIssueUiState.Content(
+                    id = item.id,
+                    contentUrl = item.contentUrl,
+                    issueItems = issue.groupBy { it.group },
+                    savedForLater = item.savedForLater,
+                )
+            }.getOrElse {
+                if (it is CancellationException) currentCoroutineContext().ensureActive()
+                KotlinWeeklyIssueUiState.Error
+            }
+        }
+        LaunchedEffect(Unit) {
             feedDataSource.streamFeedItemById(id)
-                .onStart { uiState = KotlinWeeklyIssueUiState.Loading }
-                .mapLatest { item ->
-                    item ?: error("Feed item not found")
-                    item to contentService.fetchKotlinWeeklyIssue(item.contentUrl).map {
-                        it.asPresentationModel()
-                    }
+                .mapNotNull { it?.savedForLater }
+                .distinctUntilChanged()
+                .collect { savedForLater ->
+                    val state = uiState as? KotlinWeeklyIssueUiState.Content ?: return@collect
+                    uiState = state.copy(savedForLater = savedForLater)
                 }
-                .onEach { (item = first, issue = second) ->
-                    uiState = KotlinWeeklyIssueUiState.Content(
-                        id = item.id,
-                        contentUrl = item.contentUrl,
-                        issueItems = issue.groupBy { it.group },
-                        savedForLater = item.savedForLater,
-                    )
-                }
-                .catch {
-                    uiState = KotlinWeeklyIssueUiState.Error
-                }
-                .collect()
         }
         CollectEvent { event ->
             when (event) {
