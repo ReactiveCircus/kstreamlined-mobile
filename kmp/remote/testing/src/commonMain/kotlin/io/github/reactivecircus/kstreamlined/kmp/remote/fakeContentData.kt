@@ -2,7 +2,9 @@
 
 package io.github.reactivecircus.kstreamlined.kmp.remote
 
+import io.github.reactivecircus.kstreamlined.kmp.remote.model.KotlinBlogTldr
 import io.github.reactivecircus.kstreamlined.kmp.remote.model.KotlinWeeklyIssueEntry
+import kotlin.time.Instant
 
 public val FakeKotlinWeeklyIssueEntries: List<KotlinWeeklyIssueEntry> = listOf(
     KotlinWeeklyIssueEntry(
@@ -40,4 +42,18 @@ public val FakeKotlinWeeklyIssueEntries: List<KotlinWeeklyIssueEntry> = listOf(
         source = "github.com",
         group = KotlinWeeklyIssueEntry.Group.Libraries,
     ),
+)
+
+public val FakeKotlinBlogTldr: KotlinBlogTldr = KotlinBlogTldr(
+    id = "https://blog.jetbrains.com/?post_type=kotlin&p=405553",
+    content = """
+        Kotlin 2.4.20 is a tooling release focused on multiplatform interop, smaller Wasm binaries and a faster compiler CLI.
+
+        ### Standard library
+        - Support for coroutine stack trace recovery.
+        - Experimental `allDistinct()` and `allEqual()` check collection elements.
+        - New overloads for `kotlin.test` assertion functions.
+    """.trimIndent(),
+    model = "gpt-oss-120b",
+    generatedAt = Instant.parse("2026-09-07T00:00:00Z"),
 )

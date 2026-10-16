@@ -4,23 +4,23 @@ import androidx.tracing.trace
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.http.HttpMethod
 import com.apollographql.apollo.network.http.ApolloClientAwarenessInterceptor
-import com.apollographql.apollo.network.okHttpCallFactory
 import com.apollographql.cache.normalized.cacheManager
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.Provides
 import dev.zacsweers.metro.SingleIn
 import io.github.reactivecircus.kstreamlined.android.BuildConfig
 import io.github.reactivecircus.kstreamlined.kmp.remote.apollo.ApolloClientConfigs
-import okhttp3.Call
+import io.github.reactivecircus.kstreamlined.kmp.remote.apollo.createTimeoutRoutingHttpEngine
+import okhttp3.OkHttpClient
 
 interface NetworkProviders {
     @SingleIn(AppScope::class)
     @Provides
     private fun apolloClient(
-        okHttpCallFactory: Lazy<Call.Factory>,
+        okHttpClient: Lazy<OkHttpClient>,
     ): ApolloClient = trace("ApolloClient") {
         return ApolloClient.Builder()
-            .okHttpCallFactory { okHttpCallFactory.value }
+            .httpEngine(createTimeoutRoutingHttpEngine { okHttpClient.value })
             .serverUrl(BuildConfig.API_ENDPOINT)
             .autoPersistedQueries(httpMethodForHashedQueries = HttpMethod.Post)
             .addHttpInterceptor(
