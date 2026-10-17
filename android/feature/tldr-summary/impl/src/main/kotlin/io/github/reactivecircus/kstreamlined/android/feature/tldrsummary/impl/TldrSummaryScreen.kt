@@ -55,6 +55,7 @@ import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundatio
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.icon.KSIcons
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.preview.PreviewKStreamlined
 import io.github.reactivecircus.kstreamlined.android.core.ui.pattern.ErrorUi
+import io.github.reactivecircus.kstreamlined.android.feature.contentviewer.api.ContentViewerRoute
 import io.github.reactivecircus.kstreamlined.android.feature.tldrsummary.api.TldrSummaryRoute
 import io.github.reactivecircus.kstreamlined.android.feature.tldrsummary.impl.component.DisclosureFooter
 import io.github.reactivecircus.kstreamlined.android.feature.tldrsummary.impl.component.GenerationMetadata
@@ -85,7 +86,12 @@ internal fun TldrSummaryScreen(
         title = route.title,
         uiState = uiState,
         onNavigateUp = backStack::removeLastOrNull,
-        onReadOriginal = { /* TODO */ },
+        onReadOriginal = {
+            backStack.replaceSingleTop(
+                current = route,
+                destination = ContentViewerRoute(origin = route.origin, id = route.id),
+            )
+        },
         onRetry = { eventSink(TldrSummaryUiEvent.Retry) },
     )
 }

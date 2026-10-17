@@ -192,7 +192,7 @@ private fun ContentUi(
     url: String,
     modifier: Modifier = Modifier,
 ) {
-    val state = rememberWebViewState(url)
+    val state = retainWebViewState(url)
     Box(
         modifier = modifier.fillMaxSize(),
     ) {
