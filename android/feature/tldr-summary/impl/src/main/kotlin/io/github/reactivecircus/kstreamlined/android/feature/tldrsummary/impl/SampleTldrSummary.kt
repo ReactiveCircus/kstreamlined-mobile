@@ -17,12 +17,20 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
+import io.github.reactivecircus.kstreamlined.kmp.presentation.tldrsummary.TldrSummary
 
 internal const val SampleTitle =
     "What's new in Kotlin 2.4.20: Swift export sealed classes, Wasm compilation modes and more"
 
 internal const val SampleGeneratedTime = "7 Sep 2026"
 internal const val SampleModel = "gpt-oss-120b"
+
+internal val SampleTldrSummary = TldrSummary(
+    id = "1",
+    markdownContent = "", // TODO add real Markdown sample content that can be rendered in previews and tests
+    model = SampleModel,
+    displayableGeneratedTime = SampleGeneratedTime,
+)
 
 @Composable
 internal fun rememberSampleTldrSummary(): AnnotatedString {

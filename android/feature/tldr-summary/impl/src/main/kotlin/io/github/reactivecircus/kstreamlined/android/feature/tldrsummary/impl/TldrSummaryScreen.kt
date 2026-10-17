@@ -26,12 +26,9 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
@@ -44,6 +41,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.CompositingStrategy
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation3.runtime.NavBackStack
@@ -63,10 +61,12 @@ import io.github.reactivecircus.kstreamlined.android.feature.tldrsummary.impl.co
 import io.github.reactivecircus.kstreamlined.android.feature.tldrsummary.impl.component.LoadingSkeletonUi
 import io.github.reactivecircus.kstreamlined.android.feature.tldrsummary.impl.component.SummaryUi
 import io.github.reactivecircus.kstreamlined.android.feature.tldrsummary.impl.component.TldrBadge
+import io.github.reactivecircus.kstreamlined.kmp.capsule.inject.assistedRetainPresenter
+import io.github.reactivecircus.kstreamlined.kmp.presentation.tldrsummary.TldrSummary
+import io.github.reactivecircus.kstreamlined.kmp.presentation.tldrsummary.TldrSummaryPresenter
+import io.github.reactivecircus.kstreamlined.kmp.presentation.tldrsummary.TldrSummaryUiEvent
+import io.github.reactivecircus.kstreamlined.kmp.presentation.tldrsummary.TldrSummaryUiState
 import io.github.reactivecircus.routebinding.runtime.RouteBinding
-import kotlinx.coroutines.delay
-import kotlin.time.Duration
-import kotlin.time.Duration.Companion.seconds
 
 @RouteBinding(TldrSummaryRoute::class)
 @Composable
@@ -74,50 +74,44 @@ internal fun TldrSummaryScreen(
     backStack: NavBackStack<NavKey>,
     route: TldrSummaryRoute,
 ) = trace("Screen:TldrSummaryScreen") {
-    var retryTrigger by remember { mutableIntStateOf(0) }
-    val uiState by rememberSampleTldrSummaryUiState(
-        loadingDuration = SimulatedLoadingDuration,
-        simulateError = SimulateError,
-        retryTrigger = retryTrigger,
-    )
+    val presenter = assistedRetainPresenter<TldrSummaryPresenter, TldrSummaryPresenter.Factory> {
+        create(route.id)
+    }
+    val uiState by presenter.states.collectAsState()
+    val eventSink = presenter.eventSink
+
     TldrSummaryScreen(
+        tldrSummaryRenderer = TldrSummaryRenderer.PlainText,
         title = route.title,
         uiState = uiState,
         onNavigateUp = backStack::removeLastOrNull,
         onReadOriginal = { /* TODO */ },
-        onRetry = { retryTrigger++ },
+        onRetry = { eventSink(TldrSummaryUiEvent.Retry) },
     )
 }
 
-@Composable
-private fun rememberSampleTldrSummaryUiState(
-    loadingDuration: Duration,
-    simulateError: Boolean,
-    retryTrigger: Int,
-): State<TldrSummaryUiState> {
-    val targetState = if (simulateError) {
-        TldrSummaryUiState.Error
-    } else {
-        TldrSummaryUiState.Content(
-            summary = rememberSampleTldrSummary(),
-            model = SampleModel,
-            displayableGeneratedTime = SampleGeneratedTime,
-        )
-    }
-    val initialState = if (loadingDuration == Duration.ZERO) targetState else TldrSummaryUiState.Loading
-    return produceState(initialState, targetState, loadingDuration, retryTrigger) {
-        if (loadingDuration > Duration.ZERO) {
-            value = TldrSummaryUiState.Loading
-            delay(loadingDuration)
+// TODO use same Markdown renderer for previews and production
+internal sealed interface TldrSummaryRenderer {
+    @Composable
+    fun rememberTldrSummaryAnnotatedString(markdownContent: String): AnnotatedString
+
+    data object PlainText : TldrSummaryRenderer {
+        @Composable
+        override fun rememberTldrSummaryAnnotatedString(markdownContent: String): AnnotatedString {
+            return remember(markdownContent) { AnnotatedString(markdownContent) }
         }
-        value = targetState
+    }
+
+    data object Sample : TldrSummaryRenderer {
+        @Composable
+        override fun rememberTldrSummaryAnnotatedString(markdownContent: String): AnnotatedString {
+            return rememberSampleTldrSummary()
+        }
     }
 }
 
-private val SimulatedLoadingDuration = 3.seconds
-private const val SimulateError = false
-
 @Composable
+context(tldrSummaryRenderer: TldrSummaryRenderer)
 internal fun TldrSummaryScreen(
     title: String,
     uiState: TldrSummaryUiState,
@@ -196,7 +190,7 @@ internal fun TldrSummaryScreen(
 
                         is TldrSummaryUiState.Content -> {
                             ContentUi(
-                                state = state,
+                                summary = state.summary,
                                 modifier = Modifier.padding(bottom = 72.dp),
                             )
                         }
@@ -222,17 +216,22 @@ private val TldrSummaryUiState.contentKey: Int
     }
 
 @Composable
+context(tldrSummaryRenderer: TldrSummaryRenderer)
 private fun ContentUi(
-    state: TldrSummaryUiState.Content,
+    summary: TldrSummary,
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
         GenerationMetadata(
-            displayableGeneratedTime = state.displayableGeneratedTime,
-            model = state.model,
+            displayableGeneratedTime = summary.displayableGeneratedTime,
+            model = summary.model,
         )
         Spacer(modifier = Modifier.height(24.dp))
-        SummaryUi(summary = state.summary)
+        SummaryUi(
+            summary = with(tldrSummaryRenderer) {
+                rememberTldrSummaryAnnotatedString(summary.markdownContent)
+            },
+        )
         Spacer(modifier = Modifier.height(24.dp))
         DisclosureFooter()
     }
@@ -328,6 +327,7 @@ private fun ReadOriginalButton(
 @PreviewKStreamlined
 private fun PreviewTldrSummaryScreen_Loading() {
     TldrSummaryScreen(
+        tldrSummaryRenderer = TldrSummaryRenderer.Sample,
         title = SampleTitle,
         uiState = TldrSummaryUiState.Loading,
         onNavigateUp = {},
@@ -340,6 +340,7 @@ private fun PreviewTldrSummaryScreen_Loading() {
 @PreviewKStreamlined
 private fun PreviewTldrSummaryScreen_Error() {
     TldrSummaryScreen(
+        tldrSummaryRenderer = TldrSummaryRenderer.Sample,
         title = SampleTitle,
         uiState = TldrSummaryUiState.Error,
         onNavigateUp = {},
@@ -352,12 +353,9 @@ private fun PreviewTldrSummaryScreen_Error() {
 @PreviewKStreamlined
 private fun PreviewTldrSummaryScreen_Content() {
     TldrSummaryScreen(
+        tldrSummaryRenderer = TldrSummaryRenderer.Sample,
         title = SampleTitle,
-        uiState = TldrSummaryUiState.Content(
-            summary = rememberSampleTldrSummary(),
-            model = SampleModel,
-            displayableGeneratedTime = SampleGeneratedTime,
-        ),
+        uiState = TldrSummaryUiState.Content(SampleTldrSummary),
         onNavigateUp = {},
         onReadOriginal = {},
         onRetry = {},
@@ -368,12 +366,9 @@ private fun PreviewTldrSummaryScreen_Content() {
 @PreviewKStreamlined
 private fun PreviewTldrSummaryScreen_Content_ScrolledToBottom() {
     TldrSummaryScreen(
+        tldrSummaryRenderer = TldrSummaryRenderer.Sample,
         title = SampleTitle,
-        uiState = TldrSummaryUiState.Content(
-            summary = rememberSampleTldrSummary(),
-            model = SampleModel,
-            displayableGeneratedTime = SampleGeneratedTime,
-        ),
+        uiState = TldrSummaryUiState.Content(SampleTldrSummary),
         onNavigateUp = {},
         onReadOriginal = {},
         onRetry = {},
