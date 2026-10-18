@@ -142,9 +142,9 @@ internal fun ContentViewerScreen(
                             },
                             contentDescription = null,
                             onClick = { eventSink(ContentViewerUiEvent.ToggleSavedForLater) },
-                            modifier = Modifier.sharedElement(
+                            modifier = Modifier.sharedBounds(
                                 sharedContentState = rememberSharedContentState(
-                                    key = ContentViewerSharedTransitionKeys.saveButtonElement(
+                                    key = ContentViewerSharedTransitionKeys.saveButtonBounds(
                                         origin = route.origin,
                                         id = route.id,
                                     ),

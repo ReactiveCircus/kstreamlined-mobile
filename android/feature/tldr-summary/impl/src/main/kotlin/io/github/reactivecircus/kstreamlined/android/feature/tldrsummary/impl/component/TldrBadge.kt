@@ -22,7 +22,9 @@ import io.github.reactivecircus.kstreamlined.android.core.designsystem.preview.P
 import io.github.reactivecircus.kstreamlined.android.feature.tldrsummary.impl.R
 
 @Composable
-internal fun TldrBadge(modifier: Modifier = Modifier) {
+internal fun TldrBadge(
+    modifier: Modifier = Modifier,
+) {
     val brandGradient = KSTheme.colorScheme.brandGradient
     Row(
         modifier = modifier

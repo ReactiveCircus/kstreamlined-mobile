@@ -2,6 +2,7 @@ package io.github.reactivecircus.kstreamlined.android.core.ui.feed
 
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.SharedTransitionScope
+import androidx.compose.animation.SharedTransitionScope.ResizeMode.Companion.scaleToBounds
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -51,7 +52,9 @@ public fun KotlinBlogCard(
     onSaveButtonClick: (FeedItem.KotlinBlog) -> Unit,
     onTldrClick: (FeedItem.KotlinBlog) -> Unit,
     modifier: Modifier = Modifier,
-    saveButtonElementKey: String? = null,
+    saveButtonBoundsKey: String? = null,
+    tldrButtonBoundsKey: String? = null,
+    titleBoundsKey: String? = null,
 ): Unit = trace("FeedItem:KotlinBlogCard") {
     Surface(
         onClick = { onItemClick(item.value) },
@@ -85,12 +88,37 @@ public fun KotlinBlogCard(
                 if (item.value.supportsTldr) {
                     TldrButton(
                         onClick = { onTldrClick(item.value) },
+                        modifier = if (tldrButtonBoundsKey != null) {
+                            with(sharedTransitionScope) {
+                                Modifier.sharedBounds(
+                                    sharedContentState = rememberSharedContentState(key = tldrButtonBoundsKey),
+                                    animatedVisibilityScope = animatedVisibilityScope,
+                                    zIndexInOverlay = 1f,
+                                )
+                            }
+                        } else {
+                            Modifier
+                        },
                     )
                 }
                 Text(
                     text = item.value.title,
                     style = KSTheme.typography.titleMedium,
-                    modifier = Modifier.padding(end = 8.dp),
+                    modifier = Modifier
+                        .then(
+                            if (titleBoundsKey != null) {
+                                with(sharedTransitionScope) {
+                                    Modifier.sharedBounds(
+                                        sharedContentState = rememberSharedContentState(key = titleBoundsKey),
+                                        animatedVisibilityScope = animatedVisibilityScope,
+                                        zIndexInOverlay = 1f,
+                                        resizeMode = scaleToBounds(ContentScale.FillWidth, Alignment.TopStart),
+                                    )
+                                }
+                            } else {
+                                Modifier
+                            },
+                        ),
                     overflow = TextOverflow.Ellipsis,
                 )
                 Row(verticalAlignment = Alignment.CenterVertically) {
@@ -111,10 +139,10 @@ public fun KotlinBlogCard(
                         modifier = Modifier
                             .testTag("saveButton")
                             .then(
-                                if (saveButtonElementKey != null) {
+                                if (saveButtonBoundsKey != null) {
                                     with(sharedTransitionScope) {
-                                        Modifier.sharedElement(
-                                            sharedContentState = rememberSharedContentState(key = saveButtonElementKey),
+                                        Modifier.sharedBounds(
+                                            sharedContentState = rememberSharedContentState(key = saveButtonBoundsKey),
                                             animatedVisibilityScope = animatedVisibilityScope,
                                             zIndexInOverlay = 1f,
                                         )

@@ -49,7 +49,7 @@ public fun KotlinYouTubeCard(
     onItemClick: (FeedItem.KotlinYouTube) -> Unit,
     onSaveButtonClick: (FeedItem.KotlinYouTube) -> Unit,
     modifier: Modifier = Modifier,
-    saveButtonElementKey: String? = null,
+    saveButtonBoundsKey: String? = null,
 ): Unit = trace("FeedItem:KotlinYouTubeCard") {
     Surface(
         onClick = { onItemClick(item.value) },
@@ -123,10 +123,10 @@ public fun KotlinYouTubeCard(
                         modifier = Modifier
                             .testTag("saveButton")
                             .then(
-                                if (saveButtonElementKey != null) {
+                                if (saveButtonBoundsKey != null) {
                                     with(sharedTransitionScope) {
-                                        Modifier.sharedElement(
-                                            sharedContentState = rememberSharedContentState(key = saveButtonElementKey),
+                                        Modifier.sharedBounds(
+                                            sharedContentState = rememberSharedContentState(key = saveButtonBoundsKey),
                                             animatedVisibilityScope = animatedVisibilityScope,
                                             zIndexInOverlay = 1f,
                                         )

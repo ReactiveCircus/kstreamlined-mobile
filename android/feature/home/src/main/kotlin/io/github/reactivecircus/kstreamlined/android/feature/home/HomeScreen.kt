@@ -71,6 +71,7 @@ import io.github.reactivecircus.kstreamlined.android.feature.settings.api.Settin
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.api.TalkingKotlinEpisodeRoute
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.api.TalkingKotlinEpisodeSharedTransitionKeys
 import io.github.reactivecircus.kstreamlined.android.feature.tldrsummary.api.TldrSummaryRoute
+import io.github.reactivecircus.kstreamlined.android.feature.tldrsummary.api.TldrSummarySharedTransitionKeys
 import io.github.reactivecircus.kstreamlined.kmp.capsule.inject.retainPresenter
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.toDisplayable
@@ -346,7 +347,15 @@ private fun LazyItemScope.FeedItemUi(
                                 ),
                                 animatedVisibilityScope = animatedVisibilityScope,
                             ),
-                        saveButtonElementKey = ContentViewerSharedTransitionKeys.saveButtonElement(
+                        saveButtonBoundsKey = ContentViewerSharedTransitionKeys.saveButtonBounds(
+                            origin = SharedTransitionOrigin,
+                            id = item.id,
+                        ),
+                        tldrButtonBoundsKey = TldrSummarySharedTransitionKeys.tldrButtonBounds(
+                            origin = SharedTransitionOrigin,
+                            id = item.id,
+                        ),
+                        titleBoundsKey = TldrSummarySharedTransitionKeys.titleBounds(
                             origin = SharedTransitionOrigin,
                             id = item.id,
                         ),
@@ -392,7 +401,7 @@ private fun LazyItemScope.FeedItemUi(
                                 ),
                                 animatedVisibilityScope = animatedVisibilityScope,
                             ),
-                        saveButtonElementKey = ContentViewerSharedTransitionKeys.saveButtonElement(
+                        saveButtonBoundsKey = ContentViewerSharedTransitionKeys.saveButtonBounds(
                             origin = SharedTransitionOrigin,
                             id = item.id,
                         ),

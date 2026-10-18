@@ -1,6 +1,9 @@
 package io.github.reactivecircus.kstreamlined.android.feature.tldrsummary.impl
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.SharedTransitionScope
+import androidx.compose.animation.SharedTransitionScope.ResizeMode.Companion.scaleToBounds
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
@@ -40,23 +43,28 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.CompositingStrategy
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.ui.LocalNavAnimatedContentScope
 import androidx.tracing.trace
+import io.github.reactivecircus.kstreamlined.android.core.animation.NoOpSharedElementLayout
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Icon
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.LargeIconButton
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Surface
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Text
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.TopNavBarSharedTransitionKeys
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.icon.KSIcons
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.preview.PreviewKStreamlined
 import io.github.reactivecircus.kstreamlined.android.core.ui.pattern.ErrorUi
 import io.github.reactivecircus.kstreamlined.android.feature.contentviewer.api.ContentViewerRoute
 import io.github.reactivecircus.kstreamlined.android.feature.tldrsummary.api.TldrSummaryRoute
+import io.github.reactivecircus.kstreamlined.android.feature.tldrsummary.api.TldrSummarySharedTransitionKeys
 import io.github.reactivecircus.kstreamlined.android.feature.tldrsummary.impl.component.DisclosureFooter
 import io.github.reactivecircus.kstreamlined.android.feature.tldrsummary.impl.component.GenerationMetadata
 import io.github.reactivecircus.kstreamlined.android.feature.tldrsummary.impl.component.LoadingSkeletonUi
@@ -71,6 +79,7 @@ import io.github.reactivecircus.routebinding.runtime.RouteBinding
 
 @RouteBinding(TldrSummaryRoute::class)
 @Composable
+context(sharedTransitionScope: SharedTransitionScope)
 internal fun TldrSummaryScreen(
     backStack: NavBackStack<NavKey>,
     route: TldrSummaryRoute,
@@ -81,19 +90,42 @@ internal fun TldrSummaryScreen(
     val uiState by presenter.states.collectAsState()
     val eventSink = presenter.eventSink
 
-    TldrSummaryScreen(
-        tldrSummaryRenderer = TldrSummaryRenderer.PlainText,
-        title = route.title,
-        uiState = uiState,
-        onNavigateUp = backStack::removeLastOrNull,
-        onReadOriginal = {
-            backStack.replaceSingleTop(
-                current = route,
-                destination = ContentViewerRoute(origin = route.origin, id = route.id),
-            )
-        },
-        onRetry = { eventSink(TldrSummaryUiEvent.Retry) },
-    )
+    val animatedVisibilityScope = LocalNavAnimatedContentScope.current
+
+    with(sharedTransitionScope) {
+        TldrSummaryScreen(
+            tldrSummaryRenderer = TldrSummaryRenderer.PlainText,
+            animatedVisibilityScope = animatedVisibilityScope,
+            topBarBoundsKey = TopNavBarSharedTransitionKeys.bounds(route.origin),
+            tldrButtonBoundsKey = TldrSummarySharedTransitionKeys.tldrButtonBounds(
+                origin = route.origin,
+                id = route.id,
+            ),
+            titleBoundsKey = TldrSummarySharedTransitionKeys.titleBounds(
+                origin = route.origin,
+                id = route.id,
+            ),
+            title = route.title,
+            onNavigateUp = backStack::removeLastOrNull,
+            onReadOriginal = {
+                backStack.replaceSingleTop(
+                    current = route,
+                    destination = ContentViewerRoute(origin = route.origin, id = route.id),
+                )
+            },
+            uiState = uiState,
+            eventSink = eventSink,
+            modifier = Modifier.sharedBounds(
+                sharedContentState = rememberSharedContentState(
+                    key = TldrSummarySharedTransitionKeys.bounds(
+                        origin = route.origin,
+                        id = route.id,
+                    ),
+                ),
+                animatedVisibilityScope = animatedVisibilityScope,
+            ),
+        )
+    }
 }
 
 // TODO use same Markdown renderer for previews and production
@@ -117,16 +149,23 @@ internal sealed interface TldrSummaryRenderer {
 }
 
 @Composable
-context(tldrSummaryRenderer: TldrSummaryRenderer)
+context(
+    tldrSummaryRenderer: TldrSummaryRenderer,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedVisibilityScope: AnimatedVisibilityScope,
+)
 internal fun TldrSummaryScreen(
+    topBarBoundsKey: String,
+    tldrButtonBoundsKey: String,
+    titleBoundsKey: String,
     title: String,
-    uiState: TldrSummaryUiState,
     onNavigateUp: () -> Unit,
     onReadOriginal: () -> Unit,
-    onRetry: () -> Unit,
+    uiState: TldrSummaryUiState,
+    eventSink: (TldrSummaryUiEvent) -> Unit,
     modifier: Modifier = Modifier,
     scrollState: ScrollState = rememberScrollState(),
-) {
+) = with(sharedTransitionScope) {
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -144,9 +183,15 @@ internal fun TldrSummaryScreen(
         ) {
             Box(
                 modifier = Modifier
+                    .sharedBounds(
+                        sharedContentState = rememberSharedContentState(key = topBarBoundsKey),
+                        animatedVisibilityScope = animatedVisibilityScope,
+                        zIndexInOverlay = 1f,
+                        resizeMode = scaleToBounds(ContentScale.FillWidth, Alignment.TopCenter),
+                    )
                     .fillMaxWidth()
                     .padding(WindowInsets.statusBars.asPaddingValues())
-                    .padding(8.dp),
+                    .padding(16.dp),
             ) {
                 LargeIconButton(
                     KSIcons.Close,
@@ -154,7 +199,15 @@ internal fun TldrSummaryScreen(
                     onClick = onNavigateUp,
                     modifier = Modifier.align(Alignment.CenterStart),
                 )
-                TldrBadge(modifier = Modifier.align(Alignment.Center))
+                TldrBadge(
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .sharedBounds(
+                            sharedContentState = rememberSharedContentState(key = tldrButtonBoundsKey),
+                            animatedVisibilityScope = animatedVisibilityScope,
+                            zIndexInOverlay = 1f,
+                        ),
+                )
             }
             Column(
                 modifier = Modifier
@@ -174,6 +227,12 @@ internal fun TldrSummaryScreen(
                     text = title,
                     style = KSTheme.typography.titleLarge,
                     color = KSTheme.colorScheme.onBackground,
+                    modifier = Modifier.sharedBounds(
+                        sharedContentState = rememberSharedContentState(key = titleBoundsKey),
+                        animatedVisibilityScope = animatedVisibilityScope,
+                        zIndexInOverlay = 1f,
+                        resizeMode = scaleToBounds(ContentScale.FillWidth, Alignment.TopStart),
+                    ),
                 )
                 Spacer(modifier = Modifier.height(12.dp))
                 AnimatedContent(
@@ -189,7 +248,7 @@ internal fun TldrSummaryScreen(
 
                         is TldrSummaryUiState.Error -> {
                             ErrorUi(
-                                onRetry = onRetry,
+                                onRetry = { eventSink(TldrSummaryUiEvent.Retry) },
                                 modifier = Modifier.padding(bottom = 72.dp),
                             )
                         }
@@ -332,52 +391,72 @@ private fun ReadOriginalButton(
 @Composable
 @PreviewKStreamlined
 private fun PreviewTldrSummaryScreen_Loading() {
-    TldrSummaryScreen(
-        tldrSummaryRenderer = TldrSummaryRenderer.Sample,
-        title = SampleTitle,
-        uiState = TldrSummaryUiState.Loading,
-        onNavigateUp = {},
-        onReadOriginal = {},
-        onRetry = {},
-    )
+    NoOpSharedElementLayout {
+        TldrSummaryScreen(
+            tldrSummaryRenderer = TldrSummaryRenderer.Sample,
+            topBarBoundsKey = "",
+            tldrButtonBoundsKey = "",
+            titleBoundsKey = "",
+            title = SampleTitle,
+            onNavigateUp = {},
+            onReadOriginal = {},
+            uiState = TldrSummaryUiState.Loading,
+            eventSink = {},
+        )
+    }
 }
 
 @Composable
 @PreviewKStreamlined
 private fun PreviewTldrSummaryScreen_Error() {
-    TldrSummaryScreen(
-        tldrSummaryRenderer = TldrSummaryRenderer.Sample,
-        title = SampleTitle,
-        uiState = TldrSummaryUiState.Error,
-        onNavigateUp = {},
-        onReadOriginal = {},
-        onRetry = {},
-    )
+    NoOpSharedElementLayout {
+        TldrSummaryScreen(
+            tldrSummaryRenderer = TldrSummaryRenderer.Sample,
+            topBarBoundsKey = "",
+            tldrButtonBoundsKey = "",
+            titleBoundsKey = "",
+            title = SampleTitle,
+            onNavigateUp = {},
+            onReadOriginal = {},
+            uiState = TldrSummaryUiState.Error,
+            eventSink = {},
+        )
+    }
 }
 
 @Composable
 @PreviewKStreamlined
 private fun PreviewTldrSummaryScreen_Content() {
-    TldrSummaryScreen(
-        tldrSummaryRenderer = TldrSummaryRenderer.Sample,
-        title = SampleTitle,
-        uiState = TldrSummaryUiState.Content(SampleTldrSummary),
-        onNavigateUp = {},
-        onReadOriginal = {},
-        onRetry = {},
-    )
+    NoOpSharedElementLayout {
+        TldrSummaryScreen(
+            tldrSummaryRenderer = TldrSummaryRenderer.Sample,
+            topBarBoundsKey = "",
+            tldrButtonBoundsKey = "",
+            titleBoundsKey = "",
+            title = SampleTitle,
+            onNavigateUp = {},
+            onReadOriginal = {},
+            uiState = TldrSummaryUiState.Content(SampleTldrSummary),
+            eventSink = {},
+        )
+    }
 }
 
 @Composable
 @PreviewKStreamlined
 private fun PreviewTldrSummaryScreen_Content_ScrolledToBottom() {
-    TldrSummaryScreen(
-        tldrSummaryRenderer = TldrSummaryRenderer.Sample,
-        title = SampleTitle,
-        uiState = TldrSummaryUiState.Content(SampleTldrSummary),
-        onNavigateUp = {},
-        onReadOriginal = {},
-        onRetry = {},
-        scrollState = ScrollState(Int.MAX_VALUE),
-    )
+    NoOpSharedElementLayout {
+        TldrSummaryScreen(
+            tldrSummaryRenderer = TldrSummaryRenderer.Sample,
+            topBarBoundsKey = "",
+            tldrButtonBoundsKey = "",
+            titleBoundsKey = "",
+            title = SampleTitle,
+            onNavigateUp = {},
+            onReadOriginal = {},
+            uiState = TldrSummaryUiState.Content(SampleTldrSummary),
+            eventSink = {},
+            scrollState = ScrollState(Int.MAX_VALUE),
+        )
+    }
 }
