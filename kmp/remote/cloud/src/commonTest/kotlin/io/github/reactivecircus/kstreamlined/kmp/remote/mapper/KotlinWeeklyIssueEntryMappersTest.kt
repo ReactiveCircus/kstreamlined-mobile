@@ -66,14 +66,14 @@ class KotlinWeeklyIssueEntryMappersTest {
             summary = "Summary 4",
             url = "url 4",
             source = "Source 4",
-            group = KotlinWeeklyIssueEntryGroup.VIDEOS,
+            group = KotlinWeeklyIssueEntryGroup.MULTIPLATFORM,
         )
         val expected4 = KotlinWeeklyIssueEntry(
             title = "Title 4",
             summary = "Summary 4",
             url = "url 4",
             source = "Source 4",
-            group = KotlinWeeklyIssueEntry.Group.Videos,
+            group = KotlinWeeklyIssueEntry.Group.Multiplatform,
         )
         assertEquals(expected4, entry4.asExternalModel())
 
@@ -83,15 +83,49 @@ class KotlinWeeklyIssueEntryMappersTest {
             summary = "Summary 5",
             url = "url 5",
             source = "Source 5",
-            group = KotlinWeeklyIssueEntryGroup.LIBRARIES,
+            group = KotlinWeeklyIssueEntryGroup.CONFERENCES,
         )
         val expected5 = KotlinWeeklyIssueEntry(
             title = "Title 5",
             summary = "Summary 5",
             url = "url 5",
             source = "Source 5",
-            group = KotlinWeeklyIssueEntry.Group.Libraries,
+            group = KotlinWeeklyIssueEntry.Group.Conferences,
         )
         assertEquals(expected5, entry5.asExternalModel())
+
+        val entry6 = KotlinWeeklyIssueQuery.KotlinWeeklyIssueEntry(
+            __typename = "KotlinWeeklyIssueEntry",
+            title = "Title 6",
+            summary = "Summary 6",
+            url = "url 6",
+            source = "Source 6",
+            group = KotlinWeeklyIssueEntryGroup.VIDEOS,
+        )
+        val expected6 = KotlinWeeklyIssueEntry(
+            title = "Title 6",
+            summary = "Summary 6",
+            url = "url 6",
+            source = "Source 6",
+            group = KotlinWeeklyIssueEntry.Group.Videos,
+        )
+        assertEquals(expected6, entry6.asExternalModel())
+
+        val entry7 = KotlinWeeklyIssueQuery.KotlinWeeklyIssueEntry(
+            __typename = "KotlinWeeklyIssueEntry",
+            title = "Title 7",
+            summary = "Summary 7",
+            url = "url 7",
+            source = "Source 7",
+            group = KotlinWeeklyIssueEntryGroup.LIBRARIES,
+        )
+        val expected7 = KotlinWeeklyIssueEntry(
+            title = "Title 7",
+            summary = "Summary 7",
+            url = "url 7",
+            source = "Source 7",
+            group = KotlinWeeklyIssueEntry.Group.Libraries,
+        )
+        assertEquals(expected7, entry7.asExternalModel())
     }
 }

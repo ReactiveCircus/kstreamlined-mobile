@@ -20,6 +20,8 @@ public data class KotlinWeeklyIssueItem(
         Announcements(0xFF_7874B4, 0xFF_FFFFFF),
         Articles(0xFF_F1646C, 0xFF_FFFFFF),
         Android(0xFF_79C5B4, 0xFF_FFFFFF),
+        Multiplatform(0xFF_7F52FF, 0xFF_FFFFFF),
+        Conferences(0xFF_CC916E, 0xFF_FFFFFF),
         Videos(0xFF_639FCB, 0xFF_FFFFFF),
         Libraries(0xFF_800000, 0xFF_FFFFFF),
     }

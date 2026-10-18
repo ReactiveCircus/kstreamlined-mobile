@@ -1,3 +1,15 @@
+type BackfillKotlinBlogTldrsResult {
+  """
+  Number of new TLDRs generated.
+  """
+  generatedCount: Int!
+
+  """
+  Kotlin Blog article IDs whose TLDR lookup, generation, or persistence failed.
+  """
+  failedIds: [ID!]!
+}
+
 """
 Built-in Boolean
 """
@@ -109,6 +121,33 @@ type KotlinBlog implements FeedEntry {
   Description of the blog post.
   """
   description: String!
+
+  """
+  Whether TLDR is supported for the blog post.
+  """
+  supportsTldr: Boolean!
+}
+
+type KotlinBlogTldr {
+  """
+  Unique id of the Kotlin Blog article.
+  """
+  id: ID!
+
+  """
+  TLDR content in Markdown.
+  """
+  content: String!
+
+  """
+  Model used to generate the TLDR.
+  """
+  model: String!
+
+  """
+  Generation time in ISO 8601.
+  """
+  generatedAt: Instant!
 }
 
 type KotlinWeekly implements FeedEntry {
@@ -187,6 +226,16 @@ enum KotlinWeeklyIssueEntryGroup {
   ANDROID
 
   """
+  Multiplatform.
+  """
+  MULTIPLATFORM
+
+  """
+  Conferences.
+  """
+  CONFERENCES
+
+  """
   Videos.
   """
   VIDEOS
@@ -234,6 +283,17 @@ type Mutation {
   Syncs feeds from all sources.
   """
   syncFeeds: Boolean!
+
+  """
+  Generates and returns a new TLDR for a Kotlin Blog content matching the id, regardless of whether a saved TLDR exists.
+  The generated TLDR is saved when `persist` is true.
+  """
+  generateKotlinBlogTldr(id: ID!, persist: Boolean! = false): KotlinBlogTldr!
+
+  """
+  Generates and saves missing TLDRs for all persisted Kotlin Blog article content.
+  """
+  backfillKotlinBlogTldrs: BackfillKotlinBlogTldrsResult!
 }
 
 type Query {
@@ -251,6 +311,11 @@ type Query {
   Returns list of entries for a Kotlin Weekly issue.
   """
   kotlinWeeklyIssue(url: String!): [KotlinWeeklyIssueEntry!]!
+
+  """
+  Returns the saved TLDR for a Kotlin Blog content matching the id, generating one when absent.
+  """
+  kotlinBlogTldr(id: ID!): KotlinBlogTldr!
 
   _service: _Service!
 }

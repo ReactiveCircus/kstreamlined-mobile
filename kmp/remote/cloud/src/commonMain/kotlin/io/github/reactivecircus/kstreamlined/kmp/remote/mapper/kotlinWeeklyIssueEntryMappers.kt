@@ -15,6 +15,8 @@ internal fun KotlinWeeklyIssueQuery.KotlinWeeklyIssueEntry.asExternalModel(): Ko
             KotlinWeeklyIssueEntryGroup.ANNOUNCEMENTS -> KotlinWeeklyIssueEntry.Group.Announcements
             KotlinWeeklyIssueEntryGroup.ARTICLES -> KotlinWeeklyIssueEntry.Group.Articles
             KotlinWeeklyIssueEntryGroup.ANDROID -> KotlinWeeklyIssueEntry.Group.Android
+            KotlinWeeklyIssueEntryGroup.MULTIPLATFORM -> KotlinWeeklyIssueEntry.Group.Multiplatform
+            KotlinWeeklyIssueEntryGroup.CONFERENCES -> KotlinWeeklyIssueEntry.Group.Conferences
             KotlinWeeklyIssueEntryGroup.VIDEOS -> KotlinWeeklyIssueEntry.Group.Videos
             KotlinWeeklyIssueEntryGroup.LIBRARIES -> KotlinWeeklyIssueEntry.Group.Libraries
             KotlinWeeklyIssueEntryGroup.UNKNOWN__ -> return null

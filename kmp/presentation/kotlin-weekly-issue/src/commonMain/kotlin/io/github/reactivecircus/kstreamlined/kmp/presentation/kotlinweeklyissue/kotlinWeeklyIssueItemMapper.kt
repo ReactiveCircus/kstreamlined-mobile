@@ -14,6 +14,8 @@ internal fun KotlinWeeklyIssueEntry.asPresentationModel(): KotlinWeeklyIssueItem
             KotlinWeeklyIssueEntry.Group.Articles -> KotlinWeeklyIssueItem.Group.Articles
             KotlinWeeklyIssueEntry.Group.Android -> KotlinWeeklyIssueItem.Group.Android
             KotlinWeeklyIssueEntry.Group.Videos -> KotlinWeeklyIssueItem.Group.Videos
+            KotlinWeeklyIssueEntry.Group.Multiplatform -> KotlinWeeklyIssueItem.Group.Multiplatform
+            KotlinWeeklyIssueEntry.Group.Conferences -> KotlinWeeklyIssueItem.Group.Conferences
             KotlinWeeklyIssueEntry.Group.Libraries -> KotlinWeeklyIssueItem.Group.Libraries
         },
     )

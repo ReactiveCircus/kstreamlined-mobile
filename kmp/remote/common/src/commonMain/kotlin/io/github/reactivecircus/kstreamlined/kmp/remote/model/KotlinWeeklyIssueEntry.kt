@@ -12,6 +12,8 @@ public data class KotlinWeeklyIssueEntry(
         Announcements,
         Articles,
         Android,
+        Multiplatform,
+        Conferences,
         Videos,
         Libraries,
     }

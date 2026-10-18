@@ -76,14 +76,14 @@ class KotlinWeeklyIssueItemMapperTest {
             summary = "Summary 5",
             url = "url 5",
             source = "Source 5",
-            group = KotlinWeeklyIssueEntry.Group.Videos,
+            group = KotlinWeeklyIssueEntry.Group.Multiplatform,
         )
         val expected5 = KotlinWeeklyIssueItem(
             title = "Title 5",
             summary = "Summary 5",
             url = "url 5",
             source = "Source 5",
-            group = KotlinWeeklyIssueItem.Group.Videos,
+            group = KotlinWeeklyIssueItem.Group.Multiplatform,
         )
         assertEquals(expected5, entry5.asPresentationModel())
 
@@ -92,15 +92,47 @@ class KotlinWeeklyIssueItemMapperTest {
             summary = "Summary 6",
             url = "url 6",
             source = "Source 6",
-            group = KotlinWeeklyIssueEntry.Group.Libraries,
+            group = KotlinWeeklyIssueEntry.Group.Conferences,
         )
         val expected6 = KotlinWeeklyIssueItem(
             title = "Title 6",
             summary = "Summary 6",
             url = "url 6",
             source = "Source 6",
-            group = KotlinWeeklyIssueItem.Group.Libraries,
+            group = KotlinWeeklyIssueItem.Group.Conferences,
         )
         assertEquals(expected6, entry6.asPresentationModel())
+
+        val entry7 = KotlinWeeklyIssueEntry(
+            title = "Title 7",
+            summary = "Summary 7",
+            url = "url 7",
+            source = "Source 7",
+            group = KotlinWeeklyIssueEntry.Group.Videos,
+        )
+        val expected7 = KotlinWeeklyIssueItem(
+            title = "Title 7",
+            summary = "Summary 7",
+            url = "url 7",
+            source = "Source 7",
+            group = KotlinWeeklyIssueItem.Group.Videos,
+        )
+        assertEquals(expected7, entry7.asPresentationModel())
+
+        val entry8 = KotlinWeeklyIssueEntry(
+            title = "Title 8",
+            summary = "Summary 8",
+            url = "url 8",
+            source = "Source 8",
+            group = KotlinWeeklyIssueEntry.Group.Libraries,
+        )
+        val expected8 = KotlinWeeklyIssueItem(
+            title = "Title 8",
+            summary = "Summary 8",
+            url = "url 8",
+            source = "Source 8",
+            group = KotlinWeeklyIssueItem.Group.Libraries,
+        )
+        assertEquals(expected8, entry8.asPresentationModel())
     }
 }
