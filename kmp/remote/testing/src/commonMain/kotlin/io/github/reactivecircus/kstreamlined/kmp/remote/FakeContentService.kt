@@ -1,5 +1,6 @@
 package io.github.reactivecircus.kstreamlined.kmp.remote
 
+import io.github.reactivecircus.kstreamlined.kmp.remote.model.KotlinBlogTldr
 import io.github.reactivecircus.kstreamlined.kmp.remote.model.KotlinWeeklyIssueEntry
 
 public class FakeContentService : ContentService {
@@ -9,7 +10,17 @@ public class FakeContentService : ContentService {
         FakeKotlinWeeklyIssueEntries
     }
 
+    public var nextKotlinBlogTldrResponse: suspend (
+        id: String,
+    ) -> KotlinBlogTldr = {
+        FakeKotlinBlogTldr
+    }
+
     override suspend fun fetchKotlinWeeklyIssue(url: String): List<KotlinWeeklyIssueEntry> {
         return nextKotlinWeeklyIssueResponse(url)
+    }
+
+    override suspend fun fetchKotlinBlogTldr(id: String): KotlinBlogTldr {
+        return nextKotlinBlogTldrResponse(id)
     }
 }

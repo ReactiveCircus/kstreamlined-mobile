@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams
 import android.webkit.WebChromeClient
 import android.webkit.WebResourceError
@@ -23,6 +24,8 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.retain.RetainedEffect
+import androidx.compose.runtime.retain.retain
 import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.mapSaver
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -164,6 +167,8 @@ internal fun WebView(
 
         val content = state.content
         SideEffect(wv, content) {
+            if (state.loadedContent == content) return@SideEffect
+            state.loadedContent = content
             when (content) {
                 is WebContent.Url -> {
                     wv.loadUrl(content.url, content.additionalHttpHeaders)
@@ -202,6 +207,9 @@ internal fun WebView(
 
     AndroidView(
         factory = { context ->
+            state.webView?.let { retainedWebView ->
+                return@AndroidView retainedWebView.reattach(layoutParams, client, chromeClient, navigator)
+            }
             (factory?.invoke(context) ?: WebView(context)).apply {
                 onCreated(this)
 
@@ -217,9 +225,28 @@ internal fun WebView(
         },
         modifier = modifier,
         onRelease = {
+            it.onPause()
             onDispose(it)
         },
     )
+}
+
+private fun WebView.reattach(
+    layoutParams: FrameLayout.LayoutParams,
+    client: AccompanistWebViewClient,
+    chromeClient: AccompanistWebChromeClient,
+    navigator: WebViewNavigator,
+): WebView = apply {
+    (parent as? ViewGroup)?.removeView(this)
+    onResume()
+
+    this.layoutParams = layoutParams
+
+    webChromeClient = chromeClient
+    webViewClient = client
+
+    navigator.canGoBack = canGoBack()
+    navigator.canGoForward = canGoForward()
 }
 
 /**
@@ -419,6 +446,9 @@ internal class WebViewState(webContent: WebContent) {
      */
     var viewState: Bundle? = null
         internal set
+
+    // The content most recently loaded into [webView], so a re-attached WebView isn't reloaded.
+    internal var loadedContent: WebContent? = null
 
     // We need access to this in the state saver. An internal DisposableEffect or AndroidView
     // onDestroy is called after the state saver and so can't be used.
@@ -647,6 +677,42 @@ internal fun rememberWebViewState(
             additionalHttpHeaders = additionalHttpHeaders,
         )
     }
+
+/**
+ * Creates a WebView state that is retained across Compositions, including when the caller
+ * leaves the composition temporarily (e.g. navigated away from but still on the back stack).
+ * The WebView instance is kept with the state and re-attached instead of being recreated,
+ * so the loaded page and its scroll position are kept. The WebView is destroyed when the
+ * state is retired.
+ *
+ * @param url The url to load in the WebView
+ * @param additionalHttpHeaders Optional, additional HTTP headers that are passed to [WebView.loadUrl].
+ */
+@Composable
+internal fun retainWebViewState(
+    url: String,
+    additionalHttpHeaders: Map<String, String> = emptyMap(),
+): WebViewState {
+    val state = retain {
+        WebViewState(
+            WebContent.Url(
+                url = url,
+                additionalHttpHeaders = additionalHttpHeaders,
+            ),
+        )
+    }.apply {
+        this.content = WebContent.Url(
+            url = url,
+            additionalHttpHeaders = additionalHttpHeaders,
+        )
+    }
+    RetainedEffect(state) {
+        onRetire {
+            state.webView?.destroy()
+        }
+    }
+    return state
+}
 
 /**
  * Creates a WebView state that is remembered across Compositions.

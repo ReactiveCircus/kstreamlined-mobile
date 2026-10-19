@@ -3,6 +3,7 @@ package io.github.reactivecircus.kstreamlined.android.core.designsystem.componen
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -10,7 +11,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
@@ -33,6 +37,28 @@ public fun HorizontalDivider(
 }
 
 @Composable
+public fun HorizontalDashedDivider(
+    modifier: Modifier = Modifier,
+    thickness: Dp = 1.dp,
+    color: Color = KSTheme.colorScheme.border,
+) {
+    Spacer(
+        modifier = modifier
+            .height(thickness)
+            .drawBehind {
+                val dash = 4.dp.toPx()
+                drawLine(
+                    color = color,
+                    start = Offset(0f, size.height / 2),
+                    end = Offset(size.width, size.height / 2),
+                    strokeWidth = size.height,
+                    pathEffect = PathEffect.dashPathEffect(floatArrayOf(dash, dash)),
+                )
+            },
+    )
+}
+
+@Composable
 @NonRestartableComposable
 public fun VerticalDivider(
     modifier: Modifier = Modifier,
@@ -43,6 +69,28 @@ public fun VerticalDivider(
         modifier = modifier,
         thickness = thickness,
         color = color,
+    )
+}
+
+@Composable
+public fun VerticalDashedDivider(
+    modifier: Modifier = Modifier,
+    thickness: Dp = 1.dp,
+    color: Color = KSTheme.colorScheme.border,
+) {
+    Spacer(
+        modifier = modifier
+            .width(thickness)
+            .drawBehind {
+                val dash = 4.dp.toPx()
+                drawLine(
+                    color = color,
+                    start = Offset(size.width / 2, 0f),
+                    end = Offset(size.width / 2, size.height),
+                    strokeWidth = size.width,
+                    pathEffect = PathEffect.dashPathEffect(floatArrayOf(dash, dash)),
+                )
+            },
     )
 }
 
@@ -64,6 +112,22 @@ private fun PreviewHorizontalDivider() {
 
 @Composable
 @PreviewKStreamlined
+private fun PreviewHorizontalDashedDivider() {
+    Column(
+        modifier = Modifier.padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        Text(text = "item 1", style = KSTheme.typography.titleMedium)
+        HorizontalDashedDivider(
+            modifier = Modifier.width(120.dp),
+        )
+        Text(text = "item 2", style = KSTheme.typography.titleMedium)
+    }
+}
+
+@Composable
+@PreviewKStreamlined
 private fun PreviewVerticalDivider() {
     Row(
         modifier = Modifier.padding(16.dp),
@@ -72,6 +136,22 @@ private fun PreviewVerticalDivider() {
     ) {
         Text(text = "item 1", style = KSTheme.typography.titleMedium)
         VerticalDivider(
+            modifier = Modifier.height(120.dp),
+        )
+        Text(text = "item 2", style = KSTheme.typography.titleMedium)
+    }
+}
+
+@Composable
+@PreviewKStreamlined
+private fun PreviewVerticalDashedDivider() {
+    Row(
+        modifier = Modifier.padding(16.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        Text(text = "item 1", style = KSTheme.typography.titleMedium)
+        VerticalDashedDivider(
             modifier = Modifier.height(120.dp),
         )
         Text(text = "item 2", style = KSTheme.typography.titleMedium)

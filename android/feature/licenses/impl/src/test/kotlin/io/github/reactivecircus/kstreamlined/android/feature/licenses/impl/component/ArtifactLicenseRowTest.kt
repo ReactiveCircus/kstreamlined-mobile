@@ -4,7 +4,7 @@ import io.github.reactivecircus.chameleon.runtime.Chameleon
 import io.github.reactivecircus.kstreamlined.android.core.screenshottesting.tester.SnapshotTester
 import io.github.reactivecircus.kstreamlined.android.feature.licenses.impl.ArtifactLicenseItem
 import org.junit.Rule
-import kotlin.test.Test
+import org.junit.Test
 
 @Chameleon
 class ArtifactLicenseRowTest {

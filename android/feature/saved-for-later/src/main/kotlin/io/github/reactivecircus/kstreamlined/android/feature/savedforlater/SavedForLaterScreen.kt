@@ -23,6 +23,8 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -50,6 +52,8 @@ import io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue.a
 import io.github.reactivecircus.kstreamlined.android.feature.settings.api.SettingsRoute
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.api.TalkingKotlinEpisodeRoute
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.api.TalkingKotlinEpisodeSharedTransitionKeys
+import io.github.reactivecircus.kstreamlined.android.feature.tldrsummary.api.TldrSummaryRoute
+import io.github.reactivecircus.kstreamlined.android.feature.tldrsummary.api.TldrSummarySharedTransitionKeys
 import io.github.reactivecircus.kstreamlined.kmp.capsule.inject.retainPresenter
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.DisplayableFeedItem
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
@@ -101,6 +105,15 @@ public fun SavedForLaterScreen(
                 },
             )
         },
+        onOpenTldrSummary = {
+            backStack.add(
+                TldrSummaryRoute(
+                    origin = SharedTransitionOrigin,
+                    id = it.id,
+                    title = it.title,
+                ),
+            )
+        },
         onOpenSettings = {
             backStack.add(SettingsRoute(origin = SharedTransitionOrigin))
         },
@@ -115,6 +128,7 @@ context(sharedTransitionScope: SharedTransitionScope, animatedVisibilityScope: A
 internal fun SavedForLaterScreen(
     listState: LazyListState,
     onViewItem: (FeedItem) -> Unit,
+    onOpenTldrSummary: (FeedItem) -> Unit,
     onOpenSettings: () -> Unit,
     uiState: SavedForLaterUiState,
     eventSink: (SavedForLaterUiEvent) -> Unit,
@@ -154,10 +168,16 @@ internal fun SavedForLaterScreen(
                             listState = listState,
                             items = uiState.feedItems,
                             onItemClick = onViewItem,
+                            onTldrSummaryButtonClick = onOpenTldrSummary,
                             eventSink = eventSink,
                         )
                     } else {
-                        EmptyUi(modifier = Modifier.padding(calculateListContentPadding()))
+                        EmptyUi(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .verticalScroll(rememberScrollState())
+                                .padding(calculateListContentPadding()),
+                        )
                     }
                 }
             }
@@ -174,6 +194,7 @@ private fun ContentUi(
     listState: LazyListState,
     items: List<DisplayableFeedItem<FeedItem>>,
     onItemClick: (FeedItem) -> Unit,
+    onTldrSummaryButtonClick: (FeedItem) -> Unit,
     eventSink: (SavedForLaterUiEvent) -> Unit,
     modifier: Modifier = Modifier,
 ) = with(sharedTransitionScope) {
@@ -195,6 +216,7 @@ private fun ContentUi(
                         item = item.toDisplayable(displayablePublishTime),
                         onItemClick = onItemClick,
                         onSaveButtonClick = { eventSink(SavedForLaterUiEvent.RemoveSavedItem(item.id)) },
+                        onTldrClick = onTldrSummaryButtonClick,
                         modifier = Modifier
                             .animateItem()
                             .sharedBounds(
@@ -206,7 +228,15 @@ private fun ContentUi(
                                 ),
                                 animatedVisibilityScope = animatedVisibilityScope,
                             ),
-                        saveButtonElementKey = ContentViewerSharedTransitionKeys.saveButtonElement(
+                        saveButtonBoundsKey = ContentViewerSharedTransitionKeys.saveButtonBounds(
+                            origin = SharedTransitionOrigin,
+                            id = item.id,
+                        ),
+                        tldrButtonBoundsKey = TldrSummarySharedTransitionKeys.tldrButtonBounds(
+                            origin = SharedTransitionOrigin,
+                            id = item.id,
+                        ),
+                        titleBoundsKey = TldrSummarySharedTransitionKeys.titleBounds(
                             origin = SharedTransitionOrigin,
                             id = item.id,
                         ),
@@ -248,7 +278,7 @@ private fun ContentUi(
                                 ),
                                 animatedVisibilityScope = animatedVisibilityScope,
                             ),
-                        saveButtonElementKey = ContentViewerSharedTransitionKeys.saveButtonElement(
+                        saveButtonBoundsKey = ContentViewerSharedTransitionKeys.saveButtonBounds(
                             origin = SharedTransitionOrigin,
                             id = item.id,
                         ),

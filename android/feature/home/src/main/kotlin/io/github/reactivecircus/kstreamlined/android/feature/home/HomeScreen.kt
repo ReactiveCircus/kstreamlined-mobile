@@ -30,7 +30,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -68,6 +70,8 @@ import io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue.a
 import io.github.reactivecircus.kstreamlined.android.feature.settings.api.SettingsRoute
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.api.TalkingKotlinEpisodeRoute
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.api.TalkingKotlinEpisodeSharedTransitionKeys
+import io.github.reactivecircus.kstreamlined.android.feature.tldrsummary.api.TldrSummaryRoute
+import io.github.reactivecircus.kstreamlined.android.feature.tldrsummary.api.TldrSummarySharedTransitionKeys
 import io.github.reactivecircus.kstreamlined.kmp.capsule.inject.retainPresenter
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.toDisplayable
@@ -123,6 +127,15 @@ public fun HomeScreen(
                 },
             )
         },
+        onOpenTldrSummary = {
+            backStack.add(
+                TldrSummaryRoute(
+                    origin = SharedTransitionOrigin,
+                    id = it.id,
+                    title = it.title,
+                ),
+            )
+        },
         onOpenSettings = {
             backStack.add(SettingsRoute(origin = SharedTransitionOrigin))
         },
@@ -149,6 +162,7 @@ context(sharedTransitionScope: SharedTransitionScope, animatedVisibilityScope: A
 internal fun HomeScreen(
     listState: LazyListState,
     onViewItem: (FeedItem) -> Unit,
+    onOpenTldrSummary: (FeedItem) -> Unit,
     onOpenSettings: () -> Unit,
     onOpenFeedSelection: () -> Unit,
     uiState: HomeUiState,
@@ -205,7 +219,10 @@ internal fun HomeScreen(
                     is HomeUiState.Error -> {
                         ErrorUi(
                             onRetry = { eventSink(HomeUiEvent.Refresh) },
-                            modifier = Modifier.padding(calculateListContentPadding()),
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .verticalScroll(rememberScrollState())
+                                .padding(calculateListContentPadding()),
                         )
                     }
 
@@ -216,6 +233,7 @@ internal fun HomeScreen(
                             items = state.feedItems,
                             showTransientError = state.hasTransientError,
                             onItemClick = onViewItem,
+                            onTldrSummaryButtonClick = onOpenTldrSummary,
                             eventSink = eventSink,
                         )
                     }
@@ -234,6 +252,7 @@ private fun ContentUi(
     items: List<HomeFeedItem>,
     showTransientError: Boolean,
     onItemClick: (FeedItem) -> Unit,
+    onTldrSummaryButtonClick: (FeedItem) -> Unit,
     eventSink: (HomeUiEvent) -> Unit,
     modifier: Modifier = Modifier,
 ) = trace("HomeFeedList") {
@@ -265,6 +284,7 @@ private fun ContentUi(
                 FeedItemUi(
                     homeFeedItem = it,
                     onItemClick = onItemClick,
+                    onTldrSummaryButtonClick = onTldrSummaryButtonClick,
                     eventSink = eventSink,
                 )
             }
@@ -290,6 +310,7 @@ context(sharedTransitionScope: SharedTransitionScope, animatedVisibilityScope: A
 private fun LazyItemScope.FeedItemUi(
     homeFeedItem: HomeFeedItem,
     onItemClick: (FeedItem) -> Unit,
+    onTldrSummaryButtonClick: (FeedItem) -> Unit,
     eventSink: (HomeUiEvent) -> Unit,
 ) = with(sharedTransitionScope) {
     when (homeFeedItem) {
@@ -314,6 +335,7 @@ private fun LazyItemScope.FeedItemUi(
                         onSaveButtonClick = {
                             eventSink(HomeUiEvent.ToggleSavedForLater(item))
                         },
+                        onTldrClick = onTldrSummaryButtonClick,
                         modifier = Modifier
                             .animateItem()
                             .sharedBounds(
@@ -325,7 +347,15 @@ private fun LazyItemScope.FeedItemUi(
                                 ),
                                 animatedVisibilityScope = animatedVisibilityScope,
                             ),
-                        saveButtonElementKey = ContentViewerSharedTransitionKeys.saveButtonElement(
+                        saveButtonBoundsKey = ContentViewerSharedTransitionKeys.saveButtonBounds(
+                            origin = SharedTransitionOrigin,
+                            id = item.id,
+                        ),
+                        tldrButtonBoundsKey = TldrSummarySharedTransitionKeys.tldrButtonBounds(
+                            origin = SharedTransitionOrigin,
+                            id = item.id,
+                        ),
+                        titleBoundsKey = TldrSummarySharedTransitionKeys.titleBounds(
                             origin = SharedTransitionOrigin,
                             id = item.id,
                         ),
@@ -371,7 +401,7 @@ private fun LazyItemScope.FeedItemUi(
                                 ),
                                 animatedVisibilityScope = animatedVisibilityScope,
                             ),
-                        saveButtonElementKey = ContentViewerSharedTransitionKeys.saveButtonElement(
+                        saveButtonBoundsKey = ContentViewerSharedTransitionKeys.saveButtonBounds(
                             origin = SharedTransitionOrigin,
                             id = item.id,
                         ),

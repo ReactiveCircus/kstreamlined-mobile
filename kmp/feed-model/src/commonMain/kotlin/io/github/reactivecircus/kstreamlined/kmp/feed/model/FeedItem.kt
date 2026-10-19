@@ -18,6 +18,7 @@ public sealed interface FeedItem {
         override val contentUrl: String,
         override val savedForLater: Boolean,
         val featuredImageUrl: String,
+        val supportsTldr: Boolean,
     ) : FeedItem
 
     public data class KotlinYouTube(

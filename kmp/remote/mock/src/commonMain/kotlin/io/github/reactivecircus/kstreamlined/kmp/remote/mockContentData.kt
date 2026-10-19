@@ -2,7 +2,9 @@
 
 package io.github.reactivecircus.kstreamlined.kmp.remote
 
+import io.github.reactivecircus.kstreamlined.kmp.remote.model.KotlinBlogTldr
 import io.github.reactivecircus.kstreamlined.kmp.remote.model.KotlinWeeklyIssueEntry
+import kotlin.time.Instant
 
 internal val MockKotlinWeeklyIssueEntries: List<KotlinWeeklyIssueEntry> = listOf(
     KotlinWeeklyIssueEntry(
@@ -40,4 +42,30 @@ internal val MockKotlinWeeklyIssueEntries: List<KotlinWeeklyIssueEntry> = listOf
         source = "github.com",
         group = KotlinWeeklyIssueEntry.Group.Libraries,
     ),
+)
+
+internal val MockKotlinBlogTldr: KotlinBlogTldr = KotlinBlogTldr(
+    id = "https://blog.jetbrains.com/?post_type=kotlin&p=409489",
+    content = """
+        Kotlin 2.4.20 is a tooling release focused on multiplatform interop, smaller Wasm binaries and a faster compiler CLI.
+
+        ### Standard library
+        - Support for coroutine stack trace recovery.
+        - Experimental `allDistinct()` and `allEqual()` check collection elements.
+        - New overloads for `kotlin.test` assertion functions.
+
+        ### Multiplatform
+        - Swift export maps **sealed classes** to Swift enums for exhaustive `switch`.
+        - Generated `Package.swift` for SwiftPM dependencies.
+        - Kotlin/Wasm adds new **compilation modes** and shrinks binaries by about 5–10%.
+
+        ### Tooling
+        - The Kotlin runner command is now `kotlinr`.
+        - Experimental compiler **native image** for faster startup.
+        - See [What's new in Kotlin 2.4.20](https://kotlinlang.org/docs/whatsnew2420.html) for the full list.
+
+        Update your IDE, then change the Kotlin version to 2.4.20 in your build scripts.
+    """.trimIndent(),
+    model = "gpt-oss-120b",
+    generatedAt = Instant.parse("2026-09-07T00:00:00Z"),
 )

@@ -32,7 +32,7 @@ class HomeScreenTest {
         snapshotTester.snapshot {
             HomeScreenSnapshot(
                 uiState = HomeUiState.Content(
-                    selectedFeedCount = 3,
+                    selectedFeedCount = 4,
                     totalFeedCount = 4,
                     feedItems = listOf(
                         HomeFeedItem.SectionHeader("This week"),
@@ -91,6 +91,51 @@ class HomeScreenTest {
     }
 
     @Test
+    fun snapshot_HomeScreen_Content_Filtered() {
+        snapshotTester.snapshot {
+            HomeScreenSnapshot(
+                uiState = HomeUiState.Content(
+                    selectedFeedCount = 1,
+                    totalFeedCount = 4,
+                    feedItems = listOf(
+                        HomeFeedItem.SectionHeader("This week"),
+                        HomeFeedItem.Item(
+                            displayableFeedItem = DisplayableFeedItem(
+                                FeedItem.KotlinBlog(
+                                    id = "1",
+                                    title = "What's new in Kotlin 2.4.20",
+                                    publishTime = Instant.parse("2023-11-29T17:30:08Z"),
+                                    contentUrl = "content-url",
+                                    savedForLater = false,
+                                    featuredImageUrl = "",
+                                    supportsTldr = true,
+                                ),
+                                displayablePublishTime = "Moments ago",
+                            ),
+                        ),
+                        HomeFeedItem.Item(
+                            displayableFeedItem = DisplayableFeedItem(
+                                FeedItem.KotlinBlog(
+                                    id = "2",
+                                    title = "Kotlin Multiplatform Development Roadmap for 2024",
+                                    publishTime = Instant.parse("2023-11-28T11:59:46Z"),
+                                    contentUrl = "content-url",
+                                    savedForLater = true,
+                                    featuredImageUrl = "",
+                                    supportsTldr = false,
+                                ),
+                                displayablePublishTime = "Yesterday",
+                            ),
+                        ),
+                    ),
+                    refreshing = false,
+                    hasTransientError = false,
+                ),
+            )
+        }
+    }
+
+    @Test
     fun snapshot_HomeScreen_Error() {
         snapshotTester.snapshot {
             HomeScreenSnapshot(
@@ -105,6 +150,7 @@ class HomeScreenTest {
             HomeScreen(
                 listState = rememberLazyListState(),
                 onViewItem = {},
+                onOpenTldrSummary = {},
                 onOpenSettings = {},
                 onOpenFeedSelection = {},
                 uiState = uiState,

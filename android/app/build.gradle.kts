@@ -107,6 +107,7 @@ kstreamlined {
             implementation(project(":kmp:presentation:saved-for-later"))
             implementation(project(":kmp:presentation:settings"))
             implementation(project(":kmp:presentation:talking-kotlin-episode"))
+            implementation(project(":kmp:presentation:tldr-summary"))
             implementation(project(":core:designsystem"))
             implementation(project(":core:route-metadata"))
             implementation(project(":core:scheduled-work"))
@@ -118,6 +119,7 @@ kstreamlined {
             implementation(project(":feature:saved-for-later"))
             implementation(project(":feature:settings:impl"))
             implementation(project(":feature:talking-kotlin-episode:impl"))
+            implementation(project(":feature:tldr-summary:impl"))
 
             implementation(libs.firebase.perf)
             implementation(libs.firebase.crashlytics)

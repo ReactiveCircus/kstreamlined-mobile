@@ -25,6 +25,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -52,7 +54,10 @@ import io.github.reactivecircus.kstreamlined.android.core.launcher.openShareShee
 import io.github.reactivecircus.kstreamlined.android.core.ui.pattern.ItemNotFoundUi
 import io.github.reactivecircus.kstreamlined.android.feature.contentviewer.api.ContentViewerRoute
 import io.github.reactivecircus.kstreamlined.android.feature.contentviewer.api.ContentViewerSharedTransitionKeys
+import io.github.reactivecircus.kstreamlined.android.feature.contentviewer.impl.component.TldrButton
+import io.github.reactivecircus.kstreamlined.android.feature.tldrsummary.api.TldrSummaryRoute
 import io.github.reactivecircus.kstreamlined.kmp.capsule.inject.assistedRetainPresenter
+import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.presentation.contentviewer.ContentViewerPresenter
 import io.github.reactivecircus.kstreamlined.kmp.presentation.contentviewer.ContentViewerUiEvent
 import io.github.reactivecircus.kstreamlined.kmp.presentation.contentviewer.ContentViewerUiState
@@ -107,6 +112,20 @@ internal fun ContentViewerScreen(
                 actions = {
                     if (uiState is ContentViewerUiState.Content) {
                         val item = (uiState as ContentViewerUiState.Content).item
+                        if (item is FeedItem.KotlinBlog && item.supportsTldr) {
+                            TldrButton(
+                                onClick = {
+                                    backStack.add(
+                                        TldrSummaryRoute(
+                                            origin = route.origin,
+                                            id = item.id,
+                                            title = item.title,
+                                        ),
+                                    )
+                                },
+                            )
+                            Spacer(modifier = Modifier.width(12.dp))
+                        }
                         FilledIconButton(
                             KSIcons.Share,
                             contentDescription = null,
@@ -123,9 +142,9 @@ internal fun ContentViewerScreen(
                             },
                             contentDescription = null,
                             onClick = { eventSink(ContentViewerUiEvent.ToggleSavedForLater) },
-                            modifier = Modifier.sharedElement(
+                            modifier = Modifier.sharedBounds(
                                 sharedContentState = rememberSharedContentState(
-                                    key = ContentViewerSharedTransitionKeys.saveButtonElement(
+                                    key = ContentViewerSharedTransitionKeys.saveButtonBounds(
                                         origin = route.origin,
                                         id = route.id,
                                     ),
@@ -151,7 +170,12 @@ internal fun ContentViewerScreen(
                     }
 
                     is ContentViewerUiState.NotFound -> {
-                        ItemNotFoundUi(modifier = Modifier.padding(24.dp))
+                        ItemNotFoundUi(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .verticalScroll(rememberScrollState())
+                                .padding(24.dp),
+                        )
                     }
 
                     is ContentViewerUiState.Content -> {
@@ -168,7 +192,7 @@ private fun ContentUi(
     url: String,
     modifier: Modifier = Modifier,
 ) {
-    val state = rememberWebViewState(url)
+    val state = retainWebViewState(url)
     Box(
         modifier = modifier.fillMaxSize(),
     ) {

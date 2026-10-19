@@ -14,6 +14,7 @@ public sealed interface FeedEntry {
         override val publishTime: Instant,
         override val contentUrl: String,
         val featuredImageUrl: String,
+        val supportsTldr: Boolean,
     ) : FeedEntry
 
     public data class KotlinYouTube(

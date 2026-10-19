@@ -36,6 +36,7 @@ public val FakeFeedEntries: List<FeedEntry> = listOf(
         publishTime = Instant.parse("2023-11-16T11:59:46Z"),
         contentUrl = "https://blog.jetbrains.com/kotlin/2023/11/kotlin-multiplatform-development-roadmap-for-2024/",
         featuredImageUrl = "https://blog.jetbrains.com/wp-content/uploads/2023/11/kmp_roadmap_720.png",
+        supportsTldr = true,
     ),
     FeedEntry.KotlinYouTube(
         id = "yt:video:bz4cQeaXmsI",

@@ -66,6 +66,7 @@ class HomePresenterTest {
             podcast_description_format = null,
             podcast_description_plain_text = null,
             saved_for_later = false,
+            supports_tldr = true,
         ),
     )
 
@@ -274,6 +275,7 @@ class HomePresenterTest {
                         contentUrl = it.content_url,
                         savedForLater = it.saved_for_later,
                         featuredImageUrl = it.image_url.orEmpty(),
+                        supportsTldr = true,
                     )
                 }
 
@@ -356,6 +358,7 @@ class HomePresenterTest {
                 contentUrl = it.content_url,
                 savedForLater = it.saved_for_later,
                 featuredImageUrl = it.image_url.orEmpty(),
+                supportsTldr = true,
             )
         }.toHomeFeedItems(clock = fixedClock, timeZone = timeZone),
     ) {

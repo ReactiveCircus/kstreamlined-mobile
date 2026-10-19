@@ -11,6 +11,7 @@ fragment FeedEntryItem on FeedEntry {
   contentUrl
   ... on KotlinBlog {
     featuredImageUrl
+    supportsTldr
   }
   ... on KotlinYouTube {
     thumbnailUrl

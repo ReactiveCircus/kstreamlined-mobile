@@ -1,0 +1,1 @@
+ALTER TABLE feedItemEntity ADD COLUMN supports_tldr INTEGER;

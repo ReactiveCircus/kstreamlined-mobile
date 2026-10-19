@@ -5,7 +5,7 @@ import io.github.reactivecircus.chameleon.runtime.Chameleon
 import io.github.reactivecircus.kstreamlined.android.core.animation.NoOpSharedElementLayout
 import io.github.reactivecircus.kstreamlined.android.core.screenshottesting.tester.SnapshotTester
 import org.junit.Rule
-import kotlin.test.Test
+import org.junit.Test
 
 @Chameleon
 class LicensesScreenTest {

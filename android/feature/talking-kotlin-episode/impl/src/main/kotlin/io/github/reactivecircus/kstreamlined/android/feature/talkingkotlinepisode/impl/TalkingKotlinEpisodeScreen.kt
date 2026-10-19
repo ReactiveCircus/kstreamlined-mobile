@@ -25,7 +25,9 @@ import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
@@ -201,7 +203,12 @@ internal fun TalkingKotlinEpisodeScreen(
                 }
 
                 is TalkingKotlinEpisodeUiState.NotFound -> {
-                    ItemNotFoundUi(modifier = Modifier.padding(24.dp))
+                    ItemNotFoundUi(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .verticalScroll(rememberScrollState())
+                            .padding(24.dp),
+                    )
                 }
 
                 is TalkingKotlinEpisodeUiState.Content -> {

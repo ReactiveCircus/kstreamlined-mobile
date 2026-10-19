@@ -26,4 +26,23 @@ class FakeContentServiceTest {
             fakeContentService.fetchKotlinWeeklyIssue("url")
         }
     }
+
+    @Test
+    fun `returns expected response when fetchKotlinBlogTldr succeeds`() = runTest {
+        fakeContentService.nextKotlinBlogTldrResponse = {
+            FakeKotlinBlogTldr
+        }
+        assertEquals(
+            FakeKotlinBlogTldr,
+            fakeContentService.fetchKotlinBlogTldr("id"),
+        )
+    }
+
+    @Test
+    fun `throws exception when fetchKotlinBlogTldr fails`() = runTest {
+        fakeContentService.nextKotlinBlogTldrResponse = { throw IllegalStateException() }
+        assertFailsWith<IllegalStateException> {
+            fakeContentService.fetchKotlinBlogTldr("id")
+        }
+    }
 }

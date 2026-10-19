@@ -1,6 +1,7 @@
 kstreamlined {
     androidCoreLibrary("io.github.reactivecircus.kstreamlined.android.core.ui.feed") {
         compose()
+        androidResources()
         screenshotTests()
 
         dependencies {

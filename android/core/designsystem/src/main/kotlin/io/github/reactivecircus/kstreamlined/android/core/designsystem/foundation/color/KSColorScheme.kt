@@ -15,6 +15,8 @@ public class KSColorScheme internal constructor(
     public val onBackground: Color,
     public val onBackgroundMuted: Color,
     public val surface: Color,
+    public val surfaceAccent: Color,
+    public val onSurfaceAccent: Color,
     public val surfaceInverse: Color,
     public val surfaceInverseMuted: Color,
     public val surfaceInverseRaised: Color,
@@ -51,6 +53,7 @@ private object Palette {
     val Magenta50 = Color(0xFF_C711E1)
     val Magenta60 = Color(0xFF_D549E8)
     val Magenta70 = Color(0xFF_D5A1DE)
+    val Magenta75 = Color(0xFF_E9B0F7)
     val Magenta80 = Color(0xFF_EDB3F7)
     val Magenta85 = Color(0xFF_F1C2F9)
     val Magenta95 = Color(0xFF_FBE6FF)
@@ -69,6 +72,7 @@ private object Palette {
     val Neutral5 = Color(0xFF_070426)
     val Neutral10 = Color(0xFF_18193A)
     val Neutral15 = Color(0xFF_2C2F4E)
+    val Neutral20 = Color(0xFF_302C60)
     val Neutral30 = Color(0xFF_5A5E77)
     val Neutral60 = Color(0xFF_A9ABB9)
 }
@@ -101,6 +105,8 @@ internal val LightColorScheme = KSColorScheme(
     onBackground = Palette.Neutral5,
     onBackgroundMuted = Palette.Neutral15,
     surface = Palette.Magenta85,
+    surfaceAccent = Palette.Magenta75,
+    onSurfaceAccent = Palette.Purple50,
     surfaceInverse = Palette.Neutral5,
     surfaceInverseMuted = Palette.Neutral15,
     surfaceInverseRaised = Palette.Neutral10,
@@ -128,6 +134,8 @@ internal val DarkColorScheme = KSColorScheme(
     onBackground = Palette.Lavender90,
     onBackgroundMuted = Palette.Magenta80,
     surface = Palette.Neutral10,
+    surfaceAccent = Palette.Neutral20,
+    onSurfaceAccent = Palette.Purple70,
     surfaceInverse = Palette.Lavender90,
     surfaceInverseMuted = Palette.Lavender75,
     surfaceInverseRaised = Palette.Magenta85,

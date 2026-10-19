@@ -31,6 +31,7 @@ class SavedForLaterScreenTest {
                                 contentUrl = "contentUrl",
                                 savedForLater = true,
                                 featuredImageUrl = "",
+                                supportsTldr = true,
                             ),
                             displayablePublishTime = "30 Nov 2023",
                         ),
@@ -95,6 +96,7 @@ class SavedForLaterScreenTest {
             SavedForLaterScreen(
                 listState = rememberLazyListState(),
                 onViewItem = {},
+                onOpenTldrSummary = {},
                 onOpenSettings = {},
                 uiState = uiState,
                 eventSink = {},

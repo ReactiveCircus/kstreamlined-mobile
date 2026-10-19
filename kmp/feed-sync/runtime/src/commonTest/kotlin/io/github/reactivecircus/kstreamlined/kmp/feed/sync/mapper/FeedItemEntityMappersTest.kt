@@ -17,6 +17,7 @@ class FeedItemEntityMappersTest {
             publishTime = Instant.parse("2022-01-01T00:00:00Z"),
             contentUrl = "https://blog.kotlinlang.org/post",
             featuredImageUrl = "https://blog.kotlinlang.org/image",
+            supportsTldr = true,
         )
         val expected = FeedItemEntity(
             id = "1",
@@ -33,6 +34,37 @@ class FeedItemEntityMappersTest {
             podcast_description_format = null,
             podcast_description_plain_text = null,
             saved_for_later = false,
+            supports_tldr = true,
+        )
+        assertEquals(expected, feedEntry.toDbModel(emptyList()))
+    }
+
+    @Test
+    fun `FeedEntry_KotlinBlog without TLDR support maps to expected db model`() {
+        val feedEntry = FeedEntry.KotlinBlog(
+            id = "1",
+            title = "Kotlin Blog Post",
+            publishTime = Instant.parse("2022-01-01T00:00:00Z"),
+            contentUrl = "https://blog.kotlinlang.org/post",
+            featuredImageUrl = "https://blog.kotlinlang.org/image",
+            supportsTldr = false,
+        )
+        val expected = FeedItemEntity(
+            id = "1",
+            feed_origin_key = FeedSource.Key.KotlinBlog.name,
+            title = "Kotlin Blog Post",
+            publish_time = Instant.parse("2022-01-01T00:00:00Z"),
+            content_url = "https://blog.kotlinlang.org/post",
+            image_url = "https://blog.kotlinlang.org/image",
+            description = null,
+            issue_number = null,
+            podcast_audio_url = null,
+            podcast_duration = null,
+            podcast_start_position = null,
+            podcast_description_format = null,
+            podcast_description_plain_text = null,
+            saved_for_later = false,
+            supports_tldr = false,
         )
         assertEquals(expected, feedEntry.toDbModel(emptyList()))
     }
@@ -62,6 +94,7 @@ class FeedItemEntityMappersTest {
             podcast_description_format = null,
             podcast_description_plain_text = null,
             saved_for_later = false,
+            supports_tldr = null,
         )
         assertEquals(expected, feedEntry.toDbModel(emptyList()))
     }
@@ -93,6 +126,7 @@ class FeedItemEntityMappersTest {
             podcast_description_format = ContentFormat.Text,
             podcast_description_plain_text = null,
             saved_for_later = true,
+            supports_tldr = null,
         )
         val expected = FeedItemEntity(
             id = "1",
@@ -109,6 +143,7 @@ class FeedItemEntityMappersTest {
             podcast_description_format = ContentFormat.Text,
             podcast_description_plain_text = null,
             saved_for_later = true,
+            supports_tldr = null,
         )
         assertEquals(expected, feedEntry.toDbModel(listOf(existingEntity)))
     }
@@ -140,6 +175,7 @@ class FeedItemEntityMappersTest {
             podcast_description_format = ContentFormat.Html,
             podcast_description_plain_text = "Talking kotlin podcast episode summary",
             saved_for_later = false,
+            supports_tldr = null,
         )
         assertEquals(expected, feedEntry.toDbModel(emptyList()))
     }
@@ -168,6 +204,7 @@ class FeedItemEntityMappersTest {
             podcast_description_format = null,
             podcast_description_plain_text = null,
             saved_for_later = false,
+            supports_tldr = null,
         )
         assertEquals(expected, feedEntry.toDbModel(emptyList()))
     }
