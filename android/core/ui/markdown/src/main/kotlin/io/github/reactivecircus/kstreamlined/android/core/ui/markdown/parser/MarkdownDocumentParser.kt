@@ -15,7 +15,6 @@ import org.intellij.markdown.parser.MarkdownParser
  * Parses CommonMark [markdown] into a [MarkdownDocument].
  */
 internal fun parseMarkdown(markdown: String): MarkdownDocument {
-    // the parser requires LF line endings
     val text: CharSequence = markdown.replace("\r\n", "\n").replace('\r', '\n')
     val root = MarkdownParser(
         flavour = CommonMarkFlavourDescriptor(),
@@ -32,7 +31,6 @@ private class BlockMapper(
 ) {
     fun mapBlocks(nodes: List<ASTNode>): List<MarkdownBlock> = nodes.mapNotNull(::mapBlock)
 
-    @Suppress("CyclomaticComplexMethod")
     private fun mapBlock(node: ASTNode): MarkdownBlock? = when (val type = node.type) {
         MarkdownElementTypes.PARAGRAPH -> {
             inlineMapper.mapInlines(node.children, trim = true)

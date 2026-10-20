@@ -4,8 +4,6 @@ import org.intellij.markdown.html.entities.Entities
 
 /**
  * Decodes CommonMark entity / numeric character references and (optionally) backslash escapes into plain text.
- *
- * `EntityConverter` from JetBrains/markdown is not used as it re-escapes `"`, `&`, `<` and `>` for HTML output.
  */
 internal fun decodeEntitiesAndEscapes(text: CharSequence, processEscapes: Boolean = true): String {
     return EntityOrEscapeRegex.replace(text) { match ->
