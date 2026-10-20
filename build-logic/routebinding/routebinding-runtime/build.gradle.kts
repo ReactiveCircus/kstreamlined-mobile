@@ -47,5 +47,5 @@ dependencies {
     detektPlugins(libs.plugin.detektKtlintWrapper)
 
     api(libs.androidx.navigation3.runtime)
-    api(libs.androidx.compose.animation)
+    api(libs.androidx.compose.animation) { isTransitive = false }
 }
