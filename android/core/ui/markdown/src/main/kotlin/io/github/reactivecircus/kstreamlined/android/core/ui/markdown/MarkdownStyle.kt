@@ -100,7 +100,7 @@ private fun defaultMarkdownStyle(typography: KSTypography, colorScheme: KSColorS
         ),
         inlineCode = InlineCodeStyle(
             spanStyle = SpanStyle(),
-            background = colorScheme.surface,
+            background = colorScheme.surfaceMuted,
             cornerRadius = 4.dp,
             horizontalPadding = 0.25.em,
             verticalPadding = 0.18.em,
@@ -108,7 +108,7 @@ private fun defaultMarkdownStyle(typography: KSTypography, colorScheme: KSColorS
         codeBlock = CodeBlockStyle(
             text = typography.bodyMedium,
             languageLabel = typography.labelSmall.copy(color = colorScheme.onBackgroundMuted),
-            background = colorScheme.surface,
+            background = colorScheme.surfaceMuted,
             cornerRadius = 8.dp,
             padding = 12.dp,
         ),

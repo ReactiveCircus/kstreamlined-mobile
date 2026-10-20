@@ -15,6 +15,7 @@ public class KSColorScheme internal constructor(
     public val onBackground: Color,
     public val onBackgroundMuted: Color,
     public val surface: Color,
+    public val surfaceMuted: Color,
     public val surfaceAccent: Color,
     public val onSurfaceAccent: Color,
     public val surfaceInverse: Color,
@@ -65,12 +66,14 @@ private object Palette {
 
     val Lavender65 = Color(0xFF_ABA2BE)
     val Lavender75 = Color(0xFF_C4BAD9)
+    val Lavender80 = Color(0xFF_D7CBF5)
     val Lavender85 = Color(0xFF_DBD0F2)
     val Lavender90 = Color(0xFF_E7DBFF)
 
     val Neutral0 = Color(0xFF_000000)
     val Neutral5 = Color(0xFF_070426)
     val Neutral10 = Color(0xFF_18193A)
+    val Neutral13 = Color(0xFF_262244)
     val Neutral15 = Color(0xFF_2C2F4E)
     val Neutral20 = Color(0xFF_302C60)
     val Neutral30 = Color(0xFF_5A5E77)
@@ -105,6 +108,7 @@ internal val LightColorScheme = KSColorScheme(
     onBackground = Palette.Neutral5,
     onBackgroundMuted = Palette.Neutral15,
     surface = Palette.Magenta85,
+    surfaceMuted = Palette.Lavender80,
     surfaceAccent = Palette.Magenta75,
     onSurfaceAccent = Palette.Purple50,
     surfaceInverse = Palette.Neutral5,
@@ -134,6 +138,7 @@ internal val DarkColorScheme = KSColorScheme(
     onBackground = Palette.Lavender90,
     onBackgroundMuted = Palette.Magenta80,
     surface = Palette.Neutral10,
+    surfaceMuted = Palette.Neutral13,
     surfaceAccent = Palette.Neutral20,
     onSurfaceAccent = Palette.Purple70,
     surfaceInverse = Palette.Lavender90,
