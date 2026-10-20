@@ -1,4 +1,4 @@
-package io.github.reactivecircus.kstreamlined.android.core.ui.markdown.internal
+package io.github.reactivecircus.kstreamlined.android.core.ui.markdown.parser
 
 /**
  * Parser-agnostic representation of a Markdown document.

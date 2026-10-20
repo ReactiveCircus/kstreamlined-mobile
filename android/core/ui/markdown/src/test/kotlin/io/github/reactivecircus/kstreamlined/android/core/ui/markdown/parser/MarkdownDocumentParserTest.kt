@@ -1,19 +1,19 @@
-package io.github.reactivecircus.kstreamlined.android.core.ui.markdown.internal
+package io.github.reactivecircus.kstreamlined.android.core.ui.markdown.parser
 
-import io.github.reactivecircus.kstreamlined.android.core.ui.markdown.internal.MarkdownBlock.BlockQuote
-import io.github.reactivecircus.kstreamlined.android.core.ui.markdown.internal.MarkdownBlock.BulletList
-import io.github.reactivecircus.kstreamlined.android.core.ui.markdown.internal.MarkdownBlock.CodeBlock
-import io.github.reactivecircus.kstreamlined.android.core.ui.markdown.internal.MarkdownBlock.Heading
-import io.github.reactivecircus.kstreamlined.android.core.ui.markdown.internal.MarkdownBlock.OrderedList
-import io.github.reactivecircus.kstreamlined.android.core.ui.markdown.internal.MarkdownBlock.Paragraph
-import io.github.reactivecircus.kstreamlined.android.core.ui.markdown.internal.MarkdownBlock.ThematicBreak
-import io.github.reactivecircus.kstreamlined.android.core.ui.markdown.internal.MarkdownInline.Code
-import io.github.reactivecircus.kstreamlined.android.core.ui.markdown.internal.MarkdownInline.Emphasis
-import io.github.reactivecircus.kstreamlined.android.core.ui.markdown.internal.MarkdownInline.HardBreak
-import io.github.reactivecircus.kstreamlined.android.core.ui.markdown.internal.MarkdownInline.Link
-import io.github.reactivecircus.kstreamlined.android.core.ui.markdown.internal.MarkdownInline.SoftBreak
-import io.github.reactivecircus.kstreamlined.android.core.ui.markdown.internal.MarkdownInline.Strong
-import io.github.reactivecircus.kstreamlined.android.core.ui.markdown.internal.MarkdownInline.Text
+import io.github.reactivecircus.kstreamlined.android.core.ui.markdown.parser.MarkdownBlock.BlockQuote
+import io.github.reactivecircus.kstreamlined.android.core.ui.markdown.parser.MarkdownBlock.BulletList
+import io.github.reactivecircus.kstreamlined.android.core.ui.markdown.parser.MarkdownBlock.CodeBlock
+import io.github.reactivecircus.kstreamlined.android.core.ui.markdown.parser.MarkdownBlock.Heading
+import io.github.reactivecircus.kstreamlined.android.core.ui.markdown.parser.MarkdownBlock.OrderedList
+import io.github.reactivecircus.kstreamlined.android.core.ui.markdown.parser.MarkdownBlock.Paragraph
+import io.github.reactivecircus.kstreamlined.android.core.ui.markdown.parser.MarkdownBlock.ThematicBreak
+import io.github.reactivecircus.kstreamlined.android.core.ui.markdown.parser.MarkdownInline.Code
+import io.github.reactivecircus.kstreamlined.android.core.ui.markdown.parser.MarkdownInline.Emphasis
+import io.github.reactivecircus.kstreamlined.android.core.ui.markdown.parser.MarkdownInline.HardBreak
+import io.github.reactivecircus.kstreamlined.android.core.ui.markdown.parser.MarkdownInline.Link
+import io.github.reactivecircus.kstreamlined.android.core.ui.markdown.parser.MarkdownInline.SoftBreak
+import io.github.reactivecircus.kstreamlined.android.core.ui.markdown.parser.MarkdownInline.Strong
+import io.github.reactivecircus.kstreamlined.android.core.ui.markdown.parser.MarkdownInline.Text
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

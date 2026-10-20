@@ -1,4 +1,4 @@
-package io.github.reactivecircus.kstreamlined.android.core.ui.markdown.internal
+package io.github.reactivecircus.kstreamlined.android.core.ui.markdown.parser
 
 import org.intellij.markdown.MarkdownElementTypes
 import org.intellij.markdown.MarkdownTokenTypes
