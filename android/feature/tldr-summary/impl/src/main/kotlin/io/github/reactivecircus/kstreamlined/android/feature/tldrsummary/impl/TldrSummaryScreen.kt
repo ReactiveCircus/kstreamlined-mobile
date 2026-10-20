@@ -214,6 +214,7 @@ internal fun TldrSummaryScreen(
                 AnimatedContent(
                     targetState = uiState,
                     transitionSpec = { fadeIn() togetherWith fadeOut() },
+                    contentAlignment = Alignment.TopCenter,
                     contentKey = { state -> state.contentKey },
                     label = "uiState",
                 ) { state ->
