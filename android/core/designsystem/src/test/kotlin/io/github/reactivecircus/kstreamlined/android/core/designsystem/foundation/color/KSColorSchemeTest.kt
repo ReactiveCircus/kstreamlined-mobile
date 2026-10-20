@@ -61,6 +61,7 @@ class KSColorSchemeTest {
             Column {
                 with(KSTheme.colorScheme) {
                     Swatch("surface", surface)
+                    Swatch("surfaceMuted", surfaceMuted)
                     Swatch("surfaceAccent", surfaceAccent)
                     Swatch("onSurfaceAccent", onSurfaceAccent)
                     Swatch("surfaceInverse", surfaceInverse)
