@@ -31,7 +31,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
@@ -45,7 +44,6 @@ import androidx.compose.ui.graphics.CompositingStrategy
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation3.runtime.NavBackStack
@@ -61,6 +59,7 @@ import io.github.reactivecircus.kstreamlined.android.core.designsystem.component
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.icon.KSIcons
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.preview.PreviewKStreamlined
+import io.github.reactivecircus.kstreamlined.android.core.ui.markdown.Markdown
 import io.github.reactivecircus.kstreamlined.android.core.ui.pattern.ErrorUi
 import io.github.reactivecircus.kstreamlined.android.feature.contentviewer.api.ContentViewerRoute
 import io.github.reactivecircus.kstreamlined.android.feature.tldrsummary.api.TldrSummaryRoute
@@ -68,7 +67,6 @@ import io.github.reactivecircus.kstreamlined.android.feature.tldrsummary.api.Tld
 import io.github.reactivecircus.kstreamlined.android.feature.tldrsummary.impl.component.DisclosureFooter
 import io.github.reactivecircus.kstreamlined.android.feature.tldrsummary.impl.component.GenerationMetadata
 import io.github.reactivecircus.kstreamlined.android.feature.tldrsummary.impl.component.LoadingSkeletonUi
-import io.github.reactivecircus.kstreamlined.android.feature.tldrsummary.impl.component.SummaryUi
 import io.github.reactivecircus.kstreamlined.android.feature.tldrsummary.impl.component.TldrBadge
 import io.github.reactivecircus.kstreamlined.kmp.capsule.inject.assistedRetainPresenter
 import io.github.reactivecircus.kstreamlined.kmp.presentation.tldrsummary.TldrSummary
@@ -94,7 +92,6 @@ internal fun TldrSummaryScreen(
 
     with(sharedTransitionScope) {
         TldrSummaryScreen(
-            tldrSummaryRenderer = TldrSummaryRenderer.PlainText,
             animatedVisibilityScope = animatedVisibilityScope,
             topBarBoundsKey = TopNavBarSharedTransitionKeys.bounds(route.origin),
             tldrButtonBoundsKey = TldrSummarySharedTransitionKeys.tldrButtonBounds(
@@ -128,29 +125,8 @@ internal fun TldrSummaryScreen(
     }
 }
 
-// TODO use same Markdown renderer for previews and production
-internal sealed interface TldrSummaryRenderer {
-    @Composable
-    fun rememberTldrSummaryAnnotatedString(markdownContent: String): AnnotatedString
-
-    data object PlainText : TldrSummaryRenderer {
-        @Composable
-        override fun rememberTldrSummaryAnnotatedString(markdownContent: String): AnnotatedString {
-            return remember(markdownContent) { AnnotatedString(markdownContent) }
-        }
-    }
-
-    data object Sample : TldrSummaryRenderer {
-        @Composable
-        override fun rememberTldrSummaryAnnotatedString(markdownContent: String): AnnotatedString {
-            return rememberSampleTldrSummary()
-        }
-    }
-}
-
 @Composable
 context(
-    tldrSummaryRenderer: TldrSummaryRenderer,
     sharedTransitionScope: SharedTransitionScope,
     animatedVisibilityScope: AnimatedVisibilityScope,
 )
@@ -281,7 +257,6 @@ private val TldrSummaryUiState.contentKey: Int
     }
 
 @Composable
-context(tldrSummaryRenderer: TldrSummaryRenderer)
 private fun ContentUi(
     summary: TldrSummary,
     modifier: Modifier = Modifier,
@@ -292,11 +267,7 @@ private fun ContentUi(
             model = summary.model,
         )
         Spacer(modifier = Modifier.height(24.dp))
-        SummaryUi(
-            summary = with(tldrSummaryRenderer) {
-                rememberTldrSummaryAnnotatedString(summary.markdownContent)
-            },
-        )
+        Markdown(markdown = summary.markdownContent)
         Spacer(modifier = Modifier.height(24.dp))
         DisclosureFooter()
     }
@@ -393,7 +364,6 @@ private fun ReadOriginalButton(
 private fun PreviewTldrSummaryScreen_Loading() {
     NoOpSharedElementLayout {
         TldrSummaryScreen(
-            tldrSummaryRenderer = TldrSummaryRenderer.Sample,
             topBarBoundsKey = "",
             tldrButtonBoundsKey = "",
             titleBoundsKey = "",
@@ -411,7 +381,6 @@ private fun PreviewTldrSummaryScreen_Loading() {
 private fun PreviewTldrSummaryScreen_Error() {
     NoOpSharedElementLayout {
         TldrSummaryScreen(
-            tldrSummaryRenderer = TldrSummaryRenderer.Sample,
             topBarBoundsKey = "",
             tldrButtonBoundsKey = "",
             titleBoundsKey = "",
@@ -429,7 +398,6 @@ private fun PreviewTldrSummaryScreen_Error() {
 private fun PreviewTldrSummaryScreen_Content() {
     NoOpSharedElementLayout {
         TldrSummaryScreen(
-            tldrSummaryRenderer = TldrSummaryRenderer.Sample,
             topBarBoundsKey = "",
             tldrButtonBoundsKey = "",
             titleBoundsKey = "",
@@ -447,7 +415,6 @@ private fun PreviewTldrSummaryScreen_Content() {
 private fun PreviewTldrSummaryScreen_Content_ScrolledToBottom() {
     NoOpSharedElementLayout {
         TldrSummaryScreen(
-            tldrSummaryRenderer = TldrSummaryRenderer.Sample,
             topBarBoundsKey = "",
             tldrButtonBoundsKey = "",
             titleBoundsKey = "",

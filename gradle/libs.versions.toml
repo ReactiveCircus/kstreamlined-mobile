@@ -58,6 +58,7 @@ okio = "3.18.2"
 coil = "3.6.3"
 sqldelight = "2.4.1"
 ksoup = "0.2.6"
+jetbrains-markdown = "0.7.18"
 turbine = "1.2.1"
 kermit = "2.2.0"
 crashKios = "0.8.5"
@@ -144,6 +145,7 @@ sqldelight-androidDriver = { module = "app.cash.sqldelight:android-driver", vers
 sqldelight-nativeDriver = { module = "app.cash.sqldelight:native-driver", version.ref = "sqldelight" }
 sqldelight-sqliteDriver = { module = "app.cash.sqldelight:sqlite-driver", version.ref = "sqldelight" }
 ksoup = { module = "com.fleeksoft.ksoup:ksoup", version.ref = "ksoup" }
+jetbrains-markdown = { module = "org.jetbrains:markdown", version.ref = "jetbrains-markdown" }
 licentia-runtime = { module = "io.github.reactivecircus.licentia:licentia-runtime" }
 routebinding-runtime = { module = "io.github.reactivecircus.routebinding:routebinding-runtime" }
 kotlin-test-junit = { group = "org.jetbrains.kotlin", name = "kotlin-test-junit", version.ref = "kotlin" }

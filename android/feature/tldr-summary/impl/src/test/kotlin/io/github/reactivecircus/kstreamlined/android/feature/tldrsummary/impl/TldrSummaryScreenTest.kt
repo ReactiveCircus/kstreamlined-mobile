@@ -18,7 +18,6 @@ class TldrSummaryScreenTest {
         snapshotTester.snapshot {
             NoOpSharedElementLayout {
                 TldrSummaryScreen(
-                    tldrSummaryRenderer = TldrSummaryRenderer.Sample,
                     topBarBoundsKey = "",
                     tldrButtonBoundsKey = "",
                     titleBoundsKey = "",
@@ -37,7 +36,6 @@ class TldrSummaryScreenTest {
         snapshotTester.snapshot {
             NoOpSharedElementLayout {
                 TldrSummaryScreen(
-                    tldrSummaryRenderer = TldrSummaryRenderer.Sample,
                     topBarBoundsKey = "",
                     tldrButtonBoundsKey = "",
                     titleBoundsKey = "",
@@ -56,7 +54,6 @@ class TldrSummaryScreenTest {
         snapshotTester.snapshot {
             NoOpSharedElementLayout {
                 TldrSummaryScreen(
-                    tldrSummaryRenderer = TldrSummaryRenderer.Sample,
                     topBarBoundsKey = "",
                     tldrButtonBoundsKey = "",
                     titleBoundsKey = "",
@@ -75,7 +72,6 @@ class TldrSummaryScreenTest {
         snapshotTester.snapshot {
             NoOpSharedElementLayout {
                 TldrSummaryScreen(
-                    tldrSummaryRenderer = TldrSummaryRenderer.Sample,
                     topBarBoundsKey = "",
                     tldrButtonBoundsKey = "",
                     titleBoundsKey = "",

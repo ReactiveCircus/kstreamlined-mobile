@@ -5,6 +5,7 @@ kstreamlined {
         screenshotTests()
 
         dependencies {
+            implementation(project(":core:ui:markdown"))
             implementation(project(":core:ui:pattern"))
             implementation(project(":feature:content-viewer:api"))
             implementation(project(":feature:tldr-summary:api"))
