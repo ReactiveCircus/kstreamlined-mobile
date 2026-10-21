@@ -35,10 +35,6 @@ fun MacrobenchmarkScope.clickTldrButtonOnCard() {
     onElement { viewIdResourceName == "tldrButton" }.click()
 }
 
-fun MacrobenchmarkScope.waitForTldrSummaryContent() {
-    onElement { viewIdResourceName == "tldrSummary:content" }
-}
-
 fun MacrobenchmarkScope.clickFilterChip() {
     onElement { viewIdResourceName == "home:feedFilterChip" }.click()
 }

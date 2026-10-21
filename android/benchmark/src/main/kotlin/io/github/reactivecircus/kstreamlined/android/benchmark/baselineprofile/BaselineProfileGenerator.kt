@@ -11,7 +11,7 @@ import io.github.reactivecircus.kstreamlined.android.benchmark.home.clickFilterC
 import io.github.reactivecircus.kstreamlined.android.benchmark.home.clickTldrButtonOnCard
 import io.github.reactivecircus.kstreamlined.android.benchmark.home.homeFeedListScrollDown
 import io.github.reactivecircus.kstreamlined.android.benchmark.home.waitForHomeFeedContent
-import io.github.reactivecircus.kstreamlined.android.benchmark.home.waitForTldrSummaryContent
+import io.github.reactivecircus.kstreamlined.android.benchmark.tldrsummary.waitForTldrSummaryContent
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -32,12 +32,10 @@ class BaselineProfileGenerator {
         startActivityAndWait()
         waitForHomeFeedContent()
         appState { selectSingleFeed(FeedOriginKey.KotlinBlog) }
-        device.waitForIdle()
         clickTldrButtonOnCard()
         waitForTldrSummaryContent()
         device.pressBack()
         appState { resetFeedSelections() }
-        device.waitForIdle()
         homeFeedListScrollDown()
         clickFilterChip()
         toggleFeedOriginCard(FeedOriginKey.KotlinWeekly)

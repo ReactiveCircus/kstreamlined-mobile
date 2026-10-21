@@ -40,8 +40,8 @@ class FeedSelectionBenchmark {
         setupBlock = {
             pressHome()
             startActivityAndWait()
-            appState { resetFeedSelections() }
             waitForHomeFeedContent()
+            appState { resetFeedSelections() }
         },
         measureBlock = {
             clickFilterChip()
@@ -64,8 +64,8 @@ class FeedSelectionBenchmark {
         setupBlock = {
             pressHome()
             startActivityAndWait()
-            appState { resetFeedSelections() }
             waitForHomeFeedContent()
+            appState { resetFeedSelections() }
             clickFilterChip()
             waitForFeedSelectionContent()
         },
@@ -91,8 +91,8 @@ class FeedSelectionBenchmark {
         setupBlock = {
             pressHome()
             startActivityAndWait()
-            appState { resetFeedSelections() }
             waitForHomeFeedContent()
+            appState { resetFeedSelections() }
             clickFilterChip()
             waitForFeedSelectionContent()
         },
@@ -120,8 +120,8 @@ class FeedSelectionBenchmark {
         setupBlock = {
             pressHome()
             startActivityAndWait()
-            appState { resetFeedSelections() }
             waitForHomeFeedContent()
+            appState { resetFeedSelections() }
             homeFeedListScrollDown()
             clickFilterChip()
             waitForFeedSelectionContent()

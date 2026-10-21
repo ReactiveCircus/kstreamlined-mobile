@@ -42,8 +42,8 @@ class HomeFeedScrollingBenchmark {
         setupBlock = {
             pressHome()
             startActivityAndWait()
-            appState { resetFeedSelections() }
             waitForHomeFeedContent()
+            appState { resetFeedSelections() }
         },
         measureBlock = {
             homeFeedListFlingDownUp()

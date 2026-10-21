@@ -48,6 +48,12 @@ Individual benchmarks can also be run from Android Studio or command line:
 ./gradlew :benchmark:connectedBenchmarkReleaseAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=io.github.reactivecircus.kstreamlined.android.benchmark.feedselection.FeedSelectionBenchmark
 ```
 
+#### TLDR summary benchmark
+
+```
+./gradlew :benchmark:connectedBenchmarkReleaseAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=io.github.reactivecircus.kstreamlined.android.benchmark.tldrsummary.TldrSummaryBenchmark
+```
+
 ### Benchmark results
 
 Results are available at `android/benchmark/build/outputs/androidTest-results/connected/benchmarkRelease/`.
