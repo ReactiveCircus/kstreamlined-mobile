@@ -9,11 +9,14 @@ import androidx.benchmark.macro.TraceSectionMetric
 import androidx.benchmark.macro.junit4.MacrobenchmarkRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
+import io.github.reactivecircus.kstreamlined.android.benchmark.FeedOriginKey
 import io.github.reactivecircus.kstreamlined.android.benchmark.PackageName
 import io.github.reactivecircus.kstreamlined.android.benchmark.appState
 import io.github.reactivecircus.kstreamlined.android.benchmark.home.CardType
 import io.github.reactivecircus.kstreamlined.android.benchmark.home.clickCard
+import io.github.reactivecircus.kstreamlined.android.benchmark.home.clickTldrButtonOnCard
 import io.github.reactivecircus.kstreamlined.android.benchmark.home.waitForHomeFeedContent
+import io.github.reactivecircus.kstreamlined.android.benchmark.home.waitForTldrSummaryContent
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -36,6 +39,14 @@ class ScreenTransitionBenchmark {
     @Test
     fun openAndCloseDetailsScreenKotlinWeekly() = openAndCloseDetailsScreen(CardType.KotlinWeekly)
 
+    @Test
+    fun openAndCloseTldrSummaryScreenCompilationNone() =
+        openAndCloseTldrSummaryScreen(CompilationMode.None())
+
+    @Test
+    fun openAndCloseTldrSummaryScreenCompilationBaselineProfiles() =
+        openAndCloseTldrSummaryScreen(CompilationMode.Partial(BaselineProfileMode.Require))
+
     @OptIn(ExperimentalMetricApi::class)
     private fun openAndCloseDetailsScreen(cardType: CardType) = rule.measureRepeated(
         packageName = PackageName,
@@ -56,6 +67,33 @@ class ScreenTransitionBenchmark {
         },
         measureBlock = {
             clickCard(cardType)
+            device.pressBack()
+            pressHome()
+        },
+    )
+
+    @OptIn(ExperimentalMetricApi::class)
+    private fun openAndCloseTldrSummaryScreen(compilationMode: CompilationMode) = rule.measureRepeated(
+        packageName = PackageName,
+        metrics = listOf(
+            FrameTimingMetric(),
+            TraceSectionMetric("HomeFeedList", mode = TraceSectionMetric.Mode.Sum),
+            TraceSectionMetric("FeedItem:%Card", mode = TraceSectionMetric.Mode.Sum),
+            TraceSectionMetric("Screen:%", mode = TraceSectionMetric.Mode.Sum),
+            TraceSectionMetric("Markdown:parse", mode = TraceSectionMetric.Mode.Sum),
+        ),
+        compilationMode = compilationMode,
+        startupMode = StartupMode.WARM,
+        iterations = 10,
+        setupBlock = {
+            pressHome()
+            startActivityAndWait()
+            appState { selectSingleFeed(FeedOriginKey.KotlinBlog) }
+            waitForHomeFeedContent()
+        },
+        measureBlock = {
+            clickTldrButtonOnCard()
+            waitForTldrSummaryContent()
             device.pressBack()
             pressHome()
         },
