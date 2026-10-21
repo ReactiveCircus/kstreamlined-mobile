@@ -546,6 +546,14 @@ internal abstract class AndroidAppExtensionImpl @Inject constructor(
 
     private fun configureBaselineProfile(projectPath: String) = with(project) {
         pluginManager.apply("androidx.baselineprofile")
+        // TODO remove once https://issuetracker.google.com/issues/573671136 is fixed
+        extensions.configure(ApplicationAndroidComponentsExtension::class.java) {
+            it.finalizeDsl { extension ->
+                extension.buildTypes.named("nonMinifiedRelease") { buildType ->
+                    buildType.optimization.enable = false
+                }
+            }
+        }
         extensions.configure(BaselineProfileConsumerExtension::class.java) {
             it.mergeIntoMain = true
             with(it.warnings) {

@@ -168,7 +168,9 @@ private fun TldrButton(
 ) {
     Surface(
         onClick = onClick,
-        modifier = modifier.semantics { role = Role.Button },
+        modifier = modifier
+            .testTag("tldrButton")
+            .semantics { role = Role.Button },
         shape = CircleShape,
         color = KSTheme.colorScheme.surfaceAccent,
         contentColor = KSTheme.colorScheme.onSurfaceAccent,

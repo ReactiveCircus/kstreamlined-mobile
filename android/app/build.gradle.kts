@@ -132,7 +132,7 @@ kstreamlined {
             implementation(libs.androidx.navigation3.runtime)
             implementation(libs.androidx.navigation3.ui)
             implementation(libs.androidx.profileinstaller)
-            implementation(libs.androidx.tracing)
+            implementation(libs.androidx.tracing.wire)
             implementation(libs.androidx.work.runtime)
             implementation(libs.okhttp)
             implementation(libs.coil.compose)

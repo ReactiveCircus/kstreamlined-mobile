@@ -31,6 +31,10 @@ fun MacrobenchmarkScope.clickSaveButtonOnCard() {
         .click()
 }
 
+fun MacrobenchmarkScope.clickTldrButtonOnCard() {
+    onElement { viewIdResourceName == "tldrButton" }.click()
+}
+
 fun MacrobenchmarkScope.clickFilterChip() {
     onElement { viewIdResourceName == "home:feedFilterChip" }.click()
 }

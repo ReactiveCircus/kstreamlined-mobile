@@ -173,7 +173,7 @@ private fun MarkdownList(
     // align all markers (e.g. "9." and "10.") to the widest one
     val markerWidth = remember(markers, markerStyle, density) {
         with(density) {
-            markers.maxOfOrNull { textMeasurer.measure(it, markerStyle).size.width }?.toDp() ?: 0.dp
+            markers.distinct().maxOfOrNull { textMeasurer.measure(it, markerStyle).size.width }?.toDp() ?: 0.dp
         }
     }
     val itemSpacing = if (isTight) style.list.tightItemSpacing else style.blockSpacing

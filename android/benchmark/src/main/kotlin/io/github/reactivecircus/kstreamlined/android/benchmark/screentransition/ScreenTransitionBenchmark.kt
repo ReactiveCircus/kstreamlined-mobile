@@ -51,8 +51,8 @@ class ScreenTransitionBenchmark {
         setupBlock = {
             pressHome()
             startActivityAndWait()
-            appState { selectSingleFeed(cardType.toFeedOriginKey()) }
             waitForHomeFeedContent()
+            appState { selectSingleFeed(cardType.toFeedOriginKey()) }
         },
         measureBlock = {
             clickCard(cardType)
