@@ -33,8 +33,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.BlendMode
@@ -281,27 +280,26 @@ private fun HeaderBackdrop(modifier: Modifier = Modifier) {
     val accentColor = KSTheme.colorScheme.accent
     val backgroundColor = KSTheme.colorScheme.background
     Box(
-        modifier = modifier.drawBehind {
-            drawRect(
-                brush = Brush.radialGradient(
-                    colors = listOf(glowColor, Color.Transparent),
-                    center = Offset.Zero,
-                    radius = size.width,
-                ),
+        modifier = modifier.drawWithCache {
+            val topGlowBrush = Brush.radialGradient(
+                colors = listOf(glowColor, Color.Transparent),
+                center = Offset.Zero,
+                radius = size.width,
             )
-            drawRect(
-                brush = Brush.radialGradient(
-                    colors = listOf(accentColor.copy(alpha = AccentGlowAlpha), Color.Transparent),
-                    center = Offset(size.width, size.height * AccentGlowCenterYFraction),
-                    radius = size.width * AccentGlowRadiusFraction,
-                ),
+            val accentGlowBrush = Brush.radialGradient(
+                colors = listOf(accentColor.copy(alpha = AccentGlowAlpha), Color.Transparent),
+                center = Offset(size.width, size.height * AccentGlowCenterYFraction),
+                radius = size.width * AccentGlowRadiusFraction,
             )
-            drawRect(
-                brush = Brush.verticalGradient(
-                    BackdropFadeStartFraction to Color.Transparent,
-                    1f to backgroundColor,
-                ),
+            val fadeBrush = Brush.verticalGradient(
+                BackdropFadeStartFraction to Color.Transparent,
+                1f to backgroundColor,
             )
+            onDrawBehind {
+                drawRect(brush = topGlowBrush)
+                drawRect(brush = accentGlowBrush)
+                drawRect(brush = fadeBrush)
+            }
         },
     )
 }
@@ -313,19 +311,37 @@ private const val AccentGlowRadiusFraction = 0.8f
 private const val BackdropFadeStartFraction = 0.6f
 
 private fun Modifier.topFadingEdge(scrollState: ScrollState): Modifier = this
-    .graphicsLayer { compositingStrategy = CompositingStrategy.Offscreen }
-    .drawWithContent {
-        drawContent()
-        val fadeHeight = minOf(scrollState.value.toFloat(), FadingEdgeHeight.toPx())
-        if (fadeHeight > 0f) {
-            drawRect(
-                brush = Brush.verticalGradient(
-                    colors = listOf(Color.Transparent, Color.Black),
-                    endY = fadeHeight,
-                ),
-                size = Size(size.width, fadeHeight),
-                blendMode = BlendMode.DstIn,
-            )
+    .graphicsLayer {
+        compositingStrategy = if (scrollState.value > 0) {
+            CompositingStrategy.Offscreen
+        } else {
+            CompositingStrategy.Auto
+        }
+    }
+    .drawWithCache {
+        val maxFadeHeight = FadingEdgeHeight.toPx()
+        val maxFadeBrush = Brush.verticalGradient(
+            colors = listOf(Color.Transparent, Color.Black),
+            endY = maxFadeHeight,
+        )
+        onDrawWithContent {
+            drawContent()
+            val fadeHeight = minOf(scrollState.value.toFloat(), maxFadeHeight)
+            if (fadeHeight > 0f) {
+                val brush = if (fadeHeight == maxFadeHeight) {
+                    maxFadeBrush
+                } else {
+                    Brush.verticalGradient(
+                        colors = listOf(Color.Transparent, Color.Black),
+                        endY = fadeHeight,
+                    )
+                }
+                drawRect(
+                    brush = brush,
+                    size = Size(size.width, fadeHeight),
+                    blendMode = BlendMode.DstIn,
+                )
+            }
         }
     }
 

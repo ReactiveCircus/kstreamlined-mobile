@@ -31,12 +31,14 @@ class BaselineProfileGenerator {
         pressHome()
         startActivityAndWait()
         waitForHomeFeedContent()
-        homeFeedListScrollDown()
         appState { selectSingleFeed(FeedOriginKey.KotlinBlog) }
+        device.waitForIdle()
         clickTldrButtonOnCard()
         waitForTldrSummaryContent()
         device.pressBack()
         appState { resetFeedSelections() }
+        device.waitForIdle()
+        homeFeedListScrollDown()
         clickFilterChip()
         toggleFeedOriginCard(FeedOriginKey.KotlinWeekly)
         toggleFeedOriginCard(FeedOriginKey.KotlinWeekly)

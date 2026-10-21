@@ -78,7 +78,6 @@ internal abstract class AndroidBenchmarkExtensionImpl @Inject constructor(
                 missingDimensionStrategy(FlavorDimensions.Environment, environment)
                 minSdk = testMinSdk
                 testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-                testInstrumentationRunnerArguments["androidx.benchmark.fullTracing.enable"] = "true"
                 // TODO remove once https://issuetracker.google.com/issues/435589290 is fixed
                 testInstrumentationRunnerArguments["androidx.benchmark.killExistingPerfettoRecordings"] = "false"
             }
@@ -122,8 +121,6 @@ internal abstract class AndroidBenchmarkExtensionImpl @Inject constructor(
             add("implementation", libs.androidx.test.junit)
             add("implementation", libs.androidx.test.uiautomator)
             add("implementation", libs.androidx.benchmark.macroJunit)
-            add("implementation", libs.androidx.tracing.perfetto)
-            add("implementation", libs.androidx.tracing.perfetto.binary)
         }
 
         configurations.configureEach { configuration ->

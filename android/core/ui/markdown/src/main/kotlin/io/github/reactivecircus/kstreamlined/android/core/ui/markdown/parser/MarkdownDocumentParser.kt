@@ -15,15 +15,21 @@ import org.intellij.markdown.parser.MarkdownParser
  * Parses CommonMark [markdown] into a [MarkdownDocument].
  */
 internal fun parseMarkdown(markdown: String): MarkdownDocument {
-    val text: CharSequence = markdown.replace("\r\n", "\n").replace('\r', '\n')
+    val text: CharSequence = if ('\r' in markdown) {
+        markdown.replace("\r\n", "\n").replace('\r', '\n')
+    } else {
+        markdown
+    }
     val root = MarkdownParser(
-        flavour = CommonMarkFlavourDescriptor(),
+        flavour = CommonMarkFlavour,
         assertionsEnabled = false,
         cancellationToken = CancellationToken.NonCancellable,
     ).buildMarkdownTreeFromString(text)
     val inlineMapper = InlineMapper(text, LinkMap.buildLinkMap(root, text))
     return MarkdownDocument(BlockMapper(text, inlineMapper).mapBlocks(root.children))
 }
+
+private val CommonMarkFlavour = CommonMarkFlavourDescriptor()
 
 private class BlockMapper(
     private val text: CharSequence,

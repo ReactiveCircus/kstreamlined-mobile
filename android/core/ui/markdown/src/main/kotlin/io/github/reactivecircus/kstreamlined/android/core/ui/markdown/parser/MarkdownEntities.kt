@@ -6,6 +6,9 @@ import org.intellij.markdown.html.entities.Entities
  * Decodes CommonMark entity / numeric character references and (optionally) backslash escapes into plain text.
  */
 internal fun decodeEntitiesAndEscapes(text: CharSequence, processEscapes: Boolean = true): String {
+    if ('&' !in text && (!processEscapes || '\\' !in text)) {
+        return text.toString()
+    }
     return EntityOrEscapeRegex.replace(text) { match ->
         val groups = match.groups
         groups[EscapedCharGroup]?.let { return@replace if (processEscapes) it.value else match.value }
