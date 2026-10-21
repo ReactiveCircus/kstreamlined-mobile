@@ -78,8 +78,6 @@ internal abstract class AndroidBenchmarkExtensionImpl @Inject constructor(
                 missingDimensionStrategy(FlavorDimensions.Environment, environment)
                 minSdk = testMinSdk
                 testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-                // TODO remove once https://issuetracker.google.com/issues/435589290 is fixed
-                testInstrumentationRunnerArguments["androidx.benchmark.killExistingPerfettoRecordings"] = "false"
             }
             it.targetProjectPath = targetProjectPath
             it.experimentalProperties["android.experimental.self-instrumenting"] = true
@@ -121,14 +119,6 @@ internal abstract class AndroidBenchmarkExtensionImpl @Inject constructor(
             add("implementation", libs.androidx.test.junit)
             add("implementation", libs.androidx.test.uiautomator)
             add("implementation", libs.androidx.benchmark.macroJunit)
-        }
-
-        configurations.configureEach { configuration ->
-            configuration.resolutionStrategy.eachDependency { details ->
-                if (details.requested.name.startsWith("tracing-perfetto")) {
-                    details.useVersion(libs.versions.androidx.tracing.perfetto.get())
-                }
-            }
         }
 
         configureDetekt()
