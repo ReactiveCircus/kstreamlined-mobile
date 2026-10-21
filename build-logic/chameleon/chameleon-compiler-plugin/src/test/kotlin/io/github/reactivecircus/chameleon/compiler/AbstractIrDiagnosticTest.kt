@@ -33,7 +33,7 @@ open class AbstractIrDiagnosticTest : AbstractPhasedJvmDiagnosticLightTreeTest()
             +DISABLE_GENERATED_FIR_TAGS
 
             +CHECK_COMPILER_OUTPUT
-            RUN_PIPELINE_TILL.with(TestPhase.BACKEND)
+            RUN_PIPELINE_TILL.with(TestPhase.CODEGEN)
         }
     }
 }
