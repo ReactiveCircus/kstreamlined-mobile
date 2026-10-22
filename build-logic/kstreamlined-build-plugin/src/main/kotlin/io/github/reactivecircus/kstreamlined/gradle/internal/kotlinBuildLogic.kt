@@ -51,13 +51,13 @@ private fun computeFreeCompilerArgs() = buildList {
             "-Xcompanion-blocks-and-extensions",
             "-Xconsistent-data-class-copy-visibility",
             "-Xexplicit-context-arguments",
+            "-Xfull-value-classes",
             "-Xname-based-destructuring=complete",
         ),
     )
     // TODO remove once supported by AS
     if (project.isInIdeaSync) {
-        add("-Xcontext-parameters")
-        add("-Xexplicit-backing-fields")
+        add("-XXLanguage:+FullValueClasses")
     }
 }
 

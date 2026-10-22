@@ -8,7 +8,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.R
 
-public class KSTypography internal constructor(
+public value class KSTypography internal constructor(
     public val headlineLarge: TextStyle,
     public val headlineMedium: TextStyle,
     public val headlineSmall: TextStyle,
@@ -22,51 +22,6 @@ public class KSTypography internal constructor(
     public val labelMedium: TextStyle,
     public val labelSmall: TextStyle,
 ) {
-    @Suppress("CyclomaticComplexMethod")
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other !is KSTypography) return false
-
-        if (headlineLarge != other.headlineLarge) return false
-        if (headlineMedium != other.headlineMedium) return false
-        if (headlineSmall != other.headlineSmall) return false
-        if (titleLarge != other.titleLarge) return false
-        if (titleMedium != other.titleMedium) return false
-        if (titleSmall != other.titleSmall) return false
-        if (bodyLarge != other.bodyLarge) return false
-        if (bodyMedium != other.bodyMedium) return false
-        if (bodySmall != other.bodySmall) return false
-        if (labelLarge != other.labelLarge) return false
-        if (labelMedium != other.labelMedium) return false
-        if (labelSmall != other.labelSmall) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = headlineLarge.hashCode()
-        result = 31 * result + headlineMedium.hashCode()
-        result = 31 * result + headlineSmall.hashCode()
-        result = 31 * result + titleLarge.hashCode()
-        result = 31 * result + titleMedium.hashCode()
-        result = 31 * result + titleSmall.hashCode()
-        result = 31 * result + bodyLarge.hashCode()
-        result = 31 * result + bodyMedium.hashCode()
-        result = 31 * result + bodySmall.hashCode()
-        result = 31 * result + labelLarge.hashCode()
-        result = 31 * result + labelMedium.hashCode()
-        result = 31 * result + labelSmall.hashCode()
-        return result
-    }
-
-    @Suppress("MaxLineLength")
-    override fun toString(): String {
-        return "KSTypography(headlineLarge=$headlineLarge, headlineMedium=$headlineMedium, headlineSmall=$headlineSmall, " +
-            "titleLarge=$titleLarge, titleMedium=$titleMedium, titleSmall=$titleSmall, " +
-            "bodyLarge=$bodyLarge, bodyMedium=$bodyMedium, bodySmall=$bodySmall, " +
-            "labelLarge=$labelLarge, labelMedium=$labelMedium, labelSmall=$labelSmall)"
-    }
-
     internal companion object {
         internal val Default: KSTypography = KSTypography(
             headlineLarge = TextStyle(
