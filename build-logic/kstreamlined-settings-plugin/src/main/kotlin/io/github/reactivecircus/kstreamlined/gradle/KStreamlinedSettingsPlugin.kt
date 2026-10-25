@@ -3,7 +3,7 @@ package io.github.reactivecircus.kstreamlined.gradle
 import org.gradle.api.Plugin
 import org.gradle.api.initialization.Settings
 
-@Suppress("Unused")
+@Suppress("unused")
 internal class KStreamlinedSettingsPlugin : Plugin<Settings> {
     override fun apply(settings: Settings) {
         @Suppress("UnstableApiUsage")
