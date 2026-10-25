@@ -1,5 +1,3 @@
-import java.time.Instant
-
 kstreamlined {
     androidApp(
         namespace = "io.github.reactivecircus.kstreamlined.android",
@@ -67,11 +65,13 @@ kstreamlined {
             enabled.set(
                 providers.environmentVariable("ENABLE_APP_VERSIONING").orElse("true").map { it.toBoolean() }
             )
-            overrideVersionCode { _, _, _ ->
-                Instant.now().epochSecond.toInt()
+            versionCode.set {
+                // offset added to stay above previously published version codes
+                val offset = 1_800_000_000
+                tag.toSemVer(prefix = "android-").toVersionCode() + offset
             }
-            overrideVersionName { gitTag, _, _ ->
-                "${gitTag.rawTagName} (${gitTag.commitHash})"
+            versionName.set {
+                "${tag.name} (${tag.commitHash})"
             }
         }
         playPublishing(rootDir.resolve("android/secrets/play-publishing.json"))
