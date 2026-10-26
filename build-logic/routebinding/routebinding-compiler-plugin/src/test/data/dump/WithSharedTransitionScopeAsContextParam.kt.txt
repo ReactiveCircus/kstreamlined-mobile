@@ -36,12 +36,6 @@ class FooScreen_NavEntryInstaller : NavEntryInstaller {
 
     }
 
-    @ComptimeOnly
-    @HiddenFromObjC
-    fun declarationMirror(): FooScreen_NavEntryInstaller {
-      return error(message = "Never called")
-    }
-
     @HiddenFromObjC
     override operator fun invoke(): FooScreen_NavEntryInstaller {
       return Companion.newInstance()
@@ -55,18 +49,6 @@ class FooScreen_NavEntryInstaller : NavEntryInstaller {
   @Origin(value = FooScreen_NavEntryInstaller::class, context = "contribution_provider")
   @ComptimeOnly
   interface MetroContributionToDevzacsweersmetroappScopeocf15 {
-    @Deprecated(message = "This synthesized declaration should not be used directly", level = DeprecationLevel.HIDDEN)
-    @ComptimeOnly
-    abstract class BindsMirror {
-      @Binds
-      @IntoSet
-      @CallableMetadata(callableName = "bindIntoSetAsNavEntryInstaller", propertyName = "", startOffset = -1, endOffset = -1)
-      fun bindIntoSetAsNavEntryInstaller_intoset(instance: FooScreen_NavEntryInstaller): NavEntryInstaller {
-        return error(message = "Never called")
-      }
-
-    }
-
     @IntoSet
     @Binds
     @ComptimeOnly
@@ -90,6 +72,15 @@ class FooScreen_NavEntryInstaller : NavEntryInstaller {
 
 }
 
+// FILE: FooScreen_NavEntryInstaller.kt
+@file:JvmName(name = "FooScreen_NavEntryInstallerDev_zacsweers_metro_AppScopeKt")
+package metro.hints
+
+@Deprecated(message = "This synthesized declaration should not be used directly", level = DeprecationLevel.HIDDEN)
+fun dev_zacsweers_metro_AppScope(contributed: FooScreen_NavEntryInstaller) {
+  return error(message = "Never called")
+}
+
 // FILE: WithSharedTransitionScopeAsContextParam.kt
 
 @RouteBinding(route = DummyRoute::class)
@@ -100,12 +91,4 @@ internal fun FooScreen(backStack: NavBackStack<NavKey>, route: DummyRoute) {
 
 fun box(): String {
   return "OK"
-}
-
-// FILE: fooScreen_NavEntryInstallerDev_zacsweers_metro_AppScope.kt
-package metro.hints
-
-@Deprecated(message = "This synthesized declaration should not be used directly", level = DeprecationLevel.HIDDEN)
-fun dev_zacsweers_metro_AppScope(contributed: FooScreen_NavEntryInstaller) {
-  return error(message = "Never called")
 }
