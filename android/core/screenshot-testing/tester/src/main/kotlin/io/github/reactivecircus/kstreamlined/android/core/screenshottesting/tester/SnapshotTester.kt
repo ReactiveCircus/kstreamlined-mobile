@@ -15,11 +15,13 @@ import org.junit.runners.model.Statement
 
 public class SnapshotTester(
     maxPercentDifference: Double = 0.0,
+    compileSdkVersion: Int? = null,
 ) : TestRule, PaparazziBridge(
     deviceConfig = PIXEL_6,
     theme = "android:Theme.Material.Light.NoActionBar",
     renderingMode = SessionParams.RenderingMode.SHRINK,
     maxPercentDifference = maxPercentDifference,
+    compileSdkVersion = compileSdkVersion,
 ) {
     private lateinit var description: Description
 

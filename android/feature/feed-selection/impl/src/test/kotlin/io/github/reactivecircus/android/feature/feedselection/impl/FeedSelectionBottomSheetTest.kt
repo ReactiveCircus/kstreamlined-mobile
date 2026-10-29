@@ -17,7 +17,9 @@ import org.junit.Test
 @Chameleon
 class FeedSelectionBottomSheetTest {
     @get:Rule
-    val snapshotTester = SnapshotTester()
+    val snapshotTester = SnapshotTester(
+        compileSdkVersion = 33, // TODO once https://issuetracker.google.com/issues/551296617 is fixed
+    )
 
     @Test
     fun snapshot_FeedSelectionBottomSheet_allSelected() {
