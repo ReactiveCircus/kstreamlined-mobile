@@ -13,7 +13,9 @@ import org.junit.Test
 @Chameleon
 class FeedOriginCardTest {
     @get:Rule
-    val snapshotTester = SnapshotTester()
+    val snapshotTester = SnapshotTester(
+        compileSdkVersion = 33, // compileSdkVersion = 33 // TODO once https://issuetracker.google.com/issues/551296617 is fixed
+    )
 
     @Test
     fun snapshot_FeedOriginCard_KotlinBlog(selected: Boolean) {
