@@ -8,12 +8,10 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.layout.LazyLayoutCacheWindow
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
@@ -43,16 +41,14 @@ import io.github.reactivecircus.routebinding.runtime.RouteBinding
 import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
 
-@OptIn(ExperimentalFoundationApi::class)
 @RouteBinding(MainRoute::class)
 @Composable
 context(sharedTransitionScope: SharedTransitionScope)
 internal fun MainScreen(
     backStack: NavBackStack<NavKey>,
 ) {
-    val dpCacheWindow = LazyLayoutCacheWindow(ahead = 300.dp, behind = 300.dp)
-    val homeListState = rememberLazyListState(cacheWindow = dpCacheWindow)
-    val savedListState = rememberLazyListState(cacheWindow = dpCacheWindow)
+    val homeListState = rememberLazyListState()
+    val savedListState = rememberLazyListState()
     var selectedPage by rememberSerializable { mutableStateOf(MainPagerItem.Home) }
 
     val animatedVisibilityScope = LocalNavAnimatedContentScope.current

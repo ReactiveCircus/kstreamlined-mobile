@@ -30,6 +30,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.layout.LazyLayoutCacheWindow
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -245,6 +246,8 @@ internal fun HomeScreen(
 
 private const val SharedTransitionOrigin = "Home"
 
+private val ListCacheWindow = LazyLayoutCacheWindow(ahead = 300.dp, behind = 300.dp)
+
 @Composable
 context(sharedTransitionScope: SharedTransitionScope, animatedVisibilityScope: AnimatedVisibilityScope)
 private fun ContentUi(
@@ -265,6 +268,7 @@ private fun ContentUi(
             state = listState,
             contentPadding = calculateListContentPadding(),
             verticalArrangement = Arrangement.spacedBy(20.dp),
+            cacheWindow = ListCacheWindow,
         ) {
             items(
                 items,
