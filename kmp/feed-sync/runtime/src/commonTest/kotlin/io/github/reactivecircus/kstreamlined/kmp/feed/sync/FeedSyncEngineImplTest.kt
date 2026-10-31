@@ -18,9 +18,11 @@ import io.github.reactivecircus.kstreamlined.kmp.remote.FakeFeedSources
 import io.github.reactivecircus.kstreamlined.kmp.remote.model.FeedEntry
 import io.github.reactivecircus.kstreamlined.kmp.remote.model.FeedSource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.advanceTimeBy
+import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -69,7 +71,7 @@ class FeedSyncEngineImplTest {
             assertEquals(SyncState.Idle, awaitItem())
 
             assertFeedOriginsInDb(FakeFeedSources.map { it.toDbModel(emptyList()) })
-            assertFeedItemsInDb(FakeFeedEntries.map { it.toDbModel(emptyList()) })
+            assertFeedItemsInDb(FakeFeedEntries.map { it.toDbModel() })
         }
     }
 
@@ -80,7 +82,7 @@ class FeedSyncEngineImplTest {
         }
         with(db) {
             insertFeedOrigins(feedOrigins)
-            insertFeedItems(FakeFeedEntries.map { it.toDbModel(emptyList()) })
+            insertFeedItems(FakeFeedEntries.map { it.toDbModel() })
             insertFeedOriginsLastSyncMetadata(
                 lastSyncTime = fakeClock.now(),
             )
@@ -101,7 +103,7 @@ class FeedSyncEngineImplTest {
             val initialFeedOrigins = FakeFeedSources.map {
                 it.toDbModel(emptyList()).copy(selected = true)
             }
-            val initialFeedItems = FakeFeedEntries.map { it.toDbModel(emptyList()) }
+            val initialFeedItems = FakeFeedEntries.map { it.toDbModel() }
             with(db) {
                 insertFeedOrigins(initialFeedOrigins)
                 insertFeedItems(initialFeedItems)
@@ -135,13 +137,13 @@ class FeedSyncEngineImplTest {
                 // feed sources should not have been updated
                 assertFeedOriginsInDb(initialFeedOrigins)
                 // feed items should have been updated with new item
-                assertFeedItemsInDb(initialFeedItems + newFeedEntry.toDbModel(emptyList()))
+                assertFeedItemsInDb(initialFeedItems + newFeedEntry.toDbModel())
             }
         }
 
     @Test
     fun `automatic sync triggered by feed sources changes in DB`() = testScope.runTest {
-        val initialFeedItems = FakeFeedEntries.map { it.toDbModel(emptyList()) }
+        val initialFeedItems = FakeFeedEntries.map { it.toDbModel() }
 
         syncEngine.syncState.test {
             assertEquals(SyncState.Idle, awaitItem())
@@ -170,17 +172,70 @@ class FeedSyncEngineImplTest {
             assertFeedItemsInDb(
                 initialFeedItems - initialFeedItems.first {
                     it.feed_origin_key == FeedSource.Key.KotlinBlog.name
-                } + newFeedEntry.toDbModel(emptyList()),
+                } + newFeedEntry.toDbModel(),
             )
         }
     }
+
+    @Test
+    fun `automatic sync triggered for latest feed sources selection when selection changes while syncing`() =
+        testScope.runTest {
+            val initialFeedOrigins = FakeFeedSources.map {
+                it.toDbModel(emptyList()).copy(selected = it.key == FeedSource.Key.KotlinWeekly)
+            }
+            with(db) {
+                insertFeedOrigins(initialFeedOrigins)
+                insertFeedOriginsLastSyncMetadata(
+                    lastSyncTime = fakeClock.now(),
+                )
+                insertFeedItemsLastSyncMetadata(
+                    syncParams = initialFeedOrigins.toSyncParams(),
+                    lastSyncTime = fakeClock.now(),
+                )
+            }
+
+            val requestedFilters = mutableListOf<List<FeedSource.Key>?>()
+            feedService.nextFeedEntriesResponse = { filters ->
+                requestedFilters += filters
+                delay(1.seconds)
+                FakeFeedEntries
+            }
+            runCurrent()
+
+            // select all feed sources
+            db.transaction {
+                FakeFeedSources.forEach {
+                    db.feedOriginEntityQueries.updateSelection(selected = true, key = it.key.name)
+                }
+            }
+            runCurrent()
+            assertEquals(SyncState.Syncing, syncEngine.syncState.value)
+
+            // select a single feed source before the in-flight sync completes
+            db.transaction {
+                FakeFeedSources.forEach {
+                    db.feedOriginEntityQueries.updateSelection(
+                        selected = it.key == FeedSource.Key.KotlinBlog,
+                        key = it.key.name,
+                    )
+                }
+            }
+            advanceTimeBy(5.seconds)
+            runCurrent()
+
+            assertEquals(SyncState.Idle, syncEngine.syncState.value)
+            assertEquals<List<List<FeedSource.Key>?>>(
+                listOf(FakeFeedSources.map { it.key }, listOf(FeedSource.Key.KotlinBlog)),
+                requestedFilters,
+            )
+        }
 
     @Test
     fun `automatic sync not triggered when network monitor emits Disconnected state`() = testScope.runTest {
         val initialFeedOrigins = FakeFeedSources.map {
             it.toDbModel(emptyList()).copy(selected = true)
         }
-        val initialFeedItems = FakeFeedEntries.map { it.toDbModel(emptyList()) }
+        val initialFeedItems = FakeFeedEntries.map { it.toDbModel() }
 
         syncEngine.syncState.test {
             assertEquals(SyncState.Idle, awaitItem())
@@ -210,7 +265,7 @@ class FeedSyncEngineImplTest {
         val initialFeedOrigins = FakeFeedSources.map {
             it.toDbModel(emptyList()).copy(selected = true)
         }
-        val initialFeedItems = FakeFeedEntries.map { it.toDbModel(emptyList()) }
+        val initialFeedItems = FakeFeedEntries.map { it.toDbModel() }
 
         syncEngine.syncState.test {
             assertEquals(SyncState.Idle, awaitItem())
@@ -257,7 +312,7 @@ class FeedSyncEngineImplTest {
             assertEquals(SyncState.Idle, awaitItem())
 
             assertFeedOriginsInDb(FakeFeedSources.map { it.toDbModel(emptyList()) })
-            assertFeedItemsInDb(FakeFeedEntries.map { it.toDbModel(emptyList()) })
+            assertFeedItemsInDb(FakeFeedEntries.map { it.toDbModel() })
         }
     }
 
@@ -267,7 +322,7 @@ class FeedSyncEngineImplTest {
             val initialFeedOrigins = FakeFeedSources.map {
                 it.toDbModel(emptyList()).copy(selected = true)
             }
-            val initialFeedItems = FakeFeedEntries.map { it.toDbModel(emptyList()) }
+            val initialFeedItems = FakeFeedEntries.map { it.toDbModel() }
             with(db) {
                 insertFeedOrigins(initialFeedOrigins)
                 insertFeedItems(initialFeedItems)
@@ -304,7 +359,7 @@ class FeedSyncEngineImplTest {
                 // feed sources should have been updated
                 assertFeedOriginsInDb(newFeedSources.map { it.toDbModel(emptyList()) })
                 // feed items should have been updated with new item
-                assertFeedItemsInDb(initialFeedItems + newFeedEntry.toDbModel(emptyList()))
+                assertFeedItemsInDb(initialFeedItems + newFeedEntry.toDbModel())
             }
         }
 
@@ -314,7 +369,7 @@ class FeedSyncEngineImplTest {
             val initialFeedOrigins = FakeFeedSources.map {
                 it.toDbModel(emptyList()).copy(selected = true)
             }
-            val initialFeedItems = FakeFeedEntries.map { it.toDbModel(emptyList()) }
+            val initialFeedItems = FakeFeedEntries.map { it.toDbModel() }
             with(db) {
                 insertFeedOrigins(initialFeedOrigins)
                 insertFeedItems(initialFeedItems)
@@ -365,7 +420,7 @@ class FeedSyncEngineImplTest {
             val initialFeedOrigins = FakeFeedSources.map {
                 it.toDbModel(emptyList()).copy(selected = true)
             }
-            val initialFeedItems = FakeFeedEntries.map { it.toDbModel(emptyList()) }
+            val initialFeedItems = FakeFeedEntries.map { it.toDbModel() }
             with(db) {
                 insertFeedOrigins(initialFeedOrigins)
                 insertFeedItems(initialFeedItems)
@@ -402,7 +457,64 @@ class FeedSyncEngineImplTest {
                 // feed sources should have been updated
                 assertFeedOriginsInDb(newFeedSources.map { it.toDbModel(emptyList()) })
                 // feed items should have been updated with new item
-                assertFeedItemsInDb(initialFeedItems + newFeedEntry.toDbModel(emptyList()))
+                assertFeedItemsInDb(initialFeedItems + newFeedEntry.toDbModel())
+            }
+        }
+
+    @Test
+    fun `remote fields of existing feed items updated and local states preserved regardless of feed source selection`() =
+        testScope.runTest {
+            val initialFeedOrigins = FakeFeedSources.map {
+                it.toDbModel(emptyList()).copy(selected = it.key != FeedSource.Key.KotlinBlog)
+            }
+            val initialFeedItems = FakeFeedEntries.map {
+                it.toDbModel().copy(
+                    saved_for_later = true,
+                    podcast_start_position = if (it is FeedEntry.TalkingKotlin) 30_000 else null,
+                )
+            }
+            with(db) {
+                insertFeedOrigins(initialFeedOrigins)
+                insertFeedItems(initialFeedItems)
+                insertFeedOriginsLastSyncMetadata(
+                    lastSyncTime = fakeClock.now(),
+                )
+                insertFeedItemsLastSyncMetadata(
+                    syncParams = initialFeedOrigins.toSyncParams(),
+                    lastSyncTime = fakeClock.now(),
+                )
+            }
+
+            val updatedFeedEntries = FakeFeedEntries.map {
+                when (it) {
+                    is FeedEntry.KotlinBlog -> it.copy(title = "Updated ${it.title}")
+                    is FeedEntry.KotlinYouTube -> it.copy(title = "Updated ${it.title}")
+                    is FeedEntry.TalkingKotlin -> it.copy(title = "Updated ${it.title}")
+                    is FeedEntry.KotlinWeekly -> it.copy(title = "Updated ${it.title}")
+                }
+            }
+            feedService.nextFeedEntriesAndOriginsResponse = {
+                updatedFeedEntries + newFeedEntry to FakeFeedSources
+            }
+
+            syncEngine.syncState.test {
+                assertEquals(SyncState.Idle, awaitItem())
+
+                syncEngine.sync(forceRefresh = true)
+
+                assertEquals(SyncState.Syncing, awaitItem())
+                assertEquals(SyncState.Idle, awaitItem())
+
+                val expectedFeedItems = updatedFeedEntries.zip(initialFeedItems) { entry, initialItem ->
+                    entry.toDbModel().copy(
+                        saved_for_later = initialItem.saved_for_later,
+                        podcast_start_position = initialItem.podcast_start_position,
+                    )
+                } + newFeedEntry.toDbModel()
+                assertEquals(
+                    expectedFeedItems,
+                    expectedFeedItems.map { db.feedItemEntityQueries.feedItemById(it.id).executeAsOne() },
+                )
             }
         }
 
@@ -438,7 +550,7 @@ class FeedSyncEngineImplTest {
             error("Failed to fetch feed sources")
         }
 
-        val initialFeedItems = FakeFeedEntries.map { it.toDbModel(emptyList()) }
+        val initialFeedItems = FakeFeedEntries.map { it.toDbModel() }
         with(db) {
             insertFeedItems(initialFeedItems)
             insertFeedItemsLastSyncMetadata(

@@ -104,7 +104,7 @@ class FeedDataSourceTest {
                         description = "Videos from the official Kotlin YouTube channel",
                         selected = true,
                     )
-                    db.feedItemEntityQueries.upsertFeedItem(
+                    db.feedItemEntityQueries.insertFeedItem(
                         id = "1",
                         feed_origin_key = FeedOrigin.Key.KotlinBlog.name,
                         title = "Kotlin Blog Post",
@@ -121,7 +121,7 @@ class FeedDataSourceTest {
                         saved_for_later = false,
                         supports_tldr = true,
                     )
-                    db.feedItemEntityQueries.upsertFeedItem(
+                    db.feedItemEntityQueries.insertFeedItem(
                         id = "2",
                         feed_origin_key = FeedOrigin.Key.KotlinYouTubeChannel.name,
                         title = "Kotlin YouTube Video",
@@ -205,7 +205,7 @@ class FeedDataSourceTest {
                         description = "Videos from the official Kotlin YouTube channel",
                         selected = true,
                     )
-                    db.feedItemEntityQueries.upsertFeedItem(
+                    db.feedItemEntityQueries.insertFeedItem(
                         id = "1",
                         feed_origin_key = FeedOrigin.Key.KotlinBlog.name,
                         title = "Kotlin Blog Post",
@@ -222,7 +222,7 @@ class FeedDataSourceTest {
                         saved_for_later = false,
                         supports_tldr = true,
                     )
-                    db.feedItemEntityQueries.upsertFeedItem(
+                    db.feedItemEntityQueries.insertFeedItem(
                         id = "2",
                         feed_origin_key = FeedOrigin.Key.KotlinYouTubeChannel.name,
                         title = "Kotlin YouTube Video",
@@ -270,7 +270,7 @@ class FeedDataSourceTest {
         feedDataSource.streamFeedItemById("id").test {
             assertNull(awaitItem())
 
-            db.feedItemEntityQueries.upsertFeedItem(
+            db.feedItemEntityQueries.insertFeedItem(
                 id = "id",
                 feed_origin_key = FeedOrigin.Key.KotlinBlog.name,
                 title = "Kotlin Blog Post",
@@ -312,10 +312,8 @@ class FeedDataSourceTest {
                 issue_number = null,
                 podcast_audio_url = null,
                 podcast_duration = null,
-                podcast_start_position = null,
                 podcast_description_format = null,
                 podcast_description_plain_text = null,
-                saved_for_later = true,
                 supports_tldr = true,
             )
 
@@ -325,7 +323,7 @@ class FeedDataSourceTest {
                     title = "Kotlin Blog Post 2",
                     publishTime = Instant.parse("2022-01-01T00:00:00Z"),
                     contentUrl = "content-url-2",
-                    savedForLater = true,
+                    savedForLater = false,
                     featuredImageUrl = "image-url-2",
                     supportsTldr = true,
                 ),
@@ -336,7 +334,7 @@ class FeedDataSourceTest {
 
     @Test
     fun `findFeedItemById returns feed item when it exists in DB`() = runTest(testDispatcher) {
-        db.feedItemEntityQueries.upsertFeedItem(
+        db.feedItemEntityQueries.insertFeedItem(
             id = "id",
             feed_origin_key = FeedOrigin.Key.KotlinBlog.name,
             title = "Kotlin Blog Post",
@@ -605,7 +603,7 @@ class FeedDataSourceTest {
 
     @Test
     fun `addSavedFeedItem updates saved_for_later for item in DB`() = runTest(testDispatcher) {
-        db.feedItemEntityQueries.upsertFeedItem(
+        db.feedItemEntityQueries.insertFeedItem(
             id = "1",
             feed_origin_key = FeedOrigin.Key.KotlinBlog.name,
             title = "Kotlin Blog Post",
@@ -633,7 +631,7 @@ class FeedDataSourceTest {
 
     @Test
     fun `removeSavedFeedItem updates saved_for_later for item in DB`() = runTest(testDispatcher) {
-        db.feedItemEntityQueries.upsertFeedItem(
+        db.feedItemEntityQueries.insertFeedItem(
             id = "1",
             feed_origin_key = FeedOrigin.Key.KotlinBlog.name,
             title = "Kotlin Blog Post",
@@ -662,7 +660,7 @@ class FeedDataSourceTest {
     @Test
     fun `saveTalkingKotlinEpisodeStartPosition updates podcast_start_position for item in DB`() =
         runTest(testDispatcher) {
-            db.feedItemEntityQueries.upsertFeedItem(
+            db.feedItemEntityQueries.insertFeedItem(
                 id = "1",
                 feed_origin_key = FeedOrigin.Key.TalkingKotlinPodcast.name,
                 title = "Talking Kotlin Episode",
