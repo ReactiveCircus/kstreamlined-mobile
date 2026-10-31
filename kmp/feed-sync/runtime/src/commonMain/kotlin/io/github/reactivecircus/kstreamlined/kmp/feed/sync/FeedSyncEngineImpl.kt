@@ -102,13 +102,16 @@ internal class FeedSyncEngineImpl(
     private suspend fun performSync(syncDecision: SyncDecision) = coroutineScope {
         val (shouldSyncSources = shouldSyncFeedSources, shouldSyncItems = shouldSyncFeedItems) = syncDecision
 
+        // feed origins (and their selection) used for fetching feed entries
+        val requestFeedOrigins = db.feedOriginEntityQueries.allFeedOrigins().executeAsList()
+
         val feedSources: List<FeedSource>?
         val feedEntries: List<FeedEntry>?
 
         if (shouldSyncSources && shouldSyncItems) {
             // fetch both feed sources and feed items in a single request
             val (entries = first, sources = second) = feedService.fetchFeedEntriesAndOrigins(
-                filters = db.feedOriginEntityQueries.allFeedOrigins().executeAsList().asSelectedFeedSourceKeys(),
+                filters = requestFeedOrigins.asSelectedFeedSourceKeys(),
             )
             feedEntries = entries
             feedSources = sources
@@ -118,7 +121,7 @@ internal class FeedSyncEngineImpl(
         } else {
             feedSources = null
             feedEntries = feedService.fetchFeedEntries(
-                filters = db.feedOriginEntityQueries.allFeedOrigins().executeAsList().asSelectedFeedSourceKeys(),
+                filters = requestFeedOrigins.asSelectedFeedSourceKeys(),
             )
         }
 
@@ -144,10 +147,8 @@ internal class FeedSyncEngineImpl(
             }
 
             feedEntries?.let { entries ->
-                val currentFeedItems =
-                    db.feedItemEntityQueries.feedItemsForSelectedOrigins().executeAsList()
                 entries.forEach { entry ->
-                    val entity = entry.toDbModel(currentFeedItems)
+                    val entity = entry.toDbModel()
                     db.feedItemEntityQueries.upsertFeedItem(
                         id = entity.id,
                         feed_origin_key = entity.feed_origin_key,
@@ -159,18 +160,17 @@ internal class FeedSyncEngineImpl(
                         issue_number = entity.issue_number,
                         podcast_audio_url = entity.podcast_audio_url,
                         podcast_duration = entity.podcast_duration,
-                        podcast_start_position = entity.podcast_start_position,
                         podcast_description_format = entity.podcast_description_format,
                         podcast_description_plain_text = entity.podcast_description_plain_text,
                         supports_tldr = entity.supports_tldr,
-                        saved_for_later = entity.saved_for_later,
                     )
                 }
 
                 db.lastSyncMetadataQueries.updateLastSyncMetadata(
                     resource_type = SyncResourceType.FeedItems,
-                    sync_params = currentFeedOrigins.ifEmpty {
-                        // For the initial sync feed sources aren't available at the start of the transaction,
+                    // Use the feed origins used for the request as selection might have changed since.
+                    sync_params = requestFeedOrigins.ifEmpty {
+                        // For the initial sync feed sources aren't available when the request is made,
                         // but should be available at this point so we can load them again here.
                         // This makes sure we never write to the last_sync_metadata table with an empty sync_params.
                         db.feedOriginEntityQueries.allFeedOrigins().executeAsList()

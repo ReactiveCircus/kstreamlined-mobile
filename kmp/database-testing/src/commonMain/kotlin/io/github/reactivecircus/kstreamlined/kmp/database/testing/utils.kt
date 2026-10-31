@@ -22,7 +22,7 @@ public fun KStreamlinedDatabase.insertFeedOrigins(feedOrigins: List<FeedOriginEn
 public fun KStreamlinedDatabase.insertFeedItems(feedItems: List<FeedItemEntity>) {
     transaction {
         feedItems.forEach {
-            feedItemEntityQueries.upsertFeedItem(
+            feedItemEntityQueries.insertFeedItem(
                 id = it.id,
                 feed_origin_key = it.feed_origin_key,
                 title = it.title,

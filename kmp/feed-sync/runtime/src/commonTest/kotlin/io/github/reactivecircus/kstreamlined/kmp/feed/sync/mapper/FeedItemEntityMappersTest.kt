@@ -36,7 +36,7 @@ class FeedItemEntityMappersTest {
             saved_for_later = false,
             supports_tldr = true,
         )
-        assertEquals(expected, feedEntry.toDbModel(emptyList()))
+        assertEquals(expected, feedEntry.toDbModel())
     }
 
     @Test
@@ -66,7 +66,7 @@ class FeedItemEntityMappersTest {
             saved_for_later = false,
             supports_tldr = false,
         )
-        assertEquals(expected, feedEntry.toDbModel(emptyList()))
+        assertEquals(expected, feedEntry.toDbModel())
     }
 
     @Test
@@ -96,7 +96,7 @@ class FeedItemEntityMappersTest {
             saved_for_later = false,
             supports_tldr = null,
         )
-        assertEquals(expected, feedEntry.toDbModel(emptyList()))
+        assertEquals(expected, feedEntry.toDbModel())
     }
 
     @Test
@@ -111,23 +111,6 @@ class FeedItemEntityMappersTest {
             summary = "Talking kotlin podcast episode summary",
             duration = "35min.",
         )
-        val existingEntity = FeedItemEntity(
-            id = "1",
-            feed_origin_key = FeedSource.Key.TalkingKotlinPodcast.name,
-            title = "Title",
-            publish_time = Instant.parse("2022-01-03T00:00:00Z"),
-            content_url = "url",
-            image_url = "image-url",
-            description = "desc",
-            issue_number = null,
-            podcast_audio_url = "audio.mp3",
-            podcast_duration = "35min.",
-            podcast_start_position = 30_000,
-            podcast_description_format = ContentFormat.Text,
-            podcast_description_plain_text = null,
-            saved_for_later = true,
-            supports_tldr = null,
-        )
         val expected = FeedItemEntity(
             id = "1",
             feed_origin_key = FeedSource.Key.TalkingKotlinPodcast.name,
@@ -139,13 +122,13 @@ class FeedItemEntityMappersTest {
             issue_number = null,
             podcast_audio_url = "audio.mp3",
             podcast_duration = "35min.",
-            podcast_start_position = 30_000,
+            podcast_start_position = null,
             podcast_description_format = ContentFormat.Text,
             podcast_description_plain_text = null,
-            saved_for_later = true,
+            saved_for_later = false,
             supports_tldr = null,
         )
-        assertEquals(expected, feedEntry.toDbModel(listOf(existingEntity)))
+        assertEquals(expected, feedEntry.toDbModel())
     }
 
     @Test
@@ -177,7 +160,7 @@ class FeedItemEntityMappersTest {
             saved_for_later = false,
             supports_tldr = null,
         )
-        assertEquals(expected, feedEntry.toDbModel(emptyList()))
+        assertEquals(expected, feedEntry.toDbModel())
     }
 
     @Test
@@ -206,6 +189,6 @@ class FeedItemEntityMappersTest {
             saved_for_later = false,
             supports_tldr = null,
         )
-        assertEquals(expected, feedEntry.toDbModel(emptyList()))
+        assertEquals(expected, feedEntry.toDbModel())
     }
 }

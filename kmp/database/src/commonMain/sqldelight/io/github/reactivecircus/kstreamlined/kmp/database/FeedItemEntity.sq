@@ -36,9 +36,29 @@ SELECT * FROM feedItemEntity WHERE id = :id;
 savedFeedItems:
 SELECT * FROM feedItemEntity WHERE saved_for_later = 1 ORDER BY publish_time DESC;
 
-upsertFeedItem:
-INSERT OR REPLACE INTO feedItemEntity
+insertFeedItem:
+INSERT INTO feedItemEntity
 VALUES (:id, :feed_origin_key, :title, :publish_time, :content_url, :image_url, :description, :issue_number, :podcast_audio_url, :podcast_duration, :podcast_start_position, :saved_for_later, :podcast_description_format, :podcast_description_plain_text, :supports_tldr);
+
+upsertFeedItem {
+    UPDATE feedItemEntity
+    SET feed_origin_key = :feed_origin_key,
+        title = :title,
+        publish_time = :publish_time,
+        content_url = :content_url,
+        image_url = :image_url,
+        description = :description,
+        issue_number = :issue_number,
+        podcast_audio_url = :podcast_audio_url,
+        podcast_duration = :podcast_duration,
+        podcast_description_format = :podcast_description_format,
+        podcast_description_plain_text = :podcast_description_plain_text,
+        supports_tldr = :supports_tldr
+    WHERE id = :id;
+
+    INSERT OR IGNORE INTO feedItemEntity (id, feed_origin_key, title, publish_time, content_url, image_url, description, issue_number, podcast_audio_url, podcast_duration, saved_for_later, podcast_description_format, podcast_description_plain_text, supports_tldr)
+    VALUES (:id, :feed_origin_key, :title, :publish_time, :content_url, :image_url, :description, :issue_number, :podcast_audio_url, :podcast_duration, 0, :podcast_description_format, :podcast_description_plain_text, :supports_tldr);
+}
 
 updatePodcastStartPositionById:
 UPDATE feedItemEntity SET podcast_start_position = :podcast_start_position WHERE id = :id;
