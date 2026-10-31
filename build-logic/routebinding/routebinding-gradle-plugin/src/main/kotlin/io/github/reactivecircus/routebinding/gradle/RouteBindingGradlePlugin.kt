@@ -37,7 +37,8 @@ public class RouteBindingGradlePlugin : KotlinCompilerPluginSupportPlugin {
                 "io.github.reactivecircus.routebinding:routebinding-runtime:$version",
             )
         }
-        return project.provider { emptyList() }
+        @Suppress("UnstableApiUsage")
+        return project.providers.present(emptyList())
     }
 
     override fun getCompilerPluginId(): String = RouteBindingCompilerPluginId
