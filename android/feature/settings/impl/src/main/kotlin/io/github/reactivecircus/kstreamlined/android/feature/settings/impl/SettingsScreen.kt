@@ -41,12 +41,12 @@ import io.github.reactivecircus.kstreamlined.android.core.designsystem.component
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.ModalBottomSheet
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Text
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.TopNavBar
-import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.TopNavBarSharedTransitionKeys
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.TopNavBarSharedContentKeys
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.rememberModalBottomSheetState
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.icon.KSIcons
 import io.github.reactivecircus.kstreamlined.android.feature.licenses.api.LicensesRoute
-import io.github.reactivecircus.kstreamlined.android.feature.licenses.api.LicensesSharedTransitionKeys
+import io.github.reactivecircus.kstreamlined.android.feature.licenses.api.LicensesSharedContentKeys
 import io.github.reactivecircus.kstreamlined.android.feature.settings.api.SettingsRoute
 import io.github.reactivecircus.kstreamlined.android.feature.settings.impl.component.about.OpenSourceLicensesTile
 import io.github.reactivecircus.kstreamlined.android.feature.settings.impl.component.about.SourceCodeTile
@@ -75,8 +75,8 @@ internal fun SettingsScreen(
 
     SettingsScreen(
         animatedVisibilityScope = LocalNavAnimatedContentScope.current,
-        topBarBoundsKey = TopNavBarSharedTransitionKeys.bounds(route.origin),
-        titleElementKey = TopNavBarSharedTransitionKeys.titleElement(route.origin),
+        topBarBoundsKey = TopNavBarSharedContentKeys.bounds(route.origin),
+        titleElementKey = TopNavBarSharedContentKeys.titleElement(route.origin),
         onOpenLicenses = { backStack.add(LicensesRoute) },
         onNavigateUp = backStack::removeLastOrNull,
         uiState = uiState,
@@ -236,7 +236,7 @@ private fun ContentUi(
                 OpenSourceLicensesTile(
                     onClick = onOpenLicenses,
                     modifier = Modifier.sharedBounds(
-                        sharedContentState = rememberSharedContentState(key = LicensesSharedTransitionKeys.Bounds),
+                        sharedContentState = rememberSharedContentState(key = LicensesSharedContentKeys.Bounds),
                         animatedVisibilityScope = animatedVisibilityScope,
                     ),
                 )

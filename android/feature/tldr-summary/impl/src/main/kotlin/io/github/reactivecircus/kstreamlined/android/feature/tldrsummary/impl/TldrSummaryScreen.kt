@@ -55,7 +55,7 @@ import io.github.reactivecircus.kstreamlined.android.core.designsystem.component
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.LargeIconButton
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Surface
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Text
-import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.TopNavBarSharedTransitionKeys
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.TopNavBarSharedContentKeys
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.icon.KSIcons
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.preview.PreviewKStreamlined
@@ -63,7 +63,7 @@ import io.github.reactivecircus.kstreamlined.android.core.ui.markdown.Markdown
 import io.github.reactivecircus.kstreamlined.android.core.ui.pattern.ErrorUi
 import io.github.reactivecircus.kstreamlined.android.feature.contentviewer.api.ContentViewerRoute
 import io.github.reactivecircus.kstreamlined.android.feature.tldrsummary.api.TldrSummaryRoute
-import io.github.reactivecircus.kstreamlined.android.feature.tldrsummary.api.TldrSummarySharedTransitionKeys
+import io.github.reactivecircus.kstreamlined.android.feature.tldrsummary.api.TldrSummarySharedContentKeys
 import io.github.reactivecircus.kstreamlined.android.feature.tldrsummary.impl.component.DisclosureFooter
 import io.github.reactivecircus.kstreamlined.android.feature.tldrsummary.impl.component.GenerationMetadata
 import io.github.reactivecircus.kstreamlined.android.feature.tldrsummary.impl.component.LoadingSkeletonUi
@@ -93,12 +93,16 @@ internal fun TldrSummaryScreen(
     with(sharedTransitionScope) {
         TldrSummaryScreen(
             animatedVisibilityScope = animatedVisibilityScope,
-            topBarBoundsKey = TopNavBarSharedTransitionKeys.bounds(route.origin),
-            tldrButtonBoundsKey = TldrSummarySharedTransitionKeys.tldrButtonBounds(
+            topBarBoundsKey = TopNavBarSharedContentKeys.bounds(route.origin),
+            feedTldrButtonBoundsKey = TldrSummarySharedContentKeys.feedTldrButtonBounds(
                 origin = route.origin,
                 id = route.id,
             ),
-            titleBoundsKey = TldrSummarySharedTransitionKeys.titleBounds(
+            viewerTldrButtonBoundsKey = TldrSummarySharedContentKeys.viewerTldrButtonBounds(
+                origin = route.origin,
+                id = route.id,
+            ),
+            titleBoundsKey = TldrSummarySharedContentKeys.titleBounds(
                 origin = route.origin,
                 id = route.id,
             ),
@@ -114,7 +118,7 @@ internal fun TldrSummaryScreen(
             eventSink = eventSink,
             modifier = Modifier.sharedBounds(
                 sharedContentState = rememberSharedContentState(
-                    key = TldrSummarySharedTransitionKeys.bounds(
+                    key = TldrSummarySharedContentKeys.bounds(
                         origin = route.origin,
                         id = route.id,
                     ),
@@ -132,7 +136,8 @@ context(
 )
 internal fun TldrSummaryScreen(
     topBarBoundsKey: String,
-    tldrButtonBoundsKey: String,
+    feedTldrButtonBoundsKey: String,
+    viewerTldrButtonBoundsKey: String,
     titleBoundsKey: String,
     title: String,
     onNavigateUp: () -> Unit,
@@ -179,7 +184,12 @@ internal fun TldrSummaryScreen(
                     modifier = Modifier
                         .align(Alignment.Center)
                         .sharedBounds(
-                            sharedContentState = rememberSharedContentState(key = tldrButtonBoundsKey),
+                            sharedContentState = rememberSharedContentState(key = feedTldrButtonBoundsKey),
+                            animatedVisibilityScope = animatedVisibilityScope,
+                            zIndexInOverlay = 1f,
+                        )
+                        .sharedBounds(
+                            sharedContentState = rememberSharedContentState(key = viewerTldrButtonBoundsKey),
                             animatedVisibilityScope = animatedVisibilityScope,
                             zIndexInOverlay = 1f,
                         ),
@@ -383,7 +393,8 @@ private fun PreviewTldrSummaryScreen_Loading() {
     NoOpSharedElementLayout {
         TldrSummaryScreen(
             topBarBoundsKey = "",
-            tldrButtonBoundsKey = "",
+            feedTldrButtonBoundsKey = "",
+            viewerTldrButtonBoundsKey = "",
             titleBoundsKey = "",
             title = SampleTitle,
             onNavigateUp = {},
@@ -400,7 +411,8 @@ private fun PreviewTldrSummaryScreen_Error() {
     NoOpSharedElementLayout {
         TldrSummaryScreen(
             topBarBoundsKey = "",
-            tldrButtonBoundsKey = "",
+            feedTldrButtonBoundsKey = "",
+            viewerTldrButtonBoundsKey = "",
             titleBoundsKey = "",
             title = SampleTitle,
             onNavigateUp = {},
@@ -417,7 +429,8 @@ private fun PreviewTldrSummaryScreen_Content() {
     NoOpSharedElementLayout {
         TldrSummaryScreen(
             topBarBoundsKey = "",
-            tldrButtonBoundsKey = "",
+            feedTldrButtonBoundsKey = "",
+            viewerTldrButtonBoundsKey = "",
             titleBoundsKey = "",
             title = SampleTitle,
             onNavigateUp = {},
@@ -434,7 +447,8 @@ private fun PreviewTldrSummaryScreen_Content_ScrolledToBottom() {
     NoOpSharedElementLayout {
         TldrSummaryScreen(
             topBarBoundsKey = "",
-            tldrButtonBoundsKey = "",
+            feedTldrButtonBoundsKey = "",
+            viewerTldrButtonBoundsKey = "",
             titleBoundsKey = "",
             title = SampleTitle,
             onNavigateUp = {},

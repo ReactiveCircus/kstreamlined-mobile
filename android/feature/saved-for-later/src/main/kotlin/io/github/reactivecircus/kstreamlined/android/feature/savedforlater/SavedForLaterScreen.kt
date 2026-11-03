@@ -38,7 +38,7 @@ import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.ui.LocalNavAnimatedContentScope
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.FilledIconButton
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.TopNavBar
-import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.TopNavBarSharedTransitionKeys
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.TopNavBarSharedContentKeys
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.icon.KSIcons
 import io.github.reactivecircus.kstreamlined.android.core.ui.feed.KotlinBlogCard
@@ -47,14 +47,14 @@ import io.github.reactivecircus.kstreamlined.android.core.ui.feed.KotlinYouTubeC
 import io.github.reactivecircus.kstreamlined.android.core.ui.feed.TalkingKotlinCard
 import io.github.reactivecircus.kstreamlined.android.core.ui.pattern.EmptyUi
 import io.github.reactivecircus.kstreamlined.android.feature.contentviewer.api.ContentViewerRoute
-import io.github.reactivecircus.kstreamlined.android.feature.contentviewer.api.ContentViewerSharedTransitionKeys
+import io.github.reactivecircus.kstreamlined.android.feature.contentviewer.api.ContentViewerSharedContentKeys
 import io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue.api.KotlinWeeklyIssueRoute
-import io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue.api.KotlinWeeklyIssueSharedTransitionKeys
+import io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue.api.KotlinWeeklyIssueSharedContentKeys
 import io.github.reactivecircus.kstreamlined.android.feature.settings.api.SettingsRoute
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.api.TalkingKotlinEpisodeRoute
-import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.api.TalkingKotlinEpisodeSharedTransitionKeys
+import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.api.TalkingKotlinEpisodeSharedContentKeys
 import io.github.reactivecircus.kstreamlined.android.feature.tldrsummary.api.TldrSummaryRoute
-import io.github.reactivecircus.kstreamlined.android.feature.tldrsummary.api.TldrSummarySharedTransitionKeys
+import io.github.reactivecircus.kstreamlined.android.feature.tldrsummary.api.TldrSummarySharedContentKeys
 import io.github.reactivecircus.kstreamlined.kmp.capsule.inject.retainPresenter
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.DisplayableFeedItem
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
@@ -142,8 +142,8 @@ internal fun SavedForLaterScreen(
             .background(KSTheme.colorScheme.background),
     ) {
         TopNavBar(
-            boundsKey = TopNavBarSharedTransitionKeys.bounds(SharedTransitionOrigin),
-            titleElementKey = TopNavBarSharedTransitionKeys.titleElement(SharedTransitionOrigin),
+            boundsKey = TopNavBarSharedContentKeys.bounds(SharedTransitionOrigin),
+            titleElementKey = TopNavBarSharedContentKeys.titleElement(SharedTransitionOrigin),
             title = stringResource(id = R.string.title_saved_for_later),
             contentPadding = WindowInsets.statusBars.asPaddingValues(),
             actions = {
@@ -225,22 +225,22 @@ private fun ContentUi(
                             .animateItem()
                             .sharedBounds(
                                 sharedContentState = rememberSharedContentState(
-                                    key = ContentViewerSharedTransitionKeys.bounds(
+                                    key = ContentViewerSharedContentKeys.bounds(
                                         origin = SharedTransitionOrigin,
                                         id = item.id,
                                     ),
                                 ),
                                 animatedVisibilityScope = animatedVisibilityScope,
                             ),
-                        saveButtonBoundsKey = ContentViewerSharedTransitionKeys.saveButtonBounds(
+                        saveButtonBoundsKey = ContentViewerSharedContentKeys.saveButtonBounds(
                             origin = SharedTransitionOrigin,
                             id = item.id,
                         ),
-                        tldrButtonBoundsKey = TldrSummarySharedTransitionKeys.tldrButtonBounds(
+                        tldrButtonBoundsKey = TldrSummarySharedContentKeys.feedTldrButtonBounds(
                             origin = SharedTransitionOrigin,
                             id = item.id,
                         ),
-                        titleBoundsKey = TldrSummarySharedTransitionKeys.titleBounds(
+                        titleBoundsKey = TldrSummarySharedContentKeys.titleBounds(
                             origin = SharedTransitionOrigin,
                             id = item.id,
                         ),
@@ -256,7 +256,7 @@ private fun ContentUi(
                             .animateItem()
                             .sharedBounds(
                                 sharedContentState = rememberSharedContentState(
-                                    key = KotlinWeeklyIssueSharedTransitionKeys.bounds(
+                                    key = KotlinWeeklyIssueSharedContentKeys.bounds(
                                         origin = SharedTransitionOrigin,
                                         id = item.id,
                                     ),
@@ -275,14 +275,14 @@ private fun ContentUi(
                             .animateItem()
                             .sharedBounds(
                                 sharedContentState = rememberSharedContentState(
-                                    key = ContentViewerSharedTransitionKeys.bounds(
+                                    key = ContentViewerSharedContentKeys.bounds(
                                         origin = SharedTransitionOrigin,
                                         id = item.id,
                                     ),
                                 ),
                                 animatedVisibilityScope = animatedVisibilityScope,
                             ),
-                        saveButtonBoundsKey = ContentViewerSharedTransitionKeys.saveButtonBounds(
+                        saveButtonBoundsKey = ContentViewerSharedContentKeys.saveButtonBounds(
                             origin = SharedTransitionOrigin,
                             id = item.id,
                         ),
@@ -298,14 +298,14 @@ private fun ContentUi(
                             .animateItem()
                             .sharedBounds(
                                 sharedContentState = rememberSharedContentState(
-                                    key = TalkingKotlinEpisodeSharedTransitionKeys.bounds(
+                                    key = TalkingKotlinEpisodeSharedContentKeys.bounds(
                                         origin = SharedTransitionOrigin,
                                         id = item.id,
                                     ),
                                 ),
                                 animatedVisibilityScope = animatedVisibilityScope,
                             ),
-                        cardElementKey = TalkingKotlinEpisodeSharedTransitionKeys.playerElement(
+                        cardElementKey = TalkingKotlinEpisodeSharedContentKeys.playerElement(
                             origin = SharedTransitionOrigin,
                             id = item.id,
                         ),
