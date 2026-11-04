@@ -31,7 +31,7 @@ import io.github.reactivecircus.kstreamlined.android.core.designsystem.component
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.icon.KSIcons
 import io.github.reactivecircus.kstreamlined.android.feature.licenses.api.LicensesRoute
-import io.github.reactivecircus.kstreamlined.android.feature.licenses.api.LicensesSharedTransitionKeys
+import io.github.reactivecircus.kstreamlined.android.feature.licenses.api.LicensesSharedContentKeys
 import io.github.reactivecircus.kstreamlined.android.feature.licenses.impl.component.ArtifactLicenseRow
 import io.github.reactivecircus.kstreamlined.kmp.capsule.inject.retainPresenter
 import io.github.reactivecircus.routebinding.runtime.RouteBinding
@@ -51,7 +51,7 @@ internal fun LicensesScreen(
             onNavigateUp = backStack::removeLastOrNull,
             uiState = uiState,
             modifier = Modifier.sharedBounds(
-                sharedContentState = rememberSharedContentState(key = LicensesSharedTransitionKeys.Bounds),
+                sharedContentState = rememberSharedContentState(key = LicensesSharedContentKeys.Bounds),
                 animatedVisibilityScope = LocalNavAnimatedContentScope.current,
             ),
         )

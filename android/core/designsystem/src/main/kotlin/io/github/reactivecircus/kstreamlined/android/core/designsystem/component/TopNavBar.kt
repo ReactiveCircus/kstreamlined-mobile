@@ -108,7 +108,7 @@ public fun TopNavBar(
     }
 }
 
-public object TopNavBarSharedTransitionKeys {
+public object TopNavBarSharedContentKeys {
     public fun bounds(origin: String): String = "Bounds/$origin/TopBar"
 
     public fun titleElement(origin: String): String = "Element/$origin/TopBar/Title"

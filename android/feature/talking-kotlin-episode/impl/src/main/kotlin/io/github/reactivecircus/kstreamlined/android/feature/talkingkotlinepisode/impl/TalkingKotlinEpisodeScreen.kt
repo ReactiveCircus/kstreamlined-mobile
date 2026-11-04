@@ -60,7 +60,7 @@ import io.github.reactivecircus.kstreamlined.android.core.designsystem.component
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Surface
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Text
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.TopNavBar
-import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.TopNavBarSharedTransitionKeys
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.TopNavBarSharedContentKeys
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.icon.KSIcons
 import io.github.reactivecircus.kstreamlined.android.core.launcher.openCustomTab
@@ -69,7 +69,7 @@ import io.github.reactivecircus.kstreamlined.android.core.ui.pattern.ItemNotFoun
 import io.github.reactivecircus.kstreamlined.android.core.ui.pattern.TransientErrorBanner
 import io.github.reactivecircus.kstreamlined.android.core.ui.util.linkify
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.api.TalkingKotlinEpisodeRoute
-import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.api.TalkingKotlinEpisodeSharedTransitionKeys
+import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.api.TalkingKotlinEpisodeSharedContentKeys
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.impl.component.AnchoredOverlayLayout
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.impl.component.PlayPauseButton
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.impl.component.PodcastPlayerUi
@@ -102,8 +102,8 @@ internal fun TalkingKotlinEpisodeScreen(
     with(sharedTransitionScope) {
         TalkingKotlinEpisodeScreen(
             animatedVisibilityScope = animatedVisibilityScope,
-            topBarBoundsKey = TopNavBarSharedTransitionKeys.bounds(route.origin),
-            playerElementKey = TalkingKotlinEpisodeSharedTransitionKeys.playerElement(
+            topBarBoundsKey = TopNavBarSharedContentKeys.bounds(route.origin),
+            playerElementKey = TalkingKotlinEpisodeSharedContentKeys.playerElement(
                 origin = route.origin,
                 id = route.id,
             ),
@@ -121,7 +121,7 @@ internal fun TalkingKotlinEpisodeScreen(
             eventSink = eventSink,
             modifier = Modifier.sharedBounds(
                 sharedContentState = rememberSharedContentState(
-                    key = TalkingKotlinEpisodeSharedTransitionKeys.bounds(
+                    key = TalkingKotlinEpisodeSharedContentKeys.bounds(
                         origin = route.origin,
                         id = route.id,
                     ),

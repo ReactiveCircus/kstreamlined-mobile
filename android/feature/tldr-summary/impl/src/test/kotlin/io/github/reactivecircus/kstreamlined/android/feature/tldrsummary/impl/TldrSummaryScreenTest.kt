@@ -19,7 +19,8 @@ class TldrSummaryScreenTest {
             NoOpSharedElementLayout {
                 TldrSummaryScreen(
                     topBarBoundsKey = "",
-                    tldrButtonBoundsKey = "",
+                    feedTldrButtonBoundsKey = "",
+                    viewerTldrButtonBoundsKey = "",
                     titleBoundsKey = "",
                     title = SampleTitle,
                     onNavigateUp = {},
@@ -37,7 +38,8 @@ class TldrSummaryScreenTest {
             NoOpSharedElementLayout {
                 TldrSummaryScreen(
                     topBarBoundsKey = "",
-                    tldrButtonBoundsKey = "",
+                    feedTldrButtonBoundsKey = "",
+                    viewerTldrButtonBoundsKey = "",
                     titleBoundsKey = "",
                     title = SampleTitle,
                     onNavigateUp = {},
@@ -55,7 +57,8 @@ class TldrSummaryScreenTest {
             NoOpSharedElementLayout {
                 TldrSummaryScreen(
                     topBarBoundsKey = "",
-                    tldrButtonBoundsKey = "",
+                    feedTldrButtonBoundsKey = "",
+                    viewerTldrButtonBoundsKey = "",
                     titleBoundsKey = "",
                     title = SampleTitle,
                     onNavigateUp = {},
@@ -73,7 +76,8 @@ class TldrSummaryScreenTest {
             NoOpSharedElementLayout {
                 TldrSummaryScreen(
                     topBarBoundsKey = "",
-                    tldrButtonBoundsKey = "",
+                    feedTldrButtonBoundsKey = "",
+                    viewerTldrButtonBoundsKey = "",
                     titleBoundsKey = "",
                     title = SampleTitle,
                     onNavigateUp = {},

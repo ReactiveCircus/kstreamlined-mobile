@@ -47,14 +47,14 @@ import io.github.reactivecircus.kstreamlined.android.core.designsystem.component
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.LargeIconButton
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.Surface
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.TopNavBar
-import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.TopNavBarSharedTransitionKeys
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.TopNavBarSharedContentKeys
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.icon.KSIcons
 import io.github.reactivecircus.kstreamlined.android.core.launcher.openCustomTab
 import io.github.reactivecircus.kstreamlined.android.core.launcher.openShareSheet
 import io.github.reactivecircus.kstreamlined.android.core.ui.pattern.ErrorUi
 import io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue.api.KotlinWeeklyIssueRoute
-import io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue.api.KotlinWeeklyIssueSharedTransitionKeys
+import io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue.api.KotlinWeeklyIssueSharedContentKeys
 import io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue.impl.component.IssueGroupUi
 import io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue.impl.component.IssueItemUi
 import io.github.reactivecircus.kstreamlined.kmp.capsule.inject.assistedRetainPresenter
@@ -85,8 +85,8 @@ internal fun KotlinWeeklyIssueScreen(
     with(sharedTransitionScope) {
         KotlinWeeklyIssueScreen(
             animatedVisibilityScope = animatedVisibilityScope,
-            topBarBoundsKey = TopNavBarSharedTransitionKeys.bounds(route.origin),
-            titleElementKey = TopNavBarSharedTransitionKeys.titleElement(route.origin),
+            topBarBoundsKey = TopNavBarSharedContentKeys.bounds(route.origin),
+            titleElementKey = TopNavBarSharedContentKeys.titleElement(route.origin),
             title = title,
             onNavigateUp = backStack::removeLastOrNull,
             onShareButtonClick = { url ->
@@ -101,7 +101,7 @@ internal fun KotlinWeeklyIssueScreen(
             eventSink = eventSink,
             modifier = Modifier.sharedBounds(
                 sharedContentState = rememberSharedContentState(
-                    key = KotlinWeeklyIssueSharedTransitionKeys.bounds(
+                    key = KotlinWeeklyIssueSharedContentKeys.bounds(
                         origin = route.origin,
                         id = route.id,
                     ),

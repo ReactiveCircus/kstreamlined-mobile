@@ -47,15 +47,16 @@ import io.github.reactivecircus.kstreamlined.android.core.designsystem.component
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.LargeIconButton
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.LoadingIndicator
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.TopNavBar
-import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.TopNavBarSharedTransitionKeys
+import io.github.reactivecircus.kstreamlined.android.core.designsystem.component.TopNavBarSharedContentKeys
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.icon.KSIcons
 import io.github.reactivecircus.kstreamlined.android.core.launcher.openShareSheet
 import io.github.reactivecircus.kstreamlined.android.core.ui.pattern.ItemNotFoundUi
 import io.github.reactivecircus.kstreamlined.android.feature.contentviewer.api.ContentViewerRoute
-import io.github.reactivecircus.kstreamlined.android.feature.contentviewer.api.ContentViewerSharedTransitionKeys
+import io.github.reactivecircus.kstreamlined.android.feature.contentviewer.api.ContentViewerSharedContentKeys
 import io.github.reactivecircus.kstreamlined.android.feature.contentviewer.impl.component.TldrButton
 import io.github.reactivecircus.kstreamlined.android.feature.tldrsummary.api.TldrSummaryRoute
+import io.github.reactivecircus.kstreamlined.android.feature.tldrsummary.api.TldrSummarySharedContentKeys
 import io.github.reactivecircus.kstreamlined.kmp.capsule.inject.assistedRetainPresenter
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.presentation.contentviewer.ContentViewerPresenter
@@ -88,7 +89,7 @@ internal fun ContentViewerScreen(
                 .background(KSTheme.colorScheme.background)
                 .sharedBounds(
                     sharedContentState = rememberSharedContentState(
-                        key = ContentViewerSharedTransitionKeys.bounds(
+                        key = ContentViewerSharedContentKeys.bounds(
                             origin = route.origin,
                             id = route.id,
                         ),
@@ -99,7 +100,7 @@ internal fun ContentViewerScreen(
             val context = LocalContext.current
             TopNavBar(
                 animatedVisibilityScope = animatedVisibilityScope,
-                boundsKey = TopNavBarSharedTransitionKeys.bounds(route.origin),
+                boundsKey = TopNavBarSharedContentKeys.bounds(route.origin),
                 title = "",
                 contentPadding = WindowInsets.statusBars.asPaddingValues(),
                 navigationIcon = {
@@ -123,6 +124,16 @@ internal fun ContentViewerScreen(
                                         ),
                                     )
                                 },
+                                modifier = Modifier.sharedBounds(
+                                    sharedContentState = rememberSharedContentState(
+                                        key = TldrSummarySharedContentKeys.viewerTldrButtonBounds(
+                                            origin = route.origin,
+                                            id = item.id,
+                                        ),
+                                    ),
+                                    animatedVisibilityScope = animatedVisibilityScope,
+                                    zIndexInOverlay = 1f,
+                                ),
                             )
                             Spacer(modifier = Modifier.width(12.dp))
                         }
@@ -144,7 +155,7 @@ internal fun ContentViewerScreen(
                             onClick = { eventSink(ContentViewerUiEvent.ToggleSavedForLater) },
                             modifier = Modifier.sharedBounds(
                                 sharedContentState = rememberSharedContentState(
-                                    key = ContentViewerSharedTransitionKeys.saveButtonBounds(
+                                    key = ContentViewerSharedContentKeys.saveButtonBounds(
                                         origin = route.origin,
                                         id = route.id,
                                     ),
