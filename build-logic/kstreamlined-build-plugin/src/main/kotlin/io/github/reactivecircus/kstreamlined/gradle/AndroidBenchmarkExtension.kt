@@ -36,7 +36,7 @@ public interface AndroidBenchmarkExtension {
     public fun dependencies(action: Action<KSDependencies.Android.Test>)
 }
 
-@Suppress("UnstableApiUsage")
+@Suppress("UnstableApiUsage", "InternalAgpApiUsage")
 public var ManagedVirtualDevice.minorApiLevel: Int
     get() = (this as com.android.build.gradle.internal.dsl.ManagedVirtualDevice).sdkMinorVersion
     set(value) {
