@@ -28,13 +28,20 @@ public interface AndroidBenchmarkExtension {
     /**
      * Enable baseline profile generation.
      */
-    public fun produceBaselineProfile(vararg devices: String)
+    public fun produceBaselineProfile(vararg devices: String, useConnectedDevices: Boolean = false)
 
     /**
      * Configure dependencies.
      */
     public fun dependencies(action: Action<KSDependencies.Android.Test>)
 }
+
+@Suppress("UnstableApiUsage", "InternalAgpApiUsage")
+public var ManagedVirtualDevice.minorApiLevel: Int
+    get() = (this as com.android.build.gradle.internal.dsl.ManagedVirtualDevice).sdkMinorVersion
+    set(value) {
+        (this as com.android.build.gradle.internal.dsl.ManagedVirtualDevice).sdkMinorVersion = value
+    }
 
 @Suppress("UnstableApiUsage")
 internal abstract class AndroidBenchmarkExtensionImpl @Inject constructor(
@@ -49,14 +56,17 @@ internal abstract class AndroidBenchmarkExtensionImpl @Inject constructor(
 
     private val baselineProfileDevices: MutableList<String> = mutableListOf()
 
+    private var useConnectedDevices: Boolean = false
+
     private var dependenciesBlock: Action<KSDependencies.Android.Test>? = null
 
     override fun managedVirtualDevice(name: String, action: Action<ManagedVirtualDevice>) {
         managedVirtualDeviceConfigs[name] = action
     }
 
-    override fun produceBaselineProfile(vararg devices: String) {
+    override fun produceBaselineProfile(vararg devices: String, useConnectedDevices: Boolean) {
         baselineProfileDevices += devices
+        this.useConnectedDevices = useConnectedDevices
     }
 
     override fun dependencies(action: Action<KSDependencies.Android.Test>) {
@@ -109,7 +119,7 @@ internal abstract class AndroidBenchmarkExtensionImpl @Inject constructor(
             pluginManager.apply("androidx.baselineprofile")
             extensions.configure(BaselineProfileProducerExtension::class.java) {
                 it.managedDevices += baselineProfileDevices
-                it.useConnectedDevices = false
+                it.useConnectedDevices = useConnectedDevices
             }
         }
 

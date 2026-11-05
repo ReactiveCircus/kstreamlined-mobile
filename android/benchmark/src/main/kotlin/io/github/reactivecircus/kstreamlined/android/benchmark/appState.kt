@@ -1,10 +1,12 @@
 package io.github.reactivecircus.kstreamlined.android.benchmark
 
 import android.net.Uri
+import androidx.benchmark.macro.MacrobenchmarkScope
 import androidx.test.platform.app.InstrumentationRegistry
 
-fun appState(block: AppStateScope.() -> Unit) {
+fun MacrobenchmarkScope.appState(block: AppStateScope.() -> Unit) {
     AppStateScopeImpl.block()
+    waitForStableInActiveWindow(stableTimeoutMs = 5_000, stableIntervalMs = 500)
 }
 
 sealed interface AppStateScope {
