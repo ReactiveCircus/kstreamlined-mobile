@@ -112,6 +112,7 @@ kstreamlined {
             implementation(project(":core:designsystem"))
             implementation(project(":core:route-metadata"))
             implementation(project(":core:scheduled-work"))
+            implementation(project(":core:web"))
             implementation(project(":feature:content-viewer:impl"))
             implementation(project(":feature:feed-selection:impl"))
             implementation(project(":feature:home"))

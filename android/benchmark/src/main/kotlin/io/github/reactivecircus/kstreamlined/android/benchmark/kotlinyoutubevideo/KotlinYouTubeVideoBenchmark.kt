@@ -25,9 +25,16 @@ class KotlinYouTubeVideoBenchmark {
     @get:Rule
     val rule = MacrobenchmarkRule()
 
-    @OptIn(ExperimentalMetricApi::class)
     @Test
-    fun openAndCloseKotlinYouTubeVideoScreen() = rule.measureRepeated(
+    fun openAndCloseKotlinYouTubeVideoScreenCold() =
+        openAndCloseKotlinYouTubeVideoScreen(killProcess = true)
+
+    @Test
+    fun openAndCloseKotlinYouTubeVideoScreenWarm() =
+        openAndCloseKotlinYouTubeVideoScreen(killProcess = false)
+
+    @OptIn(ExperimentalMetricApi::class)
+    private fun openAndCloseKotlinYouTubeVideoScreen(killProcess: Boolean) = rule.measureRepeated(
         packageName = PackageName,
         metrics = listOf(
             FrameTimingMetric(),
@@ -40,6 +47,9 @@ class KotlinYouTubeVideoBenchmark {
         iterations = 10,
         setupBlock = {
             pressHome()
+            if (killProcess) {
+                killProcess()
+            }
             startActivityAndWait()
             waitForHomeFeedContent()
             appState { selectSingleFeed(FeedOriginKey.KotlinYouTubeChannel) }
