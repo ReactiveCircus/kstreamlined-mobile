@@ -37,7 +37,7 @@ class TldrSummaryBenchmark {
         ),
         compilationMode = CompilationMode.Partial(BaselineProfileMode.Require),
         startupMode = StartupMode.WARM,
-        iterations = 3,
+        iterations = 10,
         setupBlock = {
             pressHome()
             startActivityAndWait()
