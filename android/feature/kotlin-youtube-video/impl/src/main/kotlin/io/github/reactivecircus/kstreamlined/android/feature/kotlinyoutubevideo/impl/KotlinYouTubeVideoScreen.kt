@@ -465,8 +465,6 @@ private fun VideoDetails(
  *
  * Exiting full screen mode always returns to the regular layout, by locking portrait orientation
  * in the full screen layout until the device is rotated from portrait to landscape again.
- * Releasing the lock while the device is upright would briefly rotate the screen to landscape
- * as the system re-evaluates the device orientation.
  */
 @Composable
 private fun FullScreenHandler(
