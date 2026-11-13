@@ -6,6 +6,7 @@ kstreamlined {
             implementation(project(":feature:content-viewer:api"))
             implementation(project(":feature:feed-selection:api"))
             implementation(project(":feature:kotlin-weekly-issue:api"))
+            implementation(project(":feature:kotlin-youtube-video:api"))
             implementation(project(":feature:talking-kotlin-episode:api"))
             implementation(project(":feature:tldr-summary:api"))
             implementation(project(":feature:settings:api"))

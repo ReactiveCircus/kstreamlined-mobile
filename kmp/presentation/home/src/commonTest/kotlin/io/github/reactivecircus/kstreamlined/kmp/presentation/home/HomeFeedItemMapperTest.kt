@@ -37,6 +37,7 @@ class HomeFeedItemMapperTest {
                 savedForLater = false,
                 thumbnailUrl = "thumbnail-url",
                 description = "description",
+                videoId = "2",
             ),
             // 5 hours ago
             FeedItem.KotlinWeekly(
@@ -82,6 +83,7 @@ class HomeFeedItemMapperTest {
                 savedForLater = false,
                 thumbnailUrl = "thumbnail-url",
                 description = "description",
+                videoId = "6",
             ),
             // earlier
             // 20 days ago
@@ -121,6 +123,7 @@ class HomeFeedItemMapperTest {
                         savedForLater = false,
                         thumbnailUrl = "thumbnail-url",
                         description = "description",
+                        videoId = "2",
                     ),
                     displayablePublishTime = "30 minutes ago",
                 ),
@@ -182,6 +185,7 @@ class HomeFeedItemMapperTest {
                         savedForLater = false,
                         thumbnailUrl = "thumbnail-url",
                         description = "description",
+                        videoId = "6",
                     ),
                     displayablePublishTime = "21 Nov 2023",
                 ),

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="video_unavailable_message">This video can\'t be played in the app.</string>
+    <string name="video_load_error_message">Couldn\'t load the video. Please check your connection.</string>
+    <string name="watch_on_youtube">Watch on YouTube</string>
+    <string name="retry">Retry</string>
+</resources>

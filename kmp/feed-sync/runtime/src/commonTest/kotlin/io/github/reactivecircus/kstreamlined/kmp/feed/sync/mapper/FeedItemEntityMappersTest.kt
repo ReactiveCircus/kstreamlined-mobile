@@ -35,6 +35,7 @@ class FeedItemEntityMappersTest {
             podcast_description_plain_text = null,
             saved_for_later = false,
             supports_tldr = true,
+            video_id = null,
         )
         assertEquals(expected, feedEntry.toDbModel())
     }
@@ -65,6 +66,7 @@ class FeedItemEntityMappersTest {
             podcast_description_plain_text = null,
             saved_for_later = false,
             supports_tldr = false,
+            video_id = null,
         )
         assertEquals(expected, feedEntry.toDbModel())
     }
@@ -78,6 +80,7 @@ class FeedItemEntityMappersTest {
             contentUrl = "https://youtube.com/kotlinvideo",
             thumbnailUrl = "https://youtube.com/kotlinvideo/thumbnail",
             description = "A YouTube video about Kotlin",
+            videoId = "1",
         )
         val expected = FeedItemEntity(
             id = "1",
@@ -95,6 +98,7 @@ class FeedItemEntityMappersTest {
             podcast_description_plain_text = null,
             saved_for_later = false,
             supports_tldr = null,
+            video_id = "1",
         )
         assertEquals(expected, feedEntry.toDbModel())
     }
@@ -127,6 +131,7 @@ class FeedItemEntityMappersTest {
             podcast_description_plain_text = null,
             saved_for_later = false,
             supports_tldr = null,
+            video_id = null,
         )
         assertEquals(expected, feedEntry.toDbModel())
     }
@@ -159,6 +164,7 @@ class FeedItemEntityMappersTest {
             podcast_description_plain_text = "Talking kotlin podcast episode summary",
             saved_for_later = false,
             supports_tldr = null,
+            video_id = null,
         )
         assertEquals(expected, feedEntry.toDbModel())
     }
@@ -188,6 +194,7 @@ class FeedItemEntityMappersTest {
             podcast_description_plain_text = null,
             saved_for_later = false,
             supports_tldr = null,
+            video_id = null,
         )
         assertEquals(expected, feedEntry.toDbModel())
     }

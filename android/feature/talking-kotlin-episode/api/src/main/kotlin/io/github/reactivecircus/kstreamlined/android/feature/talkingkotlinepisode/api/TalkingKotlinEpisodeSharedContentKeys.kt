@@ -3,5 +3,5 @@ package io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepiso
 public object TalkingKotlinEpisodeSharedContentKeys {
     public fun bounds(origin: String, id: String): String = "Bounds/$origin/$id"
 
-    public fun playerElement(origin: String, id: String): String = "Element/$origin/$id/player"
+    public fun playerElement(origin: String, id: String): String = "Element/$origin/$id/Player"
 }

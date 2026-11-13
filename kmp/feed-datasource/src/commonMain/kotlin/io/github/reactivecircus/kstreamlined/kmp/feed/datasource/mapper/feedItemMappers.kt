@@ -25,6 +25,7 @@ internal fun FeedItemEntity.asExternalModel(): FeedItem {
             savedForLater = saved_for_later,
             thumbnailUrl = image_url!!,
             description = description!!,
+            videoId = video_id!!,
         )
 
         FeedOrigin.Key.TalkingKotlinPodcast.name -> FeedItem.TalkingKotlin(

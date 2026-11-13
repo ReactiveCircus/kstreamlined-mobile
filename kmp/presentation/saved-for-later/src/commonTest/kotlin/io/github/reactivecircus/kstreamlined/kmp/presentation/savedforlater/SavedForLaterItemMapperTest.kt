@@ -30,6 +30,7 @@ class SavedForLaterItemMapperTest {
                 savedForLater = false,
                 thumbnailUrl = "thumbnail-url",
                 description = "description",
+                videoId = "2",
             ),
             FeedItem.KotlinWeekly(
                 id = "3",
@@ -63,6 +64,7 @@ class SavedForLaterItemMapperTest {
                     savedForLater = false,
                     thumbnailUrl = "thumbnail-url",
                     description = "description",
+                    videoId = "2",
                 ),
                 displayablePublishTime = "3 Dec 2023",
             ),

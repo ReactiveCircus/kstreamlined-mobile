@@ -72,6 +72,7 @@ class SavedForLaterScreenTest {
                                 savedForLater = true,
                                 thumbnailUrl = "",
                                 description = "JetBrains Kotlin Multiplatform (KMP) is an open-source technology",
+                                videoId = "4",
                             ),
                             displayablePublishTime = "21 Nov 2023",
                         ),

@@ -45,6 +45,7 @@ public val FakeFeedEntries: List<FeedEntry> = listOf(
         contentUrl = "https://www.youtube.com/watch?v=bz4cQeaXmsI",
         thumbnailUrl = "https://i3.ytimg.com/vi/bz4cQeaXmsI/hqdefault.jpg",
         description = "JetBrains Kotlin Multiplatform (KMP) is an open-source technology designed for flexible cross-platform development. It allows you to develop apps for Android, iOS, desktop, web, and server-side and efficiently reuse code across them, all while retaining the benefits of native programming. After 8 years of development, KMP has been refined into a production-ready technology and is going Stable, which means now is a great time to start using it in your project.",
+        videoId = "bz4cQeaXmsI",
     ),
     FeedEntry.TalkingKotlin(
         id = "tag:soundcloud,2010:tracks/1620132927",

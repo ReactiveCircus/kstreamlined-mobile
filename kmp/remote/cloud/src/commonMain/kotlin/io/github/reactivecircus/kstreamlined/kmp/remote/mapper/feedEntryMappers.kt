@@ -36,6 +36,7 @@ internal fun KotlinYouTubeFeedEntryItem.asExternalModel(): FeedEntry.KotlinYouTu
         contentUrl = this.contentUrl,
         thumbnailUrl = this.onKotlinYouTube.thumbnailUrl,
         description = this.onKotlinYouTube.description,
+        videoId = this.onKotlinYouTube.videoId,
     )
 }
 

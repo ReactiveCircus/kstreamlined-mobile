@@ -29,6 +29,7 @@ public sealed interface FeedItem {
         override val savedForLater: Boolean,
         val thumbnailUrl: String,
         val description: String,
+        val videoId: String,
     ) : FeedItem
 
     public data class TalkingKotlin(

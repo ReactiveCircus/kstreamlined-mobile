@@ -172,27 +172,24 @@ internal fun TalkingKotlinEpisodeScreen(
                 )
             },
             actions = {
-                val episode = (uiState as? TalkingKotlinEpisodeUiState.Content)?.episode
-                FilledIconButton(
-                    KSIcons.Share,
-                    contentDescription = null,
-                    onClick = {
-                        onShareButtonClick(
-                            episode?.title.orEmpty(),
-                            episode?.contentUrl.orEmpty(),
-                        )
-                    },
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                FilledIconButton(
-                    if (episode?.savedForLater == true) {
-                        KSIcons.BookmarkFill
-                    } else {
-                        KSIcons.BookmarkAdd
-                    },
-                    contentDescription = null,
-                    onClick = { eventSink(TalkingKotlinEpisodeUiEvent.ToggleSavedForLater) },
-                )
+                if (uiState is TalkingKotlinEpisodeUiState.Content) {
+                    val episode = uiState.episode
+                    FilledIconButton(
+                        KSIcons.Share,
+                        contentDescription = null,
+                        onClick = { onShareButtonClick(episode.title, episode.contentUrl) },
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    FilledIconButton(
+                        if (episode.savedForLater) {
+                            KSIcons.BookmarkFill
+                        } else {
+                            KSIcons.BookmarkAdd
+                        },
+                        contentDescription = null,
+                        onClick = { eventSink(TalkingKotlinEpisodeUiEvent.ToggleSavedForLater) },
+                    )
+                }
             },
         )
 

@@ -28,6 +28,7 @@ class FeedItemMappersTest {
             podcast_description_plain_text = null,
             saved_for_later = false,
             supports_tldr = true,
+            video_id = null,
         )
         val expected = FeedItem.KotlinBlog(
             id = "1",
@@ -59,6 +60,7 @@ class FeedItemMappersTest {
             podcast_description_plain_text = null,
             saved_for_later = false,
             supports_tldr = null,
+            video_id = null,
         )
         val expected = FeedItem.KotlinBlog(
             id = "1",
@@ -90,6 +92,7 @@ class FeedItemMappersTest {
             podcast_description_plain_text = null,
             saved_for_later = false,
             supports_tldr = null,
+            video_id = "1",
         )
         val expected = FeedItem.KotlinYouTube(
             id = "1",
@@ -99,6 +102,7 @@ class FeedItemMappersTest {
             savedForLater = false,
             thumbnailUrl = "https://youtube.com/kotlinvideo/thumbnail",
             description = "A YouTube video about Kotlin",
+            videoId = "1",
         )
         assertEquals(expected, entity.asExternalModel())
     }
@@ -121,6 +125,7 @@ class FeedItemMappersTest {
             podcast_description_plain_text = null,
             saved_for_later = false,
             supports_tldr = null,
+            video_id = null,
         )
         val expected = FeedItem.TalkingKotlin(
             id = "1",
@@ -157,6 +162,7 @@ class FeedItemMappersTest {
             podcast_description_plain_text = null,
             saved_for_later = false,
             supports_tldr = null,
+            video_id = null,
         )
         val expected = FeedItem.TalkingKotlin(
             id = "1",
@@ -193,6 +199,7 @@ class FeedItemMappersTest {
             podcast_description_plain_text = null,
             saved_for_later = false,
             supports_tldr = null,
+            video_id = null,
         )
         val expected = FeedItem.TalkingKotlin(
             id = "1",
@@ -229,6 +236,7 @@ class FeedItemMappersTest {
             podcast_description_plain_text = "Desc",
             saved_for_later = false,
             supports_tldr = null,
+            video_id = null,
         )
         val expected = FeedItem.TalkingKotlin(
             id = "1",
@@ -265,6 +273,7 @@ class FeedItemMappersTest {
             podcast_description_plain_text = null,
             saved_for_later = false,
             supports_tldr = null,
+            video_id = null,
         )
         val expected = FeedItem.KotlinWeekly(
             id = "1",
@@ -295,6 +304,7 @@ class FeedItemMappersTest {
             podcast_description_plain_text = null,
             saved_for_later = false,
             supports_tldr = null,
+            video_id = null,
         )
         val error = assertFailsWith<IllegalStateException> {
             entity.asExternalModel()

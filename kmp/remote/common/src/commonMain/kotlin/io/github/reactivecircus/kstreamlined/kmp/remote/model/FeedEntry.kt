@@ -24,6 +24,7 @@ public sealed interface FeedEntry {
         override val contentUrl: String,
         val thumbnailUrl: String,
         val description: String,
+        val videoId: String,
     ) : FeedEntry
 
     public data class TalkingKotlin(

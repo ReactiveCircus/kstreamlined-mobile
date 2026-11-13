@@ -38,6 +38,7 @@ class ContentViewerPresenterTest {
         podcast_description_plain_text = null,
         saved_for_later = false,
         supports_tldr = null,
+        video_id = "1",
     )
 
     private val item = dummyFeedItem.let {
@@ -49,6 +50,7 @@ class ContentViewerPresenterTest {
             savedForLater = it.saved_for_later,
             thumbnailUrl = it.image_url.orEmpty(),
             description = it.description.orEmpty(),
+            videoId = it.video_id!!,
         )
     }
 
