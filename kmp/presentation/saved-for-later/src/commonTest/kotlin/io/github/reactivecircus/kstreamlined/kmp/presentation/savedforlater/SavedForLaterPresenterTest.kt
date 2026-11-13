@@ -41,6 +41,7 @@ class SavedForLaterPresenterTest {
         podcast_description_plain_text = null,
         saved_for_later = true,
         supports_tldr = true,
+        video_id = null,
     )
 
     private val item = dummyFeedItem.let {

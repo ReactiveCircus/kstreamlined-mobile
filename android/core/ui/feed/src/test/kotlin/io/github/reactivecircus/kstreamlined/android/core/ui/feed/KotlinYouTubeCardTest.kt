@@ -30,6 +30,7 @@ class KotlinYouTubeCardTest {
                         savedForLater = saved,
                         thumbnailUrl = "",
                         description = "JetBrains Kotlin Multiplatform (KMP) is an open-source technology",
+                        videoId = "1",
                     ).toDisplayable("3 days ago"),
                     onItemClick = {},
                     onSaveButtonClick = {},

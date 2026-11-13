@@ -16,6 +16,7 @@ fragment FeedEntryItem on FeedEntry {
   ... on KotlinYouTube {
     thumbnailUrl
     description
+    videoId
   }
   ... on TalkingKotlin {
     audioUrl

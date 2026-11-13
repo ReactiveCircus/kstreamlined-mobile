@@ -68,6 +68,8 @@ import io.github.reactivecircus.kstreamlined.android.feature.home.component.Feed
 import io.github.reactivecircus.kstreamlined.android.feature.home.component.SyncButton
 import io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue.api.KotlinWeeklyIssueRoute
 import io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue.api.KotlinWeeklyIssueSharedContentKeys
+import io.github.reactivecircus.kstreamlined.android.feature.kotlinyoutubevideo.api.KotlinYouTubeVideoRoute
+import io.github.reactivecircus.kstreamlined.android.feature.kotlinyoutubevideo.api.KotlinYouTubeVideoSharedContentKeys
 import io.github.reactivecircus.kstreamlined.android.feature.settings.api.SettingsRoute
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.api.TalkingKotlinEpisodeRoute
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.api.TalkingKotlinEpisodeSharedContentKeys
@@ -109,6 +111,13 @@ public fun HomeScreen(
                             origin = SharedTransitionOrigin,
                             id = item.id,
                             issueNumber = item.issueNumber,
+                        )
+                    }
+
+                    is FeedItem.KotlinYouTube -> {
+                        KotlinYouTubeVideoRoute(
+                            origin = SharedTransitionOrigin,
+                            id = item.id,
                         )
                     }
 
@@ -398,14 +407,18 @@ private fun LazyItemScope.FeedItemUi(
                             .animateItem()
                             .sharedBounds(
                                 sharedContentState = rememberSharedContentState(
-                                    key = ContentViewerSharedContentKeys.bounds(
+                                    key = KotlinYouTubeVideoSharedContentKeys.bounds(
                                         origin = SharedTransitionOrigin,
                                         id = item.id,
                                     ),
                                 ),
                                 animatedVisibilityScope = animatedVisibilityScope,
                             ),
-                        saveButtonBoundsKey = ContentViewerSharedContentKeys.saveButtonBounds(
+                        thumbnailBoundsKey = KotlinYouTubeVideoSharedContentKeys.thumbnailBounds(
+                            origin = SharedTransitionOrigin,
+                            id = item.id,
+                        ),
+                        saveButtonBoundsKey = KotlinYouTubeVideoSharedContentKeys.saveButtonBounds(
                             origin = SharedTransitionOrigin,
                             id = item.id,
                         ),

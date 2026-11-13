@@ -85,6 +85,7 @@ includeKmpProjects(
     ":kmp:presentation:feed-selection",
     ":kmp:presentation:home",
     ":kmp:presentation:kotlin-weekly-issue",
+    ":kmp:presentation:kotlin-youtube-video",
     ":kmp:presentation:saved-for-later",
     ":kmp:presentation:settings",
     ":kmp:presentation:talking-kotlin-episode",
@@ -109,6 +110,8 @@ includeAndroidProjects(
     ":feature:home",
     ":feature:kotlin-weekly-issue:api",
     ":feature:kotlin-weekly-issue:impl",
+    ":feature:kotlin-youtube-video:api",
+    ":feature:kotlin-youtube-video:impl",
     ":feature:licenses:api",
     ":feature:licenses:impl",
     ":feature:saved-for-later",
@@ -119,6 +122,7 @@ includeAndroidProjects(
     ":feature:tldr-summary:api",
     ":feature:tldr-summary:impl",
     ":core:designsystem",
+    ":core:display",
     ":core:launcher",
     ":core:route-metadata",
     ":core:scheduled-work",
@@ -128,6 +132,7 @@ includeAndroidProjects(
     ":core:ui:markdown",
     ":core:ui:pattern",
     ":core:ui:util",
+    ":core:web",
 )
 
 private fun includeKmpProjects(vararg projectPaths: String) {

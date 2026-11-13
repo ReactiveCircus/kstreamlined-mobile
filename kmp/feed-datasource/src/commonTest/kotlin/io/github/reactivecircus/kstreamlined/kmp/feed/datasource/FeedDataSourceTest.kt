@@ -120,6 +120,7 @@ class FeedDataSourceTest {
                         podcast_description_plain_text = null,
                         saved_for_later = false,
                         supports_tldr = true,
+                        video_id = null,
                     )
                     db.feedItemEntityQueries.insertFeedItem(
                         id = "2",
@@ -137,6 +138,7 @@ class FeedDataSourceTest {
                         podcast_description_plain_text = null,
                         saved_for_later = false,
                         supports_tldr = null,
+                        video_id = "2",
                     )
                 }
 
@@ -150,6 +152,7 @@ class FeedDataSourceTest {
                             savedForLater = false,
                             thumbnailUrl = "image-url-2",
                             description = "Desc",
+                            videoId = "2",
                         ),
                         FeedItem.KotlinBlog(
                             id = "1",
@@ -179,6 +182,7 @@ class FeedDataSourceTest {
                             savedForLater = false,
                             thumbnailUrl = "image-url-2",
                             description = "Desc",
+                            videoId = "2",
                         ),
                     ),
                     awaitItem(),
@@ -221,6 +225,7 @@ class FeedDataSourceTest {
                         podcast_description_plain_text = null,
                         saved_for_later = false,
                         supports_tldr = true,
+                        video_id = null,
                     )
                     db.feedItemEntityQueries.insertFeedItem(
                         id = "2",
@@ -238,6 +243,7 @@ class FeedDataSourceTest {
                         podcast_description_plain_text = null,
                         saved_for_later = false,
                         supports_tldr = null,
+                        video_id = "2",
                     )
                 }
 
@@ -286,6 +292,7 @@ class FeedDataSourceTest {
                 podcast_description_plain_text = null,
                 saved_for_later = false,
                 supports_tldr = true,
+                video_id = null,
             )
 
             assertEquals(
@@ -315,6 +322,7 @@ class FeedDataSourceTest {
                 podcast_description_format = null,
                 podcast_description_plain_text = null,
                 supports_tldr = true,
+                video_id = null,
             )
 
             assertEquals(
@@ -350,6 +358,7 @@ class FeedDataSourceTest {
             podcast_description_plain_text = null,
             saved_for_later = false,
             supports_tldr = true,
+            video_id = null,
         )
 
         assertEquals(
@@ -619,6 +628,7 @@ class FeedDataSourceTest {
             podcast_description_plain_text = null,
             saved_for_later = false,
             supports_tldr = true,
+            video_id = null,
         )
 
         feedDataSource.addSavedFeedItem("1")
@@ -647,6 +657,7 @@ class FeedDataSourceTest {
             podcast_description_plain_text = null,
             saved_for_later = true,
             supports_tldr = true,
+            video_id = null,
         )
 
         feedDataSource.removeSavedFeedItem("1")
@@ -676,6 +687,7 @@ class FeedDataSourceTest {
                 podcast_description_plain_text = null,
                 saved_for_later = false,
                 supports_tldr = null,
+                video_id = null,
             )
 
             feedDataSource.saveTalkingKotlinEpisodeStartPosition("1", 30_000)

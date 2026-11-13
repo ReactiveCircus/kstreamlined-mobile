@@ -18,6 +18,7 @@ CREATE TABLE feedItemEntity (
     podcast_description_format TEXT AS ContentFormat,
     podcast_description_plain_text TEXT,
     supports_tldr INTEGER AS Boolean,
+    video_id TEXT,
     FOREIGN KEY(feed_origin_key) REFERENCES feedOriginEntity(key) ON DELETE CASCADE
 );
 
@@ -38,7 +39,7 @@ SELECT * FROM feedItemEntity WHERE saved_for_later = 1 ORDER BY publish_time DES
 
 insertFeedItem:
 INSERT INTO feedItemEntity
-VALUES (:id, :feed_origin_key, :title, :publish_time, :content_url, :image_url, :description, :issue_number, :podcast_audio_url, :podcast_duration, :podcast_start_position, :saved_for_later, :podcast_description_format, :podcast_description_plain_text, :supports_tldr);
+VALUES (:id, :feed_origin_key, :title, :publish_time, :content_url, :image_url, :description, :issue_number, :podcast_audio_url, :podcast_duration, :podcast_start_position, :saved_for_later, :podcast_description_format, :podcast_description_plain_text, :supports_tldr, :video_id);
 
 upsertFeedItem {
     UPDATE feedItemEntity
@@ -53,11 +54,12 @@ upsertFeedItem {
         podcast_duration = :podcast_duration,
         podcast_description_format = :podcast_description_format,
         podcast_description_plain_text = :podcast_description_plain_text,
-        supports_tldr = :supports_tldr
+        supports_tldr = :supports_tldr,
+        video_id = :video_id
     WHERE id = :id;
 
-    INSERT OR IGNORE INTO feedItemEntity (id, feed_origin_key, title, publish_time, content_url, image_url, description, issue_number, podcast_audio_url, podcast_duration, saved_for_later, podcast_description_format, podcast_description_plain_text, supports_tldr)
-    VALUES (:id, :feed_origin_key, :title, :publish_time, :content_url, :image_url, :description, :issue_number, :podcast_audio_url, :podcast_duration, 0, :podcast_description_format, :podcast_description_plain_text, :supports_tldr);
+    INSERT OR IGNORE INTO feedItemEntity (id, feed_origin_key, title, publish_time, content_url, image_url, description, issue_number, podcast_audio_url, podcast_duration, saved_for_later, podcast_description_format, podcast_description_plain_text, supports_tldr, video_id)
+    VALUES (:id, :feed_origin_key, :title, :publish_time, :content_url, :image_url, :description, :issue_number, :podcast_audio_url, :podcast_duration, 0, :podcast_description_format, :podcast_description_plain_text, :supports_tldr, :video_id);
 }
 
 updatePodcastStartPositionById:

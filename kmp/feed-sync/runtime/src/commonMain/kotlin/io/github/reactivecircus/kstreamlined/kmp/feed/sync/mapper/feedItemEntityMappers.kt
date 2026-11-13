@@ -46,6 +46,7 @@ internal fun FeedEntry.toDbModel(): FeedItemEntity {
         podcast_description_format = podcastDescriptionFormat,
         podcast_description_plain_text = podcastDescriptionPlainText,
         supports_tldr = if (this is FeedEntry.KotlinBlog) supportsTldr else null,
+        video_id = if (this is FeedEntry.KotlinYouTube) videoId else null,
         saved_for_later = false,
     )
 }

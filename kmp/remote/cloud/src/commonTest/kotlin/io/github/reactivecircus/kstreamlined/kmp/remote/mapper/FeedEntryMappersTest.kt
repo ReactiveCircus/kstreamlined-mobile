@@ -50,6 +50,7 @@ class FeedEntryMappersTest {
                     contentUrl = "https://youtube.com/kotlinvideo"
                     thumbnailUrl = "https://youtube.com/kotlinvideo/thumbnail"
                     description = "A YouTube video about Kotlin"
+                    videoId = "2"
                 },
             )
         }.feedEntries.first()
@@ -61,6 +62,7 @@ class FeedEntryMappersTest {
             contentUrl = "https://youtube.com/kotlinvideo",
             thumbnailUrl = "https://youtube.com/kotlinvideo/thumbnail",
             description = "A YouTube video about Kotlin",
+            videoId = "2",
         )
 
         assertEquals(expectedFeedEntry, apolloFeedEntry.feedEntryItem.asExternalModel())

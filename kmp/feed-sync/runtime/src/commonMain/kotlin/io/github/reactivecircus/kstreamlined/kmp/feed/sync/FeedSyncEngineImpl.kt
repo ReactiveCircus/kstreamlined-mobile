@@ -163,6 +163,7 @@ internal class FeedSyncEngineImpl(
                         podcast_description_format = entity.podcast_description_format,
                         podcast_description_plain_text = entity.podcast_description_plain_text,
                         supports_tldr = entity.supports_tldr,
+                        video_id = entity.video_id,
                     )
                 }
 

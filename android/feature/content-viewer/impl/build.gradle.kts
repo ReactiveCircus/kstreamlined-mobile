@@ -8,9 +8,8 @@ kstreamlined {
             implementation(project(":feature:tldr-summary:api"))
             implementation(project(":core:launcher"))
             implementation(project(":core:ui:pattern"))
+            implementation(project(":core:web"))
             implementation(project(":kmp:presentation:content-viewer"))
-            implementation(libs.androidx.core)
-            implementation(libs.androidx.activity.compose)
         }
     }
 }

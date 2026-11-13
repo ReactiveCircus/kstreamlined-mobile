@@ -37,6 +37,7 @@ internal val MockFeedEntries: List<FeedEntry> = listOf(
         contentUrl = "https://www.youtube.com/watch?v=apiVJfLvUBE",
         thumbnailUrl = "https://i2.ytimg.com/vi/apiVJfLvUBE/hqdefault.jpg",
         description = "Welcome to another engaging episode of Talking Kotlin! In this edition, we dive into the dynamic world of Android development with Colin White, the creator of the widely acclaimed Coil library. Join us as we discuss the latest developments, insights, and the exciting roadmap for Coil. \uD83D\uDE80 Highlights from this Episode: Learn about Colin's journey in developing the Coil library. Discover the pivotal role Coil plays in simplifying image loading for Android developers. Get an exclusive sneak peek into the upcoming Coil 3.0, featuring multi-platform support and seamless integration with Jetpack Compose. \uD83D\uDD17 Helpful Links: Coil Library GitHub: https://coil-kt.github.io/coil/ Follow Colin White on Twitter: https://twitter.com/colinwhi \uD83C\uDF10 Connect with the Kotlin Community: https://kotlinlang.org/community/ Kotlin Foundation: https://kotlinfoundation.org/ \uD83D\uDC49 Don't miss out on the latest insights and updates from the Kotlin world! Subscribe, hit the bell icon, and join the conversation in the comments below. \uD83D\uDCC8 Help us reach 20,000 views by liking, sharing, and subscribing! Your support keeps the Kotlin conversation alive.",
+        videoId = "apiVJfLvUBE",
     ),
     FeedEntry.KotlinWeekly(
         id = "https://mailchi.mp/kotlinweekly/kotlin-weekly-382",
@@ -60,6 +61,7 @@ internal val MockFeedEntries: List<FeedEntry> = listOf(
         contentUrl = "https://www.youtube.com/watch?v=bz4cQeaXmsI",
         thumbnailUrl = "https://i3.ytimg.com/vi/bz4cQeaXmsI/hqdefault.jpg",
         description = "JetBrains Kotlin Multiplatform (KMP) is an open-source technology designed for flexible cross-platform development. It allows you to develop apps for Android, iOS, desktop, web, and server-side and efficiently reuse code across them, all while retaining the benefits of native programming. After 8 years of development, KMP has been refined into a production-ready technology and is going Stable, which means now is a great time to start using it in your project.",
+        videoId = "bz4cQeaXmsI",
     ),
     FeedEntry.KotlinWeekly(
         id = "https://mailchi.mp/kotlinweekly/kotlin-weekly-381",
@@ -124,6 +126,7 @@ internal val MockFeedEntries: List<FeedEntry> = listOf(
         contentUrl = "https://www.youtube.com/watch?v=Ol_96CHKqg8",
         thumbnailUrl = "https://i4.ytimg.com/vi/Ol_96CHKqg8/hqdefault.jpg",
         description = "The Kotlin 1.9.20 release is out, and the K2 compiler for all the targets is now in Beta.",
+        videoId = "Ol_96CHKqg8",
     ),
     FeedEntry.KotlinBlog(
         id = "https://blog.jetbrains.com/?post_type=kotlin&p=401121",

@@ -268,6 +268,11 @@ type KotlinYouTube implements FeedEntry {
   contentUrl: String!
 
   """
+  Unique id of the video.
+  """
+  videoId: String!
+
+  """
   Url of the video thumbnail.
   """
   thumbnailUrl: String!

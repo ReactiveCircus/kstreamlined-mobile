@@ -1,0 +1,5 @@
+ALTER TABLE feedItemEntity ADD COLUMN video_id TEXT;
+
+UPDATE feedItemEntity
+SET video_id = substr(id, length('yt:video:') + 1)
+WHERE feed_origin_key = 'KotlinYouTubeChannel' AND id LIKE 'yt:video:%';

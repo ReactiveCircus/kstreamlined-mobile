@@ -67,6 +67,7 @@ class HomePresenterTest {
             podcast_description_plain_text = null,
             saved_for_later = false,
             supports_tldr = true,
+            video_id = null,
         ),
     )
 

@@ -19,10 +19,10 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.navigationBarsIgnoringVisibility
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.statusBarsIgnoringVisibility
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
@@ -36,7 +36,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation3.runtime.NavBackStack
@@ -52,6 +52,8 @@ import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundatio
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.icon.KSIcons
 import io.github.reactivecircus.kstreamlined.android.core.launcher.openShareSheet
 import io.github.reactivecircus.kstreamlined.android.core.ui.pattern.ItemNotFoundUi
+import io.github.reactivecircus.kstreamlined.android.core.web.WebView
+import io.github.reactivecircus.kstreamlined.android.core.web.retainWebViewState
 import io.github.reactivecircus.kstreamlined.android.feature.contentviewer.api.ContentViewerRoute
 import io.github.reactivecircus.kstreamlined.android.feature.contentviewer.api.ContentViewerSharedContentKeys
 import io.github.reactivecircus.kstreamlined.android.feature.contentviewer.impl.component.TldrButton
@@ -85,7 +87,7 @@ internal fun ContentViewerScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .windowInsetsPadding(WindowInsets.navigationBars.only(WindowInsetsSides.Horizontal))
+                .windowInsetsPadding(WindowInsets.navigationBarsIgnoringVisibility.only(WindowInsetsSides.Horizontal))
                 .background(KSTheme.colorScheme.background)
                 .sharedBounds(
                     sharedContentState = rememberSharedContentState(
@@ -102,7 +104,7 @@ internal fun ContentViewerScreen(
                 animatedVisibilityScope = animatedVisibilityScope,
                 boundsKey = TopNavBarSharedContentKeys.bounds(route.origin),
                 title = "",
-                contentPadding = WindowInsets.statusBars.asPaddingValues(),
+                contentPadding = WindowInsets.statusBarsIgnoringVisibility.asPaddingValues(),
                 navigationIcon = {
                     LargeIconButton(
                         KSIcons.Close,
@@ -215,17 +217,16 @@ private fun ContentUi(
             state = state,
             modifier = Modifier
                 .fillMaxSize()
-                .alpha(animatedAlpha),
+                .graphicsLayer { alpha = animatedAlpha },
             onCreated = {
                 @SuppressLint("SetJavaScriptEnabled")
                 it.settings.javaScriptEnabled = true
                 it.settings.cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK
             },
-            client = remember { SchemeAwareWebViewClient() },
         )
 
         var showLoadingIndicator by remember { mutableStateOf(false) }
-        LaunchedEffect(state.loadingState) {
+        LaunchedEffect(state.isLoading) {
             if (state.isLoading) {
                 showLoadingIndicator = true
             } else {
