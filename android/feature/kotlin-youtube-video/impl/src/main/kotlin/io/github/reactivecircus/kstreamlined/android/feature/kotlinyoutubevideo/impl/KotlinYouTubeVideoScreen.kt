@@ -49,6 +49,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.platform.LocalWindowInfo
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -263,7 +264,17 @@ private fun ContentUi(
     onWatchOnYouTube: (url: String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Column(modifier = modifier.fillMaxSize()) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .then(
+                if (isPlayerEnabled) {
+                    Modifier.testTag("kotlinYouTubeVideo:content")
+                } else {
+                    Modifier
+                },
+            ),
+    ) {
         val playerModifier = if (isFullScreenLayout) {
             Modifier.fillMaxSize()
         } else {

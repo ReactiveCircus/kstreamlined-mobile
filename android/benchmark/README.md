@@ -36,16 +36,34 @@ Individual benchmarks can also be run from Android Studio or command line:
 ./gradlew :benchmark:connectedBenchmarkReleaseAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=io.github.reactivecircus.kstreamlined.android.benchmark.home.HomeFeedRecompositionBenchmark
 ```
 
-#### Screen transition benchmark
-
-```
-./gradlew :benchmark:connectedBenchmarkReleaseAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=io.github.reactivecircus.kstreamlined.android.benchmark.screentransition.ScreenTransitionBenchmark
-```
-
 #### Feed selection benchmark
 
 ```
 ./gradlew :benchmark:connectedBenchmarkReleaseAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=io.github.reactivecircus.kstreamlined.android.benchmark.feedselection.FeedSelectionBenchmark
+```
+
+#### Content viewer benchmark
+
+```
+./gradlew :benchmark:connectedBenchmarkReleaseAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=io.github.reactivecircus.kstreamlined.android.benchmark.contentviewer.ContentViewerBenchmark
+```
+
+#### Kotlin YouTube video benchmark
+
+```
+./gradlew :benchmark:connectedBenchmarkReleaseAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=io.github.reactivecircus.kstreamlined.android.benchmark.kotlinyoutubevideo.KotlinYouTubeVideoBenchmark
+```
+
+#### Talking Kotlin episode benchmark
+
+```
+./gradlew :benchmark:connectedBenchmarkReleaseAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=io.github.reactivecircus.kstreamlined.android.benchmark.talkingkotlinepisode.TalkingKotlinEpisodeBenchmark
+```
+
+#### Kotlin Weekly issue benchmark
+
+```
+./gradlew :benchmark:connectedBenchmarkReleaseAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=io.github.reactivecircus.kstreamlined.android.benchmark.kotlinweeklyissue.KotlinWeeklyIssueBenchmark
 ```
 
 #### TLDR summary benchmark

@@ -29,6 +29,7 @@ import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import io.github.reactivecircus.kstreamlined.android.core.designsystem.foundation.KSTheme
+import io.github.reactivecircus.kstreamlined.android.core.web.startUpWebViewAsync
 import io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.impl.component.LocalPodcastPlayerFactory
 import io.github.reactivecircus.kstreamlined.android.navigation.BottomSheetSceneStrategy
 import io.github.reactivecircus.kstreamlined.android.navigation.rememberRetainedNavEntryDecorator
@@ -43,6 +44,10 @@ class KSActivity : ComponentActivity() {
 
         super.onCreate(savedInstanceState)
         WindowCompat.enableEdgeToEdge(window)
+
+        fullyDrawnReporter.addOnReportDrawnListener {
+            startUpWebViewAsync()
+        }
 
         setContent {
             var theme by rememberSaveable { mutableStateOf(AppSettings.Theme.System) }

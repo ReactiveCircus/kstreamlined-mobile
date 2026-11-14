@@ -1,4 +1,4 @@
-package io.github.reactivecircus.kstreamlined.android.benchmark.screentransition
+package io.github.reactivecircus.kstreamlined.android.benchmark.contentviewer
 
 import androidx.benchmark.macro.BaselineProfileMode
 import androidx.benchmark.macro.CompilationMode
@@ -9,6 +9,7 @@ import androidx.benchmark.macro.TraceSectionMetric
 import androidx.benchmark.macro.junit4.MacrobenchmarkRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
+import io.github.reactivecircus.kstreamlined.android.benchmark.FeedOriginKey
 import io.github.reactivecircus.kstreamlined.android.benchmark.PackageName
 import io.github.reactivecircus.kstreamlined.android.benchmark.appState
 import io.github.reactivecircus.kstreamlined.android.benchmark.home.CardType
@@ -20,24 +21,13 @@ import org.junit.runner.RunWith
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)
-class ScreenTransitionBenchmark {
+class ContentViewerBenchmark {
     @get:Rule
     val rule = MacrobenchmarkRule()
 
-    @Test
-    fun openAndCloseDetailsScreenKotlinBlog() = openAndCloseDetailsScreen(CardType.KotlinBlog)
-
-    @Test
-    fun openAndCloseDetailsScreenKotlinYouTube() = openAndCloseDetailsScreen(CardType.KotlinYouTube)
-
-    @Test
-    fun openAndCloseDetailsScreenTalkingKotlin() = openAndCloseDetailsScreen(CardType.TalkingKotlin)
-
-    @Test
-    fun openAndCloseDetailsScreenKotlinWeekly() = openAndCloseDetailsScreen(CardType.KotlinWeekly)
-
     @OptIn(ExperimentalMetricApi::class)
-    private fun openAndCloseDetailsScreen(cardType: CardType) = rule.measureRepeated(
+    @Test
+    fun openAndCloseContentViewerScreen() = rule.measureRepeated(
         packageName = PackageName,
         metrics = listOf(
             FrameTimingMetric(),
@@ -52,10 +42,11 @@ class ScreenTransitionBenchmark {
             pressHome()
             startActivityAndWait()
             waitForHomeFeedContent()
-            appState { selectSingleFeed(cardType.toFeedOriginKey()) }
+            appState { selectSingleFeed(FeedOriginKey.KotlinBlog) }
         },
         measureBlock = {
-            clickCard(cardType)
+            clickCard(CardType.KotlinBlog)
+            waitForContentViewerContent()
             device.pressBack()
             pressHome()
         },
