@@ -3,9 +3,7 @@ package io.github.reactivecircus.kstreamlined.android.feature.kotlinyoutubevideo
 import android.content.pm.ActivityInfo
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibilityScope
-import androidx.compose.animation.EnterExitState
 import androidx.compose.animation.SharedTransitionScope
-import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -26,7 +24,6 @@ import androidx.compose.foundation.layout.statusBarsIgnoringVisibility
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -283,17 +280,12 @@ private fun ContentUi(
                 .aspectRatio(PlayerAspectRatio)
         }
         var playerError by remember(video.videoId) { mutableStateOf<YouTubePlayerError?>(null) }
-        if (playerError == null) {
-            Box(
+        when (playerError) {
+            null -> Box(
                 modifier = playerModifier.background(Color.Black),
                 contentAlignment = Alignment.Center,
             ) {
                 var isPlayerReady by remember(video.videoId, isPlayerEnabled) { mutableStateOf(false) }
-                val thumbnailCornerRadius by animatedVisibilityScope.transition.animateDp(
-                    label = "ThumbnailCornerRadius",
-                ) {
-                    if (it == EnterExitState.Visible) 0.dp else 16.dp
-                }
                 AsyncImage(
                     model = video.thumbnailUrl,
                     contentDescription = null,
@@ -301,8 +293,7 @@ private fun ContentUi(
                         Modifier.sharedBounds(
                             sharedContentState = rememberSharedContentState(key = thumbnailBoundsKey),
                             animatedVisibilityScope = animatedVisibilityScope,
-                            zIndexInOverlay = 1f,
-                            clipInOverlayDuringTransition = OverlayClip(RoundedCornerShape(thumbnailCornerRadius)),
+                            renderInOverlayDuringTransition = false,
                         )
                     }.fillMaxSize(),
                     placeholder = ColorPainter(KSTheme.colorScheme.surface),
@@ -329,16 +320,16 @@ private fun ContentUi(
                     )
                 }
             }
-        } else if (playerError == YouTubePlayerError.LoadFailed) {
-            PlayerErrorUi(
+
+            YouTubePlayerError.LoadFailed -> PlayerErrorUi(
                 thumbnailUrl = video.thumbnailUrl,
                 message = stringResource(id = R.string.video_load_error_message),
                 actionLabel = stringResource(id = R.string.retry),
                 onAction = { playerError = null },
                 modifier = playerModifier,
             )
-        } else {
-            PlayerErrorUi(
+
+            else -> PlayerErrorUi(
                 thumbnailUrl = video.thumbnailUrl,
                 message = stringResource(id = R.string.video_unavailable_message),
                 actionLabel = stringResource(id = R.string.watch_on_youtube),
