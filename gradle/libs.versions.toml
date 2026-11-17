@@ -12,7 +12,6 @@ apollo-normalized-cache = "1.0.9"
 apollo-adapters = "0.8.0"
 apollo-mockserver = "0.3.1"
 googleServices = "4.6.0"
-invert = "0.0.16"
 detekt = "2.0.0-alpha.6"
 androidPublisher = "4.1.2"
 kotlinpoet = "2.4.0"
@@ -76,7 +75,6 @@ plugin-burst = { module = "app.cash.burst:burst-gradle-plugin", version.ref = "b
 plugin-licensee = { module = "app.cash.licensee:licensee-gradle-plugin", version.ref = "licensee" }
 plugin-metro = { module = "dev.zacsweers.metro:dev.zacsweers.metro.gradle.plugin", version.ref = "metro" }
 plugin-apollo = { module = "com.apollographql.apollo:apollo-gradle-plugin", version.ref = "apollo" }
-plugin-invert = { module = "com.squareup.invert:com.squareup.invert.gradle.plugin", version.ref = "invert" }
 plugin-googleServices = { module = "com.google.gms:google-services", version.ref = "googleServices" }
 plugin-crashlytics = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "firebase-crashlyticsPlugin" }
 plugin-firebasePerf = { module = "com.google.firebase:perf-plugin", version.ref = "firebase-perfPlugin" }
