@@ -8,13 +8,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.style.ExperimentalFoundationStyleApi
-import androidx.compose.foundation.style.fillWidth
-import androidx.compose.foundation.style.styleable
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,7 +41,6 @@ import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.toDisplayable
 import kotlin.time.Instant
 
-@OptIn(ExperimentalFoundationStyleApi::class)
 @Composable
 context(sharedTransitionScope: SharedTransitionScope, animatedVisibilityScope: AnimatedVisibilityScope)
 public fun KotlinBlogCard(
@@ -69,10 +66,9 @@ public fun KotlinBlogCard(
             AsyncImage(
                 model = item.value.featuredImageUrl,
                 contentDescription = item.value.title,
-                modifier = Modifier.styleable {
-                    fillWidth()
-                    height(ImageHeight)
-                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(ImageHeight),
                 contentScale = ContentScale.FillWidth,
             )
 

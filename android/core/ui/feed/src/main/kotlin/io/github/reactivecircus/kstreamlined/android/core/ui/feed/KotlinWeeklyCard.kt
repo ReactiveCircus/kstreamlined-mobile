@@ -3,13 +3,13 @@ package io.github.reactivecircus.kstreamlined.android.core.ui.feed
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.style.ExperimentalFoundationStyleApi
-import androidx.compose.foundation.style.styleable
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
@@ -27,7 +27,6 @@ import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.toDisplayable
 import kotlin.time.Instant
 
-@OptIn(ExperimentalFoundationStyleApi::class)
 @Composable
 public fun KotlinWeeklyCard(
     item: DisplayableFeedItem<FeedItem.KotlinWeekly>,
@@ -44,10 +43,13 @@ public fun KotlinWeeklyCard(
     Surface(
         onClick = { onItemClick(item.value) },
         modifier = modifier
-            .styleable {
-                background(brush)
-                shape(RoundedCornerShape(16.dp))
+            .drawBehind {
+                drawRoundRect(
+                    brush = brush,
+                    cornerRadius = CornerRadius(16.dp.toPx(), 16.dp.toPx()),
+                )
             }
+            .fillMaxWidth()
             .testTag("kotlinWeeklyCard"),
         color = Color.Transparent,
         contentColor = KSTheme.colorScheme.onAccent,
