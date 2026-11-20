@@ -1,7 +1,7 @@
 package io.github.reactivecircus.kstreamlined.android.feature.talkingkotlinepisode.impl
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.CapturedAnimatedVisibility
 import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -362,7 +362,7 @@ private fun ContentUi(
             )
         },
         overlay = {
-            AnimatedVisibility(
+            CapturedAnimatedVisibility(
                 visible = showTransientError,
                 enter = fadeIn(),
                 exit = fadeOut(),

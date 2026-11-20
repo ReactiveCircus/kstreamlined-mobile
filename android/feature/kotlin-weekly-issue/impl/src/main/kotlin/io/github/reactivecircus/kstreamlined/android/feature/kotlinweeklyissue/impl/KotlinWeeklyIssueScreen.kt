@@ -1,11 +1,13 @@
 package io.github.reactivecircus.kstreamlined.android.feature.kotlinweeklyissue.impl
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.CapturedAnimatedVisibility
 import androidx.compose.animation.SharedTransitionScope
+import androidx.compose.animation.expandHorizontally
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -146,25 +148,29 @@ internal fun KotlinWeeklyIssueScreen(
                 )
             },
             actions = {
-                AnimatedVisibility(uiState is KotlinWeeklyIssueUiState.Content) {
-                    Row {
-                        val contentUrl = (uiState as? KotlinWeeklyIssueUiState.Content)?.contentUrl.orEmpty()
-                        val saved = (uiState as? KotlinWeeklyIssueUiState.Content)?.savedForLater == true
-                        FilledIconButton(
-                            KSIcons.Share,
-                            contentDescription = null,
-                            onClick = { onShareButtonClick(contentUrl) },
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        FilledIconButton(
-                            if (saved) {
-                                KSIcons.BookmarkFill
-                            } else {
-                                KSIcons.BookmarkAdd
-                            },
-                            contentDescription = null,
-                            onClick = { eventSink(KotlinWeeklyIssueUiEvent.ToggleSavedForLater) },
-                        )
+                CapturedAnimatedVisibility(
+                    visible = uiState is KotlinWeeklyIssueUiState.Content,
+                    enter = fadeIn() + expandHorizontally(),
+                    exit = fadeOut() + shrinkHorizontally(),
+                ) {
+                    if (uiState is KotlinWeeklyIssueUiState.Content) {
+                        Row {
+                            FilledIconButton(
+                                KSIcons.Share,
+                                contentDescription = null,
+                                onClick = { onShareButtonClick(uiState.contentUrl) },
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            FilledIconButton(
+                                if (uiState.savedForLater) {
+                                    KSIcons.BookmarkFill
+                                } else {
+                                    KSIcons.BookmarkAdd
+                                },
+                                contentDescription = null,
+                                onClick = { eventSink(KotlinWeeklyIssueUiEvent.ToggleSavedForLater) },
+                            )
+                        }
                     }
                 }
             },

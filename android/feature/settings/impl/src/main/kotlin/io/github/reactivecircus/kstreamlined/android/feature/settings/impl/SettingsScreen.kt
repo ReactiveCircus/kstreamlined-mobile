@@ -1,7 +1,7 @@
 package io.github.reactivecircus.kstreamlined.android.feature.settings.impl
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.CapturedAnimatedVisibility
 import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.fadeIn
@@ -116,7 +116,7 @@ internal fun SettingsScreen(
             },
         )
 
-        AnimatedVisibility(
+        CapturedAnimatedVisibility(
             visible = uiState is SettingsUiState.Content,
             enter = fadeIn(),
             exit = fadeOut(),

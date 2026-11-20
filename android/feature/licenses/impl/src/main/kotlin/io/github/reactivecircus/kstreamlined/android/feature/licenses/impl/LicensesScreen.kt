@@ -1,7 +1,7 @@
 package io.github.reactivecircus.kstreamlined.android.feature.licenses.impl
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.CapturedAnimatedVisibility
 import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -84,7 +84,7 @@ internal fun LicensesScreen(
             },
         )
 
-        AnimatedVisibility(
+        CapturedAnimatedVisibility(
             visible = uiState is LicensesUiState.Content,
             enter = fadeIn(),
             exit = fadeOut(),

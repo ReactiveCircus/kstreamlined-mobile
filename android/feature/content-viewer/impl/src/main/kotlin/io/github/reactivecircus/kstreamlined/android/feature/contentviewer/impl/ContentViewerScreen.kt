@@ -3,7 +3,7 @@ package io.github.reactivecircus.kstreamlined.android.feature.contentviewer.impl
 import android.annotation.SuppressLint
 import android.webkit.WebSettings
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.CapturedAnimatedVisibility
 import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.fadeIn
@@ -237,7 +237,7 @@ private fun ContentUi(
                 showLoadingIndicator = false
             }
         }
-        AnimatedVisibility(
+        CapturedAnimatedVisibility(
             visible = showLoadingIndicator,
             enter = fadeIn() + slideInVertically(),
             exit = fadeOut() + slideOutVertically(),
