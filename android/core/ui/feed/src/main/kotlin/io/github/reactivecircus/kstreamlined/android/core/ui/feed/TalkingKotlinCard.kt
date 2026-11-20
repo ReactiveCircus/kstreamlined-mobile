@@ -6,14 +6,13 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.style.ExperimentalFoundationStyleApi
-import androidx.compose.foundation.style.styleable
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -22,6 +21,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -45,7 +46,6 @@ import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.toDisplayable
 import kotlin.time.Instant
 
-@OptIn(ExperimentalFoundationStyleApi::class)
 @Composable
 context(sharedTransitionScope: SharedTransitionScope, animatedVisibilityScope: AnimatedVisibilityScope)
 public fun TalkingKotlinCard(
@@ -76,10 +76,13 @@ public fun TalkingKotlinCard(
                     Modifier
                 },
             )
-            .styleable {
-                background(brush)
-                shape(RoundedCornerShape(16.dp))
+            .drawBehind {
+                drawRoundRect(
+                    brush = brush,
+                    cornerRadius = CornerRadius(16.dp.toPx(), 16.dp.toPx()),
+                )
             }
+            .fillMaxWidth()
             .testTag("talkingKotlinCard"),
         color = Color.Transparent,
         contentColor = KSTheme.colorScheme.onSurfaceInverse,

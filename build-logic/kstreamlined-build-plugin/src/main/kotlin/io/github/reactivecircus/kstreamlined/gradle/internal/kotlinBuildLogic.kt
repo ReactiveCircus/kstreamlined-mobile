@@ -20,14 +20,12 @@ internal fun KotlinBaseExtension.configureKotlin(
     if (this is KotlinMultiplatformExtension) {
         compilerOptions {
             progressiveMode.set(true)
-            optIn.addAll(OptIns)
             freeCompilerArgs.addAll(computeFreeCompilerArgs())
         }
     } else {
         project.tasks.withType(KotlinJvmCompile::class.java).configureEach {
             it.compilerOptions {
                 progressiveMode.set(true)
-                optIn.addAll(OptIns)
                 freeCompilerArgs.addAll(computeFreeCompilerArgs())
             }
         }
@@ -37,11 +35,6 @@ internal fun KotlinBaseExtension.configureKotlin(
         explicitApi()
     }
 }
-
-private val OptIns = listOf(
-    "kotlin.time.ExperimentalTime",
-    "kotlin.experimental.ExperimentalObjCName",
-)
 
 context(project: Project)
 private fun computeFreeCompilerArgs() = buildList {

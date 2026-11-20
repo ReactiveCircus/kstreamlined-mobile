@@ -93,7 +93,6 @@ internal fun rememberPodcastPlayerState(
 
 private const val ProgressTickIntervalMs = 1000L
 
-@OptIn(UnstableApi::class)
 @Composable
 private fun retainPodcastPlayer(
     episode: TalkingKotlinEpisode,

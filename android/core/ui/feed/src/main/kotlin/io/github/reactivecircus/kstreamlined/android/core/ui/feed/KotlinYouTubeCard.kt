@@ -2,6 +2,7 @@ package io.github.reactivecircus.kstreamlined.android.core.ui.feed
 
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.SharedTransitionScope
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,16 +11,13 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.style.ExperimentalFoundationStyleApi
-import androidx.compose.foundation.style.externalPadding
-import androidx.compose.foundation.style.fillWidth
-import androidx.compose.foundation.style.size
-import androidx.compose.foundation.style.styleable
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
@@ -41,7 +39,6 @@ import io.github.reactivecircus.kstreamlined.kmp.feed.model.FeedItem
 import io.github.reactivecircus.kstreamlined.kmp.feed.model.toDisplayable
 import kotlin.time.Instant
 
-@OptIn(ExperimentalFoundationStyleApi::class)
 @Composable
 context(
     sharedTransitionScope: SharedTransitionScope,
@@ -70,12 +67,9 @@ public fun KotlinYouTubeCard(
                     model = item.value.thumbnailUrl,
                     contentDescription = item.value.title,
                     modifier = Modifier
-                        .styleable {
-                            fillWidth()
-                            height(ImageHeight)
-                            shape(RoundedCornerShape(16.dp))
-                            clip(true)
-                        }
+                        .fillMaxWidth()
+                        .height(ImageHeight)
+                        .clip(RoundedCornerShape(16.dp))
                         .then(
                             if (thumbnailBoundsKey != null) {
                                 with(sharedTransitionScope) {
@@ -160,26 +154,24 @@ public fun KotlinYouTubeCard(
     }
 }
 
-@OptIn(ExperimentalFoundationStyleApi::class)
 @Composable
 private fun PlayIconOverlay(
     modifier: Modifier = Modifier,
 ) {
     Box(
-        modifier = modifier.styleable {
-            shape(CircleShape)
-            clip(true)
-            background(Color.White.copy(alpha = 0.2f))
-        },
+        modifier = modifier
+            .background(
+                color = Color.White.copy(alpha = 0.2f),
+                shape = CircleShape,
+            ),
         contentAlignment = Alignment.Center,
     ) {
         Icon(
             painter = KSIcons.PlayArrow,
             contentDescription = null,
-            modifier = Modifier.styleable {
-                size(40.dp)
-                externalPadding(8.dp)
-            },
+            modifier = Modifier
+                .padding(8.dp)
+                .size(40.dp),
         )
     }
 }
