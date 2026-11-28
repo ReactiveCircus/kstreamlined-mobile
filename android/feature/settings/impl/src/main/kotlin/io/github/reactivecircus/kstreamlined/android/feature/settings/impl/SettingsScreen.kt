@@ -191,7 +191,7 @@ private fun ContentUi(
                         onClick = { openSyncIntervalPicker = true },
                     )
 
-                    val syncIntervalSheetState = rememberModalBottomSheetState()
+                    val syncIntervalSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
                     if (openSyncIntervalPicker) {
                         val scope = rememberCoroutineScope()
                         ModalBottomSheet(
